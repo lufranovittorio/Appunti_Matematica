@@ -1,17 +1,537 @@
 \chapter{Homological Algebra}\label{homological-algebra}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Abelian categories, complexes and derived functors.
+\section{Introduction}\label{homological-algebra:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{categories} (Categories) and Chapter~\ref{rings} (Rings and Modules).
+Homological algebra measures the failure of exactness. Its basic objects are complexes and their
+cohomology; its basic tools are the long exact sequence and derived functors. Everything in this project
+that is called a cohomology theory (singular cohomology in Chapter~\ref{singular-cohomology}, sheaf
+cohomology in Chapter~\ref{sheaf-cohomology}, de Rham and Dolbeault cohomology in
+Chapters~\ref{de-rham} and~\ref{dolbeault}) is built with the machinery of this chapter.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Additive and abelian categories; exact functors.
-\item Chain complexes, homology and the long exact sequence; the snake lemma and the five lemma.
-\item Chain homotopies and mapping cones.
-\item Projective and injective objects and resolutions; modules have enough injectives.
-\item Left and right derived functors; $\operatorname{Ext}$ and $\operatorname{Tor}$.
-\item Double complexes and total complexes.
-\item Universal coefficient and K\"unneth theorems for complexes of free modules.
-\end{itemize}
+We work in abelian categories, but prove the diagram lemmas for modules; by the Freyd--Mitchell embedding
+theorem they then hold in every abelian category (Remark~\ref{homological-algebra:remark-freyd-mitchell}).
+References are \cite{weibel-homological}, \cite{cartan-eilenberg} and \cite{gelfand-manin}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{categories} (Categories) and Chapter~\ref{rings} (Rings and
+Modules).
+
+\section{Abelian categories}\label{homological-algebra:section-abelian}
+
+\begin{definition}\label{homological-algebra:definition-abelian}
+An additive category $\mathcal{A}$ (Definition~\ref{categories:definition-additive}) is \emph{abelian} if every
+morphism has a kernel and a cokernel (Definition~\ref{categories:definition-biproduct}), every monomorphism is a
+kernel of its cokernel, and every epimorphism is a cokernel of its kernel. For $f \colon X \to Y$ the \emph{image} is
+$\im f = \ker(\operatorname{coker} f)$. A sequence $X \xrightarrow{f} Y \xrightarrow{g} Z$ with $gf = 0$ is \emph{exact} at $Y$ if the
+induced morphism $\im f \to \ker g$ is an isomorphism. An additive functor between abelian categories is
+\emph{left exact} if it sends exact sequences $0 \to X \to Y \to Z$ to exact sequences, \emph{right exact} if it sends
+exact $X \to Y \to Z \to 0$ to exact sequences, and \emph{exact} if both.
+\end{definition}
+
+\begin{example}\label{homological-algebra:example-abelian}
+For a ring $R$, the category $R\text{-}\cat{Mod}$ is abelian (Proposition~\ref{rings:proposition-module-basics}):
+kernels and cokernels are the usual ones, an injective map is the kernel of the projection onto its cokernel, and a
+surjective map is the cokernel of the inclusion of its kernel. In particular $\cat{Ab}$ is abelian. The category of
+sheaves of abelian groups on a topological space is abelian (Chapter~\ref{sheaves}). By
+Theorem~\ref{rings:theorem-tensor-hom}, $- \otimes_R N$ is right exact, and $\Hom_R(N, -)$ is left exact.
+\end{example}
+
+\begin{lemma}\label{homological-algebra:lemma-mono-epi-iso}
+In an abelian category a morphism that is both a monomorphism and an epimorphism is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Let $f \colon X \to Y$ be both. Its cokernel is $Y \to 0$, since $f$ is an epimorphism; as $f$ is a monomorphism, it is a
+kernel of $Y \to 0$. But $\id_Y$ is also a kernel of $Y \to 0$, so $f$ is an isomorphism by uniqueness of kernels
+(Lemma~\ref{categories:lemma-limit-unique}).
+\end{proof}
+
+\begin{counterexample}\label{homological-algebra:counterexample-not-abelian}
+The category $\mathcal{F}$ of finitely generated free abelian groups is additive and has kernels
+(Proposition~\ref{groups:proposition-subgroups-free}), but it is not abelian. The morphism $2 \colon \ZZ \to \ZZ$ is a
+monomorphism, and it is an epimorphism in $\mathcal{F}$: if $g \circ 2 = 0$ for $g \colon \ZZ \to \ZZ^n$, then $2g(1) = 0$, so
+$g = 0$. It is not an isomorphism, contradicting Lemma~\ref{homological-algebra:lemma-mono-epi-iso}.
+\end{counterexample}
+
+\begin{remark}\label{homological-algebra:remark-freyd-mitchell}
+By the Freyd--Mitchell embedding theorem, every small abelian category admits a fully faithful exact functor into
+$R\text{-}\cat{Mod}$ for some ring $R$ \cite[Theorem 1.6.1]{weibel-homological}. Every statement about a finite diagram
+in an abelian category $\mathcal{A}$ that asserts exactness, or the existence of morphisms constructed from kernels,
+cokernels and compositions, involves only a small abelian subcategory of $\mathcal{A}$; hence it suffices to prove it for
+modules, where one may argue with elements (``diagram chasing''). We use this principle for
+Lemmas~\ref{homological-algebra:lemma-snake} and~\ref{homological-algebra:lemma-five}, and wherever we prove a
+statement about abelian categories by a chase.
+\end{remark}
+
+\section{Complexes}\label{homological-algebra:section-complexes}
+
+\begin{definition}\label{homological-algebra:definition-complex}
+A \emph{complex} (or cochain complex) $A^\bullet$ in an abelian category $\mathcal{A}$ is a family of objects $A^n$,
+$n \in \ZZ$, with morphisms $d^n \colon A^n \to A^{n+1}$ such that $d^{n+1}d^n = 0$. Its \emph{cocycles}, \emph{coboundaries} and
+\emph{cohomology} are $Z^n = \ker d^n$, $B^n = \im d^{n-1}$ and $H^n(A^\bullet) = Z^n/B^n$. A \emph{morphism of complexes}
+$f \colon A^\bullet \to B^\bullet$ is a family $f^n \colon A^n \to B^n$ with $df = fd$; it induces $H^n(f)$. It is a
+\emph{quasi-isomorphism} if all $H^n(f)$ are isomorphisms. A complex is \emph{acyclic} (or exact) if all $H^n$ vanish, and
+\emph{bounded below} if $A^n = 0$ for $n \ll 0$. The complexes form an abelian category $\mathrm{Ch}(\mathcal{A})$, with
+kernels and cokernels computed degreewise.
+\end{definition}
+
+\begin{notation}\label{homological-algebra:notation-chain-complexes}
+A \emph{chain complex} $C_\bullet$ has differentials $d_n \colon C_n \to C_{n-1}$ and \emph{homology}
+$H_n = \ker d_n/\im d_{n+1}$. Setting $C^n = C_{-n}$ turns it into a complex, with $H^n = H_{-n}$; all statements about
+complexes apply to chain complexes in this way. For a complex $A^\bullet$ and $k \in \ZZ$, the \emph{shift} $A[k]$ has
+$A[k]^n = A^{n+k}$ and differential $(-1)^kd$.
+\end{notation}
+
+\begin{definition}\label{homological-algebra:definition-homotopy}
+Two morphisms $f, g \colon A^\bullet \to B^\bullet$ are \emph{homotopic}, $f \simeq g$, if there are morphisms
+$h^n \colon A^n \to B^{n-1}$ with $f^n - g^n = d^{n-1}h^n + h^{n+1}d^n$. A morphism $f$ is a \emph{homotopy equivalence} if there
+is $g$ with $gf \simeq \id$ and $fg \simeq \id$.
+\end{definition}
+
+\begin{lemma}\label{homological-algebra:lemma-homotopy-invariance}
+Homotopic morphisms induce the same maps on cohomology; homotopy equivalences are quasi-isomorphisms. Additive
+functors preserve homotopies.
+\end{lemma}
+
+\begin{proof}
+For a cocycle $z$, $f(z) - g(z) = dh(z) + hd(z) = dh(z)$ is a coboundary. The second statement follows, and the third
+because the defining identity is preserved by additive functors.
+\end{proof}
+
+\begin{definition}\label{homological-algebra:definition-cone}
+The \emph{mapping cone} of $f \colon A^\bullet \to B^\bullet$ is the complex $\mathrm{Cone}(f)$ with
+$\mathrm{Cone}(f)^n = A^{n+1} \oplus B^n$ and $d(a, b) = (-da, f(a) + db)$.
+\end{definition}
+
+\section{The long exact sequence}\label{homological-algebra:section-long-exact}
+
+\begin{lemma}[Snake lemma]\label{homological-algebra:lemma-snake}
+Consider a commutative diagram of modules with exact rows
+\begin{center}
+\begin{tikzcd}
+& A' \arrow[r, "i'"] \arrow[d, "f"] & B' \arrow[r, "p'"] \arrow[d, "g"] & C' \arrow[r] \arrow[d, "h"] & 0 \\
+0 \arrow[r] & A \arrow[r, "i"] & B \arrow[r, "p"] & C &
+\end{tikzcd}
+\end{center}
+There is a homomorphism $\delta \colon \ker h \to \operatorname{coker} f$ such that the sequence
+\[
+\ker f \to \ker g \to \ker h \xrightarrow{\delta} \operatorname{coker} f \to \operatorname{coker} g \to \operatorname{coker} h
+\]
+is exact. If $i'$ is injective so is $\ker f \to \ker g$, and if $p$ is surjective so is $\operatorname{coker} g \to \operatorname{coker} h$.
+\end{lemma}
+
+\begin{proof}
+\emph{Definition of $\delta$.} Let $c' \in \ker h$. Choose $b' \in B'$ with $p'(b') = c'$. Then $p(g(b')) = h(c') = 0$, so
+$g(b') = i(a)$ for a unique $a \in A$; put $\delta(c') = [a]$. If $b'$ is replaced by $b' + i'(a')$, then $a$ is replaced by
+$a + f(a')$, with the same class; so $\delta$ is well defined, and it is clearly a homomorphism.
+
+\emph{Exactness at $\ker g$.} The composite is zero. If $b' \in \ker g$ and $p'(b') = 0$, then $b' = i'(a')$ and
+$i(f(a')) = g(b') = 0$, so $f(a') = 0$.
+
+\emph{Exactness at $\ker h$.} If $c' = p'(b')$ with $g(b') = 0$, then $a = 0$ and $\delta(c') = 0$. Conversely if
+$\delta(c') = 0$, then $a = f(a'')$, and $b' - i'(a'')$ is a preimage of $c'$ with $g(b' - i'(a'')) = i(a) - i(f(a'')) = 0$.
+
+\emph{Exactness at $\operatorname{coker} f$.} The image of $\delta(c')$ in $\operatorname{coker} g$ is the class of $i(a) = g(b')$, which is
+zero. Conversely, if $i(a) = g(b')$ for some $b'$, then $c' = p'(b')$ satisfies $h(c') = p(g(b')) = pi(a) = 0$ and
+$\delta(c') = [a]$.
+
+\emph{Exactness at $\operatorname{coker} g$.} The composite is zero. If $b \in B$ maps to zero in $\operatorname{coker} h$, then
+$p(b) = h(p'(b'))$ for some $b'$, so $p(b - g(b')) = 0$ and $b - g(b') = i(a)$; hence $[b]$ is the image of $[a]$.
+
+The last two statements are clear.
+\end{proof}
+
+\begin{lemma}[Five lemma]\label{homological-algebra:lemma-five}
+Consider a commutative diagram of modules with exact rows
+$A_1 \to A_2 \to A_3 \to A_4 \to A_5$ and $B_1 \to B_2 \to B_3 \to B_4 \to B_5$ and vertical maps $f_1, \ldots, f_5$. If $f_2$ and
+$f_4$ are isomorphisms, $f_1$ is surjective and $f_5$ is injective, then $f_3$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Write $\alpha_i \colon A_i \to A_{i+1}$ and $\beta_i \colon B_i \to B_{i+1}$. \emph{Injectivity:} let $f_3(x) = 0$. Then
+$f_4\alpha_3(x) = 0$, so $\alpha_3(x) = 0$ and $x = \alpha_2(y)$. Now $\beta_2f_2(y) = 0$, so $f_2(y) = \beta_1(z)$ and
+$z = f_1(w)$. Then $f_2(y - \alpha_1(w)) = 0$, so $y = \alpha_1(w)$ and $x = \alpha_2\alpha_1(w) = 0$. \emph{Surjectivity:} let
+$u \in B_3$. Choose $x \in A_4$ with $f_4(x) = \beta_3(u)$. Then $f_5\alpha_4(x) = \beta_4\beta_3(u) = 0$, so $\alpha_4(x) = 0$ and
+$x = \alpha_3(y)$. Then $\beta_3(u - f_3(y)) = 0$, so $u - f_3(y) = \beta_2(v)$ with $v = f_2(t)$, and
+$u = f_3(y + \alpha_2(t))$.
+\end{proof}
+
+\begin{theorem}[Long exact sequence]\label{homological-algebra:theorem-long-exact-sequence}
+A short exact sequence $0 \to A^\bullet \xrightarrow{f} B^\bullet \xrightarrow{g} C^\bullet \to 0$ of complexes in an abelian category
+induces a long exact sequence
+\[
+\cdots \to H^n(A) \to H^n(B) \to H^n(C) \xrightarrow{\delta} H^{n+1}(A) \to H^{n+1}(B) \to \cdots,
+\]
+natural in the short exact sequence. For $c \in Z^n(C)$ (in the case of modules), $\delta[c]$ is the class of $a$ where
+$f(a) = d(b)$ and $g(b) = c$.
+\end{theorem}
+
+\begin{proof}
+Applying the snake lemma to the vertical maps $d^{n-1}$ between the short exact sequences in degrees $n - 1$ and $n$, the
+cokernel sequence $A^n/B^n(A) \to B^n/B^n(B) \to C^n/B^n(C) \to 0$ is exact; applying it to $d^{n+1}$, the kernel sequence
+$0 \to Z^{n+1}(A) \to Z^{n+1}(B) \to Z^{n+1}(C)$ is exact. The differential $d^n$ induces vertical maps from the first of these rows
+to the second, whose kernels are the $H^n$ and whose cokernels are the $H^{n+1}$. Apply
+Lemma~\ref{homological-algebra:lemma-snake}. Naturality follows from the explicit formula for $\delta$.
+\end{proof}
+
+\begin{proposition}\label{homological-algebra:proposition-cone}
+For $f \colon A^\bullet \to B^\bullet$ there is a short exact sequence
+$0 \to B^\bullet \to \mathrm{Cone}(f) \to A[1]^\bullet \to 0$ whose connecting map $H^n(A[1]) = H^{n+1}(A) \to H^{n+1}(B)$ is
+$H^{n+1}(f)$. In particular $f$ is a quasi-isomorphism if and only if $\mathrm{Cone}(f)$ is acyclic.
+\end{proposition}
+
+\begin{proof}
+The maps $b \mapsto (0, b)$ and $(a, b) \mapsto a$ are morphisms of complexes (with the sign convention of
+Notation~\ref{homological-algebra:notation-chain-complexes} for $A[1]$). For a cocycle $a \in A^{n+1}$, the element
+$(a, 0)$ lifts it, and $d(a, 0) = (-da, f(a)) = (0, f(a))$; so $\delta[a] = [f(a)]$. The last statement follows from the long
+exact sequence.
+\end{proof}
+
+\section{Projective and injective objects}\label{homological-algebra:section-projective-injective}
+
+\begin{definition}\label{homological-algebra:definition-projective-injective}
+An object $P$ of an abelian category is \emph{projective} if $\Hom(P, -)$ is exact, that is, every morphism $P \to Y$
+lifts along every epimorphism $X \to Y$. An object $I$ is \emph{injective} if $\Hom(-, I)$ is exact, that is, every morphism
+$X \to I$ extends along every monomorphism $X \to Y$. The category has \emph{enough projectives} (\emph{injectives}) if
+every object is a quotient of a projective (a subobject of an injective).
+\end{definition}
+
+\begin{proposition}\label{homological-algebra:proposition-projective-modules}
+An $R$-module is projective if and only if it is a direct summand of a free module. $R\text{-}\cat{Mod}$ has enough
+projectives.
+\end{proposition}
+
+\begin{proof}
+Free modules are projective by Proposition~\ref{rings:proposition-free-module} (choose lifts of the images of a basis),
+and direct summands of projectives are projective. If $P$ is projective, choose a surjection $F \to P$ from a free module;
+the identity of $P$ lifts to a section, so $P$ is a direct summand of $F$ by Proposition~\ref{rings:proposition-splitting}.
+Every module is a quotient of a free module.
+\end{proof}
+
+\begin{proposition}[Baer's criterion]\label{homological-algebra:proposition-baer}
+An $R$-module $I$ is injective if and only if every homomorphism $J \to I$ from a left ideal $J \subseteq R$ extends to $R$.
+\end{proposition}
+
+\begin{proof}
+Necessity is clear. Let $N \subseteq M$ and $\varphi \colon N \to I$. By Zorn's lemma choose a maximal extension
+$\psi \colon N' \to I$ with $N \subseteq N' \subseteq M$. If $m \in M \setminus N'$, let $J = \{r : rm \in N'\}$ and extend
+$r \mapsto \psi(rm)$ to $\theta \colon R \to I$. Then $n' + rm \mapsto \psi(n') + \theta(r)$ is a well-defined extension of $\psi$ to
+$N' + Rm$ (if $n' + rm = 0$ then $r \in J$ and $\theta(r) = \psi(rm) = -\psi(n')$), contradicting maximality.
+\end{proof}
+
+\begin{theorem}\label{homological-algebra:theorem-enough-injectives}
+$R\text{-}\cat{Mod}$ has enough injectives. An abelian group $D$ is injective if and only if it is \emph{divisible}: for every
+$x \in D$ and $n \geq 1$ there is $y$ with $ny = x$.
+\end{theorem}
+
+\begin{proof}
+By Baer's criterion and Proposition~\ref{groups:proposition-subgroups-integers}, $D$ is injective iff every homomorphism
+$n\ZZ \to D$ extends to $\ZZ$, iff divisible. Every abelian group $M$ embeds in a divisible group: write $M = F/K$ with
+$F = \ZZ^{(S)}$ free; then $M \subseteq \QQ^{(S)}/K$, which is divisible.
+
+Let $M$ be an $R$-module and $M \subseteq D$ an embedding of abelian groups with $D$ divisible. Make $\Hom_\ZZ(R, D)$ an
+$R$-module by $(r\varphi)(s) = \varphi(sr)$. For every $R$-module $N$ there is a natural bijection
+$\Hom_R(N, \Hom_\ZZ(R, D)) \cong \Hom_\ZZ(N, D)$, $\psi \mapsto (n \mapsto \psi(n)(1))$, with inverse
+$\chi \mapsto (n \mapsto (s \mapsto \chi(sn)))$. The right side is exact in $N$ since $D$ is injective, so $\Hom_\ZZ(R, D)$ is an
+injective $R$-module. The map $M \to \Hom_\ZZ(R, D)$, $m \mapsto (s \mapsto sm)$, is $R$-linear and injective.
+\end{proof}
+
+\section{Derived functors}\label{homological-algebra:section-derived-functors}
+
+In this section $\mathcal{A}$ and $\mathcal{B}$ are abelian categories.
+
+\begin{definition}\label{homological-algebra:definition-resolution}
+An \emph{injective resolution} of an object $X$ is an exact sequence $0 \to X \to I^0 \to I^1 \to \cdots$ with all $I^n$
+injective; we regard $I^\bullet$ as a complex with a quasi-isomorphism $X \to I^\bullet$ ($X$ in degree $0$). Projective
+resolutions $\cdots \to P_1 \to P_0 \to X \to 0$ are defined dually. If $\mathcal{A}$ has enough injectives, every object has
+an injective resolution: embed $X$ in $I^0$, embed $I^0/X$ in $I^1$, and so on.
+\end{definition}
+
+\begin{theorem}[Comparison theorem]\label{homological-algebra:theorem-comparison}
+Let $0 \to X \to E^\bullet$ be exact with $E^n = 0$ for $n < 0$, and let $0 \to Y \to I^\bullet$ be a complex with all $I^n$ injective,
+$I^n = 0$ for $n < 0$. Every morphism $\varphi \colon X \to Y$ extends to a morphism of complexes $E^\bullet \to I^\bullet$, and any two
+extensions are homotopic.
+\end{theorem}
+
+\begin{proof}
+Write $\varepsilon \colon X \to E^0$ and $\eta \colon Y \to I^0$. The morphism $\eta\varphi$ extends along the monomorphism $\varepsilon$ to
+$f^0 \colon E^0 \to I^0$. Suppose $f^0, \ldots, f^n$ are constructed commuting with the differentials (and with $\varepsilon$, $\eta$).
+Then $d f^n$ vanishes on the image of $E^{n-1} \to E^n$ (or of $X$ when $n = 0$), so it factors through
+$E^n/\im(E^{n-1}) \hookrightarrow E^{n+1}$, and extends along this monomorphism to $f^{n+1} \colon E^{n+1} \to I^{n+1}$ by injectivity.
+
+If $f$, $g$ both extend $\varphi$, let $u = f - g$, which extends $0$, so $u^0\varepsilon = 0$. Put $h^0 = 0 \colon E^0 \to I^{-1} = 0$.
+Suppose $h^0, \ldots, h^n$ are constructed with $u^k = dh^k + h^{k+1}d$ for all $k < n$. For $n \geq 1$,
+\[
+(u^n - dh^n)d = u^nd - dh^nd = du^{n-1} - d(u^{n-1} - dh^{n-1}) = ddh^{n-1} = 0,
+\]
+using that $u$ commutes with the differentials and the identity for $k = n - 1$; for $n = 0$, $(u^0 - dh^0)\varepsilon = u^0\varepsilon = 0$.
+So $u^n - dh^n$ vanishes on the image of $E^{n-1} \to E^n$ (of $X \to E^0$ if $n = 0$), factors through the monomorphism
+$E^n/\im \hookrightarrow E^{n+1}$, and extends to $h^{n+1} \colon E^{n+1} \to I^n$ with $h^{n+1}d = u^n - dh^n$.
+\end{proof}
+
+\begin{lemma}[Horseshoe lemma]\label{homological-algebra:lemma-horseshoe}
+Let $0 \to X' \to X \to X'' \to 0$ be exact, and let $X' \to I'^\bullet$, $X'' \to I''^\bullet$ be injective resolutions. There is an
+injective resolution $X \to I^\bullet$ with $I^n = I'^n \oplus I''^n$ such that $0 \to I'^\bullet \to I^\bullet \to I''^\bullet \to 0$ (with the
+inclusion and projection in each degree) is a short exact sequence of complexes compatible with the given sequence.
+\end{lemma}
+
+\begin{proof}
+Let $\varepsilon' \colon X' \to I'^0$, $\varepsilon'' \colon X'' \to I''^0$, and $\iota \colon X' \to X$, $\pi \colon X \to X''$. Extend $\varepsilon'$
+along $\iota$ to $\lambda \colon X \to I'^0$ and define $\varepsilon = (\lambda, \varepsilon''\pi) \colon X \to I'^0 \oplus I''^0$. The diagram
+$0 \to X' \to X \to X'' \to 0$ over $0 \to I'^0 \to I^0 \to I''^0 \to 0$ commutes, and the snake lemma shows that $\varepsilon$ is a
+monomorphism and that $0 \to \operatorname{coker}\varepsilon' \to \operatorname{coker}\varepsilon \to \operatorname{coker}\varepsilon'' \to 0$ is exact. Apply the same
+construction to this sequence and the resolutions $I'^{\geq 1}$, $I''^{\geq 1}$ of the cokernels, and continue by induction.
+\end{proof}
+
+\begin{definition}\label{homological-algebra:definition-derived-functor}
+Let $\mathcal{A}$ have enough injectives and $F \colon \mathcal{A} \to \mathcal{B}$ be a left exact functor. For each $X$ choose an
+injective resolution $X \to I_X^\bullet$ and define the \emph{right derived functors} $R^nF(X) = H^n(F(I_X^\bullet))$. A morphism
+$X \to Y$ induces a morphism of resolutions, unique up to homotopy (Theorem~\ref{homological-algebra:theorem-comparison}),
+hence a well-defined morphism $R^nF(X) \to R^nF(Y)$ by Lemma~\ref{homological-algebra:lemma-homotopy-invariance}. Left derived
+functors $L_nF$ of a right exact functor on a category with enough projectives are defined dually using projective
+resolutions.
+\end{definition}
+
+\begin{theorem}\label{homological-algebra:theorem-derived-functors}
+\begin{enumerate}
+\item The $R^nF$ are additive functors, independent of the choice of resolutions up to canonical isomorphism, with
+$R^nF = 0$ for $n < 0$ and $R^0F \cong F$.
+\item $R^nF(I) = 0$ for $n > 0$ and $I$ injective.
+\item Every short exact sequence $0 \to X' \to X \to X'' \to 0$ induces a long exact sequence
+$0 \to F(X') \to F(X) \to F(X'') \to R^1F(X') \to R^1F(X) \to \cdots$, natural in the short exact sequence.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Two resolutions of $X$ are related by morphisms extending $\id_X$ in both directions, whose composites are homotopic
+to the identities by the uniqueness part of Theorem~\ref{homological-algebra:theorem-comparison}; applying $F$ gives
+homotopy equivalences and canonical isomorphisms on cohomology. Functoriality and additivity follow from uniqueness up
+to homotopy. $R^0F(X) = \ker(F(I^0) \to F(I^1)) = F(\ker(I^0 \to I^1)) = F(X)$ by left exactness.
+(2) Use the resolution $0 \to I \to I \to 0$.
+(3) Choose resolutions of $X'$ and $X''$ and form the resolution of $X$ given by
+Lemma~\ref{homological-algebra:lemma-horseshoe}. The sequence $0 \to I'^\bullet \to I^\bullet \to I''^\bullet \to 0$ is split in every
+degree, so it stays exact after applying the additive functor $F$. Apply
+Theorem~\ref{homological-algebra:theorem-long-exact-sequence}. Naturality follows from the comparison theorem.
+\end{proof}
+
+\begin{proposition}\label{homological-algebra:proposition-acyclic-resolutions}
+Call $J$ \emph{$F$-acyclic} if $R^nF(J) = 0$ for all $n > 0$. If $0 \to X \to J^0 \to J^1 \to \cdots$ is exact with all $J^n$
+$F$-acyclic, then $R^nF(X) \cong H^n(F(J^\bullet))$ for all $n$.
+\end{proposition}
+
+\begin{proof}
+Let $K = \operatorname{coker}(X \to J^0) = \ker(J^1 \to J^2)$, so that $0 \to X \to J^0 \to K \to 0$ is exact and $K \to J^{\geq 1}$ is an $F$-acyclic
+resolution. The long exact sequence and acyclicity of $J^0$ give $R^nF(X) \cong R^{n-1}F(K)$ for $n \geq 2$, and
+$R^1F(X) \cong \operatorname{coker}(F(J^0) \to F(K))$. By left exactness $F(K) = \ker(F(J^1) \to F(J^2))$, so
+$R^1F(X) \cong H^1(F(J^\bullet))$. For $n \geq 2$ argue by induction on $n$, for all objects and resolutions simultaneously:
+$K \to J^1 \to J^2 \to \cdots$ is an $F$-acyclic resolution of $K$, with $J^1$ in degree $0$, so
+$R^nF(X) \cong R^{n-1}F(K) \cong H^{n-1}(F(J^1) \to F(J^2) \to \cdots) = H^n(F(J^\bullet))$. The case $n = 0$ is left exactness.
+\end{proof}
+
+\section{Double complexes}\label{homological-algebra:section-double-complexes}
+
+\begin{definition}\label{homological-algebra:definition-double-complex}
+A \emph{double complex} $C^{\bullet,\bullet}$ consists of objects $C^{p,q}$ with morphisms
+$d_h \colon C^{p,q} \to C^{p+1,q}$ and $d_v \colon C^{p,q} \to C^{p,q+1}$ such that $d_h^2 = 0$, $d_v^2 = 0$ and $d_hd_v = d_vd_h$. It is
+\emph{first quadrant} if $C^{p,q} = 0$ unless $p, q \geq 0$. Its \emph{total complex} is
+$\mathrm{Tot}^n = \bigoplus_{p+q=n}C^{p,q}$ with $d = d_h + (-1)^pd_v$ on $C^{p,q}$; then $d^2 = 0$.
+\end{definition}
+
+\begin{lemma}\label{homological-algebra:lemma-acyclic-assembly}
+Let $C$ be a first-quadrant double complex of modules whose rows are exact in positive degrees: for each $q$, the complex
+$C^{0,q} \to C^{1,q} \to \cdots$ is exact at $C^{p,q}$ for all $p \geq 1$. Let $K^q = \ker(d_h \colon C^{0,q} \to C^{1,q})$, a complex with
+differential $d_v$. Then the inclusion $K^\bullet \to \mathrm{Tot}^\bullet(C)$ is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+The inclusion is a morphism of complexes, since $d = d_v$ on $K$. \emph{Surjectivity on cohomology.} Let
+$x = (x^{0,n}, x^{1,n-1}, \ldots, x^{n,0})$ be a cocycle of degree $n$. Let $p$ be largest with $x^{p,n-p} \neq 0$. If $p \geq 1$, the
+component of $dx$ in $C^{p+1,n-p}$ is $d_hx^{p,n-p} = 0$ (the other contribution comes from $x^{p+1, n-p-1} = 0$), so
+$x^{p,n-p} = d_hy$ with $y \in C^{p-1,n-p}$, and $x - dy$ is a cohomologous cocycle whose components vanish in positions
+$\geq p$. Repeating, we reach a cocycle concentrated in $C^{0,n}$; the vanishing of its $C^{1,n}$-component of $d$ means it
+lies in $K^n$, and it is a $d_v$-cocycle.
+
+\emph{Injectivity on cohomology.} Let $k \in K^n$ with $k = dy$ for $y \in \mathrm{Tot}^{n-1}$. As above, if $p \geq 1$ is largest with
+$y^{p,n-1-p} \neq 0$, the component of $dy$ in $C^{p+1,n-1-p}$ is $d_hy^{p,n-1-p}$, which is zero because $dy = k$ lives in
+$C^{0,n}$ (here $p + 1 \geq 2 > 0$); so $y^{p,n-1-p} = d_hz$ and we replace $y$ by $y - dz$, which does not change $dy$. We reach
+$y \in C^{0,n-1}$ with $d_hy$ equal to the $C^{1,n-1}$-component of $k$, which is $0$; so $y \in K^{n-1}$ and $k = d_vy$.
+\end{proof}
+
+\section{Ext and Tor}\label{homological-algebra:section-ext-tor}
+
+In this section $R$ is a ring and modules are left $R$-modules; for $\Tor$ we assume $R$ commutative.
+
+\begin{definition}\label{homological-algebra:definition-ext-tor}
+$\Ext^n_R(M, N) = R^n\Hom_R(M, -)(N)$, computed with an injective resolution of $N$, and
+$\Tor_n^R(M, N) = L_n(M \otimes_R -)(N)$, computed with a projective resolution of $N$.
+\end{definition}
+
+\begin{theorem}[Balance]\label{homological-algebra:theorem-balance}
+If $P_\bullet \to M$ is a projective resolution, then $\Ext^n_R(M, N) \cong H^n(\Hom_R(P_\bullet, N))$. Similarly
+$\Tor_n^R(M, N) \cong H_n(P_\bullet \otimes_R N)$, and $\Tor_n^R(M, N) \cong \Tor_n^R(N, M)$. Consequently $\Ext^n(-, N)$ are the right
+derived functors of the contravariant left exact functor $\Hom_R(-, N)$, and there are long exact sequences in both
+variables.
+\end{theorem}
+
+\begin{proof}
+Let $N \to I^\bullet$ be an injective resolution and $C^{p,q} = \Hom_R(P_p, I^q)$, a first-quadrant double complex. For fixed $q$ the
+row $\Hom_R(P_\bullet, I^q)$ is exact in positive degrees with kernel $\Hom_R(M, I^q)$ in degree $0$, because $\Hom_R(-, I^q)$ is
+exact and $P_\bullet \to M \to 0$ is exact. For fixed $p$ the column $\Hom_R(P_p, I^\bullet)$ is exact in positive degrees with kernel
+$\Hom_R(P_p, N)$, because $P_p$ is projective. By Lemma~\ref{homological-algebra:lemma-acyclic-assembly}, applied to $C$ and to its
+transpose, both $\Hom_R(M, I^\bullet)$ and $\Hom_R(P_\bullet, N)$ are quasi-isomorphic to $\mathrm{Tot}(C)$. The same argument with
+$P_p \otimes Q_q$ for projective resolutions $P$ of $M$ and $Q$ of $N$ (projective modules are flat, being summands of free
+modules) gives the statements for $\Tor$, and symmetry follows from $P_p \otimes Q_q \cong Q_q \otimes P_p$. The long exact sequence
+in the first variable follows from the horseshoe lemma for projective resolutions and
+Theorem~\ref{homological-algebra:theorem-long-exact-sequence}.
+\end{proof}
+
+\begin{example}\label{homological-algebra:example-ext-tor-cyclic}
+Using the projective resolution $0 \to \ZZ \xrightarrow{n} \ZZ \to \ZZ/n\ZZ \to 0$, for every abelian group $A$:
+$\Hom(\ZZ/n\ZZ, A) = A[n] = \{a : na = 0\}$, $\Ext^1_\ZZ(\ZZ/n\ZZ, A) = A/nA$, $\ZZ/n\ZZ \otimes A = A/nA$ and
+$\Tor_1^\ZZ(\ZZ/n\ZZ, A) = A[n]$; all higher groups vanish. For instance $\Ext^1_\ZZ(\ZZ/n\ZZ, \ZZ) \cong \ZZ/n\ZZ$, although
+$\Hom(\ZZ/n\ZZ, \ZZ) = 0$.
+\end{example}
+
+\begin{proposition}\label{homological-algebra:proposition-flat-tor}
+A module $N$ is flat if and only if $\Tor_1^R(M, N) = 0$ for all $M$; then $\Tor_n^R(M, N) = 0$ for all $n \geq 1$. If $R$ is
+Noetherian local with residue field $k$ and $N$ is finitely generated, then $N$ is flat if and only if it is free, if and only if
+$\Tor_1^R(k, N) = 0$.
+\end{proposition}
+
+\begin{proof}
+If $0 \to M' \to M \to M'' \to 0$ is exact, the long exact sequence
+$\Tor_1(M'', N) \to M' \otimes N \to M \otimes N$ shows that vanishing of $\Tor_1$ gives injectivity; conversely if $N$ is flat,
+computing $\Tor$ with a projective resolution of $M$ tensored with $N$ (Theorem~\ref{homological-algebra:theorem-balance})
+gives an exact complex. For the second statement, free implies flat. Suppose $\Tor_1(k, N) = 0$. Choose a minimal set of
+generators, giving $0 \to K \to R^n \to N \to 0$ with $n = \dim_k N/\mathfrak{m}N$
+(Corollary~\ref{commutative-algebra:corollary-nakayama-generators}). Tensoring with $k$ gives the exact sequence
+$0 \to K \otimes k \to k^n \to N \otimes k \to 0$, in which the last map is an isomorphism of $n$-dimensional spaces; so
+$K/\mathfrak{m}K = 0$, and $K = 0$ by Nakayama's lemma, as $K$ is finitely generated ($R$ is Noetherian).
+\end{proof}
+
+\begin{proposition}\label{homological-algebra:proposition-pid-submodules-free}
+If $R$ is a principal ideal domain, every submodule of a free $R$-module is free. Hence every $R$-module has a projective
+resolution of length at most $1$, and $\Ext^n_R = \Tor_n^R = 0$ for $n \geq 2$.
+\end{proposition}
+
+\begin{proof}
+Let $F$ be free with basis $(e_i)_{i \in I}$, where $I$ is well-ordered (Theorem~\ref{sets:theorem-choice-equivalents}), and
+$M \subseteq F$. For $i \in I$ let $F_{\leq i}$ and $F_{<i}$ be spanned by the $e_j$ with $j \leq i$, respectively $j < i$, let
+$M_i = M \cap F_{\leq i}$, and let $\pi_i \colon M_i \to R$ be the $e_i$-coordinate. Its image is an ideal $(a_i)$; if $a_i \neq 0$ choose
+$m_i \in M_i$ with $\pi_i(m_i) = a_i$. The $m_i$ are linearly independent: in a relation $\sum c_im_i = 0$, the largest $i$ with
+$c_i \neq 0$ gives $c_ia_i = 0$ on the $e_i$-coordinate. They generate $M$: otherwise let $i$ be least such that $M_i$ contains an
+element $m$ not in their span. Then $\pi_i(m) = ra_i$, and $m - rm_i$ (or $m$ itself if $a_i = 0$) lies in $M \cap F_{<i}$; having
+finite support, it lies in some $M_j$ with $j < i$, hence in the span, and so does $m$. For the last statement, write $M$ as a
+quotient of a free module; the kernel is free.
+\end{proof}
+
+\begin{proposition}\label{homological-algebra:proposition-ext-extensions}
+Let $M$, $N$ be $R$-modules. There is a bijection between $\Ext^1_R(M, N)$ and the set of equivalence classes of short exact
+sequences $0 \to N \to E \to M \to 0$, where two sequences are equivalent if there is an isomorphism of the middle terms compatible
+with the given maps; the zero element corresponds to the split sequence.
+\end{proposition}
+
+\begin{proof}
+Choose $0 \to K \xrightarrow{j} P \to M \to 0$ with $P$ projective. By Theorem~\ref{homological-algebra:theorem-balance} and the long
+exact sequence, $\Ext^1(M, N) = \operatorname{coker}(\Hom(P, N) \to \Hom(K, N))$. Given an extension $0 \to N \to E \xrightarrow{q} M \to 0$, lift
+$P \to M$ to $\beta \colon P \to E$; then $\beta j$ lands in $N$, and its class $\theta(E)$ does not depend on $\beta$ (two lifts differ by a
+map $P \to N$). Conversely, given $\alpha \colon K \to N$, let $E_\alpha$ be the pushout of $N \xleftarrow{\alpha} K \xrightarrow{j} P$, that is,
+$(N \oplus P)/\{(\alpha(k), -j(k)) : k \in K\}$; it sits in an exact sequence $0 \to N \to E_\alpha \to M \to 0$, and $\alpha$ and
+$\alpha + \gamma j$ ($\gamma \colon P \to N$) give equivalent extensions via $E_\alpha \to E_{\alpha + \gamma j}$, $(n, p) \mapsto (n - \gamma(p), p)$, which maps
+the relation $(\alpha(k), -j(k))$ to $((\alpha + \gamma j)(k), -j(k))$. The lift $p \mapsto (0, p)$ of $P \to M$ to $E_\alpha$ restricts on $K$ to
+$k \mapsto (0, j(k)) = (\alpha(k), 0)$, so $\theta(E_\alpha)$ is the class of $\alpha$. For an extension $E$ with lift $\beta$, the map
+$E_{\beta j} \to E$, $(n, p) \mapsto n + \beta(p)$, is well defined and an equivalence by the five lemma. Hence the constructions are
+inverse. The split extension admits a lift with $\beta j = 0$.
+\end{proof}
+
+\section{K\"unneth and universal coefficient theorems}\label{homological-algebra:section-kunneth}
+
+In this section $R$ is a principal ideal domain and we use chain complexes of $R$-modules. The tensor product of chain
+complexes is $(C \otimes D)_n = \bigoplus_{p+q=n}C_p \otimes D_q$ with $d(x \otimes y) = dx \otimes y + (-1)^px \otimes dy$ for $x \in C_p$, and
+$\Hom(C, M)$ is the cochain complex $\Hom(C_n, M)$ with $(d\varphi)(x) = (-1)^{n+1}\varphi(dx)$ for $\varphi \in \Hom(C_n, M)$.
+
+\begin{theorem}[K\"unneth formula]\label{homological-algebra:theorem-kunneth}
+Let $C$ be a chain complex of free $R$-modules and $D$ any chain complex. For every $n$ there is a natural short exact sequence
+\[
+0 \to \bigoplus_{p+q=n}H_p(C) \otimes H_q(D) \to H_n(C \otimes D) \to \bigoplus_{p+q=n-1}\Tor_1^R(H_p(C), H_q(D)) \to 0,
+\]
+where the first map sends $[x] \otimes [y]$ to $[x \otimes y]$. If $D$ is also a complex of free modules, the sequence splits
+(non-naturally).
+\end{theorem}
+
+\begin{proof}
+Let $Z_p = \ker d_p$ and $B_p = \im d_{p+1} \subseteq C_p$; they are free by
+Proposition~\ref{homological-algebra:proposition-pid-submodules-free}, hence flat. Regard $Z$ and $B$ as complexes with zero
+differential, and let $B'$ be the complex with $B'_p = B_{p-1}$ and zero differential. The sequences
+$0 \to Z_p \to C_p \xrightarrow{d} B_{p-1} \to 0$ form a short exact sequence of complexes $0 \to Z \to C \to B' \to 0$, split in each degree
+since $B_{p-1}$ is free; so it stays exact after tensoring with $D$. As $Z$ and $B$ are
+flat with zero differential, $H_n(Z \otimes D) = \bigoplus Z_p \otimes H_q(D)$ and similarly for $B$. The long exact sequence reads
+\[
+\cdots \to \bigoplus_{p+q=n}B_p \otimes H_q(D) \xrightarrow{\partial} \bigoplus_{p+q=n}Z_p \otimes H_q(D) \to H_n(C \otimes D) \to
+\bigoplus_{p+q=n-1}B_p \otimes H_q(D) \xrightarrow{\partial} \cdots,
+\]
+and computing the connecting map with Theorem~\ref{homological-algebra:theorem-long-exact-sequence} shows that $\partial$ is induced by
+the inclusions $B_p \to Z_p$ (a class $b \otimes [y]$ lifts to $c \otimes y$ with $dc = b$, and $d(c \otimes y) = b \otimes y$). Hence
+$H_n(C \otimes D)$ is an extension of $\ker(\partial)$ in degree $n - 1$ by $\operatorname{coker}(\partial)$ in degree $n$. Since
+$0 \to B_p \to Z_p \to H_p(C) \to 0$ is a free resolution, $\operatorname{coker}(B_p \otimes H_q(D) \to Z_p \otimes H_q(D)) = H_p(C) \otimes H_q(D)$ and
+$\ker = \Tor_1(H_p(C), H_q(D))$, by right exactness of $\otimes$ and Theorem~\ref{homological-algebra:theorem-balance}.
+
+If $D$ is free as well, choose retractions $r_C \colon C_p \to Z_p$ (which exist since $B_{p-1}$ is free) and $r_D$. The composites
+$C_p \to Z_p \to H_p(C)$ form a morphism of complexes $C \to H(C)$ (to the complex with zero differential), since $r_C(dx) = dx \in B_p$
+maps to $0$; similarly $D \to H(D)$. Their tensor product induces $H_n(C \otimes D) \to \bigoplus H_p(C) \otimes H_q(D)$, which is a left
+inverse of the first map.
+\end{proof}
+
+\begin{theorem}[Universal coefficient theorem]\label{homological-algebra:theorem-universal-coefficients}
+Let $C$ be a chain complex of free $R$-modules and $M$ an $R$-module. There is a natural short exact sequence
+\[
+0 \to \Ext^1_R(H_{n-1}(C), M) \to H^n(\Hom(C, M)) \to \Hom_R(H_n(C), M) \to 0,
+\]
+where the second map sends the class of a cocycle $\varphi$ to its restriction to cycles. It splits non-naturally.
+\end{theorem}
+
+\begin{proof}
+Apply $\Hom(-, M)$ to the degreewise split sequence $0 \to Z \to C \to B' \to 0$ of the previous proof. As $Z$ and $B$ have zero
+differential, the long exact sequence becomes
+$\cdots \to \Hom(B_{n-1}, M) \to H^n(\Hom(C, M)) \to \Hom(Z_n, M) \xrightarrow{\partial} \Hom(B_n, M) \to \cdots$, where $\partial$ is restriction
+along $B_n \subseteq Z_n$ (up to sign). From the free resolution $0 \to B_n \to Z_n \to H_n(C) \to 0$ we get
+$\ker(\partial) = \Hom(H_n(C), M)$ and $\operatorname{coker}(\Hom(Z_{n-1}, M) \to \Hom(B_{n-1}, M)) = \Ext^1(H_{n-1}(C), M)$, which gives the
+sequence. A splitting is obtained from a retraction $r \colon C_n \to Z_n$: a homomorphism $H_n(C) \to M$ composed with
+$C_n \to Z_n \to H_n(C)$ is a cocycle.
+\end{proof}
+
+\begin{example}\label{homological-algebra:example-uct}
+Let $C$ be the complex $\cdots \to 0 \to \ZZ \xrightarrow{2} \ZZ \to 0$ in degrees $1$ and $0$, so $H_0 = \ZZ/2\ZZ$ and $H_1 = 0$. Then
+$\Hom(C, \ZZ)$ is $\ZZ \xrightarrow{\pm 2} \ZZ$ in degrees $0$ and $1$, with $H^0 = 0$ and $H^1 = \ZZ/2\ZZ$. Indeed
+$\Hom(H_1, \ZZ) = 0$ and $\Ext^1(H_0, \ZZ) = \ZZ/2\ZZ$: torsion in homology shifts up one degree in cohomology. This is the
+algebraic reason why $H^2(\RR\PP^2, \ZZ) \cong \ZZ/2\ZZ$ while $H_2(\RR\PP^2, \ZZ) = 0$ (Chapter~\ref{singular-cohomology}).
+\end{example}
+
+\section{Exercises}\label{homological-algebra:section-exercises}
+
+\begin{exercise}\label{homological-algebra:exercise-nine-lemma}
+Prove the $3 \times 3$ lemma: in a commutative $3 \times 3$ diagram of modules with exact columns, if two of the rows are short exact
+sequences, so is the third.
+\end{exercise}
+
+\begin{exercise}\label{homological-algebra:exercise-ext-divisible}
+Show that $\Ext^1_\ZZ(\QQ, \ZZ) \neq 0$. (Hint: use $0 \to \ZZ \to \QQ \to \QQ/\ZZ \to 0$.)
+\end{exercise}
+
+\begin{exercise}\label{homological-algebra:exercise-tor-torsion-free}
+Let $R$ be a PID. Show that an $R$-module is flat if and only if it is torsion-free.
+\end{exercise}
+
+\begin{exercise}\label{homological-algebra:exercise-derived-cone}
+Let $f \colon A^\bullet \to B^\bullet$ be a morphism of complexes. Show that $f$ is homotopic to zero if and only if the sequence
+$0 \to B \to \mathrm{Cone}(f) \to A[1] \to 0$ splits as a sequence of complexes.
+\end{exercise}
+
+\begin{exercise}\label{homological-algebra:exercise-injective-dimension}
+Show that an abelian group is injective if and only if $\Ext^1_\ZZ(\ZZ/n\ZZ, A) = 0$ for all $n \geq 1$.
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{homological-algebra:example-ext-tor-cyclic}, $\Ext^1(\ZZ/n\ZZ, A) = A/nA$, which vanishes for all $n$ iff $A$ is
+divisible, iff $A$ is injective by Theorem~\ref{homological-algebra:theorem-enough-injectives}.
+\end{solution}
