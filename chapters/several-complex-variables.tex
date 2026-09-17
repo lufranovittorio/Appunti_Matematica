@@ -1,16 +1,261 @@
 \chapter{Several Complex Variables}\label{several-complex-variables}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-The local theory of holomorphic functions in several variables, including the $\bar\partial$-Poincar\'e lemma.
+\section{Introduction}\label{several-complex-variables:section-introduction}
+
+In several variables holomorphic functions are still given by convergent power series, but new phenomena appear: functions extend
+across small holes (Theorem~\ref{several-complex-variables:theorem-hartogs}), the local ring of convergent power series is a
+Noetherian unique factorisation domain (Theorem~\ref{several-complex-variables:theorem-local-ring}), and the equation
+$\bar\partial u = f$ is solvable on polydiscs (Theorem~\ref{several-complex-variables:theorem-dbar-poincare}), which is the local
+statement behind Dolbeault cohomology and the Hodge decomposition. References: \cite{hormander-scv}, \cite{gunning-rossi},
+\cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{complex-analysis} (Complex Analysis) and Chapter~\ref{commutative-algebra} (Commutative Algebra).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Holomorphic functions on domains in $\CC^n$; the Cauchy formula on polydiscs.
-\item Hartogs' extension theorem.
-\item The Weierstrass preparation and division theorems.
-\item The ring $\mathcal{O}_{\CC^n,0}$ is a Noetherian unique factorisation domain.
-\item The $\bar\partial$-Poincar\'e lemma (Dolbeault--Grothendieck lemma).
-\item Local structure of analytic sets.
-\end{itemize}
+For $a \in \CC^n$ and $r = (r_1, \ldots, r_n)$ with $r_j > 0$, the \emph{polydisc} is $\Delta(a, r) = \{z : |z_j - a_j| < r_j\}$ and its
+\emph{distinguished boundary} is $\{|z_j - a_j| = r_j \ \forall j\}$. We write $\partial/\partial z_j = \frac12(\partial_{x_j} - i\partial_{y_j})$ and
+$\partial/\partial\bar z_j = \frac12(\partial_{x_j} + i\partial_{y_j})$, so that a $C^1$ function is holomorphic in $z_j$ if and only if
+$\partial f/\partial\bar z_j = 0$ (Proposition~\ref{complex-analysis:proposition-cauchy-riemann}).
+
+\section{Holomorphic functions of several variables}\label{several-complex-variables:section-holomorphic}
+
+\begin{definition}\label{several-complex-variables:definition-holomorphic}
+Let $U \subseteq \CC^n$ be open. A function $f \colon U \to \CC$ is \emph{holomorphic} if it is continuous and holomorphic in each variable separately. The set of such functions is
+$\mathcal{O}(U)$.
+\end{definition}
+
+\begin{theorem}\label{several-complex-variables:theorem-cauchy-polydisc}
+Let $f$ be holomorphic on a neighbourhood of the closure of $\Delta = \Delta(a, r)$. Then for $z \in \Delta$
+\[
+f(z) = \frac{1}{(2\pi i)^n}\int_{|\zeta_n - a_n| = r_n}\cdots\int_{|\zeta_1 - a_1| = r_1}\frac{f(\zeta)}{(\zeta_1 - z_1)\cdots(\zeta_n - z_n)}\,d\zeta_1\cdots d\zeta_n,
+\]
+and $f(z) = \sum_{\alpha \in \NN^n}c_\alpha(z - a)^\alpha$ with $c_\alpha = \partial^\alpha f(a)/\alpha!$, the series converging absolutely and uniformly on compact subsets of $\Delta$. In particular
+holomorphic functions are $C^\infty$, all their partial derivatives are holomorphic, and $|c_\alpha| \leq \sup|f| \cdot r^{-\alpha}$ (Cauchy estimates).
+\end{theorem}
+
+\begin{proof}
+Apply the one-variable Cauchy formula (Theorem~\ref{complex-analysis:theorem-cauchy-formula}) in each variable in turn, using continuity to integrate iterated integrals
+(Proposition~\ref{real-analysis:proposition-parameter-integrals}). Expanding each factor $1/(\zeta_j - z_j)$ in a geometric series, as in Theorem~\ref{complex-analysis:theorem-analytic}, and
+multiplying out gives the power series, uniformly convergent on compact subsets; term-by-term differentiation identifies the coefficients. Smoothness and holomorphy of the derivatives follow from
+differentiating the integral formula under the integral sign.
+\end{proof}
+
+\begin{proposition}\label{several-complex-variables:proposition-identity-maximum}
+Let $U \subseteq \CC^n$ be a domain.
+\begin{enumerate}
+\item (Identity theorem) If $f \in \mathcal{O}(U)$ vanishes on a nonempty open subset, then $f = 0$.
+\item (Maximum principle) If $|f|$ has a local maximum in $U$, then $f$ is constant.
+\item If $f_k \in \mathcal{O}(U)$ converge uniformly on compact subsets, the limit is holomorphic, and all partial derivatives converge uniformly on compact subsets.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The set where all derivatives $\partial^\alpha f$ vanish is open by Theorem~\ref{several-complex-variables:theorem-cauchy-polydisc} and closed, hence is $U$. (2) Restrict to complex lines through the
+point and apply Theorem~\ref{complex-analysis:theorem-maximum-modulus}: $f$ is constant on a polydisc, hence on $U$ by (1). (3) Separate holomorphy passes to uniform limits
+(Corollary~\ref{complex-analysis:corollary-liouville}), and convergence of derivatives follows from the Cauchy estimates applied to $f_k - f_l$ on slightly smaller polydiscs.
+\end{proof}
+
+\begin{theorem}[Hartogs]\label{several-complex-variables:theorem-hartogs}
+Let $n \geq 2$, let $\Delta = \Delta(0, r) \subseteq \CC^n$ be a polydisc and $K \subseteq \Delta$ a compact subset such that $\Delta \setminus K$ is connected and $K \subseteq \Delta(0, s) $ for some
+$s$ with $s_j < r_j$. Then every $f \in \mathcal{O}(\Delta \setminus K)$ extends to a holomorphic function on $\Delta$. In particular holomorphic functions of $n \geq 2$ variables have no isolated
+singularities and no isolated zeros.
+\end{theorem}
+
+\begin{proof}
+Write $z = (z', z_n)$ and choose $\rho$ with $s_n < \rho < r_n$. For $z' \in \Delta'(0, r')$ and $|z_n| < \rho$ set
+\[
+F(z', z_n) = \frac{1}{2\pi i}\int_{|\zeta| = \rho}\frac{f(z', \zeta)}{\zeta - z_n}\,d\zeta,
+\]
+which makes sense because $(z', \zeta) \notin K$ when $|\zeta| = \rho > s_n$. Differentiating under the integral sign, $F$ is holomorphic in $z_n$, and it is continuous and holomorphic in each variable
+$z'_j$ because $f$ is. So $F$ is holomorphic on $\Delta' \times \Delta(0, \rho)$, where $\Delta' = \Delta'(0, r')$. If $|z'_j| > s_j$ for some $j$, the whole disc $\{z'\} \times \Delta(0, \rho)$ avoids $K$, so the one-variable
+Cauchy formula gives $F(z', z_n) = f(z', z_n)$ there.
+
+Now fix $z_n$ with $s_n < |z_n| < \rho$. The functions $z' \mapsto F(z', z_n)$ and $z' \mapsto f(z', z_n)$ are both holomorphic on the connected set $\Delta'$ (the slice avoids $K$, since $|z_n| > s_n$) and
+agree on a nonempty open subset, hence agree on $\Delta'$ by Proposition~\ref{several-complex-variables:proposition-identity-maximum}. So $F = f$ on $\Delta' \times \{s_n < |z_n| < \rho\}$, which is exactly
+the overlap of $\Delta' \times \Delta(0, \rho)$ and $\Delta \cap \{|z_n| > s_n\}$. These two open sets cover $\Delta$ because $K \subseteq \{|z_n| < s_n\}$, so $F$ and $f$ glue to a holomorphic function $G$
+on $\Delta$. Finally $G = f$ on all of $\Delta \setminus K$, since both are holomorphic there, $\Delta \setminus K$ is connected, and they agree on a nonempty open subset.
+\end{proof}
+
+\section{The Weierstrass theorems}\label{several-complex-variables:section-weierstrass}
+
+\begin{definition}\label{several-complex-variables:definition-local-ring}
+Let $\mathcal{O}_n = \mathcal{O}_{\CC^n, 0}$ be the ring of germs at $0$ of holomorphic functions, that is, of convergent power series $\sum_\alpha c_\alpha z^\alpha$. A germ $f$ is \emph{regular of
+order $k$ in $z_n$} if $f(0, \ldots, 0, z_n) = cz_n^k + O(z_n^{k+1})$ with $c \neq 0$. A \emph{Weierstrass polynomial} of degree $k$ is
+$W = z_n^k + a_{k-1}(z')z_n^{k-1} + \cdots + a_0(z')$ with $a_j \in \mathcal{O}_{n-1}$ and $a_j(0) = 0$.
+\end{definition}
+
+\begin{lemma}\label{several-complex-variables:lemma-local-ring-basic}
+$\mathcal{O}_n$ is an integral domain and a local ring with maximal ideal $\mathfrak{m} = \{f : f(0) = 0\}$; a germ is a unit if and only if $f(0) \neq 0$. After a linear change of coordinates, any
+nonzero germ becomes regular of some finite order in $z_n$.
+\end{lemma}
+
+\begin{proof}
+Germs with $f(0) \neq 0$ are invertible, since $1/f$ is holomorphic near $0$; so the nonunits form the ideal $\mathfrak{m}$ and the ring is local
+(Proposition~\ref{commutative-algebra:proposition-localisation}(4)). If $fg = 0$ with $f \neq 0$, then $g$ vanishes on a nonempty open subset of the complement of the zero set of $f$, which is dense, so
+$g = 0$ by the identity theorem. For the last statement, choose $v \in \CC^n$ with $f(tv) \neq 0$ for small $t \neq 0$ (possible since the zero set of $f$ is not a neighbourhood of $0$), and a linear change
+of coordinates taking $v$ to $e_n$; then $t \mapsto f(tv)$ has a zero of finite order at $0$.
+\end{proof}
+
+\begin{theorem}[Weierstrass preparation and division]\label{several-complex-variables:theorem-weierstrass}
+Let $f \in \mathcal{O}_n$ be regular of order $k$ in $z_n$.
+\begin{enumerate}
+\item (Preparation) $f = u\,W$ with $u \in \mathcal{O}_n$ a unit and $W$ a Weierstrass polynomial of degree $k$, both unique.
+\item (Division) Every $g \in \mathcal{O}_n$ can be written uniquely as $g = qf + \rho$ with $q \in \mathcal{O}_n$ and $\rho \in \mathcal{O}_{n-1}[z_n]$ of degree $< k$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Choose $\varepsilon > 0$ such that $z_n \mapsto f(0, z_n)$ has $z_n = 0$ as its only zero in $|z_n| \leq \varepsilon$, and then, by continuity of $f$ and the argument principle
+(Theorem~\ref{complex-analysis:theorem-argument-principle}), $\delta > 0$ such that for $|z'| < \delta$ the function $z_n \mapsto f(z', z_n)$ has no zero with $|z_n| = \varepsilon$ and exactly $k$ zeros
+$w_1(z'), \ldots, w_k(z')$ in $|z_n| < \varepsilon$, counted with multiplicity.
+
+(1) Let $W(z', z_n) = \prod_{j=1}^k(z_n - w_j(z'))$, whose coefficients are, up to sign, the elementary symmetric functions $e_m(z')$ of the roots. The power sums
+$p_m(z') = \sum_jw_j(z')^m = \frac{1}{2\pi i}\int_{|\zeta| = \varepsilon}\zeta^m\frac{\partial_\zeta f(z', \zeta)}{f(z', \zeta)}\,d\zeta$ are holomorphic in $z'$ (differentiate under the integral sign), by the
+residue computation in the proof of Theorem~\ref{complex-analysis:theorem-argument-principle}. From $E(t) = \prod_j(1 - w_jt) = \sum_m(-1)^me_mt^m$ we get
+$E'(t)/E(t) = -\sum_{m \geq 1}p_mt^{m-1}$, so comparing coefficients expresses each $e_m$ as a polynomial with rational coefficients in $p_1, \ldots, p_m$; hence the $e_m$, and therefore the coefficients of
+$W$, are holomorphic. Since all roots tend to $0$ as $z' \to 0$, $W(0, z_n) = z_n^k$ and $W$ is a Weierstrass polynomial. The quotient $u = f/W$ extends holomorphically across the zeros in each slice
+(the zeros of $f$ and $W$ agree with multiplicities), and
+$u(z', z_n) = \frac{1}{2\pi i}\int_{|\zeta| = \varepsilon}\frac{f(z', \zeta)}{W(z', \zeta)}\frac{d\zeta}{\zeta - z_n}$ shows that $u$ is holomorphic in both variables; it has no zeros, so it is a unit. If
+$f = uW = u'W'$ with $W, W'$ Weierstrass polynomials, then $W$ and $W'$ have the same zeros with multiplicities in each slice, hence are equal.
+
+(2) By (1) we may assume $f = W$ is a Weierstrass polynomial. Define
+\[
+q(z) = \frac{1}{2\pi i}\int_{|\zeta| = \varepsilon}\frac{g(z', \zeta)}{W(z', \zeta)}\cdot\frac{d\zeta}{\zeta - z_n}, \qquad \rho = g - qW,
+\]
+so $q$ is holomorphic. Using the one-variable Cauchy formula for $g$,
+\[
+\rho(z) = \frac{1}{2\pi i}\int_{|\zeta| = \varepsilon}g(z', \zeta)\,\frac{W(z', \zeta) - W(z', z_n)}{W(z', \zeta)\,(\zeta - z_n)}\,d\zeta,
+\]
+and since $W$ is monic of degree $k$ in the last variable, $(W(z', \zeta) - W(z', z_n))/(\zeta - z_n)$ is a polynomial in $z_n$ of degree $k - 1$ whose coefficients are holomorphic in $(z', \zeta)$. So
+$\rho \in \mathcal{O}_{n-1}[z_n]$ has degree $< k$. For uniqueness, if $q_1W + \rho_1 = q_2W + \rho_2$, then $(q_1 - q_2)W = \rho_2 - \rho_1$; for fixed small $z'$ the left-hand side has at least $k$ zeros in
+$|z_n| < \varepsilon$ with multiplicity, while the right-hand side is a polynomial of degree $< k$, so both sides vanish. For general $f = uW$ take $q = u^{-1}q_W$.
+\end{proof}
+
+\begin{theorem}\label{several-complex-variables:theorem-local-ring}
+$\mathcal{O}_n$ is a Noetherian local ring and a unique factorisation domain, of Krull dimension $n$.
+\end{theorem}
+
+\begin{proof}
+Induction on $n$; $\mathcal{O}_0 = \CC$ is a field. Suppose $\mathcal{O}_{n-1}$ is Noetherian and a UFD. By Hilbert's basis theorem (Theorem~\ref{commutative-algebra:theorem-hilbert-basis}),
+$\mathcal{O}_{n-1}[z_n]$ is Noetherian, and by Theorem~\ref{rings:theorem-polynomial-ufd} it is a UFD.
+
+\emph{Noetherian.} Let $I \subseteq \mathcal{O}_n$ be a nonzero ideal and $f \in I$ nonzero; after a linear change of coordinates $f$ is regular of some order $k$ in $z_n$
+(Lemma~\ref{several-complex-variables:lemma-local-ring-basic}). By Weierstrass division, $I$ is generated by $f$ together with $I \cap \mathcal{O}_{n-1}[z_n]$, which is finitely generated because
+$\mathcal{O}_{n-1}[z_n]$ is Noetherian.
+
+\emph{Factorial.} Let $f \in \mathcal{O}_n$ be nonzero and not a unit; after a change of coordinates and by preparation, $f = uW$ with $W$ a Weierstrass polynomial. Factor $W = W_1 \cdots W_m$ into
+irreducibles in $\mathcal{O}_{n-1}[z_n]$; by Gauss's lemma (Lemma~\ref{rings:lemma-gauss}) and induction each factor may be taken to be a Weierstrass polynomial. Uniqueness of the factorisation in
+$\mathcal{O}_n$ follows from uniqueness in $\mathcal{O}_{n-1}[z_n]$ together with the uniqueness statement in Theorem~\ref{several-complex-variables:theorem-weierstrass}: a factorisation in
+$\mathcal{O}_n$ of a Weierstrass polynomial produces, after preparation of each factor, a factorisation into Weierstrass polynomials, and irreducible Weierstrass polynomials are irreducible in
+$\mathcal{O}_n$ (a factorisation in $\mathcal{O}_n$ can be normalised in the same way).
+
+\emph{Dimension.} The chain of primes $0 \subsetneq (z_1) \subsetneq (z_1, z_2) \subsetneq \cdots \subsetneq (z_1, \ldots, z_n) = \mathfrak{m}$ has length $n$, so $\dim\mathcal{O}_n \geq n$; equality holds because
+$\mathfrak{m}$ is generated by the $n$ elements $z_1, \ldots, z_n$ (Corollary~\ref{commutative-algebra:corollary-local-dimension-finite}).
+\end{proof}
+
+\section{The Dolbeault--Grothendieck lemma}\label{several-complex-variables:section-dbar}
+
+\begin{lemma}[Cauchy transform]\label{several-complex-variables:lemma-cauchy-transform}
+Let $g \colon \CC \to \CC$ be $C^\infty$ with compact support and $u(z) = \frac{1}{\pi}\int_\CC\frac{g(z - w)}{w}\,dA(w)$, where $dA$ is Lebesgue measure. Then $u$ is $C^\infty$ and
+$\partial u/\partial\bar z = g$. If $g$ depends smoothly (or holomorphically) on additional parameters, so does $u$.
+\end{lemma}
+
+\begin{proof}
+The function $1/|w|$ is integrable near $0$, so the integral converges and, by dominated convergence and the smoothness of $g$, we may differentiate under the integral sign: $u$ is $C^\infty$ and
+$\partial u/\partial\bar z = \frac1\pi\int(\partial g/\partial\bar z)(z - w)w^{-1}\,dA(w)$. Write $w = \rho e^{i\theta}$, so $dA = \rho\,d\rho\,d\theta$ and $w^{-1}dA = e^{-i\theta}d\rho\,d\theta$, and set
+$F(\rho, \theta) = g(z - \rho e^{i\theta})$. From $\partial_\rho F = -(e^{i\theta}g_z + e^{-i\theta}g_{\bar z})$ and $\partial_\theta F = i\rho(-e^{i\theta}g_z + e^{-i\theta}g_{\bar z})$ we get
+$e^{-i\theta}g_{\bar z} = -\tfrac12\partial_\rho F + \tfrac{1}{2i\rho}\partial_\theta F$. Hence
+\[
+\frac{\partial u}{\partial\bar z} = \frac1\pi\int_0^{2\pi}\int_0^\infty\left(-\tfrac12\partial_\rho F + \tfrac{1}{2i\rho}\partial_\theta F\right)d\rho\,d\theta = \frac1\pi\int_0^{2\pi}\tfrac12 g(z)\,d\theta = g(z),
+\]
+since $\int_0^\infty\partial_\rho F\,d\rho = -g(z)$ by the fundamental theorem of calculus and compact support, and $\int_0^{2\pi}\partial_\theta F\,d\theta = 0$ by periodicity. Dependence on parameters
+follows in the same way from differentiation under the integral sign.
+\end{proof}
+
+\begin{theorem}[$\bar\partial$-Poincar\'e lemma]\label{several-complex-variables:theorem-dbar-poincare}
+Let $\Delta' \subseteq \Delta \subseteq \CC^n$ be polydiscs centred at $0$ with $\overline{\Delta'} \subseteq \Delta$, and let $f_1, \ldots, f_n$ be $C^\infty$ functions on $\Delta$ with
+\[
+\frac{\partial f_j}{\partial\bar z_l} = \frac{\partial f_l}{\partial\bar z_j} \qquad \text{for all } j, l.
+\]
+Then there is a $C^\infty$ function $u$ on $\Delta'$ with $\partial u/\partial\bar z_j = f_j$ for all $j$. In the language of differential forms (Chapter~\ref{dolbeault}), every $\bar\partial$-closed
+$(0,1)$-form on $\Delta$ is $\bar\partial$-exact on $\Delta'$, and the same holds for $(p, q)$-forms.
+\end{theorem}
+
+\begin{proof}
+We prove by descending induction on $k$ the following statement: if $f_j = 0$ for $j > k$, then on any polydisc $\Delta''$ with $\overline{\Delta''} \subseteq \Delta$ there is $u$ with
+$\partial u/\partial\bar z_j = f_j$ for all $j$. For $k = 0$ take $u = 0$. Let $k \geq 1$ and choose a $C^\infty$ function $\chi(z_k)$ with compact support in the $k$-th disc of $\Delta$, equal to $1$ on a
+neighbourhood of the closure of the $k$-th disc of $\Delta''$. Put $g = \chi f_k$, extended by zero, and
+\[
+v(z) = \frac1\pi\int_\CC\frac{g(z_1, \ldots, z_{k-1}, z_k - w, z_{k+1}, \ldots, z_n)}{w}\,dA(w),
+\]
+which is $C^\infty$ on $\Delta$ by Lemma~\ref{several-complex-variables:lemma-cauchy-transform} and satisfies $\partial v/\partial\bar z_k = g$, so $\partial v/\partial\bar z_k = f_k$ on $\Delta''$. For
+$j > k$ we have $\partial g/\partial\bar z_j = \chi\,\partial f_k/\partial\bar z_j = \chi\,\partial f_j/\partial\bar z_k = 0$ (because $\chi$ depends only on $z_k$ and $f_j = 0$), so
+$\partial v/\partial\bar z_j = 0$ by differentiating under the integral sign.
+
+Now set $f'_j = f_j - \partial v/\partial\bar z_j$. These are $C^\infty$ on $\Delta$, satisfy the same compatibility conditions (second derivatives commute,
+Theorem~\ref{real-analysis:theorem-schwarz}), and $f'_j = 0$ for $j \geq k$ on $\Delta''$. By the induction hypothesis applied on $\Delta''$ (with $k - 1$), there is $u_0$ on any polydisc compactly
+contained in $\Delta''$, in particular on $\Delta'$ if we choose $\Delta''$ between them, with $\partial u_0/\partial\bar z_j = f'_j$; then $u = u_0 + v$ works.
+\end{proof}
+
+\section{Analytic sets}\label{several-complex-variables:section-analytic-sets}
+
+\begin{definition}\label{several-complex-variables:definition-analytic-set}
+A subset $A$ of an open $U \subseteq \CC^n$ is \emph{analytic} if every point of $U$ has a neighbourhood $V$ such that $A \cap V$ is the common zero set of finitely many holomorphic functions on $V$. A point
+$a \in A$ is \emph{regular} of dimension $d$ if near $a$ the set $A$ is, after a biholomorphic change of coordinates, an open subset of $\CC^d \times \{0\}$; otherwise it is \emph{singular}.
+\end{definition}
+
+\begin{example}\label{several-complex-variables:example-analytic-sets}
+The zero set of a single nonzero $f \in \mathcal{O}(U)$ is an analytic \emph{hypersurface}; by Theorem~\ref{several-complex-variables:theorem-weierstrass} it is, in suitable local coordinates, the zero set
+of a Weierstrass polynomial, hence a finite branched covering of a polydisc in $\CC^{n-1}$. The set $\{z_1z_2 = 0\} \subseteq \CC^2$ is analytic with singular point the origin; $\{z_1^2 = z_2^3\}$ is analytic,
+irreducible, with a cusp at the origin.
+\end{example}
+
+\begin{theorem}\label{several-complex-variables:theorem-analytic-structure}
+Let $A \subseteq U$ be analytic.
+\begin{enumerate}
+\item The regular points of $A$ are dense in $A$, and the singular locus $A_{\mathrm{sing}}$ is a closed analytic subset of $U$ contained in $A$, nowhere dense in $A$.
+\item Locally, $A$ has finitely many irreducible components, and an irreducible germ of dimension $d$ admits a local projection to a polydisc in $\CC^d$ that is a finite branched covering, branched over a
+proper analytic subset.
+\item (Riemann extension) If $A \subseteq U$ is analytic of dimension $\leq n - 1$ and $f$ is holomorphic on $U \setminus A$ and locally bounded near $A$, then $f$ extends holomorphically to $U$.
+\end{enumerate}
+\end{theorem}
+
+These are proved in \cite[Chapters II--III]{gunning-rossi} and \cite[Chapters 1--6]{grauert-remmert}; the key tools are the Weierstrass theorems and the local parametrisation theorem. Part (3) for a
+hypersurface follows from the one-variable Riemann extension theorem (Proposition~\ref{complex-analysis:proposition-singularities}) applied on lines transverse to $A$, together with
+Theorem~\ref{several-complex-variables:theorem-cauchy-polydisc}.
+
+\begin{remark}\label{several-complex-variables:remark-coherence}
+The sheaf $\mathcal{O}_X$ of holomorphic functions on a complex manifold is \emph{coherent} (Oka's theorem), and so is the ideal sheaf of an analytic subset (Cartan); these are the foundations of the theory
+of coherent analytic sheaves used in Chapter~\ref{gaga}, where they are compared with the algebraic theory \cite{grauert-remmert}.
+\end{remark}
+
+\section{Exercises}\label{several-complex-variables:section-exercises}
+
+\begin{exercise}\label{several-complex-variables:exercise-hartogs-domain}
+Show that $\{z \in \CC^2 : |z_1| < 1, |z_2| < 1\} \setminus \{0\}$ and $\CC^2 \setminus \{0\}$ have the property that every holomorphic function extends to the full polydisc, respectively to $\CC^2$, and
+deduce that these domains are not biholomorphic to any domain in $\CC$.
+\end{exercise}
+
+\begin{solution}
+Extension is Theorem~\ref{several-complex-variables:theorem-hartogs} with $K = \{0\}$. In $\CC$, the function $1/z$ is holomorphic on the punctured disc and does not extend; so no biholomorphism with a
+punctured planar domain can exist, since biholomorphisms preserve the algebra of holomorphic functions.
+\end{solution}
+
+\begin{exercise}\label{several-complex-variables:exercise-weierstrass-example}
+Apply the Weierstrass preparation theorem to $f(z_1, z_2) = z_2^2 - z_1$ and to $f(z_1, z_2) = z_1z_2$ at the origin, and explain why a linear change of coordinates is needed in the second case.
+\end{exercise}
+
+\begin{exercise}\label{several-complex-variables:exercise-dbar-one-variable}
+Let $f$ be $C^\infty$ on a neighbourhood of the closed unit disc. Show that there is a $C^\infty$ function $u$ on the open disc with $\partial u/\partial\bar z = f$, and that $u$ is unique up to adding a
+holomorphic function.
+\end{exercise}
+
+\begin{solution}
+Multiply $f$ by a cut-off function equal to $1$ on a slightly smaller disc and apply Lemma~\ref{several-complex-variables:lemma-cauchy-transform}; exhaust the disc. The difference of two solutions satisfies
+$\partial u/\partial\bar z = 0$, hence is holomorphic (Proposition~\ref{complex-analysis:proposition-cauchy-riemann}).
+\end{solution}
+
+\begin{exercise}\label{several-complex-variables:exercise-maximum-principle-boundary}
+Show that a holomorphic function on a bounded domain $U \subseteq \CC^n$, continuous on $\overline{U}$, attains the maximum of its modulus on $\partial U$, and give an example showing that for a polydisc
+the maximum is already attained on the distinguished boundary.
+\end{exercise}
