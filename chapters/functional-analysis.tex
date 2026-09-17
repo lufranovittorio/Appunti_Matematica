@@ -1,16 +1,260 @@
 \chapter{Functional Analysis}\label{functional-analysis}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Banach and Hilbert spaces and the operator theory needed for elliptic operators.
+\section{Introduction}\label{functional-analysis:section-introduction}
+
+Hodge theory rests on an analytic theorem: on a compact Riemannian manifold every cohomology class has a unique harmonic
+representative. The proof solves the equation $\Delta u = f$ in a space of generalised functions and then shows that the solution is
+smooth. The functional analysis needed for the first step is in this chapter: Hilbert spaces and orthogonal projections, the
+consequences of Baire's theorem, compact operators, the spectral theorem for compact self-adjoint operators
+(Theorem~\ref{functional-analysis:theorem-spectral-compact}) and the Fredholm alternative
+(Theorem~\ref{functional-analysis:theorem-fredholm-alternative}). References: \cite{brezis-functional}, \cite{rudin-fa},
+\cite{reed-simon-1}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{measure-theory} (Measure and Integration) and Chapter~\ref{linear-algebra} (Linear Algebra).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Normed, Banach and Hilbert spaces; orthogonal projection and the Riesz representation theorem.
-\item The Hahn--Banach, open mapping, closed graph and uniform boundedness theorems.
-\item Bounded and compact operators; adjoints.
-\item Fredholm operators and the Fredholm alternative.
-\item The spectral theorem for compact self-adjoint operators.
-\item Weak and weak-$*$ topologies.
-\end{itemize}
+All vector spaces are over $\mathbb{K} = \RR$ or $\CC$.
+
+\section{Banach spaces and bounded operators}\label{functional-analysis:section-banach}
+
+\begin{definition}\label{functional-analysis:definition-bounded-operator}
+A linear map $T \colon X \to Y$ between normed spaces is \emph{bounded} if $\|T\| = \sup_{\|x\| \leq 1}\|Tx\| < \infty$; equivalently (as for finite dimensions,
+Lemma~\ref{real-analysis:lemma-norms}) $T$ is continuous. The bounded operators form a normed space $B(X, Y)$, and $X^* = B(X, \mathbb{K})$ is the \emph{dual space}.
+\end{definition}
+
+\begin{proposition}\label{functional-analysis:proposition-banach-examples}
+\begin{enumerate}
+\item If $Y$ is complete, so is $B(X, Y)$; in particular $X^*$ is always a Banach space.
+\item $C(K, \mathbb{K})$ with the supremum norm ($K$ compact Hausdorff), $L^p(\mu)$ for $1 \leq p \leq \infty$, and the sequence spaces $\ell^p$ are Banach spaces.
+\item (Riesz) If the closed unit ball of a normed space $X$ is compact, then $X$ is finite-dimensional.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A Cauchy sequence $(T_n)$ is pointwise Cauchy, and the pointwise limit $T$ is linear with $\|T - T_n\| \leq \limsup_m\|T_m - T_n\| \to 0$. (2)
+Proposition~\ref{general-topology:proposition-complete-examples} and Theorem~\ref{measure-theory:theorem-riesz-fischer}. (3) Suppose $X$ is infinite-dimensional. We construct unit vectors $x_n$ with
+$\|x_n - x_m\| \geq 1/2$: given the finite-dimensional, hence closed (all norms on it are equivalent and it is complete), subspace $Y_n$ spanned by $x_1, \ldots, x_n$, choose $x \notin Y_n$ and $y \in Y_n$ with
+$\|x - y\| \leq 2\operatorname{dist}(x, Y_n)$; then $x_{n+1} = (x - y)/\|x - y\|$ has distance at least $1/2$ from $Y_n$. Such a sequence has no convergent subsequence.
+\end{proof}
+
+\section{Hilbert spaces}\label{functional-analysis:section-hilbert}
+
+\begin{definition}\label{functional-analysis:definition-hilbert}
+A \emph{Hilbert space} is a vector space with an inner product (Definition~\ref{linear-algebra:definition-inner-product}) that is complete for the norm $\|x\| = \langle x, x \rangle^{1/2}$. Vectors are
+\emph{orthogonal} if $\langle x, y \rangle = 0$; for $S \subseteq H$, $S^\perp = \{x : \langle x, s \rangle = 0 \ \forall s \in S\}$, a closed subspace.
+\end{definition}
+
+\begin{example}\label{functional-analysis:example-hilbert}
+$L^2(\mu)$ with $\langle f, g \rangle = \int f\bar g$ (Theorem~\ref{measure-theory:theorem-riesz-fischer}); $\ell^2$; finite-dimensional inner product spaces. The space $C([0,1])$ with the $L^2$ inner product is
+not complete, and $L^2$ is its completion (Exercise~\ref{general-topology:exercise-completion}).
+\end{example}
+
+\begin{theorem}\label{functional-analysis:theorem-projection}
+Let $H$ be a Hilbert space and $C \subseteq H$ nonempty, closed and convex. Every $x \in H$ has a unique nearest point $P_Cx \in C$. If $M$ is a closed subspace, $P_M$ is linear with $\|P_M\| \leq 1$,
+$x - P_Mx \in M^\perp$, and $H = M \oplus M^\perp$. Moreover $(M^\perp)^\perp = M$, and $M^\perp = 0$ if and only if $M$ is dense.
+\end{theorem}
+
+\begin{proof}
+Let $d = \inf_{c \in C}\|x - c\|$ and $c_k \in C$ with $\|x - c_k\| \to d$. By the parallelogram law,
+$\|c_k - c_l\|^2 = 2\|x - c_k\|^2 + 2\|x - c_l\|^2 - 4\|x - \tfrac{c_k + c_l}{2}\|^2 \leq 2\|x - c_k\|^2 + 2\|x - c_l\|^2 - 4d^2 \to 0$, using $\tfrac{c_k+c_l}{2} \in C$. So $(c_k)$ is Cauchy and converges to some
+$c \in C$ with $\|x - c\| = d$; uniqueness follows from the same identity. For a closed subspace $M$ and $m \in M$, $t \in \mathbb{K}$, the inequality $\|x - P_Mx - tm\| \geq \|x - P_Mx\|$ forces
+$\langle x - P_Mx, m \rangle = 0$. Hence $x = P_Mx + (x - P_Mx) \in M + M^\perp$, and $M \cap M^\perp = 0$, which also gives linearity and $\|P_M\| \leq 1$ (Pythagoras). Finally $M \subseteq (M^\perp)^\perp$, and
+if $x \in (M^\perp)^\perp$ then $x - P_Mx \in M^\perp \cap (M^\perp)^\perp = 0$. If $M$ is a subspace, $\overline{M}^\perp = M^\perp$, so $M^\perp = 0$ if and only if $\overline{M} = H$.
+\end{proof}
+
+\begin{theorem}[Riesz representation]\label{functional-analysis:theorem-riesz-representation}
+For every $\Lambda \in H^*$ there is a unique $y \in H$ with $\Lambda(x) = \langle x, y \rangle$ for all $x$, and $\|\Lambda\| = \|y\|$. Consequently every bounded operator $T \colon H \to H$ has a unique
+\emph{adjoint} $T^*$ with $\langle Tx, y \rangle = \langle x, T^*y \rangle$; it satisfies $\|T^*\| = \|T\|$ and $(\ker T)^\perp = \overline{\operatorname{im}T^*}$.
+\end{theorem}
+
+\begin{proof}
+Existence and uniqueness of $y$ are Lemma~\ref{measure-theory:lemma-hilbert-riesz}, whose proof used only completeness; the norm equality follows from Cauchy--Schwarz and $\Lambda(y) = \|y\|^2$. For fixed
+$y$, $x \mapsto \langle Tx, y \rangle$ is a bounded functional, so it is $\langle x, T^*y \rangle$ for a unique $T^*y$, and $T^*$ is linear and bounded with $\|T^*\| = \|T\|$ (from
+$\|T\| = \sup_{\|x\|, \|y\| \leq 1}|\langle Tx, y \rangle|$, which is symmetric in $T$ and $T^*$). Finally $x \in \ker T$ if and only if $\langle x, T^*y \rangle = 0$ for all $y$, that is, $x \in (\operatorname{im}T^*)^\perp$; take orthogonal
+complements.
+\end{proof}
+
+\begin{theorem}[Orthonormal bases]\label{functional-analysis:theorem-orthonormal-basis}
+Let $(e_i)_{i \in I}$ be an orthonormal family in a Hilbert space $H$. The following are equivalent: its span is dense; $x = \sum_i\langle x, e_i \rangle e_i$ for all $x$ (with at most countably many nonzero
+terms, in any order); $\|x\|^2 = \sum_i|\langle x, e_i \rangle|^2$ for all $x$ (Parseval). Such a family is an \emph{orthonormal basis}; every Hilbert space has one, and $H$ is separable if and only if it has a
+countable one, in which case $H \cong \ell^2(I)$.
+\end{theorem}
+
+\begin{proof}
+For finite $J \subseteq I$, $P_Jx = \sum_{i \in J}\langle x, e_i \rangle e_i$ is the orthogonal projection onto the span of $(e_i)_{i \in J}$, so $\sum_{i \in J}|\langle x, e_i \rangle|^2 \leq \|x\|^2$ (Bessel);
+hence at most countably many coefficients are nonzero and, by completeness, $\sum_i\langle x, e_i \rangle e_i$ converges (its partial sums are Cauchy by Pythagoras), to the projection of $x$ onto the closed
+span $M$. So the three conditions each say that $M = H$, using $\|x\|^2 = \|P_Mx\|^2 + \|x - P_Mx\|^2$. Zorn's lemma gives a maximal orthonormal family, whose closed span $M$ satisfies $M^\perp = 0$ (a unit
+vector in $M^\perp$ would enlarge the family), so $M = H$. If $H$ is separable, an orthonormal family is discrete ($\|e_i - e_j\| = \sqrt2$) hence countable. The map $x \mapsto (\langle x, e_i \rangle)$ is
+then an isometric isomorphism onto $\ell^2(I)$.
+\end{proof}
+
+\begin{example}\label{functional-analysis:example-fourier}
+The functions $e_n(t) = e^{2\pi int}$, $n \in \ZZ$, form an orthonormal basis of $L^2(S^1)$, where $S^1 = \RR/\ZZ$ with Lebesgue measure: they are orthonormal by direct computation, their span (the
+trigonometric polynomials) is dense in $C(S^1)$ for the supremum norm (Corollary~\ref{real-analysis:corollary-weierstrass}), hence in $L^2$, and $C(S^1)$ is dense in $L^2(S^1)$: by
+Proposition~\ref{measure-theory:proposition-density} the continuous functions with compact support in $(0, 1)$ are dense in $L^2([0, 1])$, and they extend to continuous functions on $S^1$. So every $f \in L^2(S^1)$ is the $L^2$-limit of its Fourier series $\sum_n\hat f(n)e_n$ with $\hat f(n) = \int_0^1f(t)e^{-2\pi int}\,dt$, and
+$\|f\|_2^2 = \sum_n|\hat f(n)|^2$.
+\end{example}
+
+\section{The Hahn--Banach and Baire theorems}\label{functional-analysis:section-hahn-banach}
+
+\begin{theorem}[Hahn--Banach]\label{functional-analysis:theorem-hahn-banach}
+Let $X$ be a vector space over $\mathbb{K}$ and $p \colon X \to \RR$ with $p(x + y) \leq p(x) + p(y)$ and $p(\lambda x) = |\lambda|p(x)$ (a seminorm). Every linear functional $\ell$ on a subspace $Y$ with
+$|\ell| \leq p$ on $Y$ extends to a linear functional on $X$ with $|\ell| \leq p$. Consequently, for a normed $X$ and $x_0 \neq 0$ there is $\Lambda \in X^*$ with $\|\Lambda\| = 1$ and $\Lambda(x_0) = \|x_0\|$;
+in particular $X^*$ separates points and $\|x\| = \sup_{\|\Lambda\| \leq 1}|\Lambda(x)|$.
+\end{theorem}
+
+\begin{proof}
+Real case: consider pairs $(Z, m)$ of a subspace $Z \supseteq Y$ and an extension $m \leq p$, ordered by extension; chains have upper bounds, so Zorn's lemma gives a maximal $(Z, m)$. If $x \notin Z$, then for
+$z, z' \in Z$, $m(z) + m(z') = m(z + z') \leq p(z + x) + p(z' - x)$, so $\sup_{z'}(m(z') - p(z' - x)) \leq \inf_z(p(z + x) - m(z))$; choosing $c$ between them extends $m$ to $Z + \mathbb{K}x$ by $m(z + tx) = m(z) + tc$,
+contradicting maximality. Complex case: apply the real case to $\operatorname{Re}\ell$ and set $\ell(x) = (\operatorname{Re}\ell)(x) - i(\operatorname{Re}\ell)(ix)$. For the consequence take
+$Y = \mathbb{K}x_0$, $\ell(tx_0) = t\|x_0\|$ and $p = \|\cdot\|$.
+\end{proof}
+
+\begin{theorem}\label{functional-analysis:theorem-baire-consequences}
+Let $X$, $Y$ be Banach spaces.
+\begin{enumerate}
+\item (Uniform boundedness) If $\mathcal{T} \subseteq B(X, Y)$ satisfies $\sup_{T \in \mathcal{T}}\|Tx\| < \infty$ for every $x$, then $\sup_{T \in \mathcal{T}}\|T\| < \infty$.
+\item (Open mapping) A surjective $T \in B(X, Y)$ is open; if it is bijective, $T^{-1}$ is bounded.
+\item (Closed graph) A linear $T \colon X \to Y$ whose graph is closed in $X \times Y$ is bounded.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) The sets $F_n = \{x : \|Tx\| \leq n \ \forall T \in \mathcal{T}\}$ are closed with union $X$, so by Baire's theorem (Theorem~\ref{general-topology:theorem-baire}) some $F_n$ contains a ball
+$\overline{B}(x_0, r)$; then $\|Tx\| \leq 2n/r$ for $\|x\| \leq 1$, using $x = ((x_0 + rx) - x_0)/r$.
+
+(2) By Baire's theorem applied to $Y = \bigcup_n\overline{T(B(0, n))}$, the closure of $T(B(0, 1))$ contains a ball $B(y_0, \delta)$; by symmetry and convexity it contains $B(0, \delta)$. A standard iteration
+removes the closure: given $\|y\| < \delta$, choose $x_1$ with $\|x_1\| < 1$ and $\|y - Tx_1\| < \delta/2$, then $x_2$ with $\|x_2\| < 1/2$ and $\|y - Tx_1 - Tx_2\| < \delta/4$, and so on; the series
+$\sum x_k$ converges to some $x$ with $\|x\| < 2$ and $Tx = y$. So $T(B(0, 2)) \supseteq B(0, \delta)$, which gives openness by translation and scaling.
+
+(3) The graph $G$ is a Banach space, and the projection $G \to X$ is bounded and bijective, so its inverse $x \mapsto (x, Tx)$ is bounded by (2).
+\end{proof}
+
+\section{Compact operators}\label{functional-analysis:section-compact-operators}
+
+\begin{definition}\label{functional-analysis:definition-compact-operator}
+$T \in B(X, Y)$ is \emph{compact} if the closure of $T(B(0,1))$ is compact; equivalently, every bounded sequence $(x_n)$ has a subsequence with $(Tx_{n_k})$ convergent.
+\end{definition}
+
+\begin{proposition}\label{functional-analysis:proposition-compact-operators}
+\begin{enumerate}
+\item Compact operators form a closed subspace of $B(X, Y)$, and $STR$ is compact if $T$ is compact and $S$, $R$ are bounded.
+\item Operators of finite rank are compact; on Hilbert spaces, $T$ is compact if and only if it is a norm limit of finite rank operators.
+\item If $H$ is a Hilbert space, $T \in B(H)$ is compact if and only if $T^*$ is.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Sums and scalar multiples are clear, and compositions with bounded operators map bounded sets to bounded sets. If $T_n \to T$ with $T_n$ compact, then $T(B)$ is totally bounded: given $\varepsilon$, choose
+$n$ with $\|T - T_n\| < \varepsilon$ and cover $T_n(B)$ by finitely many $\varepsilon$-balls; so $\overline{T(B)}$ is compact (Theorem~\ref{general-topology:theorem-compact-metric}). (2) A bounded set in a
+finite-dimensional space is relatively compact (Theorem~\ref{general-topology:theorem-heine-borel}). Conversely let $T$ be compact and $\varepsilon > 0$; cover $\overline{T(B)}$ by finitely many balls
+$B(y_i, \varepsilon)$, let $P$ be the orthogonal projection onto the span of the $y_i$ (Theorem~\ref{functional-analysis:theorem-projection}); then $\|Tx - PTx\| \leq \|Tx - y_i\| < \varepsilon$ for a suitable
+$i$, since $P$ is a projection and $\|Tx - PTx\| = \operatorname{dist}(Tx, \operatorname{im}P)$. So $\|T - PT\| \leq \varepsilon$ with $PT$ of finite rank. (3) follows from (2), since $(PT)^* = T^*P$ has finite
+rank and $\|T^* - (PT)^*\| = \|T - PT\|$.
+\end{proof}
+
+\begin{theorem}[Spectral theorem for compact self-adjoint operators]\label{functional-analysis:theorem-spectral-compact}
+Let $H \neq 0$ be a Hilbert space and $T \in B(H)$ compact and self-adjoint ($T = T^*$).
+\begin{enumerate}
+\item $\|T\| = \sup_{\|x\| = 1}|\langle Tx, x \rangle|$, and $\|T\|$ or $-\|T\|$ is an eigenvalue of $T$.
+\item $H$ has an orthonormal basis consisting of eigenvectors of $T$. The nonzero eigenvalues are real, form a finite or countable set with $0$ as the only possible accumulation point, and each nonzero
+eigenvalue has finite-dimensional eigenspace.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Let $s = \sup_{\|x\|=1}|\langle Tx, x \rangle| \leq \|T\|$. For $x, y$ with $\|x\|, \|y\| \leq 1$, the identity
+$\langle T(x + y), x + y \rangle - \langle T(x - y), x - y \rangle = 4\operatorname{Re}\langle Tx, y \rangle$ (using self-adjointness) and the parallelogram law give
+$4\operatorname{Re}\langle Tx, y \rangle \leq s(\|x + y\|^2 + \|x - y\|^2) = 2s(\|x\|^2 + \|y\|^2) \leq 4s$, so $\|T\| = \sup|\langle Tx, y \rangle| \leq s$. Choose unit vectors $x_n$ with
+$\langle Tx_n, x_n \rangle \to \lambda$ where $|\lambda| = \|T\|$ (note $\langle Tx, x \rangle$ is real). Then
+$\|Tx_n - \lambda x_n\|^2 = \|Tx_n\|^2 - 2\lambda\langle Tx_n, x_n \rangle + \lambda^2 \leq 2\lambda^2 - 2\lambda\langle Tx_n, x_n \rangle \to 0$. By compactness, after passing to a subsequence
+$Tx_n \to y$; if $\lambda \neq 0$ then $x_n \to y/\lambda$, so $y/\lambda$ is a unit vector with $Ty/\lambda = \lambda y/\lambda$. If $\lambda = 0$ then $T = 0$ and every vector is an eigenvector.
+
+(2) Eigenvalues are real and eigenvectors for distinct eigenvalues are orthogonal, as in finite dimensions. If $|\lambda| \geq \varepsilon > 0$, an orthonormal family in the $\lambda$-eigenspace is mapped by $T$ to
+a family of vectors at mutual distance $|\lambda|\sqrt2$, so it must be finite by compactness; the same argument shows that only finitely many eigenvalues satisfy $|\lambda| \geq \varepsilon$. Let $M$ be the
+closed span of all eigenvectors. It is $T$-invariant, hence so is $M^\perp$ (if $x \in M^\perp$ and $m \in M$, $\langle Tx, m \rangle = \langle x, Tm \rangle = 0$), and $T|_{M^\perp}$ is compact and
+self-adjoint; by (1) it has an eigenvector unless $M^\perp = 0$ or $T|_{M^\perp} = 0$. An eigenvector in $M^\perp$ is impossible, and if $T|_{M^\perp} = 0$ then $M^\perp$ consists of eigenvectors for the
+eigenvalue $0$, so $M^\perp \subseteq M$ and $M^\perp = 0$. Hence $M = H$, and an orthonormal basis of each eigenspace, together, is an orthonormal basis of $H$ by
+Theorem~\ref{functional-analysis:theorem-orthonormal-basis}.
+\end{proof}
+
+\begin{theorem}[Fredholm alternative]\label{functional-analysis:theorem-fredholm-alternative}
+Let $H$ be a Hilbert space, $K \in B(H)$ compact and $T = I - K$.
+\begin{enumerate}
+\item $\ker T$ is finite-dimensional and $\operatorname{im}T$ is closed, with $\operatorname{im}T = (\ker T^*)^\perp$.
+\item $T$ is injective if and only if it is surjective.
+\item $\dim\ker T = \dim\ker T^*$; so the equation $Tx = y$ is solvable if and only if $y \perp \ker T^*$, and the solution is unique up to $\ker T$, which has the same finite dimension as $\ker T^*$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) On $\ker T$ we have $K = I$, so the unit ball of $\ker T$ is compact and $\ker T$ is finite-dimensional (Proposition~\ref{functional-analysis:proposition-banach-examples}(3)). For closedness, let
+$M = (\ker T)^\perp$; it suffices to show $\|Tx\| \geq c\|x\|$ on $M$ for some $c > 0$, since then images of Cauchy sequences are Cauchy. If not, there are unit vectors $x_n \in M$ with $Tx_n \to 0$; passing to a
+subsequence, $Kx_n \to y$, so $x_n = Tx_n + Kx_n \to y$ with $\|y\| = 1$, $y \in M$ and $Ty = 0$, a contradiction. Then $\operatorname{im}T$ is closed and
+$\operatorname{im}T = \overline{\operatorname{im}T} = (\ker T^*)^\perp$ by Theorem~\ref{functional-analysis:theorem-riesz-representation} applied to $T^*$.
+
+(2) Suppose $T$ is injective but not surjective. Then $H \supsetneq TH \supsetneq T^2H \supsetneq \cdots$ is a strictly decreasing chain of closed subspaces (each $T^kH$ is closed by (1) applied to
+$I - K_k$ with $K_k = I - T^k$ compact, since $T^k = (I - K)^k = I - K_k$ with $K_k$ a sum of products involving $K$). Choose unit vectors $u_k \in T^kH \cap (T^{k+1}H)^\perp$. For $l > k$,
+$Ku_k - Ku_l = u_k - (Tu_k + u_l - Tu_l)$ and $Tu_k + u_l - Tu_l \in T^{k+1}H$, so $\|Ku_k - Ku_l\| \geq 1$, contradicting compactness. Conversely, if $T$ is surjective, then $T^*$ is injective: indeed
+$\ker T^* = (\operatorname{im}T)^\perp = 0$; applying the previous argument to $T^* = I - K^*$ (with $K^*$ compact) shows $T^*$ is surjective, hence $\ker T = (\operatorname{im}T^*)^\perp = 0$.
+
+(3) This is the statement that the index of $I - K$ is zero; see \cite[Theorem 6.6]{brezis-functional}.
+\end{proof}
+
+\begin{remark}\label{functional-analysis:remark-fredholm-operators}
+$T \in B(X, Y)$ is \emph{Fredholm} if $\ker T$ and $\operatorname{coker}T = Y/\operatorname{im}T$ are finite-dimensional; then $\operatorname{im}T$ is closed, and the \emph{index}
+$\operatorname{ind}T = \dim\ker T - \dim\operatorname{coker}T$ is unchanged by compact perturbations and is locally constant in $T$ \cite[Chapter 6]{brezis-functional}. Elliptic operators on compact
+manifolds are Fredholm (Chapter~\ref{elliptic-operators}); the index is then computed by the Atiyah--Singer theorem, and its vanishing for the Laplacian is what produces harmonic representatives.
+\end{remark}
+
+\section{Weak topologies}\label{functional-analysis:section-weak}
+
+\begin{definition}\label{functional-analysis:definition-weak}
+The \emph{weak topology} on a normed space $X$ is the initial topology (Definition~\ref{general-topology:definition-initial-final}) for all $\Lambda \in X^*$; $x_n \rightharpoonup x$ weakly means
+$\Lambda(x_n) \to \Lambda(x)$ for all $\Lambda$. The \emph{weak-$*$ topology} on $X^*$ is the initial topology for the evaluations at points of $X$.
+\end{definition}
+
+\begin{theorem}[Banach--Alaoglu]\label{functional-analysis:theorem-alaoglu}
+The closed unit ball of $X^*$ is weak-$*$ compact. If $H$ is a separable Hilbert space, every bounded sequence in $H$ has a weakly convergent subsequence.
+\end{theorem}
+
+\begin{proof}
+Map $\Lambda \mapsto (\Lambda(x))_{x \in X}$ into $\prod_{x \in X}\overline{D}(0, \|x\|)$, which is compact by Tychonoff's theorem (Theorem~\ref{general-topology:theorem-tychonoff}). The image consists of the
+families satisfying the (closed) linearity conditions $\lambda_{ax+by} = a\lambda_x + b\lambda_y$, so it is a closed subset, hence compact, and the map is a homeomorphism onto its image by definition of the
+weak-$*$ topology. For the second statement let $(x_n)$ be bounded and $(y_k)$ a dense sequence in $H$. By a diagonal argument, after passing to a subsequence $\langle x_n, y_k \rangle$ converges for every $k$,
+hence $\langle x_n, y \rangle$ converges for every $y$ (uniformly approximate $y$ by the $y_k$, using boundedness). The limit is a bounded conjugate-linear functional of $y$, so it is $\langle x, y \rangle$ for
+some $x$ by Theorem~\ref{functional-analysis:theorem-riesz-representation}.
+\end{proof}
+
+\begin{counterexample}\label{functional-analysis:counterexample-weak}
+Weak convergence does not imply norm convergence: an orthonormal sequence $(e_n)$ in a Hilbert space satisfies $e_n \rightharpoonup 0$ by Bessel's inequality, while $\|e_n\| = 1$. By
+Proposition~\ref{functional-analysis:proposition-banach-examples}(3), the closed unit ball of an infinite-dimensional space is never norm compact, although it is weakly compact for Hilbert spaces.
+\end{counterexample}
+
+\section{Exercises}\label{functional-analysis:section-exercises}
+
+\begin{exercise}\label{functional-analysis:exercise-adjoint-properties}
+Show that $(ST)^* = T^*S^*$, $T^{**} = T$ and $\|T^*T\| = \|T\|^2$ for bounded operators on a Hilbert space.
+\end{exercise}
+
+\begin{solution}
+The first two follow from uniqueness of adjoints. For the last, $\|T^*T\| \leq \|T\|^2$, and $\|Tx\|^2 = \langle T^*Tx, x \rangle \leq \|T^*T\|\,\|x\|^2$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-integral-operator}
+Let $k \in L^2([0,1]^2)$ and $(Tf)(x) = \int_0^1k(x, y)f(y)\,dy$. Show that $T$ is a compact operator on $L^2([0,1])$ with $\|T\| \leq \|k\|_2$, and that $T^*$ has kernel $\overline{k(y, x)}$.
+\end{exercise}
+
+\begin{solution}
+Boundedness follows from Cauchy--Schwarz and Fubini's theorem. Kernels of the form $\sum_i\phi_i(x)\psi_i(y)$ give finite rank operators and are dense in $L^2([0,1]^2)$ (products of an orthonormal basis of
+$L^2([0,1])$ form an orthonormal basis of $L^2([0,1]^2)$), so $T$ is a limit of finite rank operators. The formula for $T^*$ is Fubini's theorem.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-no-hahn-banach-norm}
+Show that the functional $f \mapsto f(0)$ on $C([-1,1])$ is not continuous for the $L^2$ norm, and deduce that it does not extend to $L^2([-1,1])$.
+\end{exercise}
+
+\begin{exercise}\label{functional-analysis:exercise-spectral-projections}
+Let $T$ be compact self-adjoint with eigenvalues $\lambda_k$ and orthonormal eigenvectors $e_k$. Show that $Tx = \sum_k\lambda_k\langle x, e_k \rangle e_k$, that $T$ is a norm limit of the finite rank operators
+obtained by truncating this sum, and that $\|T\| = \max_k|\lambda_k|$.
+\end{exercise}
