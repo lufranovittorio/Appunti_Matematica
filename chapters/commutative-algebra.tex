@@ -1,20 +1,703 @@
 \chapter{Commutative Algebra}\label{commutative-algebra}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-The algebraic foundations of algebraic geometry and of the local theory of analytic functions.
+\section{Introduction}\label{commutative-algebra:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{rings} (Rings and Modules) and Chapter~\ref{fields} (Fields and Galois Theory).
+Commutative algebra is the local theory of algebraic geometry. This chapter develops the tools used in
+Part~\ref{part-algebraic-geometry} and in the local theory of analytic functions
+(Chapter~\ref{several-complex-variables}): localisation, Nakayama's lemma, Noetherian and Artinian rings,
+integral extensions and Noether normalisation, the Nullstellensatz, primary decomposition, dimension theory,
+regular local rings and Dedekind domains, completions, and K\"ahler differentials.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Prime spectrum, nilradical and Jacobson radical.
-\item Localisation of rings and modules.
-\item Noetherian and Artinian rings; Hilbert's basis theorem.
-\item Integral extensions; going up and going down.
-\item Hilbert's Nullstellensatz.
-\item Primary decomposition and associated primes.
-\item Dimension theory: Krull dimension, Krull's principal ideal theorem, systems of parameters.
-\item Regular local rings, discrete valuation rings and Dedekind domains.
-\item Completions, the Artin--Rees lemma and Krull's intersection theorem.
-\item Flatness and K\"ahler differentials.
-\end{itemize}
+References are \cite{atiyah-macdonald}, \cite{matsumura-crt} and \cite{eisenbud-ca}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{rings} (Rings and Modules), Chapter~\ref{fields} (Fields and
+Galois Theory) and Chapter~\ref{linear-algebra} (Linear Algebra).
+
+In accordance with Notation~\ref{introduction:notation-rings}, from now on all rings are commutative with $1$.
+
+\section{Prime ideals and radicals}\label{commutative-algebra:section-radicals}
+
+\begin{definition}\label{commutative-algebra:definition-spectrum}
+The \emph{spectrum} $\Spec R$ is the set of prime ideals of $R$. For an ideal $I$ let
+$V(I) = \{\mathfrak{p} \in \Spec R : I \subseteq \mathfrak{p}\}$, and for $f \in R$ let
+$D(f) = \{\mathfrak{p} : f \notin \mathfrak{p}\}$. The \emph{nilradical} of $R$ is the set of nilpotent elements, the
+\emph{Jacobson radical} $J(R)$ is the intersection of all maximal ideals, and the \emph{radical} of an ideal is
+$\sqrt I = \{f : f^n \in I \text{ for some } n\}$.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-nilradical}
+\begin{enumerate}
+\item The nilradical is the intersection of all prime ideals, and $\sqrt I$ is the intersection of all primes
+containing $I$.
+\item More precisely, if $S \subseteq R$ is closed under multiplication, $1 \in S$, and $I$ is an ideal with
+$I \cap S = \emptyset$, then there is a prime $\mathfrak{p} \supseteq I$ with $\mathfrak{p} \cap S = \emptyset$.
+\item $x \in J(R)$ if and only if $1 - xy$ is a unit for all $y \in R$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(2) The set of ideals containing $I$ and disjoint from $S$ is nonempty and closed under unions of chains, so
+it has a maximal element $\mathfrak{p}$ by Zorn's lemma. If $a, b \notin \mathfrak{p}$, then $\mathfrak{p} + (a)$ and
+$\mathfrak{p} + (b)$ meet $S$, say $s = p_1 + ra$ and $t = p_2 + r'b$; then $st \in \mathfrak{p} + (ab)$ lies in $S$, so
+$ab \notin \mathfrak{p}$. Also $1 \in S$, so $\mathfrak{p} \neq R$.
+(1) A nilpotent element lies in every prime. If $f$ is not nilpotent, apply (2) with $S = \{f^n\}$ and $I = 0$. For
+$\sqrt I$, apply this to $R/I$.
+(3) If $x \in J(R)$ and $1 - xy$ is not a unit, it lies in a maximal ideal $\mathfrak{m}$
+(Theorem~\ref{rings:theorem-maximal-ideals-exist}), which also contains $xy$, hence $1$. Conversely if
+$x \notin \mathfrak{m}$ for a maximal $\mathfrak{m}$, then $\mathfrak{m} + (x) = R$, so $1 = u + xy$ with $u \in \mathfrak{m}$, and
+$1 - xy = u$ is not a unit.
+\end{proof}
+
+\begin{lemma}[Prime avoidance]\label{commutative-algebra:lemma-prime-avoidance}
+If an ideal $I$ is contained in the union of prime ideals $\mathfrak{p}_1, \ldots, \mathfrak{p}_n$, then $I \subseteq \mathfrak{p}_i$ for
+some $i$.
+\end{lemma}
+
+\begin{proof}
+By induction on $n$; suppose $I \not\subseteq \bigcup_{j \neq i}\mathfrak{p}_j$ for each $i$ (otherwise use induction), and choose
+$x_i \in I$ with $x_i \notin \mathfrak{p}_j$ for $j \neq i$. Then $x_i \in \mathfrak{p}_i$ for all $i$. The element
+$y = x_1 + x_2 \cdots x_n$ lies in $I$ but in no $\mathfrak{p}_i$: for $i = 1$, $x_1 \in \mathfrak{p}_1$ and $x_2 \cdots x_n \notin \mathfrak{p}_1$; for
+$i \geq 2$, $x_1 \notin \mathfrak{p}_i$ while $x_2 \cdots x_n \in \mathfrak{p}_i$. This contradicts
+$I \subseteq \mathfrak{p}_1 \cup \cdots \cup \mathfrak{p}_n$.
+\end{proof}
+
+\section{Localisation}\label{commutative-algebra:section-localisation}
+
+\begin{definition}\label{commutative-algebra:definition-localisation}
+A subset $S \subseteq R$ is \emph{multiplicative} if $1 \in S$ and $st \in S$ for $s, t \in S$. For an $R$-module $M$, the
+\emph{localisation} $S^{-1}M$ is the set of equivalence classes $m/s$ of pairs $(m, s) \in M \times S$ under
+$(m, s) \sim (m', s') \iff t(s'm - sm') = 0$ for some $t \in S$, with $m/s + m'/s' = (s'm + sm')/ss'$. For $M = R$ it is a
+ring with $(r/s)(r'/s') = rr'/ss'$, and $S^{-1}M$ is an $S^{-1}R$-module. For $f \in R$ we write $R_f$ for
+$S^{-1}R$ with $S = \{f^n\}$, and for a prime $\mathfrak{p}$ we write $R_\mathfrak{p}$, $M_\mathfrak{p}$ for $S = R \setminus \mathfrak{p}$.
+A ring is \emph{local} if it has exactly one maximal ideal.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-localisation}
+\begin{enumerate}
+\item $\sim$ is an equivalence relation and the operations are well defined. The map $R \to S^{-1}R$,
+$r \mapsto r/1$, is a ring homomorphism sending $S$ to units, and every homomorphism $\varphi \colon R \to B$ sending $S$ to
+units factors uniquely through it.
+\item If $M' \to M \to M''$ is exact, so is $S^{-1}M' \to S^{-1}M \to S^{-1}M''$. There is a natural isomorphism
+$S^{-1}R \otimes_R M \cong S^{-1}M$; hence $S^{-1}R$ is a flat $R$-module.
+\item The primes of $S^{-1}R$ are the $S^{-1}\mathfrak{p}$ for primes $\mathfrak{p}$ of $R$ with $\mathfrak{p} \cap S = \emptyset$, and this is an
+inclusion-preserving bijection with inverse $\mathfrak{q} \mapsto$ its preimage in $R$. In particular $R_\mathfrak{p}$ is local with
+maximal ideal $\mathfrak{p}R_\mathfrak{p}$.
+\item A ring is local if and only if its nonunits form an ideal.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Transitivity: from $t(s'm - sm') = 0$ and $t'(s''m' - s'm'') = 0$, multiplying by $t's''$ and $ts$ and adding gives
+$tt's'(s''m - sm'') = 0$. The other verifications are similar. Given $\varphi$, the map $r/s \mapsto \varphi(r)\varphi(s)^{-1}$ is well
+defined since $t(s'r - sr') = 0$ implies $\varphi(s'r) = \varphi(sr')$, and it is forced.
+(2) Let $f \colon M' \to M$, $g \colon M \to M''$ with $\im f = \ker g$. If $g(m)/s = 0$, then $tg(m) = 0$ for some $t$, so
+$tm = f(m')$ and $m/s = f(m')/ts$. The map $S^{-1}R \times M \to S^{-1}M$, $(r/s, m) \mapsto rm/s$, is bilinear, and
+$m/s \mapsto (1/s) \otimes m$ is a well-defined inverse of the induced map: if $t(s'm - sm') = 0$ then
+$(1/s) \otimes m = (1/tss')\otimes ts'm = (1/tss') \otimes tsm' = (1/s') \otimes m'$. So $S^{-1}R \otimes -$ is exact, that is, $S^{-1}R$
+is flat.
+(3) If $\mathfrak{q}$ is a prime of $S^{-1}R$, its preimage $\mathfrak{p}$ is prime and disjoint from $S$, and $\mathfrak{q} = S^{-1}\mathfrak{p}$
+since $r/s \in \mathfrak{q}$ iff $r/1 \in \mathfrak{q}$. Conversely, for $\mathfrak{p}$ disjoint from $S$, $S^{-1}\mathfrak{p}$ is a proper ideal,
+it is prime because $(r/s)(r'/s') \in S^{-1}\mathfrak{p}$ gives $trr' \in \mathfrak{p}$ for some $t \in S$, and its preimage is $\mathfrak{p}$ by
+the same argument. For $R_\mathfrak{p}$, the primes correspond to primes contained in $\mathfrak{p}$.
+(4) If the nonunits form an ideal, it is the unique maximal ideal. If $R$ is local with maximal ideal $\mathfrak{m}$, every
+nonunit lies in a maximal ideal, hence in $\mathfrak{m}$.
+\end{proof}
+
+\begin{proposition}\label{commutative-algebra:proposition-local-global}
+For an $R$-module $M$ the following are equivalent: $M = 0$; $M_\mathfrak{p} = 0$ for all primes $\mathfrak{p}$; $M_\mathfrak{m} = 0$ for all
+maximal ideals $\mathfrak{m}$. A homomorphism $M \to N$ is injective (surjective) if and only if all $M_\mathfrak{m} \to N_\mathfrak{m}$
+are.
+\end{proposition}
+
+\begin{proof}
+If $x \in M$ is nonzero, its annihilator is a proper ideal, contained in a maximal ideal $\mathfrak{m}$, and then
+$x/1 \neq 0$ in $M_\mathfrak{m}$. The second statement follows by applying the first to kernels and cokernels, which commute
+with localisation by Proposition~\ref{commutative-algebra:proposition-localisation}(2).
+\end{proof}
+
+\begin{example}\label{commutative-algebra:example-localisations}
+$\ZZ_{(p)}$ is the ring of rationals whose denominators are prime to $p$, a local ring with maximal ideal
+$p\ZZ_{(p)}$; $\ZZ_{(0)} = \QQ$; and the localisation of $\ZZ$ at $f = p$ is $\ZZ[1/p]$, the ring of rationals whose
+denominators are powers of $p$ (we avoid the notation $\ZZ_p$ for it, which is reserved for the $p$-adic integers). Localisation can kill elements: in $(\ZZ/6\ZZ)_{(2)}$ the element $3$ is a unit and $2 \cdot 3 = 0$, so
+$2/1 = 0$ and $(\ZZ/6\ZZ)_{(2)} \cong \ZZ/2\ZZ$. If $f$ is nilpotent, $R_f = 0$.
+\end{example}
+
+\section{Nakayama's lemma}\label{commutative-algebra:section-nakayama}
+
+\begin{lemma}[Determinant trick]\label{commutative-algebra:lemma-determinant-trick}
+Let $M$ be an $R$-module generated by $n$ elements, $I$ an ideal and $\varphi \colon M \to M$ an $R$-linear map with
+$\varphi(M) \subseteq IM$. Then $\varphi^n + a_1\varphi^{n-1} + \cdots + a_n = 0$ for some $a_i \in I$.
+\end{lemma}
+
+\begin{proof}
+Let $x_1, \ldots, x_n$ generate $M$ and write $\varphi(x_i) = \sum_j a_{ij}x_j$ with $a_{ij} \in I$. View $M$ as a module over
+the commutative ring $R[\varphi]$ of endomorphisms. The matrix $T = \varphi I - (a_{ij})$ over $R[\varphi]$ kills the column
+vector $(x_j)$, so by Proposition~\ref{linear-algebra:proposition-determinant-properties}(4)
+$\det(T) x_j = \operatorname{adj}(T)T(x) = 0$ for all $j$, that is, $\det T = 0$ on $M$. Expanding the determinant gives the
+claim.
+\end{proof}
+
+\begin{theorem}[Nakayama's lemma]\label{commutative-algebra:theorem-nakayama}
+Let $M$ be a finitely generated $R$-module and $I$ an ideal with $IM = M$. Then there is $a \in 1 + I$ with $aM = 0$. If
+$I \subseteq J(R)$, then $M = 0$.
+\end{theorem}
+
+\begin{proof}
+Apply Lemma~\ref{commutative-algebra:lemma-determinant-trick} to $\varphi = \id$: $a = 1 + a_1 + \cdots + a_n$ kills $M$. If
+$I \subseteq J(R)$, $a$ is a unit by Proposition~\ref{commutative-algebra:proposition-nilradical}(3).
+\end{proof}
+
+\begin{corollary}\label{commutative-algebra:corollary-nakayama-generators}
+Let $(R, \mathfrak{m}, k)$ be a local ring and $M$ a finitely generated module. Elements $x_1, \ldots, x_n \in M$ generate $M$
+if and only if their images generate the $k$-vector space $M/\mathfrak{m}M$. Every minimal generating set has
+$\dim_k M/\mathfrak{m}M$ elements.
+\end{corollary}
+
+\begin{proof}
+Let $N$ be the submodule generated by the $x_i$. If their images generate $M/\mathfrak{m}M$ then $M = N + \mathfrak{m}M$, so
+$\mathfrak{m}(M/N) = M/N$ and $M/N = 0$ by Theorem~\ref{commutative-algebra:theorem-nakayama}. The last statement follows
+because a generating set of $M$ maps to a spanning set of $M/\mathfrak{m}M$, and a minimal one to a basis.
+\end{proof}
+
+\section{Noetherian and Artinian rings}\label{commutative-algebra:section-noetherian}
+
+\begin{definition}\label{commutative-algebra:definition-noetherian}
+A module is \emph{Noetherian} if every increasing chain of submodules is eventually constant, and
+\emph{Artinian} if every decreasing chain is. A ring is Noetherian (Artinian) if it is so as a module over
+itself.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-noetherian}
+\begin{enumerate}
+\item $M$ is Noetherian if and only if every submodule is finitely generated, if and only if every nonempty set
+of submodules has a maximal element.
+\item If $0 \to M' \to M \to M'' \to 0$ is exact, then $M$ is Noetherian (Artinian) if and only if $M'$ and $M''$ are.
+\item Over a Noetherian ring, finitely generated modules are Noetherian; quotients and localisations of Noetherian
+rings are Noetherian.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $N$ is not finitely generated, choose $x_1, x_2, \ldots \in N$ with $x_{n+1} \notin (x_1, \ldots, x_n)$, a strictly
+increasing chain (using dependent choice). If every submodule is finitely generated, the union of a chain is
+generated by finitely many elements, which lie in one member. A nonempty set without maximal element contains a
+strictly increasing chain, and conversely a strictly increasing chain has no maximal element.
+(2) A chain in $M$ gives chains in $M'$ and $M''$; if both stabilise, so does the original, because
+$N_1 \subseteq N_2$ with $N_1 \cap M' = N_2 \cap M'$ and equal images in $M''$ implies $N_1 = N_2$. The converse is clear.
+(3) $R^n$ is Noetherian by (2) and induction, and finitely generated modules are its quotients. Ideals of
+$S^{-1}R$ are of the form $S^{-1}I$ (by the argument of Proposition~\ref{commutative-algebra:proposition-localisation}(3)),
+so they are finitely generated.
+\end{proof}
+
+\begin{theorem}[Hilbert's basis theorem]\label{commutative-algebra:theorem-hilbert-basis}
+If $R$ is Noetherian, so is $R[x]$. Consequently every finitely generated $R$-algebra is Noetherian; in particular
+$k[x_1, \ldots, x_n]$ and $\ZZ[x_1, \ldots, x_n]$ are Noetherian.
+\end{theorem}
+
+\begin{proof}
+Let $I \subseteq R[x]$ be an ideal and $L_d \subseteq R$ the set of leading coefficients of elements of $I$ of degree $d$, together
+with $0$. These are ideals with $L_d \subseteq L_{d+1}$ (multiply by $x$), so $L_d = L_{d_0}$ for $d \geq d_0$. For each
+$d \leq d_0$ choose finitely many $f_{d,j} \in I$ of degree $d$ whose leading coefficients generate $L_d$. Let $I'$ be the
+ideal they generate. If $f \in I$ has degree $d$, some combination $g = \sum_j c_jx^{d - \min(d, d_0)}f_{\min(d,d_0), j}$ has
+the same degree and leading coefficient, so $f - g \in I$ has smaller degree; by induction on the degree $f \in I'$.
+So $I = I'$. The last statement follows from quotients (Proposition~\ref{commutative-algebra:proposition-noetherian}).
+\end{proof}
+
+\begin{counterexample}\label{commutative-algebra:counterexample-not-noetherian}
+The polynomial ring $k[x_1, x_2, \ldots]$ in infinitely many variables is not Noetherian:
+$(x_1) \subsetneq (x_1, x_2) \subsetneq \cdots$. It is a subring of its fraction field, which is Noetherian; so subrings of
+Noetherian rings need not be Noetherian.
+\end{counterexample}
+
+\begin{lemma}\label{commutative-algebra:lemma-finite-length}
+Let $R$ be a ring and $\mathfrak{m}_1, \ldots, \mathfrak{m}_n$ maximal ideals (not necessarily distinct) with
+$\mathfrak{m}_1 \cdots \mathfrak{m}_n = 0$. Then $R$ is Noetherian if and only if it is Artinian.
+\end{lemma}
+
+\begin{proof}
+Consider the chain $R \supseteq \mathfrak{m}_1 \supseteq \mathfrak{m}_1\mathfrak{m}_2 \supseteq \cdots \supseteq \mathfrak{m}_1 \cdots \mathfrak{m}_n = 0$.
+Each quotient is a vector space over the field $R/\mathfrak{m}_i$, and for a vector space the ascending and the descending
+chain conditions are both equivalent to finite dimension. By Proposition~\ref{commutative-algebra:proposition-noetherian}(2)
+applied along the chain, $R$ satisfies ACC iff all quotients are finite-dimensional iff $R$ satisfies DCC.
+\end{proof}
+
+\begin{theorem}\label{commutative-algebra:theorem-artinian}
+An Artinian ring $R$ is Noetherian, every prime ideal of $R$ is maximal, $R$ has finitely many maximal ideals, its
+nilradical is nilpotent, and $R$ is a finite product of local Artinian rings. (For the converse see
+Corollary~\ref{commutative-algebra:corollary-artinian-converse}.)
+\end{theorem}
+
+\begin{proof}
+Let $R$ be Artinian. If $\mathfrak{p}$ is prime, $R/\mathfrak{p}$ is an Artinian domain; for $x \neq 0$ the chain
+$(x) \supseteq (x^2) \supseteq \cdots$ stabilises, $x^n = x^{n+1}y$, so $xy = 1$; hence $\mathfrak{p}$ is maximal. Among finite
+intersections of maximal ideals choose a minimal one, $\mathfrak{m}_1 \cap \cdots \cap \mathfrak{m}_n$; every maximal $\mathfrak{m}$
+contains it, hence contains $\mathfrak{m}_1 \cdots \mathfrak{m}_n$ and so some $\mathfrak{m}_i$, and $\mathfrak{m} = \mathfrak{m}_i$. The nilradical
+$N = \mathfrak{m}_1 \cap \cdots \cap \mathfrak{m}_n$ satisfies $N^k = N^{k+1} = \cdots =: I$ for some $k$. If $I \neq 0$, choose an ideal
+$J$ minimal with $IJ \neq 0$; there is $x \in J$ with $xI \neq 0$, so $J = (x)$ by minimality, and $(xI)I = xI \neq 0$ with
+$xI \subseteq (x)$ gives $xI = (x)$, so $x = xy$ with $y \in I$, hence $x = xy^m = 0$ as $y$ is nilpotent; contradiction. So $N$ is
+nilpotent, $(\mathfrak{m}_1 \cdots \mathfrak{m}_n)^k \subseteq N^k = 0$, and $R$ is Noetherian by
+Lemma~\ref{commutative-algebra:lemma-finite-length}.
+
+Finally, the ideals $\mathfrak{m}_i^k$ are pairwise comaximal and their product is $0$, so $R \cong \prod_i R/\mathfrak{m}_i^k$ by
+Theorem~\ref{rings:theorem-chinese-remainder}, and $R/\mathfrak{m}_i^k$ is local with maximal ideal $\mathfrak{m}_i/\mathfrak{m}_i^k$.
+\end{proof}
+
+\section{Integral extensions}\label{commutative-algebra:section-integral}
+
+\begin{definition}\label{commutative-algebra:definition-integral}
+Let $A \subseteq B$ be rings. An element $b \in B$ is \emph{integral} over $A$ if it is a root of a monic polynomial with
+coefficients in $A$. $B$ is \emph{integral} over $A$ if all its elements are, and \emph{finite} over $A$ if it is a
+finitely generated $A$-module. The \emph{integral closure} of $A$ in $B$ is the set of elements integral over $A$. A
+domain is \emph{normal} (or integrally closed) if it equals its integral closure in its fraction field.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-integral}
+\begin{enumerate}
+\item $b$ is integral over $A$ if and only if $A[b]$ is a finite $A$-module, if and only if $b$ lies in a subring
+$C \subseteq B$ that is a finite $A$-module.
+\item The integral closure of $A$ in $B$ is a subring. If $A \subseteq B \subseteq C$ with $C$ integral over $B$ and $B$ integral over
+$A$, then $C$ is integral over $A$.
+\item If $A \subseteq B$ are domains and $B$ is integral over $A$, then $B$ is a field if and only if $A$ is.
+\item A unique factorisation domain is normal.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A monic equation of degree $n$ shows that $1, b, \ldots, b^{n-1}$ generate $A[b]$. If $b \in C$ with $C$ finite, apply
+Lemma~\ref{commutative-algebra:lemma-determinant-trick} to multiplication by $b$ on $C$ with $I = A$; the resulting
+polynomial kills $1 \in C$, so it vanishes at $b$.
+(2) If $b, b'$ are integral, $A[b, b']$ is finite over $A$, so $b \pm b'$ and $bb'$ are integral by (1). If $c \in C$ satisfies a
+monic equation with coefficients $b_1, \ldots, b_n \in B$, then $A[b_1, \ldots, b_n, c]$ is finite over $A$ by the tower
+of finite extensions, so $c$ is integral over $A$.
+(3) If $A$ is a field and $0 \neq b \in B$ satisfies $b^n + a_1b^{n-1} + \cdots + a_n = 0$ with $n$ minimal, then $a_n \neq 0$ (as
+$B$ is a domain), and $b^{-1} = -a_n^{-1}(b^{n-1} + \cdots + a_{n-1}) \in B$. If $B$ is a field and $0 \neq a \in A$, then $a^{-1} \in B$ is
+integral over $A$: $a^{-m} + c_1a^{-m+1} + \cdots + c_m = 0$, so $a^{-1} = -(c_1 + c_2a + \cdots + c_ma^{m-1}) \in A$.
+(4) If $x = r/s$ in lowest terms satisfies a monic equation of degree $n$, then
+$r^n = -s(a_1r^{n-1} + \cdots + a_ns^{n-1})$, so every prime factor of $s$ divides $r$; hence $s$ is a unit.
+\end{proof}
+
+\begin{theorem}[Lying over and going up]\label{commutative-algebra:theorem-going-up}
+Let $A \subseteq B$ be an integral extension and $\mathfrak{p}$ a prime of $A$.
+\begin{enumerate}
+\item There is a prime $\mathfrak{q}$ of $B$ with $\mathfrak{q} \cap A = \mathfrak{p}$.
+\item If $\mathfrak{q} \subseteq \mathfrak{q}'$ are primes of $B$ with $\mathfrak{q} \cap A = \mathfrak{q}' \cap A$, then $\mathfrak{q} = \mathfrak{q}'$
+(incomparability). A prime $\mathfrak{q}$ is maximal if and only if $\mathfrak{q} \cap A$ is maximal.
+\item If $\mathfrak{p} \subseteq \mathfrak{p}'$ are primes of $A$ and $\mathfrak{q} \cap A = \mathfrak{p}$, there is $\mathfrak{q}' \supseteq \mathfrak{q}$ with
+$\mathfrak{q}' \cap A = \mathfrak{p}'$ (going up).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For a prime $\mathfrak{q}$ of $B$ over $\mathfrak{p}$, the extension $A/\mathfrak{p} \subseteq B/\mathfrak{q}$ is integral, so by
+Proposition~\ref{commutative-algebra:proposition-integral}(3) $\mathfrak{q}$ is maximal iff $\mathfrak{p}$ is. This gives the second
+part of (2).
+
+(1) Let $S = A \setminus \mathfrak{p}$. Then $A_\mathfrak{p} \subseteq S^{-1}B$ is integral and $S^{-1}B \neq 0$. Let $\mathfrak{n}$ be a maximal
+ideal of $S^{-1}B$. Then $\mathfrak{n} \cap A_\mathfrak{p}$ is maximal by the first remark, hence equals $\mathfrak{p}A_\mathfrak{p}$, and the
+preimage $\mathfrak{q}$ of $\mathfrak{n}$ in $B$ satisfies $\mathfrak{q} \cap A = \mathfrak{p}$.
+(2) Localising at $S = A \setminus \mathfrak{p}$ as in (1), $S^{-1}\mathfrak{q} \subseteq S^{-1}\mathfrak{q}'$ both lie over the maximal ideal
+$\mathfrak{p}A_\mathfrak{p}$, hence are maximal, hence equal, and so $\mathfrak{q} = \mathfrak{q}'$.
+(3) Apply (1) to the integral extension $A/\mathfrak{p} \subseteq B/\mathfrak{q}$ and the prime $\mathfrak{p}'/\mathfrak{p}$.
+\end{proof}
+
+\begin{remark}\label{commutative-algebra:remark-going-down}
+If moreover $A$ is a normal domain and $B$ is a domain, the \emph{going down} theorem holds: given $\mathfrak{p}' \subseteq \mathfrak{p}$ and
+$\mathfrak{q}$ over $\mathfrak{p}$, there is $\mathfrak{q}' \subseteq \mathfrak{q}$ over $\mathfrak{p}'$ \cite[Theorem 5.16]{atiyah-macdonald}.
+\end{remark}
+
+\begin{theorem}[Noether normalisation]\label{commutative-algebra:theorem-noether-normalisation}
+Let $A$ be a finitely generated algebra over a field $k$. There are elements $y_1, \ldots, y_d \in A$, algebraically
+independent over $k$, such that $A$ is finite over $k[y_1, \ldots, y_d]$.
+\end{theorem}
+
+\begin{proof}
+By induction on the number $n$ of generators $x_1, \ldots, x_n$. If they are algebraically independent, take $y_i = x_i$.
+Otherwise let $F \neq 0$ be a polynomial with $F(x_1, \ldots, x_n) = 0$, and let $r$ be larger than all exponents occurring in
+$F$. Put $z_i = x_i - x_n^{r^i}$ for $i < n$. Substituting $x_i = z_i + x_n^{r^i}$, a monomial
+$c\,x_1^{a_1} \cdots x_n^{a_n}$ of $F$ becomes $c\,x_n^{a_n + a_1r + \cdots + a_{n-1}r^{n-1}}$ plus terms of lower degree in $x_n$
+with coefficients in $k[z_1, \ldots, z_{n-1}]$. The exponents $a_n + a_1r + \cdots$ of distinct monomials are distinct (base $r$
+expansions), so exactly one monomial produces the highest power of $x_n$. Dividing by its coefficient, $x_n$ satisfies a
+monic equation over $k[z_1, \ldots, z_{n-1}]$. So $A = k[z_1, \ldots, z_{n-1}][x_n]$ is finite over
+$k[z_1, \ldots, z_{n-1}]$, which by induction is finite over a polynomial ring $k[y_1, \ldots, y_d]$; conclude with
+Proposition~\ref{commutative-algebra:proposition-integral}(2).
+\end{proof}
+
+\section{The Nullstellensatz}\label{commutative-algebra:section-nullstellensatz}
+
+\begin{theorem}[Zariski's lemma]\label{commutative-algebra:theorem-zariski-lemma}
+Let $k$ be a field and $L$ a field that is finitely generated as a $k$-algebra. Then $L$ is a finite extension of $k$.
+Consequently, for every finitely generated $k$-algebra $A$ and maximal ideal $\mathfrak{m}$, $A/\mathfrak{m}$ is finite over $k$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{commutative-algebra:theorem-noether-normalisation}, $L$ is finite over some $k[y_1, \ldots, y_d]$, which is then a
+field by Proposition~\ref{commutative-algebra:proposition-integral}(3). A polynomial ring in $d \geq 1$ variables is not a field,
+so $d = 0$.
+\end{proof}
+
+\begin{theorem}[Hilbert's Nullstellensatz]\label{commutative-algebra:theorem-nullstellensatz}
+Let $k$ be algebraically closed. For $I \subseteq k[x_1, \ldots, x_n]$ let
+$Z(I) = \{a \in k^n : f(a) = 0 \text{ for all } f \in I\}$.
+\begin{enumerate}
+\item The maximal ideals of $k[x_1, \ldots, x_n]$ are the ideals $(x_1 - a_1, \ldots, x_n - a_n)$, $a \in k^n$.
+\item If $I \neq (1)$ then $Z(I) \neq \emptyset$.
+\item If $f$ vanishes on $Z(I)$, then $f \in \sqrt I$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) The ideal $(x_1 - a_1, \ldots, x_n - a_n)$ is the kernel of evaluation at $a$, which is surjective onto $k$, so it is maximal.
+If $\mathfrak{m}$ is maximal, $k[x]/\mathfrak{m}$ is a finite extension of $k$ by Theorem~\ref{commutative-algebra:theorem-zariski-lemma}, hence
+equals $k$; so $x_i \equiv a_i$ modulo $\mathfrak{m}$ for some $a_i \in k$, and $\mathfrak{m}$ contains, hence equals, $(x - a)$.
+(2) A proper ideal lies in a maximal ideal $(x - a)$, and then $a \in Z(I)$.
+(3) (Rabinowitsch) We may assume $f \neq 0$. In $k[x_1, \ldots, x_n, y]$ the ideal $J = Ik[x, y] + (1 - yf)$ has no zeros, since at a zero $(a, b)$ we would have
+$a \in Z(I)$, so $f(a) = 0$ and $1 - bf(a) = 1$. By (2), $1 = \sum_i g_ih_i + g(1 - yf)$ with $h_i \in I$. Substituting $y = 1/f$ in
+$k(x_1, \ldots, x_n)$ and multiplying by a high power $f^N$ gives $f^N = \sum_i g_i'h_i \in I$.
+\end{proof}
+
+\begin{counterexample}\label{commutative-algebra:counterexample-nullstellensatz-real}
+Algebraic closedness is needed: over $\RR$, the ideal $(x^2 + 1) \subsetneq \RR[x]$ is maximal but has no zeros in $\RR$, and
+$\RR[x]/(x^2 + 1) \cong \CC$ is a finite extension of $\RR$ different from $\RR$.
+\end{counterexample}
+
+\begin{corollary}\label{commutative-algebra:corollary-jacobson}
+In a finitely generated algebra $A$ over a field, the nilradical equals the Jacobson radical.
+\end{corollary}
+
+\begin{proof}
+Let $f \in A$ be non-nilpotent. Then $A_f \neq 0$ has a maximal ideal $\mathfrak{n}$, and $A_f \cong A[t]/(tf - 1)$ is finitely generated, so
+$A_f/\mathfrak{n}$ is a finite field extension of $k$. The preimage $\mathfrak{m}$ of $\mathfrak{n}$ in $A$ does not contain $f$, and
+$k \subseteq A/\mathfrak{m} \subseteq A_f/\mathfrak{n}$, so $A/\mathfrak{m}$ is a domain finite-dimensional over $k$, hence a field
+(Proposition~\ref{commutative-algebra:proposition-integral}(3)). So $f \notin J(A)$.
+\end{proof}
+
+\section{Primary decomposition}\label{commutative-algebra:section-primary}
+
+In this section $R$ is Noetherian.
+
+\begin{definition}\label{commutative-algebra:definition-associated-primary}
+Let $M$ be an $R$-module. A prime $\mathfrak{p}$ is \emph{associated} to $M$ if $\mathfrak{p} = \operatorname{Ann}(x)$ for some $x \in M$; we write
+$\operatorname{Ass}(M)$. An ideal $\mathfrak{q} \neq R$ is \emph{primary} if $xy \in \mathfrak{q}$ and $x \notin \mathfrak{q}$ imply $y^n \in \mathfrak{q}$ for
+some $n$. Then $\mathfrak{p} = \sqrt{\mathfrak{q}}$ is prime, and $\mathfrak{q}$ is called $\mathfrak{p}$-primary.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-associated-primes}
+Let $M$ be a finitely generated $R$-module.
+\begin{enumerate}
+\item Every maximal element of $\{\operatorname{Ann}(x) : 0 \neq x \in M\}$ is a prime ideal; so $M \neq 0$ implies $\operatorname{Ass}(M) \neq \emptyset$.
+\item The set of zero divisors on $M$ is $\bigcup_{\mathfrak{p} \in \operatorname{Ass}(M)}\mathfrak{p}$.
+\item There is a chain $0 = M_0 \subseteq \cdots \subseteq M_n = M$ with $M_i/M_{i-1} \cong R/\mathfrak{p}_i$ for primes $\mathfrak{p}_i$, and
+$\operatorname{Ass}(M) \subseteq \{\mathfrak{p}_1, \ldots, \mathfrak{p}_n\}$; in particular $\operatorname{Ass}(M)$ is finite.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Let $I = \operatorname{Ann}(x)$ be maximal and $ab \in I$ with $b \notin I$. Then $bx \neq 0$ and $\operatorname{Ann}(bx) \supseteq I + (a)$, so
+$a \in I$ by maximality. Maximal elements exist by Proposition~\ref{commutative-algebra:proposition-noetherian}(1).
+(2) Elements of associated primes are clearly zero divisors. If $ax = 0$ with $x \neq 0$, choose $z \in Rx$, $z \neq 0$, with
+$\operatorname{Ann}(z)$ maximal among the annihilators of nonzero elements of $Rx$. The argument of (1), applied inside $Rx$, shows
+that $\operatorname{Ann}(z)$ is prime, and it contains $\operatorname{Ann}(x) \ni a$.
+(3) By (1), choose $M_1 = Rx_1 \cong R/\mathfrak{p}_1$, then apply (1) to $M/M_1$, and so on; the chain stops since $M$ is
+Noetherian. If $0 \to M' \to M \to M'' \to 0$ is exact then $\operatorname{Ass}(M) \subseteq \operatorname{Ass}(M') \cup \operatorname{Ass}(M'')$: if
+$\operatorname{Ann}(x) = \mathfrak{p}$ and $Rx \cap M' \neq 0$, a nonzero $yx \in M'$ has annihilator $\mathfrak{p}$ (as $R/\mathfrak{p}$ is a domain); otherwise $Rx$
+maps isomorphically into $M''$. Finally $\operatorname{Ass}(R/\mathfrak{p}) = \{\mathfrak{p}\}$ since $R/\mathfrak{p}$ is a domain.
+\end{proof}
+
+\begin{theorem}[Lasker--Noether]\label{commutative-algebra:theorem-primary-decomposition}
+Every ideal $I \neq R$ of a Noetherian ring is a finite intersection $I = \mathfrak{q}_1 \cap \cdots \cap \mathfrak{q}_r$ of primary ideals.
+One can choose the decomposition with the primes $\sqrt{\mathfrak{q}_i}$ distinct and no $\mathfrak{q}_i$ superfluous; the set of these
+primes is then $\operatorname{Ass}(R/I)$, independent of the decomposition. The minimal elements of $\operatorname{Ass}(R/I)$ are the minimal
+primes containing $I$.
+\end{theorem}
+
+\begin{proof}
+Call $I$ \emph{irreducible} if $I = J \cap J'$ implies $I = J$ or $I = J'$. If some ideal is not a finite intersection of irreducible
+ideals, a maximal such ideal is reducible, a contradiction; so every ideal is a finite intersection of irreducibles. An
+irreducible ideal $I$ is primary: passing to $R/I$, suppose $xy = 0$ with $x \neq 0$. The chain
+$\operatorname{Ann}(y) \subseteq \operatorname{Ann}(y^2) \subseteq \cdots$ stabilises at $n$; then $(x) \cap (y^n) = 0$ (if $ax = by^n$ then $axy = 0 = by^{n+1}$, so
+$by^n = 0$), and irreducibility of $0$ gives $y^n = 0$.
+
+If $\mathfrak{q}$ is $\mathfrak{p}$-primary, then $\operatorname{Ass}(R/\mathfrak{q}) = \{\mathfrak{p}\}$: if $\operatorname{Ann}(\bar x) = \mathfrak{p}'$ with $x \notin \mathfrak{q}$, then
+$\mathfrak{p}' x \subseteq \mathfrak{q}$ gives $\mathfrak{p}' \subseteq \mathfrak{p}$, and every $a \in \mathfrak{p}$ has $a^n\bar x = 0$, so $a \in \mathfrak{p}'$. A finite
+intersection of $\mathfrak{p}$-primary ideals is $\mathfrak{p}$-primary, so we may merge components with the same prime, and delete
+superfluous ones. Then $R/I \hookrightarrow \bigoplus_i R/\mathfrak{q}_i$ gives $\operatorname{Ass}(R/I) \subseteq \{\mathfrak{p}_i\}$, by the argument in
+Proposition~\ref{commutative-algebra:proposition-associated-primes}(3). Conversely, if $\mathfrak{q}_i$ is not superfluous, choose
+$x \in \bigcap_{j \neq i}\mathfrak{q}_j \setminus \mathfrak{q}_i$; then $\bar x \in R/I$ generates a submodule isomorphic to a submodule of
+$R/\mathfrak{q}_i$, whose associated primes are $\{\mathfrak{p}_i\}$, so $\mathfrak{p}_i \in \operatorname{Ass}(R/I)$. For the last statement, a prime contains
+$I = \bigcap \mathfrak{q}_i$ iff it contains some $\mathfrak{q}_i$ iff it contains some $\mathfrak{p}_i$.
+\end{proof}
+
+\begin{example}\label{commutative-algebra:example-embedded-prime}
+In $k[x, y]$, $(x^2, xy) = (x) \cap (x^2, y)$, where $(x)$ is prime and $(x^2, y)$ is $(x, y)$-primary. The associated primes are
+$(x)$ and the \emph{embedded} prime $(x, y) \supsetneq (x)$. Geometrically, the ideal defines the line $x = 0$ with an extra
+infinitesimal structure at the origin.
+\end{example}
+
+\begin{corollary}\label{commutative-algebra:corollary-artinian-converse}
+A Noetherian ring in which every prime ideal is maximal is Artinian.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{commutative-algebra:theorem-primary-decomposition} applied to $I = 0$, the ring has finitely many
+minimal primes; since all primes are maximal, these are all the primes, say $\mathfrak{m}_1, \ldots, \mathfrak{m}_n$. Their intersection
+is the nilradical (Proposition~\ref{commutative-algebra:proposition-nilradical}), which is finitely generated, hence
+nilpotent: $(\mathfrak{m}_1 \cap \cdots \cap \mathfrak{m}_n)^k = 0$. Then $(\mathfrak{m}_1 \cdots \mathfrak{m}_n)^k = 0$, and the ring is Artinian by
+Lemma~\ref{commutative-algebra:lemma-finite-length}.
+\end{proof}
+
+\section{Dimension theory}\label{commutative-algebra:section-dimension}
+
+\begin{definition}\label{commutative-algebra:definition-dimension}
+The \emph{Krull dimension} $\dim R$ is the supremum of the lengths $n$ of chains of primes
+$\mathfrak{p}_0 \subsetneq \cdots \subsetneq \mathfrak{p}_n$. The \emph{height} of a prime is $\operatorname{ht}\mathfrak{p} = \dim R_\mathfrak{p}$, the supremum of lengths of
+chains ending at $\mathfrak{p}$.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-dimension-integral}
+If $B$ is integral over $A$, then $\dim B = \dim A$.
+\end{proposition}
+
+\begin{proof}
+A chain of primes of $B$ contracts to a chain in $A$ with strict inclusions by incomparability, and a chain in $A$ lifts by lying
+over and going up (Theorem~\ref{commutative-algebra:theorem-going-up}).
+\end{proof}
+
+\begin{theorem}\label{commutative-algebra:theorem-dimension-finitely-generated}
+Let $A$ be a finitely generated $k$-algebra that is a domain. Then $\dim A = \operatorname{trdeg}_k \mathrm{Frac}(A)$. In particular
+$\dim k[x_1, \ldots, x_n] = n$.
+\end{theorem}
+
+\begin{proof}
+Let $t = \operatorname{trdeg}_k\mathrm{Frac}(A)$. By Theorem~\ref{commutative-algebra:theorem-noether-normalisation}, $A$ is finite over a
+polynomial ring $k[y_1, \ldots, y_d]$; then $\mathrm{Frac}(A)$ is algebraic over $k(y_1, \ldots, y_d)$, so $d = t$, and
+$\dim A = \dim k[y_1, \ldots, y_t]$ by Proposition~\ref{commutative-algebra:proposition-dimension-integral}. The chain
+$0 \subsetneq (y_1) \subsetneq (y_1, y_2) \subsetneq \cdots \subsetneq (y_1, \ldots, y_t)$ consists of primes (the quotients are polynomial
+rings), so $\dim \geq t$. We show $\dim A \leq t$ for all such $A$ by induction on $t$; by the above we may assume
+$A = k[y_1, \ldots, y_t]$. Let $0 = \mathfrak{p}_0 \subsetneq \mathfrak{p}_1 \subsetneq \cdots \subsetneq \mathfrak{p}_m$ be a chain. The domain $A/\mathfrak{p}_1$ is
+generated by the images of the $y_i$, which satisfy a nontrivial polynomial relation (any nonzero element of $\mathfrak{p}_1$), so its
+fraction field has transcendence degree $< t$ (Theorem~\ref{fields:theorem-transcendence-degree}). By induction the chain
+$\mathfrak{p}_1/\mathfrak{p}_1 \subsetneq \cdots \subsetneq \mathfrak{p}_m/\mathfrak{p}_1$ has length $m - 1 \leq t - 1$.
+\end{proof}
+
+\begin{lemma}\label{commutative-algebra:lemma-noetherian-dimension-zero}
+A Noetherian local ring $(R, \mathfrak{m})$ in which $\mathfrak{m}$ is the only prime is Artinian, and $\mathfrak{m}^n = 0$ for some $n$.
+\end{lemma}
+
+\begin{proof}
+The nilradical is $\mathfrak{m}$ (Proposition~\ref{commutative-algebra:proposition-nilradical}), which is finitely generated, so
+$\mathfrak{m}^n = 0$; apply Lemma~\ref{commutative-algebra:lemma-finite-length}.
+\end{proof}
+
+\begin{theorem}[Krull's principal ideal theorem]\label{commutative-algebra:theorem-krull-hauptidealsatz}
+Let $R$ be Noetherian, $x \in R$, and $\mathfrak{p}$ a prime minimal among primes containing $x$. Then $\operatorname{ht}\mathfrak{p} \leq 1$. More
+generally, if $\mathfrak{p}$ is minimal over $(x_1, \ldots, x_r)$, then $\operatorname{ht}\mathfrak{p} \leq r$.
+\end{theorem}
+
+\begin{proof}
+Localising at $\mathfrak{p}$ we may assume $(R, \mathfrak{p})$ local with $\mathfrak{p}$ minimal over $(x)$. Let $\mathfrak{q} \subsetneq \mathfrak{p}$ be prime; we show
+$\operatorname{ht}\mathfrak{q} = 0$. For $n \geq 1$ let $\mathfrak{q}^{(n)} = \mathfrak{q}^nR_\mathfrak{q} \cap R$. The ring $R/(x)$ has $\mathfrak{p}/(x)$ as its only prime, so it
+is Artinian (Lemma~\ref{commutative-algebra:lemma-noetherian-dimension-zero}), and the chain $\mathfrak{q}^{(n)} + (x)$ stabilises: for large
+$n$, $\mathfrak{q}^{(n)} \subseteq \mathfrak{q}^{(n+1)} + (x)$. For $a \in \mathfrak{q}^{(n)}$ write $a = b + rx$ with $b \in \mathfrak{q}^{(n+1)}$; then
+$rx \in \mathfrak{q}^{(n)}$, and since $x \notin \mathfrak{q}$ (by minimality of $\mathfrak{p}$) and $x$ is a unit in $R_\mathfrak{q}$, $r \in \mathfrak{q}^{(n)}$. Hence
+$\mathfrak{q}^{(n)} = \mathfrak{q}^{(n+1)} + x\mathfrak{q}^{(n)}$, and Nakayama's lemma gives $\mathfrak{q}^{(n)} = \mathfrak{q}^{(n+1)}$. Localising,
+$\mathfrak{q}^nR_\mathfrak{q} = \mathfrak{q}^{n+1}R_\mathfrak{q}$, and Nakayama in $R_\mathfrak{q}$ gives $\mathfrak{q}^nR_\mathfrak{q} = 0$. So every prime of $R_\mathfrak{q}$, which
+contains $0 = (\mathfrak{q}R_\mathfrak{q})^n$, equals $\mathfrak{q}R_\mathfrak{q}$, and $\operatorname{ht}\mathfrak{q} = 0$.
+
+For the general statement, argue by induction on $r$, again with $(R, \mathfrak{p})$ local. Let $\mathfrak{q} \subsetneq \mathfrak{p}$ be a prime such that
+there is no prime strictly between them; it suffices to show $\operatorname{ht}\mathfrak{q} \leq r - 1$. As $\mathfrak{p}$ is minimal over $(x_1, \ldots, x_r)$,
+some $x_i$, say $x_r$, is not in $\mathfrak{q}$. Then $\mathfrak{p}$ is minimal over $\mathfrak{q} + (x_r)$, so $R/(\mathfrak{q} + (x_r))$ is Artinian and
+$x_i^N \in \mathfrak{q} + (x_r)$ for $i < r$: write $x_i^N = y_i + a_ix_r$ with $y_i \in \mathfrak{q}$. Every prime containing
+$(y_1, \ldots, y_{r-1}, x_r)$ contains all $x_i$, so $\mathfrak{p}$ is minimal over $(y_1, \ldots, y_{r-1}, x_r)$, hence $\mathfrak{p}/I$ is minimal
+over $(\bar x_r)$ in $R/I$, $I = (y_1, \ldots, y_{r-1})$. By the case $r = 1$, $\operatorname{ht}(\mathfrak{p}/I) \leq 1$, so $\mathfrak{q}/I$ is a minimal prime of
+$R/I$, that is, $\mathfrak{q}$ is minimal over $I$, and by induction $\operatorname{ht}\mathfrak{q} \leq r - 1$.
+\end{proof}
+
+\begin{corollary}\label{commutative-algebra:corollary-local-dimension-finite}
+A Noetherian local ring $(R, \mathfrak{m}, k)$ has $\dim R \leq \dim_k \mathfrak{m}/\mathfrak{m}^2 < \infty$.
+\end{corollary}
+
+\begin{proof}
+By Corollary~\ref{commutative-algebra:corollary-nakayama-generators}, $\mathfrak{m}$ is generated by $\dim_k\mathfrak{m}/\mathfrak{m}^2$ elements, and
+$\operatorname{ht}\mathfrak{m} = \dim R$.
+\end{proof}
+
+\section{Completions}\label{commutative-algebra:section-completions}
+
+\begin{lemma}[Artin--Rees]\label{commutative-algebra:lemma-artin-rees}
+Let $R$ be Noetherian, $I$ an ideal, $M$ a finitely generated module and $N \subseteq M$ a submodule. There is $c$ such that
+$I^nM \cap N = I^{n-c}(I^cM \cap N)$ for all $n \geq c$.
+\end{lemma}
+
+\begin{proof}
+The \emph{Rees algebra} $R^* = \bigoplus_n I^n$ is a finitely generated $R$-algebra (generated by generators of $I$ in degree $1$), hence
+Noetherian, and $M^* = \bigoplus_n I^nM$ is a finitely generated graded $R^*$-module. Its graded submodule
+$N^* = \bigoplus_n(I^nM \cap N)$ is therefore finitely generated, by homogeneous elements of degrees at most some $c$. For $n \geq c$,
+this means $I^nM \cap N = \sum_{j \leq c} I^{n-j}(I^jM \cap N) \subseteq I^{n-c}(I^cM \cap N)$, and the reverse inclusion is clear.
+\end{proof}
+
+\begin{theorem}[Krull's intersection theorem]\label{commutative-algebra:theorem-krull-intersection}
+Let $R$ be Noetherian, $I$ an ideal and $M$ finitely generated, and $N = \bigcap_n I^nM$. Then $IN = N$, so $aN = 0$ for some
+$a \in 1 + I$. If $I \subseteq J(R)$, for instance if $R$ is local and $I \neq R$, then $\bigcap_nI^nM = 0$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{commutative-algebra:lemma-artin-rees}, $N = I^{c+1}M \cap N = I(I^cM \cap N) = IN$. Apply
+Theorem~\ref{commutative-algebra:theorem-nakayama}.
+\end{proof}
+
+\begin{definition}\label{commutative-algebra:definition-completion}
+The $I$-adic \emph{completion} of a module $M$ is $\hat M = \lim_n M/I^nM$, the inverse limit
+(Example~\ref{categories:example-limits}) of the quotients. For $M = R$ it is a ring $\hat R$, and there is a natural map $M \to \hat M$,
+injective for $R$ Noetherian local, $I = \mathfrak{m}$ and $M$ finitely generated, by
+Theorem~\ref{commutative-algebra:theorem-krull-intersection}.
+\end{definition}
+
+\begin{example}\label{commutative-algebra:example-completions}
+The completion of $k[x_1, \ldots, x_n]$ at $(x_1, \ldots, x_n)$ is the power series ring $k[[x_1, \ldots, x_n]]$, and the completion of
+$\ZZ$ at $(p)$ is the ring $\ZZ_p$ of $p$-adic integers. For $R$ Noetherian, $\hat R$ is Noetherian and flat over $R$, and completion is
+exact on finitely generated modules \cite[Chapter 10]{atiyah-macdonald}.
+\end{example}
+
+\section{Regular local rings and Dedekind domains}\label{commutative-algebra:section-regular}
+
+\begin{definition}\label{commutative-algebra:definition-regular}
+A Noetherian local ring $(R, \mathfrak{m}, k)$ is \emph{regular} if $\dim R = \dim_k\mathfrak{m}/\mathfrak{m}^2$. A \emph{discrete valuation ring}
+(DVR) is a domain $R$ with a surjective map $v \colon \mathrm{Frac}(R)^\times \to \ZZ$ such that $v(xy) = v(x) + v(y)$,
+$v(x + y) \geq \min(v(x), v(y))$, and $R = \{0\} \cup \{x : v(x) \geq 0\}$. A \emph{Dedekind domain} is a Noetherian normal domain of
+dimension at most $1$.
+\end{definition}
+
+\begin{theorem}\label{commutative-algebra:theorem-dvr}
+For a Noetherian local domain $(R, \mathfrak{m}, k)$ of dimension $1$, the following are equivalent: $R$ is a DVR; $R$ is normal; $\mathfrak{m}$
+is principal; $R$ is regular.
+\end{theorem}
+
+\begin{proof}
+DVR $\Rightarrow$ normal: if $x \notin R$ satisfies a monic equation $x^n + a_1x^{n-1} + \cdots + a_n = 0$, then $v(x) < 0$ and $v(x^n)$ is
+smaller than the valuation of every other term, a contradiction.
+
+Normal $\Rightarrow$ $\mathfrak{m}$ principal: the only primes are $0$ and $\mathfrak{m}$, so for $0 \neq a \in \mathfrak{m}$, $R/(a)$ is Artinian and
+$\mathfrak{m}^n \subseteq (a)$, $\mathfrak{m}^{n-1} \not\subseteq (a)$ for some $n \geq 1$. Choose $b \in \mathfrak{m}^{n-1} \setminus (a)$ and let $x = a/b \in \mathrm{Frac}(R)$.
+Then $x^{-1} \notin R$ and $x^{-1}\mathfrak{m} \subseteq R$ (since $b\mathfrak{m} \subseteq \mathfrak{m}^n \subseteq (a)$). If $x^{-1}\mathfrak{m} \subseteq \mathfrak{m}$, apply
+Lemma~\ref{commutative-algebra:lemma-determinant-trick} to multiplication by $x^{-1}$ on the finitely generated module $\mathfrak{m}$
+(with $I = R$): the resulting monic polynomial in $x^{-1}$ kills the nonzero elements of $\mathfrak{m} \subseteq \mathrm{Frac}(R)$, hence
+vanishes at $x^{-1}$, so $x^{-1}$ is integral over $R$, contradicting normality. So $x^{-1}\mathfrak{m}$ is an ideal not contained in
+$\mathfrak{m}$, that is, $x^{-1}\mathfrak{m} = R$, and $\mathfrak{m} = xR$.
+
+$\mathfrak{m}$ principal $\Rightarrow$ DVR: let $\mathfrak{m} = (t)$. By Krull's intersection theorem
+(Theorem~\ref{commutative-algebra:theorem-krull-intersection} below), $\bigcap_n \mathfrak{m}^n = 0$, so every $0 \neq r \in R$ is
+$r = ut^n$ with $u$ a unit and $n$ unique; put $v(ut^n/u't^{n'}) = n - n'$.
+
+$\mathfrak{m}$ principal $\Leftrightarrow$ regular: $\dim_k\mathfrak{m}/\mathfrak{m}^2 \geq \dim R = 1$ by
+Corollary~\ref{commutative-algebra:corollary-local-dimension-finite}, and it equals $1$ iff $\mathfrak{m}$ is principal by
+Corollary~\ref{commutative-algebra:corollary-nakayama-generators}.
+\end{proof}
+
+\begin{remark}\label{commutative-algebra:remark-regular-domain}
+Every regular local ring is a domain, and in fact a UFD \cite[Theorems 14.3 and 20.3]{matsumura-crt}. The local rings
+$k[x_1, \ldots, x_n]_{(x_1, \ldots, x_n)}$ are regular of dimension $n$: the images of the $x_i$ form a basis of $\mathfrak{m}/\mathfrak{m}^2$, and the
+dimension is at least $n$ because of the chain $0 \subsetneq (x_1) \subsetneq \cdots$, and at most $n$ by
+Corollary~\ref{commutative-algebra:corollary-local-dimension-finite}. Regularity is the algebraic counterpart of smoothness
+(Chapter~\ref{varieties}).
+\end{remark}
+
+\begin{theorem}\label{commutative-algebra:theorem-dedekind}
+In a Dedekind domain $R$ every nonzero ideal $I$ is uniquely a product $\mathfrak{p}_1^{n_1} \cdots \mathfrak{p}_r^{n_r}$ of distinct nonzero
+primes.
+\end{theorem}
+
+\begin{proof}
+If $I = R$ take the empty product. Otherwise let $I = \mathfrak{q}_1 \cap \cdots \cap \mathfrak{q}_r$ be a primary decomposition with distinct primes
+$\mathfrak{p}_i = \sqrt{\mathfrak{q}_i}$, which are nonzero, hence maximal. The $\mathfrak{q}_i$ are pairwise comaximal (their radicals are distinct
+maximal ideals), so $I = \mathfrak{q}_1 \cdots \mathfrak{q}_r$ by Theorem~\ref{rings:theorem-chinese-remainder}. Each $R_{\mathfrak{p}_i}$ is a Noetherian
+local domain of dimension $1$, and it is normal: if $x \in \mathrm{Frac}(R)$ satisfies a monic equation with coefficients
+$a_j/s_j \in R_{\mathfrak{p}_i}$, then with $s = \prod_j s_j$ the element $sx$ satisfies a monic equation over $R$, so $sx \in R$ and
+$x \in R_{\mathfrak{p}_i}$. By Theorem~\ref{commutative-algebra:theorem-dvr} it is a DVR, so
+$\mathfrak{q}_iR_{\mathfrak{p}_i} = \mathfrak{p}_i^{n_i}R_{\mathfrak{p}_i}$ for some $n_i$. Both $\mathfrak{q}_i$ and $\mathfrak{p}_i^{n_i}$ are $\mathfrak{p}_i$-primary (an ideal whose
+radical is a maximal ideal $\mathfrak{m}$ is $\mathfrak{m}$-primary, because in the quotient every element outside $\mathfrak{m}$ is a unit), and a
+$\mathfrak{p}$-primary ideal $\mathfrak{q}$ is the preimage of $\mathfrak{q}R_\mathfrak{p}$ (if $sx \in \mathfrak{q}$ with $s \notin \mathfrak{p}$ then $x \in \mathfrak{q}$); so
+$\mathfrak{q}_i = \mathfrak{p}_i^{n_i}$. Uniqueness: localising a factorisation at $\mathfrak{p}$ gives $IR_\mathfrak{p} = \mathfrak{p}^{n}R_\mathfrak{p}$ with $n$ the exponent of
+$\mathfrak{p}$, which determines $n$ as $v_\mathfrak{p}$ of a generator.
+\end{proof}
+
+\begin{example}\label{commutative-algebra:example-ideal-factorisation}
+The ring $\ZZ[\sqrt{-5}]$ is a Dedekind domain (it is the integral closure of $\ZZ$ in $\QQ(\sqrt{-5})$, see
+Exercise~\ref{commutative-algebra:exercise-ring-of-integers}). Although $6 = 2 \cdot 3 = (1 + \sqrt{-5})(1 - \sqrt{-5})$ has two factorisations
+into irreducibles (Counterexample~\ref{rings:counterexample-not-ufd}), the ideal $(6)$ factors uniquely into primes:
+$(2) = \mathfrak{p}^2$ with $\mathfrak{p} = (2, 1 + \sqrt{-5})$, and $(3) = \mathfrak{r}\bar{\mathfrak{r}}$ with $\mathfrak{r} = (3, 1 + \sqrt{-5})$,
+$\bar{\mathfrak{r}} = (3, 1 - \sqrt{-5})$, while $(1 \pm \sqrt{-5}) = \mathfrak{p}\mathfrak{r}$, $\mathfrak{p}\bar{\mathfrak{r}}$.
+\end{example}
+
+\section{K\"ahler differentials}\label{commutative-algebra:section-differentials}
+
+\begin{definition}\label{commutative-algebra:definition-derivation}
+Let $A \to B$ be a ring homomorphism and $M$ a $B$-module. An \emph{$A$-derivation} $D \colon B \to M$ is an $A$-linear map with
+$D(bb') = bD(b') + b'D(b)$. The \emph{module of K\"ahler differentials} $\Omega_{B/A}$ is the free $B$-module on symbols $db$,
+$b \in B$, modulo the relations $d(b + b') - db - db'$, $d(bb') - b\,db' - b'\,db$ and $da$ for $a$ in the image of $A$; the map
+$d \colon B \to \Omega_{B/A}$ is an $A$-derivation.
+\end{definition}
+
+\begin{proposition}\label{commutative-algebra:proposition-differentials}
+\begin{enumerate}
+\item $\Hom_B(\Omega_{B/A}, M) \cong \operatorname{Der}_A(B, M)$, $\varphi \mapsto \varphi \circ d$, naturally in $M$.
+\item $\Omega_{A[x_1, \ldots, x_n]/A}$ is free with basis $dx_1, \ldots, dx_n$, and $df = \sum_i (\partial f/\partial x_i)dx_i$.
+\item For $A \to B \to C$ there is an exact sequence $C \otimes_B \Omega_{B/A} \to \Omega_{C/A} \to \Omega_{C/B} \to 0$.
+\item If $C = B/I$, there is an exact sequence $I/I^2 \xrightarrow{\delta} C \otimes_B \Omega_{B/A} \to \Omega_{C/A} \to 0$ with
+$\delta(\bar f) = 1 \otimes df$.
+\item $S^{-1}\Omega_{B/A} \cong \Omega_{S^{-1}B/A}$ for a multiplicative $S \subseteq B$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is the universal property of the construction. (2) The formal partial derivatives define a derivation
+$A[x] \to \bigoplus A[x]\,e_i$, $f \mapsto \sum_i(\partial f/\partial x_i)e_i$; a derivation is determined by its values on the $x_i$, which can be
+arbitrary. By (1), $\Omega$ is free on the $dx_i$.
+(3) and (4): a sequence $X \to Y \to Z \to 0$ of $C$-modules is exact if and only if
+$0 \to \Hom_C(Z, M) \to \Hom_C(Y, M) \to \Hom_C(X, M)$ is exact for every $C$-module $M$ (for the nontrivial direction take $M = Z/\im(Y)$
+and $M = \operatorname{coker}(X \to Y)$). By (1), $\Hom_C(C \otimes_B \Omega_{B/A}, M) = \operatorname{Der}_A(B, M)$ and
+$\Hom_C(I/I^2, M) = \Hom_B(I, M)$, so it suffices to show that for every $C$-module $M$ the sequences $0 \to \operatorname{Der}_B(C, M) \to \operatorname{Der}_A(C, M) \to \operatorname{Der}_A(B, M)$ and
+$0 \to \operatorname{Der}_A(C, M) \to \operatorname{Der}_A(B, M) \to \Hom_B(I, M)$ are exact, which is immediate: a derivation of $C$ over $A$ vanishing on $B$
+is a $B$-derivation; and an $A$-derivation of $B$ into a $C$-module that vanishes on $I$ factors through $C = B/I$ (it
+automatically vanishes on $I^2$).
+(5) Derivations $S^{-1}B \to M$ correspond to derivations $B \to M$ into $S^{-1}B$-modules by the quotient rule
+$D(b/s) = (sDb - bDs)/s^2$.
+\end{proof}
+
+\begin{example}\label{commutative-algebra:example-cusp}
+For $B = k[x, y]/(y^2 - x^3)$, Proposition~\ref{commutative-algebra:proposition-differentials}(4) gives
+$\Omega_{B/k} = (B\,dx \oplus B\,dy)/(2y\,dy - 3x^2dx)$. At the origin, $\Omega_{B/k} \otimes k$ has dimension $2$ although $B$ has
+dimension $1$; this detects the singularity of the cusp. For a finite separable field extension $L/K$ one has $\Omega_{L/K} = 0$: if
+$L = K(\gamma)$ with minimal polynomial $f$, then $0 = d(f(\gamma)) = f'(\gamma)\,d\gamma$ and $f'(\gamma) \neq 0$
+(Theorem~\ref{fields:theorem-primitive-element} and Proposition~\ref{fields:proposition-separable-criterion}).
+\end{example}
+
+\section{Exercises}\label{commutative-algebra:section-exercises}
+
+\begin{exercise}\label{commutative-algebra:exercise-spec-z}
+Describe $\Spec\ZZ$, $\Spec\ZZ[x]$ (in terms of prime numbers and irreducible polynomials) and $\Spec k[x, y]$ for $k$
+algebraically closed.
+\end{exercise}
+
+\begin{exercise}\label{commutative-algebra:exercise-ring-of-integers}
+Let $d \neq 0, 1$ be a squarefree integer with $d \equiv 2, 3 \pmod 4$. Show that the integral closure of $\ZZ$ in $\QQ(\sqrt d)$ is
+$\ZZ[\sqrt d]$, and deduce that $\ZZ[\sqrt{-5}]$ is a Dedekind domain.
+\end{exercise}
+
+\begin{exercise}\label{commutative-algebra:exercise-nakayama-projective}
+Let $(R, \mathfrak{m})$ be a local ring and $M$ a finitely generated $R$-module that is a direct summand of a free module. Show that $M$ is
+free.
+\end{exercise}
+
+\begin{exercise}\label{commutative-algebra:exercise-inseparable-differentials}
+Let $K = \mathbb{F}_p(t)$ and $L = K(t^{1/p})$. Show that $\Omega_{L/K}$ is one-dimensional over $L$.
+\end{exercise}
+
+\begin{exercise}\label{commutative-algebra:exercise-hensel}
+(Hensel's lemma.) Let $f \in \ZZ_p[x]$ and $a \in \ZZ_p$ with $f(a) \equiv 0 \pmod p$ and $f'(a) \not\equiv 0 \pmod p$. Show that there is a unique
+$b \in \ZZ_p$ with $f(b) = 0$ and $b \equiv a \pmod p$.
+\end{exercise}
+
+\begin{exercise}\label{commutative-algebra:exercise-dimension-hypersurface}
+Let $k$ be a field and $f \in k[x_1, \ldots, x_n]$ irreducible. Show that $\dim k[x_1, \ldots, x_n]/(f) = n - 1$.
+\end{exercise}
