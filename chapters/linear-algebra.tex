@@ -1,18 +1,623 @@
 \chapter{Linear Algebra}\label{linear-algebra}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Vector spaces and linear maps, with emphasis on the parts of linear algebra that Hodge theory uses: bilinear and Hermitian forms and complex structures on real vector spaces.
+\section{Introduction}\label{linear-algebra:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{rings} (Rings and Modules).
+This chapter develops linear algebra over a field: linear maps and matrices, duality,
+determinants, eigenvalues and canonical forms, bilinear forms, inner product spaces
+and the spectral theorem, and complex structures on real vector spaces. The last topic
+is the linear algebra underlying Hodge theory: the decomposition
+$V_\CC = V^{1,0} \oplus V^{0,1}$ of a real vector space with a complex structure is the
+pointwise version of the decomposition of forms on a complex manifold
+(Chapter~\ref{complex-manifolds}) and of the Hodge decomposition
+(Chapter~\ref{hodge-decomposition}).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Vector spaces, bases and dimension; linear maps and matrices.
-\item Duality, the double dual, transposes and annihilators.
-\item Determinants and the characteristic polynomial.
-\item Eigenvalues, diagonalisation and the Jordan normal form.
-\item Bilinear and quadratic forms; Sylvester's law of inertia.
-\item Inner product spaces, Hermitian forms, orthogonal and unitary groups, the spectral theorem.
-\item Symplectic vector spaces.
-\item Complex structures on real vector spaces, complexification and the decomposition $V_\CC = V^{1,0} \oplus V^{0,1}$.
-\end{itemize}
+Bases and dimension were introduced in Section~\ref{rings:section-rank}. References are
+\cite{halmos-fdvs}, \cite{axler-linear} and \cite[Chapters XIII--XV]{lang-algebra}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{groups} (Groups),
+Chapter~\ref{rings} (Rings and Modules) and Chapter~\ref{fields} (Fields and Galois
+Theory).
+
+Throughout, $k$ is a field and vector spaces are $k$-vector spaces, unless stated
+otherwise.
+
+\section{Linear maps and dimension}\label{linear-algebra:section-dimension}
+
+\begin{proposition}\label{linear-algebra:proposition-subspaces}
+Let $V$ be a vector space and $W \subseteq V$ a subspace.
+\begin{enumerate}
+\item $W$ has a \emph{complement}: a subspace $U$ with $V = W \oplus U$ (that is, $W + U = V$ and
+$W \cap U = 0$). Then $U \cong V/W$ and $\dim V = \dim W + \dim V/W$.
+\item $\dim W \leq \dim V$, and if $\dim V$ is finite and $\dim W = \dim V$ then $W = V$.
+\item If $U, W \subseteq V$ are finite-dimensional, $\dim(U + W) + \dim(U \cap W) = \dim U + \dim W$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Extend a basis $B_W$ of $W$ to a basis $B$ of $V$ (Theorem~\ref{rings:theorem-bases-exist}) and
+let $U$ be spanned by $B \setminus B_W$. The projection $V \to V/W$ restricts to an isomorphism
+$U \to V/W$, and $B = B_W \sqcup (B \setminus B_W)$ gives the formula (as cardinals).
+(2) The first claim follows from (1). If $\dim W = \dim V < \infty$, a basis of $W$ has $\dim V$
+elements and extends to a basis of $V$, which by Theorem~\ref{rings:theorem-dimension} has no
+further elements.
+(3) Extend a basis of $U \cap W$ to bases of $U$ and of $W$; the union of these bases is a basis of
+$U + W$.
+\end{proof}
+
+\begin{theorem}[Rank--nullity]\label{linear-algebra:theorem-rank-nullity}
+For a linear map $f \colon V \to W$, $V/\ker f \cong \im f$, so
+$\dim V = \dim \ker f + \dim \im f$. If $\dim V = \dim W < \infty$, then $f$ is injective if and
+only if it is surjective.
+\end{theorem}
+
+\begin{proof}
+The isomorphism is the first isomorphism theorem
+(Proposition~\ref{rings:proposition-module-basics}); combine with
+Proposition~\ref{linear-algebra:proposition-subspaces}(1). If $\dim V = \dim W = n$, then $f$ is
+injective iff $\dim \im f = n$ iff $\im f = W$ by
+Proposition~\ref{linear-algebra:proposition-subspaces}(2).
+\end{proof}
+
+\begin{counterexample}\label{linear-algebra:counterexample-shift}
+The last statement fails in infinite dimension. On $V = k^{(\NN)}$ the \emph{shift}
+$e_n \mapsto e_{n+1}$ is injective but not surjective, and $e_0 \mapsto 0$, $e_{n+1} \mapsto e_n$ is
+surjective but not injective.
+\end{counterexample}
+
+\section{Matrices}\label{linear-algebra:section-matrices}
+
+\begin{definition}\label{linear-algebra:definition-matrix}
+Let $V$ and $W$ have ordered bases $\mathcal{B} = (v_1, \ldots, v_n)$ and $\mathcal{C} = (w_1, \ldots, w_m)$.
+The \emph{matrix} of a linear map $f \colon V \to W$ is the $m \times n$ matrix
+$[f]_{\mathcal{C}, \mathcal{B}} = (a_{ij})$ with $f(v_j) = \sum_i a_{ij} w_i$: its $j$-th column contains the
+coordinates of $f(v_j)$.
+\end{definition}
+
+\begin{proposition}\label{linear-algebra:proposition-matrices}
+The map $f \mapsto [f]_{\mathcal{C}, \mathcal{B}}$ is an isomorphism of vector spaces
+$\Hom_k(V, W) \to M_{m \times n}(k)$, so $\dim \Hom_k(V, W) = mn$. Composition corresponds to matrix
+multiplication: $[g \circ f]_{\mathcal{D}, \mathcal{B}} = [g]_{\mathcal{D}, \mathcal{C}}[f]_{\mathcal{C}, \mathcal{B}}$. If
+$\mathcal{B}'$, $\mathcal{C}'$ are other bases and $P = [\id]_{\mathcal{B}, \mathcal{B}'}$,
+$Q = [\id]_{\mathcal{C}, \mathcal{C}'}$, then $[f]_{\mathcal{C}', \mathcal{B}'} = Q^{-1}[f]_{\mathcal{C}, \mathcal{B}}P$.
+In particular the matrices of an endomorphism in different bases are \emph{similar}:
+$A' = P^{-1}AP$.
+\end{proposition}
+
+\begin{proof}
+A linear map is determined by the images of a basis, which can be arbitrary
+(Proposition~\ref{rings:proposition-free-module}); this gives bijectivity, and linearity is clear.
+If $f(v_j) = \sum_i a_{ij}w_i$ and $g(w_i) = \sum_l b_{li}u_l$, then
+$g(f(v_j)) = \sum_l (\sum_i b_{li}a_{ij}) u_l$. The change of basis formula follows by writing
+$f = \id_W \circ f \circ \id_V$ and using that $[\id]_{\mathcal{C}', \mathcal{C}} = Q^{-1}$.
+\end{proof}
+
+\begin{definition}\label{linear-algebra:definition-rank}
+The \emph{rank} of a linear map is $\dim \im f$. The \emph{column rank} of a matrix
+$A \in M_{m \times n}(k)$ is the dimension of the span of its columns in $k^m$, that is, the rank of
+the map $k^n \to k^m$ it defines, and its \emph{row rank} is the column rank of the transpose
+$A^T$.
+\end{definition}
+
+\section{Duality}\label{linear-algebra:section-duality}
+
+\begin{definition}\label{linear-algebra:definition-dual}
+The \emph{dual} of $V$ is $V^* = \Hom_k(V, k)$. For $f \colon V \to W$, the \emph{transpose} is
+$f^* \colon W^* \to V^*$, $\varphi \mapsto \varphi \circ f$. For a subspace $W \subseteq V$, the \emph{annihilator}
+is $W^\perp = \{\varphi \in V^* : \varphi|_W = 0\}$. If $(v_1, \ldots, v_n)$ is a basis of $V$, the \emph{dual
+basis} $(v_1^*, \ldots, v_n^*)$ is given by $v_i^*(v_j) = \delta_{ij}$.
+\end{definition}
+
+\begin{proposition}\label{linear-algebra:proposition-duality}
+Let $V$, $W$ be finite-dimensional.
+\begin{enumerate}
+\item The dual basis is a basis of $V^*$; so $\dim V^* = \dim V$.
+\item The map $\mathrm{ev} \colon V \to V^{**}$ of Example~\ref{categories:example-double-dual} is an
+isomorphism.
+\item In dual bases, the matrix of $f^*$ is the transpose of the matrix of $f$.
+\item $\dim W^\perp = \dim V - \dim W$ for $W \subseteq V$, and $(\im f)^\perp = \ker f^*$.
+\item $\operatorname{rank} f^* = \operatorname{rank} f$. Hence row rank equals column rank for every matrix.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\varphi = \sum_i \varphi(v_i)v_i^*$ for $\varphi \in V^*$, and the coefficients are determined by evaluating on
+the $v_j$.
+(2) $\mathrm{ev}$ is injective: if $v \neq 0$, extend $v$ to a basis and take the corresponding dual
+basis element. Both sides have dimension $n$; apply
+Theorem~\ref{linear-algebra:theorem-rank-nullity}.
+(3) If $f(v_j) = \sum_i a_{ij}w_i$ then $f^*(w_i^*)(v_j) = a_{ij}$, so $f^*(w_i^*) = \sum_j a_{ij} v_j^*$.
+(4) Extend a basis $v_1, \ldots, v_r$ of $W$ to a basis of $V$; then $W^\perp$ has basis
+$v_{r+1}^*, \ldots, v_n^*$. And $\varphi \in \ker f^*$ iff $\varphi \circ f = 0$ iff $\varphi$ vanishes on $\im f$.
+(5) By (4) and rank--nullity for $f^*$,
+$\operatorname{rank} f^* = \dim W - \dim \ker f^* = \dim W - \dim(\im f)^\perp = \dim \im f$. Apply (3).
+\end{proof}
+
+\begin{counterexample}\label{linear-algebra:counterexample-double-dual}
+In infinite dimension $\mathrm{ev} \colon V \to V^{**}$ is injective (by the same argument) but not
+surjective. Let $k = \QQ$ and $V = \QQ^{(\NN)}$, which is countable. Then $V^* \cong \QQ^{\NN}$, which is
+uncountable (it contains the sequences with values in $\{0, 1\}$). Choosing a basis of $V^*$ gives
+an injection $V^* \to V^{**}$ (send the basis to its dual family), so $V^{**}$ is uncountable, and
+cannot be the image of the countable set $V$.
+\end{counterexample}
+
+\section{Determinants}\label{linear-algebra:section-determinants}
+
+In this section $R$ is a commutative ring. For $A \in M_n(R)$ we write $A = (a_1 | \cdots | a_n)$ with
+columns $a_j \in R^n$.
+
+\begin{definition}\label{linear-algebra:definition-alternating}
+A map $D \colon (R^n)^n \to R$ is \emph{multilinear} if it is $R$-linear in each argument, and
+\emph{alternating} if $D(a_1, \ldots, a_n) = 0$ whenever $a_i = a_j$ for some $i \neq j$. The
+\emph{determinant} of $A \in M_n(R)$ is
+\[
+\det A = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma)\, a_{\sigma(1)1} a_{\sigma(2)2} \cdots a_{\sigma(n)n},
+\]
+where $\operatorname{sgn}$ is the sign of Proposition~\ref{groups:proposition-sign}.
+\end{definition}
+
+\begin{theorem}\label{linear-algebra:theorem-determinant}
+The determinant, as a function of the columns, is multilinear and alternating with
+$\det I = 1$. Every multilinear alternating $D \colon (R^n)^n \to R$ satisfies
+$D(a_1, \ldots, a_n) = \det(a_1 | \cdots | a_n) \cdot D(e_1, \ldots, e_n)$.
+\end{theorem}
+
+\begin{proof}
+Multilinearity is clear, and $\det I = 1$ since only $\sigma = \id$ contributes. If $a_i = a_j$ with
+$i \neq j$, let $\tau = (i\,j)$. The map $\sigma \mapsto \sigma\tau$ is a bijection from even to odd permutations,
+and the terms for $\sigma$ and $\sigma\tau$ have the same product of entries (as columns $i$ and $j$ agree)
+and opposite signs; so the sum vanishes.
+
+Let $D$ be multilinear and alternating. First, $D$ changes sign when two arguments are
+exchanged: expand $0 = D(\ldots, a + b, \ldots, a + b, \ldots)$. Hence
+$D(e_{\sigma(1)}, \ldots, e_{\sigma(n)}) = \operatorname{sgn}(\sigma) D(e_1, \ldots, e_n)$ for $\sigma \in S_n$, writing $\sigma$ as a
+product of transpositions. Writing $a_j = \sum_i a_{ij}e_i$ and expanding by multilinearity,
+$D(a_1, \ldots, a_n) = \sum_{\phi} a_{\phi(1)1} \cdots a_{\phi(n)n} D(e_{\phi(1)}, \ldots, e_{\phi(n)})$ over all maps
+$\phi \colon \{1, \ldots, n\} \to \{1, \ldots, n\}$. The terms with $\phi$ not injective vanish, and the others give
+$\det(a_1|\cdots|a_n) D(e_1, \ldots, e_n)$.
+\end{proof}
+
+\begin{proposition}\label{linear-algebra:proposition-determinant-properties}
+For $A, B \in M_n(R)$:
+\begin{enumerate}
+\item $\det(AB) = \det A \det B$;
+\item $\det A^T = \det A$, so $\det$ is also multilinear and alternating in the rows;
+\item (Laplace expansion) for each $j$, $\det A = \sum_i (-1)^{i+j}a_{ij}\det A_{ij}$, where $A_{ij}$ is
+obtained by deleting row $i$ and column $j$;
+\item the \emph{adjugate} $\operatorname{adj}A$, with $(i,j)$ entry $(-1)^{i+j}\det A_{ji}$, satisfies
+$A \operatorname{adj}A = \operatorname{adj}A \, A = \det(A) I$;
+\item $A$ is invertible in $M_n(R)$ if and only if $\det A \in R^\times$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The map $(b_1, \ldots, b_n) \mapsto \det(Ab_1 | \cdots | Ab_n)$ is multilinear and alternating, with value
+$\det A$ on $(e_1, \ldots, e_n)$; apply Theorem~\ref{linear-algebra:theorem-determinant}.
+(2) Reindex the sum by $\sigma \mapsto \sigma^{-1}$, using $\operatorname{sgn}(\sigma^{-1}) = \operatorname{sgn}(\sigma)$.
+(3) Both sides are multilinear and alternating in the columns other than $j$, and linear in
+column $j$. Writing $a_j = \sum_i a_{ij}e_i$, it suffices to treat $a_j = e_i$. Moving row $i$ to the top and
+column $j$ to the front by $i - 1$ and $j - 1$ adjacent exchanges changes the determinant by
+$(-1)^{i+j}$ and gives a matrix with first column $e_1$, whose determinant is $\det A_{ij}$ by the
+Leibniz formula (only permutations fixing $1$ contribute).
+(4) The $(j,j')$ entry of $\operatorname{adj}(A)A$ is $\sum_i (-1)^{i+j}\det A_{ij} a_{ij'}$, which by (3) is the
+determinant of $A$ with column $j$ replaced by column $j'$: this is $\det A$ if $j = j'$ and $0$
+otherwise. The other product is handled with (2).
+(5) If $AB = I$ then $\det A\det B = 1$. Conversely $(\det A)^{-1}\operatorname{adj}A$ is an inverse by (4).
+\end{proof}
+
+\begin{definition}\label{linear-algebra:definition-determinant-endomorphism}
+The determinant of an endomorphism $f$ of a finite-dimensional vector space (or of a finitely
+generated free module over $R$) is the determinant of its matrix in any basis; it is well defined
+since $\det(P^{-1}AP) = \det A$. The group $\GL(V)$ of invertible endomorphisms contains
+$\SL(V) = \{f : \det f = 1\}$, and $\GL_n(R) = M_n(R)^\times$.
+\end{definition}
+
+\section{Eigenvalues}\label{linear-algebra:section-eigenvalues}
+
+In this section $V$ is a vector space of finite dimension $n$ and $f \colon V \to V$ is linear.
+
+\begin{definition}\label{linear-algebra:definition-eigen}
+A scalar $\lambda \in k$ is an \emph{eigenvalue} of $f$ if $\ker(f - \lambda) \neq 0$; the nonzero elements of
+the \emph{eigenspace} $V_\lambda = \ker(f - \lambda)$ are \emph{eigenvectors}. The \emph{characteristic
+polynomial} is $\chi_f(x) = \det(xI - A) \in k[x]$ for the matrix $A$ of $f$ in any basis; it is monic of
+degree $n$ and independent of the basis. The \emph{trace} of $f$ is $\operatorname{tr} f = \sum_i a_{ii}$. The map
+$f$ is \emph{diagonalisable} if $V$ has a basis of eigenvectors.
+\end{definition}
+
+\begin{proposition}\label{linear-algebra:proposition-eigen-basics}
+\begin{enumerate}
+\item The eigenvalues of $f$ are the roots of $\chi_f$ in $k$.
+\item $\chi_f(x) = x^n - (\operatorname{tr} f)x^{n-1} + \cdots + (-1)^n\det f$; in particular the trace is
+independent of the basis.
+\item Eigenvectors with pairwise distinct eigenvalues are linearly independent.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\lambda$ is an eigenvalue iff $\lambda - f$ is not injective iff $\det(\lambda I - A) = 0$, by
+Theorem~\ref{linear-algebra:theorem-rank-nullity} and
+Proposition~\ref{linear-algebra:proposition-determinant-properties}(5).
+(2) In the Leibniz expansion of $\det(xI - A)$ only $\sigma = \id$ contributes to the coefficients of $x^n$ and
+$x^{n-1}$, since any other permutation moves at least two indices; evaluate at $x = 0$ for the constant
+term.
+(3) Suppose $\sum_{i=1}^m c_i v_i = 0$ with $m$ minimal and all $c_i \neq 0$. Applying $f - \lambda_m$ gives
+$\sum_{i<m} c_i(\lambda_i - \lambda_m)v_i = 0$, a shorter relation with nonzero coefficients.
+\end{proof}
+
+\begin{theorem}[Cayley--Hamilton]\label{linear-algebra:theorem-cayley-hamilton}
+$\chi_f(f) = 0$.
+\end{theorem}
+
+\begin{proof}
+Let $A$ be the matrix of $f$. By Proposition~\ref{linear-algebra:proposition-determinant-properties}(4)
+over $R = k[x]$, $(xI - A)\operatorname{adj}(xI - A) = \chi_f(x)I$. The entries of $\operatorname{adj}(xI - A)$ have degree
+$< n$, so we can write $\operatorname{adj}(xI - A) = \sum_{i=0}^{n-1} B_i x^i$ with $B_i \in M_n(k)$; write
+$\chi_f = \sum_{i=0}^n c_i x^i$. Comparing coefficients of $x^i$: $B_{i-1} - AB_i = c_i I$ for $0 \leq i \leq n$, with
+$B_{-1} = B_n = 0$. Multiplying the $i$-th equation by $A^i$ on the left and summing, the left sides
+telescope to $0$, so $\sum_i c_i A^i = 0$.
+\end{proof}
+
+\begin{definition}\label{linear-algebra:definition-minimal-polynomial}
+The \emph{minimal polynomial} $m_f$ is the monic generator of the ideal
+$\{p \in k[x] : p(f) = 0\}$, which is nonzero by Theorem~\ref{linear-algebra:theorem-cayley-hamilton}.
+So $m_f \mid \chi_f$.
+\end{definition}
+
+\begin{lemma}[Kernel lemma]\label{linear-algebra:lemma-kernel}
+If $p, q \in k[x]$ are coprime, then $\ker (pq)(f) = \ker p(f) \oplus \ker q(f)$.
+\end{lemma}
+
+\begin{proof}
+Write $1 = ap + bq$. For $v \in \ker(pq)(f)$, $v = a(f)p(f)v + b(f)q(f)v$, where the first term lies in
+$\ker q(f)$ (since $q(f)a(f)p(f)v = a(f)(pq)(f)v = 0$) and the second in $\ker p(f)$. If
+$v \in \ker p(f) \cap \ker q(f)$ then $v = a(f)p(f)v + b(f)q(f)v = 0$.
+\end{proof}
+
+\begin{theorem}\label{linear-algebra:theorem-diagonalisable}
+$f$ is diagonalisable if and only if $m_f$ is a product of distinct monic linear factors. In that case
+$V = \bigoplus_\lambda V_\lambda$ over the eigenvalues. Commuting diagonalisable endomorphisms are
+simultaneously diagonalisable.
+\end{theorem}
+
+\begin{proof}
+If $V$ has a basis of eigenvectors with distinct eigenvalues $\lambda_1, \ldots, \lambda_r$, then
+$\prod_i (f - \lambda_i) = 0$, so $m_f$ divides $\prod_i (x - \lambda_i)$. Conversely if
+$m_f = \prod_i (x - \lambda_i)$ with distinct $\lambda_i$, the kernel lemma gives
+$V = \ker m_f(f) = \bigoplus_i \ker(f - \lambda_i)$. If $g$ commutes with $f$, it preserves each $V_\lambda$, and its
+restriction to $V_\lambda$ has minimal polynomial dividing $m_g$, hence is diagonalisable; choose
+eigenbases of these restrictions.
+\end{proof}
+
+\begin{counterexample}\label{linear-algebra:counterexample-not-diagonalisable}
+The rotation $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ has characteristic polynomial $x^2 + 1$ and no eigenvalue
+over $\RR$, although it is diagonalisable over $\CC$. The matrix
+$N = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ has $m_N = x^2$ and is not diagonalisable over any field: its only
+eigenvalue is $0$ and $\ker N$ is one-dimensional.
+\end{counterexample}
+
+\section{Canonical forms}\label{linear-algebra:section-canonical-forms}
+
+Let $f \colon V \to V$ be as in the previous section. By Example~\ref{rings:example-modules}, $V$ is a
+$k[x]$-module $V_f$ with $x$ acting as $f$; it is finitely generated and torsion, being annihilated by
+$\chi_f$.
+
+\begin{definition}\label{linear-algebra:definition-companion}
+The \emph{companion matrix} of a monic $g = x^d + c_{d-1}x^{d-1} + \cdots + c_0$ is the $d \times d$ matrix $C(g)$
+with $1$'s below the diagonal, last column $(-c_0, \ldots, -c_{d-1})^T$ and zeros elsewhere; it is the
+matrix of multiplication by $x$ on $k[x]/(g)$ in the basis $1, x, \ldots, x^{d-1}$. The \emph{Jordan block}
+$J_e(\lambda)$ is the $e \times e$ matrix with $\lambda$ on the diagonal, $1$ directly above the diagonal and zeros
+elsewhere.
+\end{definition}
+
+\begin{lemma}\label{linear-algebra:lemma-companion}
+The minimal and characteristic polynomials of $C(g)$ both equal $g$. The minimal and characteristic
+polynomials of $J_e(\lambda)$ both equal $(x - \lambda)^e$.
+\end{lemma}
+
+\begin{proof}
+On $k[x]/(g)$ a polynomial $p$ acts as zero iff $p \cdot 1 = p$ lies in $(g)$, so the minimal polynomial is
+$g$. The characteristic polynomial is monic of degree $d$ and divisible by $g$
+(Definition~\ref{linear-algebra:definition-minimal-polynomial}), hence equal to $g$. The matrix
+$J_e(\lambda)$ is the matrix of $x$ on $k[x]/((x - \lambda)^e)$ in the basis
+$(x - \lambda)^{e-1}, \ldots, (x - \lambda), 1$, and the same argument applies.
+\end{proof}
+
+\begin{theorem}[Rational canonical form]\label{linear-algebra:theorem-rational-canonical-form}
+There are unique monic polynomials $f_1 \mid f_2 \mid \cdots \mid f_s$ of positive degree such that $f$ has, in
+a suitable basis, the block diagonal matrix $C(f_1) \oplus \cdots \oplus C(f_s)$. Moreover $m_f = f_s$ and
+$\chi_f = f_1 \cdots f_s$. Two endomorphisms (or matrices) are similar if and only if they have the same
+$f_i$, the \emph{invariant factors}.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{rings:theorem-structure-pid}, $V_f \cong \bigoplus_i k[x]/(f_i)$ with $f_1 \mid \cdots \mid f_s$ monic of
+positive degree (there is no free part since $V_f$ is torsion), uniquely determined. Bases of the
+summands as in Definition~\ref{linear-algebra:definition-companion} give the block form. An
+isomorphism $V_f \cong V_g$ of $k[x]$-modules is the same as a linear isomorphism $h$ with
+$hf = gh$, so similarity corresponds to isomorphism of modules. The polynomial $f_s$ kills every
+summand and is the minimal polynomial of the last one, so $m_f = f_s$; the characteristic
+polynomial of a block matrix is the product of those of the blocks, which gives $\chi_f$ by
+Lemma~\ref{linear-algebra:lemma-companion}.
+\end{proof}
+
+\begin{theorem}[Jordan normal form]\label{linear-algebra:theorem-jordan}
+Suppose $\chi_f$ splits into linear factors over $k$ (for instance, $k$ algebraically closed). Then $f$
+has, in a suitable basis, a block diagonal matrix $J_{e_1}(\lambda_1) \oplus \cdots \oplus J_{e_r}(\lambda_r)$, and the
+multiset of pairs $(\lambda_i, e_i)$ is uniquely determined by $f$.
+\end{theorem}
+
+\begin{proof}
+By Corollary~\ref{rings:corollary-primary-decomposition}, $V_f \cong \bigoplus_i k[x]/(p_i^{e_i})$ with $p_i$
+monic irreducible, uniquely. Each $p_i$ divides $\chi_f$, hence is $x - \lambda_i$. Use the bases of
+Lemma~\ref{linear-algebra:lemma-companion}.
+\end{proof}
+
+\begin{example}\label{linear-algebra:example-jordan}
+A nilpotent endomorphism ($f^m = 0$ for some $m$) over any field has $\chi_f = x^n$ (its only possible
+eigenvalue is $0$, and $m_f \mid x^m$), so it is similar to a direct sum of blocks $J_e(0)$; the sizes of the
+blocks form a partition of $n$, and they classify nilpotent endomorphisms up to similarity. Such
+nilpotent operators, and their Jordan decompositions, organise the limiting behaviour of
+variations of Hodge structure (Chapter~\ref{vhs}).
+\end{example}
+
+\section{Bilinear forms}\label{linear-algebra:section-bilinear}
+
+\begin{definition}\label{linear-algebra:definition-bilinear-form}
+A \emph{bilinear form} on $V$ is a bilinear map $B \colon V \times V \to k$. It is \emph{symmetric} if
+$B(v, w) = B(w, v)$, \emph{alternating} if $B(v, v) = 0$ for all $v$, and \emph{nondegenerate} if
+$v \mapsto B(v, -)$ is an isomorphism $V \to V^*$ (for $V$ finite-dimensional: if $B(v, w) = 0$ for all $w$ implies
+$v = 0$). Its \emph{Gram matrix} in a basis $(v_i)$ is $(B(v_i, v_j))$. For a subspace $W$,
+$W^{\perp_B} = \{v : B(v, w) = 0 \text{ for all } w \in W\}$. A \emph{quadratic form} is $q(v) = B(v, v)$ for
+a symmetric $B$.
+\end{definition}
+
+\begin{lemma}\label{linear-algebra:lemma-orthogonal-complement}
+Let $B$ be symmetric or alternating on a finite-dimensional $V$, and $W \subseteq V$ a subspace on which $B$
+is nondegenerate. Then $V = W \oplus W^{\perp_B}$. An alternating form $B$ satisfies $B(v, w) = -B(w, v)$.
+\end{lemma}
+
+\begin{proof}
+$W \cap W^{\perp_B} = 0$ by nondegeneracy on $W$. Given $v \in V$, the functional $B(v, -)|_W$ equals
+$B(w, -)|_W$ for a unique $w \in W$, and then $v - w \in W^{\perp_B}$ (for alternating forms use
+$B(-, w) = -B(w, -)$). The last statement follows from expanding $B(v + w, v + w) = 0$.
+\end{proof}
+
+\begin{theorem}\label{linear-algebra:theorem-orthogonal-basis}
+Let $\operatorname{char} k \neq 2$ and $B$ symmetric on a finite-dimensional $V$. Then $V$ has a basis
+$(v_i)$ with $B(v_i, v_j) = 0$ for $i \neq j$.
+\end{theorem}
+
+\begin{proof}
+By induction on $\dim V$. If $B = 0$ any basis works. Otherwise some $q(v) \neq 0$: if $B(v, w) \neq 0$ then
+by the polarisation identity $2B(v, w) = q(v + w) - q(v) - q(w)$ one of $q(v + w)$, $q(v)$, $q(w)$ is
+nonzero. Then $B$ is nondegenerate on $kv$, so $V = kv \oplus (kv)^{\perp_B}$ by
+Lemma~\ref{linear-algebra:lemma-orthogonal-complement}; apply induction to $(kv)^{\perp_B}$.
+\end{proof}
+
+\begin{counterexample}\label{linear-algebra:counterexample-char-two}
+The hypothesis $\operatorname{char} k \neq 2$ is needed. On $\mathbb{F}_2^2$ the form
+$B((a, b), (c, d)) = ad + bc$ is symmetric and nondegenerate, but alternating
+($B(v, v) = 2ab = 0$). A basis with $B(v_i, v_j) = 0$ for $i \neq j$ would make $B$ zero.
+\end{counterexample}
+
+\begin{theorem}[Sylvester's law of inertia]\label{linear-algebra:theorem-sylvester}
+Let $B$ be a symmetric bilinear form on a real vector space $V$ of dimension $n$. There is a basis in which
+the Gram matrix is diagonal with $p$ entries $1$, $q$ entries $-1$ and $n - p - q$ entries $0$, and the
+numbers $p$ and $q$ do not depend on the basis. The pair $(p, q)$ is the \emph{signature} of $B$.
+\end{theorem}
+
+\begin{proof}
+Take an orthogonal basis (Theorem~\ref{linear-algebra:theorem-orthogonal-basis}) and rescale each
+$v_i$ with $q(v_i) \neq 0$ by $|q(v_i)|^{-1/2}$ (Proposition~\ref{number-systems:proposition-roots}).
+For uniqueness, $p$ is the largest dimension of a subspace on which $q$ is positive definite: $q$ is
+positive definite on the span $P$ of the $v_i$ with $q(v_i) = 1$, and if $U$ is a subspace on which $q$ is
+positive definite, then $U$ meets the span $N$ of the other basis vectors, on which $q \leq 0$, only in $0$;
+so $\dim U \leq n - \dim N = p$. Similarly for $q$.
+\end{proof}
+
+\begin{theorem}\label{linear-algebra:theorem-symplectic-basis}
+Let $\omega$ be a nondegenerate alternating form on a finite-dimensional $V$. Then $\dim V = 2m$ is even, and $V$
+has a \emph{symplectic basis} $e_1, \ldots, e_m, f_1, \ldots, f_m$ with $\omega(e_i, f_j) = \delta_{ij}$ and
+$\omega(e_i, e_j) = \omega(f_i, f_j) = 0$.
+\end{theorem}
+
+\begin{proof}
+If $V \neq 0$, choose $e_1 \neq 0$, and $f_1$ with $\omega(e_1, f_1) = 1$ by nondegeneracy. Then $e_1, f_1$ are
+independent (as $\omega(e_1, e_1) = 0$), and $\omega$ is nondegenerate on their span $W$, whose Gram matrix is
+$\begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$. By Lemma~\ref{linear-algebra:lemma-orthogonal-complement},
+$V = W \oplus W^{\perp_\omega}$, and $\omega$ is nondegenerate on $W^{\perp_\omega}$. Apply induction.
+\end{proof}
+
+\section{Inner product spaces and the spectral theorem}\label{linear-algebra:section-inner-product}
+
+\begin{definition}\label{linear-algebra:definition-inner-product}
+Let $\mathbb{K} = \RR$ or $\CC$. An \emph{inner product} on a $\mathbb{K}$-vector space $V$ is a map
+$\langle -, - \rangle \colon V \times V \to \mathbb{K}$, linear in the first variable, with
+$\langle w, v \rangle = \overline{\langle v, w \rangle}$ and $\langle v, v \rangle > 0$ for $v \neq 0$. (Over $\CC$ it is then
+conjugate-linear in the second variable; such a form is also called a \emph{Hermitian inner
+product}.) We write $\|v\| = \sqrt{\langle v, v \rangle}$. A family is \emph{orthonormal} if
+$\langle v_i, v_j \rangle = \delta_{ij}$.
+\end{definition}
+
+\begin{proposition}\label{linear-algebra:proposition-cauchy-schwarz}
+$|\langle v, w \rangle| \leq \|v\|\|w\|$, and $\|v + w\| \leq \|v\| + \|w\|$.
+\end{proposition}
+
+\begin{proof}
+If $w = 0$ this is clear. Otherwise let $u = v - \frac{\langle v, w \rangle}{\|w\|^2}w$; then $\langle u, w \rangle = 0$ and
+$0 \leq \|u\|^2 = \|v\|^2 - |\langle v, w \rangle|^2/\|w\|^2$. For the triangle inequality,
+$\|v + w\|^2 = \|v\|^2 + 2\operatorname{Re}\langle v, w \rangle + \|w\|^2 \leq (\|v\| + \|w\|)^2$.
+\end{proof}
+
+\begin{theorem}[Gram--Schmidt]\label{linear-algebra:theorem-gram-schmidt}
+If $v_1, v_2, \ldots$ is a finite or countable linearly independent family, there is an orthonormal family
+$u_1, u_2, \ldots$ with $\operatorname{span}(u_1, \ldots, u_j) = \operatorname{span}(v_1, \ldots, v_j)$ for all $j$. Every
+finite-dimensional inner product space has an orthonormal basis, and for every finite-dimensional
+subspace $W$, $V = W \oplus W^\perp$, where $W^\perp = \{v : \langle v, w \rangle = 0 \text{ for all } w \in W\}$.
+\end{theorem}
+
+\begin{proof}
+Define recursively $u_j' = v_j - \sum_{i<j}\langle v_j, u_i \rangle u_i$, which is nonzero since
+$v_j \notin \operatorname{span}(u_1, \ldots, u_{j-1})$, and $u_j = u_j'/\|u_j'\|$. For the last claim, with an
+orthonormal basis $(u_i)$ of $W$, write $v = \sum_i \langle v, u_i \rangle u_i + (v - \sum_i \langle v, u_i\rangle u_i)$;
+the second term lies in $W^\perp$, and $W \cap W^\perp = 0$ by positivity.
+\end{proof}
+
+\begin{definition}\label{linear-algebra:definition-adjoint}
+Let $V$ be a finite-dimensional inner product space and $f \colon V \to V$ linear. The \emph{adjoint} $f^\dagger$ is
+the unique linear map with $\langle f(v), w \rangle = \langle v, f^\dagger(w) \rangle$ for all $v, w$. The map $f$ is
+\emph{self-adjoint} if $f^\dagger = f$, \emph{normal} if $ff^\dagger = f^\dagger f$, and \emph{unitary} (or
+\emph{orthogonal}, if $\mathbb{K} = \RR$) if $f^\dagger f = \id$. The unitary operators of $\CC^n$ form the
+\emph{unitary group} $\mathrm{U}(n)$, and the orthogonal operators of $\RR^n$ the \emph{orthogonal group}
+$\mathrm{O}(n)$.
+\end{definition}
+
+\begin{lemma}\label{linear-algebra:lemma-adjoint}
+The adjoint exists and is unique. In an orthonormal basis its matrix is the conjugate transpose of the
+matrix of $f$. If $W$ is $f$-invariant then $W^\perp$ is $f^\dagger$-invariant.
+\end{lemma}
+
+\begin{proof}
+With an orthonormal basis $(u_i)$, the map $f^\dagger(w) = \sum_i \langle w, f(u_i) \rangle u_i$ works, and a linear map
+is determined by the values $\langle v, f^\dagger(w) \rangle$. Its matrix entries are
+$\langle f^\dagger(u_j), u_i \rangle = \overline{\langle f(u_i), u_j\rangle}$. If $f(W) \subseteq W$ and $v \in W^\perp$, then
+$\langle f^\dagger(v), w \rangle = \langle v, f(w) \rangle = 0$ for $w \in W$.
+\end{proof}
+
+\begin{theorem}[Spectral theorem]\label{linear-algebra:theorem-spectral}
+Let $V$ be a finite-dimensional inner product space.
+\begin{enumerate}
+\item If $\mathbb{K} = \CC$ and $f$ is normal, then $V$ has an orthonormal basis of eigenvectors of $f$.
+\item If $f$ is self-adjoint (over $\RR$ or $\CC$), then all its eigenvalues are real and $V$ has an orthonormal
+basis of eigenvectors of $f$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For self-adjoint $f$ and an eigenvector $v$ with eigenvalue $\lambda$,
+$\lambda\|v\|^2 = \langle f v, v \rangle = \langle v, fv \rangle = \bar\lambda\|v\|^2$, so $\lambda \in \RR$.
+
+(1) By induction on $\dim V$. By Theorem~\ref{fields:theorem-fta}, $\chi_f$ has a root, so $f$ has an eigenvector
+$v$. Since $f$ and $f^\dagger$ commute, $f^\dagger$ preserves the eigenspace $V_\lambda$, and its restriction there has
+an eigenvector $u$; then $u$ is an eigenvector of both $f$ and $f^\dagger$. Then $W = \CC u$ is invariant under
+both, so $W^\perp$ is invariant under $f^\dagger$ and $(f^\dagger)^\dagger = f$ (Lemma~\ref{linear-algebra:lemma-adjoint}),
+and the restriction of $f$ to $W^\perp$ is normal. Apply induction and normalise $u$.
+
+(2) Over $\CC$ this follows from (1). Over $\RR$, choose an orthonormal basis and let $A$ be the real symmetric
+matrix of $f$. As a complex matrix acting on $\CC^n$ with the standard inner product, $A$ is self-adjoint, so
+it has an eigenvalue, which is real, and hence a real root $\lambda$ of $\chi_f$; so $f$ has an eigenvector $u \in V$.
+The line $\RR u$ and its orthogonal complement are invariant under $f = f^\dagger$, and we conclude by induction.
+\end{proof}
+
+\begin{counterexample}\label{linear-algebra:counterexample-spectral}
+Normality is necessary in (1): the matrix $N$ of
+Counterexample~\ref{linear-algebra:counterexample-not-diagonalisable} is not diagonalisable at all. Over $\RR$,
+normal is not enough: the rotation of that counterexample is orthogonal, hence normal, but has no real
+eigenvector.
+\end{counterexample}
+
+\begin{corollary}\label{linear-algebra:corollary-positive-definite}
+A real symmetric (or complex Hermitian) matrix $A$ defines an inner product $\langle v, w \rangle = w^* A v$ if and only
+if all its eigenvalues are positive. Every inner product on $\RR^n$ (or $\CC^n$) is of this form.
+\end{corollary}
+
+\begin{proof}
+Diagonalise $A = U D U^*$ with $U$ unitary (Theorem~\ref{linear-algebra:theorem-spectral}); then
+$w^*Av = (U^*w)^* D (U^*v)$, which is positive definite iff all diagonal entries of $D$ are positive. The
+matrix of an inner product in the standard basis is Hermitian.
+\end{proof}
+
+\section{Complex structures}\label{linear-algebra:section-complex-structures}
+
+\begin{definition}\label{linear-algebra:definition-complex-structure}
+Let $V$ be a real vector space. Its \emph{complexification} is $V_\CC = V \otimes_\RR \CC$, a complex vector space
+with the \emph{complex conjugation} $\overline{v \otimes z} = v \otimes \bar z$, which is $\RR$-linear and
+conjugate-linear over $\CC$. A \emph{complex structure} on $V$ is an $\RR$-linear map $J \colon V \to V$ with
+$J^2 = -\id$.
+\end{definition}
+
+\begin{proposition}\label{linear-algebra:proposition-complex-structure}
+Let $J$ be a complex structure on a finite-dimensional real vector space $V$.
+\begin{enumerate}
+\item $V$ becomes a complex vector space with $(a + bi)v = av + bJv$; hence $\dim_\RR V = 2\dim_\CC V$ is even.
+\item Extend $J$ $\CC$-linearly to $V_\CC$. Then $V_\CC = V^{1,0} \oplus V^{0,1}$, where
+$V^{1,0} = \ker(J - i)$ and $V^{0,1} = \ker(J + i)$, and $\overline{V^{1,0}} = V^{0,1}$.
+\item The map $V \to V^{1,0}$, $v \mapsto \frac12(v - iJv)$, is an isomorphism of complex vector spaces from
+$(V, J)$ to $V^{1,0}$, and $v \mapsto \frac12(v + iJv)$ is a conjugate-linear isomorphism $V \to V^{0,1}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The axioms of a module over $\CC = \RR[x]/(x^2 + 1)$ follow from $J^2 = -1$
+(Example~\ref{rings:example-modules} and Exercise~\ref{rings:exercise-gaussian-quotient}); a complex basis
+$(v_j)$ gives the real basis $(v_j, Jv_j)$.
+(2) The polynomial $x^2 + 1 = (x - i)(x + i)$ kills $J$ on $V_\CC$, and the kernel lemma
+(Lemma~\ref{linear-algebra:lemma-kernel}) gives the decomposition. Conjugation commutes with $J$ (which is
+real), so it exchanges the $\pm i$-eigenspaces.
+(3) $J(v - iJv) = Jv + iv = i(v - iJv)$, so the image lies in $V^{1,0}$, and $J$ on $V$ corresponds to
+multiplication by $i$. The map is injective because $v$ is recovered as twice the real part, and both sides
+have complex dimension $\frac12\dim_\RR V$. The second map is the conjugate of the first.
+\end{proof}
+
+\begin{proposition}\label{linear-algebra:proposition-compatible-metric}
+Let $J$ be a complex structure on a real inner product space $(V, g)$ with $g(Jv, Jw) = g(v, w)$. Put
+$\omega(v, w) = g(Jv, w)$ and $h = g - i\omega$. Then $\omega$ is a nondegenerate alternating form with
+$\omega(Jv, Jw) = \omega(v, w)$, and $h$ is a Hermitian inner product on the complex vector space $(V, J)$, whose
+real part is $g$. Conversely, $g$ and $J$ determine $\omega$, and $\omega$ and $J$ determine
+$g(v, w) = \omega(v, Jw)$.
+\end{proposition}
+
+\begin{proof}
+From $J$-invariance, $g(Jv, w) = g(J^2 v, Jw) = -g(v, Jw)$. Hence
+$\omega(w, v) = g(Jw, v) = -g(w, Jv) = -\omega(v, w)$, so $\omega$ is alternating;
+$\omega(Jv, Jw) = g(J(Jv), Jw) = g(Jv, w) = \omega(v, w)$ by $J$-invariance of $g$; and $\omega$ is
+nondegenerate because $\omega(v, Jv) = g(Jv, Jv) > 0$ for $v \neq 0$. For $h$:
+$h(v, w) = g(v, w) + i g(v, Jw)$. Then $h(Jv, w) = g(Jv, w) + ig(Jv, Jw) = -g(v, Jw) + ig(v, w) = ih(v, w)$, so $h$ is
+complex linear in the first variable; $h(w, v) = g(v, w) - ig(v, Jw) = \overline{h(v, w)}$; and
+$h(v, v) = g(v, v) > 0$ for $v \neq 0$ since $g(v, Jv) = -g(Jv, v) = -g(v, Jv)$ vanishes. Finally
+$\omega(v, Jw) = g(Jv, Jw) = g(v, w)$.
+\end{proof}
+
+\begin{example}\label{linear-algebra:example-standard-structure}
+On $\RR^{2n}$ with coordinates $(x_1, y_1, \ldots, x_n, y_n)$, the standard complex structure is
+$J(\partial_{x_j}) = \partial_{y_j}$, $J(\partial_{y_j}) = -\partial_{x_j}$ (writing $\partial_{x_j}$, $\partial_{y_j}$ for the standard basis vectors),
+which identifies $(\RR^{2n}, J)$ with $\CC^n$ via $x + iy$. The standard inner product is $J$-invariant, the
+associated form satisfies $\omega(\partial_{x_j}, \partial_{y_j}) = g(\partial_{y_j}, \partial_{y_j}) = 1$, so the $\partial_{x_j}$, $\partial_{y_j}$
+form a symplectic basis, and $h$ is the standard Hermitian inner product of $\CC^n$. The vectors
+$\partial_{z_j} = \frac12(\partial_{x_j} - i\partial_{y_j})$ span $V^{1,0}$. These formulas reappear as the local model of Kähler
+manifolds (Chapter~\ref{kahler}).
+\end{example}
+
+\section{Exercises}\label{linear-algebra:section-exercises}
+
+\begin{exercise}\label{linear-algebra:exercise-trace}
+Show that $\operatorname{tr}(AB) = \operatorname{tr}(BA)$ for $A \in M_{m \times n}(k)$, $B \in M_{n \times m}(k)$, and deduce that similar
+matrices have the same trace. Show that if $\chi_f = \prod_i (x - \lambda_i)$ then $\operatorname{tr} f = \sum \lambda_i$ and
+$\det f = \prod \lambda_i$.
+\end{exercise}
+
+\begin{exercise}\label{linear-algebra:exercise-jordan-count}
+Suppose $\chi_f$ splits. Show that the number of Jordan blocks $J_e(\lambda)$ with $e \geq j$ in the Jordan form of $f$
+is $\dim\ker(f - \lambda)^j - \dim\ker(f - \lambda)^{j-1}$.
+\end{exercise}
+
+\begin{exercise}\label{linear-algebra:exercise-simultaneous-triangular}
+Let $V$ be a finite-dimensional complex vector space and $\mathcal{F}$ a set of pairwise commuting endomorphisms.
+Show that there is a basis in which all elements of $\mathcal{F}$ are upper triangular.
+\end{exercise}
+
+\begin{exercise}\label{linear-algebra:exercise-polar}
+Show that every invertible complex matrix is uniquely $A = UP$ with $U$ unitary and $P$ Hermitian with positive
+eigenvalues.
+\end{exercise}
+
+\begin{exercise}\label{linear-algebra:exercise-symplectic-determinant}
+Let $\omega$ be a nondegenerate alternating form on $V$ of dimension $2m$ and $\mathrm{Sp}(V, \omega)$ the group of
+$f \in \GL(V)$ with $\omega(fv, fw) = \omega(v, w)$. Show that $\det f = \pm 1$ for $f \in \mathrm{Sp}(V, \omega)$. (It is in fact
+always $1$; this can be shown using the Pfaffian, Chapter~\ref{multilinear-algebra}.)
+\end{exercise}
+
+\begin{exercise}\label{linear-algebra:exercise-complex-structures-compatible}
+Show that the set of complex structures $J$ on $\RR^{2}$ compatible with the standard inner product and with
+$\omega(e_1, e_2) > 0$ has exactly one element.
+\end{exercise}
