@@ -1,17 +1,331 @@
 \chapter{Sheaf Cohomology}\label{sheaf-cohomology}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Sheaf cohomology as a derived functor and its comparison with other cohomology theories.
+\section{Introduction}\label{sheaf-cohomology:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{sheaves} (Sheaves on Topological Spaces), Chapter~\ref{spectral-sequences} (Spectral Sequences), Chapter~\ref{derived-categories} (Derived Categories) and Chapter~\ref{singular-cohomology} (Singular Cohomology).
+The global sections functor $\Gamma(X, -)$ is left exact but not exact (Proposition~\ref{sheaves:proposition-abelian-category}), and
+sheaf cohomology $H^i(X, \mathcal{F})$ is its right derived functor. It can be computed by several kinds of acyclic resolutions:
+flasque, soft or fine sheaves (Theorem~\ref{sheaf-cohomology:theorem-soft-acyclic}), \v{C}ech complexes of acyclic covers
+(Theorem~\ref{sheaf-cohomology:theorem-leray}), and hypercohomology of complexes. On reasonable spaces the cohomology of a constant
+sheaf is singular cohomology (Theorem~\ref{sheaf-cohomology:theorem-singular-comparison}); on a manifold the de Rham complex is a fine
+resolution of the constant sheaf, which gives the de Rham theorem (Chapter~\ref{de-rham}). References: \cite[Chapter III]{hartshorne-ag},
+\cite{godement-faisceaux}, \cite{bredon-sheaf}, \cite{ks-sheaves-manifolds} and \cite[Chapter 4]{voisin-hodge-1}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Sheaves have enough injectives; cohomology as a derived functor.
-\item Flasque, soft and fine sheaves; acyclic resolutions.
-\item \v{C}ech cohomology and Leray's theorem.
-\item Comparison with singular cohomology on locally contractible spaces.
-\item Hypercohomology of complexes of sheaves.
-\item The Leray spectral sequence.
-\item Cohomology with compact supports.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{sheaves} (Sheaves on Topological Spaces), Chapter~\ref{spectral-sequences} (Spectral Sequences),
+Chapter~\ref{derived-categories} (Derived Categories) and Chapter~\ref{singular-cohomology} (Singular Cohomology).
+
+\section{Cohomology as a derived functor}\label{sheaf-cohomology:section-derived}
+
+\begin{lemma}\label{sheaf-cohomology:lemma-adjoints-injectives}
+Let $L \colon \mathcal{B} \to \mathcal{A}$ be an exact functor between abelian categories with right adjoint $R \colon \mathcal{A} \to \mathcal{B}$. Then $R$ preserves injective objects.
+In particular $f_*$ preserves injective sheaves for every continuous $f$, and so does restriction $j^{-1}$ to an open subset $j \colon U \to X$.
+\end{lemma}
+
+\begin{proof}
+For $I$ injective, $\Hom_\mathcal{B}(-, R(I)) \cong \Hom_\mathcal{A}(L(-), I)$ is a composite of exact functors, hence exact. For $f_*$ use
+Proposition~\ref{sheaves:proposition-images}. For $j^{-1}$ we show that $j_!$ is an exact left adjoint: a morphism $j_!\mathcal{F} \to \mathcal{G}$ is, by
+Theorem~\ref{sheaves:theorem-sheafification}, a compatible family of maps $\mathcal{F}(W) \to \mathcal{G}(W)$ for $W \subseteq U$, that is, a morphism
+$\mathcal{F} \to \mathcal{G}|_U$; and $j_!$ is exact on stalks (Proposition~\ref{sheaves:proposition-extension-by-zero}).
+\end{proof}
+
+\begin{theorem}\label{sheaf-cohomology:theorem-enough-injectives}
+The category $\mathrm{Ab}(X)$ has enough injectives, and so does the category of $\mathcal{O}_X$-modules on a ringed space.
+\end{theorem}
+
+\begin{proof}
+For each $x$ embed $\mathcal{F}_x$ into an injective abelian group $I_x$ (Theorem~\ref{homological-algebra:theorem-enough-injectives}). The skyscraper sheaf $x_*I_x$ is injective,
+since $\Hom(\mathcal{G}, x_*I_x) \cong \Hom(\mathcal{G}_x, I_x)$ (Exercise~\ref{sheaves:exercise-skyscraper-adjunction}) is exact in $\mathcal{G}$. A product of injective objects is
+injective, and $\mathcal{F} \to \prod_x x_*I_x$ is a monomorphism, being injective on stalks. For $\mathcal{O}_X$-modules use injective $\mathcal{O}_{X,x}$-modules instead.
+\end{proof}
+
+\begin{definition}\label{sheaf-cohomology:definition-sheaf-cohomology}
+The \emph{sheaf cohomology} groups are $H^i(X, \mathcal{F}) = R^i\Gamma(X, -)(\mathcal{F})$ (Definition~\ref{homological-algebra:definition-derived-functor}). For a complex
+$\mathcal{K}^\bullet$ of sheaves, bounded below, the \emph{hypercohomology} is $\mathbb{H}^i(X, \mathcal{K}^\bullet) = H^i(R\Gamma(X, \mathcal{K}^\bullet))$
+(Definition~\ref{derived-categories:definition-right-derived}). For a continuous $f \colon X \to Y$, the \emph{higher direct images} are $R^if_*\mathcal{F}$.
+\end{definition}
+
+\begin{remark}\label{sheaf-cohomology:remark-cohomology-modules}
+For an $\mathcal{O}_X$-module $\mathcal{F}$, derived functors computed in $\mathcal{O}_X$-modules and in $\mathrm{Ab}(X)$ agree, because injective $\mathcal{O}_X$-modules are flasque
+(Lemma~\ref{sheaf-cohomology:lemma-injective-flasque} applies verbatim with $j_!\mathcal{O}_U \to \mathcal{O}_X$) and flasque sheaves are acyclic in both settings.
+\end{remark}
+
+\section{Flasque sheaves}\label{sheaf-cohomology:section-flasque}
+
+\begin{definition}\label{sheaf-cohomology:definition-flasque}
+A sheaf $\mathcal{F}$ is \emph{flasque} if all restriction maps $\mathcal{F}(U) \to \mathcal{F}(V)$ are surjective.
+\end{definition}
+
+\begin{lemma}\label{sheaf-cohomology:lemma-injective-flasque}
+Injective sheaves of abelian groups are flasque. Direct images and restrictions to open subsets of flasque sheaves are flasque, and so are products.
+\end{lemma}
+
+\begin{proof}
+Let $I$ be injective and $V \subseteq U$ open, with inclusions $j_V, j_U$ into $X$. The morphism $j_{V!}\ZZ_V \to j_{U!}\ZZ_U$ is injective on stalks, so
+$\Hom(j_{U!}\ZZ_U, I) \to \Hom(j_{V!}\ZZ_V, I)$ is surjective. By the adjunction in the proof of Lemma~\ref{sheaf-cohomology:lemma-adjoints-injectives},
+$\Hom(j_{U!}\ZZ_U, I) = \Hom(\ZZ_U, I|_U) = I(U)$, a morphism from the constant sheaf being determined by the image of $1$; so $I(U) \to I(V)$ is surjective. The other statements are
+immediate from the definitions.
+\end{proof}
+
+\begin{proposition}\label{sheaf-cohomology:proposition-flasque}
+Let $0 \to \mathcal{F}' \to \mathcal{F} \xrightarrow{\pi} \mathcal{F}'' \to 0$ be exact with $\mathcal{F}'$ flasque. Then $\mathcal{F}(U) \to \mathcal{F}''(U)$ is surjective for all $U$. If also $\mathcal{F}$ is
+flasque, so is $\mathcal{F}''$. Flasque sheaves are $\Gamma$-acyclic, so $H^i(X, \mathcal{F})$ can be computed with flasque resolutions.
+\end{proposition}
+
+\begin{proof}
+We may take $U = X$. Let $s \in \mathcal{F}''(X)$, and consider pairs $(V, t)$ with $V$ open, $t \in \mathcal{F}(V)$ and $\pi(t) = s|_V$, ordered by extension. A chain has an upper bound by gluing,
+and it is nonempty, since $s$ lifts locally. Let $(V, t)$ be maximal and suppose $x \notin V$. Choose $W \ni x$ and $t' \in \mathcal{F}(W)$ lifting $s|_W$. On $V \cap W$, $t - t'$ lies in
+$\mathcal{F}'(V \cap W)$, which extends to $u \in \mathcal{F}'(X)$ since $\mathcal{F}'$ is flasque. Then $t$ and $t' + u|_W$ agree on $V \cap W$ and glue to a lift over $V \cup W$, contradicting
+maximality. If $\mathcal{F}$ is flasque and $s'' \in \mathcal{F}''(V)$, lift it to $\mathcal{F}(V)$, extend to $\mathcal{F}(X)$ and map to $\mathcal{F}''(X)$.
+
+Let $\mathcal{F}$ be flasque and embed it into an injective $I$ with cokernel $\mathcal{G}$, which is flasque by the above and Lemma~\ref{sheaf-cohomology:lemma-injective-flasque}.
+The long exact sequence gives $H^1(X, \mathcal{F}) = \operatorname{coker}(I(X) \to \mathcal{G}(X)) = 0$ and $H^i(X, \mathcal{F}) \cong H^{i-1}(X, \mathcal{G})$ for $i \geq 2$, which vanishes by
+induction on $i$ for all flasque sheaves simultaneously. The last statement is Proposition~\ref{homological-algebra:proposition-acyclic-resolutions}.
+\end{proof}
+
+\begin{example}\label{sheaf-cohomology:example-godement}
+For every sheaf $\mathcal{F}$, the sheaf $\mathcal{C}^0(\mathcal{F}) = \prod_x x_*\mathcal{F}_x$ of possibly discontinuous sections is flasque, and $\mathcal{F} \to \mathcal{C}^0(\mathcal{F})$ is
+injective. Repeating with the cokernel gives the \emph{Godement resolution}, a canonical flasque resolution, functorial and exact in $\mathcal{F}$.
+\end{example}
+
+\section{Soft and fine sheaves}\label{sheaf-cohomology:section-soft}
+
+In this section $X$ is paracompact Hausdorff. For a subset $Z \subseteq X$ we write $\mathcal{F}(Z) = \Gamma(Z, \mathcal{F}|_Z)$; by Proposition~\ref{sheaves:proposition-etale-space}
+this is the set of continuous sections over $Z$ of the \'etal\'e space of $\mathcal{F}$. Sections over the members of a locally finite closed cover of $Z$ that agree on overlaps
+glue, by the pasting lemma applied locally.
+
+\begin{lemma}\label{sheaf-cohomology:lemma-closed-sections-extend}
+Let $Z \subseteq X$ be closed. Every $s \in \mathcal{F}(Z)$ extends to a section over some open neighbourhood of $Z$.
+\end{lemma}
+
+\begin{proof}
+Each $z \in Z$ has an open neighbourhood $W_z$ in $X$ and $t_z \in \mathcal{F}(W_z)$ with germs $s(y)$ at all $y \in W_z \cap Z$. Take a locally finite open refinement $(U_i)_{i \in I}$ of the
+cover $\{W_z\} \cup \{X \setminus Z\}$, choosing for each $i$ either a section $t_i = t_z|_{U_i}$ (first kind) or $U_i \subseteq X \setminus Z$ (second kind), and closed sets
+$\overline{V_i} \subseteq U_i$ with $(V_i)$ still covering (Lemma~\ref{general-topology:lemma-shrinking}, Proposition~\ref{general-topology:proposition-paracompact-normal}). For $x \in X$
+let $J(x) = \{i : x \in \overline{V_i}\}$, a finite set. Let $W$ be the set of $x$ such that $J(x)$ contains only indices of the first kind and the germs $(t_i)_x$, $i \in J(x)$, all agree.
+
+$Z \subseteq W$, since for $z \in Z$ all $i \in J(z)$ are of the first kind and $(t_i)_z = s(z)$. $W$ is open: for $x \in W$ choose an open $N \ni x$ that meets only finitely many $\overline{V_i}$,
+avoids those with $i \notin J(x)$, lies in $\bigcap_{i \in J(x)}U_i$, and on which the sections $t_i$, $i \in J(x)$, agree; then $J(y) \subseteq J(x)$ for $y \in N$, so $N \subseteq W$. On such an
+$N = N_x$, put $t^{(x)} = t_i|_{N_x}$ for any $i \in J(x)$ (nonempty, since the $V_i$ cover). At $y \in N_x \cap N_{x'}$ both $t^{(x)}$ and $t^{(x')}$ have the germ $(t_k)_y$ for $k \in J(y)$, so
+they agree, and they glue to $t \in \mathcal{F}(W)$ with $t_z = s(z)$ on $Z$.
+\end{proof}
+
+\begin{definition}\label{sheaf-cohomology:definition-soft-fine}
+A sheaf $\mathcal{F}$ on $X$ is \emph{soft} if $\mathcal{F}(X) \to \mathcal{F}(Z)$ is surjective for every closed $Z$. The \emph{support} of an endomorphism $\eta$ of $\mathcal{F}$ is the
+closure of $\{x : \eta_x \neq 0\}$. A sheaf of abelian groups is \emph{fine} if for every locally finite open cover $(U_i)$ there are endomorphisms $\eta_i$ with
+$\operatorname{supp}\eta_i \subseteq U_i$ and $\sum_i\eta_i = \id$ (a \emph{partition of unity} of $\mathcal{F}$).
+\end{definition}
+
+\begin{example}\label{sheaf-cohomology:example-fine}
+The sheaf $\mathcal{C}_X$ of continuous real functions is fine, by partitions of unity (Theorem~\ref{general-topology:theorem-partitions-of-unity}): take $\eta_i$ to be
+multiplication by $\psi_i$. More generally every sheaf of modules over $\mathcal{C}_X$ is fine, and on a smooth manifold every module over the sheaf of smooth functions is fine,
+using smooth partitions of unity (Chapter~\ref{smooth-manifolds}). The constant sheaf $\ZZ_X$ on a connected space with more than one point is not soft.
+\end{example}
+
+\begin{lemma}\label{sheaf-cohomology:lemma-soft-properties}
+\begin{enumerate}
+\item Flasque sheaves and fine sheaves are soft.
+\item If $0 \to \mathcal{F}' \to \mathcal{F} \xrightarrow{\pi} \mathcal{F}'' \to 0$ is exact and $\mathcal{F}'$ is soft, then $\mathcal{F}(X) \to \mathcal{F}''(X)$ is surjective.
+\item If moreover $\mathcal{F}$ is soft, then $\mathcal{F}''$ is soft.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Let $s \in \mathcal{F}(Z)$ and extend it to an open $W \supseteq Z$ by Lemma~\ref{sheaf-cohomology:lemma-closed-sections-extend}. If $\mathcal{F}$ is flasque, extend further to $X$. If
+$\mathcal{F}$ is fine, take $\eta_1 + \eta_2 = \id$ for the cover $\{W, X \setminus Z\}$. The section $\eta_1(s)$ of $\mathcal{F}(W)$ vanishes on $W \setminus \operatorname{supp}\eta_1$, so it glues
+with $0$ on $X \setminus \operatorname{supp}\eta_1$ to a global section $t$; at $z \in Z$, $t_z = s_z - (\eta_2)_z(s_z) = s_z$ since $z \notin \operatorname{supp}\eta_2$.
+
+(2) Choose a locally finite open cover $(U_i)$ with lifts $s_i \in \mathcal{F}(U_i)$ of $s|_{U_i}$ for a given $s \in \mathcal{F}''(X)$, and closed $\overline{V_i} \subseteq U_i$ covering $X$. Consider pairs
+$(J, t)$ with $J \subseteq I$ and $t \in \mathcal{F}(Z_J)$ lifting $s$, where $Z_J = \bigcup_{i \in J}\overline{V_i}$, which is closed (Lemma~\ref{general-topology:lemma-locally-finite}). Chains
+have upper bounds by gluing along the locally finite closed cover, so Zorn's lemma gives a maximal $(J, t)$. If $i \notin J$, the difference $t - s_i$ on $Z_J \cap \overline{V_i}$ is a section of
+$\mathcal{F}'$ (its image under $\pi$ is $0$), which extends to $u \in \mathcal{F}'(X)$. Then $t$ and $s_i + u$ agree on $Z_J \cap \overline{V_i}$ and glue to a lift over $Z_{J \cup \{i\}}$, a
+contradiction. So $J = I$.
+
+(3) A closed subspace $Z$ is paracompact Hausdorff, the restricted sequence on $Z$ is exact, and $\mathcal{F}'|_Z$ is soft. By (2) applied on $Z$, $\mathcal{F}(Z) \to \mathcal{F}''(Z)$ is surjective,
+and $\mathcal{F}(X) \to \mathcal{F}(Z)$ is surjective.
+\end{proof}
+
+\begin{theorem}\label{sheaf-cohomology:theorem-soft-acyclic}
+On a paracompact Hausdorff space, soft sheaves, in particular fine sheaves, are $\Gamma$-acyclic. Hence cohomology can be computed with soft or fine resolutions.
+\end{theorem}
+
+\begin{proof}
+Identical to the proof of Proposition~\ref{sheaf-cohomology:proposition-flasque}, using Lemma~\ref{sheaf-cohomology:lemma-soft-properties} and the fact that injective sheaves are
+flasque, hence soft.
+\end{proof}
+
+\begin{corollary}\label{sheaf-cohomology:corollary-fine-acyclic}
+Let $X$ be paracompact Hausdorff. Then $H^i(X, \mathcal{F}) = 0$ for $i > 0$ for every sheaf of $\mathcal{C}_X$-modules, for instance the sheaf of sections of a real vector bundle.
+\end{corollary}
+
+\begin{proof}
+Such a sheaf is fine (Example~\ref{sheaf-cohomology:example-fine}) and is its own resolution.
+\end{proof}
+
+\section{\v{C}ech cohomology}\label{sheaf-cohomology:section-cech}
+
+\begin{definition}\label{sheaf-cohomology:definition-cech}
+Let $\mathcal{U} = (U_i)_{i \in I}$ be an open cover of $X$ and $\mathcal{F}$ a presheaf of abelian groups. Write $U_{i_0 \cdots i_p} = U_{i_0} \cap \cdots \cap U_{i_p}$. An \emph{alternating
+\v{C}ech $p$-cochain} is a family $\alpha = (\alpha_{i_0 \cdots i_p})$, indexed by all $(i_0, \ldots, i_p) \in I^{p+1}$, with $\alpha_{i_0 \cdots i_p} \in \mathcal{F}(U_{i_0 \cdots i_p})$, which
+changes sign when two indices are exchanged and vanishes when two indices are equal. They form a group $\check{C}^p(\mathcal{U}, \mathcal{F})$, with differential
+\[
+(d\alpha)_{i_0 \cdots i_{p+1}} = \sum_{k=0}^{p+1}(-1)^k\alpha_{i_0 \cdots \widehat{i_k} \cdots i_{p+1}}|_{U_{i_0 \cdots i_{p+1}}}.
+\]
+Its cohomology is the \emph{\v{C}ech cohomology} $\check{H}^p(\mathcal{U}, \mathcal{F})$. Choosing a well-ordering of $I$, $\check{C}^p(\mathcal{U}, \mathcal{F}) \cong \prod_{i_0 < \cdots < i_p}\mathcal{F}(U_{i_0 \cdots i_p})$.
+For a sheaf, $\check{H}^0(\mathcal{U}, \mathcal{F}) = \mathcal{F}(X)$ by the sheaf axioms. The \emph{sheafified \v{C}ech complex} $\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ is the sheaf
+$V \mapsto \check{C}^p(\mathcal{U} \cap V, \mathcal{F}|_V)$, with augmentation $\mathcal{F} \to \check{\mathcal{C}}^0$ given by restriction.
+\end{definition}
+
+\begin{lemma}\label{sheaf-cohomology:lemma-cech-resolution}
+For every sheaf $\mathcal{F}$ and open cover $\mathcal{U}$, the sequence $0 \to \mathcal{F} \to \check{\mathcal{C}}^0(\mathcal{U}, \mathcal{F}) \to \check{\mathcal{C}}^1(\mathcal{U}, \mathcal{F}) \to \cdots$ is exact.
+If $\mathcal{F}$ is flasque, then $\check{H}^p(\mathcal{U}, \mathcal{F}) = 0$ for $p > 0$.
+\end{lemma}
+
+\begin{proof}
+Let $x \in X$ and choose $j$ with $x \in U_j$. For open $V \subseteq U_j$ define $k \colon \check{C}^p(\mathcal{U} \cap V, \mathcal{F}) \to \check{C}^{p-1}(\mathcal{U} \cap V, \mathcal{F})$ by
+$(k\alpha)_{i_0 \cdots i_{p-1}} = \alpha_{ji_0 \cdots i_{p-1}}$, which makes sense since $V \cap U_{ji_0 \cdots i_{p-1}} = V \cap U_{i_0 \cdots i_{p-1}}$, and $k = $ restriction to $V \cap U_j = V$ in
+degree $0$. Then
+$(dk\alpha)_{i_0 \cdots i_p} = \sum_k(-1)^k\alpha_{ji_0 \cdots \widehat{i_k} \cdots i_p}$ and $(kd\alpha)_{i_0 \cdots i_p} = \alpha_{i_0 \cdots i_p} - \sum_k(-1)^k\alpha_{ji_0 \cdots \widehat{i_k} \cdots i_p}$, so
+$dk + kd = \id$, and similarly in degree $0$ with the augmentation. Passing to the colimit over $V \ni x$, the complex of stalks is contractible, hence exact.
+
+If $\mathcal{F}$ is flasque, each $\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ is a product of sheaves $(j_{i_0 \cdots i_p})_*(\mathcal{F}|_{U_{i_0 \cdots i_p}})$, hence flasque
+(Lemma~\ref{sheaf-cohomology:lemma-injective-flasque}); so the resolution is flasque, its global sections $\check{C}^\bullet(\mathcal{U}, \mathcal{F})$ compute $H^\bullet(X, \mathcal{F})$
+(Proposition~\ref{sheaf-cohomology:proposition-flasque}), and this vanishes in positive degrees.
+\end{proof}
+
+\begin{theorem}[Leray]\label{sheaf-cohomology:theorem-leray}
+Let $\mathcal{U}$ be an open cover of $X$ such that $H^q(U_{i_0 \cdots i_p}, \mathcal{F}) = 0$ for all $q > 0$ and all finite intersections. Then
+$\check{H}^p(\mathcal{U}, \mathcal{F}) \cong H^p(X, \mathcal{F})$ for all $p$.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{F} \to I^\bullet$ be an injective resolution and consider the first-quadrant double complex $C^{p,q} = \check{C}^p(\mathcal{U}, I^q)$. For fixed $q$, the row
+$\check{C}^\bullet(\mathcal{U}, I^q)$ is exact in positive degrees with kernel $I^q(X)$ in degree $0$, by Lemmas~\ref{sheaf-cohomology:lemma-cech-resolution}
+and~\ref{sheaf-cohomology:lemma-injective-flasque}. For fixed $p$, the column is $\prod_{i_0 < \cdots < i_p}I^\bullet(U_{i_0 \cdots i_p})$; since $I^\bullet|_U$ is an injective
+resolution of $\mathcal{F}|_U$ (Lemma~\ref{sheaf-cohomology:lemma-adjoints-injectives}) and products of abelian groups are exact, its cohomology is
+$\prod H^q(U_{i_0 \cdots i_p}, \mathcal{F})$, which is $0$ for $q > 0$ and $\check{C}^p(\mathcal{U}, \mathcal{F})$ for $q = 0$. By Lemma~\ref{homological-algebra:lemma-acyclic-assembly},
+applied once to rows and once to columns, both $\Gamma(X, I^\bullet)$ and $\check{C}^\bullet(\mathcal{U}, \mathcal{F})$ are quasi-isomorphic to the total complex. Taking cohomology gives the
+theorem.
+\end{proof}
+
+\begin{remark}\label{sheaf-cohomology:remark-cech-limit}
+Refinements of covers induce maps on \v{C}ech cohomology, well defined up to homotopy, and the colimit over all covers is the \v{C}ech cohomology $\check{H}^p(X, \mathcal{F})$. There
+is always a natural map $\check{H}^p(X, \mathcal{F}) \to H^p(X, \mathcal{F})$, which is an isomorphism for $p \leq 1$, and for all $p$ if $X$ is paracompact Hausdorff
+\cite[Chapter II, Section 5]{godement-faisceaux}. Cohomology classes in $\check{H}^1(\mathcal{U}, \mathcal{F})$ are represented by cocycles $(g_{ij})$ with $g_{ij} + g_{jk} = g_{ik}$; for
+nonabelian sheaves of groups such as $\GL_n(\mathcal{O}_X)$ the same formula (written multiplicatively) classifies locally free sheaves of rank $n$ (Chapter~\ref{vector-bundles}).
+\end{remark}
+
+\section{Comparison with singular cohomology}\label{sheaf-cohomology:section-singular}
+
+\begin{theorem}\label{sheaf-cohomology:theorem-singular-comparison}
+Let $X$ be a paracompact Hausdorff, locally contractible space (for instance a manifold or a CW complex) and $A$ an abelian group. Then $H^p(X, A_X) \cong H^p(X; A)$, the singular
+cohomology, naturally in $X$ (and compatibly with cup products \cite[Chapter III]{bredon-sheaf}).
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Let $\mathcal{S}^p$ be the sheafification of the presheaf $U \mapsto C^p(U; A)$ of singular cochains. Since every point has arbitrarily small contractible neighbourhoods, the stalks of
+the cohomology presheaves $U \mapsto H^p(U; A)$ vanish for $p > 0$ and equal $A$ for $p = 0$, so $0 \to A_X \to \mathcal{S}^\bullet$ is a resolution (sheafification preserves stalks and
+stalks are exact). The omitted verifications are that the sheaves $\mathcal{S}^p$ are soft on a paracompact space, and that
+$\Gamma(X, \mathcal{S}^\bullet) = C^\bullet(X; A)/C^\bullet_0(X; A)$, where $C^\bullet_0$ consists of cochains vanishing on sufficiently small simplices of some open cover, which is acyclic by
+the subdivision argument of Proposition~\ref{singular-homology:proposition-small-chains}; see \cite[Chapter III]{bredon-sheaf}. Then
+Theorem~\ref{sheaf-cohomology:theorem-soft-acyclic} gives $H^p(X, A_X) \cong H^p(C^\bullet(X; A)/C_0^\bullet) \cong H^p(X; A)$.
+\end{proof}
+
+\begin{example}\label{sheaf-cohomology:example-constant-sheaf-cohomology}
+$H^p(\RR^n, \ZZ) = 0$ for $p > 0$, $H^p(S^n, \ZZ)$ is $\ZZ$ for $p = 0, n$, and on a closed oriented surface of genus $g$, $H^1(\Sigma_g, \ZZ) \cong \ZZ^{2g}$. On spaces that are not locally
+contractible sheaf and singular cohomology can differ: for the topologist's sine curve $T$ of Counterexample~\ref{general-topology:counterexample-sine-curve}, singular cohomology sees two
+path components, $H^0(T; \ZZ) = \ZZ^2$, while $H^0(T, \ZZ_T) = \ZZ$ since $T$ is connected.
+\end{example}
+
+\section{Hypercohomology and the Leray spectral sequence}\label{sheaf-cohomology:section-hypercohomology}
+
+\begin{proposition}\label{sheaf-cohomology:proposition-hypercohomology}
+Let $\mathcal{K}^\bullet$ be a complex of sheaves with $\mathcal{K}^p = 0$ for $p < 0$.
+\begin{enumerate}
+\item A quasi-isomorphism $\mathcal{K}^\bullet \to \mathcal{L}^\bullet$ induces isomorphisms on hypercohomology.
+\item There are convergent spectral sequences $E_1^{p,q} = H^q(X, \mathcal{K}^p) \Rightarrow \mathbb{H}^{p+q}(X, \mathcal{K}^\bullet)$ and
+$E_2^{p,q} = H^p(X, \mathcal{H}^q(\mathcal{K}^\bullet)) \Rightarrow \mathbb{H}^{p+q}(X, \mathcal{K}^\bullet)$, where $\mathcal{H}^q$ are the cohomology sheaves.
+\item If every $\mathcal{K}^p$ is $\Gamma$-acyclic, $\mathbb{H}^p(X, \mathcal{K}^\bullet) = H^p(\Gamma(X, \mathcal{K}^\bullet))$. If $\mathcal{F} \to \mathcal{K}^\bullet$ is a resolution, then
+$\mathbb{H}^p(X, \mathcal{K}^\bullet) = H^p(X, \mathcal{F})$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Quasi-isomorphisms are isomorphisms in the derived category, and $R\Gamma$ is a functor on it. (2) is Proposition~\ref{derived-categories:proposition-hypercohomology}.
+(3) The first statement is Lemma~\ref{derived-categories:lemma-acyclic-complexes}, and the second follows from (1) applied to $\mathcal{F} \to \mathcal{K}^\bullet$, with $\mathcal{F}$ in degree $0$.
+\end{proof}
+
+\begin{remark}\label{sheaf-cohomology:remark-holomorphic-de-rham}
+On a complex manifold $X$ the holomorphic de Rham complex $\Omega^\bullet_X$ is a resolution of $\CC_X$ (the holomorphic Poincar\'e lemma), so $H^k(X; \CC) \cong \mathbb{H}^k(X, \Omega^\bullet_X)$,
+and the first spectral sequence of Proposition~\ref{sheaf-cohomology:proposition-hypercohomology} becomes the \emph{Hodge-to-de Rham} (Fr\"olicher) spectral sequence
+$E_1^{p,q} = H^q(X, \Omega^p_X) \Rightarrow H^{p+q}(X; \CC)$. Its degeneration for compact K\"ahler manifolds is a form of the Hodge decomposition
+(Chapter~\ref{hodge-decomposition}).
+\end{remark}
+
+\begin{theorem}[Leray spectral sequence]\label{sheaf-cohomology:theorem-leray-spectral-sequence}
+Let $f \colon X \to Y$ be continuous and $\mathcal{F}$ a sheaf of abelian groups on $X$. Then $R^qf_*\mathcal{F}$ is the sheafification of the presheaf $V \mapsto H^q(f^{-1}V, \mathcal{F})$,
+and there is a convergent spectral sequence $E_2^{p,q} = H^p(Y, R^qf_*\mathcal{F}) \Rightarrow H^{p+q}(X, \mathcal{F})$.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{F} \to I^\bullet$ be an injective resolution. Then $R^qf_*\mathcal{F} = \mathcal{H}^q(f_*I^\bullet)$, the sheafification of the presheaf of cohomology groups
+$V \mapsto H^q(I^\bullet(f^{-1}V))$, and $H^q(I^\bullet(f^{-1}V)) = H^q(f^{-1}V, \mathcal{F})$ because $I^\bullet|_{f^{-1}V}$ is an injective resolution
+(Lemma~\ref{sheaf-cohomology:lemma-adjoints-injectives}). Since $\Gamma(X, -) = \Gamma(Y, -) \circ f_*$ and $f_*$ preserves injectives, which are $\Gamma(Y, -)$-acyclic, the Grothendieck
+spectral sequence (Theorem~\ref{spectral-sequences:theorem-grothendieck}) applies.
+\end{proof}
+
+\begin{example}\label{sheaf-cohomology:example-leray}
+If $f$ is a closed embedding, $f_*$ is exact (compute stalks as in Proposition~\ref{sheaves:proposition-extension-by-zero}), so $H^p(Y, f_*\mathcal{F}) \cong H^p(X, \mathcal{F})$. For a locally
+trivial fibre bundle $f \colon E \to B$ with fibre $F$ over a locally contractible paracompact base, $R^qf_*\ZZ_E$ is the local system with stalks $H^q(F; \ZZ)$, and the Leray spectral sequence
+becomes the \emph{Serre spectral sequence} $E_2^{p,q} = H^p(B, \mathcal{H}^q(F)) \Rightarrow H^{p+q}(E; \ZZ)$ with local coefficients \cite{bredon-sheaf}.
+\end{example}
+
+\section{Cohomology with compact supports}\label{sheaf-cohomology:section-compact-supports}
+
+\begin{definition}\label{sheaf-cohomology:definition-compact-supports}
+Let $X$ be locally compact Hausdorff. The \emph{support} of a section $s \in \mathcal{F}(X)$ is the closed set $\{x : s_x \neq 0\}$. Let $\Gamma_c(X, \mathcal{F})$ be the group of sections with
+compact support, a left exact functor, and $H^i_c(X, \mathcal{F}) = R^i\Gamma_c(X, \mathcal{F})$.
+\end{definition}
+
+\begin{remark}\label{sheaf-cohomology:remark-compact-supports}
+Flasque sheaves are $\Gamma_c$-acyclic, and on locally compact Hausdorff spaces that are countable at infinity, so are soft sheaves; so $H^*_c$ can be computed by fine resolutions. For
+a manifold $M$ and an abelian group $A$, $H^i_c(M, A_M)$ agrees with the compactly supported singular cohomology of Definition~\ref{poincare-duality:definition-compact-supports}, and
+Poincar\'e duality generalises to \emph{Verdier duality} $R\Gamma_c(X, \mathcal{F})^\vee \cong R\Hom(\mathcal{F}, \omega_X)$ in the derived category, with $\omega_X = \mathit{or}_X[n]$ for an
+$n$-manifold \cite[Chapter III]{ks-sheaves-manifolds}, \cite{iversen-sheaves}.
+\end{remark}
+
+\section{Exercises}\label{sheaf-cohomology:section-exercises}
+
+\begin{exercise}\label{sheaf-cohomology:exercise-cech-circle}
+Compute $\check{H}^\bullet(\mathcal{U}, \ZZ_{S^1})$ for the cover of $S^1$ by two open arcs whose intersection has two components, and check with
+Theorems~\ref{sheaf-cohomology:theorem-leray} and~\ref{sheaf-cohomology:theorem-singular-comparison} that $H^1(S^1, \ZZ) \cong \ZZ$.
+\end{exercise}
+
+\begin{solution}
+With $I = \{0, 1\}$, $\check{C}^0 = \ZZ_{S^1}(U_0) \oplus \ZZ_{S^1}(U_1) = \ZZ^2$, $\check{C}^1 = \ZZ_{S^1}(U_0 \cap U_1) = \ZZ^2$ and $d(a, b) = (b - a, b - a)$. So $\check{H}^0 = \ZZ$ and
+$\check{H}^1 = \ZZ^2/\{(c, c)\} \cong \ZZ$. The arcs and the components of their intersection are contractible, hence have no higher cohomology with constant coefficients, so Leray's theorem
+applies.
+\end{solution}
+
+\begin{exercise}\label{sheaf-cohomology:exercise-skyscraper-flasque}
+Show that skyscraper sheaves are flasque, and that $H^i(X, x_*A) = 0$ for $i > 0$.
+\end{exercise}
+
+\begin{solution}
+Restriction maps are identities or maps to $0$. Flasque sheaves are acyclic (Proposition~\ref{sheaf-cohomology:proposition-flasque}).
+\end{solution}
+
+\begin{exercise}\label{sheaf-cohomology:exercise-noetherian-vanishing}
+Let $X$ be an irreducible space (every nonempty open subset is dense). Show that every constant sheaf on $X$ is flasque, and deduce $H^i(X, A_X) = 0$ for $i > 0$. (This applies to
+algebraic varieties with the Zariski topology, and shows that sheaf cohomology of constant sheaves in that topology does not see the classical topology.)
+\end{exercise}
+
+\begin{solution}
+Nonempty open subsets of an irreducible space are connected (two disjoint nonempty open subsets would contradict density), so locally constant functions on them are constant, and
+$A_X(U) = A$ for $U \neq \emptyset$, with identity restriction maps.
+\end{solution}
+
+\begin{exercise}\label{sheaf-cohomology:exercise-mayer-vietoris-sheaves}
+For open $U, V \subseteq X$ and a sheaf $\mathcal{F}$, construct a long exact Mayer--Vietoris sequence
+$\cdots \to H^i(U \cup V, \mathcal{F}) \to H^i(U, \mathcal{F}) \oplus H^i(V, \mathcal{F}) \to H^i(U \cap V, \mathcal{F}) \to H^{i+1}(U \cup V, \mathcal{F}) \to \cdots$.
+(Hint: for flasque $I$, $0 \to I(U \cup V) \to I(U) \oplus I(V) \to I(U \cap V) \to 0$ is exact.)
+\end{exercise}
