@@ -1,15 +1,309 @@
 \chapter{Sheaves on Topological Spaces}\label{sheaves}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Presheaves and sheaves, the abelian category of sheaves and the operations on sheaves.
+\section{Introduction}\label{sheaves:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{categories} (Categories), Chapter~\ref{homological-algebra} (Homological Algebra) and Chapter~\ref{homotopy} (Homotopy and Covering Spaces).
+A sheaf on a space records data that are defined locally and glue uniquely: continuous, smooth or holomorphic functions,
+sections of a bundle, solutions of a differential equation. Sheaves are the language in which complex and algebraic geometry and
+Hodge theory are written: the cohomology of sheaves (Chapter~\ref{sheaf-cohomology}) unifies singular, de Rham and Dolbeault
+cohomology, and the comparison between them is the starting point of Hodge theory. This chapter develops the basic theory: sheaves
+and stalks, sheafification, the abelian category of sheaves, direct and inverse images, local systems, and sheaves of modules.
+References are \cite{godement-faisceaux}, \cite{bredon-sheaf}, \cite{ks-sheaves-manifolds}, \cite[Chapter II]{hartshorne-ag} and
+\cite{stacks-project}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Presheaves, sheaves and stalks; sheafification.
-\item The abelian category of sheaves of abelian groups.
-\item Direct image, inverse image and their adjunction; extension by zero.
-\item Locally constant sheaves and local systems; their relation to representations of $\pi_1$.
-\item Ringed spaces and sheaves of modules; locally free sheaves.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{categories} (Categories),
+Chapter~\ref{homological-algebra} (Homological Algebra) and Chapter~\ref{homotopy} (Homotopy and Covering Spaces).
+
+Throughout, $X$ is a topological space and $\mathrm{Open}(X)$ is the set of open subsets of $X$, ordered by inclusion and viewed as a category.
+
+\section{Presheaves and sheaves}\label{sheaves:section-sheaves}
+
+\begin{definition}\label{sheaves:definition-presheaf}
+A \emph{presheaf} $\mathcal{F}$ on $X$ with values in a category $\mathcal{C}$ (sets, abelian groups, rings, modules) is a functor
+$\mathcal{F} \colon \mathrm{Open}(X)^{\op} \to \mathcal{C}$: an object $\mathcal{F}(U)$, the \emph{sections} over $U$, for each open $U$, and \emph{restriction maps}
+$\mathcal{F}(U) \to \mathcal{F}(V)$, $s \mapsto s|_V$, for $V \subseteq U$, with $s|_U = s$ and $(s|_V)|_W = s|_W$. We also write $\Gamma(U, \mathcal{F}) = \mathcal{F}(U)$. A
+\emph{morphism} of presheaves is a natural transformation. A presheaf of sets (or abelian groups, \ldots) is a \emph{sheaf} if for every open cover
+$U = \bigcup_i U_i$:
+\begin{enumerate}
+\item (Locality) if $s, t \in \mathcal{F}(U)$ satisfy $s|_{U_i} = t|_{U_i}$ for all $i$, then $s = t$;
+\item (Gluing) if $s_i \in \mathcal{F}(U_i)$ satisfy $s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}$ for all $i, j$, there is $s \in \mathcal{F}(U)$ with $s|_{U_i} = s_i$ for all $i$.
+\end{enumerate}
+Sheaves form full subcategories $\mathrm{Sh}(X) \subseteq \mathrm{PSh}(X)$ and $\mathrm{Ab}(X) \subseteq \mathrm{PAb}(X)$. Applied to the empty cover of $\emptyset$, the axioms say that
+$\mathcal{F}(\emptyset)$ is a single point (the zero group).
+\end{definition}
+
+\begin{example}\label{sheaves:example-sheaves}
+\begin{enumerate}
+\item For a space $Y$, $U \mapsto \{\text{continuous maps } U \to Y\}$ is a sheaf of sets, because continuity is local (pasting lemma,
+Lemma~\ref{general-topology:lemma-pasting}). For $Y = \RR$ or $\CC$ it is a sheaf of rings $\mathcal{C}_X$. Likewise smooth functions on a manifold and holomorphic
+functions on an open subset of $\CC$ form sheaves of rings.
+\item For a continuous map $p \colon E \to X$, the continuous sections $s \colon U \to E$ with $ps = \id_U$ form a sheaf of sets, the \emph{sheaf of sections} of $p$.
+\item Let $A$ be a set with at least two elements. The \emph{constant presheaf} $U \mapsto A$ (with $\emptyset \mapsto$ a point) is not a sheaf if $X$ has two disjoint nonempty open
+subsets $U_1, U_2$: sections $a \neq b$ on them do not glue to a section on $U_1 \sqcup U_2$. The \emph{constant sheaf} $A_X$ is $U \mapsto \{\text{locally constant maps } U \to A\}$.
+\item For $x \in X$ and a set (group) $A$, the \emph{skyscraper sheaf} $x_*A$ has $x_*A(U) = A$ if $x \in U$ and a point otherwise.
+\item The presheaf of bounded continuous functions on $\RR$ satisfies locality but not gluing.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{sheaves:definition-stalk}
+The \emph{stalk} of a presheaf $\mathcal{F}$ at $x$ is $\mathcal{F}_x = \colim_{U \ni x}\mathcal{F}(U)$, the colimit over the open neighbourhoods of $x$ directed by reverse
+inclusion (Example~\ref{categories:example-directed}). By Proposition~\ref{categories:proposition-filtered-colimits-sets}, its elements are \emph{germs} $s_x$ of sections
+$s \in \mathcal{F}(U)$, $x \in U$, where $s_x = t_x$ for $t \in \mathcal{F}(V)$ if and only if $s|_W = t|_W$ for some open $W \ni x$ in $U \cap V$. For presheaves of abelian groups
+the stalk is an abelian group (Lemma~\ref{poincare-duality:lemma-directed-colimits}). A morphism $\varphi$ induces maps $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$.
+\end{definition}
+
+\begin{proposition}\label{sheaves:proposition-stalks-detect}
+Let $\varphi \colon \mathcal{F} \to \mathcal{G}$ be a morphism of sheaves.
+\begin{enumerate}
+\item Two sections $s, t \in \mathcal{F}(U)$ with $s_x = t_x$ for all $x \in U$ are equal.
+\item $\varphi_U$ is injective for all $U$ if and only if $\varphi_x$ is injective for all $x$.
+\item $\varphi$ is an isomorphism if and only if $\varphi_x$ is bijective for all $x$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Each $x \in U$ has an open neighbourhood $W_x \subseteq U$ with $s|_{W_x} = t|_{W_x}$; apply locality to the cover $(W_x)$. (2) If all $\varphi_x$ are injective and
+$\varphi(s) = \varphi(t)$, then $\varphi(s)_x = \varphi(t)_x$ gives $s_x = t_x$ for all $x$, so $s = t$ by (1). Conversely, if $\varphi_x(s_x) = \varphi_x(t_x)$ with $s, t \in \mathcal{F}(U)$,
+then $\varphi(s)|_W = \varphi(t)|_W$ for some $W \ni x$, so $s|_W = t|_W$ and $s_x = t_x$. (3) An isomorphism induces bijections on stalks. Conversely, by (2) each $\varphi_U$ is
+injective. Let $t \in \mathcal{G}(U)$. For each $x \in U$ choose $s^{(x)} \in \mathcal{F}(W_x)$ with $\varphi(s^{(x)})_x = t_x$; shrinking $W_x$, $\varphi(s^{(x)}) = t|_{W_x}$. On
+$W_x \cap W_y$, $\varphi(s^{(x)}) = \varphi(s^{(y)})$, so $s^{(x)} = s^{(y)}$ there by injectivity. By gluing there is $s$ with $s|_{W_x} = s^{(x)}$, and $\varphi(s) = t$ by locality.
+\end{proof}
+
+\section{Sheafification}\label{sheaves:section-sheafification}
+
+\begin{theorem}\label{sheaves:theorem-sheafification}
+Let $\mathcal{F}$ be a presheaf of sets (abelian groups). For $U$ open let $\mathcal{F}^\#(U)$ be the set of functions $s$ assigning to each $x \in U$ a germ $s(x) \in \mathcal{F}_x$
+such that every $x \in U$ has an open neighbourhood $W \subseteq U$ and $t \in \mathcal{F}(W)$ with $s(y) = t_y$ for all $y \in W$. With restriction of functions,
+$\mathcal{F}^\#$ is a sheaf, the \emph{sheafification} of $\mathcal{F}$, and $\theta \colon \mathcal{F} \to \mathcal{F}^\#$, $t \mapsto (y \mapsto t_y)$, has the following properties.
+\begin{enumerate}
+\item $\theta_x \colon \mathcal{F}_x \to \mathcal{F}^\#_x$ is bijective for all $x$.
+\item Every morphism $\varphi \colon \mathcal{F} \to \mathcal{G}$ to a sheaf factors uniquely as $\varphi = \psi \circ \theta$. So sheafification is left adjoint to the inclusion of sheaves
+into presheaves.
+\item If $\mathcal{F}$ is a sheaf, $\theta$ is an isomorphism.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The conditions defining $\mathcal{F}^\#(U)$ are local, so $\mathcal{F}^\#$ is a sheaf; for abelian groups, the pointwise operations preserve the condition.
+
+(1) Surjectivity: an element of $\mathcal{F}^\#_x$ is the germ of some $s \in \mathcal{F}^\#(U)$, which near $x$ equals $\theta(t)$, so the germ is $\theta_x(t_x)$. Injectivity: if
+$\theta(t)_x = \theta(t')_x$, then in particular $t_x = \theta(t)(x) = \theta(t')(x) = t'_x$.
+
+(2) Let $s \in \mathcal{F}^\#(U)$, and choose an open cover $(W_i)$ of $U$ and $t_i \in \mathcal{F}(W_i)$ with $s|_{W_i} = \theta(t_i)$. On $W_i \cap W_j$ the germs of $t_i$ and $t_j$
+agree, hence so do the germs of $\varphi(t_i)$ and $\varphi(t_j)$, and by Proposition~\ref{sheaves:proposition-stalks-detect}(1) $\varphi(t_i) = \varphi(t_j)$ there. Let $\psi(s)$ be the
+section of $\mathcal{G}$ obtained by gluing. It does not depend on the choices (two choices agree on a common refinement), and $\psi$ is a morphism with $\psi\theta = \varphi$.
+Uniqueness: any $\psi'$ with $\psi'\theta = \varphi$ agrees with $\psi$ on each $\theta(t_i)$, hence on $s$ by locality.
+
+(3) By (1) and Proposition~\ref{sheaves:proposition-stalks-detect}(3), applied to the morphism $\theta$ of sheaves.
+\end{proof}
+
+\begin{proposition}\label{sheaves:proposition-abelian-category}
+$\mathrm{Ab}(X)$ is an abelian category. The kernel of $\varphi \colon \mathcal{F} \to \mathcal{G}$ is $U \mapsto \ker\varphi_U$; its cokernel is the sheafification of the presheaf
+$U \mapsto \operatorname{coker}\varphi_U$. Taking stalks is exact: $(\ker\varphi)_x = \ker\varphi_x$ and $(\operatorname{coker}\varphi)_x = \operatorname{coker}\varphi_x$. A sequence of sheaves is exact if
+and only if it is exact on all stalks. The functor $\Gamma(U, -)$ is left exact but not exact in general.
+\end{proposition}
+
+\begin{proof}
+Sums of morphisms and finite direct sums $(\mathcal{F} \oplus \mathcal{G})(U) = \mathcal{F}(U) \oplus \mathcal{G}(U)$ make $\mathrm{Ab}(X)$ additive. The presheaf kernel is a sheaf and is
+a kernel in $\mathrm{Ab}(X)$. By Theorem~\ref{sheaves:theorem-sheafification}(2), the sheafified presheaf cokernel is a cokernel. Stalks are directed colimits, which are exact
+(Lemma~\ref{poincare-duality:lemma-directed-colimits}), and sheafification does not change stalks; this gives the formulas for stalks. If $\varphi$ is a monomorphism, the
+canonical morphism from $\mathcal{F}$ to the kernel of its cokernel is bijective on stalks, because $\mathrm{Ab}$ is abelian; so it is an isomorphism by
+Proposition~\ref{sheaves:proposition-stalks-detect}; similarly for epimorphisms. Images and exactness are defined by kernels and cokernels, so they are computed on stalks. Left
+exactness of $\Gamma$ holds because kernels are computed sectionwise.
+
+For the failure of right exactness, let $X = \RR$, $p \neq q$ in $X$, and consider $\ZZ_X \to p_*\ZZ \oplus q_*\ZZ$, sending a locally constant function to its values at $p$ and $q$ (when
+defined). On stalks it is surjective: at $p$ it is $\ZZ \to \ZZ$, the identity, and at points $x \neq p, q$ the target stalk is $0$, since $x$ has a neighbourhood containing neither
+$p$ nor $q$. On global sections it is $\ZZ \to \ZZ \oplus \ZZ$, $n \mapsto (n, n)$, because $\RR$ is connected, and this is not surjective.
+\end{proof}
+
+\section{Direct and inverse images}\label{sheaves:section-images}
+
+\begin{definition}\label{sheaves:definition-images}
+Let $f \colon X \to Y$ be continuous. The \emph{direct image} of a sheaf $\mathcal{F}$ on $X$ is the sheaf $f_*\mathcal{F}(V) = \mathcal{F}(f^{-1}V)$ on $Y$. The \emph{inverse image} of a sheaf
+$\mathcal{G}$ on $Y$ is the sheafification $f^{-1}\mathcal{G}$ of the presheaf $f^{-1}_p\mathcal{G}(U) = \colim_{V \supseteq f(U)}\mathcal{G}(V)$, the colimit over open $V \supseteq f(U)$
+directed by reverse inclusion. For $i \colon Z \to X$ the inclusion of a subspace, $\mathcal{F}|_Z = i^{-1}\mathcal{F}$ is the \emph{restriction}; for $Z$ open,
+$\mathcal{F}|_Z(W) = \mathcal{F}(W)$.
+\end{definition}
+
+\begin{proposition}\label{sheaves:proposition-images}
+\begin{enumerate}
+\item $(f^{-1}\mathcal{G})_x \cong \mathcal{G}_{f(x)}$; hence $f^{-1}$ is exact on sheaves of abelian groups. The functor $f_*$ is left exact.
+\item There is a bijection $\Hom_{\mathrm{Sh}(X)}(f^{-1}\mathcal{G}, \mathcal{F}) \cong \Hom_{\mathrm{Sh}(Y)}(\mathcal{G}, f_*\mathcal{F})$, natural in $\mathcal{F}$ and $\mathcal{G}$: $f^{-1}$ is left adjoint to
+$f_*$.
+\item $(g \circ f)_* = g_* \circ f_*$ and $(g \circ f)^{-1} \cong f^{-1} \circ g^{-1}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The pairs $(U, V)$ with $x \in U$ and $V \supseteq f(U)$ map cofinally to the open neighbourhoods $V$ of $f(x)$ (take $U = f^{-1}V$), so
+$(f^{-1}_p\mathcal{G})_x = \colim_{V \ni f(x)}\mathcal{G}(V)$ by Lemma~\ref{poincare-duality:lemma-directed-colimits}, and sheafification preserves stalks. Exactness follows from
+Proposition~\ref{sheaves:proposition-abelian-category}. Kernels of sheaves are computed sectionwise, so $f_*$ preserves them.
+
+(2) By Theorem~\ref{sheaves:theorem-sheafification}(2), morphisms $f^{-1}\mathcal{G} \to \mathcal{F}$ are morphisms of presheaves $f_p^{-1}\mathcal{G} \to \mathcal{F}$, that is, families of
+maps $\mathcal{G}(V) \to \mathcal{F}(U)$ for $V \supseteq f(U)$, compatible with restrictions in $U$ and $V$. Such a family determines maps $\mathcal{G}(V) \to \mathcal{F}(f^{-1}V)$ (take
+$U = f^{-1}V$), compatible with restrictions, that is, a morphism $\mathcal{G} \to f_*\mathcal{F}$. Conversely a morphism $\psi \colon \mathcal{G} \to f_*\mathcal{F}$ gives
+$\mathcal{G}(V) \xrightarrow{\psi_V} \mathcal{F}(f^{-1}V) \to \mathcal{F}(U)$ by restriction, as $U \subseteq f^{-1}V$. These constructions are mutually inverse and natural.
+
+(3) The first equality is clear; the second follows from (2) and uniqueness of adjoints (Proposition~\ref{categories:proposition-adjoint-unique}).
+\end{proof}
+
+\begin{definition}\label{sheaves:definition-extension-by-zero}
+Let $j \colon U \to X$ be the inclusion of an open subset and $\mathcal{F}$ a sheaf of abelian groups on $U$. The \emph{extension by zero} $j_!\mathcal{F}$ is the sheafification of the
+presheaf $W \mapsto \mathcal{F}(W)$ if $W \subseteq U$ and $W \mapsto 0$ otherwise.
+\end{definition}
+
+\begin{proposition}\label{sheaves:proposition-extension-by-zero}
+$(j_!\mathcal{F})_x = \mathcal{F}_x$ for $x \in U$ and $0$ for $x \notin U$. If $Z = X \setminus U$ with inclusion $i$, then for every sheaf of abelian groups $\mathcal{F}$ on $X$ there is a
+short exact sequence $0 \to j_!(\mathcal{F}|_U) \to \mathcal{F} \to i_*(\mathcal{F}|_Z) \to 0$.
+\end{proposition}
+
+\begin{proof}
+For $x \in U$ the open neighbourhoods contained in $U$ are cofinal; for $x \notin U$ no neighbourhood is contained in $U$. The first map is induced, via
+Theorem~\ref{sheaves:theorem-sheafification}(2), by the inclusions $\mathcal{F}(W) \to \mathcal{F}(W)$ for $W \subseteq U$; the second is the unit
+$\mathcal{F} \to i_*i^{-1}\mathcal{F}$ of the adjunction. On stalks at $x \in U$, the sequence is $0 \to \mathcal{F}_x \to \mathcal{F}_x \to 0 \to 0$, since $x$ has a neighbourhood missing the
+closed set $Z$. At $z \in Z$, the open subsets $W \cap Z$ are cofinal among neighbourhoods of $z$ in $Z$, so $(i_*i^{-1}\mathcal{F})_z = (i^{-1}\mathcal{F})_z = \mathcal{F}_z$, and the
+sequence is $0 \to 0 \to \mathcal{F}_z \to \mathcal{F}_z \to 0$.
+\end{proof}
+
+\section{Locally constant sheaves and local systems}\label{sheaves:section-local-systems}
+
+\begin{definition}\label{sheaves:definition-local-system}
+A sheaf $\mathcal{F}$ of sets is \emph{locally constant} if every point has an open neighbourhood $U$ with $\mathcal{F}|_U$ isomorphic to a constant sheaf $A_U$. A \emph{local system}
+of $K$-vector spaces (for a field $K$) is a locally constant sheaf of $K$-vector spaces whose stalks are finite-dimensional; local systems of abelian groups or modules are defined
+similarly.
+\end{definition}
+
+\begin{proposition}\label{sheaves:proposition-etale-space}
+Let $\mathcal{F}$ be a sheaf of sets on $X$. The \emph{\'etal\'e space} $E_\mathcal{F} = \bigsqcup_x\mathcal{F}_x$, with the topology whose basis is the sets $\{s_x : x \in U\}$ for
+$s \in \mathcal{F}(U)$, has a local homeomorphism $p \colon E_\mathcal{F} \to X$, and $\mathcal{F}$ is isomorphic to the sheaf of sections of $p$. If $\mathcal{F}$ is locally constant and $X$
+is locally connected, $p$ is a covering map (except that fibres may be empty), and conversely the sheaf of sections of such a covering is locally constant.
+\end{proposition}
+
+\begin{proof}
+If $s_x = t_x$ for $s \in \mathcal{F}(U)$, $t \in \mathcal{F}(V)$, the two basic sets contain the basic set of $s|_W$ for some $W \ni x$; so these sets form a basis, and $p$ maps the basic
+set of $s$ homeomorphically onto $U$, with inverse $\hat{s} \colon x \mapsto s_x$. The map $s \mapsto \hat{s}$ from $\mathcal{F}(U)$ to continuous sections over $U$ is injective by
+Proposition~\ref{sheaves:proposition-stalks-detect}(1); it is surjective, because a continuous section $\sigma$ is locally of the form $\hat{s}$ (near $x$, $\sigma$ lies in the basic
+set of some $s$ with $s_x = \sigma(x)$), and these local $s$ glue. If $\mathcal{F}|_U \cong A_U$ with $U$ connected, then $p^{-1}(U) \cong U \times A$ with $A$ discrete, because the germs of
+the constant sections $a \in A$ give disjoint open sets covering $p^{-1}(U)$. Conversely, over a connected evenly covered open set, sections of a covering correspond to locally constant
+choices of sheets.
+\end{proof}
+
+\begin{theorem}\label{sheaves:theorem-local-systems-representations}
+Let $X$ be path-connected, locally path-connected and semilocally simply connected, and $x \in X$. Taking the stalk at $x$, with the monodromy action, gives equivalences of
+categories between
+\begin{enumerate}
+\item locally constant sheaves of sets on $X$ and sets with a right action of $\pi_1(X, x)$;
+\item local systems of $K$-vector spaces on $X$ and finite-dimensional right $K[\pi_1(X, x)]$-modules, that is, representations
+$\rho \colon \pi_1(X, x)^{\op} \to \GL(\mathcal{F}_x)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+By Proposition~\ref{sheaves:proposition-etale-space}, locally constant sheaves correspond to covering spaces (with possibly empty fibres), and morphisms of sheaves to maps of
+coverings. A covering is the disjoint union of its components, which are connected coverings of $X$, and the fibre over $x$ with its monodromy action
+(Corollary~\ref{homotopy:corollary-lifting-consequences}) is a right $\pi_1(X, x)$-set whose orbits correspond to the components. For connected coverings, the classification
+theorem (Theorem~\ref{homotopy:theorem-classification}) identifies isomorphism classes with transitive $\pi_1$-sets $H\backslash\pi_1(X, x)$, and the lifting criterion
+(Proposition~\ref{homotopy:proposition-lifting-criterion}) identifies maps of coverings with equivariant maps of fibres; this gives (1). The omitted verification is that these
+identifications are functorial; see \cite[Chapter 2]{szamuely-galois}. For (2), a local system is a locally constant sheaf of sets with a $K$-vector space structure on the stalks
+compatible with monodromy, and the monodromy action is then $K$-linear.
+\end{proof}
+
+\begin{example}\label{sheaves:example-local-systems}
+\begin{enumerate}
+\item On a simply connected space every local system is constant.
+\item On $S^1$, the rank one local systems of $\CC$-vector spaces correspond to $\lambda \in \CC^\times$, the monodromy around the generator of $\pi_1(S^1) \cong \ZZ$. For
+$\lambda \neq 1$ the local system $\mathcal{L}_\lambda$ has no nonzero global sections, since a global section is a vector fixed by monodromy. The real local system with monodromy $-1$ is the
+sheaf of locally constant sections of the M\"obius band, viewed as a line bundle over $S^1$.
+\item For a manifold $M$, the \emph{orientation sheaf} $\mathit{or}_M$, with stalks $H_n(M \mid x; \ZZ)$, is the local system of rank one associated with the orientation double covering
+(Proposition~\ref{poincare-duality:proposition-orientation-covering}); it is constant if and only if $M$ is orientable.
+\item For a family of spaces $f \colon E \to B$ that is locally trivial, the cohomology groups of the fibres form local systems $R^kf_*\ZZ$ on $B$ (Chapter~\ref{sheaf-cohomology}); their
+monodromy is a central object in the theory of variations of Hodge structure (Chapter~\ref{vhs}).
+\end{enumerate}
+\end{example}
+
+\section{Ringed spaces and sheaves of modules}\label{sheaves:section-ringed-spaces}
+
+\begin{definition}\label{sheaves:definition-ringed-space}
+A \emph{ringed space} is a pair $(X, \mathcal{O}_X)$ of a space and a sheaf of commutative rings. It is \emph{locally ringed} if all stalks $\mathcal{O}_{X,x}$ are local rings. A
+\emph{morphism} $(f, f^\#) \colon (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ is a continuous map $f$ with a morphism of sheaves of rings $f^\# \colon \mathcal{O}_Y \to f_*\mathcal{O}_X$; for locally
+ringed spaces one requires the induced maps $\mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}$ to be local homomorphisms. An \emph{$\mathcal{O}_X$-module} is a sheaf of abelian groups
+$\mathcal{F}$ with $\mathcal{O}_X(U)$-module structures on $\mathcal{F}(U)$ compatible with restrictions.
+\end{definition}
+
+\begin{example}\label{sheaves:example-ringed-spaces}
+A space with its sheaf of continuous real functions, a smooth manifold with smooth functions (Chapter~\ref{smooth-manifolds}), a complex manifold with holomorphic functions
+(Chapter~\ref{complex-manifolds}) and a scheme (Chapter~\ref{schemes}) are locally ringed spaces: in each case the germs vanishing at $x$ form the unique maximal ideal of the stalk, since a
+germ not vanishing at $x$ is invertible near $x$.
+\end{example}
+
+\begin{definition}\label{sheaves:definition-module-operations}
+Let $\mathcal{F}$, $\mathcal{G}$ be $\mathcal{O}_X$-modules. The \emph{tensor product} $\mathcal{F} \otimes_{\mathcal{O}_X} \mathcal{G}$ is the sheafification of
+$U \mapsto \mathcal{F}(U) \otimes_{\mathcal{O}_X(U)} \mathcal{G}(U)$. The sheaf $\mathcal{H}om_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ has sections over $U$ the morphisms
+$\mathcal{F}|_U \to \mathcal{G}|_U$ of $\mathcal{O}_U$-modules, and $\mathcal{F}^\vee = \mathcal{H}om(\mathcal{F}, \mathcal{O}_X)$ is the \emph{dual}. An $\mathcal{O}_X$-module is
+\emph{locally free of rank $r$} if every point has an open neighbourhood $U$ with $\mathcal{F}|_U \cong \mathcal{O}_U^{\oplus r}$, and \emph{invertible} if it is locally free of rank $1$.
+For a morphism $f$ of ringed spaces and an $\mathcal{O}_Y$-module $\mathcal{G}$, the \emph{pullback} is $f^*\mathcal{G} = f^{-1}\mathcal{G} \otimes_{f^{-1}\mathcal{O}_Y} \mathcal{O}_X$.
+\end{definition}
+
+\begin{proposition}\label{sheaves:proposition-modules}
+\begin{enumerate}
+\item $\mathcal{H}om(\mathcal{F}, \mathcal{G})$ is a sheaf, and $(\mathcal{F} \otimes \mathcal{G})_x \cong \mathcal{F}_x \otimes_{\mathcal{O}_{X,x}} \mathcal{G}_x$.
+\item If $\mathcal{E}$ and $\mathcal{E}'$ are locally free of ranks $r$ and $r'$, then $\mathcal{E} \otimes \mathcal{E}'$ is locally free of rank $rr'$, $\mathcal{E}^\vee$ is locally free of rank
+$r$, and the evaluation map $\mathcal{E} \otimes \mathcal{E}^\vee \to \mathcal{O}_X$ is an isomorphism if $r = 1$.
+\item The isomorphism classes of invertible sheaves form an abelian group $\Pic(X)$ under $\otimes$, with identity $\mathcal{O}_X$ and inverse $\mathcal{L}^\vee$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Morphisms defined on the members of an open cover and agreeing on overlaps glue uniquely, because sections of $\mathcal{G}$ do. For the stalk, sheafification does not change stalks,
+so it suffices to compare $\colim_{U \ni x}\mathcal{F}(U) \otimes_{\mathcal{O}_X(U)} \mathcal{G}(U)$ with $\mathcal{F}_x \otimes_{\mathcal{O}_{X,x}} \mathcal{G}_x$. The map
+$[s \otimes t] \mapsto s_x \otimes t_x$ is well defined; an inverse sends $s_x \otimes t_x$ to the class of $s|_W \otimes t|_W$ on a common neighbourhood $W$, which is well defined because
+every relation defining the tensor product over $\mathcal{O}_{X,x}$ involves finitely many germs and already holds over some neighbourhood of $x$ \cite[Chapter II, Section 5]{hartshorne-ag}.
+
+(2) All statements are local, so we may assume $\mathcal{E} = \mathcal{O}^r$ and $\mathcal{E}' = \mathcal{O}^{r'}$. Then $\mathcal{O}^r \otimes \mathcal{O}^{r'} \cong \mathcal{O}^{rr'}$ (the
+presheaf tensor product is already a sheaf in this case), $\mathcal{H}om(\mathcal{O}^r, \mathcal{O}) \cong \mathcal{O}^r$, and for $r = 1$ evaluation $\mathcal{O} \otimes \mathcal{O} \to \mathcal{O}$
+is multiplication, an isomorphism. Since the evaluation map is a globally defined morphism, and being an isomorphism can be checked on stalks
+(Proposition~\ref{sheaves:proposition-stalks-detect}), it is an isomorphism.
+
+(3) Tensor product is associative and commutative up to natural isomorphism, $\mathcal{O}_X \otimes \mathcal{L} \cong \mathcal{L}$, and (2) gives inverses.
+\end{proof}
+
+\begin{remark}\label{sheaves:remark-vector-bundles}
+If $E \to X$ is a (real or complex, topological, smooth or holomorphic) vector bundle of rank $r$, its sheaf of sections is a locally free module of rank $r$ over the corresponding
+sheaf of functions, and every locally free sheaf arises in this way, uniquely up to isomorphism (Chapter~\ref{vector-bundles}). Under this correspondence, $\Pic(X)$ is the group of line
+bundles; for a complex manifold it is computed by sheaf cohomology via the exponential sequence (Chapter~\ref{holomorphic-bundles}).
+\end{remark}
+
+\section{Exercises}\label{sheaves:section-exercises}
+
+\begin{exercise}\label{sheaves:exercise-constant-sheaf}
+Show that the sheafification of the constant presheaf with value $A$ is the constant sheaf $A_X$ of locally constant functions, and that $A_X = \pi^{-1}A$ for
+$\pi \colon X \to \mathrm{pt}$.
+\end{exercise}
+
+\begin{solution}
+The stalks of the constant presheaf are all $A$, and a section of the sheafification is a function $U \to A$ locally equal to a constant, that is, a locally constant function.
+For the second statement, $\pi_p^{-1}A(U) = A$ for $U \neq \emptyset$.
+\end{solution}
+
+\begin{exercise}\label{sheaves:exercise-skyscraper-adjunction}
+Let $i \colon \{x\} \to X$. Show that $x_*A = i_*A$ and $\Hom(\mathcal{F}, x_*A) \cong \Hom(\mathcal{F}_x, A)$ for every sheaf $\mathcal{F}$ of abelian groups.
+\end{exercise}
+
+\begin{solution}
+The first statement is the definition. By Proposition~\ref{sheaves:proposition-images}(2) and (1),
+$\Hom(\mathcal{F}, i_*A) \cong \Hom(i^{-1}\mathcal{F}, A) = \Hom(\mathcal{F}_x, A)$, since a sheaf on a point is a single group.
+\end{solution}
+
+\begin{exercise}\label{sheaves:exercise-direct-image-stalk}
+Give an example of a continuous map $f$ and a sheaf $\mathcal{F}$ such that $(f_*\mathcal{F})_y$ is not isomorphic to the global sections of $\mathcal{F}$ on the fibre $f^{-1}(y)$.
+\end{exercise}
+
+\begin{exercise}\label{sheaves:exercise-epi-not-surjective}
+Let $X = \CC \setminus \{0\}$ with the sheaf $\mathcal{O}$ of holomorphic functions and $\mathcal{O}^\times$ of nowhere vanishing ones. Accepting that holomorphic functions have local
+logarithms of nonvanishing functions but $z$ has no global logarithm, show that $\exp \colon \mathcal{O} \to \mathcal{O}^\times$, $f \mapsto e^{2\pi i f}$, is an epimorphism of sheaves but not
+surjective on global sections, and identify its kernel.
+\end{exercise}
+
+\begin{exercise}\label{sheaves:exercise-restriction-open-adjoint}
+For $j \colon U \to X$ open, show that $j_!$ is left adjoint to $j^{-1}$ on sheaves of abelian groups, and that $j^{-1}$ is left adjoint to $j_*$.
+\end{exercise}
