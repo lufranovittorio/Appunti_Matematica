@@ -1,0 +1,61 @@
+% Shared preamble for the whole project. Loaded by book.tex.
+%
+% plasTeX (the HTML renderer) treats \ifplastex as true; LaTeX sees it as
+% false. Put anything that only makes sense for the PDF inside
+% \ifplastex\else ... \fi.
+\newif\ifplastex\plastexfalse
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz-cd}
+
+\ifplastex\else
+  \usepackage[T1]{fontenc}
+  \usepackage{newpxtext}
+  \usepackage{newpxmath}
+  \usepackage[a4paper, margin=1.1in]{geometry}
+  \usepackage{microtype}
+  \usepackage{xcolor}
+  \definecolor{linkblue}{RGB}{31,58,95}
+\fi
+
+\usepackage{hyperref}
+\ifplastex\else
+  \hypersetup{colorlinks=true, linkcolor=linkblue, citecolor=linkblue, urlcolor=linkblue}
+\fi
+
+% ---------------------------------------------------------------------------
+% Numbered environments.
+%
+% Every numbered environment shares one counter, numbered within sections:
+% Lemma 5.2.3 is followed by Example 5.2.4. The label of an environment must
+% have the form <chapter>:<environment>-<name>; see CLAUDE.md.
+% ---------------------------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{counterexample}[theorem]{Counterexample}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{notation}[theorem]{Notation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Proof variants: \begin{proof} for complete proofs,
+% \begin{proof}[Sketch of proof] for sketches, and solution for exercises.
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+
+\numberwithin{equation}{section}
+\renewcommand{\thepart}{\Roman{part}}
+
+% \chapterstatus{planned|draft|complete|checked}. Prints nothing; make.py
+% reads it for the status report and the status banners on the website.
+\newcommand{\chapterstatus}[1]{}

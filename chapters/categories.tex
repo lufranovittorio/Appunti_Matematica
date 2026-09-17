@@ -1,0 +1,694 @@
+\chapter{Categories}\label{categories}
+\chapterstatus{draft}
+
+\section{Introduction}\label{categories:section-introduction}
+
+Category theory is the language in which most of this project is written.
+This chapter introduces categories, functors and natural transformations, and
+proves the Yoneda lemma.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{sets} (Set Theory), in
+particular the notion of a Grothendieck universe.
+
+\noindent\textbf{Still to be written.}
+\begin{itemize}
+\item Equivalences of categories.
+\item Limits and colimits; products, fibre products, equalisers.
+\item Adjoint functors and their relation to limits.
+\item Filtered colimits.
+\item Additive categories (abelian categories are treated in
+Chapter~\ref{homological-algebra}).
+\end{itemize}
+
+Throughout, $\mathcal{U}$ is the universe fixed in
+Notation~\ref{introduction:notation-universe}, and a set is \emph{small} if it
+is an element of $\mathcal{U}$.
+
+\section{Categories}\label{categories:section-categories}
+
+\begin{definition}\label{categories:definition-category}
+A \emph{category} $\mathcal{C}$ consists of
+\begin{enumerate}
+\item a set $\Ob(\mathcal{C})$, whose elements are called the \emph{objects} of
+$\mathcal{C}$;
+\item for all objects $X, Y$, a set $\Hom_{\mathcal{C}}(X, Y)$, whose elements
+are called \emph{morphisms} from $X$ to $Y$;
+\item for every object $X$, an element $\id_X \in \Hom_{\mathcal{C}}(X, X)$,
+the \emph{identity} of $X$;
+\item for all objects $X, Y, Z$, a map
+\[
+\Hom_{\mathcal{C}}(Y, Z) \times \Hom_{\mathcal{C}}(X, Y) \longrightarrow
+\Hom_{\mathcal{C}}(X, Z), \qquad (g, f) \longmapsto g \circ f,
+\]
+called \emph{composition},
+\end{enumerate}
+such that the following hold:
+\begin{enumerate}
+\item (associativity) $h \circ (g \circ f) = (h \circ g) \circ f$ for all
+$f \in \Hom_{\mathcal{C}}(X, Y)$, $g \in \Hom_{\mathcal{C}}(Y, Z)$ and
+$h \in \Hom_{\mathcal{C}}(Z, W)$;
+\item (identities) $f \circ \id_X = f = \id_Y \circ f$ for all
+$f \in \Hom_{\mathcal{C}}(X, Y)$;
+\item the sets $\Hom_{\mathcal{C}}(X, Y)$ are pairwise disjoint.
+\end{enumerate}
+\end{definition}
+
+\begin{notation}\label{categories:notation-morphisms}
+We write $X \in \mathcal{C}$ instead of $X \in \Ob(\mathcal{C})$, and
+$f \colon X \to Y$ instead of $f \in \Hom_{\mathcal{C}}(X, Y)$. By the last
+axiom of Definition~\ref{categories:definition-category}, a morphism $f$
+determines its \emph{source} $X$ and its \emph{target} $Y$. We often write
+$gf$ for $g \circ f$, and $\Hom(X, Y)$ when the category is clear.
+\end{notation}
+
+\begin{definition}\label{categories:definition-small}
+A category $\mathcal{C}$ is \emph{locally small} if $\Hom_{\mathcal{C}}(X, Y)$
+is a small set for all $X, Y \in \mathcal{C}$. It is \emph{small} if it is
+locally small and $\Ob(\mathcal{C})$ is a small set.
+\end{definition}
+
+\begin{remark}\label{categories:remark-why-universes}
+There is no set of all sets, so ``the category of all sets'' cannot be a
+category in the sense of Definition~\ref{categories:definition-category}. The
+universe $\mathcal{U}$ solves this problem: it is a set, it is closed under all
+the usual constructions of set theory (pairs, products, power sets, sets of
+maps, unions indexed by small sets), and it contains every set that appears in
+ordinary mathematics. So we can form the category of all \emph{small} sets
+without leaving ZFC.
+\end{remark}
+
+\begin{example}\label{categories:example-sets}
+The category $\Sets$ has as objects the small sets, that is,
+$\Ob(\Sets) = \mathcal{U}$. For small sets $X$ and $Y$, the set
+$\Hom_{\Sets}(X, Y)$ is the set of maps from $X$ to $Y$, composition is
+composition of maps, and $\id_X$ is the identity map. Since $\mathcal{U}$ is
+closed under forming sets of maps, $\Sets$ is locally small. It is not small,
+because $\mathcal{U} \notin \mathcal{U}$.
+
+(Strictly speaking, a map $f \colon X \to Y$ should be recorded together with
+its target $Y$, so that the last axiom of
+Definition~\ref{categories:definition-category} holds. We do this silently
+here and in similar examples.)
+\end{example}
+
+\begin{example}\label{categories:example-algebraic-categories}
+In the same way there are locally small categories of small groups
+$\cat{Grp}$, of small abelian groups $\cat{Ab}$, of small rings $\cat{Ring}$,
+of small vector spaces over a field $k$, written $\cat{Vect}_k$, and of small
+topological spaces $\cat{Top}$. In each case the morphisms are the maps that
+preserve the relevant structure (group homomorphisms, ring homomorphisms,
+linear maps, continuous maps), and composition is composition of maps. These
+notions are defined in later chapters.
+\end{example}
+
+\begin{definition}\label{categories:definition-monoid}
+A \emph{monoid} is a set $M$ with a map $M \times M \to M$,
+$(a, b) \mapsto ab$, which is associative, together with an element $e \in M$
+such that $ea = a = ae$ for all $a \in M$. A \emph{homomorphism of monoids}
+$\varphi \colon M \to N$ is a map with $\varphi(ab) = \varphi(a)\varphi(b)$ for
+all $a, b \in M$ and $\varphi(e) = e$. The small monoids and their
+homomorphisms form a locally small category $\cat{Mon}$.
+\end{definition}
+
+\begin{example}\label{categories:example-monoid-as-category}
+Let $M$ be a monoid. There is a category $BM$ with a single object $\ast$,
+with $\Hom_{BM}(\ast, \ast) = M$, with composition given by the multiplication
+of $M$ and with $\id_\ast = e$. The axioms of a category are exactly the axioms
+of a monoid. Conversely, if $\mathcal{C}$ is a category and $X \in \mathcal{C}$,
+then $\End(X) = \Hom_{\mathcal{C}}(X, X)$ is a monoid under composition.
+\end{example}
+
+\begin{example}\label{categories:example-preorder}
+Let $P$ be a set with a relation $\leq$ that is reflexive and transitive (a
+\emph{preorder}). There is a category, also written $P$, whose objects are the
+elements of $P$, with $\Hom_P(x, y) = \{(x, y)\}$ if $x \leq y$ and
+$\Hom_P(x, y) = \emptyset$ otherwise. Composition is forced, because every set
+of morphisms has at most one element; it exists by transitivity, and the
+identities exist by reflexivity.
+\end{example}
+
+\begin{example}\label{categories:example-discrete}
+Let $S$ be a set. The \emph{discrete category} on $S$ has objects the elements
+of $S$, with $\Hom(s, s) = \{\id_s\}$ and $\Hom(s, t) = \emptyset$ for
+$s \neq t$. It is the category associated with the preorder ``$s \leq t$ if and
+only if $s = t$''.
+\end{example}
+
+\begin{definition}\label{categories:definition-opposite}
+Let $\mathcal{C}$ be a category. The \emph{opposite category}
+$\mathcal{C}^{\op}$ has the same objects as $\mathcal{C}$ and
+$\Hom_{\mathcal{C}^{\op}}(X, Y) = \Hom_{\mathcal{C}}(Y, X)$, with the same
+identities and with composition
+$g \circ_{\op} f = f \circ g$.
+\end{definition}
+
+\begin{remark}\label{categories:remark-duality}
+The axioms of a category are symmetric under reversing all morphisms, and
+$(\mathcal{C}^{\op})^{\op} = \mathcal{C}$. So every statement proved for all
+categories implies a \emph{dual} statement, obtained by applying it to
+opposite categories.
+\end{remark}
+
+\begin{definition}\label{categories:definition-subcategory}
+A \emph{subcategory} $\mathcal{D}$ of a category $\mathcal{C}$ consists of a
+subset $\Ob(\mathcal{D}) \subseteq \Ob(\mathcal{C})$ and subsets
+$\Hom_{\mathcal{D}}(X, Y) \subseteq \Hom_{\mathcal{C}}(X, Y)$ for
+$X, Y \in \mathcal{D}$, which contain the identities and are closed under
+composition. It is a \emph{full} subcategory if
+$\Hom_{\mathcal{D}}(X, Y) = \Hom_{\mathcal{C}}(X, Y)$ for all
+$X, Y \in \mathcal{D}$.
+\end{definition}
+
+\begin{example}\label{categories:example-full-subcategory}
+The category $\cat{Ab}$ is a full subcategory of $\cat{Grp}$. The category
+whose objects are small sets and whose morphisms are the bijections is a
+subcategory of $\Sets$ that is not full.
+\end{example}
+
+\section{Isomorphisms, monomorphisms and epimorphisms}\label{categories:section-morphisms}
+
+\begin{definition}\label{categories:definition-isomorphism}
+A morphism $f \colon X \to Y$ in a category $\mathcal{C}$ is an
+\emph{isomorphism} if there is a morphism $g \colon Y \to X$ with
+$g \circ f = \id_X$ and $f \circ g = \id_Y$. Two objects $X$ and $Y$ are
+\emph{isomorphic}, written $X \cong Y$, if there is an isomorphism
+$X \to Y$.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-inverse-unique}
+Let $f \colon X \to Y$ be an isomorphism. There is exactly one morphism
+$g \colon Y \to X$ with $g \circ f = \id_X$ and $f \circ g = \id_Y$.
+\end{lemma}
+
+\begin{proof}
+Suppose $g$ and $g'$ both have the property. Then
+$g = g \circ \id_Y = g \circ (f \circ g') = (g \circ f) \circ g'
+= \id_X \circ g' = g'$.
+\end{proof}
+
+\begin{notation}\label{categories:notation-inverse}
+The morphism of Lemma~\ref{categories:lemma-inverse-unique} is the
+\emph{inverse} of $f$, written $f^{-1}$.
+\end{notation}
+
+\begin{definition}\label{categories:definition-mono-epi}
+A morphism $f \colon X \to Y$ is a \emph{monomorphism} if for every object $W$
+and all $g_1, g_2 \colon W \to X$, the equality $f \circ g_1 = f \circ g_2$
+implies $g_1 = g_2$. It is an \emph{epimorphism} if for every object $Z$ and
+all $h_1, h_2 \colon Y \to Z$, the equality $h_1 \circ f = h_2 \circ f$
+implies $h_1 = h_2$.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-mono-epi}
+Let $\mathcal{C}$ be a category.
+\begin{enumerate}
+\item Every isomorphism is both a monomorphism and an epimorphism.
+\item A composition of monomorphisms is a monomorphism, and a composition of
+epimorphisms is an epimorphism.
+\item If $g \circ f$ is a monomorphism, then $f$ is a monomorphism. If
+$g \circ f$ is an epimorphism, then $g$ is an epimorphism.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By Remark~\ref{categories:remark-duality}, a monomorphism in $\mathcal{C}$ is
+the same thing as an epimorphism in $\mathcal{C}^{\op}$, so in each part it
+suffices to prove the statement about monomorphisms.
+
+(1) Let $f$ be an isomorphism and suppose $f \circ g_1 = f \circ g_2$.
+Composing with $f^{-1}$ on the left gives $g_1 = g_2$.
+
+(2) Let $f \colon X \to Y$ and $f' \colon Y \to Z$ be monomorphisms and suppose
+$f' \circ f \circ g_1 = f' \circ f \circ g_2$. Since $f'$ is a monomorphism,
+$f \circ g_1 = f \circ g_2$, and since $f$ is a monomorphism, $g_1 = g_2$.
+
+(3) Suppose $f \circ g_1 = f \circ g_2$. Then
+$(g \circ f) \circ g_1 = (g \circ f) \circ g_2$, so $g_1 = g_2$.
+\end{proof}
+
+\begin{lemma}\label{categories:lemma-mono-epi-sets}
+In the category $\Sets$, a map is a monomorphism if and only if it is
+injective, and an epimorphism if and only if it is surjective.
+\end{lemma}
+
+\begin{proof}
+Let $f \colon X \to Y$ be a map of small sets.
+
+Suppose $f$ is injective and $f \circ g_1 = f \circ g_2$ for maps
+$g_1, g_2 \colon W \to X$. For every $w \in W$ we have
+$f(g_1(w)) = f(g_2(w))$, hence $g_1(w) = g_2(w)$; so $g_1 = g_2$. Conversely,
+suppose $f$ is a monomorphism and $f(x_1) = f(x_2)$. Let $W = \{0\}$, which is
+a small set, and let $g_i \colon W \to X$ be the map with $g_i(0) = x_i$. Then
+$f \circ g_1 = f \circ g_2$, so $g_1 = g_2$, that is, $x_1 = x_2$.
+
+Suppose $f$ is surjective and $h_1 \circ f = h_2 \circ f$ for maps
+$h_1, h_2 \colon Y \to Z$. Every $y \in Y$ is of the form $f(x)$, so
+$h_1(y) = h_1(f(x)) = h_2(f(x)) = h_2(y)$; hence $h_1 = h_2$. Conversely,
+suppose $f$ is an epimorphism. Let $Z = \{0, 1\}$, let $h_1 \colon Y \to Z$ be
+the map with $h_1(y) = 1$ if $y \in f(X)$ and $h_1(y) = 0$ otherwise, and let
+$h_2$ be the constant map with value $1$. Then $h_1 \circ f = h_2 \circ f$,
+so $h_1 = h_2$, which says exactly that $f(X) = Y$.
+\end{proof}
+
+\begin{counterexample}\label{categories:counterexample-mono-epi-preorder}
+A morphism that is both a monomorphism and an epimorphism need not be an
+isomorphism. Let $P = \{0, 1\}$ with the usual order $0 \leq 1$, viewed as a
+category as in Example~\ref{categories:example-preorder}, and let
+$u \colon 0 \to 1$ be the unique morphism. Every set of morphisms of $P$ has at
+most one element, so any two parallel morphisms are equal; hence every
+morphism of $P$ is a monomorphism and an epimorphism. But $u$ is not an
+isomorphism, because $\Hom_P(1, 0) = \emptyset$.
+\end{counterexample}
+
+\begin{counterexample}\label{categories:counterexample-monoids}
+The same phenomenon occurs in categories of algebraic objects. Let
+$i \colon \NN \to \ZZ$ be the inclusion, a homomorphism of monoids under
+addition. Then $i$ is a monomorphism and an epimorphism in $\cat{Mon}$, but
+not an isomorphism.
+
+Indeed, if $u, v \colon M \to \NN$ are homomorphisms with $i \circ u = i \circ v$,
+then $u = v$ because $i$ is injective. Next, let $f, g \colon \ZZ \to M$ be
+homomorphisms with $f \circ i = g \circ i$, that is, $f(n) = g(n)$ for all
+$n \in \NN$. Writing the operation of $M$ multiplicatively, for every
+$n \in \NN$ we have
+\[
+f(-n) = f(-n) \, g(n + (-n)) = f(-n) \, g(n) \, g(-n)
+= f(-n) \, f(n) \, g(-n) = f(-n + n) \, g(-n) = g(-n),
+\]
+where we used $g(0) = e$ and $f(0) = e$. Hence $f = g$. Finally, an isomorphism
+of monoids is in particular a bijection, and $i$ is not surjective.
+\end{counterexample}
+
+\begin{remark}\label{categories:remark-epi-not-surjective}
+Counterexample~\ref{categories:counterexample-monoids} shows that being an
+epimorphism is not the same as being surjective, even in categories whose
+morphisms are maps. Whether a morphism is an epimorphism depends on the whole
+category, not only on the morphism itself.
+\end{remark}
+
+\section{Functors}\label{categories:section-functors}
+
+\begin{definition}\label{categories:definition-functor}
+Let $\mathcal{C}$ and $\mathcal{D}$ be categories. A \emph{functor}
+$F \colon \mathcal{C} \to \mathcal{D}$ consists of a map
+$F \colon \Ob(\mathcal{C}) \to \Ob(\mathcal{D})$ and, for all
+$X, Y \in \mathcal{C}$, a map
+$F \colon \Hom_{\mathcal{C}}(X, Y) \to \Hom_{\mathcal{D}}(F(X), F(Y))$, such
+that $F(\id_X) = \id_{F(X)}$ for all $X$ and $F(g \circ f) = F(g) \circ F(f)$
+for all composable morphisms $f$ and $g$. A \emph{contravariant functor} from
+$\mathcal{C}$ to $\mathcal{D}$ is a functor
+$\mathcal{C}^{\op} \to \mathcal{D}$.
+\end{definition}
+
+\begin{remark}\label{categories:remark-contravariant}
+Unwinding the definitions, a contravariant functor $F$ from $\mathcal{C}$ to
+$\mathcal{D}$ assigns to each $f \colon X \to Y$ in $\mathcal{C}$ a morphism
+$F(f) \colon F(Y) \to F(X)$, and $F(g \circ f) = F(f) \circ F(g)$.
+\end{remark}
+
+\begin{example}\label{categories:example-functors}
+Some functors.
+\begin{enumerate}
+\item Every category $\mathcal{C}$ has an identity functor
+$\id_{\mathcal{C}}$. If $F \colon \mathcal{C} \to \mathcal{D}$ and
+$G \colon \mathcal{D} \to \mathcal{E}$ are functors, then so is their
+composition $G \circ F$, defined on objects and on morphisms by composing
+maps.
+\item Forgetful functors, such as $\cat{Grp} \to \Sets$, which send a group to
+its underlying set and a homomorphism to its underlying map.
+\item The covariant power set functor $\mathcal{P} \colon \Sets \to \Sets$
+sends $X$ to its power set $\mathcal{P}(X)$ and $f \colon X \to Y$ to the map
+$A \mapsto f(A)$. It is a functor because $(g \circ f)(A) = g(f(A))$.
+\item The contravariant power set functor
+$\mathcal{P}^* \colon \Sets^{\op} \to \Sets$ sends $X$ to $\mathcal{P}(X)$ and
+$f \colon X \to Y$ to the map $\mathcal{P}(Y) \to \mathcal{P}(X)$,
+$B \mapsto f^{-1}(B)$. It is a functor because
+$(g \circ f)^{-1}(C) = f^{-1}(g^{-1}(C))$.
+\item If $P$ and $Q$ are preorders, viewed as categories, a functor
+$P \to Q$ is the same thing as a map $\varphi \colon P \to Q$ with
+$\varphi(x) \leq \varphi(y)$ whenever $x \leq y$.
+\item If $M$ and $N$ are monoids, a functor $BM \to BN$ is the same thing as a
+homomorphism of monoids $M \to N$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{categories:definition-hom-functors}
+Let $\mathcal{C}$ be a locally small category and $X \in \mathcal{C}$. The
+functor $h_X \colon \mathcal{C}^{\op} \to \Sets$ sends $Y$ to
+$\Hom_{\mathcal{C}}(Y, X)$ and a morphism $f \colon Y' \to Y$ of $\mathcal{C}$
+to the map
+\[
+h_X(f) \colon \Hom_{\mathcal{C}}(Y, X) \to \Hom_{\mathcal{C}}(Y', X),
+\qquad g \mapsto g \circ f.
+\]
+Dually, the functor $h^X \colon \mathcal{C} \to \Sets$ sends $Y$ to
+$\Hom_{\mathcal{C}}(X, Y)$ and $f \colon Y \to Y'$ to $g \mapsto f \circ g$.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-functors-preserve-isomorphisms}
+Let $F \colon \mathcal{C} \to \mathcal{D}$ be a functor. If $f$ is an
+isomorphism in $\mathcal{C}$, then $F(f)$ is an isomorphism in $\mathcal{D}$,
+with inverse $F(f^{-1})$.
+\end{lemma}
+
+\begin{proof}
+If $f \colon X \to Y$, then
+$F(f^{-1}) \circ F(f) = F(f^{-1} \circ f) = F(\id_X) = \id_{F(X)}$, and
+similarly $F(f) \circ F(f^{-1}) = \id_{F(Y)}$.
+\end{proof}
+
+\begin{definition}\label{categories:definition-full-faithful}
+A functor $F \colon \mathcal{C} \to \mathcal{D}$ is \emph{faithful}
+(respectively \emph{full}) if for all $X, Y \in \mathcal{C}$ the map
+$\Hom_{\mathcal{C}}(X, Y) \to \Hom_{\mathcal{D}}(F(X), F(Y))$ is injective
+(respectively surjective). It is \emph{fully faithful} if it is both full and
+faithful. It is \emph{essentially surjective} if every object of $\mathcal{D}$
+is isomorphic to an object of the form $F(X)$.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-fully-faithful-reflects-isomorphisms}
+Let $F \colon \mathcal{C} \to \mathcal{D}$ be a fully faithful functor and
+$f \colon X \to Y$ a morphism of $\mathcal{C}$. If $F(f)$ is an isomorphism,
+then $f$ is an isomorphism. In particular, if $F(X) \cong F(Y)$ then
+$X \cong Y$.
+\end{lemma}
+
+\begin{proof}
+Let $h \colon F(Y) \to F(X)$ be the inverse of $F(f)$. Since $F$ is full,
+there is $g \colon Y \to X$ with $F(g) = h$. Then
+$F(g \circ f) = h \circ F(f) = \id_{F(X)} = F(\id_X)$, and since $F$ is
+faithful, $g \circ f = \id_X$. In the same way $f \circ g = \id_Y$.
+
+For the second statement, let $\varphi \colon F(X) \to F(Y)$ be an
+isomorphism. Since $F$ is full, $\varphi = F(f)$ for some $f \colon X \to Y$,
+and $f$ is an isomorphism by the first statement.
+\end{proof}
+
+\begin{counterexample}\label{categories:counterexample-faithful-not-reflecting}
+Faithfulness alone does not suffice in
+Lemma~\ref{categories:lemma-fully-faithful-reflects-isomorphisms}. Let $P$ be
+the category $0 \leq 1$ of
+Counterexample~\ref{categories:counterexample-mono-epi-preorder}, let
+$\mathbf{1}$ be the category with one object and one morphism, and let
+$F \colon P \to \mathbf{1}$ be the unique functor. Every set of morphisms of
+$P$ has at most one element, so $F$ is faithful. The morphism
+$u \colon 0 \to 1$ is not an isomorphism, but $F(u)$ is an identity, hence an
+isomorphism. (The functor $F$ is not full: $\Hom_P(1, 0)$ is empty.)
+\end{counterexample}
+
+\begin{remark}\label{categories:remark-forgetful-top}
+A more natural instance of the same phenomenon is the forgetful functor
+$\cat{Top} \to \Sets$, which is faithful. The identity map of $\RR$, viewed as a
+map from $\RR$ with the discrete topology to $\RR$ with the Euclidean topology,
+is a continuous bijection, so its image in $\Sets$ is an isomorphism; but it
+is not a homeomorphism.
+\end{remark}
+
+\section{Natural transformations}\label{categories:section-natural-transformations}
+
+\begin{definition}\label{categories:definition-natural-transformation}
+Let $F, G \colon \mathcal{C} \to \mathcal{D}$ be functors. A
+\emph{natural transformation} $\eta \colon F \Rightarrow G$ is a family of
+morphisms $\eta_X \colon F(X) \to G(X)$, one for each $X \in \mathcal{C}$, such
+that $G(f) \circ \eta_X = \eta_Y \circ F(f)$ for every morphism
+$f \colon X \to Y$ of $\mathcal{C}$; that is, such that the square
+\begin{center}
+\begin{tikzcd}
+F(X) \arrow[r, "\eta_X"] \arrow[d, "F(f)"'] & G(X) \arrow[d, "G(f)"] \\
+F(Y) \arrow[r, "\eta_Y"'] & G(Y)
+\end{tikzcd}
+\end{center}
+commutes. It is a \emph{natural isomorphism} if every $\eta_X$ is an
+isomorphism. We write $\Nat(F, G)$ for the set of natural transformations
+from $F$ to $G$.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-natural-inverse}
+Let $\eta \colon F \Rightarrow G$ be a natural isomorphism. Then the morphisms
+$\eta_X^{-1} \colon G(X) \to F(X)$ form a natural transformation
+$\eta^{-1} \colon G \Rightarrow F$.
+\end{lemma}
+
+\begin{proof}
+Let $f \colon X \to Y$. Composing the equality
+$G(f) \circ \eta_X = \eta_Y \circ F(f)$ with $\eta_Y^{-1}$ on the left and with
+$\eta_X^{-1}$ on the right gives
+$\eta_Y^{-1} \circ G(f) = F(f) \circ \eta_X^{-1}$, which is the naturality of
+$\eta^{-1}$.
+\end{proof}
+
+\begin{definition}\label{categories:definition-functor-category}
+Let $\mathcal{C}$ and $\mathcal{D}$ be categories. If
+$\eta \colon F \Rightarrow G$ and $\theta \colon G \Rightarrow H$ are natural
+transformations, their composition $\theta \circ \eta \colon F \Rightarrow H$
+is given by $(\theta \circ \eta)_X = \theta_X \circ \eta_X$. The
+\emph{functor category} $\Fun(\mathcal{C}, \mathcal{D})$ has as objects the
+functors $\mathcal{C} \to \mathcal{D}$, as morphisms the natural
+transformations, and this composition; the identity of $F$ is the family
+$(\id_{F(X)})_X$. (Formally, a natural transformation
+$\eta \colon F \Rightarrow G$ is the triple $(F, G, (\eta_X)_X)$, so that the
+sets $\Nat(F, G)$ are pairwise disjoint.)
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-functor-category}
+Definition~\ref{categories:definition-functor-category} defines a category.
+A morphism $\eta$ of $\Fun(\mathcal{C}, \mathcal{D})$ is an isomorphism if and
+only if it is a natural isomorphism. If $\mathcal{C}$ is small and
+$\mathcal{D}$ is locally small, then $\Fun(\mathcal{C}, \mathcal{D})$ is
+locally small.
+\end{lemma}
+
+\begin{proof}
+If $\eta$ and $\theta$ are natural, then for $f \colon X \to Y$ we have
+$H(f) \circ \theta_X \circ \eta_X = \theta_Y \circ G(f) \circ \eta_X
+= \theta_Y \circ \eta_Y \circ F(f)$, so $\theta \circ \eta$ is natural. The
+family of identities is clearly natural. Associativity and the identity
+axioms hold componentwise, because they hold in $\mathcal{D}$.
+
+If $\eta$ is an isomorphism with inverse $\theta$, then
+$\theta_X \circ \eta_X = \id_{F(X)}$ and $\eta_X \circ \theta_X = \id_{G(X)}$
+for every $X$, so each $\eta_X$ is an isomorphism. Conversely, if $\eta$ is a
+natural isomorphism, then $\eta^{-1}$ of
+Lemma~\ref{categories:lemma-natural-inverse} is a morphism of
+$\Fun(\mathcal{C}, \mathcal{D})$ that is inverse to $\eta$.
+
+Finally, $\Nat(F, G)$ is a subset of the product
+$\prod_{X \in \Ob(\mathcal{C})} \Hom_{\mathcal{D}}(F(X), G(X))$. If
+$\mathcal{C}$ is small and $\mathcal{D}$ is locally small, this is a product
+of small sets indexed by a small set, hence small, and so is every subset
+of it.
+\end{proof}
+
+\begin{example}\label{categories:example-double-dual}
+Let $k$ be a field. For a vector space $V$ over $k$, let $V^*$ be its dual and
+$\mathrm{ev}_V \colon V \to V^{**}$ the map sending $v$ to the linear form
+$\varphi \mapsto \varphi(v)$. The double dual is a functor
+$\cat{Vect}_k \to \cat{Vect}_k$, sending $f \colon V \to W$ to
+$f^{**} \colon \alpha \mapsto (\psi \mapsto \alpha(\psi \circ f))$, and the maps
+$\mathrm{ev}_V$ form a natural transformation
+$\mathrm{ev} \colon \id \Rightarrow (-)^{**}$: for $v \in V$ and
+$\psi \in W^*$,
+\[
+f^{**}(\mathrm{ev}_V(v))(\psi) = \mathrm{ev}_V(v)(\psi \circ f) = \psi(f(v))
+= \mathrm{ev}_W(f(v))(\psi).
+\]
+On the full subcategory of finite-dimensional vector spaces it is a natural
+isomorphism, since there each $\mathrm{ev}_V$ is an isomorphism.
+\end{example}
+
+\begin{remark}\label{categories:remark-not-natural}
+A finite-dimensional vector space $V$ is also isomorphic to its dual $V^*$,
+but an isomorphism $V \to V^*$ depends on a choice, such as a basis. The
+notion of a natural transformation was introduced to make precise the
+difference between ``canonical'' isomorphisms, such as
+$V \cong V^{**}$, and isomorphisms that depend on choices.
+\end{remark}
+
+\begin{example}\label{categories:example-determinant}
+Let $n \geq 1$. For a commutative ring $R$, the determinant is a group
+homomorphism $\det_R \colon \GL_n(R) \to R^\times$. Both $\GL_n$ and
+$(-)^\times$ are functors from commutative rings to groups, and $\det$ is a
+natural transformation between them: if $\varphi \colon R \to S$ is a ring
+homomorphism and $A \in \GL_n(R)$, then $\det_S(\varphi(A)) = \varphi(\det_R(A))$,
+because the determinant is a polynomial with integer coefficients in the
+entries of the matrix.
+\end{example}
+
+\section{The Yoneda lemma}\label{categories:section-yoneda}
+
+In this section $\mathcal{C}$ is a locally small category, so that the functors
+$h_X \colon \mathcal{C}^{\op} \to \Sets$ of
+Definition~\ref{categories:definition-hom-functors} are defined.
+
+\begin{theorem}[Yoneda lemma]\label{categories:theorem-yoneda}
+Let $X \in \mathcal{C}$ and let $F \colon \mathcal{C}^{\op} \to \Sets$ be a
+functor. The map
+\[
+\Phi \colon \Nat(h_X, F) \longrightarrow F(X), \qquad
+\eta \longmapsto \eta_X(\id_X)
+\]
+is a bijection. Its inverse sends $\xi \in F(X)$ to the natural transformation
+$\eta^\xi$ given by $\eta^\xi_Y(g) = F(g)(\xi)$ for $Y \in \mathcal{C}$ and
+$g \in \Hom_{\mathcal{C}}(Y, X)$.
+\end{theorem}
+
+\begin{proof}
+First, $\eta^\xi$ is natural. Let $f \colon Y' \to Y$ be a morphism of
+$\mathcal{C}$ and $g \in \Hom_{\mathcal{C}}(Y, X)$. Using that $F$ is
+contravariant (Remark~\ref{categories:remark-contravariant}),
+\[
+\eta^\xi_{Y'}(h_X(f)(g)) = \eta^\xi_{Y'}(g \circ f) = F(g \circ f)(\xi)
+= F(f)(F(g)(\xi)) = F(f)(\eta^\xi_Y(g)),
+\]
+which is the naturality condition for $f$.
+
+Second, $\Phi(\eta^\xi) = \eta^\xi_X(\id_X) = F(\id_X)(\xi) = \xi$.
+
+Third, let $\eta \colon h_X \Rightarrow F$ be natural and $g \colon Y \to X$.
+The naturality of $\eta$ with respect to $g$ gives
+$\eta_Y(h_X(g)(\id_X)) = F(g)(\eta_X(\id_X))$. Since
+$h_X(g)(\id_X) = \id_X \circ g = g$, this says
+$\eta_Y(g) = F(g)(\Phi(\eta)) = \eta^{\Phi(\eta)}_Y(g)$. Hence
+$\eta = \eta^{\Phi(\eta)}$.
+
+The second and third steps show that $\xi \mapsto \eta^\xi$ is inverse to
+$\Phi$.
+\end{proof}
+
+\begin{remark}\label{categories:remark-yoneda-meaning}
+The Yoneda lemma says that a natural transformation out of $h_X$ is determined
+by what it does to the single element $\id_X$, and that this element can be
+chosen freely. Informally: an object is determined by the morphisms into it.
+\end{remark}
+
+\begin{proposition}\label{categories:proposition-yoneda-natural}
+The bijection $\Phi$ of Theorem~\ref{categories:theorem-yoneda} is natural in
+$F$ and in $X$:
+\begin{enumerate}
+\item if $\theta \colon F \Rightarrow F'$ is a natural transformation, then
+$\Phi(\theta \circ \eta) = \theta_X(\Phi(\eta))$ for all
+$\eta \in \Nat(h_X, F)$;
+\item if $a \colon X' \to X$ is a morphism and $h_a \colon h_{X'} \Rightarrow h_X$
+is the natural transformation given by $(h_a)_Y(g) = a \circ g$, then
+$\Phi(\eta \circ h_a) = F(a)(\Phi(\eta))$ for all $\eta \in \Nat(h_X, F)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We first check that $h_a$ is natural: for $f \colon Y' \to Y$ and
+$g \colon Y \to X'$ we have $a \circ (g \circ f) = (a \circ g) \circ f$, that is,
+$(h_a)_{Y'}(h_{X'}(f)(g)) = h_X(f)((h_a)_Y(g))$.
+
+(1) $\Phi(\theta \circ \eta) = \theta_X(\eta_X(\id_X)) = \theta_X(\Phi(\eta))$.
+
+(2) $\Phi(\eta \circ h_a) = \eta_{X'}((h_a)_{X'}(\id_{X'})) = \eta_{X'}(a)$. By
+the third step of the proof of Theorem~\ref{categories:theorem-yoneda},
+$\eta_{X'}(a) = F(a)(\Phi(\eta))$.
+\end{proof}
+
+\begin{corollary}\label{categories:corollary-yoneda-embedding}
+For all $X, X' \in \mathcal{C}$, the map
+\[
+\Hom_{\mathcal{C}}(X', X) \longrightarrow \Nat(h_{X'}, h_X), \qquad
+a \longmapsto h_a
+\]
+is a bijection. Consequently, $X \mapsto h_X$, $a \mapsto h_a$ is a fully
+faithful functor $\mathcal{C} \to \Fun(\mathcal{C}^{\op}, \Sets)$, called the
+\emph{Yoneda embedding}.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{categories:theorem-yoneda} with $X'$ in place of $X$ and
+$F = h_X$. Then $\Phi(h_a) = (h_a)_{X'}(\id_{X'}) = a$, so the map
+$a \mapsto h_a$ is a right inverse of the bijection $\Phi$, hence equal to its
+inverse and bijective. The identities $h_{\id_X} = \id_{h_X}$ and
+$h_{a \circ b} = h_a \circ h_b$ follow from the identity axiom and from
+associativity in $\mathcal{C}$, so $X \mapsto h_X$ is a functor, and it is
+fully faithful by the first statement.
+\end{proof}
+
+\begin{corollary}\label{categories:corollary-yoneda-isomorphism}
+Let $X, X' \in \mathcal{C}$. If there is a natural isomorphism
+$h_{X'} \Rightarrow h_X$, then $X' \cong X$.
+\end{corollary}
+
+\begin{proof}
+By Lemma~\ref{categories:lemma-functor-category}, a natural isomorphism
+$h_{X'} \Rightarrow h_X$ is an isomorphism in $\Fun(\mathcal{C}^{\op}, \Sets)$.
+The Yoneda embedding is fully faithful by
+Corollary~\ref{categories:corollary-yoneda-embedding}, so the claim follows
+from Lemma~\ref{categories:lemma-fully-faithful-reflects-isomorphisms}.
+\end{proof}
+
+\begin{definition}\label{categories:definition-representable}
+A functor $F \colon \mathcal{C}^{\op} \to \Sets$ is \emph{representable} if
+there exist $X \in \mathcal{C}$ and a natural isomorphism $h_X \Rightarrow F$.
+By Theorem~\ref{categories:theorem-yoneda}, such a natural isomorphism is
+$\eta^\xi$ for a unique $\xi \in F(X)$; the pair $(X, \xi)$ is said to
+\emph{represent} $F$.
+\end{definition}
+
+\begin{example}\label{categories:example-power-set-representable}
+The contravariant power set functor $\mathcal{P}^*$ of
+Example~\ref{categories:example-functors} is represented by the pair
+$(\{0, 1\}, \{1\})$. Indeed, for a small set $S$ the map $\eta^{\{1\}}_S$ sends
+$\chi \colon S \to \{0, 1\}$ to $\mathcal{P}^*(\chi)(\{1\}) = \chi^{-1}(1)$, and
+this is a bijection $\Hom_{\Sets}(S, \{0, 1\}) \to \mathcal{P}(S)$: its inverse
+sends a subset $A \subseteq S$ to its indicator function.
+\end{example}
+
+\section{Exercises}\label{categories:section-exercises}
+
+\begin{exercise}\label{categories:exercise-composition-full-faithful}
+Show that a composition of faithful functors is faithful, and that a
+composition of full functors is full.
+\end{exercise}
+
+\begin{solution}
+Let $F \colon \mathcal{C} \to \mathcal{D}$ and $G \colon \mathcal{D} \to \mathcal{E}$.
+The map $\Hom_{\mathcal{C}}(X, Y) \to \Hom_{\mathcal{E}}(GF(X), GF(Y))$ induced
+by $G \circ F$ is the composition of the maps induced by $F$ and by $G$. A
+composition of injective maps is injective, and a composition of surjective
+maps is surjective.
+\end{solution}
+
+\begin{exercise}\label{categories:exercise-sections-retractions}
+Let $f \colon X \to Y$ be a morphism in a category. Show that if there is
+$r \colon Y \to X$ with $r \circ f = \id_X$, then $f$ is a monomorphism, and if
+there is $s \colon Y \to X$ with $f \circ s = \id_Y$, then $f$ is an
+epimorphism. Show that in $\Sets$ every monomorphism with non-empty source has
+such an $r$. Show that the statement ``every epimorphism in $\Sets$ has such an
+$s$'' is equivalent to the axiom of choice (for small sets).
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-preorder-natural}
+Let $P$ and $Q$ be preorders, viewed as categories, and let
+$F, G \colon P \to Q$ be functors. Show that there is a natural transformation
+$F \Rightarrow G$ if and only if $F(x) \leq G(x)$ for all $x \in P$, and that
+it is then unique.
+\end{exercise}
+
+\begin{solution}
+Every set of morphisms of $Q$ has at most one element, so a family
+$(\eta_x \colon F(x) \to G(x))_x$ exists if and only if $F(x) \leq G(x)$ for
+all $x$, it is unique if it exists, and every square of morphisms of $Q$
+commutes.
+\end{solution}
+
+\begin{exercise}\label{categories:exercise-covariant-yoneda}
+State and prove the analogue of Theorem~\ref{categories:theorem-yoneda} for
+functors $F \colon \mathcal{C} \to \Sets$ and the functors $h^X$ of
+Definition~\ref{categories:definition-hom-functors}. (Hint: apply the theorem
+to $\mathcal{C}^{\op}$.)
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-representing-unique}
+Suppose $(X, \xi)$ and $(X', \xi')$ both represent a functor
+$F \colon \mathcal{C}^{\op} \to \Sets$. Show that there is a unique morphism
+$a \colon X \to X'$ with $F(a)(\xi') = \xi$, and that $a$ is an isomorphism.
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-rings-epimorphism}
+Show that the inclusion $\ZZ \to \QQ$ is an epimorphism in the category of
+rings, although it is not surjective.
+\end{exercise}
