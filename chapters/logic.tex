@@ -1,17 +1,1175 @@
 \chapter{Mathematical Logic}\label{logic}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-The formal language in which the rest of the project is written: what a statement, a proof and a theory are, and what can and cannot be expected of them.
+\section{Introduction}\label{logic:section-introduction}
+
+Mathematical logic studies the language in which mathematics is written: what
+a formula is, what it means for a formula to be true in a structure, and what
+it means to prove it. The main result of this chapter is G\"odel's completeness
+theorem (Theorem~\ref{logic:theorem-model-existence} and
+Corollary~\ref{logic:corollary-completeness}): a statement follows from a set
+of axioms in every structure if and only if it can be formally deduced from
+them. Its consequences, the compactness and L\"owenheim--Skolem theorems, are
+the first tools of model theory. We end with the statements of G\"odel's
+incompleteness theorems, which limit what any axiomatic foundation, including
+the set theory of Chapter~\ref{sets}, can prove about itself.
+
+We follow the approach of \cite{enderton-logic}; other references are
+\cite{shoenfield-logic} and \cite{vandalen-logic}, and \cite{chang-keisler} for
+model theory.
 
 \noindent\textbf{Prerequisites.} None.
 
-\noindent\textbf{Planned contents.}
+\begin{remark}\label{logic:remark-metatheory}
+This chapter studies formal languages \emph{from the outside}. The reasoning
+we use about formulas, structures and deductions (induction on the natural
+numbers, finite sequences, sets, countability) is ordinary informal
+mathematics, sometimes called the \emph{metatheory}. In
+Chapter~\ref{sets}, set theory is itself formulated as a first-order theory
+in the sense of this chapter. There is no vicious circle: informal
+mathematics is used to describe formal systems, and one of these formal
+systems is then used as the official foundation of the rest of the project.
+The proofs in this chapter use only elementary facts about finite and
+countable sets, and in particular never the axiom of choice.
+\end{remark}
+
+\section{Propositional logic}\label{logic:section-propositional}
+
+\begin{definition}\label{logic:definition-propositional-formula}
+Let $P$ be a set, whose elements we call \emph{propositional variables}, and
+let $\neg$, $\to$, $($ and $)$ be four symbols not in $P$. A \emph{string} is a
+finite sequence of symbols. The set of \emph{propositional formulas} over $P$
+is the smallest set of strings such that
+\begin{enumerate}
+\item every $p \in P$, viewed as a string of length one, is a formula;
+\item if $\varphi$ is a formula, then $\neg\varphi$ is a formula;
+\item if $\varphi$ and $\psi$ are formulas, then $(\varphi \to \psi)$ is a
+formula.
+\end{enumerate}
+Here $\neg\varphi$ denotes the string consisting of $\neg$ followed by the
+symbols of $\varphi$, and similarly for $(\varphi \to \psi)$.
+\end{definition}
+
+\begin{remark}\label{logic:remark-induction-formulas}
+Every formula is obtained from propositional variables by finitely many
+applications of the two operations, since the set of such strings contains
+$P$ and is closed under the operations. Hence statements about all formulas
+can be proved by \emph{induction on formulas}: it suffices to prove them for
+propositional variables and to show that they are preserved by the two
+operations.
+\end{remark}
+
+\begin{notation}\label{logic:notation-connectives}
+We use the abbreviations
+$(\varphi \wedge \psi) := \neg(\varphi \to \neg\psi)$,
+$(\varphi \vee \psi) := (\neg\varphi \to \psi)$ and
+$(\varphi \leftrightarrow \psi) := ((\varphi \to \psi) \wedge (\psi \to \varphi))$,
+and we omit outer parentheses when no confusion is possible.
+\end{notation}
+
+\begin{lemma}\label{logic:lemma-parentheses}
+Let $\varphi$ be a propositional formula. Then $\varphi$ contains as many
+symbols $($ as symbols $)$. Moreover, every proper initial segment of $\varphi$
+either consists only of symbols $\neg$ (possibly none), or contains strictly
+more symbols $($ than symbols $)$.
+\end{lemma}
+
+\begin{proof}
+For a string $u$ let $b(u)$ be the number of symbols $($ in $u$ minus the
+number of symbols $)$ in $u$. We argue by induction on $\varphi$.
+
+If $\varphi = p$ is a variable, then $b(p) = 0$ and the only proper initial
+segment is empty.
+
+If $\varphi = \neg\psi$, then $b(\varphi) = b(\psi) = 0$. A proper initial
+segment of $\varphi$ is empty or of the form $\neg u$ with $u$ a proper initial
+segment of $\psi$. By induction, $u$ consists of symbols $\neg$ or $b(u) > 0$,
+and the same holds for $\neg u$.
+
+If $\varphi = (\psi \to \chi)$, then $b(\varphi) = 1 + b(\psi) + b(\chi) - 1 = 0$.
+A nonempty proper initial segment of $\varphi$ has one of the forms $(u$ with
+$u$ an initial segment of $\psi$, or $(\psi \to u$ with $u$ an initial segment
+of $\chi$ (possibly empty or equal to $\chi$). By induction every initial
+segment $u$ of $\psi$ or $\chi$ satisfies $b(u) \geq 0$, so these segments have
+$b \geq 1$.
+\end{proof}
+
+\begin{theorem}[Unique readability]\label{logic:theorem-unique-readability}
+Every propositional formula $\varphi$ satisfies exactly one of the following:
+$\varphi$ is a propositional variable; $\varphi = \neg\psi$ for a formula
+$\psi$; $\varphi = (\psi \to \chi)$ for formulas $\psi$ and $\chi$. In the
+second case $\psi$ is uniquely determined, and in the third case $\psi$ and
+$\chi$ are uniquely determined.
+\end{theorem}
+
+\begin{proof}
+The three cases are distinguished by the first symbol of $\varphi$, and in the
+second case $\psi$ is $\varphi$ with its first symbol removed. Suppose
+$(\psi \to \chi) = (\psi' \to \chi')$ with $\psi \neq \psi'$. After the first
+symbol the two strings agree, so one of $\psi$, $\psi'$ is a proper initial
+segment of the other, say $\psi$ of $\psi'$. By
+Lemma~\ref{logic:lemma-parentheses}, $b(\psi) = 0$, so $\psi$ must consist
+only of symbols $\neg$. But every formula contains at least one propositional
+variable (by induction on formulas), a contradiction. Hence $\psi = \psi'$,
+and then $\chi = \chi'$.
+\end{proof}
+
+\begin{definition}\label{logic:definition-truth-assignment}
+A \emph{truth assignment} is a map $v \colon P \to \{0, 1\}$. By
+Theorem~\ref{logic:theorem-unique-readability}, there is a unique map
+$\bar v$ from the set of formulas to $\{0, 1\}$, defined by recursion on
+formulas, such that $\bar v(p) = v(p)$ for $p \in P$,
+$\bar v(\neg\varphi) = 1 - \bar v(\varphi)$, and
+$\bar v(\varphi \to \psi) = 0$ if and only if $\bar v(\varphi) = 1$ and
+$\bar v(\psi) = 0$. We say that $v$ \emph{satisfies} $\varphi$ if
+$\bar v(\varphi) = 1$, and that $v$ satisfies a set of formulas $\Sigma$ if it
+satisfies every element of $\Sigma$.
+\end{definition}
+
+\begin{definition}\label{logic:definition-tautology}
+A formula $\varphi$ is a \emph{tautology} if every truth assignment satisfies
+it. A set $\Sigma$ of formulas \emph{tautologically implies} $\varphi$, written
+$\Sigma \models \varphi$, if every truth assignment satisfying $\Sigma$
+satisfies $\varphi$. A set of formulas is \emph{satisfiable} if some truth
+assignment satisfies it.
+\end{definition}
+
+\begin{lemma}\label{logic:lemma-abbreviations}
+For every truth assignment $v$: $\bar v(\varphi \wedge \psi) = 1$ if and only
+if $\bar v(\varphi) = \bar v(\psi) = 1$; $\bar v(\varphi \vee \psi) = 1$ if and
+only if $\bar v(\varphi) = 1$ or $\bar v(\psi) = 1$; and
+$\bar v(\varphi \leftrightarrow \psi) = 1$ if and only if
+$\bar v(\varphi) = \bar v(\psi)$.
+\end{lemma}
+
+\begin{proof}
+$\bar v(\neg(\varphi \to \neg\psi)) = 1$ if and only if
+$\bar v(\varphi \to \neg\psi) = 0$, that is, $\bar v(\varphi) = 1$ and
+$\bar v(\neg\psi) = 0$. Next, $\bar v(\neg\varphi \to \psi) = 0$ if and only if
+$\bar v(\varphi) = 0$ and $\bar v(\psi) = 0$. The last statement follows from
+the first and the definition of $\bar v$ on implications.
+\end{proof}
+
+\begin{example}\label{logic:example-tautologies}
+The following are tautologies, as one checks by computing $\bar v$ for the
+finitely many possible values of $v$ on the variables involved:
+$\varphi \vee \neg\varphi$ (excluded middle);
+$\neg\neg\varphi \leftrightarrow \varphi$;
+$((\varphi \to \psi) \to \varphi) \to \varphi$ (Peirce's law);
+$\neg(\varphi \wedge \psi) \leftrightarrow (\neg\varphi \vee \neg\psi)$ (De Morgan);
+$(\varphi \to (\psi \to \chi)) \to ((\varphi \to \psi) \to (\varphi \to \chi))$.
+By contrast, $(\varphi \to \psi) \to (\psi \to \varphi)$ is not a tautology when
+$\varphi$ and $\psi$ are distinct variables.
+\end{example}
+
+\begin{proposition}\label{logic:proposition-functional-completeness}
+Let $p_1, \ldots, p_n$ be distinct propositional variables, $n \geq 1$, and
+let $F \colon \{0,1\}^n \to \{0,1\}$ be any function. There is a formula
+$\varphi$ whose variables are among $p_1, \ldots, p_n$ such that
+$\bar v(\varphi) = F(v(p_1), \ldots, v(p_n))$ for every truth assignment $v$.
+\end{proposition}
+
+\begin{proof}
+For $\varepsilon \in \{0,1\}^n$ let
+$\gamma_\varepsilon = \ell_1 \wedge \cdots \wedge \ell_n$, where $\ell_i = p_i$
+if $\varepsilon_i = 1$ and $\ell_i = \neg p_i$ if $\varepsilon_i = 0$ (with
+parentheses grouped to the left). By Lemma~\ref{logic:lemma-abbreviations},
+$\bar v(\gamma_\varepsilon) = 1$ if and only if $v(p_i) = \varepsilon_i$ for
+all $i$. If $F$ is identically $0$, take $\varphi = p_1 \wedge \neg p_1$.
+Otherwise let $\varphi$ be the disjunction of the $\gamma_\varepsilon$ over all
+$\varepsilon$ with $F(\varepsilon) = 1$. Then $\bar v(\varphi) = 1$ if and only
+if $(v(p_1), \ldots, v(p_n))$ is one of these $\varepsilon$, that is, if and
+only if $F(v(p_1), \ldots, v(p_n)) = 1$.
+\end{proof}
+
+\begin{counterexample}\label{logic:counterexample-monotone-connectives}
+Proposition~\ref{logic:proposition-functional-completeness} fails if only
+$\wedge$ and $\vee$ may be used, taken as primitive connectives with the
+truth tables of Lemma~\ref{logic:lemma-abbreviations}. Indeed, by induction on
+such formulas, if $v(p) \leq w(p)$ for every variable $p$ then
+$\bar v(\varphi) \leq \bar w(\varphi)$. So no such formula computes the
+function $F(x) = 1 - x$.
+\end{counterexample}
+
+\begin{theorem}[Compactness, propositional case]\label{logic:theorem-propositional-compactness}
+Let $P$ be countable and let $\Sigma$ be a set of formulas over $P$. If every
+finite subset of $\Sigma$ is satisfiable, then $\Sigma$ is satisfiable.
+\end{theorem}
+
+\begin{proof}
+Call a set of formulas \emph{finitely satisfiable} if all its finite subsets
+are satisfiable. The formulas are finite strings over a countable set of
+symbols, so they can be enumerated as $\varphi_0, \varphi_1, \ldots$. Put
+$\Delta_0 = \Sigma$, and let $\Delta_{n+1} = \Delta_n \cup \{\varphi_n\}$ if this
+set is finitely satisfiable, and $\Delta_{n+1} = \Delta_n \cup \{\neg\varphi_n\}$
+otherwise.
+
+Each $\Delta_n$ is finitely satisfiable. Suppose $\Delta_n$ is, but neither
+$\Delta_n \cup \{\varphi_n\}$ nor $\Delta_n \cup \{\neg\varphi_n\}$ is. Then there
+are finite $\Delta, \Delta' \subseteq \Delta_n$ such that
+$\Delta \cup \{\varphi_n\}$ and $\Delta' \cup \{\neg\varphi_n\}$ are not
+satisfiable. A truth assignment $v$ satisfying $\Delta \cup \Delta'$ satisfies
+$\varphi_n$ or $\neg\varphi_n$, hence one of the two sets; contradiction.
+
+Let $\Delta = \bigcup_n \Delta_n$. Every finite subset of $\Delta$ lies in some
+$\Delta_n$, so $\Delta$ is finitely satisfiable; in particular $\Delta$ never
+contains both $\psi$ and $\neg\psi$. For every formula $\psi$, exactly one of
+$\psi$, $\neg\psi$ lies in $\Delta$. Define $v(p) = 1$ if and only if
+$p \in \Delta$. We show by induction on $\psi$ that $\bar v(\psi) = 1$ if and
+only if $\psi \in \Delta$. For variables this is the definition. For
+$\neg\psi$: $\bar v(\neg\psi) = 1$ iff $\psi \notin \Delta$ iff
+$\neg\psi \in \Delta$. For $\psi \to \chi$: if $(\psi \to \chi) \in \Delta$,
+$\psi \in \Delta$ and $\chi \notin \Delta$, then $\neg\chi \in \Delta$ and the
+finite set $\{\psi \to \chi, \psi, \neg\chi\}$ is not satisfiable. If
+$(\psi \to \chi) \notin \Delta$, then $\neg(\psi \to \chi) \in \Delta$; if moreover
+$\psi \notin \Delta$ or $\chi \in \Delta$, then $\Delta$ contains
+$\{\neg(\psi \to \chi), \neg\psi\}$ or $\{\neg(\psi \to \chi), \chi\}$, neither of
+which is satisfiable. So $(\psi \to \chi) \in \Delta$ if and only if
+$\psi \notin \Delta$ or $\chi \in \Delta$, which by induction is equivalent to
+$\bar v(\psi \to \chi) = 1$. Hence $v$ satisfies $\Delta \supseteq \Sigma$.
+\end{proof}
+
+\begin{remark}\label{logic:remark-compactness-uncountable}
+The theorem holds for arbitrary sets $P$, but the proof then needs a form of
+the axiom of choice (for instance Zorn's lemma, Chapter~\ref{sets}) to replace
+the enumeration of all formulas.
+\end{remark}
+
+\section{First-order languages}\label{logic:section-languages}
+
+\begin{definition}\label{logic:definition-language}
+A \emph{first-order language} $\mathcal{L}$ consists of a set of
+\emph{constant symbols}, and for each $n \geq 1$ a set of $n$-ary
+\emph{function symbols} and a set of $n$-ary \emph{relation symbols}, all these
+sets being pairwise disjoint. The language is \emph{countable} if the union
+of these sets is countable. Every language also has the \emph{logical symbols}:
+a countably infinite set of \emph{variables} $v_0, v_1, v_2, \ldots$, disjoint
+from the other symbols, and the symbols $=$, $\neg$, $\to$, $\forall$.
+\end{definition}
+
+\begin{definition}\label{logic:definition-terms-formulas}
+Let $\mathcal{L}$ be a language. The set of \emph{terms} is the smallest set
+that contains the variables and the constant symbols and contains the tuple
+$(f, t_1, \ldots, t_n)$ whenever $f$ is an $n$-ary function symbol and
+$t_1, \ldots, t_n$ are terms. We write $f(t_1, \ldots, t_n)$ for this tuple.
+
+The \emph{atomic formulas} are the tuples $(=, t_1, t_2)$ and
+$(R, t_1, \ldots, t_n)$, where the $t_i$ are terms and $R$ is an $n$-ary relation
+symbol; we write $t_1 = t_2$ and $R(t_1, \ldots, t_n)$. The set of
+\emph{formulas} is the smallest set that contains the atomic formulas and
+contains $(\neg, \varphi)$, $(\to, \varphi, \psi)$ and $(\forall, x, \varphi)$
+whenever $\varphi$, $\psi$ are formulas and $x$ is a variable. We write
+$\neg\varphi$, $(\varphi \to \psi)$ and $\forall x\, \varphi$ for these tuples.
+\end{definition}
+
+\begin{remark}\label{logic:remark-syntax-trees}
+We assume, as we may, that no symbol is itself a finite tuple of the above
+shapes. Since two tuples are equal only if they have the same length and the
+same entries, every term and every formula decomposes \emph{uniquely} into its
+immediate constituents. This is the analogue of
+Theorem~\ref{logic:theorem-unique-readability}, obtained here for free: we
+have defined formulas as trees rather than strings. As in
+Remark~\ref{logic:remark-induction-formulas}, we can prove statements by
+induction on terms and formulas, and define functions on them by recursion.
+The \emph{complexity} $c(\varphi)$ of a formula is the number of occurrences
+of $\neg$, $\to$ and $\forall$ in it: $c = 0$ on atomic formulas,
+$c(\neg\varphi) = c(\varphi) + 1$, $c(\varphi \to \psi) = c(\varphi) + c(\psi) + 1$
+and $c(\forall x\,\varphi) = c(\varphi) + 1$.
+
+In practice we write formulas as usual, for instance $x \cdot y = y \cdot x$
+instead of $(=, (\cdot, x, y), (\cdot, y, x))$, and we use variables named
+$x, y, z, \ldots$ for arbitrary distinct variables.
+\end{remark}
+
+\begin{notation}\label{logic:notation-quantifiers}
+Besides the abbreviations of Notation~\ref{logic:notation-connectives}, we
+write $\exists x\, \varphi$ for $\neg\forall x\, \neg\varphi$ and
+$t \neq s$ for $\neg(t = s)$.
+\end{notation}
+
+\begin{example}\label{logic:example-languages}
+\begin{enumerate}
+\item The language of groups has a constant symbol $e$, a unary function
+symbol ${}^{-1}$ and a binary function symbol $\cdot$.
+\item The language of rings has constant symbols $0, 1$ and binary function
+symbols $+$, $\cdot$ and a unary function symbol $-$.
+\item The language of orders has a single binary relation symbol $<$.
+\item The language of set theory has a single binary relation symbol $\in$.
+\item The language of arithmetic $\mathcal{L}_A$ has a constant symbol $0$, a
+unary function symbol $S$ and binary function symbols $+$ and $\cdot$.
+\end{enumerate}
+All these languages are countable.
+\end{example}
+
+\begin{definition}\label{logic:definition-free-variables}
+The set $\mathrm{Var}(t)$ of variables of a term $t$ is defined as usual. The
+set $\mathrm{FV}(\varphi)$ of \emph{free variables} of a formula is defined by
+recursion: $\mathrm{FV}(t_1 = t_2) = \mathrm{Var}(t_1) \cup \mathrm{Var}(t_2)$,
+$\mathrm{FV}(R(t_1, \ldots, t_n)) = \bigcup_i \mathrm{Var}(t_i)$,
+$\mathrm{FV}(\neg\varphi) = \mathrm{FV}(\varphi)$,
+$\mathrm{FV}(\varphi \to \psi) = \mathrm{FV}(\varphi) \cup \mathrm{FV}(\psi)$ and
+$\mathrm{FV}(\forall x\,\varphi) = \mathrm{FV}(\varphi) \setminus \{x\}$. A
+\emph{sentence} is a formula without free variables. A variable \emph{occurs}
+in $\varphi$ if it appears anywhere in the tree $\varphi$, free or not.
+\end{definition}
+
+\begin{definition}\label{logic:definition-substitution}
+Let $x$ be a variable and $t$ a term. For a term $u$, the term $u[t/x]$ is
+obtained by replacing every occurrence of $x$ in $u$ by $t$. For formulas,
+$\varphi[t/x]$ is defined by recursion:
+$(t_1 = t_2)[t/x] = (t_1[t/x] = t_2[t/x])$ and similarly for
+$R(t_1, \ldots, t_n)$; $(\neg\varphi)[t/x] = \neg(\varphi[t/x])$;
+$(\varphi \to \psi)[t/x] = (\varphi[t/x] \to \psi[t/x])$;
+$(\forall y\,\varphi)[t/x] = \forall y\,\varphi$ if $y = x$, and
+$(\forall y\,\varphi)[t/x] = \forall y\,(\varphi[t/x])$ if $y \neq x$.
+
+The term $t$ is \emph{substitutable} for $x$ in $\varphi$ if: $\varphi$ is
+atomic; or $\varphi = \neg\psi$ and $t$ is substitutable for $x$ in $\psi$; or
+$\varphi = (\psi \to \chi)$ and $t$ is substitutable for $x$ in $\psi$ and in
+$\chi$; or $\varphi = \forall y\,\psi$ and either $x \notin \mathrm{FV}(\varphi)$,
+or $y$ does not occur in $t$ and $t$ is substitutable for $x$ in $\psi$.
+\end{definition}
+
+\begin{remark}\label{logic:remark-substitution}
+Two facts follow at once by induction: if $x \notin \mathrm{FV}(\varphi)$
+then $\varphi[t/x] = \varphi$; and substitution does not change the
+complexity, $c(\varphi[t/x]) = c(\varphi)$. A constant symbol, or more
+generally a term without variables, is substitutable for every variable in
+every formula.
+\end{remark}
+
+\begin{lemma}\label{logic:lemma-rereplacement}
+Let $x$ and $y$ be variables, and suppose $y$ does not occur in the formula
+$\varphi$. Then $y$ is substitutable for $x$ in $\varphi$, $x$ is substitutable
+for $y$ in $\varphi[y/x]$, and $\varphi[y/x][x/y] = \varphi$.
+\end{lemma}
+
+\begin{proof}
+For terms $u$ not containing $y$, clearly $u[y/x][x/y] = u$. This gives the
+claims for atomic formulas, and the cases $\neg$ and $\to$ follow by induction.
+Let $\varphi = \forall z\,\psi$; then $z \neq y$ and $y$ does not occur in
+$\psi$. The variable $z$ does not occur in the term $y$, so by induction $y$ is
+substitutable for $x$ in $\varphi$. If $z = x$, then $\varphi[y/x] = \varphi$,
+in which $y$ is not free, so $x$ is substitutable for $y$ in it and
+$\varphi[x/y] = \varphi$. If $z \neq x$, then $\varphi[y/x] = \forall z\,\psi[y/x]$;
+since $z$ does not occur in the term $x$, the induction hypothesis shows that
+$x$ is substitutable for $y$ in $\varphi[y/x]$, and
+$\varphi[y/x][x/y] = \forall z\,\psi[y/x][x/y] = \forall z\,\psi$.
+\end{proof}
+
+\section{Structures and satisfaction}\label{logic:section-structures}
+
+\begin{definition}\label{logic:definition-structure}
+A \emph{structure} $\mathcal{A}$ for a language $\mathcal{L}$ consists of a
+nonempty set $A$, its \emph{universe}, together with an element
+$c^{\mathcal{A}} \in A$ for every constant symbol $c$, a map
+$f^{\mathcal{A}} \colon A^n \to A$ for every $n$-ary function symbol $f$, and a
+subset $R^{\mathcal{A}} \subseteq A^n$ for every $n$-ary relation symbol $R$. An
+\emph{assignment} in $\mathcal{A}$ is a map $s$ from the set of variables to
+$A$. For an assignment $s$, a variable $x$ and $a \in A$, we write
+$s[x \mapsto a]$ for the assignment that agrees with $s$ except that it sends
+$x$ to $a$.
+\end{definition}
+
+\begin{definition}\label{logic:definition-satisfaction}
+Let $\mathcal{A}$ be a structure and $s$ an assignment. The \emph{value}
+$t^{\mathcal{A}}[s] \in A$ of a term is defined by $x^{\mathcal{A}}[s] = s(x)$,
+$c^{\mathcal{A}}[s] = c^{\mathcal{A}}$ and
+$f(t_1, \ldots, t_n)^{\mathcal{A}}[s] = f^{\mathcal{A}}(t_1^{\mathcal{A}}[s], \ldots, t_n^{\mathcal{A}}[s])$.
+The relation $\mathcal{A} \models \varphi[s]$, read ``$\mathcal{A}$ satisfies
+$\varphi$ under $s$'', is defined by recursion on $\varphi$:
+\begin{enumerate}
+\item $\mathcal{A} \models (t_1 = t_2)[s]$ if and only if
+$t_1^{\mathcal{A}}[s] = t_2^{\mathcal{A}}[s]$;
+\item $\mathcal{A} \models R(t_1, \ldots, t_n)[s]$ if and only if
+$(t_1^{\mathcal{A}}[s], \ldots, t_n^{\mathcal{A}}[s]) \in R^{\mathcal{A}}$;
+\item $\mathcal{A} \models \neg\varphi[s]$ if and only if
+$\mathcal{A} \not\models \varphi[s]$;
+\item $\mathcal{A} \models (\varphi \to \psi)[s]$ if and only if
+$\mathcal{A} \not\models \varphi[s]$ or $\mathcal{A} \models \psi[s]$;
+\item $\mathcal{A} \models \forall x\,\varphi[s]$ if and only if
+$\mathcal{A} \models \varphi[s[x \mapsto a]]$ for every $a \in A$.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}\label{logic:remark-exists}
+With the abbreviations of Notation~\ref{logic:notation-quantifiers},
+$\mathcal{A} \models \exists x\,\varphi[s]$ if and only if
+$\mathcal{A} \models \varphi[s[x \mapsto a]]$ for some $a \in A$, and the
+connectives $\wedge$, $\vee$, $\leftrightarrow$ have their usual meaning, by
+the same computation as in Lemma~\ref{logic:lemma-abbreviations}.
+\end{remark}
+
+\begin{lemma}[Coincidence lemma]\label{logic:lemma-coincidence}
+Let $s$ and $s'$ be assignments in $\mathcal{A}$. If they agree on
+$\mathrm{Var}(t)$, then $t^{\mathcal{A}}[s] = t^{\mathcal{A}}[s']$. If they
+agree on $\mathrm{FV}(\varphi)$, then $\mathcal{A} \models \varphi[s]$ if and
+only if $\mathcal{A} \models \varphi[s']$.
+\end{lemma}
+
+\begin{proof}
+The statement for terms follows by induction on terms, and implies the
+statement for atomic formulas; the cases $\neg$ and $\to$ follow by induction.
+If $\varphi = \forall x\,\psi$ and $s, s'$ agree on
+$\mathrm{FV}(\varphi) = \mathrm{FV}(\psi) \setminus \{x\}$, then for each
+$a \in A$ the assignments $s[x \mapsto a]$ and $s'[x \mapsto a]$ agree on
+$\mathrm{FV}(\psi)$, and the claim follows from the induction hypothesis.
+\end{proof}
+
+\begin{notation}\label{logic:notation-sentences}
+By Lemma~\ref{logic:lemma-coincidence}, whether $\mathcal{A} \models \sigma[s]$
+holds for a sentence $\sigma$ does not depend on $s$; we then write
+$\mathcal{A} \models \sigma$ and say that $\sigma$ is \emph{true} in
+$\mathcal{A}$.
+\end{notation}
+
+\begin{lemma}[Substitution lemma]\label{logic:lemma-substitution}
+Let $t$ be substitutable for $x$ in $\varphi$, let $s$ be an assignment in
+$\mathcal{A}$, and put $a = t^{\mathcal{A}}[s]$. Then
+$\mathcal{A} \models \varphi[t/x][s]$ if and only if
+$\mathcal{A} \models \varphi[s[x \mapsto a]]$. Also
+$u[t/x]^{\mathcal{A}}[s] = u^{\mathcal{A}}[s[x \mapsto a]]$ for every term $u$.
+\end{lemma}
+
+\begin{proof}
+The statement for terms follows by induction on $u$ and gives the atomic case;
+the cases $\neg$ and $\to$ follow by induction. Let $\varphi = \forall y\,\psi$.
+
+If $x \notin \mathrm{FV}(\varphi)$, then $\varphi[t/x] = \varphi$
+(Remark~\ref{logic:remark-substitution}), and $s$ and $s[x \mapsto a]$ agree on
+$\mathrm{FV}(\varphi)$, so the claim follows from
+Lemma~\ref{logic:lemma-coincidence}.
+
+Otherwise $y \neq x$, $y$ does not occur in $t$, and $t$ is substitutable for
+$x$ in $\psi$. Then $\varphi[t/x] = \forall y\,\psi[t/x]$. For $b \in A$, since
+$y$ does not occur in $t$, we have $t^{\mathcal{A}}[s[y \mapsto b]] = a$, so by
+induction $\mathcal{A} \models \psi[t/x][s[y \mapsto b]]$ if and only if
+$\mathcal{A} \models \psi[s[y \mapsto b][x \mapsto a]]$. Since $x \neq y$, the
+assignment $s[y \mapsto b][x \mapsto a]$ equals $s[x \mapsto a][y \mapsto b]$.
+Quantifying over all $b \in A$ gives the claim.
+\end{proof}
+
+\begin{counterexample}\label{logic:counterexample-capture}
+The hypothesis that $t$ is substitutable cannot be dropped. Let $\varphi$ be
+$\exists y\, (x \neq y)$ and $t = y$. In a structure with at least two
+elements, $\varphi$ is true under every assignment, but
+$\varphi[y/x] = \exists y\,(y \neq y)$ is false: the variable $y$ of $t$ has
+been ``captured'' by the quantifier $\exists y$.
+\end{counterexample}
+
+\begin{definition}\label{logic:definition-model}
+Let $\Gamma$ be a set of formulas. A structure $\mathcal{A}$ with an assignment
+$s$ \emph{satisfies} $\Gamma$ if $\mathcal{A} \models \gamma[s]$ for all
+$\gamma \in \Gamma$. The set $\Gamma$ \emph{logically implies} $\varphi$,
+written $\Gamma \models \varphi$, if every $(\mathcal{A}, s)$ satisfying
+$\Gamma$ satisfies $\varphi$; $\varphi$ is \emph{valid} if
+$\emptyset \models \varphi$. A \emph{theory} is a set of sentences. A
+\emph{model} of a theory $T$ is a structure in which all sentences of $T$ are
+true. For a structure $\mathcal{A}$, the \emph{theory of} $\mathcal{A}$,
+written $\Th(\mathcal{A})$, is the set of sentences true in $\mathcal{A}$.
+\end{definition}
+
+\begin{example}\label{logic:example-groups-models}
+Let $T_{\mathrm{grp}}$ consist of the sentences
+$\forall x \forall y \forall z\, ((x \cdot y) \cdot z = x \cdot (y \cdot z))$,
+$\forall x\, (x \cdot e = x \wedge e \cdot x = x)$ and
+$\forall x\, (x \cdot x^{-1} = e \wedge x^{-1} \cdot x = e)$ in the language of
+groups. Its models are exactly the groups (with the inverse map and the
+identity element as interpretations of ${}^{-1}$ and $e$). Adding
+$\forall x \forall y\,(x \cdot y = y \cdot x)$ gives a theory whose models are
+the abelian groups.
+\end{example}
+
+\begin{definition}\label{logic:definition-isomorphism-structures}
+An \emph{isomorphism} of $\mathcal{L}$-structures
+$h \colon \mathcal{A} \to \mathcal{B}$ is a bijection $h \colon A \to B$ with
+$h(c^{\mathcal{A}}) = c^{\mathcal{B}}$,
+$h(f^{\mathcal{A}}(a_1, \ldots, a_n)) = f^{\mathcal{B}}(h(a_1), \ldots, h(a_n))$
+and $(a_1, \ldots, a_n) \in R^{\mathcal{A}}$ if and only if
+$(h(a_1), \ldots, h(a_n)) \in R^{\mathcal{B}}$, for all symbols and all
+$a_i \in A$.
+\end{definition}
+
+\begin{proposition}\label{logic:proposition-isomorphism-invariance}
+Let $h \colon \mathcal{A} \to \mathcal{B}$ be an isomorphism and $s$ an
+assignment in $\mathcal{A}$. Then $\mathcal{A} \models \varphi[s]$ if and only
+if $\mathcal{B} \models \varphi[h \circ s]$. In particular, isomorphic
+structures have the same theory.
+\end{proposition}
+
+\begin{proof}
+By induction on terms, $h(t^{\mathcal{A}}[s]) = t^{\mathcal{B}}[h \circ s]$.
+Since $h$ is injective and preserves relations in both directions, the
+atomic case follows; the cases $\neg$, $\to$ follow by induction. For
+$\forall x\,\psi$, note that $h \circ (s[x \mapsto a]) = (h \circ s)[x \mapsto h(a)]$
+and that $a \mapsto h(a)$ is a bijection $A \to B$, so quantifying over
+$a \in A$ is the same as quantifying over $b \in B$.
+\end{proof}
+
+\section{Formal deductions}\label{logic:section-deductions}
+
+We now define formal proofs. The system below, a Hilbert-style system with
+modus ponens as its only rule, is the one of \cite{enderton-logic}.
+
+\begin{definition}\label{logic:definition-first-order-tautology}
+A formula is \emph{prime} if it is atomic or of the form $\forall x\,\varphi$.
+Every formula is built from prime formulas using $\neg$ and $\to$ alone. A
+\emph{truth assignment} for $\mathcal{L}$ is a map $v$ from the set of prime
+formulas to $\{0, 1\}$; it extends to $\bar v$ on all formulas as in
+Definition~\ref{logic:definition-truth-assignment}. A formula is a
+\emph{tautology} if $\bar v(\varphi) = 1$ for all $v$, and a set $\Sigma$
+\emph{tautologically implies} $\varphi$ if $\bar v(\varphi) = 1$ for all $v$
+with $\bar v(\Sigma) = \{1\}$.
+\end{definition}
+
+\begin{definition}\label{logic:definition-logical-axioms}
+A \emph{generalization} of a formula $\alpha$ is a formula
+$\forall x_1 \cdots \forall x_n\, \alpha$ with $n \geq 0$. The \emph{logical
+axioms} are all generalizations of formulas of the following forms, where
+$x, y, z$ are variables, $t$ is a term and $\alpha, \beta$ are formulas:
+\begin{enumerate}
+\item[(A1)] tautologies;
+\item[(A2)] $\forall x\,\alpha \to \alpha[t/x]$, where $t$ is substitutable for
+$x$ in $\alpha$;
+\item[(A3)] $\forall x\,(\alpha \to \beta) \to (\forall x\,\alpha \to \forall x\,\beta)$;
+\item[(A4)] $\alpha \to \forall x\,\alpha$, where $x \notin \mathrm{FV}(\alpha)$;
+\item[(A5)] $x = x$;
+\item[(A6)] $x = y \to (\alpha[x/z] \to \alpha[y/z])$, where $\alpha$ is atomic.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}\label{logic:definition-deduction}
+Let $\Gamma$ be a set of formulas. A \emph{deduction} from $\Gamma$ is a finite
+sequence $(\alpha_0, \ldots, \alpha_n)$ of formulas such that each $\alpha_i$
+is a logical axiom, or belongs to $\Gamma$, or is obtained by \emph{modus
+ponens} from earlier formulas, that is, there are $j, k < i$ with
+$\alpha_k = (\alpha_j \to \alpha_i)$. We write $\Gamma \vdash \varphi$, and say
+that $\varphi$ is a \emph{theorem} of $\Gamma$, if there is a deduction from
+$\Gamma$ whose last formula is $\varphi$. The set $\Gamma$ is
+\emph{inconsistent} if there is a formula $\beta$ with $\Gamma \vdash \beta$ and
+$\Gamma \vdash \neg\beta$, and \emph{consistent} otherwise.
+\end{definition}
+
+\begin{remark}\label{logic:remark-deductions-finite}
+A deduction is finite, so it uses only finitely many formulas of $\Gamma$.
+Hence $\Gamma \vdash \varphi$ if and only if $\Gamma_0 \vdash \varphi$ for some
+finite $\Gamma_0 \subseteq \Gamma$, and $\Gamma$ is consistent if and only if
+all its finite subsets are. Whether $\Gamma \vdash \varphi$ holds could depend
+on the language in which deductions are carried out; see
+Lemma~\ref{logic:lemma-new-constants} below.
+\end{remark}
+
+\begin{lemma}[Rule T]\label{logic:lemma-rule-t}
+If $\Gamma \vdash \alpha_1, \ldots, \Gamma \vdash \alpha_n$ and
+$\{\alpha_1, \ldots, \alpha_n\}$ tautologically implies $\beta$, then
+$\Gamma \vdash \beta$. In particular, if $\Gamma$ is inconsistent, then
+$\Gamma \vdash \beta$ for every formula $\beta$.
+\end{lemma}
+
+\begin{proof}
+The formula $\alpha_1 \to (\alpha_2 \to \cdots (\alpha_n \to \beta) \cdots)$ is a
+tautology, hence a logical axiom. Applying modus ponens $n$ times gives
+$\Gamma \vdash \beta$. For the second claim, $\{\gamma, \neg\gamma\}$
+tautologically implies every formula.
+\end{proof}
+
+\begin{theorem}[Soundness]\label{logic:theorem-soundness}
+If $\Gamma \vdash \varphi$, then $\Gamma \models \varphi$. In particular, a set
+of formulas that is satisfied by some structure and assignment is consistent.
+\end{theorem}
+
+\begin{proof}
+We first show that every logical axiom is valid. If $\alpha$ is valid, so is
+every generalization of $\alpha$, by the definition of satisfaction. Fix
+$\mathcal{A}$ and $s$.
+(A1) Let $v(\pi) = 1$ if and only if $\mathcal{A} \models \pi[s]$, for prime
+$\pi$. By induction, $\bar v(\alpha) = 1$ if and only if
+$\mathcal{A} \models \alpha[s]$; so tautologies are satisfied.
+(A2) If $\mathcal{A} \models \forall x\,\alpha[s]$ then
+$\mathcal{A} \models \alpha[s[x \mapsto t^{\mathcal{A}}[s]]]$, which by
+Lemma~\ref{logic:lemma-substitution} means $\mathcal{A} \models \alpha[t/x][s]$.
+(A3) is immediate from the definitions.
+(A4) If $x \notin \mathrm{FV}(\alpha)$, then $s$ and $s[x \mapsto a]$ agree on
+$\mathrm{FV}(\alpha)$, so this follows from Lemma~\ref{logic:lemma-coincidence}.
+(A5) is clear.
+(A6) If $s(x) = s(y) = a$, then by Lemma~\ref{logic:lemma-substitution} both
+$\alpha[x/z]$ and $\alpha[y/z]$ are satisfied under $s$ if and only if $\alpha$
+is satisfied under $s[z \mapsto a]$.
+
+Now let $(\alpha_0, \ldots, \alpha_n)$ be a deduction from $\Gamma$ and let
+$(\mathcal{A}, s)$ satisfy $\Gamma$. By induction on $i$,
+$\mathcal{A} \models \alpha_i[s]$: this holds for axioms and elements of
+$\Gamma$, and if $\mathcal{A} \models \alpha_j[s]$ and
+$\mathcal{A} \models (\alpha_j \to \alpha_i)[s]$ then
+$\mathcal{A} \models \alpha_i[s]$. For the last claim, no $(\mathcal{A}, s)$
+satisfies both $\beta$ and $\neg\beta$.
+\end{proof}
+
+\begin{theorem}[Generalization theorem]\label{logic:theorem-generalization}
+If $\Gamma \vdash \varphi$ and $x$ is not free in any formula of $\Gamma$, then
+$\Gamma \vdash \forall x\,\varphi$.
+\end{theorem}
+
+\begin{proof}
+We show by induction on $i$ that $\Gamma \vdash \forall x\,\alpha_i$ for every
+formula $\alpha_i$ of a deduction $(\alpha_0, \ldots, \alpha_n)$ from $\Gamma$.
+If $\alpha_i$ is a logical axiom, so is its generalization
+$\forall x\,\alpha_i$. If $\alpha_i \in \Gamma$, then
+$x \notin \mathrm{FV}(\alpha_i)$, so $\alpha_i \to \forall x\,\alpha_i$ is an
+instance of (A4), and modus ponens gives $\Gamma \vdash \forall x\,\alpha_i$.
+If $\alpha_i$ is obtained from $\alpha_j$ and $\alpha_j \to \alpha_i$ by modus
+ponens, then by induction $\Gamma \vdash \forall x\,\alpha_j$ and
+$\Gamma \vdash \forall x\,(\alpha_j \to \alpha_i)$; using the instance
+$\forall x\,(\alpha_j \to \alpha_i) \to (\forall x\,\alpha_j \to \forall x\,\alpha_i)$
+of (A3) and modus ponens twice, $\Gamma \vdash \forall x\,\alpha_i$.
+\end{proof}
+
+\begin{theorem}[Deduction theorem]\label{logic:theorem-deduction}
+$\Gamma \cup \{\gamma\} \vdash \varphi$ if and only if
+$\Gamma \vdash \gamma \to \varphi$.
+\end{theorem}
+
+\begin{proof}
+If $\Gamma \vdash \gamma \to \varphi$, then $\Gamma \cup \{\gamma\}$ proves both
+$\gamma \to \varphi$ and $\gamma$, hence $\varphi$. Conversely, let
+$(\alpha_0, \ldots, \alpha_n)$ be a deduction from $\Gamma \cup \{\gamma\}$; we
+show $\Gamma \vdash \gamma \to \alpha_i$ by induction on $i$. If
+$\alpha_i = \gamma$, then $\gamma \to \gamma$ is a tautology. If $\alpha_i$ is a
+logical axiom or lies in $\Gamma$, then $\Gamma \vdash \alpha_i$, and $\alpha_i$
+tautologically implies $\gamma \to \alpha_i$; apply
+Lemma~\ref{logic:lemma-rule-t}. If $\alpha_i$ comes from $\alpha_j$ and
+$\alpha_j \to \alpha_i$ by modus ponens, then by induction $\Gamma$ proves
+$\gamma \to \alpha_j$ and $\gamma \to (\alpha_j \to \alpha_i)$, and these two
+formulas tautologically imply $\gamma \to \alpha_i$.
+\end{proof}
+
+\begin{corollary}[Reductio ad absurdum]\label{logic:corollary-reductio}
+If $\Gamma \cup \{\neg\varphi\}$ is inconsistent, then $\Gamma \vdash \varphi$. If
+$\Gamma \cup \{\varphi\}$ is inconsistent, then $\Gamma \vdash \neg\varphi$.
+\end{corollary}
+
+\begin{proof}
+If $\Gamma \cup \{\neg\varphi\}$ proves $\beta$ and $\neg\beta$, then by
+Theorem~\ref{logic:theorem-deduction} $\Gamma$ proves $\neg\varphi \to \beta$ and
+$\neg\varphi \to \neg\beta$, which tautologically imply $\varphi$. The second
+statement is proved in the same way, using that
+$\{\varphi \to \beta, \varphi \to \neg\beta\}$ tautologically implies
+$\neg\varphi$.
+\end{proof}
+
+For a constant symbol $c$ and a variable $y$, let $\alpha[y/c]$ denote the
+result of replacing every occurrence of $c$ in $\alpha$ by $y$ (defined by
+recursion like substitution, but also inside the scope of quantifiers).
+
+\begin{lemma}\label{logic:lemma-replace-constants}
+Let $(\alpha_0, \ldots, \alpha_n)$ be a deduction from $\Gamma$, let $c$ be a
+constant symbol that does not occur in any formula of $\Gamma$, and let $y$ be
+a variable that does not occur in any $\alpha_i$. Then
+$(\alpha_0[y/c], \ldots, \alpha_n[y/c])$ is a deduction from $\Gamma$.
+\end{lemma}
+
+\begin{proof}
+Elements of $\Gamma$ are unchanged, and replacement commutes with $\to$, so
+applications of modus ponens remain applications of modus ponens. It remains
+to see that the replacement of a logical axiom $\alpha$ is a logical axiom.
+Replacement commutes with generalization, so we may assume $\alpha$ is of one
+of the forms (A1)--(A6). Note that $y$ does not occur in $\alpha$.
+
+(A1) Let $w$ be a truth assignment, and define $v(\pi) = w(\pi[y/c])$ for prime
+$\pi$; replacement sends prime formulas to prime formulas and commutes with
+$\neg$ and $\to$, so $\bar v(\alpha) = \bar w(\alpha[y/c])$. Hence if $\alpha$ is a
+tautology so is $\alpha[y/c]$.
+(A2) By induction on formulas, $\beta[t/x][y/c] = \beta[y/c][t[y/c]/x]$. The
+term $t[y/c]$ is substitutable for $x$ in $\beta[y/c]$: the only variable it
+may contain besides those of $t$ is $y$, and $y$ is not quantified anywhere
+in $\beta$.
+(A3), (A5) are clear, and (A4) is preserved because the variable $x$ occurs in
+$\alpha$, so $x \neq y$, and replacing a constant by $y$ does not make $x$
+free.
+(A6) Write the axiom as $x = x' \to (\beta[x/z] \to \beta[x'/z])$ with $\beta$
+atomic; renaming $z$ if necessary we may assume $z \neq y$. Then its
+replacement is $x = x' \to (\beta[y/c][x/z] \to \beta[y/c][x'/z])$, again an
+instance of (A6).
+\end{proof}
+
+\begin{corollary}[Generalization on constants]\label{logic:corollary-generalization-constants}
+Suppose $\Gamma \vdash \varphi[c/x]$, where the constant symbol $c$ occurs
+neither in $\Gamma$ nor in $\varphi$. Then $\Gamma \vdash \forall x\,\varphi$.
+\end{corollary}
+
+\begin{proof}
+Choose a deduction of $\varphi[c/x]$ from $\Gamma$, and a variable $y \neq x$
+that occurs neither in this deduction nor in $\varphi$. Since $c$ does not occur
+in $\varphi$, we have $\varphi[c/x][y/c] = \varphi[y/x]$. By
+Lemma~\ref{logic:lemma-replace-constants}, there is a deduction of
+$\varphi[y/x]$ from a finite subset $\Gamma_0 \subseteq \Gamma$ in whose
+formulas $y$ does not occur. By Theorem~\ref{logic:theorem-generalization},
+$\Gamma_0 \vdash \forall y\,\varphi[y/x]$.
+
+By Lemma~\ref{logic:lemma-rereplacement}, $x$ is substitutable for $y$ in
+$\varphi[y/x]$ and $\varphi[y/x][x/y] = \varphi$, so
+$\forall y\,\varphi[y/x] \to \varphi$ is an instance of (A2). Hence
+$\{\forall y\,\varphi[y/x]\} \vdash \varphi$. The variable $x$ is not free in
+$\forall y\,\varphi[y/x]$, so Theorem~\ref{logic:theorem-generalization} and
+Theorem~\ref{logic:theorem-deduction} give
+$\vdash \forall y\,\varphi[y/x] \to \forall x\,\varphi$. By modus ponens,
+$\Gamma \vdash \forall x\,\varphi$.
+\end{proof}
+
+\begin{lemma}\label{logic:lemma-new-constants}
+Let $\mathcal{L}'$ be obtained from $\mathcal{L}$ by adding new constant
+symbols. If $\Gamma \cup \{\varphi\}$ is a set of $\mathcal{L}$-formulas and
+$\Gamma \vdash \varphi$ by a deduction in $\mathcal{L}'$, then
+$\Gamma \vdash \varphi$ by a deduction in $\mathcal{L}$. In particular, a set of
+$\mathcal{L}$-formulas that is consistent in $\mathcal{L}$ is consistent in
+$\mathcal{L}'$.
+\end{lemma}
+
+\begin{proof}
+A deduction in $\mathcal{L}'$ contains finitely many new constants. Replace
+them one at a time by distinct variables not occurring in the deduction. By
+Lemma~\ref{logic:lemma-replace-constants} (applied in $\mathcal{L}'$), the
+result is a deduction from $\Gamma$ of $\varphi$, which is unchanged because
+it contains no new constants. All its formulas are $\mathcal{L}$-formulas, and
+an $\mathcal{L}$-formula that is a logical axiom of $\mathcal{L}'$ is a logical
+axiom of $\mathcal{L}$ (for (A1), every prime $\mathcal{L}$-formula is a prime
+$\mathcal{L}'$-formula). The last statement follows by applying the first to
+$\varphi = (x = x)$ and $\varphi = \neg(x = x)$, using
+Lemma~\ref{logic:lemma-rule-t}.
+\end{proof}
+
+\begin{lemma}[Equality]\label{logic:lemma-equality}
+For all terms $t, t', t'', t_1, \ldots, t_n, s_1, \ldots, s_n$:
+\begin{enumerate}
+\item $\vdash t = t$;
+\item $\{t = t'\} \vdash t' = t$;
+\item $\{t = t', t' = t''\} \vdash t = t''$;
+\item $\{t_1 = s_1, \ldots, t_n = s_n\} \vdash f(t_1, \ldots, t_n) = f(s_1, \ldots, s_n)$
+for every $n$-ary function symbol $f$;
+\item $\{t_1 = s_1, \ldots, t_n = s_n, R(t_1, \ldots, t_n)\} \vdash R(s_1, \ldots, s_n)$
+for every $n$-ary relation symbol $R$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We use the following observation. If $\vdash \beta$ where $\beta$ has no
+quantifiers, and $x_1, \ldots, x_k$ are distinct variables not occurring in the
+terms $u_1, \ldots, u_k$, then
+$\vdash \beta[u_1/x_1] \cdots [u_k/x_k]$. Indeed, by
+Theorem~\ref{logic:theorem-generalization},
+$\vdash \forall x_1 \cdots \forall x_k\, \beta$, and we remove the quantifiers
+one at a time with (A2): each term $u_i$ is substitutable because it contains
+none of the quantified variables and the remaining formula has no other
+quantifiers. In each part below, the variables used are chosen distinct and
+not occurring in the terms of the statement.
+
+(1) Apply the observation to the axiom $x = x$.
+(2) Let $\alpha$ be $z = x$. The instance $x = y \to (x = x \to y = x)$ of (A6),
+with $x := t$ and $y := t'$, together with (1) gives the claim.
+(3) Let $\alpha$ be $z = w$. The instance $x = y \to (x = w \to y = w)$ of (A6),
+with $x := t'$, $y := t$, $w := t''$, gives
+$\vdash t' = t \to (t' = t'' \to t = t'')$; combine with (2).
+(4) For $0 \leq k \leq n$ let $a_k = f(y_1, \ldots, y_k, x_{k+1}, \ldots, x_n)$.
+With $\alpha$ the atomic formula
+$f(x_1, \ldots, x_n) = f(y_1, \ldots, y_{k-1}, z, x_{k+1}, \ldots, x_n)$, axiom
+(A6) gives $\vdash x_k = y_k \to (f(x_1, \ldots, x_n) = a_{k-1} \to f(x_1, \ldots, x_n) = a_k)$.
+Starting from $f(x_1, \ldots, x_n) = a_0$, which holds by (1), we obtain
+$\{x_1 = y_1, \ldots, x_n = y_n\} \vdash f(x_1, \ldots, x_n) = a_n$. By the
+deduction theorem this becomes a deducible quantifier-free implication, and
+the observation with $x_i := t_i$, $y_i := s_i$ gives the claim.
+(5) is proved in the same way as (4), with $\alpha$ the atomic formula
+$R(y_1, \ldots, y_{k-1}, z, x_{k+1}, \ldots, x_n)$.
+\end{proof}
+
+\begin{lemma}[Alphabetic variants]\label{logic:lemma-alphabetic-variants}
+Let $\varphi$ be a formula, $x$ a variable and $t$ a term. There is a formula
+$\varphi'$ with $c(\varphi') = c(\varphi)$ such that $t$ is substitutable for
+$x$ in $\varphi'$, $\vdash \varphi \to \varphi'$ and $\vdash \varphi' \to \varphi$.
+\end{lemma}
+
+\begin{proof}
+By induction on $\varphi$. For atomic $\varphi$ take $\varphi' = \varphi$. For
+$\neg\psi$ and $\psi \to \chi$, take $\neg\psi'$ and $\psi' \to \chi'$ and use
+Lemma~\ref{logic:lemma-rule-t}. Let $\varphi = \forall y\,\psi$, and let
+$\psi'$ be given by induction. Choose a variable $z$ that does not occur in
+$\psi'$ or in $t$ and is different from $x$, and put
+$\varphi' = \forall z\,\psi'[z/y]$.
+
+The term $t$ is substitutable for $x$ in $\varphi'$. If $x = y$, then $x$ is
+not free in $\varphi'$. If $x \neq y$, then $z$ does not occur in $t$, and $t$
+is substitutable for $x$ in $\psi'[z/y]$ because it is substitutable in
+$\psi'$ and $\psi'[z/y]$ has the same quantifiers as $\psi'$ in the same
+places.
+
+From $\vdash \psi \to \psi'$, Theorem~\ref{logic:theorem-generalization} and
+(A3) give $\vdash \forall y\,\psi \to \forall y\,\psi'$, and similarly
+$\vdash \forall y\,\psi' \to \forall y\,\psi$. By
+Lemma~\ref{logic:lemma-rereplacement}, $\forall y\,\psi' \to \psi'[z/y]$ and
+$\forall z\,\psi'[z/y] \to \psi'$ are instances of (A2). The variable $z$ is not
+free in $\forall y\,\psi'$, and $y$ is not free in $\forall z\,\psi'[z/y]$; so
+by Theorems~\ref{logic:theorem-generalization} and~\ref{logic:theorem-deduction},
+$\vdash \forall y\,\psi' \to \forall z\,\psi'[z/y]$ and
+$\vdash \forall z\,\psi'[z/y] \to \forall y\,\psi'$. Combining these
+implications with Lemma~\ref{logic:lemma-rule-t} gives the claim. Finally
+$c(\varphi') = c(\psi') + 1 = c(\varphi)$.
+\end{proof}
+
+\begin{example}\label{logic:example-deduction}
+Let us check that $\vdash \forall x \forall y\, \varphi \to \forall y \forall x\, \varphi$.
+By (A2) twice (a variable is substitutable for itself),
+$\{\forall x \forall y\, \varphi\} \vdash \varphi$. Neither $x$ nor $y$ is free
+in $\forall x \forall y\, \varphi$, so the generalization theorem gives
+$\{\forall x \forall y\, \varphi\} \vdash \forall y \forall x\, \varphi$, and the
+deduction theorem gives the claim. In practice, one rarely writes deductions:
+by Corollary~\ref{logic:corollary-completeness} below it suffices to check
+that the implication is valid.
+\end{example}
+
+\section{The completeness theorem}\label{logic:section-completeness}
+
+\begin{theorem}[G\"odel, Henkin]\label{logic:theorem-model-existence}
+Let $\mathcal{L}$ be a countable language and $\Gamma$ a consistent set of
+$\mathcal{L}$-formulas. Then there are an $\mathcal{L}$-structure
+$\mathcal{A}$ with a countable universe and an assignment $s$ such that
+$(\mathcal{A}, s)$ satisfies $\Gamma$.
+\end{theorem}
+
+\begin{proof}
+This is the method of \cite{henkin-1949}; the theorem is due to
+\cite{godel-1930}.
+
+\emph{Step 1: new constants.} Let $\mathcal{L}'$ be $\mathcal{L}$ together with
+new constant symbols $c_0, c_1, \ldots$. It is still countable, and $\Gamma$ is
+consistent in $\mathcal{L}'$ by Lemma~\ref{logic:lemma-new-constants}. From now
+on all formulas and deductions are in $\mathcal{L}'$.
+
+\emph{Step 2: witnesses.} Enumerate all pairs of a formula and a variable as
+$(\varphi_1, x_1), (\varphi_2, x_2), \ldots$. Define inductively
+\[
+\theta_n = \bigl(\neg\forall x_n\, \varphi_n \to \neg\varphi_n[d_n/x_n]\bigr),
+\]
+where $d_n$ is the first of the new constants $c_i$ that occurs neither in
+$\varphi_n$ nor in $\theta_1, \ldots, \theta_{n-1}$. Let
+$\Theta = \{\theta_1, \theta_2, \ldots\}$. We claim that $\Gamma \cup \Theta$
+is consistent. Otherwise, by Remark~\ref{logic:remark-deductions-finite}, there
+is a least $m$ such that $\Gamma \cup \{\theta_1, \ldots, \theta_m\}$ is
+inconsistent, and $m \geq 1$. By Corollary~\ref{logic:corollary-reductio},
+$\Gamma \cup \{\theta_1, \ldots, \theta_{m-1}\} \vdash \neg\theta_m$. The formula
+$\neg\theta_m$ tautologically implies both $\neg\forall x_m\,\varphi_m$ and
+$\varphi_m[d_m/x_m]$. The constant $d_m$ occurs neither in $\Gamma$ (whose
+formulas are in $\mathcal{L}$), nor in $\theta_1, \ldots, \theta_{m-1}$, nor in
+$\varphi_m$; so Corollary~\ref{logic:corollary-generalization-constants} gives
+$\Gamma \cup \{\theta_1, \ldots, \theta_{m-1}\} \vdash \forall x_m\,\varphi_m$.
+This set is therefore inconsistent, contradicting the minimality of $m$.
+
+\emph{Step 3: a maximal consistent set.} Enumerate all formulas as
+$\psi_0, \psi_1, \ldots$. Put $\Delta_0 = \Gamma \cup \Theta$, and
+$\Delta_{n+1} = \Delta_n \cup \{\psi_n\}$ if this set is consistent,
+$\Delta_{n+1} = \Delta_n \cup \{\neg\psi_n\}$ otherwise. If $\Delta_n$ is
+consistent, so is $\Delta_{n+1}$: if both $\Delta_n \cup \{\psi_n\}$ and
+$\Delta_n \cup \{\neg\psi_n\}$ were inconsistent, then $\Delta_n$ would prove
+$\neg\psi_n$ and $\psi_n$ by Corollary~\ref{logic:corollary-reductio}. Let
+$\Delta = \bigcup_n \Delta_n$. It is consistent (a deduction uses finitely many
+formulas), and for every formula $\psi$ either $\psi \in \Delta$ or
+$\neg\psi \in \Delta$, but not both. Moreover, if $\Delta \vdash \psi$ then
+$\psi \in \Delta$: otherwise $\neg\psi \in \Delta$ and $\Delta$ would be
+inconsistent.
+
+\emph{Step 4: the term structure.} Let $T$ be the set of terms of
+$\mathcal{L}'$; it is countable. For $t, t' \in T$ write $t \sim t'$ if
+$(t = t') \in \Delta$. Since $\Delta$ contains every formula it proves,
+Lemma~\ref{logic:lemma-equality} shows that $\sim$ is an equivalence relation
+and that
 \begin{itemize}
-\item Propositional logic: formulas, truth tables, tautologies, normal forms.
-\item First-order languages: terms, formulas, free and bound variables, substitution.
-\item Structures and satisfaction; models of a theory; semantic consequence.
-\item Formal proofs and the soundness theorem.
-\item G\"odel's completeness theorem and the compactness theorem.
-\item The L\"owenheim--Skolem theorems and non-standard models.
-\item Statements of G\"odel's incompleteness theorems and what they mean for foundations.
+\item if $t_i \sim s_i$ for all $i$, then
+$f(t_1, \ldots, t_n) \sim f(s_1, \ldots, s_n)$, and
+$R(t_1, \ldots, t_n) \in \Delta$ if and only if $R(s_1, \ldots, s_n) \in \Delta$.
 \end{itemize}
+Let $A = T/{\sim}$ and write $[t]$ for the class of $t$. Define an
+$\mathcal{L}'$-structure $\mathcal{A}$ with universe $A$ by
+$c^{\mathcal{A}} = [c]$,
+$f^{\mathcal{A}}([t_1], \ldots, [t_n]) = [f(t_1, \ldots, t_n)]$ and
+$([t_1], \ldots, [t_n]) \in R^{\mathcal{A}}$ if and only if
+$R(t_1, \ldots, t_n) \in \Delta$; these are well defined by the displayed
+property. Let $s(x) = [x]$. By induction on terms, $t^{\mathcal{A}}[s] = [t]$
+for every term $t$.
+
+\emph{Step 5: the truth lemma.} We show that for every formula $\varphi$,
+\[
+\mathcal{A} \models \varphi[s] \iff \varphi \in \Delta,
+\]
+by induction on the complexity $c(\varphi)$. For $t_1 = t_2$ both sides say
+$[t_1] = [t_2]$; for $R(t_1, \ldots, t_n)$ both sides say
+$R(t_1, \ldots, t_n) \in \Delta$. For $\neg\psi$: $\mathcal{A} \models \neg\psi[s]$
+iff $\psi \notin \Delta$ iff $\neg\psi \in \Delta$. For $\psi \to \chi$: if
+$(\psi \to \chi) \in \Delta$ and $\psi \in \Delta$, then $\Delta \vdash \chi$, so
+$\chi \in \Delta$; conversely, if $\psi \notin \Delta$ then $\neg\psi \in \Delta$,
+and if $\chi \in \Delta$, in either case $\Delta$ proves $\psi \to \chi$ by
+Lemma~\ref{logic:lemma-rule-t}. Hence $(\psi \to \chi) \in \Delta$ iff
+$\psi \notin \Delta$ or $\chi \in \Delta$, iff
+$\mathcal{A} \models (\psi \to \chi)[s]$.
+
+Let $\varphi = \forall x\,\psi$. Suppose $\varphi \notin \Delta$. The pair
+$(\psi, x)$ is $(\varphi_n, x_n)$ for some $n$, and
+$\neg\forall x\,\psi \in \Delta$ and $\theta_n \in \Delta$, so
+$\neg\psi[d_n/x] \in \Delta$ and $\psi[d_n/x] \notin \Delta$. Since
+$c(\psi[d_n/x]) = c(\psi) < c(\varphi)$, the induction hypothesis gives
+$\mathcal{A} \not\models \psi[d_n/x][s]$, which by
+Lemma~\ref{logic:lemma-substitution} means
+$\mathcal{A} \not\models \psi[s[x \mapsto [d_n]]]$. Hence
+$\mathcal{A} \not\models \varphi[s]$.
+
+Suppose $\varphi \in \Delta$, and let $a \in A$, say $a = [t]$. Let $\psi'$ be
+as in Lemma~\ref{logic:lemma-alphabetic-variants} for $\psi$, $x$ and $t$. From
+$\vdash \psi \to \psi'$ we get $\vdash \forall x\,\psi \to \forall x\,\psi'$
+(generalization and (A3)), so $\forall x\,\psi' \in \Delta$, and by (A2)
+$\psi'[t/x] \in \Delta$. Since $c(\psi'[t/x]) = c(\psi) < c(\varphi)$, the
+induction hypothesis gives $\mathcal{A} \models \psi'[t/x][s]$, that is,
+$\mathcal{A} \models \psi'[s[x \mapsto a]]$ by
+Lemma~\ref{logic:lemma-substitution}. As $\vdash \psi' \to \psi$,
+Theorem~\ref{logic:theorem-soundness} gives
+$\mathcal{A} \models \psi[s[x \mapsto a]]$. Since $a$ was arbitrary,
+$\mathcal{A} \models \varphi[s]$.
+
+\emph{Step 6: conclusion.} Since $\Gamma \subseteq \Delta$, the pair
+$(\mathcal{A}, s)$ satisfies $\Gamma$. Forgetting the interpretations of the
+new constants gives an $\mathcal{L}$-structure which, with the same assignment,
+still satisfies $\Gamma$, because the satisfaction of an $\mathcal{L}$-formula
+only involves the symbols of $\mathcal{L}$. Its universe $A$ is countable, as a
+quotient of $T$.
+\end{proof}
+
+\begin{corollary}[Completeness theorem]\label{logic:corollary-completeness}
+Let $\mathcal{L}$ be countable. Then $\Gamma \models \varphi$ if and only if
+$\Gamma \vdash \varphi$.
+\end{corollary}
+
+\begin{proof}
+One direction is Theorem~\ref{logic:theorem-soundness}. Suppose
+$\Gamma \not\vdash \varphi$. By Corollary~\ref{logic:corollary-reductio},
+$\Gamma \cup \{\neg\varphi\}$ is consistent, so by
+Theorem~\ref{logic:theorem-model-existence} it is satisfied by some
+$(\mathcal{A}, s)$. Then $(\mathcal{A}, s)$ satisfies $\Gamma$ but not
+$\varphi$, so $\Gamma \not\models \varphi$.
+\end{proof}
+
+\begin{remark}\label{logic:remark-uncountable-languages}
+The completeness theorem holds for languages of any cardinality, and the
+structure can then be taken of cardinality at most that of the language plus
+$\aleph_0$. The proof is the same, except that the enumerations of Steps 2 and
+3 are replaced by transfinite ones, which requires the well-ordering theorem
+(Chapter~\ref{sets}); see \cite[Section 2.2]{chang-keisler}.
+\end{remark}
+
+\section{Compactness and the L\"owenheim--Skolem theorem}\label{logic:section-compactness}
+
+\begin{theorem}[Compactness theorem]\label{logic:theorem-compactness}
+Let $\mathcal{L}$ be countable and $\Gamma$ a set of formulas. If every finite
+subset of $\Gamma$ is satisfiable, then $\Gamma$ is satisfiable.
+\end{theorem}
+
+\begin{proof}
+If $\Gamma$ is not satisfiable, it is inconsistent by
+Theorem~\ref{logic:theorem-model-existence}, so some finite subset
+$\Gamma_0$ is inconsistent (Remark~\ref{logic:remark-deductions-finite}), and
+$\Gamma_0$ is not satisfiable by Theorem~\ref{logic:theorem-soundness}.
+\end{proof}
+
+\begin{theorem}[L\"owenheim--Skolem]\label{logic:theorem-lowenheim-skolem}
+Let $\mathcal{L}$ be countable. Every satisfiable set of $\mathcal{L}$-formulas
+is satisfied by a structure with a countable (finite or countably infinite)
+universe. In particular, a theory with a model has a countable model.
+\end{theorem}
+
+\begin{proof}
+A satisfiable set is consistent by Theorem~\ref{logic:theorem-soundness}, and
+Theorem~\ref{logic:theorem-model-existence} produces a countable structure.
+\end{proof}
+
+\begin{proposition}\label{logic:proposition-large-finite-models}
+Let $\mathcal{L}$ be countable and $T$ a theory that has finite models of
+arbitrarily large size. Then $T$ has an infinite model.
+\end{proposition}
+
+\begin{proof}
+For $n \geq 2$ let $\lambda_n$ be the sentence
+$\exists x_1 \cdots \exists x_n \bigwedge_{1 \leq i < j \leq n} x_i \neq x_j$, which
+is true in a structure if and only if it has at least $n$ elements. Every
+finite subset of $T \cup \{\lambda_n : n \geq 2\}$ is contained in
+$T \cup \{\lambda_2, \ldots, \lambda_N\}$ for some $N$, which is satisfied by a
+finite model of $T$ with at least $N$ elements. By
+Theorem~\ref{logic:theorem-compactness}, $T \cup \{\lambda_n : n \geq 2\}$ has a
+model, which is an infinite model of $T$.
+\end{proof}
+
+\begin{counterexample}\label{logic:counterexample-finiteness}
+``Being finite'' cannot be expressed in first-order logic: in any countable
+language there is no theory whose models are exactly the finite structures.
+Indeed, such a theory would have finite models of every size (in any
+language, every nonempty finite set carries a structure), hence an infinite
+model by Proposition~\ref{logic:proposition-large-finite-models}.
+\end{counterexample}
+
+\begin{example}\label{logic:example-nonstandard-arithmetic}
+Let $\mathcal{N}$ be the structure $(\NN, 0, S, +, \cdot)$ for the language of
+arithmetic, with $S(n) = n + 1$, and for $n \in \NN$ let
+$\underline{n} = S(S(\cdots S(0)\cdots))$ with $n$ symbols $S$. Add a new constant
+symbol $c$ and consider
+$\Th(\mathcal{N}) \cup \{c \neq \underline{n} : n \in \NN\}$. Every finite subset
+is satisfied by $\mathcal{N}$, interpreting $c$ as a large enough number. By
+compactness there is a model $\mathcal{M}$ of $\Th(\mathcal{N})$ with an
+element $c^{\mathcal{M}}$ different from the values of all
+$\underline{n}$. Such a model is not isomorphic to $\mathcal{N}$ (in
+$\mathcal{N}$ every element is the value of some $\underline{n}$, and
+isomorphisms preserve the values of closed terms), although it satisfies
+exactly the same sentences. So first-order sentences cannot characterise
+$\mathcal{N}$ up to isomorphism.
+\end{example}
+
+\begin{remark}\label{logic:remark-skolem-paradox}
+Applied to set theory (Chapter~\ref{sets}), the L\"owenheim--Skolem theorem
+says that if ZFC has a model, it has a countable model $\mathcal{M}$, even
+though ZFC proves that uncountable sets exist. There is no contradiction: an
+element of $\mathcal{M}$ that $\mathcal{M}$ believes to be uncountable has
+only countably many $\mathcal{M}$-elements, but no bijection with $\NN$ exists
+\emph{inside} $\mathcal{M}$. This is known as Skolem's paradox.
+\end{remark}
+
+\section{The incompleteness theorems}\label{logic:section-incompleteness}
+
+The theorems of this section are quoted without proof: their proofs require
+a precise theory of computability, which is not developed in this project.
+Complete proofs can be found in \cite{smith-godel} and
+\cite[Chapter 6]{shoenfield-logic}.
+
+\begin{definition}\label{logic:definition-arithmetic}
+\emph{Robinson arithmetic} $Q$ is the theory in the language of arithmetic
+consisting of the sentences
+\begin{align*}
+& \forall x\, (S(x) \neq 0), &
+& \forall x \forall y\, (S(x) = S(y) \to x = y), \\
+& \forall x\, (x \neq 0 \to \exists y\, (x = S(y))), &
+& \forall x\, (x + 0 = x), \\
+& \forall x \forall y\, (x + S(y) = S(x + y)), &
+& \forall x\, (x \cdot 0 = 0), \\
+& \forall x \forall y\, (x \cdot S(y) = x \cdot y + x). & &
+\end{align*}
+\emph{Peano arithmetic} $\mathrm{PA}$ consists of $Q$ together with, for every
+formula $\varphi$ whose free variables are among $x, y_1, \ldots, y_k$, the
+induction axiom
+$\forall y_1 \cdots \forall y_k\, \bigl((\varphi[0/x] \wedge \forall x\,(\varphi \to \varphi[S(x)/x])) \to \forall x\,\varphi\bigr)$.
+\end{definition}
+
+\begin{definition}\label{logic:definition-complete-theory}
+A theory $T$ is \emph{complete} if for every sentence $\sigma$, either
+$T \vdash \sigma$ or $T \vdash \neg\sigma$. It is \emph{computably axiomatized}
+if there is an algorithm deciding, for any sentence, whether it belongs to
+$T$.
+\end{definition}
+
+\begin{example}\label{logic:example-complete-theory}
+For every structure $\mathcal{A}$, the theory $\Th(\mathcal{A})$ is complete
+and consistent. For the structure $\mathcal{N}$ of
+Example~\ref{logic:example-nonstandard-arithmetic},
+Theorem~\ref{logic:theorem-first-incompleteness} implies that
+$\Th(\mathcal{N})$ is not computably axiomatized.
+\end{example}
+
+\begin{theorem}[First incompleteness theorem]\label{logic:theorem-first-incompleteness}
+Let $T$ be a consistent, computably axiomatized theory in the language of
+arithmetic with $T \vdash \sigma$ for every $\sigma \in Q$. Then $T$ is not
+complete.
+\end{theorem}
+
+This is due to \cite{godel-1931}, under a slightly stronger hypothesis than
+consistency, and in this form to \cite{rosser-1936}; the theory $Q$ is from
+\cite{tarski-mostowski-robinson}.
+
+\begin{theorem}[Second incompleteness theorem]\label{logic:theorem-second-incompleteness}
+Let $T$ be a consistent, computably axiomatized theory in the language of
+arithmetic with $T \vdash \sigma$ for every $\sigma \in \mathrm{PA}$. Then
+$T \not\vdash \Con_T$, where $\Con_T$ is the arithmetic sentence which
+expresses, via a G\"odel numbering of formulas, that $T$ is consistent.
+\end{theorem}
+
+See \cite{godel-1931} and \cite{smith-godel}.
+
+\begin{remark}\label{logic:remark-incompleteness-set-theory}
+Both theorems apply, with the same proofs, to any consistent computably
+axiomatized theory in which arithmetic can be interpreted, such as ZFC:
+if ZFC is consistent, it does not prove its own consistency
+\cite{kunen-set-theory}. This affects the foundations of this project. In
+Chapter~\ref{sets} we assume the existence of a Grothendieck universe, and a
+universe is a model of ZFC; so ZFC together with this assumption proves
+$\Con_{\mathrm{ZFC}}$. By the second incompleteness theorem, the existence of
+a universe can therefore not be proved in ZFC (if ZFC is consistent): it is a
+genuinely new axiom, of modest strength.
+\end{remark}
+
+\section{Exercises}\label{logic:section-exercises}
+
+\begin{exercise}\label{logic:exercise-connectives}
+Show that every function $\{0,1\}^n \to \{0,1\}$ with $n \geq 1$ is computed by
+a formula built from variables using only $\neg$ and $\wedge$ (as primitive
+connectives with their usual truth tables). Show that a formula built from
+variables using only $\wedge$, $\vee$ and $\to$ is satisfied by the truth
+assignment that is constantly $1$, and deduce that these three connectives do
+not suffice to express negation.
+\end{exercise}
+
+\begin{solution}
+By Lemma~\ref{logic:lemma-abbreviations}, $\varphi \vee \psi$ has the same
+truth table as $\neg(\neg\varphi \wedge \neg\psi)$ and $\varphi \to \psi$ the same
+as $\neg(\varphi \wedge \neg\psi)$; so the formula of
+Proposition~\ref{logic:proposition-functional-completeness} can be rewritten
+using $\neg$ and $\wedge$. For the second part, argue by induction: if $v$ is
+constantly $1$, then $\bar v$ is $1$ on variables, and $1 \wedge 1$,
+$1 \vee 1$ and $1 \to 1$ all have value $1$. Negation of a variable has value
+$0$ under $v$, so it is not expressible.
+\end{solution}
+
+\begin{exercise}\label{logic:exercise-quantifier-order}
+Show that $\exists x \forall y\, \varphi \to \forall y \exists x\, \varphi$ is
+valid for every formula $\varphi$, and give a formula $\varphi$ in the language
+of orders and a structure in which
+$\forall y \exists x\, \varphi \to \exists x \forall y\, \varphi$ is false.
+\end{exercise}
+
+\begin{exercise}\label{logic:exercise-well-orders}
+A \emph{well-order} is a total order in which every nonempty subset has a
+least element. Show that there is no theory $T$ in the language of orders
+whose models are exactly the well-ordered sets. (Hint: add constants
+$c_0, c_1, \ldots$ and the sentences $c_{n+1} < c_n$.)
+\end{exercise}
+
+\begin{exercise}\label{logic:exercise-torsion-groups}
+A group is a \emph{torsion group} if every element has finite order. Show that
+there is no theory in the language of groups whose models are exactly the
+torsion groups. Show, on the other hand, that for every $n \geq 1$ there is a
+single sentence whose models among groups are exactly the groups satisfying
+$g^n = e$ for all $g$.
+\end{exercise}
+
+\begin{exercise}\label{logic:exercise-characteristic-zero}
+Let $T_0$ be the theory of fields in the language of rings, and for a prime
+$p$ let $\chi_p$ be the sentence $\underline{p} \neq 0$, where $\underline{p}$
+is $1 + 1 + \cdots + 1$ with $p$ summands. The models of
+$T_0 \cup \{\chi_p : p \text{ prime}\}$ are the fields of characteristic zero.
+Show that there is no single sentence $\sigma$ such that the models of
+$T_0 \cup \{\sigma\}$ are exactly the fields of characteristic zero. Deduce that
+a sentence true in all fields of characteristic zero is true in all fields
+of sufficiently large prime characteristic.
+\end{exercise}
+
+\begin{exercise}\label{logic:exercise-finite-subset-proves}
+Let $T$ be a theory and $\sigma$ a sentence with $T \models \sigma$. Show,
+without using deductions, that some finite subset $T_0 \subseteq T$ satisfies
+$T_0 \models \sigma$ (for $\mathcal{L}$ countable).
+\end{exercise}
+
+\begin{solution}
+Otherwise, for every finite $T_0 \subseteq T$ the set $T_0 \cup \{\neg\sigma\}$
+has a model. Then every finite subset of $T \cup \{\neg\sigma\}$ is satisfiable,
+so by Theorem~\ref{logic:theorem-compactness} the whole set has a model, which is
+a model of $T$ in which $\sigma$ is false, contradicting $T \models \sigma$.
+\end{solution}

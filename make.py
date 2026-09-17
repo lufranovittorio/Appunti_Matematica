@@ -275,9 +275,10 @@ def check_references(project):
             project.errors.append(f"{ref.where}: forward reference to '{ref.target}' inside a proof")
         elif ref.context == "prerequisites":
             project.errors.append(f"{ref.where}: prerequisite '{ref.target}' comes later in book.tex")
-        elif ":" in ref.target:
-            # Forward references to whole chapters and parts are allowed
-            # outside proofs; forward references to results are discouraged.
+        elif ":" in ref.target and label.chapter != ref.chapter:
+            # Outside proofs, forward references within a chapter and to whole
+            # chapters or parts are fine; forward references to results of
+            # later chapters are discouraged.
             project.warnings.append(f"{ref.where}: forward reference to '{ref.target}'")
 
 
@@ -524,6 +525,7 @@ def command_serve(args):
 
 THM_HEADING_RE = re.compile(r'<div class="(\w+)_thmwrapper[^"]*" id="([^"]+)">\s*<div class="\1_thmheading">')
 HEADING_RE = re.compile(r'<h(\d) id="([^"]+)">(.*?)</h\1>', re.S)
+CITE_RE = re.compile(r'<span class="cite">.*?</span>', re.S)
 TOC_LINK_RE = re.compile(r'(<a [^>]*data-label="([^"]+)"[^>]*>.*?</a>)', re.S)
 ID_RE = re.compile(r'\bid="([^"]+)"')
 
@@ -562,6 +564,8 @@ def postprocess_html(project):
 
         text = THM_HEADING_RE.sub(thm, text)
         text = HEADING_RE.sub(heading, text)
+        text = CITE_RE.sub(lambda m: re.sub(r"\s*([\[\],])\s*", r"\1 ", m.group(0))
+                           .replace("[ ", "[").replace(" ]", "]").replace("] ", "]"), text)
         if path.name == "index.html":
             text = TOC_LINK_RE.sub(toc_link, text)
         path.write_text(text, encoding="utf-8")

@@ -24,10 +24,16 @@ Language: English.
 ## Rules for writing chapters
 
 - **No forward references.** A proof may only use material that appears
-  earlier in `book.tex`. Examples, counterexamples, remarks and exercises may
-  *mention* later notions informally, but never with `\ref` to a later result.
-  Only `chapters/introduction.tex` may refer forward freely. `make.py check`
-  enforces this (errors inside proofs and in Prerequisites lines).
+  earlier in `book.tex`. Outside proofs, text may point forward within the same
+  chapter (e.g. an introduction announcing the main theorem) and to later
+  chapters as a whole, but not to results of later chapters. Examples,
+  counterexamples, remarks and exercises may *mention* later notions
+  informally. Only `chapters/introduction.tex` may refer forward freely.
+  `make.py check` enforces this (errors inside proofs and in Prerequisites
+  lines, warnings otherwise).
+- **Citations**: `\cite{key}` / `\cite[Theorem 2.3]{key}` with keys from
+  `hodge-project.bib` (style amsalpha). Only add entries whose details are
+  certain. Results quoted without proof must cite a source.
 - **Every result is proved.** Use `\begin{proof}` for complete proofs,
   `\begin{proof}[Sketch of proof]` when verifications are omitted (name them),
   and no proof only for results quoted from the literature (give the reference).
