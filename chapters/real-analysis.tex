@@ -1,16 +1,588 @@
 \chapter{Real Analysis}\label{real-analysis}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Calculus in one and several real variables, including the inverse function theorem and ordinary differential equations.
+\section{Introduction}\label{real-analysis:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{number-systems} (Number Systems) and Chapter~\ref{linear-algebra} (Linear Algebra).
+This chapter develops calculus in one and several real variables with complete proofs: series and power series, the exponential
+and trigonometric functions (including a definition of $\pi$), the Riemann integral, derivatives of maps between Euclidean spaces,
+the inverse and implicit function theorems, ordinary differential equations, and the approximation and compactness theorems of
+Stone--Weierstrass and Arzel\`a--Ascoli. The topological background (metric spaces, compactness, completeness, uniform convergence,
+the Banach fixed point theorem) is in Chapter~\ref{general-topology}. References: \cite{rudin-principles}, \cite{dieudonne-foundations},
+\cite{spivak-calculus-manifolds}, \cite{lang-real-functional} and \cite{hartman-ode}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Sequences and series of numbers and of functions; uniform convergence.
-\item Differentiation and the Riemann integral in one variable.
-\item Derivatives of maps between Euclidean spaces; the chain rule; Taylor's theorem.
-\item The inverse function theorem and the implicit function theorem.
-\item Existence, uniqueness and smooth dependence of solutions of ordinary differential equations.
-\item The Stone--Weierstrass theorem and the Arzel\`a--Ascoli theorem.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{number-systems} (Number Systems) and
+Chapter~\ref{linear-algebra} (Linear Algebra); Theorem~\ref{real-analysis:theorem-pi} also uses Chapter~\ref{homotopy} (Homotopy and Covering Spaces).
+
+Throughout, $\mathbb{K}$ is $\RR$ or $\CC$, and $\RR^n$ and $\CC^n$ carry the Euclidean norm unless otherwise stated.
+
+\section{Sequences and series}\label{real-analysis:section-series}
+
+\begin{definition}\label{real-analysis:definition-limsup}
+For a real sequence $(a_n)$ let $\limsup_n a_n = \inf_n\sup_{k \geq n}a_k$ and $\liminf_n a_n = \sup_n\inf_{k \geq n}a_k$, with values in the extended real line.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-monotone}
+\begin{enumerate}
+\item A bounded monotone real sequence converges, to its supremum or infimum.
+\item $(a_n)$ converges to $a \in \RR$ if and only if $\limsup a_n = \liminf a_n = a$.
+\item (Bolzano--Weierstrass) Every bounded sequence in $\RR^n$ has a convergent subsequence.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $(a_n)$ is increasing with supremum $s$ (Definition~\ref{number-systems:definition-complete}), for $\varepsilon > 0$ some $a_N > s - \varepsilon$, and then
+$s - \varepsilon < a_n \leq s$ for $n \geq N$. (2) The sequences $\sup_{k \geq n}a_k$ and $\inf_{k \geq n}a_k$ are monotone and bracket $a_n$. If both converge to $a$, so does
+$a_n$; conversely, if $|a_k - a| < \varepsilon$ for $k \geq N$, both lie within $\varepsilon$ of $a$ for $n \geq N$. (3) A bounded set lies in a closed cube, which is compact
+(Theorem~\ref{general-topology:theorem-heine-borel}) and hence sequentially compact (Theorem~\ref{general-topology:theorem-compact-metric}).
+\end{proof}
+
+\begin{definition}\label{real-analysis:definition-series}
+Let $V$ be a normed space. A series $\sum_n v_n$ \emph{converges} to $s$ if the partial sums $s_N = \sum_{n \leq N}v_n$ converge to $s$, and it \emph{converges absolutely}
+if $\sum_n\|v_n\| < \infty$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-series}
+Let $V$ be a Banach space.
+\begin{enumerate}
+\item An absolutely convergent series converges, and every rearrangement $\sum_n v_{\sigma(n)}$ ($\sigma$ a bijection of $\NN$) converges to the same sum.
+\item (Comparison) If $\|v_n\| \leq c_n$ and $\sum c_n < \infty$, then $\sum v_n$ converges absolutely.
+\item (Root and ratio tests) If $\limsup\|v_n\|^{1/n} < 1$, or $v_n \neq 0$ and $\limsup\|v_{n+1}\|/\|v_n\| < 1$, then $\sum v_n$ converges absolutely. If $\limsup\|v_n\|^{1/n} > 1$, it
+diverges.
+\item (Geometric series) For $z \in \CC$ with $|z| < 1$, $\sum_n z^n = 1/(1 - z)$.
+\item (Weierstrass $M$-test) If $f_n \colon X \to V$ satisfy $\sup_x\|f_n(x)\| \leq M_n$ with $\sum M_n < \infty$, then $\sum f_n$ converges uniformly.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\|s_M - s_N\| \leq \sum_{N < n \leq M}\|v_n\|$, so the partial sums are Cauchy. For a rearrangement, given $\varepsilon$ choose $N$ with $\sum_{n \geq N}\|v_n\| < \varepsilon$ and then $M$
+with $\{0, \ldots, N-1\} \subseteq \sigma(\{0, \ldots, M\})$; for $m \geq M$, $\|\sum_{k \leq m}v_{\sigma(k)} - s_{N-1}\| \leq \sum_{n \geq N}\|v_n\| < \varepsilon$, and $\|s_{N-1} - s\| \leq \varepsilon$.
+(2) follows from (1). (3) If $\limsup\|v_n\|^{1/n} < q < 1$, then $\|v_n\| \leq q^n$ for large $n$; compare with $\sum q^n$ using (4). If the ratio limsup is $< q < 1$, then
+$\|v_n\| \leq Cq^n$ for large $n$. If $\limsup\|v_n\|^{1/n} > 1$, then $\|v_n\| > 1$ infinitely often, so $v_n \not\to 0$ and the partial sums are not Cauchy. (4)
+$(1 - z)\sum_{n \leq N}z^n = 1 - z^{N+1}$, and $|z|^N \to 0$: if $0 < |z| < 1$ write $1/|z| = 1 + h$, so $|z|^{-N} \geq 1 + Nh$. (5) The partial sums are bounded and uniformly Cauchy, and the space
+$B(X, V)$ of bounded maps is complete (Proposition~\ref{general-topology:proposition-complete-examples}).
+\end{proof}
+
+\begin{lemma}[Alternating series]\label{real-analysis:lemma-alternating}
+If $t_0 \geq t_1 \geq \cdots \geq 0$ and $t_k \to 0$, then $S = \sum_k(-1)^kt_k$ converges and $S_{2m+1} \leq S \leq S_{2m}$ for all $m$, where $S_N$ are the partial sums.
+\end{lemma}
+
+\begin{proof}
+$S_{2m+2} - S_{2m} = -t_{2m+1} + t_{2m+2} \leq 0$ and $S_{2m+3} - S_{2m+1} = t_{2m+2} - t_{2m+3} \geq 0$, and $S_{2m+1} = S_{2m} - t_{2m+1} \leq S_{2m}$. So the even partial sums decrease, the odd ones
+increase, every odd one is below every even one, and their difference tends to $0$.
+\end{proof}
+
+\begin{proposition}[Cauchy product]\label{real-analysis:proposition-cauchy-product}
+If $\sum a_n$ and $\sum b_n$ are absolutely convergent series in $\CC$, then $c_n = \sum_{k=0}^na_kb_{n-k}$ defines an absolutely convergent series with
+$\sum c_n = (\sum a_n)(\sum b_n)$.
+\end{proposition}
+
+\begin{proof}
+Let $A = \sum|a_n|$ and $B = \sum|b_n|$. Then $\sum_{n \leq N}|c_n| \leq AB$, so $\sum c_n$ converges absolutely. The difference $\sum_{n \leq 2N}c_n - (\sum_{k \leq N}a_k)(\sum_{l \leq N}b_l)$ is the sum
+of $a_kb_l$ over $k + l \leq 2N$ with $k > N$ or $l > N$, bounded by $B\sum_{k > N}|a_k| + A\sum_{l > N}|b_l| \to 0$.
+\end{proof}
+
+\begin{theorem}\label{real-analysis:theorem-power-series}
+Let $a_n \in \CC$ and $R = 1/\limsup_n|a_n|^{1/n} \in [0, \infty]$, the \emph{radius of convergence}. The power series $\sum_n a_nz^n$ converges absolutely for $|z| < R$, uniformly on
+$|z| \leq r$ for every $r < R$, and diverges for $|z| > R$. The series $\sum_n na_nz^{n-1}$ and $\sum_n n^2a_nz^n$ have the same radius of convergence.
+\end{theorem}
+
+\begin{proof}
+For $|z| \leq r < R$ choose $r < q < R$; then $|a_n| \leq q^{-n}$ for large $n$, so $|a_nz^n| \leq (r/q)^n$, and the $M$-test applies. For $|z| > R$, $\limsup|a_nz^n|^{1/n} > 1$. Finally
+$n^{1/n} \to 1$: writing $n^{1/n} = 1 + h_n$, the binomial formula gives $n \geq \binom{n}{2}h_n^2$, so $h_n^2 \leq 2/(n-1)$. Hence $\limsup|n^ka_n|^{1/n} = \limsup|a_n|^{1/n}$.
+\end{proof}
+
+\section{Differentiation in one variable}\label{real-analysis:section-one-variable}
+
+\begin{definition}\label{real-analysis:definition-derivative-one}
+Let $I \subseteq \RR$ be an interval with more than one point and $f \colon I \to \mathbb{K}^m$. Then $f$ is \emph{differentiable} at $a \in I$ with derivative $f'(a)$ if
+$(f(x) - f(a))/(x - a) \to f'(a)$ as $x \to a$ in $I \setminus \{a\}$. Equivalently, there is a function $\phi \colon I \to \mathbb{K}^m$, continuous at $a$, with $f(x) - f(a) = \phi(x)(x - a)$;
+then $f'(a) = \phi(a)$. The same definition with $I$ replaced by an open subset of $\CC$ and $x$ complex defines the \emph{complex derivative}.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-derivative-rules}
+Differentiable functions are continuous. Sums, products and quotients (where the denominator does not vanish) of differentiable scalar functions are differentiable with the usual
+formulas, and if $f$ is differentiable at $a$ and $g$ at $f(a)$, then $(g \circ f)'(a) = g'(f(a))f'(a)$.
+\end{proposition}
+
+\begin{proof}
+Write $f(x) - f(a) = \phi(x)(x - a)$ and $g(y) - g(b) = \psi(y)(y - b)$ with $\phi$, $\psi$ continuous at $a$, $b = f(a)$. Continuity is clear. For products,
+$fg(x) - fg(a) = (\phi(x)g(x) + f(a)\chi(x))(x - a)$ if $g(x) - g(a) = \chi(x)(x - a)$. For $1/f$, $1/f(x) - 1/f(a) = -\phi(x)(x - a)/(f(x)f(a))$. For composites,
+$g(f(x)) - g(f(a)) = \psi(f(x))\phi(x)(x - a)$ and $\psi \circ f$ is continuous at $a$. Evaluate the continuous factors at $a$.
+\end{proof}
+
+\begin{theorem}[Mean value theorem]\label{real-analysis:theorem-mean-value}
+Let $f, g \colon [a, b] \to \RR$ be continuous and differentiable on $(a, b)$.
+\begin{enumerate}
+\item (Rolle) If $f(a) = f(b)$, then $f'(\xi) = 0$ for some $\xi \in (a, b)$.
+\item There is $\xi \in (a, b)$ with $f(b) - f(a) = f'(\xi)(b - a)$, and (Cauchy) some $\eta$ with $(f(b) - f(a))g'(\eta) = (g(b) - g(a))f'(\eta)$.
+\item If $f' = 0$ on $(a, b)$, $f$ is constant; if $f' \geq 0$ ($> 0$), $f$ is increasing (strictly increasing).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By Corollary~\ref{general-topology:corollary-extreme-value}, $f$ attains a maximum and a minimum; if both are at endpoints, $f$ is constant. Otherwise one is at some
+$\xi \in (a, b)$, and the difference quotients at $\xi$ have opposite signs on the two sides, so $f'(\xi) = 0$. (2) Apply (1) to $f(x) - \frac{f(b) - f(a)}{b - a}(x - a)$, and to
+$(f(b) - f(a))g(x) - (g(b) - g(a))f(x)$. (3) Apply (2) on subintervals.
+\end{proof}
+
+\begin{proposition}\label{real-analysis:proposition-inverse-one}
+Let $f \colon I \to \RR$ be continuous and strictly monotone. Then $J = f(I)$ is an interval, $f^{-1} \colon J \to I$ is continuous, and if $f$ is differentiable at $a$ with
+$f'(a) \neq 0$, then $f^{-1}$ is differentiable at $f(a)$ with derivative $1/f'(a)$.
+\end{proposition}
+
+\begin{proof}
+$J$ is an interval by Corollary~\ref{general-topology:corollary-ivt}. A strictly monotone bijection of intervals maps subintervals onto subintervals, so $f^{-1}$ maps open subintervals of $J$
+(relative to $J$) to open subintervals of $I$, and is continuous. Write $f(x) - f(a) = \phi(x)(x - a)$; strict monotonicity gives $\phi(x) \neq 0$ for $x \neq a$, and $\phi(a) = f'(a) \neq 0$. So
+$f^{-1}(y) - a = (y - f(a))/\phi(f^{-1}(y))$ with $1/(\phi \circ f^{-1})$ continuous at $f(a)$.
+\end{proof}
+
+\begin{theorem}[Taylor]\label{real-analysis:theorem-taylor-one}
+Let $f \colon [a, x] \to \RR$ (or $[x, a]$) have $n$ continuous derivatives, with $f^{(n+1)}$ existing on the open interval. Then there is $\xi$ strictly between $a$ and $x$ with
+\[
+f(x) = \sum_{k=0}^n\frac{f^{(k)}(a)}{k!}(x - a)^k + \frac{f^{(n+1)}(\xi)}{(n+1)!}(x - a)^{n+1}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $g(t) = f(x) - \sum_{k \leq n}f^{(k)}(t)(x - t)^k/k! - M(x - t)^{n+1}/(n+1)!$, with $M$ chosen so that $g(a) = 0$. Also $g(x) = 0$. In the derivative the sum telescopes:
+$g'(t) = -f^{(n+1)}(t)(x - t)^n/n! + M(x - t)^n/n!$. By Rolle's theorem $g'(\xi) = 0$ for some $\xi$ between $a$ and $x$, so $M = f^{(n+1)}(\xi)$.
+\end{proof}
+
+\begin{theorem}\label{real-analysis:theorem-power-series-derivative}
+Let $f(z) = \sum_na_nz^n$ have radius of convergence $R > 0$. Then $f$ is complex differentiable on $\{|z| < R\}$ with $f'(z) = \sum_nna_nz^{n-1}$. Hence $f$ has complex derivatives of all
+orders there, and $a_n = f^{(n)}(0)/n!$. The same holds for real $z$ in $(-R, R)$.
+\end{theorem}
+
+\begin{proof}
+Let $g(z) = \sum na_nz^{n-1}$, which has radius $R$ by Theorem~\ref{real-analysis:theorem-power-series}. Fix $|z| < \rho < R$ and $h \neq 0$ with $|z| + |h| \leq \rho$. By the binomial formula,
+$(z + h)^n - z^n - nz^{n-1}h = \sum_{k \geq 2}\binom{n}{k}z^{n-k}h^k$, and $\binom{n}{k} \leq \binom{n}{2}\binom{n-2}{k-2}$ for $k \geq 2$, so its absolute value is at most
+$\binom{n}{2}|h|^2(|z| + |h|)^{n-2} \leq n^2|h|^2\rho^{n-2}$. Hence
+$|(f(z + h) - f(z))/h - g(z)| \leq |h|\sum_n n^2|a_n|\rho^{n-2}$, and the last series converges. Iterating gives all derivatives, and evaluating at $0$ gives $a_n$.
+\end{proof}
+
+\section{The exponential and trigonometric functions}\label{real-analysis:section-exponential}
+
+\begin{definition}\label{real-analysis:definition-exponential}
+For $z \in \CC$ let $\exp(z) = e^z = \sum_{n \geq 0}z^n/n!$ (radius of convergence $\infty$, by the ratio test), and for $x \in \RR$ let $\cos x = \operatorname{Re} e^{ix}$ and
+$\sin x = \operatorname{Im} e^{ix}$, so that $\cos x = \sum_k(-1)^kx^{2k}/(2k)!$ and $\sin x = \sum_k(-1)^kx^{2k+1}/(2k+1)!$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-exponential}
+\begin{enumerate}
+\item $e^{z+w} = e^ze^w$, $e^z \neq 0$, $\overline{e^z} = e^{\bar z}$, and $\exp' = \exp$.
+\item $\exp$ restricts to a strictly increasing bijection $\RR \to (0, \infty)$, whose inverse $\log$ is differentiable with $\log'(x) = 1/x$ and $\log(xy) = \log x + \log y$.
+\item $\cos^2 x + \sin^2 x = 1$, $\cos' = -\sin$, $\sin' = \cos$, and $\cos(x + y) = \cos x\cos y - \sin x\sin y$, $\sin(x + y) = \sin x\cos y + \cos x\sin y$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Proposition~\ref{real-analysis:proposition-cauchy-product} and the binomial formula, $e^ze^w = \sum_n\sum_k\frac{z^kw^{n-k}}{k!(n-k)!} = \sum_n(z + w)^n/n!$. So $e^ze^{-z} = 1$. Conjugation is
+continuous and commutes with the partial sums. The derivative is Theorem~\ref{real-analysis:theorem-power-series-derivative}. (2) For real $x$, $e^x = (e^{x/2})^2 > 0$, so $\exp$ is strictly
+increasing by Theorem~\ref{real-analysis:theorem-mean-value}. For $x \geq 0$, $e^x \geq 1 + x$, and $e^{-x} = 1/e^x$; so $\exp$ is unbounded above and takes values arbitrarily close to $0$, and
+by the intermediate value theorem its image is $(0, \infty)$. Apply Proposition~\ref{real-analysis:proposition-inverse-one}. (3) $|e^{ix}|^2 = e^{ix}\overline{e^{ix}} = e^{ix}e^{-ix} = 1$;
+$(e^{ix})' = ie^{ix}$ by Theorem~\ref{real-analysis:theorem-power-series-derivative} applied to the real power series $\sum_n i^nx^n/n!$; the addition formulas are the real and imaginary parts of $e^{i(x+y)} = e^{ix}e^{iy}$.
+\end{proof}
+
+\begin{theorem}\label{real-analysis:theorem-pi}
+The function $\cos$ has a unique zero in $(0, 2)$; call it $\pi/2$. Then $e^{i\pi/2} = i$, the map $t \mapsto e^{it}$ is a surjective continuous homomorphism $\RR \to S^1 = \{|z| = 1\}$ with kernel
+$2\pi\ZZ$, and $p(t) = e^{2\pi it}$ is a covering map $\RR \to S^1$. Every $z \neq 0$ is $re^{i\theta}$ with $r = |z|$ and $\theta$ unique modulo $2\pi$.
+\end{theorem}
+
+\begin{proof}
+For $0 < x \leq 2$ the terms $x^{2k+1}/(2k+1)!$ decrease, since consecutive ratios are $x^2/((2k+2)(2k+3)) < 1$; by Lemma~\ref{real-analysis:lemma-alternating},
+$\sin x \geq x - x^3/6 > 0$. So $\cos$ is strictly decreasing on $[0, 2]$. The terms $4^k/(2k)!$ of $\cos 2$ decrease from $k = 1$ on, so $\cos 2 \leq 1 - 2 + 16/24 < 0$, while $\cos 0 = 1$; by
+the intermediate value theorem there is a unique zero $\pi/2 \in (0, 2)$. Then $\sin(\pi/2) = 1$, so $e^{i\pi/2} = i$ and $e^{2\pi i} = i^4 = 1$.
+
+Kernel: if $0 < t < 2\pi$, write $e^{it/4} = u + iv$ with $u, v > 0$ (as $0 < t/4 < \pi/2$). If $e^{it} = (u + iv)^4 = 1$, then $\operatorname{Im}(u + iv)^4 = 4uv(u^2 - v^2) = 0$ forces $u^2 = v^2 = 1/2$, and then
+$\operatorname{Re}(u + iv)^4 = u^4 - 6u^2v^2 + v^4 = -1$, a contradiction. With periodicity, the kernel is $2\pi\ZZ$.
+
+Surjectivity: for $a + ib \in S^1$ with $a, b \geq 0$, choose $t \in [0, \pi/2]$ with $\cos t = a$ (intermediate value theorem); then $\sin t = \sqrt{1 - a^2} = b$. The other quadrants are obtained by
+multiplying by powers of $i = e^{i\pi/2}$. For the covering property, $p$ is injective on $[a, a + 1)$ and identifies only $a$ and $a + 1$ in $[a, a + 1]$, so the argument of
+Proposition~\ref{homotopy:proposition-circle-covering} applies verbatim. The polar form follows by applying this to $z/|z|$.
+\end{proof}
+
+\begin{remark}\label{real-analysis:remark-exponential-covering}
+The proof of Theorem~\ref{homotopy:theorem-circle} uses only that $\RR$ is simply connected and that the covering map has period $4$ with fibres the translates of $4\ZZ$; it applies verbatim to
+$t \mapsto e^{2\pi it}$, with period $1$, so $\pi_1(S^1) \cong \ZZ$ is generated by the loop $t \mapsto e^{2\pi it}$. For $x > 0$ and $s \in \CC$ we define $x^s = e^{s\log x}$; then $\frac{d}{dx}x^s = sx^{s-1}$.
+\end{remark}
+
+\begin{lemma}\label{real-analysis:lemma-bump}
+The function $\beta(t) = e^{-1/t}$ for $t > 0$ and $\beta(t) = 0$ for $t \leq 0$ has derivatives of all orders on $\RR$, all vanishing at $0$. The function
+$\gamma(t) = \beta(t)/(\beta(t) + \beta(1 - t))$ has derivatives of all orders, takes values in $[0, 1]$, and equals $0$ for $t \leq 0$ and $1$ for $t \geq 1$.
+\end{lemma}
+
+\begin{proof}
+By induction, on $t > 0$, $\beta^{(k)}(t) = p_k(1/t)e^{-1/t}$ for a polynomial $p_k$. Since $e^{s} \geq s^{m}/m!$ for $s > 0$, $s^je^{-s} \to 0$ as $s \to \infty$; so $\beta^{(k)}(t) \to 0$ as $t \to 0^+$, and
+the difference quotients of $\beta^{(k)}$ at $0$ tend to $0$, which by induction shows $\beta^{(k+1)}(0) = 0$. The denominator of $\gamma$ never vanishes (one of $t$, $1 - t$ is positive), so $\gamma$ has derivatives of all orders by
+Proposition~\ref{real-analysis:proposition-derivative-rules}, and the other properties are clear.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-not-analytic}
+The function $\beta$ of Lemma~\ref{real-analysis:lemma-bump} has all derivatives zero at $0$, so its Taylor series at $0$ is zero, but $\beta(t) \neq 0$ for $t > 0$. Smooth functions need not be
+given by their Taylor series; complex differentiable functions are (Chapter~\ref{complex-analysis}).
+\end{counterexample}
+
+\section{The Riemann integral}\label{real-analysis:section-riemann}
+
+\begin{definition}\label{real-analysis:definition-riemann}
+Let $f \colon [a, b] \to \RR$ be bounded. For a partition $P \colon a = t_0 < \cdots < t_k = b$ let $U(f, P) = \sum_i(t_i - t_{i-1})\sup_{[t_{i-1}, t_i]}f$ and $L(f, P)$ the same with $\inf$. The function is
+\emph{Riemann integrable} if $\sup_PL(f, P) = \inf_PU(f, P)$, and this common value is $\int_a^bf = \int_a^bf(t)\,dt$. A $\CC^m$-valued function is integrable if its real and imaginary components are, with
+the integral taken componentwise. We set $\int_b^af = -\int_a^bf$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-riemann}
+\begin{enumerate}
+\item If $P'$ refines $P$, then $L(f, P) \leq L(f, P') \leq U(f, P') \leq U(f, P)$; and $L(f, P) \leq U(f, Q)$ for all $P, Q$. So $f$ is integrable if and only if for every $\varepsilon > 0$ there is $P$ with
+$U(f, P) - L(f, P) < \varepsilon$.
+\item Continuous functions are integrable, and $\sum_i(t_i - t_{i-1})f(s_i) \to \int_a^bf$ for any choice of $s_i \in [t_{i-1}, t_i]$ as $\max_i(t_i - t_{i-1}) \to 0$.
+\item For continuous $f, g$: the integral is linear, $f \leq g$ implies $\int f \leq \int g$, $\int_a^cf = \int_a^bf + \int_b^cf$, $|\int_a^bf| \leq \int_a^b|f|$ for $\CC^m$-valued $f$ with the Euclidean
+norm, and if $f_n \to f$ uniformly, $\int f_n \to \int f$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Adding a point to a partition can only increase infima and decrease suprema on the pieces; for $P, Q$ compare both with $P \cup Q$. (2) By uniform continuity
+(Corollary~\ref{general-topology:corollary-uniform-continuity}), for $\varepsilon > 0$ there is $\delta$ such that $f$ varies by less than $\varepsilon$ on intervals of length $< \delta$; for partitions of mesh
+$< \delta$, $U - L \leq \varepsilon(b - a)$, and Riemann sums lie between $L$ and $U$. (3) Linearity and additivity follow from (2), monotonicity from $L(f, P) \leq L(g, P)$, and uniform limits from
+$|\int(f_n - f)| \leq (b - a)\sup|f_n - f|$. For the norm inequality let $v = \int f \in \CC^m$; then
+$\|v\|^2 = \operatorname{Re}\langle \int f, v \rangle = \int\operatorname{Re}\langle f(t), v \rangle\,dt \leq \int\|f\|\,\|v\|$ by Cauchy--Schwarz (Proposition~\ref{linear-algebra:proposition-cauchy-schwarz}).
+\end{proof}
+
+\begin{theorem}[Fundamental theorem of calculus]\label{real-analysis:theorem-ftc}
+Let $f \colon [a, b] \to \CC^m$ be continuous. Then $F(x) = \int_a^xf$ is differentiable with $F' = f$. If $G \colon [a, b] \to \CC^m$ is continuously differentiable, then $\int_a^bG' = G(b) - G(a)$.
+\end{theorem}
+
+\begin{proof}
+$|(F(x + h) - F(x))/h - f(x)| = |\frac1h\int_x^{x+h}(f - f(x))| \leq \sup_{|t - x| \leq |h|}|f(t) - f(x)| \to 0$. For the second statement, $\int_a^xG' - G(x)$ has derivative $0$, hence is constant by
+Theorem~\ref{real-analysis:theorem-mean-value} applied to real and imaginary components.
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-integration-rules}
+For continuously differentiable $f, g$ and $\varphi \colon [c, d] \to [a, b]$: $\int_a^bf'g = [fg]_a^b - \int_a^bfg'$ and $\int_c^df(\varphi(s))\varphi'(s)\,ds = \int_{\varphi(c)}^{\varphi(d)}f$ for continuous $f$.
+Moreover $\|G(b) - G(a)\| \leq (b - a)\sup\|G'\|$ for $G$ continuously differentiable.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{real-analysis:theorem-ftc} to $fg$, to $F \circ \varphi$ with $F(x) = \int_a^xf$, and use the norm inequality of Proposition~\ref{real-analysis:proposition-riemann}.
+\end{proof}
+
+\begin{proposition}\label{real-analysis:proposition-parameter-integrals}
+Let $f \colon [c, d] \times [a, b] \to \CC$ be continuous.
+\begin{enumerate}
+\item $x \mapsto \int_a^bf(x, t)\,dt$ is continuous, and if $\partial_xf$ exists and is continuous on $[c, d] \times [a, b]$, it is differentiable with derivative $\int_a^b\partial_xf(x, t)\,dt$.
+\item (Fubini for continuous functions) $\int_c^d\int_a^bf(x, t)\,dt\,dx = \int_a^b\int_c^df(x, t)\,dx\,dt$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Continuity follows from uniform continuity of $f$. For the derivative, by the mean value theorem applied to real and imaginary parts, $(f(x + h, t) - f(x, t))/h - \partial_xf(x, t)$ is bounded by the
+oscillation of $\partial_xf$ over $|s - x| \leq |h|$, which tends to $0$ uniformly in $t$ by uniform continuity. (2) Let $\Phi(y) = \int_c^y\int_a^bf\,dt\,dx$ and $\Psi(y) = \int_a^b\int_c^yf\,dx\,dt$. By
+Theorem~\ref{real-analysis:theorem-ftc} and (1) (applied to $g(y, t) = \int_c^yf(x, t)\,dx$, with $\partial_yg = f$ continuous), $\Phi' = \Psi' = \int_a^bf(y, t)\,dt$, and $\Phi(c) = \Psi(c) = 0$.
+\end{proof}
+
+\section{Derivatives in several variables}\label{real-analysis:section-several-variables}
+
+\begin{lemma}\label{real-analysis:lemma-norms}
+All norms on a finite-dimensional real or complex vector space are equivalent (they define the same topology), and every linear map $A \colon V \to W$ between finite-dimensional normed spaces is
+continuous, with finite \emph{operator norm} $\|A\| = \sup_{\|v\| \leq 1}\|Av\|$. Then $\|Av\| \leq \|A\|\,\|v\|$ and $\|AB\| \leq \|A\|\,\|B\|$.
+\end{lemma}
+
+\begin{proof}
+Identify $V$ with $\RR^n$ by a basis and let $\|\cdot\|$ be a norm. By the triangle inequality and Cauchy--Schwarz, $\|x\| \leq \sum|x_i|\,\|e_i\| \leq C\|x\|_2$, so $\|\cdot\|$ is continuous for the
+Euclidean topology. On the compact unit sphere of $\|\cdot\|_2$ it attains a minimum $c > 0$, so $c\|x\|_2 \leq \|x\| \leq C\|x\|_2$, and Lemma~\ref{general-topology:lemma-equivalent-metrics} applies. A linear map
+is Lipschitz for Euclidean norms, since $\|Ax\| \leq \sum|x_i|\,\|Ae_i\|$. The inequalities follow from the definition.
+\end{proof}
+
+\begin{definition}\label{real-analysis:definition-differentiable}
+Let $U \subseteq \RR^n$ be open and $f \colon U \to \RR^m$. Then $f$ is \emph{differentiable} at $a \in U$ if there is a linear map $Df(a) \colon \RR^n \to \RR^m$ with
+\[
+f(a + h) = f(a) + Df(a)h + r(h), \qquad \|r(h)\|/\|h\| \to 0 \text{ as } h \to 0.
+\]
+The \emph{partial derivatives} are $\partial_jf(a) = \frac{d}{dt}f(a + te_j)|_{t=0}$. The map $f$ is $C^1$ if it is differentiable everywhere and $Df \colon U \to \Hom(\RR^n, \RR^m)$ is continuous; $C^k$ if $Df$ is
+$C^{k-1}$; and \emph{smooth} ($C^\infty$) if it is $C^k$ for all $k$. A \emph{$C^k$-diffeomorphism} is a bijection between open sets which is $C^k$ with $C^k$ inverse.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-derivative-basic}
+\begin{enumerate}
+\item $Df(a)$ is unique, $f$ is continuous at $a$, and the matrix of $Df(a)$ is the \emph{Jacobian matrix} $(\partial_jf_i(a))$.
+\item (Chain rule) If $f$ is differentiable at $a$ and $g$ at $f(a)$, then $g \circ f$ is differentiable at $a$ and $D(g \circ f)(a) = Dg(f(a)) \circ Df(a)$.
+\item If all partial derivatives of $f$ exist near $a$ and are continuous at $a$, then $f$ is differentiable at $a$. So $f$ is $C^1$ if and only if its partial derivatives exist and are continuous, and
+$C^k$ if and only if all partial derivatives of order at most $k$ exist and are continuous.
+\item (Mean value inequality) If $f$ is $C^1$ and the segment $[x, y]$ lies in $U$, then $\|f(y) - f(x)\| \leq \sup_{z \in [x, y]}\|Df(z)\|\,\|y - x\|$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $A$ and $B$ both work, $\|(A - B)h\|/\|h\| \to 0$, so $A = B$ by linearity. Taking $h = te_j$ gives the partial derivatives. (2) Let $b = f(a)$, $k = f(a + h) - b = Df(a)h + r_f(h)$. Then
+$g(f(a + h)) - g(b) - Dg(b)Df(a)h = Dg(b)r_f(h) + r_g(k)$. For small $h$, $\|k\| \leq (\|Df(a)\| + 1)\|h\|$, so both terms are $o(\|h\|)$. (3) We may assume $m = 1$. Write
+$f(a + h) - f(a) = \sum_j[f(a + h_1e_1 + \cdots + h_je_j) - f(a + h_1e_1 + \cdots + h_{j-1}e_{j-1})]$. By the mean value theorem the $j$-th term is $h_j\partial_jf(\xi_j)$ with $\xi_j$ within $\|h\|$ of $a$, and
+$\partial_jf(\xi_j) \to \partial_jf(a)$. The statement about $C^k$ follows by induction. (4) Let $g(t) = f(x + t(y - x))$; by the chain rule $g'(t) = Df(x + t(y - x))(y - x)$, and
+Corollary~\ref{real-analysis:corollary-integration-rules} applies.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-partials}
+Let $f(x, y) = xy/(x^2 + y^2)$ for $(x, y) \neq 0$ and $f(0) = 0$. Both partial derivatives exist everywhere ($f$ vanishes on the axes), but $f(t, t) = 1/2$ for $t \neq 0$, so $f$ is not continuous at $0$, let
+alone differentiable.
+\end{counterexample}
+
+\begin{theorem}[Schwarz]\label{real-analysis:theorem-schwarz}
+If $f \colon U \to \RR$ is $C^2$, then $\partial_i\partial_jf = \partial_j\partial_if$.
+\end{theorem}
+
+\begin{proof}
+Restricting to the plane of the $i$-th and $j$-th coordinates, we may assume $n = 2$. For a rectangle $R = [x_0, x_1] \times [y_0, y_1] \subseteq U$, Theorem~\ref{real-analysis:theorem-ftc} applied twice gives
+$\int_{y_0}^{y_1}\int_{x_0}^{x_1}\partial_x\partial_yf\,dx\,dy = f(x_1, y_1) - f(x_0, y_1) - f(x_1, y_0) + f(x_0, y_0)$, and the same for $\int_{x_0}^{x_1}\int_{y_0}^{y_1}\partial_y\partial_xf\,dy\,dx$. By
+Proposition~\ref{real-analysis:proposition-parameter-integrals}(2), the continuous function $g = \partial_x\partial_yf - \partial_y\partial_xf$ has integral $0$ over every small rectangle. If $g(p) > 0$, then $g > g(p)/2$ on a small
+rectangle around $p$, and its integral is positive, a contradiction.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-schwarz}
+For $f(x, y) = xy(x^2 - y^2)/(x^2 + y^2)$, $f(0) = 0$, one computes $\partial_xf(0, y) = -y$ and $\partial_yf(x, 0) = x$, so $\partial_y\partial_xf(0) = -1 \neq 1 = \partial_x\partial_yf(0)$. The second partial derivatives
+exist but are not continuous at $0$.
+\end{counterexample}
+
+\begin{theorem}[Taylor's theorem in several variables]\label{real-analysis:theorem-taylor-several}
+Let $f \colon U \to \RR$ be $C^{k+1}$ and $[a, a + h] \subseteq U$. With multi-index notation $\partial^\alpha = \partial_1^{\alpha_1} \cdots \partial_n^{\alpha_n}$, $h^\alpha = h_1^{\alpha_1} \cdots h_n^{\alpha_n}$ and
+$\alpha! = \alpha_1! \cdots \alpha_n!$, there is $\xi \in (a, a + h)$ with
+\[
+f(a + h) = \sum_{|\alpha| \leq k}\frac{\partial^\alpha f(a)}{\alpha!}h^\alpha + \sum_{|\alpha| = k+1}\frac{\partial^\alpha f(\xi)}{\alpha!}h^\alpha.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply Theorem~\ref{real-analysis:theorem-taylor-one} to $g(t) = f(a + th)$ on $[0, 1]$. By the chain rule and Theorem~\ref{real-analysis:theorem-schwarz},
+$g^{(j)}(t) = \sum_{|\alpha| = j}\frac{j!}{\alpha!}\partial^\alpha f(a + th)h^\alpha$ (the multinomial formula).
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-bump-function}
+For $0 < r < R$ there is a smooth function $\RR^n \to [0, 1]$ equal to $1$ on the closed ball of radius $r$ and to $0$ outside the open ball of radius $R$.
+\end{corollary}
+
+\begin{proof}
+Take $x \mapsto 1 - \gamma((\|x\|^2 - r^2)/(R^2 - r^2))$ with $\gamma$ as in Lemma~\ref{real-analysis:lemma-bump}; it is smooth by the chain rule, since $\|x\|^2$ is a polynomial.
+\end{proof}
+
+\section{The inverse and implicit function theorems}\label{real-analysis:section-inverse-function}
+
+\begin{lemma}\label{real-analysis:lemma-neumann}
+If $A \in \operatorname{End}(\RR^n)$ has $\|A\| < 1$, then $1 - A$ is invertible with inverse $\sum_kA^k$ and $\|(1 - A)^{-1}\| \leq 1/(1 - \|A\|)$. The group $\GL_n(\RR)$ is open in $M_n(\RR)$, and
+inversion $\GL_n(\RR) \to \GL_n(\RR)$ is smooth.
+\end{lemma}
+
+\begin{proof}
+The series converges absolutely in the complete space $M_n(\RR)$ (Proposition~\ref{real-analysis:proposition-series}), and $(1 - A)\sum_{k \leq N}A^k = 1 - A^{N+1} \to 1$. The determinant is a polynomial in the
+entries, hence continuous, and $\GL_n(\RR) = \det^{-1}(\RR \setminus \{0\})$. By the adjugate formula (Proposition~\ref{linear-algebra:proposition-determinant-properties}), the entries of $A^{-1}$ are
+polynomials in the entries of $A$ divided by $\det A$, so inversion is smooth.
+\end{proof}
+
+\begin{theorem}[Inverse function theorem]\label{real-analysis:theorem-inverse-function}
+Let $U \subseteq \RR^n$ be open, $f \colon U \to \RR^n$ of class $C^k$ with $k \geq 1$, and $a \in U$ with $Df(a)$ invertible. There are open sets $V \ni a$ and $W \ni f(a)$ such that $f \colon V \to W$ is a
+$C^k$-diffeomorphism, and $D(f^{-1})(f(x)) = Df(x)^{-1}$.
+\end{theorem}
+
+\begin{proof}
+Replacing $f$ by $x \mapsto Df(a)^{-1}(f(a + x) - f(a))$, we may assume $a = 0$, $f(0) = 0$ and $Df(0) = 1$. Let $g(x) = x - f(x)$, so $Dg(0) = 0$; choose $r > 0$ with $\overline{B}(0, r) \subseteq U$ and
+$\|Dg(x)\| \leq 1/2$ there. By the mean value inequality, $\|g(x) - g(x')\| \leq \frac12\|x - x'\|$ on $\overline{B}(0, r)$, and $\|g(x)\| \leq r/2$.
+
+For $y \in W = B(0, r/2)$, the map $T_y(x) = y + g(x)$ sends $\overline{B}(0, r)$ into $B(0, r)$ and is a contraction with constant $1/2$. By the Banach fixed point theorem
+(Theorem~\ref{general-topology:theorem-banach-fixed-point}) there is a unique $x \in \overline{B}(0, r)$ with $x = y + g(x)$, that is, $f(x) = y$, and $x \in B(0, r)$. Let $V = B(0, r) \cap f^{-1}(W)$, open; then
+$f \colon V \to W$ is bijective. From $x - x' = f(x) - f(x') + g(x) - g(x')$ we get $\|x - x'\| \leq 2\|f(x) - f(x')\|$, so $f^{-1}$ is continuous. For $x \in V$, $Df(x) = 1 - Dg(x)$ is invertible
+with $\|Df(x)^{-1}\| \leq 2$ (Lemma~\ref{real-analysis:lemma-neumann}).
+
+Let $y = f(x)$ and $y + \kappa = f(x + h)$ with $x, x + h \in V$, so $\|h\| \leq 2\|\kappa\|$. Then $f^{-1}(y + \kappa) - f^{-1}(y) - Df(x)^{-1}\kappa = -Df(x)^{-1}(f(x + h) - f(x) - Df(x)h)$, whose norm is
+at most $2\|r(h)\| = o(\|\kappa\|)$. So $f^{-1}$ is differentiable with $D(f^{-1}) = \iota \circ Df \circ f^{-1}$, where $\iota$ is inversion. If $f^{-1}$ is $C^j$ with $j < k$, this composite is $C^j$, so
+$f^{-1}$ is $C^{j+1}$; by induction $f^{-1}$ is $C^k$ (composites of $C^j$ maps are $C^j$ by the chain rule and induction).
+\end{proof}
+
+\begin{theorem}[Implicit function theorem]\label{real-analysis:theorem-implicit-function}
+Let $U \subseteq \RR^n \times \RR^m$ be open, $F \colon U \to \RR^m$ of class $C^k$, $(a, b) \in U$ with $F(a, b) = 0$, and suppose the partial derivative $D_yF(a, b) \colon \RR^m \to \RR^m$ is invertible.
+There are open sets $A \ni a$ and $B \ni b$ and a $C^k$ map $g \colon A \to B$ such that for $(x, y) \in A \times B$: $F(x, y) = 0$ if and only if $y = g(x)$.
+\end{theorem}
+
+\begin{proof}
+The map $\Phi(x, y) = (x, F(x, y))$ has invertible derivative at $(a, b)$, so by Theorem~\ref{real-analysis:theorem-inverse-function} it restricts to a $C^k$-diffeomorphism of an open set, which we may
+shrink to $A' \times B$, onto an open set containing $(a, 0)$. Its inverse has the form $(x, z) \mapsto (x, \psi(x, z))$. Let $A = \{x : (x, 0) \in \Phi(A' \times B)\}$, open, and $g(x) = \psi(x, 0)$.
+\end{proof}
+
+\begin{theorem}[Local submersions and immersions]\label{real-analysis:theorem-submersion-immersion}
+Let $f \colon U \to \RR^m$ be $C^k$, $U \subseteq \RR^n$ open, $a \in U$.
+\begin{enumerate}
+\item If $Df(a)$ is surjective, there is a $C^k$-diffeomorphism $\psi$ from a neighbourhood of $a$ onto an open subset of $\RR^n$ with $f \circ \psi^{-1}(x_1, \ldots, x_n) = (x_1, \ldots, x_m)$.
+\item If $Df(a)$ is injective, there is a $C^k$-diffeomorphism $\phi$ from a neighbourhood of $f(a)$ onto an open subset of $\RR^m$ with $\phi \circ f(x) = (x_1, \ldots, x_n, 0, \ldots, 0)$ near $a$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We may assume $a = 0$ and $f(0) = 0$. (1) After permuting coordinates, the first $m$ columns of the Jacobian are linearly independent. Then $\psi(x) = (f(x), x_{m+1}, \ldots, x_n)$ has invertible
+derivative at $0$, and $f \circ \psi^{-1}$ is the projection. (2) After permuting target coordinates, the first $n$ rows of the Jacobian are independent. Let $\Theta(x, y) = f(x) + (0, y)$ for $x \in U$,
+$y \in \RR^{m-n}$; $D\Theta(0)$ is invertible, and $\phi = \Theta^{-1}$ satisfies $\phi(f(x)) = (x, 0)$.
+\end{proof}
+
+\begin{remark}\label{real-analysis:remark-constant-rank}
+More generally, if $Df$ has constant rank $r$ near $a$, there are local diffeomorphisms in source and target in which $f$ becomes $(x_1, \ldots, x_n) \mapsto (x_1, \ldots, x_r, 0, \ldots, 0)$ (the
+\emph{constant rank theorem} \cite[Theorem 4.12]{lee-smooth-manifolds}). All results of this section hold with the same proofs over $\CC$ for complex differentiable (holomorphic) maps, once
+holomorphic functions are known to be $C^\infty$ (Chapter~\ref{several-complex-variables}).
+\end{remark}
+
+\section{Ordinary differential equations}\label{real-analysis:section-ode}
+
+\begin{definition}\label{real-analysis:definition-ode}
+Let $D \subseteq \RR \times \RR^n$ be open and $F \colon D \to \RR^n$ continuous. $F$ is \emph{locally Lipschitz in $x$} if every point of $D$ has a neighbourhood $N$ and $L$ with
+$\|F(t, x) - F(t, y)\| \leq L\|x - y\|$ for $(t, x), (t, y) \in N$; by the mean value inequality this holds if $F$ is $C^1$. A \emph{solution} of $x' = F(t, x)$ is a differentiable map $\varphi \colon J \to \RR^n$
+on an interval with $(t, \varphi(t)) \in D$ and $\varphi'(t) = F(t, \varphi(t))$. By Theorem~\ref{real-analysis:theorem-ftc}, this is equivalent to continuity of $\varphi$ and
+$\varphi(t) = \varphi(t_0) + \int_{t_0}^tF(s, \varphi(s))\,ds$.
+\end{definition}
+
+\begin{lemma}[Gr\"onwall]\label{real-analysis:lemma-gronwall}
+If $u \colon [t_0, t_1] \to [0, \infty)$ is continuous and $u(t) \leq C + L\int_{t_0}^tu$ with $C, L \geq 0$, then $u(t) \leq Ce^{L(t - t_0)}$.
+\end{lemma}
+
+\begin{proof}
+Let $v(t) = C + L\int_{t_0}^tu$. Then $v' = Lu \leq Lv$, so $(e^{-L(t - t_0)}v)' \leq 0$, and $u \leq v \leq v(t_0)e^{L(t - t_0)} = Ce^{L(t - t_0)}$.
+\end{proof}
+
+\begin{theorem}[Picard--Lindel\"of]\label{real-analysis:theorem-picard-lindelof}
+Let $F$ be continuous and locally Lipschitz in $x$, and $(t_0, x_0) \in D$.
+\begin{enumerate}
+\item There is $\delta > 0$ and a solution on $[t_0 - \delta, t_0 + \delta]$ with $\varphi(t_0) = x_0$.
+\item Two solutions on intervals $J_1, J_2 \ni t_0$ with the same value at $t_0$ agree on $J_1 \cap J_2$.
+\item There is a unique \emph{maximal} solution, defined on an open interval $(\alpha, \beta)$; if $\beta < \infty$, then $(t, \varphi(t))$ leaves every compact subset of $D$ as $t \to \beta$, and similarly at $\alpha$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Choose $a, b > 0$ such that $R = [t_0 - a, t_0 + a] \times \overline{B}(x_0, b) \subseteq D$ and $F$ is $L$-Lipschitz in $x$ on $R$; let $M = \sup_R\|F\|$ (finite by compactness) and
+$\delta = \min(a, b/(M+1), 1/(2L+1))$. On the complete metric space $X$ of continuous maps $[t_0 - \delta, t_0 + \delta] \to \overline{B}(x_0, b)$ with the supremum metric
+(Proposition~\ref{general-topology:proposition-complete-examples}), $T\varphi(t) = x_0 + \int_{t_0}^tF(s, \varphi(s))\,ds$ satisfies $\|T\varphi(t) - x_0\| \leq M\delta \leq b$ and
+$\|T\varphi - T\psi\| \leq L\delta\|\varphi - \psi\| \leq \frac12\|\varphi - \psi\|$. Its fixed point is a solution.
+
+(2) The set of $t \in J_1 \cap J_2$ where the solutions agree is closed and contains $t_0$. If they agree at $t_1$, near $(t_1, \varphi(t_1))$ $F$ is $L$-Lipschitz, and $u = \|\varphi_1 - \varphi_2\|$ satisfies
+$u(t) \leq L|\int_{t_1}^tu|$ for $t$ near $t_1$, so $u = 0$ near $t_1$ by Lemma~\ref{real-analysis:lemma-gronwall} (with $C = 0$, on both sides). So the set is open, and equals the connected set
+$J_1 \cap J_2$.
+
+(3) By (2), the solutions with $\varphi(t_0) = x_0$ glue to a solution on the union of their intervals, which is maximal; the interval is open because a solution on a closed end could be continued by (1).
+Suppose $\beta < \infty$ and $(t_k, \varphi(t_k)) \in K$ for a compact $K \subseteq D$ and $t_k \to \beta$. By compactness there are $a, b, L, M$ as in (1) valid for all rectangles centred at points of $K$
+(cover $K$ by finitely many rectangles of half the size), hence a uniform $\delta$. For $t_k > \beta - \delta/2$, the solution through $(t_k, \varphi(t_k))$ exists up to $t_k + \delta > \beta$ and extends
+$\varphi$ by (2), a contradiction.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-ode}
+\begin{enumerate}
+\item Without the Lipschitz condition uniqueness fails: $x' = 3x^{2/3}$, $x(0) = 0$ has the solutions $x = 0$ and $x = t^3$.
+\item Solutions need not exist for all time: $x' = x^2$, $x(0) = 1$ has maximal solution $x = 1/(1 - t)$ on $(-\infty, 1)$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{proposition}\label{real-analysis:proposition-ode-dependence}
+\begin{enumerate}
+\item If $\varphi, \psi$ are solutions on $[t_0, t_1]$ and $\|F(t, \varphi(t)) - F(t, \psi(t))\| \leq L\|\varphi(t) - \psi(t)\|$ for all $t$, then
+$\|\varphi(t) - \psi(t)\| \leq \|\varphi(t_0) - \psi(t_0)\|e^{L(t - t_0)}$.
+\item (Linear equations) If $A \colon I \to M_n(\RR)$ and $b \colon I \to \RR^n$ are continuous on an open interval $I$, the maximal solutions of $x' = A(t)x + b(t)$ are defined on all of $I$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $u = \|\varphi - \psi\|$ satisfies $u(t) \leq u(t_0) + L\int_{t_0}^tu$; apply Lemma~\ref{real-analysis:lemma-gronwall}. (2) On a compact subinterval $[c, d] \ni t_0$ with $\|A\| \leq L$ and $\|b\| \leq B$,
+$\|\varphi(t)\| \leq \|\varphi(t_0)\| + B(d - c) + L\int\|\varphi\|$, so $\varphi$ is bounded there by Gr\"onwall, its graph stays in a compact set, and by Theorem~\ref{real-analysis:theorem-picard-lindelof}(3)
+the maximal interval contains $[c, d]$.
+\end{proof}
+
+\begin{theorem}[Smooth dependence]\label{real-analysis:theorem-smooth-dependence}
+If $F$ is $C^k$ with $k \geq 1$, the \emph{flow} $\Phi(t, t_0, x_0)$, the value at $t$ of the maximal solution with $\varphi(t_0) = x_0$, is defined on an open subset of $\RR \times D$ and is $C^k$
+there. Its derivative in $x_0$ solves the linearised equation $Y' = D_xF(t, \varphi(t))Y$, $Y(t_0) = 1$.
+\end{theorem}
+
+This is \cite[Chapter V]{hartman-ode}; see also \cite{lang-real-functional}. Continuity of $\Phi$ follows from Proposition~\ref{real-analysis:proposition-ode-dependence}(1) and the uniform $\delta$ in
+the proof of Theorem~\ref{real-analysis:theorem-picard-lindelof}.
+
+\section{Stone--Weierstrass and Arzel\`a--Ascoli}\label{real-analysis:section-approximation}
+
+\begin{lemma}\label{real-analysis:lemma-absolute-value-polynomials}
+The polynomials $p_0 = 0$, $p_{k+1}(t) = p_k(t) + (t^2 - p_k(t)^2)/2$ converge uniformly to $|t|$ on $[-1, 1]$, and $p_k(0) = 0$.
+\end{lemma}
+
+\begin{proof}
+By induction $0 \leq p_k(t) \leq p_{k+1}(t) \leq |t|$: indeed $|t| - p_{k+1} = (|t| - p_k)(1 - (|t| + p_k)/2)$ with $0 \leq (|t| + p_k)/2 \leq |t| \leq 1$, and $p_{k+1} - p_k = (t^2 - p_k^2)/2 \geq 0$. Iterating,
+$0 \leq |t| - p_k(t) \leq |t|(1 - |t|/2)^k$, and the maximum of $s(1 - s/2)^k$ on $[0, 1]$ is at most $2/(k + 1)$ (it is attained at $s = 2/(k+1)$ when $k \geq 1$).
+\end{proof}
+
+\begin{theorem}[Stone--Weierstrass]\label{real-analysis:theorem-stone-weierstrass}
+Let $K$ be a compact Hausdorff space and $\mathcal{A} \subseteq C(K, \RR)$ a subalgebra containing the constants and separating points. Then $\mathcal{A}$ is dense for the supremum norm. The same holds
+for $\mathcal{A} \subseteq C(K, \CC)$ if $\mathcal{A}$ is also closed under complex conjugation.
+\end{theorem}
+
+\begin{proof}
+The closure $\bar{\mathcal{A}}$ is a closed subalgebra. If $f \in \bar{\mathcal{A}}$ with $\|f\| \leq c$, then $|f| = c\lim_kp_k(f/c) \in \bar{\mathcal{A}}$ by Lemma~\ref{real-analysis:lemma-absolute-value-polynomials};
+hence $\max(f, g) = (f + g + |f - g|)/2$ and $\min(f, g)$ lie in $\bar{\mathcal{A}}$. For $x \neq y$ and reals $\alpha, \beta$ there is $h \in \mathcal{A}$ with $h(x) = \alpha$, $h(y) = \beta$ (take
+$h = \alpha + (\beta - \alpha)(u - u(x))/(u(y) - u(x))$ with $u$ separating $x$ and $y$).
+
+Let $f \in C(K, \RR)$ and $\varepsilon > 0$. Fix $x$. For each $y$ choose $h_y \in \mathcal{A}$ with $h_y(x) = f(x)$ and $h_y(y) = f(y)$; the open sets $\{h_y < f + \varepsilon\}$ cover $K$, and the minimum $g_x$ of
+finitely many of these $h_y$ lies in $\bar{\mathcal{A}}$, with $g_x(x) = f(x)$ and $g_x < f + \varepsilon$. The open sets $\{g_x > f - \varepsilon\}$ cover $K$, and the maximum $g$ of finitely many $g_x$ lies in
+$\bar{\mathcal{A}}$ and satisfies $\|g - f\| < \varepsilon$. For the complex case, the real parts $(f + \bar f)/2$ of elements of $\mathcal{A}$ form a real subalgebra with the same properties, which is dense
+in $C(K, \RR)$; so $\mathcal{A}$ is dense in $C(K, \CC)$.
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-weierstrass}
+Polynomials are dense in $C(K, \RR)$ for every compact $K \subseteq \RR^n$, and trigonometric polynomials $\sum_{|k| \leq N}c_ke^{2\pi ikt}$ are dense in the space of continuous functions $\RR \to \CC$ of
+period $1$.
+\end{corollary}
+
+\begin{proof}
+The first statement is immediate. For the second, continuous functions of period $1$ are continuous functions on $S^1 = \RR/\ZZ$ (Theorem~\ref{real-analysis:theorem-pi}), and the polynomials in $z$ and $\bar z$ restricted to
+$S^1$ form a conjugation-closed separating algebra; on $S^1$, $z^k\bar z^l = z^{k-l}$ corresponds to $e^{2\pi i(k-l)t}$.
+\end{proof}
+
+\begin{theorem}[Arzel\`a--Ascoli]\label{real-analysis:theorem-arzela-ascoli}
+Let $K$ be a compact Hausdorff space and $\mathcal{F} \subseteq C(K, \RR^m)$ a family that is \emph{equicontinuous} (for every $x$ and $\varepsilon > 0$ there is a neighbourhood $U$ of $x$ with
+$\|f(x') - f(x)\| < \varepsilon$ for all $x' \in U$ and $f \in \mathcal{F}$) and pointwise bounded. Then $\mathcal{F}$ has compact closure in $C(K, \RR^m)$ with the supremum metric.
+\end{theorem}
+
+\begin{proof}
+$C(K, \RR^m)$ is complete, so by Theorem~\ref{general-topology:theorem-compact-metric} it suffices to show that $\mathcal{F}$ is totally bounded. Let $\varepsilon > 0$. Choose finitely many points $x_1, \ldots, x_k$
+with neighbourhoods $U_i$ as in the definition covering $K$. The set $\{(f(x_1), \ldots, f(x_k)) : f \in \mathcal{F}\}$ is bounded in $\RR^{mk}$, hence totally bounded, so there are $f_1, \ldots, f_N \in \mathcal{F}$
+such that every $f \in \mathcal{F}$ satisfies $\max_i\|f(x_i) - f_j(x_i)\| < \varepsilon$ for some $j$. For $x \in U_i$,
+$\|f(x) - f_j(x)\| \leq \|f(x) - f(x_i)\| + \|f(x_i) - f_j(x_i)\| + \|f_j(x_i) - f_j(x)\| < 3\varepsilon$.
+\end{proof}
+
+\section{Exercises}\label{real-analysis:section-exercises}
+
+\begin{exercise}\label{real-analysis:exercise-e-irrational}
+Show that $e = \exp(1)$ is irrational.
+\end{exercise}
+
+\begin{solution}
+If $e = p/q$, then $x = q!(e - \sum_{k \leq q}1/k!)$ is a positive integer, but $x = \sum_{k > q}q!/k! < \sum_{j \geq 1}(q + 1)^{-j} = 1/q \leq 1$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-harmonic}
+Show that $\sum 1/n$ diverges while $\sum(-1)^n/n$ converges, and that the latter series can be rearranged to converge to any given real number.
+\end{exercise}
+
+\begin{solution}
+$\sum_{2^j < n \leq 2^{j+1}}1/n \geq 1/2$, so the partial sums are unbounded; the alternating series converges by Lemma~\ref{real-analysis:lemma-alternating}. For a target $c$, add positive terms
+$1/(2k)$ until the partial sum exceeds $c$, then negative terms until it is below $c$, and so on; since both the positive and the negative parts diverge and the terms tend to $0$, the partial sums converge
+to $c$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-uniform-limit-derivative}
+Show that $f_n(x) = \sqrt{x^2 + 1/n}$ are smooth and converge uniformly on $\RR$ to $|x|$, which is not differentiable. Prove that if $f_n \to f$ pointwise and $f_n' \to g$ uniformly on an interval, with
+$f_n$ continuously differentiable, then $f$ is differentiable with $f' = g$.
+\end{exercise}
+
+\begin{solution}
+$0 \leq \sqrt{x^2 + 1/n} - |x| = \frac{1/n}{\sqrt{x^2 + 1/n} + |x|} \leq 1/\sqrt{n}$. For the second part, $f_n(x) = f_n(a) + \int_a^xf_n'$ converges to $f(a) + \int_a^xg$, so $f(x) = f(a) + \int_a^xg$ and
+Theorem~\ref{real-analysis:theorem-ftc} applies.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-polar}
+Show that $(r, \theta) \mapsto (r\cos\theta, r\sin\theta)$ is a local diffeomorphism $(0, \infty) \times \RR \to \RR^2 \setminus \{0\}$, but not injective, and compute its Jacobian determinant.
+\end{exercise}
+
+\begin{exercise}\label{real-analysis:exercise-peano}
+(Peano's theorem.) Show that if $F$ is only continuous, $x' = F(t, x)$ still has local solutions, by applying the Arzel\`a--Ascoli theorem to the Euler polygons $\varphi_k$ with
+step $1/k$.
+\end{exercise}
+
+\begin{exercise}\label{real-analysis:exercise-arzela-converse}
+Show that a compact subset of $C(K, \RR^m)$ is equicontinuous and pointwise bounded.
+\end{exercise}
