@@ -1,16 +1,283 @@
 \chapter{Singular Cohomology}\label{singular-cohomology}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Cohomology, its ring structure and the classical computational theorems.
+\section{Introduction}\label{singular-cohomology:section-introduction}
+
+Cohomology is obtained by dualising singular chains. As groups it carries the same information as homology, by the universal
+coefficient theorem, but it has a natural ring structure given by the cup product, which distinguishes spaces with the same
+homology (Example~\ref{singular-cohomology:example-cp2-wedge}). Cohomology classes are the objects of the Hodge conjecture: a
+Hodge class is a rational cohomology class of a special type, and the conjecture asks whether it is a combination of classes of
+subvarieties. The cap product relates cohomology and homology and leads to Poincar\'e duality (Chapter~\ref{poincare-duality}).
+We follow \cite[Chapter 3]{hatcher-at}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{singular-homology} (Singular Homology).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Singular cochains and cohomology with coefficients.
-\item The universal coefficient theorem.
-\item Cup product and the cohomology ring.
-\item Cap product.
-\item The K\"unneth formula.
-\item Cohomology rings of projective spaces and tori.
-\end{itemize}
+Throughout, $R$ is a commutative ring and $G$ an abelian group, written additively.
+
+\section{Cochains and cohomology}\label{singular-cohomology:section-cochains}
+
+\begin{definition}\label{singular-cohomology:definition-cohomology}
+For a pair $(X, A)$ let $C^n(X, A; G) = \Hom_\ZZ(C_n(X, A), G)$, the group of \emph{singular $n$-cochains}, with coboundary
+$\delta \colon C^n \to C^{n+1}$, $\delta\varphi = \varphi \circ \partial$. So $C^n(X, A; G)$ is the group of functions from singular $n$-simplices of $X$ to $G$ vanishing on
+simplices in $A$, and $(\delta\varphi)(\sigma) = \sum_i(-1)^i\varphi(\sigma \circ \delta^i)$. The \emph{singular cohomology} $H^n(X, A; G)$ is the cohomology of this complex,
+and $H^n(X; G) = H^n(X, \emptyset; G)$. A map of pairs $f$ induces $f^\# = \Hom(f_\#, G)$ and $f^* \colon H^n(Y, B; G) \to H^n(X, A; G)$, contravariantly. Reduced cohomology
+$\tilde{H}^n(X; G)$ is obtained by dualising the augmented chain complex. We write $H^n(X)$ for $H^n(X; \ZZ)$. The \emph{Kronecker pairing}
+$\langle -, - \rangle \colon H^n(X, A; G) \times H_n(X, A) \to G$ is $\langle[\varphi], [c]\rangle = \varphi(c)$.
+\end{definition}
+
+\begin{theorem}\label{singular-cohomology:theorem-axioms}
+\begin{enumerate}
+\item Homotopic maps of pairs induce the same map on cohomology.
+\item For $B \subseteq A \subseteq X$ there is a natural long exact sequence
+$\cdots \to H^n(X, A; G) \to H^n(X, B; G) \to H^n(A, B; G) \xrightarrow{\delta} H^{n+1}(X, A; G) \to \cdots$, and
+$\langle \delta\alpha, c \rangle = \langle \alpha, \partial c \rangle$ for $\alpha \in H^n(A; G)$ and $c \in H_{n+1}(X, A)$.
+\item (Excision) If $Z \subseteq A \subseteq X$ with $\overline{Z} \subseteq \operatorname{int}A$, then $H^n(X, A; G) \to H^n(X \setminus Z, A \setminus Z; G)$ is an isomorphism.
+\item (Mayer--Vietoris) If $\operatorname{int}A \cup \operatorname{int}B = X$, there is a long exact sequence
+$\cdots \to H^n(X; G) \to H^n(A; G) \oplus H^n(B; G) \to H^n(A \cap B; G) \to H^{n+1}(X; G) \to \cdots$.
+\item $H^0(X; G)$ is the group of functions from the set of path components of $X$ to $G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Applying $\Hom(-, G)$ turns chain homotopies into cochain homotopies, which gives (1) from Theorem~\ref{singular-homology:theorem-homotopy-invariance}. The
+sequences $0 \to C_n(A, B) \to C_n(X, B) \to C_n(X, A) \to 0$ and $0 \to C_n(A \cap B) \to C_n(A) \oplus C_n(B) \to C^{\{A, B\}}_n(X) \to 0$ consist of free abelian groups
+and split degreewise, since the quotients are free on the simplices not in the subspace. So they remain exact after $\Hom(-, G)$, and
+Theorem~\ref{homological-algebra:theorem-long-exact-sequence} gives the long exact sequences. The connecting map sends $[\varphi]$ to the class of $\delta\tilde\varphi$ for
+an extension $\tilde\varphi$ of $\varphi$ to $X$, which gives the formula for the pairing. The chain homotopy equivalence $C^{\mathcal{U}}(X) \to C(X)$ of
+Proposition~\ref{singular-homology:proposition-small-chains} dualises to a cochain homotopy equivalence, which gives (3) as in
+Theorem~\ref{singular-homology:theorem-excision} and allows the replacement of $H^n(\Hom(C^{\{A,B\}}(X), G))$ by $H^n(X; G)$ in (4). For (5), a $0$-cocycle is a function
+$\varphi$ on points with $\varphi(\gamma(1)) - \varphi(\gamma(0)) = 0$ for every path $\gamma$.
+\end{proof}
+
+\begin{theorem}[Universal coefficients]\label{singular-cohomology:theorem-universal-coefficients}
+There is a natural short exact sequence
+\[
+0 \to \Ext^1_\ZZ(H_{n-1}(X, A), G) \to H^n(X, A; G) \to \Hom(H_n(X, A), G) \to 0,
+\]
+where the second map is $\alpha \mapsto \langle \alpha, - \rangle$. It splits, non-naturally. If $G = F$ is a field and $A = \emptyset$, then
+$H^n(X; F) \cong \Hom_F(H_n(X; F), F)$.
+\end{theorem}
+
+\begin{proof}
+The first statement is Theorem~\ref{homological-algebra:theorem-universal-coefficients} for the free complex $C(X, A)$. For a field,
+$\Hom_\ZZ(C_n(X), F) = \Hom_F(C_n(X) \otimes F, F)$, and $\Hom_F(-, F)$ is exact, so it commutes with taking cohomology.
+\end{proof}
+
+\begin{lemma}\label{singular-cohomology:lemma-ext-z}
+$\Ext^1_\ZZ(\ZZ, G) = 0$ and $\Ext^1_\ZZ(\ZZ/m\ZZ, G) \cong G/mG$; $\Ext^1_\ZZ$ commutes with finite direct sums. Hence, if $H_{n-1}(X)$ and $H_n(X)$ are finitely generated,
+$H^n(X; \ZZ) \cong \ZZ^{b_n} \oplus T_{n-1}$, where $b_n$ is the rank of $H_n(X)$ and $T_{n-1}$ the torsion subgroup of $H_{n-1}(X)$.
+\end{lemma}
+
+\begin{proof}
+Use the projective resolution $0 \to \ZZ \xrightarrow{m} \ZZ \to \ZZ/m\ZZ \to 0$ and Theorem~\ref{homological-algebra:theorem-balance}: $\Ext^1(\ZZ/m\ZZ, G)$ is the cokernel of
+$G \xrightarrow{m} G$. Additivity follows from additivity of $\Hom$ and of derived functors. For the last statement, write $H_n(X) \cong \ZZ^{b_n} \oplus T_n$ and $H_{n-1}(X) \cong \ZZ^{b_{n-1}} \oplus T_{n-1}$ with $T_n$, $T_{n-1}$ finite direct sums of groups
+$\ZZ/m\ZZ$ (Theorem~\ref{groups:theorem-structure-abelian}). By the split universal coefficient sequence,
+$H^n(X) \cong \Hom(H_n(X), \ZZ) \oplus \Ext^1(H_{n-1}(X), \ZZ)$; here $\Hom(\ZZ/m\ZZ, \ZZ) = 0$ gives $\Hom(H_n(X), \ZZ) \cong \ZZ^{b_n}$, and
+$\Ext^1(\ZZ/m\ZZ, \ZZ) \cong \ZZ/m\ZZ$ gives $\Ext^1(H_{n-1}(X), \ZZ) \cong T_{n-1}$.
+\end{proof}
+
+\begin{example}\label{singular-cohomology:example-cohomology-groups}
+\begin{enumerate}
+\item $\tilde{H}^k(S^n; G) \cong G$ for $k = n$ and $0$ otherwise.
+\item By Example~\ref{singular-homology:example-cellular-computations} and Lemma~\ref{singular-cohomology:lemma-ext-z}, $H^k(\RR\PP^n; \ZZ)$ is $\ZZ$ for $k = 0$, $\ZZ/2\ZZ$ for
+$k$ even with $0 < k \leq n$, $\ZZ$ for $k = n$ odd, and $0$ otherwise: torsion moves up one degree compared with homology. With coefficients in $\mathbb{F}_2$,
+$H^k(\RR\PP^n; \mathbb{F}_2) \cong \mathbb{F}_2$ for $0 \leq k \leq n$.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[Cellular cohomology]\label{singular-cohomology:theorem-cellular}
+For a CW complex $X$, $H^n(X; G)$ is isomorphic to the cohomology of the complex $\Hom(C^{CW}_\bullet(X), G)$ with the transposed differentials.
+\end{theorem}
+
+\begin{proof}
+By the universal coefficient theorem and Lemma~\ref{singular-homology:lemma-cw-homology}: $H^k(X^n, X^{n-1}; G)$ is $\Hom(C^{CW}_n(X), G)$ for $k = n$ and $0$ otherwise;
+$H^k(X^n; G) = 0$ for $k > n$, because $H_k(X^n) = 0$ for $k > n$ and $H_n(X^n)$ is a subgroup of the free group $C^{CW}_n(X)$, hence free
+(Proposition~\ref{homological-algebra:proposition-pid-submodules-free}). From the long exact sequence of $(X, X^n)$ and
+Lemma~\ref{singular-homology:lemma-cw-homology}(3), $H_k(X, X^n) = 0$ for $k \leq n$, hence $H^k(X, X^n; G) = 0$ for $k \leq n$ and $H^k(X; G) \to H^k(X^n; G)$ is an
+isomorphism for $k < n$. The proof of Theorem~\ref{singular-homology:theorem-cellular} now applies with all arrows reversed. The coboundary
+$H^n(X^n, X^{n-1}) \to H^n(X^n) \to H^{n+1}(X^{n+1}, X^n)$ is the transpose of $d_{n+1}$ by the formula $\langle\delta\alpha, c\rangle = \langle\alpha, \partial c\rangle$.
+\end{proof}
+
+\section{The cup product}\label{singular-cohomology:section-cup}
+
+\begin{definition}\label{singular-cohomology:definition-cup}
+For $\varphi \in C^k(X; R)$ and $\psi \in C^l(X; R)$, the \emph{cup product} $\varphi \smile \psi \in C^{k+l}(X; R)$ is
+\[
+(\varphi \smile \psi)(\sigma) = \varphi(\sigma \circ [e_0, \ldots, e_k]) \cdot \psi(\sigma \circ [e_k, \ldots, e_{k+l}]),
+\]
+the product being taken in $R$: the ``front $k$-face'' times the ``back $l$-face''. We write $\sigma|[e_0, \ldots, e_k]$ for $\sigma \circ [e_0, \ldots, e_k]$.
+\end{definition}
+
+\begin{lemma}\label{singular-cohomology:lemma-cup-coboundary}
+$\delta(\varphi \smile \psi) = \delta\varphi \smile \psi + (-1)^k\varphi \smile \delta\psi$. The cup product of cochains is associative, $R$-bilinear, has unit the $0$-cochain $1$
+with value $1$ on every point, and is natural: $f^\#(\varphi \smile \psi) = f^\#\varphi \smile f^\#\psi$.
+\end{lemma}
+
+\begin{proof}
+Let $\sigma \colon \Delta^{k+l+1} \to X$ and $n = k + l + 1$. Then
+\[
+(\delta\varphi \smile \psi)(\sigma) = \sum_{i=0}^{k+1}(-1)^i\varphi(\sigma|[e_0, \ldots, \widehat{e_i}, \ldots, e_{k+1}])\psi(\sigma|[e_{k+1}, \ldots, e_n]),
+\]
+\[
+(-1)^k(\varphi \smile \delta\psi)(\sigma) = \sum_{i=k}^{n}(-1)^i\varphi(\sigma|[e_0, \ldots, e_k])\psi(\sigma|[e_k, \ldots, \widehat{e_i}, \ldots, e_n]).
+\]
+The term $i = k + 1$ of the first sum cancels the term $i = k$ of the second. The remaining terms are $\sum_i (-1)^i(\varphi \smile \psi)(\sigma|[e_0, \ldots, \widehat{e_i}, \ldots, e_n])$,
+which is $(\varphi \smile \psi)(\partial\sigma) = \delta(\varphi \smile \psi)(\sigma)$. The other statements are immediate from the definition.
+\end{proof}
+
+\begin{definition}\label{singular-cohomology:definition-cohomology-ring}
+By Lemma~\ref{singular-cohomology:lemma-cup-coboundary}, the cup product of two cocycles is a cocycle, and the product of a cocycle and a coboundary is a coboundary. It
+therefore induces $\smile \colon H^k(X; R) \times H^l(X; R) \to H^{k+l}(X; R)$, making $H^*(X; R) = \bigoplus_k H^k(X; R)$ an associative graded $R$-algebra with unit, the
+\emph{cohomology ring}, and $f^*$ a homomorphism of graded rings. If $\varphi$ vanishes on chains in $A$ so does $\varphi \smile \psi$, which gives a product
+$H^k(X, A; R) \times H^l(X; R) \to H^{k+l}(X, A; R)$.
+\end{definition}
+
+\begin{theorem}[Graded commutativity]\label{singular-cohomology:theorem-graded-commutative}
+For $\alpha \in H^k(X; R)$ and $\beta \in H^l(X; R)$, $\alpha \smile \beta = (-1)^{kl}\beta \smile \alpha$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Let $\bar\sigma = \sigma \circ [e_n, \ldots, e_0]$ be $\sigma$ with its vertices in reverse order, and $\rho(\sigma) = \varepsilon_n\bar\sigma$ with $\varepsilon_n = (-1)^{n(n+1)/2}$.
+A direct computation shows that $\rho$ is a chain map and that
+$\rho^\#\varphi \smile \rho^\#\psi = (-1)^{kl}\rho^\#(\psi \smile \varphi)$, using $\varepsilon_{k+l} = (-1)^{kl}\varepsilon_k\varepsilon_l$. The omitted verification is that $\rho$ is
+chain homotopic to the identity, by the homotopy $P(\sigma) = \sum_i (-1)^i\varepsilon_{n-i}\,\sigma \circ \pi \circ [v_0, \ldots, v_i, w_n, \ldots, w_i]$, where
+$v_j = (e_j, 0)$ and $w_j = (e_j, 1)$ are the vertices of $\Delta^n \times I$ and $\pi \colon \Delta^n \times I \to \Delta^n$ is the projection; see
+\cite[Theorem 3.14]{hatcher-at}. Then $\rho^* = \id$ on cohomology, and the formula follows.
+\end{proof}
+
+\begin{example}\label{singular-cohomology:example-wedge-ring}
+For a wedge $X \vee Y$ of CW complexes (at $0$-cells), the inclusions induce an isomorphism of rings
+$\tilde{H}^*(X \vee Y; R) \cong \tilde{H}^*(X; R) \times \tilde{H}^*(Y; R)$, where products between the two factors vanish: the isomorphism of groups follows from
+Exercise~\ref{singular-homology:exercise-wedge} and the universal coefficient theorem, and it is induced by the restrictions to $X$ and $Y$, which are ring homomorphisms.
+In particular all cup products $\tilde{H}^k(S^m) \times \tilde{H}^l(S^m) \to \tilde{H}^{k+l}(S^m)$ vanish, for degree reasons.
+\end{example}
+
+\section{The K\"unneth formula}\label{singular-cohomology:section-kunneth}
+
+\begin{definition}\label{singular-cohomology:definition-cross-product}
+The \emph{cross product} of $a \in H^k(X; R)$ and $b \in H^l(Y; R)$ is $a \times b = p_X^*(a) \smile p_Y^*(b) \in H^{k+l}(X \times Y; R)$, where $p_X$, $p_Y$ are the
+projections. It is $R$-bilinear and induces $H^*(X; R) \otimes_R H^*(Y; R) \to H^*(X \times Y; R)$, a ring homomorphism for the product
+$(a \otimes b)(c \otimes d) = (-1)^{|b||c|}ac \otimes bd$ on the tensor product.
+\end{definition}
+
+\begin{theorem}[K\"unneth formula]\label{singular-cohomology:theorem-kunneth}
+Let $X$ and $Y$ be CW complexes such that $H^k(Y; R)$ is a finitely generated free $R$-module for every $k$ (for instance $R$ a field and $Y$ a finite complex).
+Then the cross product $H^*(X; R) \otimes_R H^*(Y; R) \to H^*(X \times Y; R)$ is an isomorphism of graded rings.
+\end{theorem}
+
+This is \cite[Theorem 3.15]{hatcher-at}. The ring homomorphism property follows from graded commutativity:
+$(a \times b)(c \times d) = p_X^*a\, p_Y^*b\, p_X^*c\, p_Y^*d = (-1)^{|b||c|}p_X^*(ac)\,p_Y^*(bd)$. The homology K\"unneth formula for fields, and the
+Eilenberg--Zilber theorem $C_\bullet(X \times Y) \simeq C_\bullet(X) \otimes C_\bullet(Y)$ underlying it, are in \cite[Section 3.B]{hatcher-at}.
+
+\begin{example}\label{singular-cohomology:example-torus}
+$H^*(S^1; \ZZ) = \Lambda_\ZZ[x]$ with $|x| = 1$ (an exterior algebra, as $x^2 \in H^2(S^1) = 0$). By induction and the K\"unneth formula, the cohomology ring of the torus
+$T^n = (S^1)^n$ is the exterior algebra $\Lambda_\ZZ[x_1, \ldots, x_n]$ with $|x_i| = 1$, so $H^k(T^n) \cong \ZZ^{\binom{n}{k}}$. Similarly
+$H^*(S^2 \times S^2; \ZZ) = \ZZ[a, b]/(a^2, b^2)$ with $|a| = |b| = 2$.
+\end{example}
+
+\section{Cohomology rings of projective spaces}\label{singular-cohomology:section-projective}
+
+\begin{theorem}\label{singular-cohomology:theorem-projective-spaces}
+$H^*(\RR\PP^n; \mathbb{F}_2) \cong \mathbb{F}_2[\alpha]/(\alpha^{n+1})$ with $|\alpha| = 1$, and $H^*(\CC\PP^n; \ZZ) \cong \ZZ[\alpha]/(\alpha^{n+1})$ with $|\alpha| = 2$. Also
+$H^*(\RR\PP^\infty; \mathbb{F}_2) = \mathbb{F}_2[\alpha]$ and $H^*(\CC\PP^\infty; \ZZ) = \ZZ[\alpha]$.
+\end{theorem}
+
+This is \cite[Theorem 3.12]{hatcher-at}; the additive structure was computed above, and the content is that the generator in each degree is a power of $\alpha$. A
+proof via Poincar\'e duality is given in Chapter~\ref{poincare-duality}.
+
+\begin{example}\label{singular-cohomology:example-cp2-wedge}
+$\CC\PP^2$ and $S^2 \vee S^4$ have the same homology and cohomology groups ($\ZZ$ in degrees $0, 2, 4$), but they are not homotopy equivalent: in $H^*(\CC\PP^2)$ the square of
+a generator of $H^2$ generates $H^4$, whereas in $H^*(S^2 \vee S^4)$ it is zero by Example~\ref{singular-cohomology:example-wedge-ring}. Likewise $S^2 \times S^2$ and
+$S^2 \vee S^2 \vee S^4$ have the same groups but different rings.
+\end{example}
+
+\begin{corollary}[Borsuk--Ulam]\label{singular-cohomology:corollary-borsuk-ulam}
+There is no map $g \colon S^n \to S^{n-1}$ with $g(-x) = -g(x)$ for all $x$. Consequently every map $f \colon S^n \to \RR^n$ identifies some pair of antipodal points.
+\end{corollary}
+
+\begin{proof}
+For $n = 1$ an odd map $S^1 \to S^0$ cannot exist, since its image would be a single point. Let $n \geq 2$ and suppose $g$ exists; it induces
+$\bar{g} \colon \RR\PP^n \to \RR\PP^{n-1}$. For a path-connected space $X$, the universal coefficient theorem and Theorem~\ref{singular-homology:theorem-hurewicz} give
+$H^1(X; \mathbb{F}_2) \cong \Hom(H_1(X), \mathbb{F}_2) \cong \Hom(\pi_1(X), \mathbb{F}_2)$, naturally. For $m \geq 1$ let $w_m \colon \pi_1(\RR\PP^m) \to \mathbb{F}_2$ be the monodromy of
+the two-sheeted covering $S^m \to \RR\PP^m$ (Example~\ref{homotopy:example-coverings}): $w_m[\gamma] = 0$ if and only if the lifts of $\gamma$ are loops. It is a
+homomorphism (Corollary~\ref{homotopy:corollary-lifting-consequences}(3)) and nonzero. Since $\pi_1(\RR\PP^n) \cong \ZZ/2\ZZ$, $w_n$ corresponds to the generator $\alpha$ of
+$H^1(\RR\PP^n; \mathbb{F}_2)$, and $\pi_1(\RR\PP^n)$ is generated by the image of a path $\gamma$ in $S^n$ from $x$ to $-x$. Its image under $\bar{g}$ is the image of the path
+$g \circ \gamma$ from $g(x)$ to $-g(x)$, whose lift is not a loop; so $w_{n-1}(\bar{g}_*[\gamma]) = 1 = w_n[\gamma]$ and $\bar{g}^*(w_{n-1}) = \alpha$. Then
+$\bar{g}^*(w_{n-1}^n) = \alpha^n \neq 0$ by Theorem~\ref{singular-cohomology:theorem-projective-spaces}, but $w_{n-1}^n \in H^n(\RR\PP^{n-1}; \mathbb{F}_2) = 0$, a contradiction.
+If $f(x) \neq f(-x)$ for all $x$, then $g(x) = (f(x) - f(-x))/\|f(x) - f(-x)\|$ is an odd map $S^n \to S^{n-1}$.
+\end{proof}
+
+\section{The cap product}\label{singular-cohomology:section-cap}
+
+\begin{definition}\label{singular-cohomology:definition-cap}
+For $\sigma \colon \Delta^n \to X$ and $\varphi \in C^k(X; R)$ with $k \leq n$, the \emph{cap product} is
+\[
+\sigma \frown \varphi = \varphi(\sigma|[e_0, \ldots, e_k]) \cdot \sigma|[e_k, \ldots, e_n] \in C_{n-k}(X; R),
+\]
+extended $R$-linearly to $C_n(X; R) = C_n(X) \otimes R$.
+\end{definition}
+
+\begin{proposition}\label{singular-cohomology:proposition-cap}
+\begin{enumerate}
+\item $\partial(\sigma \frown \varphi) = (-1)^k(\partial\sigma \frown \varphi - \sigma \frown \delta\varphi)$, so the cap product induces
+$\frown \colon H_n(X; R) \times H^k(X; R) \to H_{n-k}(X; R)$, and relative versions $H_n(X, A; R) \times H^k(X; R) \to H_{n-k}(X, A; R)$ and
+$H_n(X, A; R) \times H^k(X, A; R) \to H_{n-k}(X; R)$.
+\item (Naturality) $f_*(c) \frown \varphi = f_*(c \frown f^*\varphi)$ for $f \colon X \to Y$, $c \in H_n(X; R)$ and $\varphi \in H^k(Y; R)$.
+\item $\psi(c \frown \varphi) = (\varphi \smile \psi)(c)$ for $\psi \in C^{n-k}(X; R)$, and $(c \frown \varphi) \frown \psi = c \frown (\varphi \smile \psi)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) We have
+$\partial(\sigma \frown \varphi) = \sum_{i \geq k}(-1)^{i-k}\varphi(\sigma|[e_0, \ldots, e_k])\,\sigma|[e_k, \ldots, \widehat{e_i}, \ldots, e_n]$, while
+\[
+\partial\sigma \frown \varphi = \sum_{i \leq k}(-1)^i\varphi(\sigma|[e_0, \ldots, \widehat{e_i}, \ldots, e_{k+1}])\,\sigma|[e_{k+1}, \ldots, e_n]
++ \sum_{i \geq k+1}(-1)^i\varphi(\sigma|[e_0, \ldots, e_k])\,\sigma|[e_k, \ldots, \widehat{e_i}, \ldots, e_n]
+\]
+and $\sigma \frown \delta\varphi = \sum_{i \leq k+1}(-1)^i\varphi(\sigma|[e_0, \ldots, \widehat{e_i}, \ldots, e_{k+1}])\,\sigma|[e_{k+1}, \ldots, e_n]$. Subtracting, what remains is the
+second sum together with the term $-(-1)^{k+1}\varphi(\sigma|[e_0, \ldots, e_k])\,\sigma|[e_{k+1}, \ldots, e_n]$, which is the term $i = k$; this is
+$(-1)^k\partial(\sigma \frown \varphi)$. Hence cycle $\frown$ cocycle is a cycle, boundary $\frown$ cocycle and cycle $\frown$ coboundary are boundaries. For the relative
+versions, $\sigma \frown \varphi$ lies in $C(A)$ if $\sigma$ does, and vanishes if $\varphi$ vanishes on $A$ and $\sigma$ lies in $A$. (2) and (3) are immediate from the
+definitions: $\psi(\sigma \frown \varphi) = \varphi(\sigma|[e_0, \ldots, e_k])\psi(\sigma|[e_k, \ldots, e_n]) = (\varphi \smile \psi)(\sigma)$.
+\end{proof}
+
+\begin{remark}\label{singular-cohomology:remark-duality-preview}
+For a closed oriented $n$-manifold $M$ with fundamental class $[M] \in H_n(M; \ZZ)$, the map $H^k(M; R) \to H_{n-k}(M; R)$, $\alpha \mapsto [M] \frown \alpha$, is an
+isomorphism: this is Poincar\'e duality (Chapter~\ref{poincare-duality}). Combined with Proposition~\ref{singular-cohomology:proposition-cap}(3) it shows that the
+cup product pairing $H^k(M; F) \times H^{n-k}(M; F) \to F$, $(\alpha, \beta) \mapsto \langle \alpha \smile \beta, [M]\rangle$, is nondegenerate over a field $F$.
+\end{remark}
+
+\section{Exercises}\label{singular-cohomology:section-exercises}
+
+\begin{exercise}\label{singular-cohomology:exercise-uct-rp}
+Compute $H^k(\RR\PP^n; \ZZ/4\ZZ)$ from the cellular cochain complex, and check the result with the universal coefficient theorem.
+\end{exercise}
+
+\begin{solution}
+The cellular cochain complex is $\ZZ/4 \to \ZZ/4 \to \cdots$ with differential $\Hom(d_{k+1}, \ZZ/4)$, multiplication by $1 + (-1)^{k+1}$: zero out of even degrees and
+multiplication by $2$ out of odd degrees. So $H^0 = \ZZ/4$; for $0 < k < n$, $H^k \cong \ZZ/2$ (for $k$ odd the kernel of $2$ is $2\ZZ/4$ and the image of the previous zero map is
+$0$; for $k$ even the kernel is all of $\ZZ/4$ and the image is $2\ZZ/4$); and $H^n$ is $\ZZ/4$ for $n$ odd and $\ZZ/2$ for $n$ even. With universal coefficients, for
+$0 < k < n$ odd: $\Hom(\ZZ/2, \ZZ/4) \oplus \Ext(0, \ZZ/4) = \ZZ/2$; for $k$ even: $\Hom(0, \ZZ/4) \oplus \Ext(\ZZ/2, \ZZ/4) = \ZZ/4/2\ZZ/4 = \ZZ/2$.
+\end{solution}
+
+\begin{exercise}\label{singular-cohomology:exercise-cup-torus}
+Let $\Sigma_g$ be the closed orientable surface of genus $g$. Using the map $\Sigma_g \to \bigvee_{i=1}^g T^2$ collapsing $g - 1$ circles, show that $H^1(\Sigma_g) \cong \ZZ^{2g}$
+has a basis $a_i, b_i$ with $a_i \smile b_i = -b_i \smile a_i$ a generator of $H^2(\Sigma_g) \cong \ZZ$, and all other products of basis elements zero.
+\end{exercise}
+
+\begin{exercise}\label{singular-cohomology:exercise-hopf-invariant}
+For a map $f \colon S^{2n-1} \to S^n$ with $n \geq 2$ let $X_f = S^n \cup_f D^{2n}$. Show that $H^n(X_f) \cong \ZZ \cdot a$ and $H^{2n}(X_f) \cong \ZZ \cdot b$ and define the Hopf
+invariant $h(f)$ by $a^2 = h(f)b$. Show that $h(f) = 0$ if $n$ is odd, and that $h$ of the Hopf map $S^3 \to S^2$ is $\pm 1$, using $X_f = \CC\PP^2$.
+\end{exercise}
+
+\begin{exercise}\label{singular-cohomology:exercise-retract-ring}
+Show that $S^2 \vee S^4$ is not a retract of $\CC\PP^2$, even up to homotopy: there are no maps $i \colon S^2 \vee S^4 \to \CC\PP^2$ and $r \colon \CC\PP^2 \to S^2 \vee S^4$ with
+$ri \simeq \id$. Show also that there is no map $\CC\PP^2 \to S^2$ inducing an isomorphism on $H^2$.
+\end{exercise}
+
+\begin{solution}
+A map $f \colon \CC\PP^2 \to S^2$ with $f^*$ an isomorphism on $H^2$ would give $f^*(x)^2 = f^*(x^2) = 0$ for a generator $x$ of $H^2(S^2)$, while $f^*(x)$ generates $H^2(\CC\PP^2)$
+and its square generates $H^4(\CC\PP^2)$. If $S^2 \vee S^4 \xrightarrow{i} \CC\PP^2 \xrightarrow{r} S^2 \vee S^4$ composed to the identity (up to homotopy), then $i^*$ would be
+surjective, and $r^*$ injective; a generator $u \in H^2(S^2 \vee S^4)$ would satisfy $r^*(u)^2 = r^*(u^2) = 0$ with $r^*(u) = \pm$ a generator of $H^2(\CC\PP^2)$ (as $r^*$ is
+injective on $H^2 \cong \ZZ$ and $i^*r^* = \id$ forces $r^*$ to be split injective), contradicting $\alpha^2 \neq 0$.
+\end{solution}
