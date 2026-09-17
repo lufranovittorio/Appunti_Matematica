@@ -1,17 +1,386 @@
 \chapter{Topological Manifolds and Poincar\'e Duality}\label{poincare-duality}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Orientations and fundamental classes of manifolds, and the duality theorems that turn subvarieties into cohomology classes.
+\section{Introduction}\label{poincare-duality:section-introduction}
+
+A closed oriented $n$-manifold $M$ has a fundamental class $[M] \in H_n(M; \ZZ)$, and capping with it is an isomorphism
+$H^k(M; R) \cong H_{n-k}(M; R)$ (Theorem~\ref{poincare-duality:theorem-poincare-duality}). Duality is what turns a closed
+oriented submanifold, or a complex subvariety, of dimension $d$ into a cohomology class of degree $n - d$, and it makes the cup
+product pairing between complementary degrees nondegenerate. We follow \cite[Section 3.3]{hatcher-at}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{singular-cohomology} (Singular Cohomology).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Topological manifolds and local homology.
-\item Orientations and the orientation double cover.
-\item Fundamental classes of closed oriented manifolds.
-\item Cohomology with compact supports and Poincar\'e duality.
-\item Lefschetz and Alexander duality.
-\item The intersection form and the signature.
-\item Borel--Moore homology and fundamental classes of closed subsets.
-\end{itemize}
+For a space $X$ and $A \subseteq X$ we write $H_i(X \mid A; R) = H_i(X, X \setminus A; R)$ and $H^i(X \mid A; R) = H^i(X, X \setminus A; R)$, and
+$H_i(X \mid x)$ for $A = \{x\}$.
+
+\section{Topological manifolds}\label{poincare-duality:section-manifolds}
+
+\begin{definition}\label{poincare-duality:definition-manifold}
+A \emph{topological $n$-manifold} is a Hausdorff, second countable space in which every point has an open neighbourhood homeomorphic to $\RR^n$. A
+\emph{chart} is such a neighbourhood with a homeomorphism to $\RR^n$. A manifold is \emph{closed} if it is compact. A \emph{manifold with boundary} is defined
+in the same way with neighbourhoods homeomorphic to open subsets of the half-space $\{x \in \RR^n : x_n \geq 0\}$; its \emph{boundary} $\partial M$ consists of the
+points that correspond to points with $x_n = 0$.
+\end{definition}
+
+\begin{lemma}\label{poincare-duality:lemma-local-homology}
+For a point $x$ of an $n$-manifold $M$, $H_i(M \mid x; R) \cong R$ for $i = n$ and $0$ otherwise. In particular the dimension of a nonempty manifold is well
+defined. For an open ball $B$ of finite radius in a chart and $x \in B$, the restriction $H_i(M \mid B; R) \to H_i(M \mid x; R)$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Let $V \ni x$ be a chart. The closure of $B$ in $V$ is compact, hence closed in $M$, so excision of $M \setminus V$ gives
+$H_i(M \mid B) \cong H_i(V \mid B) \cong H_i(\RR^n \mid B)$, and likewise for $x$. Both $\RR^n \setminus B$ and $\RR^n \setminus \{x\}$ deformation retract onto a sphere
+centred at $x$ of radius larger than that of $B$, by radial projection from $x$; so the restriction is an isomorphism, and
+$H_i(\RR^n \mid x) \cong \tilde{H}_{i-1}(\RR^n \setminus \{x\}) \cong \tilde{H}_{i-1}(S^{n-1}; R)$ by the long exact sequence. The dimension is well defined by
+Corollary~\ref{singular-homology:corollary-sphere-applications}(3).
+\end{proof}
+
+\begin{example}\label{poincare-duality:example-manifolds}
+$\RR^n$, open subsets of manifolds, $S^n$ (charts by stereographic projection), and products of manifolds (of dimension $m + n$) are manifolds; hence so is the
+torus $T^n$. The projective spaces $\RR\PP^n$ and $\CC\PP^n$ are closed manifolds of dimensions $n$ and $2n$ (Chapter~\ref{complex-manifolds}), and so are the
+surfaces $\Sigma_g$. The disc $D^n$ is a manifold with boundary $S^{n-1}$. The line with two origins
+(Counterexample~\ref{general-topology:counterexample-bad-quotients}) is locally Euclidean but not Hausdorff.
+\end{example}
+
+\section{Orientations}\label{poincare-duality:section-orientations}
+
+\begin{definition}\label{poincare-duality:definition-orientation-covering}
+Let $M$ be an $n$-manifold. A \emph{coordinate ball} is an open ball of finite radius in a chart. Let $M_R$ be the set of pairs $(x, \alpha)$ with $x \in M$ and
+$\alpha \in H_n(M \mid x; R)$, with $p(x, \alpha) = x$. For a coordinate ball $B$ and $\alpha_B \in H_n(M \mid B; R)$ let $U(\alpha_B)$ be the set of pairs
+$(x, \alpha_x)$ with $x \in B$ and $\alpha_x$ the image of $\alpha_B$. An \emph{$R$-orientation} of $M$ is a continuous section $x \mapsto \mu_x$ of $p$ such that
+each $\mu_x$ generates $H_n(M \mid x; R) \cong R$ as an $R$-module. A $\ZZ$-orientation is an \emph{orientation}, and $M$ is \emph{($R$-)orientable} if it has one.
+The \emph{orientation double covering} $\tilde{M} \subseteq M_\ZZ$ consists of the pairs $(x, \alpha)$ with $\alpha$ a generator of $H_n(M \mid x; \ZZ) \cong \ZZ$.
+\end{definition}
+
+\begin{proposition}\label{poincare-duality:proposition-orientation-covering}
+The sets $U(\alpha_B)$ form a basis of a topology on $M_R$ for which $p$ is a covering map, and $\tilde{M} \to M$ is a two-sheeted covering. Let $M$ be connected.
+\begin{enumerate}
+\item $M$ is orientable if and only if $\tilde{M}$ has two components; then $M$ has exactly two orientations.
+\item If $\pi_1(M)$ has no subgroup of index $2$, for instance if $M$ is simply connected, then $M$ is orientable.
+\item $M$ is $\mathbb{F}_2$-orientable, and an orientable manifold is $R$-orientable for every $R$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+If $(x, \alpha) \in U(\alpha_B) \cap U(\beta_{B'})$, choose a coordinate ball $B'' \ni x$ inside $B \cap B'$. The images of $\alpha_B$ and $\beta_{B'}$ in
+$H_n(M \mid B'')$ both restrict to $\alpha$, so they are equal by Lemma~\ref{poincare-duality:lemma-local-homology}, and their $U$ is contained in both sets.
+By the same lemma, $p$ maps $U(\alpha_B)$ bijectively onto $B$, and $p^{-1}(B)$ is the disjoint union of the sets $U(\alpha_B)$, $\alpha_B \in H_n(M \mid B)$. For
+$B' \subseteq B$, $p^{-1}(B') \cap U(\alpha_B) = U(\alpha_{B'})$ with $\alpha_{B'}$ the restriction, and $p(U(\alpha_{B'})) = B'$; so $p|_{U(\alpha_B)}$ is a homeomorphism
+onto $B$, and $p$ is a covering map. The generators form a union of sheets, two over each coordinate ball.
+
+(1) A section $s$ of a covering over a connected space has open image (near $s(x)$ it lies in one sheet, by continuity) and closed image (it is the set of points $e$ with $s(p(e)) = e$, and the covering space is Hausdorff because $M$ is and distinct sheets are
+disjoint open sets). So an orientation $\mu$ gives two components $\{\mu_x\}$ and $\{-\mu_x\}$ of
+$\tilde{M}$. Conversely, each sheet over a coordinate ball is connected and so lies in a single component; hence the number of points of a component
+$C$ of $\tilde{M}$ over $x$ is locally constant, hence constant; if $\tilde{M}$ is not connected it is $1$,
+and $C \to M$ is a bijective covering map, hence a homeomorphism whose inverse is an orientation. The orientations are the sections of $\tilde{M}$, which are the
+inverses of the two components.
+
+(2) If $M$ is not orientable, $\tilde{M}$ is a connected two-sheeted covering, and $p_*\pi_1(\tilde{M})$ has index $2$ by
+Corollary~\ref{homotopy:corollary-lifting-consequences}(3).
+
+(3) $H_n(M \mid x; \mathbb{F}_2)$ has a unique generator, and $x \mapsto$ this generator is continuous since it lies in $U(\alpha_B)$ for the generator $\alpha_B$. The
+coefficient homomorphism $\ZZ \to R$ induces a continuous map $M_\ZZ \to M_R$ over $M$ sending generators to generators.
+\end{proof}
+
+\section{The fundamental class}\label{poincare-duality:section-fundamental-class}
+
+\begin{lemma}[Relative Mayer--Vietoris]\label{poincare-duality:lemma-relative-mayer-vietoris}
+Let $Y_1, Y_2$ be open subsets of a space $X$. There are natural long exact sequences
+\[
+\cdots \to H_i(X, Y_1 \cap Y_2) \to H_i(X, Y_1) \oplus H_i(X, Y_2) \to H_i(X, Y_1 \cup Y_2) \to H_{i-1}(X, Y_1 \cap Y_2) \to \cdots
+\]
+and $\cdots \to H^i(X, Y_1 \cup Y_2) \to H^i(X, Y_1) \oplus H^i(X, Y_2) \to H^i(X, Y_1 \cap Y_2) \to H^{i+1}(X, Y_1 \cup Y_2) \to \cdots$, with any coefficients.
+\end{lemma}
+
+\begin{proof}
+The sequence $0 \to C(X)/C(Y_1 \cap Y_2) \to C(X)/C(Y_1) \oplus C(X)/C(Y_2) \to C(X)/(C(Y_1) + C(Y_2)) \to 0$, with maps $x \mapsto (x, -x)$ and $(x, y) \mapsto x + y$, is
+exact, because $C(Y_1) \cap C(Y_2) = C(Y_1 \cap Y_2)$. All terms are free abelian groups on sets of simplices, so it is degreewise split, and it remains exact after
+tensoring with $R$ or applying $\Hom(-, R)$. The inclusion $C(Y_1) + C(Y_2) \to C(Y_1 \cup Y_2)$ is a quasi-isomorphism by
+Proposition~\ref{singular-homology:proposition-small-chains} (the $Y_i$ are open in $Y_1 \cup Y_2$), so by the five lemma the last complex computes
+$H_\bullet(X, Y_1 \cup Y_2)$; dually in cohomology.
+\end{proof}
+
+\begin{lemma}\label{poincare-duality:lemma-compact-sets}
+Let $M$ be an $n$-manifold and $A \subseteq M$ compact.
+\begin{enumerate}
+\item If $x \mapsto \alpha_x$ is a continuous section of $M_R$ over $A$, there is a unique $\alpha_A \in H_n(M \mid A; R)$ restricting to $\alpha_x$ for every $x \in A$.
+\item $H_i(M \mid A; R) = 0$ for $i > n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We omit $R$ from the notation.
+
+\emph{Step 1: if the lemma holds for compact $A$, $B$ and $A \cap B$, it holds for $A \cup B$.} Apply Lemma~\ref{poincare-duality:lemma-relative-mayer-vietoris} with
+$Y_1 = M \setminus A$ and $Y_2 = M \setminus B$:
+\[
+H_{i+1}(M \mid A \cap B) \to H_i(M \mid A \cup B) \xrightarrow{\Phi} H_i(M \mid A) \oplus H_i(M \mid B) \xrightarrow{\Psi} H_i(M \mid A \cap B),
+\]
+where $\Phi$ consists of restrictions and $\Psi$ is the difference of restrictions (up to the signs of the maps). For $i > n$ the outer terms vanish, giving (2). For
+$i = n$, $\Phi$ is injective, which gives uniqueness since restrictions to points factor through $A$ or $B$. For existence, $\alpha_A$ and $\alpha_B$ restrict to
+elements of $H_n(M \mid A \cap B)$ that both restrict to $\alpha_x$ at every point, hence agree by uniqueness for $A \cap B$; so $(\alpha_A, \alpha_B)$ lies in the
+kernel of $\Psi$ and comes from some $\alpha_{A \cup B}$.
+
+\emph{Step 2: $M = \RR^n$ and $A$ compact convex.} Choose $x \in A$. Both $\RR^n \setminus A$ and $\RR^n \setminus \{x\}$ deformation retract onto a large sphere centred at $x$
+(moving points along rays from $x$, which leave the convex set $A$ once), so $H_i(\RR^n \mid A) \to H_i(\RR^n \mid x)$ is an isomorphism, giving (2). For (1), let
+$\alpha_A$ be the element restricting to $\alpha_x$. Choosing a coordinate ball $B \supseteq A$, the image of $\alpha_A$ at points of $A$ is a continuous section (it
+comes from $H_n(\RR^n \mid B) \cong H_n(\RR^n \mid A)$). It agrees with the given section at $x$, so everywhere, since $A$ is connected
+(Lemma~\ref{homotopy:lemma-unique-lifting}).
+
+\emph{Step 3: $M = \RR^n$ and $A = A_1 \cup \cdots \cup A_m$ with each $A_j$ compact convex.} Induction on $m$ using Step 1, since
+$(A_1 \cup \cdots \cup A_{m-1}) \cap A_m = \bigcup_{j < m}(A_j \cap A_m)$ is a union of $m - 1$ compact convex sets.
+
+\emph{Step 4: $M = \RR^n$ and $A$ arbitrary compact.} Let $\alpha \in H_i(\RR^n \mid A)$ be represented by a chain $z$ with $\partial z$ a chain in $\RR^n \setminus A$. The images
+of the simplices of $\partial z$ form a compact set $C$ disjoint from $A$. Cover $\RR^n$ by the closed cubes of a grid of side smaller than the distance from $A$ to $C$
+divided by $\sqrt{n}$, and let $K$ be the union of those meeting $A$; then $A \subseteq K$, $K \cap C = \emptyset$, and $z$ defines $\alpha_K \in H_i(\RR^n \mid K)$ mapping to
+$\alpha$. If $i > n$, $\alpha_K = 0$ by Step 3, so $\alpha = 0$. If $i = n$ and $\alpha$ restricts to $0$ at every point of $A$, then $\alpha_K$ restricts to $0$ at every point
+of $K$: each cube $Q$ meets $A$, and the restriction of $\alpha_K$ to $Q$ is determined by its value at a point of $Q \cap A$ (Step 2). By uniqueness in Step 3,
+$\alpha_K = 0$, so $\alpha = 0$; this is uniqueness. For existence, $M_R \to \RR^n$ is a trivial covering $\RR^n \times R$ (the restrictions from a large ball are
+isomorphisms), so a section over $A$ is a locally constant function $A \to R$. By compactness it takes finitely many values, on disjoint compact sets $A_r$, which have
+positive distances from each other. Choose the grid so that twice the diameter of a cube is smaller than these distances. Then two cubes meeting different sets $A_r$ are
+disjoint, so the unions $K_r$ of the cubes meeting $A_r$ are disjoint closed sets covering $K$, and the section extends to the locally constant function equal to $r$ on
+$K_r$. Step 3 gives $\alpha_K$, and its image in $H_n(\RR^n \mid A)$ is the required class.
+
+\emph{Step 5: general $M$.} A compact $A \subseteq M$ is a finite union $A_1 \cup \cdots \cup A_m$ of compact sets each contained in a chart $V_j \cong \RR^n$. By excision,
+$H_i(M \mid A_j) \cong H_i(V_j \mid A_j)$, compatibly with restrictions to points, so the lemma holds for sets contained in a chart by Step 4. Conclude by induction on
+$m$ using Step 1, as $(A_1 \cup \cdots \cup A_{m-1}) \cap A_m$ is contained in the chart $V_m$.
+\end{proof}
+
+\begin{theorem}\label{poincare-duality:theorem-fundamental-class}
+Let $M$ be a closed connected $n$-manifold. Then $H_i(M; R) = 0$ for $i > n$, and the restriction $H_n(M; R) \to H_n(M \mid x; R) \cong R$ is injective for every $x$. Its
+image is $R$ if $M$ is $R$-orientable, and $\{r \in R : 2r = 0\}$ otherwise. If $M$ is $R$-oriented by $\mu$, the unique class $[M] \in H_n(M; R)$ restricting to $\mu_x$
+for all $x$ is the \emph{fundamental class}. In particular $H_n(M; \ZZ) \cong \ZZ$ if $M$ is orientable and $0$ otherwise.
+\end{theorem}
+
+\begin{proof}
+Apply Lemma~\ref{poincare-duality:lemma-compact-sets} with $A = M$, noting $H_i(M \mid M) = H_i(M)$: classes in $H_n(M)$ correspond to sections of $M_R$ over $M$. A section
+over the connected space $M$ is determined by its value at $x$, by Lemma~\ref{homotopy:lemma-unique-lifting}. The set $M_r$ of pairs $(y, \alpha)$ with $\alpha = \pm r\mu_y$
+for a local generator $\mu_y$ is a union of components of $M_R$ (it is open and closed, as can be checked on the sets $U(\alpha_B)$). If $r = -r$, then $M_r \to M$ is a
+homeomorphism, and there is a section with value $r$. If $r \neq -r$, then $M_r \cong \tilde{M}$ (identify $(y, \pm r\mu_y)$ with $(y, \pm\mu_y)$), which has a section if and only
+if $M$ is orientable. Writing a general element of $R$ as $r$ times a generator gives the description of the image; for $R$-orientability, an $R$-orientation takes values
+$u\mu_y$ with $u$ a unit, and $u \neq -u$ unless $2 = 0$ in $R$.
+\end{proof}
+
+\section{Cohomology with compact supports}\label{poincare-duality:section-compact-supports}
+
+\begin{lemma}\label{poincare-duality:lemma-directed-colimits}
+Let $I$ be a directed set (Example~\ref{categories:example-directed}). Colimits of diagrams $I \to \cat{Ab}$ exist, their underlying sets are the colimits of the
+underlying sets (Proposition~\ref{categories:proposition-filtered-colimits-sets}), and they are exact: a colimit of exact sequences is exact. Hence they commute with
+homology of chain complexes. If $\phi \colon J \to I$ is an order-preserving map of directed sets with \emph{cofinal} image (every $i \in I$ has some $j$ with $i \leq \phi(j)$),
+then the induced map $\colim_J A_{\phi(j)} \to \colim_I A_i$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+On the set $\colim_i A_i = (\coprod_i A_i)/{\approx}$, define $[a_i] + [b_j] = [u(a_i) + v(b_j)]$ after mapping both to a common $k$; this is well defined by
+Proposition~\ref{categories:proposition-filtered-colimits-sets} and makes the colimit an abelian group with the universal property in $\cat{Ab}$. If
+$A_i \xrightarrow{f_i} B_i \xrightarrow{g_i} C_i$ are exact and $[b_i]$ maps to $0$, then $g_i(b_i)$ becomes $0$ in some $C_k$; replacing $i$ by $k$ we may assume $g_i(b_i) = 0$,
+so $b_i = f_i(a_i)$. So the colimit sequence is exact. Homology is kernel modulo image, hence preserved. For $\phi$ with cofinal image, every element of $\colim_I$ comes from some
+$A_i$ and hence from $A_{\phi(j)}$ with $\phi(j) \geq i$. If an element of $A_{\phi(j)}$ vanishes in $\colim_I$, it vanishes in some $A_i$ with $i \geq \phi(j)$; choose $j''$ with
+$\phi(j'') \geq i$ and $j' \geq j, j''$; then it vanishes in $A_{\phi(j')}$, hence in $\colim_J$.
+\end{proof}
+
+\begin{definition}\label{poincare-duality:definition-compact-supports}
+The \emph{cohomology with compact supports} of a Hausdorff space $X$ is $H^k_c(X; R) = \colim_K H^k(X \mid K; R)$, the colimit over the compact subsets $K \subseteq X$
+directed by inclusion, along the restriction maps $H^k(X \mid K) \to H^k(X \mid L)$ for $K \subseteq L$. If $X$ is compact, $H^k_c(X; R) = H^k(X; R)$. For an open
+$U \subseteq X$ and compact $K \subseteq U$, excision gives $H^k(U \mid K) \cong H^k(X \mid K)$; these isomorphisms induce a map $H^k_c(U; R) \to H^k_c(X; R)$ (extension by zero).
+\end{definition}
+
+\begin{example}\label{poincare-duality:example-compact-supports-rn}
+The open balls centred at $0$ are cofinal among compact subsets of $\RR^n$, and for balls $B \subseteq B'$ the restriction $H^k(\RR^n \mid B) \to H^k(\RR^n \mid B')$ is an
+isomorphism, as in Lemma~\ref{poincare-duality:lemma-local-homology}. So $H^k_c(\RR^n; R) \cong R$ for $k = n$ and $0$ otherwise, whereas $H^k(\RR^n; R)$ is $R$ in degree $0$.
+Compactly supported cohomology is not a homotopy invariant.
+\end{example}
+
+\begin{definition}\label{poincare-duality:definition-duality-map}
+Let $M$ be an $R$-oriented $n$-manifold. For compact $K$ let $\mu_K \in H_n(M \mid K; R)$ be the class of Lemma~\ref{poincare-duality:lemma-compact-sets} restricting to the
+orientation. For $K \subseteq L$, $\mu_L$ restricts to $\mu_K$, and naturality of the cap product
+$H_n(M \mid K) \times H^k(M \mid K) \to H_{n-k}(M)$ (Proposition~\ref{singular-cohomology:proposition-cap}) shows that the maps $\varphi \mapsto \mu_K \frown \varphi$ are compatible.
+They induce the \emph{duality map} $D_M \colon H^k_c(M; R) \to H_{n-k}(M; R)$. If $M$ is closed, $D_M(\varphi) = [M] \frown \varphi$.
+\end{definition}
+
+\section{Poincar\'e duality}\label{poincare-duality:section-poincare-duality}
+
+\begin{lemma}\label{poincare-duality:lemma-mayer-vietoris-duality}
+Let $M = U \cup V$ with $U$, $V$ open. There are long exact Mayer--Vietoris sequences
+\[
+\cdots \to H^k_c(U \cap V) \to H^k_c(U) \oplus H^k_c(V) \to H^k_c(M) \to H^{k+1}_c(U \cap V) \to \cdots
+\]
+and $\cdots \to H_{n-k}(U \cap V) \to H_{n-k}(U) \oplus H_{n-k}(V) \to H_{n-k}(M) \to H_{n-k-1}(U \cap V) \to \cdots$, and the duality maps $D_{U \cap V}$, $D_U \oplus D_V$, $D_M$
+form a diagram between them that commutes up to sign.
+\end{lemma}
+
+\begin{proof}
+For compact $K \subseteq U$ and $L \subseteq V$, Lemma~\ref{poincare-duality:lemma-relative-mayer-vietoris} with $Y_1 = M \setminus K$, $Y_2 = M \setminus L$ and excision give an exact
+sequence $\cdots \to H^k(U \cap V \mid K \cap L) \to H^k(U \mid K) \oplus H^k(V \mid L) \to H^k(M \mid K \cup L) \to H^{k+1}(U \cap V \mid K \cap L) \to \cdots$, natural in the pair
+$(K, L)$. Take the colimit over such pairs (Lemma~\ref{poincare-duality:lemma-directed-colimits}). The sets $K \cap L$ are cofinal among compact subsets of $U \cap V$ (take
+$K = L = C$), and the sets $K \cup L$ are cofinal among compact subsets of $M$: given compact $C \subseteq M$, the disjoint closed subsets $C \setminus V$ and $C \setminus U$ of
+the normal space $C$ can be separated, giving an open $W \subseteq C$ with $C \setminus V \subseteq W \subseteq \overline{W} \subseteq U$, and then $K = \overline{W} \subseteq U$
+and $L = C \setminus W \subseteq V$ are compact with $K \cup L = C$. This gives the first sequence; the second is Theorem~\ref{singular-homology:theorem-mayer-vietoris}.
+Commutativity of the squares not involving connecting maps is naturality of the cap product. Commutativity up to sign of the remaining square is
+\cite[Lemma 3.36]{hatcher-at}.
+\end{proof}
+
+\begin{theorem}[Poincar\'e duality]\label{poincare-duality:theorem-poincare-duality}
+For every $R$-oriented $n$-manifold $M$, the duality map $D_M \colon H^k_c(M; R) \to H_{n-k}(M; R)$ is an isomorphism for all $k$. In particular, if $M$ is closed,
+$H^k(M; R) \to H_{n-k}(M; R)$, $\alpha \mapsto [M] \frown \alpha$, is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+Open subsets of $M$ inherit $R$-orientations, and the duality maps are compatible with the maps $H^k_c(U) \to H^k_c(M)$ and $H_{n-k}(U) \to H_{n-k}(M)$ by naturality of
+the cap product. We omit $R$.
+
+\emph{(A) If $D_U$, $D_V$ and $D_{U \cap V}$ are isomorphisms, so is $D_{U \cup V}$.} By Lemma~\ref{poincare-duality:lemma-mayer-vietoris-duality} and the five lemma (signs do
+not affect it).
+
+\emph{(B) If $M = \bigcup_i U_i$ for a family of open sets directed by inclusion and all $D_{U_i}$ are isomorphisms, so is $D_M$.} Every compact subset of $M$ lies in some
+$U_i$, so by cofinality $H^k_c(M) = \colim_i H^k_c(U_i)$. Every singular chain has compact image, so $H_{n-k}(M) = \colim_i H_{n-k}(U_i)$. The duality maps are compatible,
+so $D_M = \colim_i D_{U_i}$ is an isomorphism.
+
+\emph{(C) $M = U \subseteq \RR^n$ convex open.} If $K \subseteq U$ is compact, cover it by finitely many closed balls $D_1, \ldots, D_m \subseteq U$; their convex hull is the image of the
+compact set $\Delta^{m-1} \times D_1 \times \cdots \times D_m$ under $(t, x) \mapsto \sum_j t_jx_j$, hence a compact convex subset of $U$ containing $K$. So compact convex sets $C$ are
+cofinal, and for $x \in C$ the restriction $H^k(U \mid C) \to H^k(U \mid x)$ is an isomorphism (excise to $\RR^n$ and argue as in Step 2 of the proof of
+Lemma~\ref{poincare-duality:lemma-compact-sets}). Hence $H^k_c(U)$ is $0$ for $k \neq n$, and so is $H_{n-k}(U)$, as $U$ is contractible. For $k = n$, $H^n(U \mid C) \cong \Hom(H_n(U \mid C; \ZZ), R)$
+by universal coefficients, and the composite of $D_U$ with the augmentation $H_0(U) \cong R$ sends $\varphi$ to $\varphi(\mu_C)$ by Proposition~\ref{singular-cohomology:proposition-cap}(3)
+(with $\psi = 1$). Since $\mu_C$ is a unit times the image of a generator of $H_n(U \mid C; \ZZ) \cong \ZZ$, this is an isomorphism.
+
+\emph{(D) $M = U \subseteq \RR^n$ open.} Finite unions of convex open sets satisfy duality by (C) and (A), by induction on the number of sets, since
+$(U_1 \cup \cdots \cup U_{m-1}) \cap U_m$ is a union of $m - 1$ convex open sets. The open set $U$ is the union of countably many open balls $B_1, B_2, \ldots$
+(Proposition~\ref{general-topology:proposition-countability}), hence the increasing union of the sets $B_1 \cup \cdots \cup B_m$; apply (B).
+
+\emph{(E) General $M$.} By Zorn's lemma and (B), there is an open $U \subseteq M$ maximal among open sets for which duality holds. If $U \neq M$, choose a chart $V \cong \RR^n$ not contained in
+$U$. Duality holds for $V$ and for $U \cap V$, which is an open subset of $\RR^n$, by (D); so it holds for $U \cup V$ by (A), contradicting maximality.
+\end{proof}
+
+\begin{corollary}\label{poincare-duality:corollary-cup-pairing}
+Let $M$ be a closed $F$-oriented $n$-manifold over a field $F$. The pairing $H^k(M; F) \times H^{n-k}(M; F) \to F$, $(\alpha, \beta) \mapsto \langle \alpha \smile \beta, [M] \rangle$,
+is nondegenerate: $\alpha \mapsto \langle \alpha \smile -, [M] \rangle$ is injective, and it is an isomorphism $H^k(M; F) \cong \Hom_F(H^{n-k}(M; F), F)$ when these spaces are
+finite-dimensional (which is always the case \cite[Appendix]{hatcher-at}).
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{singular-cohomology:proposition-cap}(3), $\langle \alpha \smile \beta, [M] \rangle = \langle \beta, [M] \frown \alpha \rangle$. By the universal coefficient
+theorem over a field, $H^{n-k}(M; F) = \Hom_F(H_{n-k}(M; F), F)$, so $\langle \alpha \smile -, [M] \rangle$ is the functional ``evaluate on $[M] \frown \alpha$'' on this dual space. Since
+$\alpha \mapsto [M] \frown \alpha$ is injective, and a nonzero vector is detected by the dual space, the map is injective; for finite dimensions it is bijective by counting
+dimensions.
+\end{proof}
+
+\begin{corollary}\label{poincare-duality:corollary-euler-odd}
+Let $M$ be a closed $n$-manifold whose integral homology is finitely generated, and define $\chi(M) = \sum_i (-1)^i \operatorname{rank} H_i(M; \ZZ)$. Then
+$\chi(M) = \sum_i(-1)^i\dim_F H_i(M; F)$ for every field $F$, and $\chi(M) = 0$ if $n$ is odd.
+\end{corollary}
+
+\begin{proof}
+By the universal coefficient theorem (Theorem~\ref{singular-homology:theorem-coefficients}), $\dim_F H_i(M; F) = \operatorname{rank} H_i(M) + t_i + t_{i-1}$, where $t_i$ is the number of
+cyclic summands of $H_i(M)$ of order divisible by the characteristic of $F$ (these contribute to $H_i \otimes F$ and to $\Tor_1(H_i, F)$). The $t$ terms cancel in the alternating
+sum. Take $F = \mathbb{F}_2$, for which $M$ is oriented (Proposition~\ref{poincare-duality:proposition-orientation-covering}). By duality and universal coefficients,
+$\dim H_i(M; \mathbb{F}_2) = \dim H^{n-i}(M; \mathbb{F}_2) = \dim H_{n-i}(M; \mathbb{F}_2)$, so $\chi(M) = (-1)^n\chi(M)$.
+\end{proof}
+
+\begin{definition}\label{poincare-duality:definition-intersection-form}
+Let $M$ be a closed oriented manifold of dimension $4m$. The \emph{intersection form} is the symmetric bilinear form $Q(\alpha, \beta) = \langle \alpha \smile \beta, [M] \rangle$ on
+$H^{2m}(M; \RR)$; it is nondegenerate by Corollary~\ref{poincare-duality:corollary-cup-pairing}, and symmetric by Theorem~\ref{singular-cohomology:theorem-graded-commutative}. Its
+\emph{signature} $\sigma(M)$ is the number of positive minus the number of negative eigenvalues. On the free group $H^{2m}(M; \ZZ)/\mathrm{torsion}$ the integral form is
+unimodular (determinant $\pm 1$) \cite[Proposition 3.38]{hatcher-at}. In dimension $4m + 2$ the form on $H^{2m+1}$ is skew-symmetric and nondegenerate.
+\end{definition}
+
+\begin{example}\label{poincare-duality:example-intersection-forms}
+\begin{enumerate}
+\item For $\CC\PP^2$ with the orientation for which $\langle \alpha^2, [\CC\PP^2]\rangle = 1$, $Q = (1)$ and $\sigma = 1$. For $S^2 \times S^2$, in the basis $a, b$ of
+Example~\ref{singular-cohomology:example-torus}, $Q = \left(\begin{smallmatrix} 0 & 1 \\ 1 & 0 \end{smallmatrix}\right)$ and $\sigma = 0$. The connected sum
+$\CC\PP^2 \# \overline{\CC\PP^2}$ (with reversed orientation on the second summand) has the same Betti numbers as $S^2 \times S^2$, but its integral form is
+$\operatorname{diag}(1, -1)$, which takes odd values, whereas the form of $S^2 \times S^2$ takes only even values on the diagonal; so the forms are not isomorphic over $\ZZ$
+and the two manifolds are not homotopy equivalent.
+\item (Cohomology of $\CC\PP^n$ via duality.) The inclusion $\CC\PP^{n-1} \to \CC\PP^n$ is an isomorphism on $H^i$ for $i \leq 2n - 2$ by cellular cohomology. By induction on $n$,
+$\alpha^{n-1}$ generates $H^{2n-2}(\CC\PP^n)$. Since $\CC\PP^n$ is a closed simply connected manifold, it is orientable, and by unimodularity of the pairing
+$H^2 \times H^{2n-2} \to H^{2n} \cong \ZZ$ between free groups of rank $1$, $\alpha \smile \alpha^{n-1}$ generates $H^{2n}$. This proves the part of
+Theorem~\ref{singular-cohomology:theorem-projective-spaces} about $\CC\PP^n$; the argument for $\RR\PP^n$ with $\mathbb{F}_2$-coefficients is the same.
+\end{enumerate}
+\end{example}
+
+\section{Other dualities}\label{poincare-duality:section-other-dualities}
+
+\begin{theorem}[Lefschetz duality]\label{poincare-duality:theorem-lefschetz-duality}
+Let $M$ be a compact $R$-orientable $n$-manifold with boundary. There is a fundamental class $[M] \in H_n(M, \partial M; R)$ restricting to local orientations, and cap product with it
+gives isomorphisms $H^k(M, \partial M; R) \cong H_{n-k}(M; R)$ and $H^k(M; R) \cong H_{n-k}(M, \partial M; R)$.
+\end{theorem}
+
+This is \cite[Theorem 3.43]{hatcher-at}; the proof uses a collar neighbourhood of $\partial M$ to reduce to Theorem~\ref{poincare-duality:theorem-poincare-duality} for the
+interior of $M$.
+
+\begin{theorem}[Alexander duality]\label{poincare-duality:theorem-alexander-duality}
+Let $K \subsetneq S^n$ be a compact, locally contractible, nonempty subspace. Then $\tilde{H}_i(S^n \setminus K; \ZZ) \cong \tilde{H}^{n-i-1}(K; \ZZ)$ for all $i$.
+\end{theorem}
+
+This is \cite[Theorem 3.44]{hatcher-at}. The idea: $\tilde{H}_i(S^n \setminus K) \cong H^{n-i}_c(S^n \setminus K)$ by duality, and $H^{n-i}_c(S^n \setminus K)$ is the colimit of
+$H^{n-i}(S^n, U)$ over open neighbourhoods $U$ of $K$, which for locally contractible $K$ is $H^{n-i}(S^n, K) \cong \tilde{H}^{n-i-1}(K)$.
+
+\begin{corollary}[Jordan--Brouwer separation theorem]\label{poincare-duality:corollary-jordan-brouwer}
+If $K \subseteq S^n$ is homeomorphic to $S^{n-1}$, then $S^n \setminus K$ has exactly two path components. If $K$ is homeomorphic to $D^k$, then $S^n \setminus K$ is path-connected.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{poincare-duality:theorem-alexander-duality}, $\tilde{H}_0(S^n \setminus K) \cong \tilde{H}^{n-1}(S^{n-1}) \cong \ZZ$, respectively $\tilde{H}^{n-1}(D^k) = 0$. Since $S^n \setminus K$ is
+an open subset of a manifold, its path components are its components, and $\tilde{H}_0$ is free of rank one less than their number
+(Proposition~\ref{singular-homology:proposition-h0-point}).
+\end{proof}
+
+\section{Borel--Moore homology and fundamental classes}\label{poincare-duality:section-borel-moore}
+
+\begin{remark}\label{poincare-duality:remark-borel-moore}
+For a locally compact space $X$, \emph{Borel--Moore homology} $H^{BM}_i(X; R)$ is the homology of locally finite, possibly infinite, singular chains; for reasonable $X$ (for
+instance a closed subspace of a manifold that is locally contractible, or a CW pair) it can be computed as $H_i(X^+, \{\infty\}; R)$, where $X^+$ is the one-point
+compactification. It is covariant for proper maps, contravariant for open inclusions, and a manifold $M$ oriented over $R$ has a fundamental class $[M] \in H^{BM}_n(M; R)$ even
+when it is not compact, with $H^k(M; R) \cong H^{BM}_{n-k}(M; R)$. If $Z$ is a closed subset of an $R$-oriented $n$-manifold $M$, then
+\[
+H^{BM}_i(Z; R) \cong H^{n-i}(M, M \setminus Z; R),
+\]
+which for $Z = M$ is the duality above. See \cite[Chapter V]{bredon-sheaf}, \cite{iversen-sheaves} and \cite[Chapter 19]{fulton-intersection}.
+\end{remark}
+
+\begin{remark}\label{poincare-duality:remark-fundamental-classes-subspaces}
+These isomorphisms produce cohomology classes from subspaces. If $N \subseteq M$ is a closed oriented submanifold of dimension $d$ (or, more generally, a closed subspace of
+``dimension'' $d$ with a fundamental class $[N] \in H^{BM}_d(N; R)$), its image under $H^{BM}_d(N) \cong H^{n-d}(M, M \setminus N) \to H^{n-d}(M)$ is the \emph{cohomology class of $N$}.
+When $N$ and $M$ are compact it is the Poincar\'e dual of $i_*[N] \in H_d(M)$. A complex subvariety $Z$ of complex dimension $d$ of a complex manifold of dimension $m$ has a
+fundamental class in $H^{BM}_{2d}(Z; \ZZ)$ because its singular locus has real codimension at least $2$; this gives the \emph{cycle class} $[Z] \in H^{2m-2d}(X; \ZZ)$ of
+Chapter~\ref{cycle-class}, and the Hodge conjecture asks which rational classes are combinations of such $[Z]$. Under these identifications, cup product corresponds to
+intersection of cycles meeting transversally.
+\end{remark}
+
+\section{Exercises}\label{poincare-duality:section-exercises}
+
+\begin{exercise}\label{poincare-duality:exercise-torsion-top}
+Let $M$ be a closed connected $n$-manifold with finitely generated homology. Show that the torsion subgroup of $H_{n-1}(M; \ZZ)$ is $0$ if $M$ is orientable and $\ZZ/2\ZZ$ otherwise.
+\end{exercise}
+
+\begin{solution}
+By universal coefficients, $H_n(M; \ZZ/m) \cong H_n(M) \otimes \ZZ/m \oplus \Tor_1(H_{n-1}(M), \ZZ/m)$, and $\Tor_1(\ZZ/a, \ZZ/m) \cong \ZZ/\gcd(a, m)$. If $M$ is orientable, $H_n(M) = \ZZ$ and
+$H_n(M; \ZZ/m) \cong \ZZ/m$ (Theorem~\ref{poincare-duality:theorem-fundamental-class}), so all $\Tor_1(H_{n-1}, \ZZ/m)$ vanish and $H_{n-1}$ is torsion-free. Otherwise $H_n(M) = 0$ and
+$H_n(M; \ZZ/m) \cong \{r : 2r = 0\}$: for $m$ an odd prime this is $0$, so there is no odd torsion; for $m = 2$ it is $\ZZ/2$, so there is exactly one cyclic summand of even order; for
+$m = 4$ it is $\ZZ/2$, which forces that summand to be $\ZZ/2$.
+\end{solution}
+
+\begin{exercise}\label{poincare-duality:exercise-projective-orientability}
+Show that $\RR\PP^n$ is orientable if and only if $n$ is odd.
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{singular-homology:example-cellular-computations}, $H_n(\RR\PP^n; \ZZ)$ is $\ZZ$ for $n$ odd and $0$ for $n$ even; apply
+Theorem~\ref{poincare-duality:theorem-fundamental-class}.
+\end{solution}
+
+\begin{exercise}\label{poincare-duality:exercise-homology-sphere}
+Show that a closed simply connected $3$-manifold has the homology of $S^3$.
+\end{exercise}
+
+\begin{solution}
+It is orientable (Proposition~\ref{poincare-duality:proposition-orientation-covering}), so $H_3 \cong \ZZ$ and $H_i = 0$ for $i > 3$. $H_1 = \pi_1^{\mathrm{ab}} = 0$. By duality
+$H_2 \cong H^1 \cong \Hom(H_1, \ZZ) \oplus \Ext^1(H_0, \ZZ) = 0$.
+\end{solution}
+
+\begin{exercise}\label{poincare-duality:exercise-signature-product}
+Show that $\sigma(M) = 0$ if $M$ admits an orientation-reversing self-homeomorphism, and compute the intersection form of $T^4$.
+\end{exercise}
+
+\begin{exercise}\label{poincare-duality:exercise-knot-complement}
+Let $K \subseteq S^3$ be homeomorphic to $S^1$. Show that $H_1(S^3 \setminus K; \ZZ) \cong \ZZ$ and $H_2(S^3 \setminus K; \ZZ) = 0$.
+\end{exercise}
