@@ -1,24 +1,22 @@
 \chapter{Categories}\label{categories}
-\chapterstatus{draft}
+\chapterstatus{complete}
 
 \section{Introduction}\label{categories:section-introduction}
 
 Category theory is the language in which most of this project is written.
-This chapter introduces categories, functors and natural transformations, and
-proves the Yoneda lemma.
+This chapter introduces categories, functors and natural transformations,
+proves the Yoneda lemma, and develops equivalences, limits and colimits,
+adjoint functors, filtered colimits and additive categories. Abelian
+categories are treated in Chapter~\ref{homological-algebra}.
+
+Categories, functors and natural transformations were introduced in
+\cite{eilenberg-maclane-1945}, and adjoint functors in \cite{kan-1958}.
+Standard references are \cite{maclane-categories} and \cite{riehl-context};
+\cite{kashiwara-schapira} and the chapter on categories of
+\cite{stacks-project} treat set-theoretic questions with universes, as we do.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{sets} (Set Theory), in
-particular the notion of a Grothendieck universe.
-
-\noindent\textbf{Still to be written.}
-\begin{itemize}
-\item Equivalences of categories.
-\item Limits and colimits; products, fibre products, equalisers.
-\item Adjoint functors and their relation to limits.
-\item Filtered colimits.
-\item Additive categories (abelian categories are treated in
-Chapter~\ref{homological-algebra}).
-\end{itemize}
+particular the axiom of choice and Grothendieck universes.
 
 Throughout, $\mathcal{U}$ is the universe fixed in
 Notation~\ref{introduction:notation-universe}, and a set is \emph{small} if it
@@ -637,6 +635,579 @@ this is a bijection $\Hom_{\Sets}(S, \{0, 1\}) \to \mathcal{P}(S)$: its inverse
 sends a subset $A \subseteq S$ to its indicator function.
 \end{example}
 
+\section{Equivalences of categories}\label{categories:section-equivalences}
+
+\begin{definition}\label{categories:definition-equivalence}
+A functor $F \colon \mathcal{C} \to \mathcal{D}$ is an \emph{equivalence of
+categories} if there are a functor $G \colon \mathcal{D} \to \mathcal{C}$ and natural
+isomorphisms $G \circ F \Rightarrow \id_{\mathcal{C}}$ and
+$F \circ G \Rightarrow \id_{\mathcal{D}}$; such a $G$ is a \emph{quasi-inverse} of
+$F$. It is an \emph{isomorphism of categories} if moreover $G \circ F = \id_{\mathcal{C}}$
+and $F \circ G = \id_{\mathcal{D}}$. Two categories are \emph{equivalent} if there is an
+equivalence between them.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-equivalence-fully-faithful}
+An equivalence of categories is fully faithful and essentially surjective.
+\end{lemma}
+
+\begin{proof}
+Let $G$, $\eta \colon GF \Rightarrow \id$ and $\varepsilon \colon FG \Rightarrow \id$ be as
+in Definition~\ref{categories:definition-equivalence}. Every $Y \in \mathcal{D}$ is
+isomorphic to $F(G(Y))$ via $\varepsilon_Y$, so $F$ is essentially surjective.
+For $f \colon X \to X'$, naturality of $\eta$ gives
+$f = \eta_{X'} \circ GF(f) \circ \eta_X^{-1}$; so $F(f)$ determines $f$ and $F$ is
+faithful. By symmetry $G$ is faithful. Let $g \colon F(X) \to F(X')$ and put
+$f = \eta_{X'} \circ G(g) \circ \eta_X^{-1}$. By the same formula applied to $f$,
+$GF(f) = \eta_{X'}^{-1} \circ f \circ \eta_X = G(g)$, and since $G$ is faithful,
+$F(f) = g$. So $F$ is full.
+\end{proof}
+
+\begin{theorem}\label{categories:theorem-equivalence-criterion}
+A functor $F \colon \mathcal{C} \to \mathcal{D}$ is an equivalence of categories if
+and only if it is fully faithful and essentially surjective.
+\end{theorem}
+
+\begin{proof}
+One direction is Lemma~\ref{categories:lemma-equivalence-fully-faithful}.
+Conversely, for each $Y \in \mathcal{D}$ the set of pairs $(X, e)$ with
+$X \in \mathcal{C}$ and $e \colon F(X) \to Y$ an isomorphism is nonempty. By the axiom
+of choice (Definition~\ref{sets:definition-choice}) we may choose such a pair
+$(G(Y), \varepsilon_Y)$ for every $Y$. For $g \colon Y \to Y'$, let $G(g)$ be the
+unique morphism $G(Y) \to G(Y')$ with
+$F(G(g)) = \varepsilon_{Y'}^{-1} \circ g \circ \varepsilon_Y$; it exists and is unique
+because $F$ is fully faithful. By uniqueness, $G$ preserves identities and
+composition, and by construction $\varepsilon \colon FG \Rightarrow \id_{\mathcal{D}}$ is
+a natural isomorphism.
+
+For $X \in \mathcal{C}$ let $\eta_X \colon GF(X) \to X$ be the unique morphism with
+$F(\eta_X) = \varepsilon_{F(X)}$. It is an isomorphism by
+Lemma~\ref{categories:lemma-fully-faithful-reflects-isomorphisms}. For
+$f \colon X \to X'$ we have $F(f \circ \eta_X) = F(f) \circ \varepsilon_{F(X)}$ and
+$F(\eta_{X'} \circ GF(f)) = \varepsilon_{F(X')} \circ \varepsilon_{F(X')}^{-1} \circ F(f) \circ \varepsilon_{F(X)}$,
+which are equal; as $F$ is faithful, $\eta$ is natural.
+\end{proof}
+
+\begin{example}\label{categories:example-matrices}
+Let $k$ be a field, and let $\cat{Mat}_k$ be the category whose objects are the
+natural numbers, whose morphisms $n \to m$ are the $m \times n$ matrices with
+entries in $k$, and whose composition is matrix multiplication. The functor
+from $\cat{Mat}_k$ to the category of finite-dimensional vector spaces sending
+$n$ to $k^n$ and a matrix to the corresponding linear map is fully faithful,
+and essentially surjective because every finite-dimensional vector space has
+a basis. So it is an equivalence: linear algebra of finite-dimensional spaces
+is ``the same'' as matrix algebra.
+\end{example}
+
+\begin{counterexample}\label{categories:counterexample-equivalence-not-isomorphism}
+Equivalent categories need not be isomorphic. Let $\cat{FinSet}$ be the category of
+finite small sets and maps, and $\mathcal{N}$ its full subcategory whose objects are
+the natural numbers. Every finite set is isomorphic to a natural number
+(Definition~\ref{sets:definition-finite}), so the inclusion
+$\mathcal{N} \to \cat{FinSet}$ is fully faithful and essentially surjective, hence an
+equivalence. But an isomorphism of categories is a bijection on objects, and
+$\Ob(\mathcal{N}) = \omega$ is countable while $\Ob(\cat{FinSet})$ contains the
+singletons $\{x\}$ for all $x \in \mathcal{U}$, and $\mathcal{U}$ is uncountable
+since it contains the uncountable set $\RR$ as a subset.
+\end{counterexample}
+
+\section{Limits}\label{categories:section-limits}
+
+\begin{definition}\label{categories:definition-limit}
+Let $\mathcal{I}$ be a small category and $F \colon \mathcal{I} \to \mathcal{C}$ a
+functor, called a \emph{diagram} of shape $\mathcal{I}$. A \emph{cone} over $F$ is
+an object $L$ together with morphisms $\lambda_i \colon L \to F(i)$ for all
+$i \in \mathcal{I}$ such that $F(u) \circ \lambda_i = \lambda_j$ for every
+$u \colon i \to j$. A \emph{limit} of $F$ is a cone $(L, \lambda)$ such that for
+every cone $(M, \mu)$ there is a unique morphism $m \colon M \to L$ with
+$\lambda_i \circ m = \mu_i$ for all $i$. We write $L = \lim F$ or
+$\lim_{i \in \mathcal{I}} F(i)$.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-limit-unique}
+If $(L, \lambda)$ and $(L', \lambda')$ are limits of $F$, there is a unique
+morphism $m \colon L' \to L$ with $\lambda_i \circ m = \lambda'_i$ for all $i$, and it
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Existence and uniqueness of $m$ is the definition. Let $m' \colon L \to L'$ be the
+morphism given by the universal property of $L'$. Then $m \circ m'$ and $\id_L$
+are both morphisms of cones from $(L, \lambda)$ to itself, so they are equal by
+uniqueness; similarly $m' \circ m = \id_{L'}$.
+\end{proof}
+
+\begin{example}\label{categories:example-limits}
+\begin{enumerate}
+\item If $\mathcal{I}$ is empty, a limit is a \emph{terminal object}: an object
+$T$ such that every object has exactly one morphism to $T$.
+\item If $\mathcal{I}$ is a discrete category, a limit of $(X_i)_{i \in \mathcal{I}}$ is a
+\emph{product} $\prod_i X_i$ with projections $p_i$.
+\item If $\mathcal{I}$ has two objects $0, 1$ and two non-identity morphisms
+$u, v \colon 0 \to 1$, a diagram is a pair of parallel morphisms
+$f, g \colon X \to Y$, and a limit is an \emph{equaliser}: a morphism
+$e \colon E \to X$ with $fe = ge$ through which every $h$ with $fh = gh$ factors
+uniquely.
+\item If $\mathcal{I}$ is $1 \to 0 \leftarrow 2$, a diagram is a pair
+$f \colon X \to Z$, $g \colon Y \to Z$, and a limit is a \emph{fibre product}
+$X \times_Z Y$.
+\item If $\mathcal{I}$ is the poset $\NN$ with the opposite order, a limit of a
+sequence $\cdots \to X_2 \to X_1 \to X_0$ is an \emph{inverse limit}.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{categories:definition-has-limits}
+A category \emph{has limits} (respectively \emph{finite limits}) if every
+diagram $F \colon \mathcal{I} \to \mathcal{C}$ with $\mathcal{I}$ small (respectively
+with finitely many morphisms) has a limit. A functor $G \colon \mathcal{C} \to \mathcal{D}$
+\emph{preserves} the limit $(L, \lambda)$ of $F$ if $(G(L), G(\lambda))$ is a limit
+of $G \circ F$.
+\end{definition}
+
+\begin{proposition}\label{categories:proposition-limits-sets}
+$\Sets$ has limits. For $F \colon \mathcal{I} \to \Sets$ with $\mathcal{I}$ small, a limit
+is
+\[
+\lim F = \Bigl\{(x_i) \in \prod_{i \in \Ob(\mathcal{I})} F(i) : F(u)(x_i) = x_j \text{ for all } u \colon i \to j\Bigr\}
+\]
+with the projections $\lambda_i((x_k)_k) = x_i$.
+\end{proposition}
+
+\begin{proof}
+The set $\lim F$ is small by Lemma~\ref{sets:lemma-universe-closure}, and it
+is a cone by construction. If $(M, \mu)$ is a cone, the map
+$m(y) = (\mu_i(y))_i$ lands in $\lim F$, satisfies $\lambda_i \circ m = \mu_i$, and is
+the only such map.
+\end{proof}
+
+\begin{theorem}\label{categories:theorem-limits-products-equalisers}
+If $\mathcal{C}$ has products indexed by small sets and equalisers, then it has
+limits. If $\mathcal{C}$ has a terminal object, binary products and equalisers,
+then it has finite limits.
+\end{theorem}
+
+\begin{proof}
+Let $F \colon \mathcal{I} \to \mathcal{C}$ be a diagram. Let $P = \prod_{i} F(i)$ over the
+objects of $\mathcal{I}$, and $Q = \prod_{u} F(t(u))$ over all morphisms
+$u \colon s(u) \to t(u)$ of $\mathcal{I}$, with projections $p_i$ and $q_u$. Define
+$a, b \colon P \to Q$ by $q_u \circ a = F(u) \circ p_{s(u)}$ and
+$q_u \circ b = p_{t(u)}$. Let $e \colon L \to P$ be an equaliser of $a$ and $b$, and
+$\lambda_i = p_i \circ e$. The equation $ae = be$ says exactly that
+$F(u) \circ \lambda_{s(u)} = \lambda_{t(u)}$ for all $u$, so $(L, \lambda)$ is a cone.
+If $(M, \mu)$ is a cone, the morphism $\mu \colon M \to P$ with $p_i \circ \mu = \mu_i$
+satisfies $a\mu = b\mu$, so it factors uniquely as $\mu = e \circ m$; and a morphism
+$m$ satisfies $\lambda_i \circ m = \mu_i$ for all $i$ if and only if $e \circ m = \mu$.
+So $(L, \lambda)$ is a limit. If $\mathcal{I}$ is finite, only finite products are
+needed, and these can be built from binary products and a terminal object (the
+empty product) by induction.
+\end{proof}
+
+\begin{proposition}\label{categories:proposition-hom-limits}
+Let $\mathcal{C}$ be locally small, $F \colon \mathcal{I} \to \mathcal{C}$ a diagram and
+$(L, \lambda)$ a cone over $F$. Then $(L, \lambda)$ is a limit if and only if for
+every $X \in \mathcal{C}$ the map
+\[
+\Hom_{\mathcal{C}}(X, L) \longrightarrow \lim_{i \in \mathcal{I}} \Hom_{\mathcal{C}}(X, F(i)),
+\qquad m \longmapsto (\lambda_i \circ m)_i
+\]
+is a bijection, where the right-hand side is the limit in $\Sets$ of
+Proposition~\ref{categories:proposition-limits-sets}. In particular the functors
+$h^X = \Hom_{\mathcal{C}}(X, -)$ preserve all limits.
+\end{proposition}
+
+\begin{proof}
+An element of the right-hand side is exactly a cone with vertex $X$, so
+bijectivity for all $X$ is the definition of a limit.
+\end{proof}
+
+\begin{proposition}\label{categories:proposition-limits-functor-categories}
+Let $\mathcal{A}$ be a category and suppose that $\mathcal{C}$ has limits of shape
+$\mathcal{I}$. Then $\Fun(\mathcal{A}, \mathcal{C})$ has limits of shape $\mathcal{I}$,
+computed pointwise: for $F \colon \mathcal{I} \to \Fun(\mathcal{A}, \mathcal{C})$ there is a
+limit $L$ with $L(a) = \lim_i F(i)(a)$ for all $a \in \mathcal{A}$.
+\end{proposition}
+
+\begin{proof}
+For each $a$ choose a limit $(L(a), \lambda^a)$ of $i \mapsto F(i)(a)$. For
+$f \colon a \to a'$, the morphisms $F(i)(f) \circ \lambda^a_i$ form a cone over
+$i \mapsto F(i)(a')$ (by naturality of the $F(u)$), so there is a unique
+$L(f) \colon L(a) \to L(a')$ with $\lambda^{a'}_i \circ L(f) = F(i)(f) \circ \lambda^a_i$.
+Uniqueness shows that $L$ is a functor and that the $\lambda_i = (\lambda^a_i)_a$ are
+natural transformations $L \Rightarrow F(i)$ forming a cone. If $(M, \mu)$ is a cone in
+the functor category, then for each $a$ there is a unique $m_a$ with
+$\lambda^a_i \circ m_a = \mu_{i,a}$, and uniqueness again shows that $m = (m_a)_a$ is
+natural; it is the unique morphism of cones.
+\end{proof}
+
+\begin{counterexample}\label{categories:counterexample-fields-products}
+The category $\cat{Field}$ of small fields and ring homomorphisms does not have
+binary products. First, a ring homomorphism $f \colon K \to K'$ between fields is
+injective: if $f(a) = 0$ with $a \neq 0$ then $1 = f(a)f(a^{-1}) = 0$. Let
+$\mathbb{F}_2 = \{0, 1\}$ be the field with $1 + 1 = 0$. If $P$ were a product of
+$\QQ$ and $\mathbb{F}_2$, there would be homomorphisms $P \to \QQ$ and
+$P \to \mathbb{F}_2$. The second one sends $1 + 1$ to $0$, so $1 + 1 = 0$ in $P$ by
+injectivity; but then the first one sends $0$ to $2 \neq 0$.
+\end{counterexample}
+
+\section{Colimits}\label{categories:section-colimits}
+
+\begin{definition}\label{categories:definition-colimit}
+A \emph{cocone} under a diagram $F \colon \mathcal{I} \to \mathcal{C}$ is an object $C$
+with morphisms $\gamma_i \colon F(i) \to C$ such that $\gamma_j \circ F(u) = \gamma_i$ for
+all $u \colon i \to j$. A \emph{colimit} is a cocone $(C, \gamma)$ such that for every
+cocone $(D, \delta)$ there is a unique $m \colon C \to D$ with $m \circ \gamma_i = \delta_i$
+for all $i$. We write $C = \colim F$.
+\end{definition}
+
+\begin{remark}\label{categories:remark-colimits-dual}
+A colimit of $F$ is the same thing as a limit of the corresponding diagram
+$\mathcal{I}^{\op} \to \mathcal{C}^{\op}$. By duality
+(Remark~\ref{categories:remark-duality}), all results of
+Section~\ref{categories:section-limits} have colimit versions: colimits are
+unique up to unique isomorphism, colimits can be built from coproducts and
+coequalisers, and $(C, \gamma)$ is a colimit if and only if
+$\Hom(C, X) \to \lim_i \Hom(F(i), X)$ is bijective for all $X$. The colimit
+analogues of the examples in Example~\ref{categories:example-limits} are
+\emph{initial objects}, \emph{coproducts} $\coprod_i X_i$, \emph{coequalisers},
+\emph{pushouts} $X \sqcup_Z Y$ and \emph{direct limits}.
+\end{remark}
+
+\begin{proposition}\label{categories:proposition-colimits-sets}
+$\Sets$ has colimits. For $F \colon \mathcal{I} \to \Sets$ with $\mathcal{I}$ small, let
+$\sim$ be the smallest equivalence relation on
+$\coprod_i F(i) = \{(i, x) : i \in \Ob(\mathcal{I}), x \in F(i)\}$ with
+$(i, x) \sim (j, F(u)(x))$ for all $u \colon i \to j$ and $x \in F(i)$. Then
+$\colim F = (\coprod_i F(i))/{\sim}$, with $\gamma_i(x) = [(i, x)]$.
+\end{proposition}
+
+\begin{proof}
+The smallest equivalence relation containing a relation $R$ exists: it is the
+intersection of all equivalence relations containing $R$, a subset of the
+square of the set. The maps $\gamma_i$ form a cocone by construction. A cocone
+$(D, \delta)$ gives a map $\coprod_i F(i) \to D$, $(i, x) \mapsto \delta_i(x)$, whose
+fibres define an equivalence relation containing the generating relation; so
+it factors uniquely through the quotient
+(Proposition~\ref{sets:proposition-quotient-property}).
+\end{proof}
+
+\begin{example}\label{categories:example-colimits}
+In $\Sets$, the coproduct is the disjoint union, and the initial object is
+$\emptyset$. In the category of abelian groups the coproduct of a family is its
+direct sum, and in the category of groups it is the free product; these are
+constructed in Chapter~\ref{groups}.
+\end{example}
+
+\section{Adjoint functors}\label{categories:section-adjunctions}
+
+In this section all categories are locally small.
+
+\begin{definition}\label{categories:definition-adjunction}
+An \emph{adjunction} between functors $F \colon \mathcal{C} \to \mathcal{D}$ and
+$G \colon \mathcal{D} \to \mathcal{C}$ is a family of bijections
+\[
+\varphi_{X,Y} \colon \Hom_{\mathcal{D}}(F(X), Y) \longrightarrow \Hom_{\mathcal{C}}(X, G(Y))
+\]
+for $X \in \mathcal{C}$, $Y \in \mathcal{D}$, natural in $X$ and $Y$: for
+$f \colon X' \to X$, $g \colon F(X) \to Y$ and $h \colon Y \to Y'$,
+$\varphi(g \circ F(f)) = \varphi(g) \circ f$ and $\varphi(h \circ g) = G(h) \circ \varphi(g)$.
+We say $F$ is \emph{left adjoint} to $G$, and $G$ \emph{right adjoint} to $F$,
+written $F \dashv G$. The \emph{unit} and \emph{counit} are
+$\eta_X = \varphi(\id_{F(X)}) \colon X \to GF(X)$ and
+$\varepsilon_Y = \varphi^{-1}(\id_{G(Y)}) \colon FG(Y) \to Y$.
+\end{definition}
+
+\begin{proposition}\label{categories:proposition-unit-counit}
+Let $F \dashv G$. Then $\eta \colon \id_{\mathcal{C}} \Rightarrow GF$ and
+$\varepsilon \colon FG \Rightarrow \id_{\mathcal{D}}$ are natural, $\varphi(g) = G(g) \circ \eta_X$,
+$\varphi^{-1}(f) = \varepsilon_Y \circ F(f)$, and the \emph{triangle identities}
+\[
+\varepsilon_{F(X)} \circ F(\eta_X) = \id_{F(X)}, \qquad
+G(\varepsilon_Y) \circ \eta_{G(Y)} = \id_{G(Y)}
+\]
+hold. Conversely, if $\eta \colon \id \Rightarrow GF$ and $\varepsilon \colon FG \Rightarrow \id$
+are natural transformations satisfying the triangle identities, then
+$\varphi(g) = G(g) \circ \eta_X$ defines an adjunction with unit $\eta$ and counit
+$\varepsilon$.
+\end{proposition}
+
+\begin{proof}
+By naturality in $Y$, $\varphi(g) = \varphi(g \circ \id_{F(X)}) = G(g) \circ \varphi(\id_{F(X)}) = G(g) \circ \eta_X$.
+By naturality in $X$, for $f \colon X \to G(Y)$,
+$\varphi^{-1}(f) = \varphi^{-1}(\id_{G(Y)} \circ f) = \varphi^{-1}(\id_{G(Y)}) \circ F(f) = \varepsilon_Y \circ F(f)$.
+Naturality of $\eta$: for $f \colon X' \to X$,
+$GF(f) \circ \eta_{X'} = \varphi(F(f)) = \varphi(\id_{F(X)} \circ F(f)) = \eta_X \circ f$;
+naturality of $\varepsilon$ is dual. The triangle identities are
+$\varphi^{-1}(\eta_X) = \id_{F(X)}$ and $\varphi(\varepsilon_Y) = \id_{G(Y)}$.
+
+Conversely, define $\varphi(g) = G(g) \circ \eta_X$ and $\psi(f) = \varepsilon_Y \circ F(f)$.
+Then $\psi(\varphi(g)) = \varepsilon_Y \circ FG(g) \circ F(\eta_X) = g \circ \varepsilon_{F(X)} \circ F(\eta_X) = g$
+by naturality of $\varepsilon$ and the first triangle identity, and similarly
+$\varphi(\psi(f)) = f$. Naturality of $\varphi$ in $X$ follows from naturality of
+$\eta$, and in $Y$ from functoriality of $G$.
+\end{proof}
+
+\begin{proposition}\label{categories:proposition-adjoint-unique}
+If $G$ and $G'$ are both right adjoint to $F$, there is a unique natural
+isomorphism $\theta \colon G \Rightarrow G'$ compatible with the adjunction bijections,
+that is, with $\varphi'_{X,Y} = \Hom(X, \theta_Y) \circ \varphi_{X,Y}$.
+\end{proposition}
+
+\begin{proof}
+For fixed $Y$, the bijections $\varphi'_{X,Y} \circ \varphi_{X,Y}^{-1} \colon
+\Hom(X, G(Y)) \to \Hom(X, G'(Y))$ are natural in $X$, so they form a natural
+isomorphism $h_{G(Y)} \Rightarrow h_{G'(Y)}$. By
+Corollary~\ref{categories:corollary-yoneda-embedding} it is $h_{\theta_Y}$ for a
+unique $\theta_Y \colon G(Y) \to G'(Y)$, which is an isomorphism because the Yoneda
+embedding is fully faithful
+(Lemma~\ref{categories:lemma-fully-faithful-reflects-isomorphisms}). Naturality in
+$Y$ follows from naturality of $\varphi$ and $\varphi'$ in $Y$ and faithfulness of the
+Yoneda embedding.
+\end{proof}
+
+\begin{theorem}\label{categories:theorem-adjoints-preserve-limits}
+A right adjoint preserves all limits that exist, and a left adjoint preserves
+all colimits that exist.
+\end{theorem}
+
+\begin{proof}
+Let $F \dashv G$ and let $(L, \lambda)$ be a limit of $D \colon \mathcal{I} \to \mathcal{D}$.
+For every $X \in \mathcal{C}$ we have bijections, natural in $X$,
+\[
+\Hom(X, G(L)) \cong \Hom(F(X), L) \cong \lim_i \Hom(F(X), D(i)) \cong \lim_i \Hom(X, G(D(i))),
+\]
+by Proposition~\ref{categories:proposition-hom-limits} in the middle. By
+naturality of $\varphi$ in $Y$, the composite sends $m$ to $(G(\lambda_i) \circ m)_i$.
+So $(G(L), G(\lambda))$ is a limit by
+Proposition~\ref{categories:proposition-hom-limits}. The statement about left
+adjoints follows by duality.
+\end{proof}
+
+\begin{example}\label{categories:example-adjunctions}
+\begin{enumerate}
+\item \emph{Free monoids.} For a small set $S$, let $W(S)$ be the set of finite
+sequences of elements of $S$, a monoid under concatenation with the empty
+sequence as unit. A map $f \colon S \to M$ to a monoid extends uniquely to a
+homomorphism $W(S) \to M$, namely $(s_1, \ldots, s_n) \mapsto f(s_1) \cdots f(s_n)$.
+This gives an adjunction $W \dashv U$, where $U \colon \cat{Mon} \to \Sets$ is
+the forgetful functor. Similarly, free groups, free abelian groups and free
+modules are left adjoints of forgetful functors (Chapters~\ref{groups}
+and~\ref{rings}).
+\item \emph{Products and maps.} For a small set $B$, the functor $- \times B$ on
+$\Sets$ is left adjoint to $(-)^B$: the bijection
+$\Hom(A \times B, C) \cong \Hom(A, C^B)$ of Exercise~\ref{sets:exercise-currying} is
+natural in $A$ and $C$.
+\item \emph{Topology.} The forgetful functor $\cat{Top} \to \Sets$ has a left
+adjoint (discrete topology) and a right adjoint (indiscrete topology).
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{categories:counterexample-fields-no-left-adjoint}
+The forgetful functor $U \colon \cat{Field} \to \Sets$ has no left adjoint. A left
+adjoint $L$ would preserve colimits by
+Theorem~\ref{categories:theorem-adjoints-preserve-limits}, in particular initial
+objects, so $L(\emptyset)$ would be an initial field. But an initial field would
+admit homomorphisms to $\QQ$ and to $\mathbb{F}_2$, which is impossible by the
+argument of Counterexample~\ref{categories:counterexample-fields-products}.
+\end{counterexample}
+
+\section{Filtered colimits}\label{categories:section-filtered-colimits}
+
+\begin{definition}\label{categories:definition-filtered}
+A category $\mathcal{I}$ is \emph{filtered} if it is nonempty, for all objects
+$i, j$ there are an object $k$ and morphisms $i \to k$ and $j \to k$, and for all
+morphisms $u, v \colon i \to j$ there is a morphism $w \colon j \to k$ with
+$w \circ u = w \circ v$. A \emph{filtered colimit} is a colimit of a diagram whose
+shape is a small filtered category.
+\end{definition}
+
+\begin{example}\label{categories:example-directed}
+A preordered set $I$ is \emph{directed} if it is nonempty and every two elements
+have a common upper bound. Viewed as a category
+(Example~\ref{categories:example-preorder}), a directed set is filtered, the
+third condition being automatic. For example $\NN$ is directed, and the set of
+open neighbourhoods of a point in a topological space, ordered by reverse
+inclusion, is directed; colimits over it define stalks of sheaves
+(Chapter~\ref{sheaves}).
+\end{example}
+
+\begin{lemma}\label{categories:lemma-filtered-finite}
+Let $\mathcal{I}$ be filtered.
+\begin{enumerate}
+\item For finitely many objects $i_1, \ldots, i_n$ there is an object $k$ with
+morphisms $i_m \to k$.
+\item For finitely many morphisms $u_1, \ldots, u_n \colon i \to j$ there is
+$w \colon j \to k$ with $w u_1 = w u_2 = \cdots = w u_n$.
+\item For finitely many morphisms $u_m \colon i \to j_m$, $1 \leq m \leq n$, there
+are an object $k$ and morphisms $w_m \colon j_m \to k$ with
+$w_1 u_1 = \cdots = w_n u_n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) and (2) follow by induction on $n$ from the definition; for (2), if
+$w u_1 = \cdots = w u_{n-1}$ with $w \colon j \to k$, choose $w' \colon k \to k'$ with
+$w' w u_{n-1} = w' w u_n$. (3) By (1) choose $k'$ and $v_m \colon j_m \to k'$. The
+morphisms $v_m u_m \colon i \to k'$ are parallel, so by (2) there is $w \colon k' \to k$
+with all $w v_m u_m$ equal; put $w_m = w v_m$.
+\end{proof}
+
+\begin{proposition}\label{categories:proposition-filtered-colimits-sets}
+Let $\mathcal{I}$ be a small filtered category and $F \colon \mathcal{I} \to \Sets$. On
+$\coprod_i F(i)$, the relation
+\[
+(i, x) \approx (j, y) \iff \text{there are } u \colon i \to k \text{ and } v \colon j \to k
+\text{ with } F(u)(x) = F(v)(y)
+\]
+is an equivalence relation, and $\colim F = (\coprod_i F(i))/{\approx}$. In particular
+every element of $\colim F$ is of the form $\gamma_i(x)$, and $\gamma_i(x) = \gamma_i(x')$
+if and only if $F(u)(x) = F(u)(x')$ for some $u \colon i \to k$.
+\end{proposition}
+
+\begin{proof}
+Reflexivity and symmetry are clear. For transitivity, let
+$F(u)(x) = F(v)(y)$ with $u \colon i \to k$, $v \colon j \to k$, and
+$F(v')(y) = F(w')(z)$ with $v' \colon j \to k'$, $w' \colon l \to k'$. By
+Lemma~\ref{categories:lemma-filtered-finite}(3) applied to $v$ and $v'$, there are
+$a \colon k \to m$ and $b \colon k' \to m$ with $av = bv'$. Then
+$F(au)(x) = F(av)(y) = F(bv')(y) = F(bw')(z)$. The relation $\approx$ contains the
+generating relation of Proposition~\ref{categories:proposition-colimits-sets}
+(take $v = \id$), and it is contained in every equivalence relation containing
+it, since $(i, x) \sim (k, F(u)(x)) = (k, F(v)(y)) \sim (j, y)$. So it is the
+smallest one. For the last statement, if $F(u)(x) = F(v)(x')$ with
+$u, v \colon i \to k$, choose $w$ with $wu = wv$ by filteredness; then
+$F(wu)(x) = F(wu)(x')$.
+\end{proof}
+
+\begin{theorem}\label{categories:theorem-filtered-colimits-finite-limits}
+Let $\mathcal{I}$ be a small filtered category, $\mathcal{J}$ a category with finitely
+many morphisms, and $F \colon \mathcal{I} \times \mathcal{J} \to \Sets$ a functor. Then the
+canonical map
+\[
+\kappa \colon \colim_{i \in \mathcal{I}} \lim_{j \in \mathcal{J}} F(i, j) \longrightarrow
+\lim_{j \in \mathcal{J}} \colim_{i \in \mathcal{I}} F(i, j)
+\]
+is a bijection. That is, in $\Sets$ filtered colimits commute with finite
+limits.
+\end{theorem}
+
+\begin{proof}
+We use the descriptions of Propositions~\ref{categories:proposition-limits-sets}
+and~\ref{categories:proposition-filtered-colimits-sets}. An element of the left
+side is represented by some $i$ and a family $(x_j)_j$ with $x_j \in F(i, j)$
+compatible with all morphisms of $\mathcal{J}$; the map $\kappa$ sends it to the
+family of classes $([(i, x_j)])_j$.
+
+\emph{Injectivity.} Let two elements of the left side be represented by
+$(x_j) \in \lim_j F(i, j)$ and $(y_j) \in \lim_j F(i', j)$. By
+Lemma~\ref{categories:lemma-filtered-finite}(1) and the functoriality of the
+limit in $i$, we may assume $i = i'$. Suppose $[(i, x_j)] = [(i, y_j)]$ for all
+$j$. By Proposition~\ref{categories:proposition-filtered-colimits-sets}, for each
+of the finitely many objects $j$ there is $u_j \colon i \to k_j$ with
+$F(u_j, j)(x_j) = F(u_j, j)(y_j)$. By Lemma~\ref{categories:lemma-filtered-finite}(3)
+there are $w_j \colon k_j \to k$ with all $w_j u_j$ equal to one $u \colon i \to k$. Then
+$F(u, j)(x_j) = F(u, j)(y_j)$ for all $j$, so the two families have the same image in
+$\lim_j F(k, j)$ and define the same element of the colimit.
+
+\emph{Surjectivity.} Let $(\xi_j)_j$ be an element of the right side. Each
+$\xi_j$ is represented by some $x_j \in F(i_j, j)$. Using
+Lemma~\ref{categories:lemma-filtered-finite}(1) and replacing each $x_j$ by its image,
+we may assume all $i_j$ equal to one $i$. For each morphism $a \colon j \to j'$ of
+$\mathcal{J}$, compatibility of $(\xi_j)$ says that $F(i, a)(x_j)$ and $x_{j'}$ have the
+same class in $\colim_i F(i, j')$, so there is $u_a \colon i \to k_a$ with
+$F(u_a, j')(F(i, a)(x_j)) = F(u_a, j')(x_{j'})$. There are finitely many $a$; by
+Lemma~\ref{categories:lemma-filtered-finite}(3) we find $w_a \colon k_a \to k$ with all
+$w_a u_a$ equal to one $u \colon i \to k$. Put $y_j = F(u, j)(x_j) \in F(k, j)$. For every
+$a \colon j \to j'$,
+$F(k, a)(y_j) = F(u, j')(F(i, a)(x_j)) = F(w_a, j')F(u_a, j')(F(i,a)(x_j)) = F(u, j')(x_{j'}) = y_{j'}$,
+using that $F$ is a functor on $\mathcal{I} \times \mathcal{J}$. So $(y_j)$ lies in
+$\lim_j F(k, j)$, and its class maps to $([(k, y_j)])_j = (\xi_j)_j$.
+\end{proof}
+
+\begin{counterexample}\label{categories:counterexample-filtered-infinite-products}
+Filtered colimits do not commute with infinite products in $\Sets$. Let
+$\mathcal{I} = \NN$, let $\mathcal{J}$ be the discrete category on $\NN$, and let
+$F(n, j) = \{0, 1, \ldots, n\}$ with the inclusions as transition maps. Then
+$\colim_n F(n, j) = \NN$ for every $j$, so the right side is the set of all
+sequences of natural numbers, whereas the left side
+$\colim_n \prod_j \{0, \ldots, n\}$ consists of the bounded sequences. The sequence
+$j \mapsto j$ is not in the image of $\kappa$.
+\end{counterexample}
+
+\begin{counterexample}\label{categories:counterexample-colimits-limits}
+Colimits that are not filtered do not commute with finite limits either. Take
+$\mathcal{I}$ discrete with two objects and $\mathcal{J}$ discrete with two objects,
+and $F(i, j) = \{0\}$ for all $i, j$. The left side is a coproduct of two products of
+one-element sets, with $2$ elements, whereas the right side is a product of two
+coproducts of two one-element sets, with $4$ elements.
+\end{counterexample}
+
+\section{Additive categories}\label{categories:section-additive}
+
+\begin{definition}\label{categories:definition-additive}
+A category $\mathcal{A}$ is \emph{preadditive} if every set $\Hom(X, Y)$ has the
+structure of an abelian group, written additively, such that composition is
+bilinear: $(f + f') \circ g = f \circ g + f' \circ g$ and
+$h \circ (f + f') = h \circ f + h \circ f'$. A \emph{zero object} is an object that is both
+initial and terminal. A preadditive category is \emph{additive} if it has a zero
+object and binary products. A functor between preadditive categories is
+\emph{additive} if the maps $\Hom(X, Y) \to \Hom(F(X), F(Y))$ are group
+homomorphisms.
+\end{definition}
+
+\begin{lemma}\label{categories:lemma-biproducts}
+Let $\mathcal{A}$ be preadditive and $X_1, X_2, P$ objects with morphisms
+$i_m \colon X_m \to P$ and $p_m \colon P \to X_m$ such that
+\[
+p_1 i_1 = \id_{X_1}, \quad p_2 i_2 = \id_{X_2}, \quad p_2 i_1 = 0, \quad p_1 i_2 = 0, \quad
+i_1 p_1 + i_2 p_2 = \id_P.
+\]
+Then $(P, p_1, p_2)$ is a product and $(P, i_1, i_2)$ is a coproduct of $X_1$ and
+$X_2$. Conversely, if $\mathcal{A}$ has a zero object and $(P, p_1, p_2)$ is a
+product of $X_1$ and $X_2$, there are unique $i_1, i_2$ satisfying these equations.
+\end{lemma}
+
+\begin{proof}
+Given $f_m \colon Y \to X_m$, the morphism $f = i_1 f_1 + i_2 f_2$ satisfies $p_m f = f_m$.
+If $g$ also does, then $g = (i_1 p_1 + i_2 p_2) g = i_1 f_1 + i_2 f_2$. So $P$ is a product;
+the coproduct statement is dual. Conversely, let $i_1 \colon X_1 \to P$ be the unique
+morphism with $p_1 i_1 = \id$ and $p_2 i_1 = 0$, and similarly $i_2$ (the zero morphism
+$0 \in \Hom(X, Y)$ exists since Hom sets are groups). Then
+$p_m (i_1 p_1 + i_2 p_2) = p_m$ for $m = 1, 2$, so $i_1 p_1 + i_2 p_2 = \id_P$ by the
+uniqueness in the universal property of the product.
+\end{proof}
+
+\begin{definition}\label{categories:definition-biproduct}
+An object $P$ with morphisms as in Lemma~\ref{categories:lemma-biproducts} is a
+\emph{biproduct} or \emph{direct sum} of $X_1$ and $X_2$, written $X_1 \oplus X_2$.
+In a preadditive category with a zero object, the \emph{kernel} of
+$f \colon X \to Y$ is an equaliser of $f$ and $0$, and its \emph{cokernel} is a
+coequaliser of $f$ and $0$.
+\end{definition}
+
+\begin{proposition}\label{categories:proposition-additive-functors-biproducts}
+Additive functors preserve biproducts and zero objects.
+\end{proposition}
+
+\begin{proof}
+The equations of Lemma~\ref{categories:lemma-biproducts} involve only
+composition, sums, identities and zero morphisms, all preserved by an additive
+functor $F$, so $F$ sends a biproduct to a biproduct. An object $Z$ is a zero
+object if and only if $\id_Z = 0$ (then every $\Hom(Z, Y)$ and $\Hom(Y, Z)$ is the zero
+group), and this is preserved by $F$.
+\end{proof}
+
+\begin{example}\label{categories:example-additive}
+The categories of abelian groups, of modules over a ring and of vector spaces
+over a field are additive, with the direct sum as biproduct
+(Chapter~\ref{rings}).
+\end{example}
+
+\begin{counterexample}\label{categories:counterexample-sets-not-preadditive}
+The category $\Sets$ admits no preadditive structure: in a preadditive category
+every $\Hom(X, Y)$ is nonempty, since it contains $0$, but
+$\Hom_{\Sets}(\{0\}, \emptyset) = \emptyset$.
+\end{counterexample}
+
 \section{Exercises}\label{categories:section-exercises}
 
 \begin{exercise}\label{categories:exercise-composition-full-faithful}
@@ -691,4 +1262,53 @@ $a \colon X \to X'$ with $F(a)(\xi') = \xi$, and that $a$ is an isomorphism.
 \begin{exercise}\label{categories:exercise-rings-epimorphism}
 Show that the inclusion $\ZZ \to \QQ$ is an epimorphism in the category of
 rings, although it is not surjective.
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-sets-balanced}
+Show that in $\Sets$ a morphism that is both a monomorphism and an epimorphism is
+an isomorphism, and that the same holds in the category of groups for
+monomorphisms that are surjective.
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-poset-limits}
+Let $P$ be a partially ordered set viewed as a category. Show that a product of
+a family of elements is a greatest lower bound, a coproduct is a least upper
+bound, and that every diagram in $P$ has a limit if and only if every subset of
+$P$ has a greatest lower bound.
+\end{exercise}
+
+\begin{solution}
+A cone over a family $(x_i)$ with vertex $y$ exists if and only if $y \leq x_i$
+for all $i$, and it is unique; a limit is a lower bound $y$ such that every lower
+bound $z$ satisfies $z \leq y$. Coproducts are dual. For a general diagram
+$F \colon \mathcal{I} \to P$ the cone condition only involves the objects, so a limit
+of $F$ is a greatest lower bound of $\{F(i)\}$.
+\end{solution}
+
+\begin{exercise}\label{categories:exercise-adjoint-equivalence}
+Let $F \dashv G$ with unit $\eta$ and counit $\varepsilon$. Show that $F$ is fully
+faithful if and only if $\eta$ is a natural isomorphism, and that $F$ is an
+equivalence if and only if both $\eta$ and $\varepsilon$ are natural isomorphisms.
+Conversely, show that every equivalence is part of an adjunction whose unit and
+counit are isomorphisms.
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-limits-commute}
+Let $\mathcal{I}$, $\mathcal{J}$ be small and $F \colon \mathcal{I} \times \mathcal{J} \to \mathcal{C}$,
+where $\mathcal{C}$ has limits. Show that
+$\lim_i \lim_j F(i, j) \cong \lim_{(i,j)} F(i, j) \cong \lim_j \lim_i F(i, j)$.
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-left-adjoint-sets}
+Show that a functor $G \colon \mathcal{D} \to \Sets$ is representable (in the covariant
+sense of Exercise~\ref{categories:exercise-covariant-yoneda}) if and only if it has
+a left adjoint $F$ with $F(\{0\}) \cong X$ for some $X$, provided $\mathcal{D}$ has
+coproducts indexed by small sets. (Hint: $F(S) = \coprod_{s \in S} X$.)
+\end{exercise}
+
+\begin{exercise}\label{categories:exercise-zero-morphisms}
+In an additive category, show that $f + g$ equals the composite
+$X \to X \oplus X \to Y \oplus Y \to Y$ of the diagonal, $f \oplus g$ and the
+codiagonal. Deduce that the abelian group structure on Hom sets of an additive
+category is determined by the category itself.
 \end{exercise}
