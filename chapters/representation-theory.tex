@@ -1,16 +1,329 @@
 \chapter{Representations of Groups and Lie Algebras}\label{representation-theory}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Representations of finite groups and of Lie algebras, culminating in the representation theory of $\mathfrak{sl}_2$, which organises the Lefschetz theorems.
+\section{Introduction}\label{representation-theory:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{groups} (Groups), Chapter~\ref{linear-algebra} (Linear Algebra) and Chapter~\ref{multilinear-algebra} (Multilinear Algebra).
+A representation of a group or a Lie algebra is an action by linear maps. This chapter develops the
+basic theory: Schur's lemma, Maschke's theorem and character theory for finite groups, and the complete
+classification of the finite-dimensional representations of the Lie algebra $\mathfrak{sl}_2(\CC)$. The last
+result is used repeatedly in Hodge theory: on the cohomology of a compact K\"ahler manifold the
+Lefschetz operator, its adjoint and the degree operator span a copy of $\mathfrak{sl}_2$, and the hard
+Lefschetz theorem and the primitive decomposition are consequences of the structure of
+$\mathfrak{sl}_2$-representations (Chapters~\ref{kahler} and~\ref{lefschetz-theorems}).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Representations, subrepresentations, irreducibility and Schur's lemma.
-\item Maschke's theorem: complete reducibility for finite groups.
-\item Characters of finite groups and the orthogonality relations.
-\item Lie algebras, ideals and representations; the adjoint representation.
-\item Finite-dimensional representations of $\mathfrak{sl}_2(\CC)$: weights, classification and complete reducibility.
-\item Overview of semisimple Lie algebras and their representations.
-\end{itemize}
+References are \cite{serre-linear-representations}, \cite{fulton-harris} and \cite{humphreys-lie}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{groups} (Groups), Chapter~\ref{fields} (Fields and Galois
+Theory), Chapter~\ref{linear-algebra} (Linear Algebra) and Chapter~\ref{multilinear-algebra}
+(Multilinear Algebra).
+
+Throughout, $k$ is a field and representations are on $k$-vector spaces.
+
+\section{Representations of groups}\label{representation-theory:section-group-representations}
+
+\begin{definition}\label{representation-theory:definition-representation}
+A \emph{representation} of a group $G$ is a vector space $V$ with a homomorphism
+$\rho \colon G \to \GL(V)$; we write $gv$ for $\rho(g)v$. A \emph{homomorphism} of representations (or
+$G$-equivariant map) is a linear map $f$ with $f(gv) = gf(v)$; the space of such maps is $\Hom_G(V, W)$. A
+\emph{subrepresentation} is a $G$-stable subspace. $V$ is \emph{irreducible} if $V \neq 0$ and its only
+subrepresentations are $0$ and $V$, and \emph{completely reducible} (or \emph{semisimple}) if it is a direct
+sum of irreducible subrepresentations. The \emph{invariants} are $V^G = \{v : gv = v \text{ for all } g\}$.
+\end{definition}
+
+\begin{example}\label{representation-theory:example-constructions}
+Given representations $V$, $W$: quotients $V/U$ by subrepresentations, $V \oplus W$, $V \otimes W$ with
+$g(v \otimes w) = gv \otimes gw$, the dual $V^*$ with $(g\varphi)(v) = \varphi(g^{-1}v)$, and $\Hom_k(V, W)$ with
+$(gf)(v) = g f(g^{-1}v)$ are representations, and $\Hom_k(V, W)^G = \Hom_G(V, W)$. The \emph{trivial
+representation} is $k$ with $gv = v$. If $G$ acts on a finite set $X$, the \emph{permutation representation} is
+$k^X$ with $g e_x = e_{gx}$; for $X = G$ with the left action this is the \emph{regular representation}.
+\end{example}
+
+\begin{lemma}[Schur]\label{representation-theory:lemma-schur}
+Let $V$, $W$ be irreducible representations. Every $f \in \Hom_G(V, W)$ is zero or an isomorphism. If $k$ is
+algebraically closed and $V$ is finite-dimensional, then $\Hom_G(V, V) = k \cdot \id$.
+\end{lemma}
+
+\begin{proof}
+$\ker f$ and $\im f$ are subrepresentations, so $\ker f \in \{0, V\}$ and $\im f \in \{0, W\}$. If $k$ is algebraically
+closed and $f \in \Hom_G(V, V)$, $f$ has an eigenvalue $\lambda$, and $f - \lambda \in \Hom_G(V, V)$ is not an isomorphism,
+hence zero.
+\end{proof}
+
+\begin{theorem}[Maschke]\label{representation-theory:theorem-maschke}
+Let $G$ be finite with $\operatorname{char} k \nmid |G|$. Every subrepresentation $U$ of a representation $V$ has a
+$G$-stable complement. Hence every finite-dimensional representation is completely reducible.
+\end{theorem}
+
+\begin{proof}
+Choose a linear projection $\pi \colon V \to U$ (a linear map with $\pi|_U = \id$), using a complement of $U$
+(Proposition~\ref{linear-algebra:proposition-subspaces}), and put
+$\pi_0 = \frac{1}{|G|}\sum_{g \in G} g\pi g^{-1}$. It is $G$-equivariant, has image in $U$, and restricts to the identity
+on $U$; so $\ker\pi_0$ is a $G$-stable complement of $U$. The second statement follows by induction on the
+dimension.
+\end{proof}
+
+\begin{counterexample}\label{representation-theory:counterexample-not-semisimple}
+Both hypotheses of Maschke's theorem are needed. The group $\ZZ$ acts on $\CC^2$ by
+$n \mapsto \begin{pmatrix} 1 & n \\ 0 & 1 \end{pmatrix}$; the line $\CC e_1$ is stable, but it has no stable complement, since a
+stable line would be spanned by an eigenvector and $e_1$ spans the only eigenline. Similarly $\ZZ/p\ZZ$ acts on
+$\mathbb{F}_p^2$ by the same matrices (with $n$ read modulo $p$), and the representation is not completely
+reducible although $\ZZ/p\ZZ$ is finite; here $p$ divides the order of the group.
+\end{counterexample}
+
+\section{Characters of finite groups}\label{representation-theory:section-characters}
+
+In this section $G$ is finite, $k = \CC$, and representations are finite-dimensional.
+
+\begin{definition}\label{representation-theory:definition-character}
+The \emph{character} of a representation $V$ is $\chi_V \colon G \to \CC$, $\chi_V(g) = \operatorname{tr}(g|_V)$. A
+\emph{class function} is a function $G \to \CC$ constant on conjugacy classes. On class functions put the
+Hermitian inner product $\langle \phi, \psi \rangle = \frac{1}{|G|}\sum_{g \in G}\phi(g)\overline{\psi(g)}$.
+\end{definition}
+
+\begin{proposition}\label{representation-theory:proposition-character-properties}
+Characters are class functions, $\chi_V(e) = \dim V$, $\chi_{V \oplus W} = \chi_V + \chi_W$,
+$\chi_{V \otimes W} = \chi_V\chi_W$, and $\chi_{V^*}(g) = \overline{\chi_V(g)} = \chi_V(g^{-1})$. Moreover
+$\dim V^G = \frac{1}{|G|}\sum_g \chi_V(g)$.
+\end{proposition}
+
+\begin{proof}
+The trace is invariant under conjugation, additive on direct sums and multiplicative on tensor products
+(compute in bases). Each $g$ has finite order, so $g|_V$ satisfies $x^n - 1$ and is diagonalisable with roots of
+unity $\lambda_i$ as eigenvalues (Theorem~\ref{linear-algebra:theorem-diagonalisable}); then
+$\chi_{V^*}(g) = \sum \lambda_i^{-1} = \sum \bar\lambda_i$. Finally $p = \frac{1}{|G|}\sum_g g$ is a projection onto $V^G$
+(it is the identity on $V^G$ and $hp = p$ for all $h$), and the trace of a projection is the dimension of its
+image.
+\end{proof}
+
+\begin{theorem}[Orthogonality]\label{representation-theory:theorem-orthogonality}
+For representations $V$, $W$, $\langle \chi_W, \chi_V \rangle = \dim \Hom_G(V, W)$. Consequently the characters of
+irreducible representations are orthonormal, a representation is determined up to isomorphism by its
+character, and $V$ is irreducible if and only if $\langle \chi_V, \chi_V \rangle = 1$.
+\end{theorem}
+
+\begin{proof}
+$\Hom_G(V, W) = \Hom_\CC(V, W)^G$, and $\Hom_\CC(V, W) \cong V^* \otimes W$ as representations, so by
+Proposition~\ref{representation-theory:proposition-character-properties} its dimension is
+$\frac{1}{|G|}\sum_g \overline{\chi_V(g)}\chi_W(g)$. For irreducible $V$, $W$, Schur's lemma gives
+$\dim\Hom_G(V, W) = 1$ if $V \cong W$ and $0$ otherwise. By Maschke's theorem $V \cong \bigoplus_i V_i^{m_i}$ with
+distinct irreducible $V_i$, and $m_i = \langle \chi_V, \chi_{V_i} \rangle$ is determined by $\chi_V$; also
+$\langle \chi_V, \chi_V \rangle = \sum m_i^2$.
+\end{proof}
+
+\begin{theorem}\label{representation-theory:theorem-number-irreducibles}
+The characters of the irreducible representations of $G$ form an orthonormal basis of the space of class
+functions. In particular the number of isomorphism classes of irreducible representations equals the number
+of conjugacy classes, and if $V_1, \ldots, V_r$ are the irreducible representations, then
+$\sum_i (\dim V_i)^2 = |G|$.
+\end{theorem}
+
+\begin{proof}
+The regular representation has character $|G|$ at $e$ and $0$ elsewhere, so by
+Theorem~\ref{representation-theory:theorem-orthogonality} it contains each $V_i$ with multiplicity
+$\langle \chi_{\mathrm{reg}}, \chi_{V_i}\rangle = \dim V_i$; comparing dimensions gives $\sum(\dim V_i)^2 = |G|$. In particular there
+are finitely many irreducible representations up to isomorphism.
+
+It remains to show that a class function $\phi$ orthogonal to all $\chi_{V_i}$ is zero. For a representation $V$ let
+$T_V = \sum_g \overline{\phi(g)}\, g|_V$. Since $\phi$ is a class function, $T_V$ commutes with all $h|_V$. If $V$ is
+irreducible, $T_V = \lambda \id$ by Schur's lemma, and taking traces,
+$\lambda \dim V = \sum_g \overline{\phi(g)}\chi_V(g) = |G|\langle \chi_V, \phi \rangle = 0$. So $T_V = 0$ for every irreducible $V$, hence
+for every $V$ by Maschke's theorem, in particular for the regular representation; but there
+$T(e_e) = \sum_g \overline{\phi(g)} e_g$, so $\phi = 0$.
+\end{proof}
+
+\begin{example}\label{representation-theory:example-s3}
+$S_3$ has three conjugacy classes: $\{e\}$, the three transpositions and the two $3$-cycles. Its irreducible
+representations are the trivial representation, the sign representation and the two-dimensional
+representation $U = \{x \in \CC^3 : x_1 + x_2 + x_3 = 0\}$ (a subrepresentation of the permutation representation).
+Their characters take the values $(1, 1, 1)$, $(1, -1, 1)$ and $(2, 0, -1)$ on the three classes. One checks
+orthonormality directly: for instance $\langle \chi_U, \chi_U\rangle = \frac16(4 + 0 + 2 \cdot 1) = 1$.
+\end{example}
+
+\section{Lie algebras}\label{representation-theory:section-lie-algebras}
+
+\begin{definition}\label{representation-theory:definition-lie-algebra}
+A \emph{Lie algebra} over $k$ is a vector space $\mathfrak{g}$ with a bilinear map
+$[-, -] \colon \mathfrak{g} \times \mathfrak{g} \to \mathfrak{g}$, the \emph{bracket}, with $[x, x] = 0$ and the
+\emph{Jacobi identity} $[x, [y, z]] + [y, [z, x]] + [z, [x, y]] = 0$. A \emph{homomorphism} of Lie algebras is a
+linear map preserving brackets, an \emph{ideal} is a subspace $\mathfrak{a}$ with
+$[\mathfrak{g}, \mathfrak{a}] \subseteq \mathfrak{a}$, and $\mathfrak{g}$ is \emph{abelian} if its bracket is zero.
+\end{definition}
+
+\begin{example}\label{representation-theory:example-lie-algebras}
+\begin{enumerate}
+\item For an associative algebra $A$, the commutator $[x, y] = xy - yx$ makes $A$ a Lie algebra. For $A = \End(V)$
+this is $\mathfrak{gl}(V)$, and for $A = M_n(k)$ it is $\mathfrak{gl}_n(k)$.
+\item $\mathfrak{sl}_n(k) = \{x \in \mathfrak{gl}_n(k) : \operatorname{tr} x = 0\}$ is a Lie subalgebra, since
+$\operatorname{tr}[x, y] = 0$ (Exercise~\ref{linear-algebra:exercise-trace}).
+\item The skew-symmetric matrices form $\mathfrak{so}_n(k)$, and more generally the $x$ with $B(xv, w) + B(v, xw) = 0$
+for a bilinear form $B$ form a Lie subalgebra of $\mathfrak{gl}(V)$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{representation-theory:definition-lie-representation}
+A \emph{representation} of a Lie algebra $\mathfrak{g}$ is a vector space $V$ with a Lie algebra homomorphism
+$\mathfrak{g} \to \mathfrak{gl}(V)$; we write $xv$ for the action, so $[x, y]v = x(yv) - y(xv)$. Subrepresentations,
+irreducibility, homomorphisms and direct sums are defined as for groups. The tensor product $V \otimes W$ is a
+representation with $x(v \otimes w) = xv \otimes w + v \otimes xw$, and the dual with $(x\varphi)(v) = -\varphi(xv)$. The
+\emph{adjoint representation} is $\mathfrak{g}$ itself with $x \cdot y = [x, y]$, a representation by the Jacobi
+identity.
+\end{definition}
+
+\begin{remark}\label{representation-theory:remark-lie-groups-algebras}
+Lie algebras arise as tangent spaces of Lie groups at the identity (Chapter~\ref{lie-groups}), and
+representations of a Lie group differentiate to representations of its Lie algebra; the formula for the tensor
+product is the derivative of $g(v \otimes w) = gv \otimes gw$.
+\end{remark}
+
+\section{Representations of $\mathfrak{sl}_2$}\label{representation-theory:section-sl2}
+
+In this section $k = \CC$ and $\mathfrak{sl}_2 = \mathfrak{sl}_2(\CC)$, with basis
+\[
+e = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}, \qquad f = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}, \qquad
+h = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix},
+\]
+satisfying $[h, e] = 2e$, $[h, f] = -2f$ and $[e, f] = h$. All representations are finite-dimensional.
+
+\begin{lemma}\label{representation-theory:lemma-sl2-weights}
+Let $V$ be a representation and for $\lambda \in \CC$ let $V_\lambda = \ker(h - \lambda)$ and
+$V^{(\lambda)} = \bigcup_N \ker(h - \lambda)^N$ (the generalised eigenspace). Then $e$ maps $V_\lambda$ to $V_{\lambda + 2}$ and
+$V^{(\lambda)}$ to $V^{(\lambda + 2)}$, and $f$ maps them to $V_{\lambda - 2}$ and $V^{(\lambda - 2)}$. Moreover, for $k \geq 1$,
+\[
+e f^k = f^k e + k f^{k-1}(h - k + 1) \quad \text{as operators on } V.
+\]
+\end{lemma}
+
+\begin{proof}
+From $he = eh + 2e$ we get $(h - \lambda - 2)e = e(h - \lambda)$, hence $(h - \lambda - 2)^N e = e(h - \lambda)^N$; similarly for $f$.
+The identity holds for $k = 1$ since $ef = fe + h$. If it holds for $k$, then using $hf = fh - 2f$,
+$ef^{k+1} = f^k e f + kf^{k-1}(h - k + 1)f = f^k(fe + h) + kf^k(h - k - 1) = f^{k+1}e + (k+1)f^k(h - k)$.
+\end{proof}
+
+\begin{theorem}\label{representation-theory:theorem-sl2-irreducibles}
+For every $m \geq 0$ there is an irreducible representation $V(m)$ of dimension $m + 1$ with a basis
+$v_0, \ldots, v_m$ such that
+\[
+hv_j = (m - 2j)v_j, \qquad fv_j = (j + 1)v_{j+1}, \qquad ev_j = (m - j + 1)v_{j-1},
+\]
+with $v_{-1} = v_{m+1} = 0$. Every irreducible representation is isomorphic to exactly one $V(m)$. More precisely,
+if $V$ is any representation and $v_0 \neq 0$ satisfies $ev_0 = 0$ and $hv_0 = \lambda v_0$, then $\lambda = m$ is a
+non-negative integer and the vectors $v_j = f^jv_0/j!$ span a subrepresentation isomorphic to $V(m)$.
+\end{theorem}
+
+\begin{proof}
+The formulas define a representation: it suffices to check the three bracket relations on each $v_j$. For
+instance $(ef - fe)v_j = (j + 1)(m - j)v_j - j(m - j + 1)v_j = (m - 2j)v_j = hv_j$, and $[h, e] = 2e$, $[h, f] = -2f$
+hold because $e$ raises and $f$ lowers the $h$-eigenvalue by $2$. It is irreducible: a nonzero subrepresentation
+is $h$-stable, so it contains some $v_j$ (the eigenvalues $m - 2j$ are distinct), then $v_0$ by applying $e$
+(the coefficients $m - j + 1$ are nonzero for $1 \leq j \leq m$), then all $v_j$ by applying $f$.
+
+Now let $v_0$ be as in the last statement and $v_j = f^jv_0/j!$. By
+Lemma~\ref{representation-theory:lemma-sl2-weights}, $hv_j = (\lambda - 2j)v_j$, and $fv_j = (j + 1)v_{j+1}$ by definition.
+By the identity of the lemma, $ev_j = \frac{1}{j!}jf^{j-1}(h - j + 1)v_0 = (\lambda - j + 1)v_{j-1}$. The nonzero $v_j$ have
+distinct $h$-eigenvalues, hence are linearly independent, so there is a largest $m$ with $v_m \neq 0$, and then
+$v_{m+1} = 0$. Hence $0 = ev_{m+1} = (\lambda - m)v_m$, so $\lambda = m$, and the span of $v_0, \ldots, v_m$ is a
+subrepresentation isomorphic to $V(m)$.
+
+Every representation $V \neq 0$ contains such a $v_0$: $h$ has an eigenvector $w$, with eigenvalue $\mu$, and among
+$w, ew, e^2w, \ldots$ (which lie in the distinct eigenspaces $V_{\mu + 2i}$ or vanish) there is a last nonzero one.
+If $V$ is irreducible, the subrepresentation generated by $v_0$ is all of $V$, so $V \cong V(m)$ with
+$m = \dim V - 1$.
+\end{proof}
+
+\begin{theorem}\label{representation-theory:theorem-sl2-semisimple}
+Every finite-dimensional representation of $\mathfrak{sl}_2$ is completely reducible, and $h$ acts
+diagonalisably with integer eigenvalues.
+\end{theorem}
+
+\begin{proof}
+Let $C = ef + fe + \frac12h^2$ (the \emph{Casimir operator}). A direct computation with the relations shows that $C$
+commutes with $e$, $f$ and $h$; for example
+$[C, e] = e[f, e] + [f, e]e + \frac12(h[h, e] + [h, e]h) = -eh - he + eh + he = 0$. On $V(m)$, $C$ is scalar by
+Lemma~\ref{representation-theory:lemma-schur}, and evaluating on $v_0$ gives
+$C = m + \frac12m^2 = \frac12m(m + 2)$ (using $efv_0 = mv_0$ and $ev_0 = 0$). These scalars are distinct for different $m \geq 0$.
+
+Since $C$ commutes with the action, $V$ is the direct sum of the generalised eigenspaces of $C$, each of which is
+a subrepresentation (Lemma~\ref{linear-algebra:lemma-kernel}). By choosing an irreducible subrepresentation
+and passing to quotients repeatedly, every representation has a chain of subrepresentations with irreducible
+successive quotients, each isomorphic to some $V(m)$ by
+Theorem~\ref{representation-theory:theorem-sl2-irreducibles}; $C$ acts on the quotient $V(m)$ by
+$\frac12m(m+2)$. Hence on the generalised $c$-eigenspace, all these quotients are isomorphic to the same $V(m)$
+(with $c = \frac12m(m+2)$). It therefore suffices to prove: if $V$ has such a chain
+$0 = F_0 \subsetneq F_1 \subsetneq \cdots \subsetneq F_r = V$ with $F_i/F_{i-1} \cong V(m)$ for all $i$, then $V \cong V(m)^r$.
+
+The eigenvalues of $h$ on $V$ are among $m, m - 2, \ldots, -m$, so $V^{(m + 2)} = 0$ and $e$ kills
+$V^{(m)}$ (Lemma~\ref{representation-theory:lemma-sl2-weights}). Also $\dim V^{(m)} = r$, since each
+quotient contributes one dimension. The map $f^m \colon V^{(m)} \to V^{(-m)}$ is injective: if $u \in V^{(m)}$ is nonzero, let
+$i$ be least with $u \in F_i$; the image of $u$ in $F_i/F_{i-1} \cong V(m)$ is a nonzero vector of weight $m$, on which
+$f^m$ is nonzero, so $f^mu \notin F_{i-1}$. Now $f^{m+1}u \in V^{(-m-2)} = 0$, and by
+Lemma~\ref{representation-theory:lemma-sl2-weights},
+$0 = ef^{m+1}u = f^{m+1}eu + (m + 1)f^m(h - m)u = (m + 1)f^m(h - m)u$. Since $(h - m)u \in V^{(m)}$ and $f^m$ is
+injective there, $(h - m)u = 0$. So $h = m$ on $V^{(m)}$.
+
+Let $u_1, \ldots, u_r$ be a basis of $V^{(m)} = V_m$. Each $u_i$ satisfies $eu_i = 0$ and $hu_i = mu_i$, so it generates a
+subrepresentation $W_i \cong V(m)$ by Theorem~\ref{representation-theory:theorem-sl2-irreducibles}. The kernel $K$
+of $\bigoplus_i W_i \to V$ is a subrepresentation whose weight-$m$ part is zero, since the $u_i$ are independent. If
+$K \neq 0$, the last paragraph of the proof of Theorem~\ref{representation-theory:theorem-sl2-irreducibles},
+applied to $K$, gives $v_0 \in K$ with $v_0 \neq 0$ and $ev_0 = 0$. But in $V(m)$ the kernel of $e$ is $\CC v_0$, since
+$e(\sum_j c_jv_j) = \sum_{j \geq 1} c_j(m - j + 1)v_{j-1}$ vanishes only if $c_j = 0$ for $j \geq 1$; so in
+$\bigoplus_i W_i \cong V(m)^r$ the kernel of $e$ is the weight-$m$ space, and $v_0$ would be a nonzero element of
+$K$ of weight $m$. Hence $K = 0$, the sum is direct, and by dimension ($r(m + 1) = \dim V$) it is all of $V$. In each
+$W_i$, $h$ is diagonal with integer eigenvalues.
+\end{proof}
+
+\begin{corollary}\label{representation-theory:corollary-lefschetz-structure}
+Let $V$ be a finite-dimensional representation of $\mathfrak{sl}_2$, with weight spaces $V_\lambda = \ker(h - \lambda)$,
+$\lambda \in \ZZ$. For every $j \geq 0$ the map $f^j \colon V_j \to V_{-j}$ is an isomorphism. Let
+$P_j = V_j \cap \ker e$ (the \emph{primitive} vectors of weight $j$). Then
+\[
+V = \bigoplus_{j \geq 0}\ \bigoplus_{i = 0}^{j} f^i P_j,
+\]
+and $f^i$ is injective on $P_j$ for $0 \leq i \leq j$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{representation-theory:theorem-sl2-semisimple} it suffices to treat $V = V(m)$, where
+$V_{m - 2i} = \CC v_i$, $f^j$ maps $v_{(m-j)/2}$ to a nonzero multiple of $v_{(m+j)/2}$ when $m - j$ is even and non-negative,
+$P_m = \CC v_0$, $P_j = 0$ for $j \neq m$, and $f^iP_m = \CC v_i$.
+\end{proof}
+
+\begin{remark}\label{representation-theory:remark-semisimple-lie-algebras}
+Theorem~\ref{representation-theory:theorem-sl2-semisimple} is a special case of Weyl's theorem: every
+finite-dimensional representation of a semisimple Lie algebra over $\CC$ is completely reducible. The irreducible
+representations are classified by their highest weights, and the semisimple Lie algebras themselves by Dynkin
+diagrams. See \cite{humphreys-lie} and \cite{fulton-harris}.
+\end{remark}
+
+\section{Exercises}\label{representation-theory:section-exercises}
+
+\begin{exercise}\label{representation-theory:exercise-symmetric-powers}
+Let $\mathfrak{sl}_2$ act on $\CC^2$ by matrix multiplication. Show that $S^m(\CC^2) \cong V(m)$.
+\end{exercise}
+
+\begin{exercise}\label{representation-theory:exercise-clebsch-gordan}
+Show that $V(m) \otimes V(n) \cong \bigoplus_{i=0}^{\min(m,n)} V(m + n - 2i)$. (Hint: count weights.)
+\end{exercise}
+
+\begin{solution}
+The vectors $v_a \otimes w_b$ form a basis of weight vectors, of weight $(m - 2a) + (n - 2b)$. So the weight
+$l = m + n - 2s$ has multiplicity $c(s) = |\{(a, b) : 0 \leq a \leq m, 0 \leq b \leq n, a + b = s\}|$, and for
+$0 \leq s \leq (m+n)/2$ one finds $c(s) = \min(s, m, n) + 1$. By Theorem~\ref{representation-theory:theorem-sl2-semisimple}
+the representation is a direct sum of $V(l)$'s, and the multiplicity of $V(l)$, $l \geq 0$, is
+$\dim V_l - \dim V_{l+2} = c(s) - c(s - 1)$ (with $c(-1) = 0$), which is $1$ for $s \leq \min(m, n)$ and $0$ otherwise.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-character-table-s4}
+Determine the character table of $S_4$.
+\end{exercise}
+
+\begin{exercise}\label{representation-theory:exercise-abelian-irreducible}
+Show that every irreducible complex representation of a finite abelian group is one-dimensional, and that a
+finite group is abelian if and only if all its irreducible complex representations are one-dimensional.
+\end{exercise}
+
+\begin{exercise}\label{representation-theory:exercise-sl2-lefschetz}
+Let $V = \bigoplus_{k=0}^{2n} V^k$ be a graded finite-dimensional vector space and $L \colon V^k \to V^{k+2}$ a linear map. Suppose there is
+$\Lambda \colon V^k \to V^{k-2}$ such that, with $H = (k - n)\id$ on $V^k$, the relations $[H, L] = 2L$, $[H, \Lambda] = -2\Lambda$,
+$[L, \Lambda] = H$ hold. Show that $L^j \colon V^{n-j} \to V^{n+j}$ is an isomorphism for all $j \geq 0$. (This is the algebraic form
+of the hard Lefschetz theorem.)
+\end{exercise}
