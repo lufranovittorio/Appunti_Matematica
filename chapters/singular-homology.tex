@@ -1,18 +1,490 @@
 \chapter{Singular Homology}\label{singular-homology}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Construction of singular homology and the tools for computing it.
+\section{Introduction}\label{singular-homology:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{homotopy} (Homotopy and Covering Spaces) and Chapter~\ref{homological-algebra} (Homological Algebra).
+Singular homology assigns to every space $X$ abelian groups $H_n(X)$, functorial in $X$ and invariant under homotopy. Unlike
+homotopy groups, they are computable: the long exact sequence of a pair, excision
+(Theorem~\ref{singular-homology:theorem-excision}) and the Mayer--Vietoris sequence reduce computations to simple pieces, and for CW
+complexes cellular homology (Theorem~\ref{singular-homology:theorem-cellular}) computes them from the cells. We follow
+\cite[Chapter 2]{hatcher-at}; see also \cite{spanier-at}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Singular chains and singular homology.
-\item Homotopy invariance.
-\item Relative homology and the long exact sequence of a pair.
-\item Excision (via barycentric subdivision) and the Mayer--Vietoris sequence.
-\item Homology of spheres, degree of maps and Brouwer's fixed point theorem.
-\item Cellular homology of CW complexes.
-\item Homology with coefficients.
-\item The Hurewicz map in degree one.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{homotopy} (Homotopy and Covering Spaces) and Chapter~\ref{homological-algebra}
+(Homological Algebra).
+
+Abelian groups are written additively. Chain complexes are as in Notation~\ref{homological-algebra:notation-chain-complexes}, with
+differential $\partial$ of degree $-1$.
+
+\section{Singular chains}\label{singular-homology:section-chains}
+
+\begin{definition}\label{singular-homology:definition-simplex}
+The \emph{standard $n$-simplex} is $\Delta^n = \{(t_0, \ldots, t_n) \in \RR^{n+1} : t_i \geq 0, \sum_i t_i = 1\}$, with vertices the standard basis
+vectors $e_0, \ldots, e_n$. For points $w_0, \ldots, w_k$ of some $\RR^N$ we write $[w_0, \ldots, w_k] \colon \Delta^k \to \RR^N$ for the affine map
+$(t_i) \mapsto \sum_i t_iw_i$. The \emph{face maps} are $\delta^i = [e_0, \ldots, \widehat{e_i}, \ldots, e_n] \colon \Delta^{n-1} \to \Delta^n$, where the hat
+means omission.
+\end{definition}
+
+\begin{definition}\label{singular-homology:definition-singular-homology}
+A \emph{singular $n$-simplex} in a space $X$ is a map $\sigma \colon \Delta^n \to X$. The group $C_n(X)$ of \emph{singular $n$-chains} is the free abelian group
+(Definition~\ref{groups:definition-free-abelian}) with basis the singular $n$-simplices; its elements are finite formal sums $\sum_i n_i\sigma_i$ with
+$n_i \in \ZZ$. For $n < 0$, $C_n(X) = 0$. The \emph{boundary} $\partial \colon C_n(X) \to C_{n-1}(X)$ is the homomorphism with
+\[
+\partial\sigma = \sum_{i=0}^n (-1)^i \sigma \circ \delta^i.
+\]
+The \emph{singular homology} of $X$ is $H_n(X) = \ker(\partial \colon C_n \to C_{n-1})/\im(\partial \colon C_{n+1} \to C_n)$. A map $f \colon X \to Y$ induces
+$f_\# \colon C_n(X) \to C_n(Y)$, $\sigma \mapsto f \circ \sigma$, and $f_* \colon H_n(X) \to H_n(Y)$.
+\end{definition}
+
+\begin{lemma}\label{singular-homology:lemma-boundary-squared}
+$\partial\partial = 0$, and $f_\#$ is a morphism of chain complexes. Hence $H_n$ is a functor $\cat{Top} \to \cat{Ab}$.
+\end{lemma}
+
+\begin{proof}
+For $i < j$ one has $\delta^j\delta^i = \delta^i\delta^{j-1}$ as maps $\Delta^{n-2} \to \Delta^n$: both are the affine map omitting $e_i$ and $e_j$. So
+\[
+\partial\partial\sigma = \sum_{j}\sum_{i} (-1)^{i+j}\sigma\delta^j\delta^i
+= \sum_{i < j} (-1)^{i+j}\sigma\delta^i\delta^{j-1} + \sum_{i \geq j}(-1)^{i+j}\sigma\delta^j\delta^i,
+\]
+and substituting $(i, j - 1) \mapsto (j', i')$ in the first sum shows that it is the negative of the second. Clearly $\partial f_\# = f_\#\partial$.
+\end{proof}
+
+\begin{proposition}\label{singular-homology:proposition-h0-point}
+\begin{enumerate}
+\item If $(X_\alpha)$ are the path components of $X$, then $H_n(X) \cong \bigoplus_\alpha H_n(X_\alpha)$.
+\item If $X$ is path-connected and nonempty, then $H_0(X) \cong \ZZ$, via $\sum n_ix_i \mapsto \sum n_i$.
+\item For a point, $H_0 = \ZZ$ and $H_n = 0$ for $n \neq 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The image of a singular simplex is path-connected, so it lies in one $X_\alpha$, and $C_\bullet(X) = \bigoplus_\alpha C_\bullet(X_\alpha)$ as chain complexes.
+(2) Singular $0$-simplices are points and $\partial\sigma = \sigma(e_1) - \sigma(e_0)$ for a $1$-simplex, a path. So the \emph{augmentation}
+$\varepsilon(\sum n_ix_i) = \sum n_i$ vanishes on boundaries and is surjective. If $\varepsilon(\sum n_ix_i) = 0$, fix $x_0$ and paths $\gamma_i$ from $x_0$
+to $x_i$; then $\sum n_ix_i = \sum n_i(x_i - x_0) = \partial(\sum n_i\gamma_i)$. (3) There is exactly one singular $n$-simplex $\sigma_n$ for each $n$, and
+$\partial\sigma_n = \sum_{i=0}^n(-1)^i\sigma_{n-1}$ is $0$ for $n$ odd and $\sigma_{n-1}$ for $n \geq 2$ even. So the complex is
+$\cdots \to \ZZ \xrightarrow{1} \ZZ \xrightarrow{0} \ZZ \xrightarrow{1} \ZZ \xrightarrow{0} \ZZ \to 0$, with homology $\ZZ$ in degree $0$ only.
+\end{proof}
+
+\begin{definition}\label{singular-homology:definition-reduced}
+The \emph{reduced homology} $\tilde{H}_n(X)$ of a nonempty space is the homology of the augmented complex
+$\cdots \to C_1(X) \to C_0(X) \xrightarrow{\varepsilon} \ZZ \to 0$, with $\ZZ$ in degree $-1$. So $\tilde{H}_n(X) = H_n(X)$ for $n > 0$,
+$H_0(X) \cong \tilde{H}_0(X) \oplus \ZZ$, and $\tilde{H}_n(\mathrm{pt}) = 0$ for all $n$.
+\end{definition}
+
+\section{Homotopy invariance}\label{singular-homology:section-homotopy-invariance}
+
+\begin{theorem}\label{singular-homology:theorem-homotopy-invariance}
+If $f \simeq g \colon X \to Y$, then $f_\#$ and $g_\#$ are chain homotopic, so $f_* = g_* \colon H_n(X) \to H_n(Y)$. Consequently homotopy equivalences
+induce isomorphisms, and contractible spaces have $\tilde{H}_\bullet = 0$.
+\end{theorem}
+
+\begin{proof}
+Let $F \colon X \times I \to Y$ be a homotopy from $f$ to $g$. In $\Delta^n \times I \subseteq \RR^{n+2}$ let $v_i = (e_i, 0)$ and $w_i = (e_i, 1)$. Define the
+\emph{prism operator} $P \colon C_n(X) \to C_{n+1}(Y)$ by
+\[
+P(\sigma) = \sum_{i=0}^n (-1)^i F \circ (\sigma \times \id_I) \circ [v_0, \ldots, v_i, w_i, \ldots, w_n].
+\]
+Write $[\ldots]$ for $F \circ (\sigma \times \id) \circ [\ldots]$. Then
+\[
+\partial P(\sigma) = \sum_{j \leq i}(-1)^{i+j}[v_0, \ldots, \widehat{v_j}, \ldots, v_i, w_i, \ldots, w_n]
++ \sum_{j \geq i}(-1)^{i+j+1}[v_0, \ldots, v_i, w_i, \ldots, \widehat{w_j}, \ldots, w_n].
+\]
+In the terms with $i = j$, the term $[v_0, \ldots, v_{i-1}, w_i, \ldots, w_n]$ of the first sum cancels the term with index $i - 1$ of the second sum, for
+$1 \leq i \leq n$. What remains of them is $[w_0, \ldots, w_n] = g \circ \sigma$ (first sum, $i = 0$) and $-[v_0, \ldots, v_n] = -f \circ \sigma$ (second sum,
+$i = n$). Since $\sigma \circ \delta^j$ corresponds to the vertices with index $j$ omitted,
+\[
+P(\partial\sigma) = \sum_{i < j}(-1)^{i+j}[v_0, \ldots, v_i, w_i, \ldots, \widehat{w_j}, \ldots, w_n] + \sum_{i > j}(-1)^{i-1+j}[v_0, \ldots, \widehat{v_j}, \ldots, v_i, w_i, \ldots, w_n],
+\]
+which is the negative of the terms with $i \neq j$ above. Hence $\partial P + P\partial = g_\# - f_\#$, and chain homotopic maps induce the same map on homology
+(Lemma~\ref{homological-algebra:lemma-homotopy-invariance}). The rest follows from functoriality and Proposition~\ref{singular-homology:proposition-h0-point}(3).
+\end{proof}
+
+\section{Relative homology and exact sequences}\label{singular-homology:section-relative}
+
+\begin{definition}\label{singular-homology:definition-relative}
+For a subspace $A \subseteq X$, $C_n(X, A) = C_n(X)/C_n(A)$ with the induced boundary, and $H_n(X, A)$ is its homology, the \emph{relative homology}. A
+map of pairs $f \colon (X, A) \to (Y, B)$ (a map with $f(A) \subseteq B$) induces $f_* \colon H_n(X, A) \to H_n(Y, B)$, and homotopic maps of pairs (through
+maps of pairs) induce the same maps, since the prism operator preserves chains in $A$.
+\end{definition}
+
+\begin{theorem}\label{singular-homology:theorem-long-exact-sequence}
+For $B \subseteq A \subseteq X$ there is a natural long exact sequence
+\[
+\cdots \to H_n(A, B) \to H_n(X, B) \to H_n(X, A) \xrightarrow{\partial} H_{n-1}(A, B) \to \cdots \to H_0(X, A) \to 0.
+\]
+For $B = \emptyset$ this is the long exact sequence of the pair $(X, A)$, where $\partial[c] = [\partial c]$ for a relative cycle $c$. The same holds with
+reduced homology when $B = \emptyset$ and $A \neq \emptyset$.
+\end{theorem}
+
+\begin{proof}
+The sequence $0 \to C(A, B) \to C(X, B) \to C(X, A) \to 0$ of chain complexes is exact. Apply Theorem~\ref{homological-algebra:theorem-long-exact-sequence}. For
+reduced homology use the augmented complexes, whose quotient is still $C(X, A)$.
+\end{proof}
+
+\begin{example}\label{singular-homology:example-pair-point}
+For $x_0 \in X$, the long exact sequence of $(X, x_0)$ in reduced homology gives $H_n(X, x_0) \cong \tilde{H}_n(X)$. If $A$ is a deformation retract of $X$,
+then $H_n(X, A) = 0$ for all $n$, by exactness of the long exact sequence, since $H_n(A) \to H_n(X)$ is an isomorphism for all $n$
+(Theorem~\ref{singular-homology:theorem-homotopy-invariance}).
+\end{example}
+
+\section{Excision and Mayer--Vietoris}\label{singular-homology:section-excision}
+
+\begin{definition}\label{singular-homology:definition-small-chains}
+Let $\mathcal{U}$ be a family of subspaces of $X$ whose interiors cover $X$. Then $C^{\mathcal{U}}_n(X) \subseteq C_n(X)$ is the subgroup generated by singular
+simplices with image in some $U \in \mathcal{U}$. It is a subcomplex.
+\end{definition}
+
+\begin{lemma}\label{singular-homology:lemma-subdivision}
+There are homomorphisms $S \colon C_n(X) \to C_n(X)$ and $T \colon C_n(X) \to C_{n+1}(X)$, natural in $X$ ($f_\#S = Sf_\#$, $f_\#T = Tf_\#$), with
+$\partial S = S\partial$ and $\partial T + T\partial = 1 - S$, such that $S(\sigma)$ and $T(\sigma)$ are combinations of simplices with image in $\sigma(\Delta^n)$.
+Moreover $S^m(\sigma) = \sigma_\#(S^m\iota_n)$ with $\iota_n = [e_0, \ldots, e_n]$, and $S^m\iota_n$ is a combination of affine simplices of diameter at most
+$(n/(n+1))^m\sqrt{2}$.
+\end{lemma}
+
+\begin{proof}
+\emph{Linear chains.} For a convex $Y \subseteq \RR^N$ let $LC_n(Y) \subseteq C_n(Y)$ be generated by the affine simplices $[w_0, \ldots, w_n]$; it is a subcomplex. For
+$b \in Y$ the \emph{cone} $b \colon LC_n(Y) \to LC_{n+1}(Y)$, $[w_0, \ldots, w_n] \mapsto [b, w_0, \ldots, w_n]$, satisfies $\partial b(\lambda) = \lambda - b(\partial\lambda)$
+for $n \geq 1$, and $\partial b(\lambda) = \lambda - \varepsilon(\lambda)[b]$ for $n = 0$, by the formula for $\partial$. For an affine simplex $\lambda$ let $b_\lambda$ be
+its barycentre $\frac{1}{n+1}\sum_i w_i$. Define $S = \id$ on $LC_0$ and $S(\lambda) = b_\lambda(S\partial\lambda)$ for $n \geq 1$; define $T = 0$ on $LC_0$ and
+$T(\lambda) = b_\lambda(\lambda - T\partial\lambda)$ for $n \geq 1$.
+
+By induction on $n$: $\partial S\lambda = S\partial\lambda - b_\lambda(\partial S\partial\lambda) = S\partial\lambda - b_\lambda(S\partial\partial\lambda) = S\partial\lambda$ for $n \geq 2$,
+and for $n = 1$, $\partial S\lambda = S\partial\lambda - \varepsilon(\partial\lambda)[b_\lambda] = S\partial\lambda$. Similarly, using $\partial T\partial\lambda = \partial\lambda - S\partial\lambda$ by
+induction, $\partial T\lambda = \lambda - T\partial\lambda - b_\lambda(\partial\lambda - \partial T\partial\lambda) = \lambda - T\partial\lambda - b_\lambda(S\partial\lambda) = \lambda - T\partial\lambda - S\lambda$.
+Affine maps preserve barycentres and cones, so $S$ and $T$ commute with $g_\#$ for affine maps $g$.
+
+\emph{General chains.} Put $S\sigma = \sigma_\#S\iota_n$ and $T\sigma = \sigma_\#T\iota_n$. Naturality is clear, and since $\sigma \circ \delta^i = \sigma_\#\delta^i$ with $\delta^i$ affine,
+$\partial S\sigma = \sigma_\#S\partial\iota_n = \sum_i(-1)^i\sigma_\#\delta^i_\#S\iota_{n-1} = S\partial\sigma$, and likewise for $T$. By naturality
+$S^m\sigma = \sigma_\#S^m\iota_n$.
+
+\emph{Diameters.} The diameter of an affine simplex is the largest distance between its vertices, since $|\sum_i t_iw_i - y| \leq \max_i|w_i - y|$. The simplices of
+$S\lambda$ are of the form $[b_\lambda, u_0, \ldots, u_{n-1}]$ with $[u_0, \ldots, u_{n-1}]$ a simplex of $S$ applied to a face of $\lambda$. For a vertex $w_i$,
+$|b_\lambda - w_i| = |\sum_j (w_j - w_i)|/(n+1) \leq \frac{n}{n+1}\operatorname{diam}\lambda$, so all points of $\lambda$ are within this distance of $b_\lambda$;
+and by induction the simplices of $S$ of a face have diameter at most $\frac{n-1}{n}\operatorname{diam}\lambda$. So the simplices of $S\lambda$ have diameter at most
+$\frac{n}{n+1}\operatorname{diam}\lambda$. Iterate, using $\operatorname{diam}\Delta^n = \sqrt{2}$.
+\end{proof}
+
+\begin{proposition}\label{singular-homology:proposition-small-chains}
+The inclusion $\iota \colon C^{\mathcal{U}}(X) \to C(X)$ is a chain homotopy equivalence. Hence it induces isomorphisms on homology.
+\end{proposition}
+
+\begin{proof}
+For a singular simplex $\sigma \colon \Delta^n \to X$ let $m(\sigma)$ be the least $m \geq 0$ such that every subset of $\Delta^n$ of diameter at most $(n/(n+1))^m\sqrt2$ lies
+in $\sigma^{-1}(\operatorname{int}U)$ for some $U \in \mathcal{U}$. It exists by the Lebesgue number lemma (Lemma~\ref{general-topology:lemma-lebesgue-number}), and
+by Lemma~\ref{singular-homology:lemma-subdivision}, $S^i\sigma \in C^{\mathcal{U}}(X)$ for $i \geq m(\sigma)$. The face maps are isometric embeddings and
+$\frac{n-1}{n} < \frac{n}{n+1}$, so $m(\sigma \circ \delta^j) \leq m(\sigma)$.
+
+Let $D_m = \sum_{0 \leq i < m}TS^i$, so that $\partial D_m + D_m\partial = \sum_i(1 - S)S^i = 1 - S^m$. Define $D\sigma = D_{m(\sigma)}\sigma$ and $\rho = 1 - \partial D - D\partial$. Then
+$\rho$ is a chain map, and
+\[
+\rho(\sigma) = S^{m(\sigma)}\sigma + (D_{m(\sigma)} - D)\partial\sigma = S^{m(\sigma)}\sigma + \sum_j (-1)^j\sum_{m(\sigma\delta^j) \leq i < m(\sigma)} TS^i(\sigma\delta^j)
+\]
+lies in $C^{\mathcal{U}}(X)$, since $T$ preserves $C^{\mathcal{U}}(X)$. So $\rho \colon C(X) \to C^{\mathcal{U}}(X)$ satisfies $1 - \iota\rho = \partial D + D\partial$. As $D$ maps
+$C^{\mathcal{U}}(X)$ into itself, the same identity shows $1 - \rho\iota = \partial D + D\partial$ on $C^{\mathcal{U}}(X)$.
+\end{proof}
+
+\begin{theorem}[Excision]\label{singular-homology:theorem-excision}
+Let $Z \subseteq A \subseteq X$ with $\overline{Z} \subseteq \operatorname{int}A$. Then the inclusion $(X \setminus Z, A \setminus Z) \to (X, A)$ induces isomorphisms on all
+$H_n$. Equivalently, if $A, B \subseteq X$ with $\operatorname{int}A \cup \operatorname{int}B = X$, then $H_n(B, A \cap B) \to H_n(X, A)$ is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+The two statements correspond via $B = X \setminus Z$, since $\operatorname{int}B = X \setminus \overline{Z}$. Let $\mathcal{U} = \{A, B\}$. The map
+$C(B)/C(A \cap B) \to C^{\mathcal{U}}(X)/C(A)$ is an isomorphism of complexes: it is surjective as every generator of $C^{\mathcal{U}}$ lies in $C(A)$ or $C(B)$, and its
+kernel is $C(B) \cap C(A) = C(A \cap B)$. The map $C^{\mathcal{U}}(X)/C(A) \to C(X)/C(A)$ induces isomorphisms on homology, by
+Proposition~\ref{singular-homology:proposition-small-chains} and the five lemma applied to the long exact sequences of $0 \to C(A) \to C^{\mathcal{U}}(X) \to C^{\mathcal{U}}(X)/C(A) \to 0$
+and $0 \to C(A) \to C(X) \to C(X, A) \to 0$.
+\end{proof}
+
+\begin{theorem}[Mayer--Vietoris]\label{singular-homology:theorem-mayer-vietoris}
+If $A, B \subseteq X$ with $\operatorname{int}A \cup \operatorname{int}B = X$, there is a natural long exact sequence
+\[
+\cdots \to H_n(A \cap B) \xrightarrow{(i_*, -j_*)} H_n(A) \oplus H_n(B) \xrightarrow{k_* + l_*} H_n(X) \xrightarrow{\partial} H_{n-1}(A \cap B) \to \cdots,
+\]
+where $i, j, k, l$ are the inclusions, and similarly in reduced homology if $A \cap B \neq \emptyset$.
+\end{theorem}
+
+\begin{proof}
+The sequence $0 \to C(A \cap B) \xrightarrow{(x \mapsto (x, -x))} C(A) \oplus C(B) \xrightarrow{((x, y) \mapsto x + y)} C^{\{A, B\}}(X) \to 0$ is exact: the kernel of the second
+map consists of pairs $(x, -x)$ with $x \in C(A) \cap C(B) = C(A \cap B)$. Take the long exact sequence and replace $H_n(C^{\{A,B\}}(X))$ by $H_n(X)$ using
+Proposition~\ref{singular-homology:proposition-small-chains}. For reduced homology augment each complex by $\ZZ$, $\ZZ \oplus \ZZ$, $\ZZ$.
+\end{proof}
+
+\section{Spheres, good pairs and degree}\label{singular-homology:section-spheres}
+
+\begin{theorem}\label{singular-homology:theorem-spheres}
+For $n \geq 0$, $\tilde{H}_k(S^n) \cong \ZZ$ for $k = n$ and $0$ otherwise. For $n \geq 1$ the Mayer--Vietoris connecting map is an isomorphism
+$\tilde{H}_k(S^n) \to \tilde{H}_{k-1}(S^{n-1})$, where $S^{n-1} \subseteq S^n$ is the equator $\{x_{n+1} = 0\}$.
+\end{theorem}
+
+\begin{proof}
+For $n = 0$, $S^0$ is two points and $\tilde{H}_0(S^0) \cong \ZZ$, generated by the difference of the two points. For $n \geq 1$ let
+$A = \{x \in S^n : x_{n+1} > -1/2\}$ and $B = \{x_{n+1} < 1/2\}$. By stereographic projection from $\mp e_{n+1}$ (Example~\ref{general-topology:example-stereographic}), $A$ and
+$B$ are homeomorphic to open balls, hence contractible, and $A \cap B$ deformation retracts onto the equator via
+$H(x, t) = ((1 - t)x + t(x', 0))/\|(1 - t)x + t(x', 0)\|$, where $x = (x', x_{n+1})$ with $x' \neq 0$. The reduced Mayer--Vietoris sequence gives the
+isomorphism, and induction gives the result.
+\end{proof}
+
+\begin{definition}\label{singular-homology:definition-good-pair}
+A pair $(X, A)$ is \emph{good} if $A$ is a nonempty closed subspace that is a deformation retract of some open neighbourhood $V$ of $A$ in $X$.
+\end{definition}
+
+\begin{proposition}\label{singular-homology:proposition-good-pair}
+For a good pair, the quotient map $q \colon (X, A) \to (X/A, A/A)$ induces isomorphisms $H_n(X, A) \cong H_n(X/A, A/A) \cong \tilde{H}_n(X/A)$. For example, for $n \geq 1$,
+$(D^n, S^{n-1})$ is good and $H_k(D^n, S^{n-1}) \cong \tilde{H}_k(S^n) \cong \tilde{H}_{k-1}(S^{n-1})$.
+\end{proposition}
+
+\begin{proof}
+Consider the commutative diagram
+\begin{center}
+\begin{tikzcd}
+H_n(X, A) \arrow[r] \arrow[d, "q_*"] & H_n(X, V) \arrow[d, "q_*"] & H_n(X \setminus A, V \setminus A) \arrow[l] \arrow[d, "q_*"] \\
+H_n(X/A, A/A) \arrow[r] & H_n(X/A, V/A) & H_n(X/A \setminus A/A, V/A \setminus A/A) \arrow[l]
+\end{tikzcd}
+\end{center}
+The upper left map is an isomorphism by the long exact sequence of the triple $(X, V, A)$, since $H_n(V, A) = 0$ (Example~\ref{singular-homology:example-pair-point}). The
+upper right map is an isomorphism by excision, as $\overline{A} = A \subseteq V = \operatorname{int}V$. Since $V$ is open and saturated, the deformation retraction of $V$
+induces one of $V/A$ onto the point $A/A$ (Lemma~\ref{homotopy:lemma-quotient-times-interval}), so the lower maps are isomorphisms for the same reasons. The right
+vertical map is induced by a homeomorphism of pairs, because $q$ restricts to a bijective quotient map $X \setminus A \to X/A \setminus A/A$ (again by
+Lemma~\ref{homotopy:lemma-quotient-times-interval}, as $X \setminus A$ is open and saturated). So the left vertical map is an isomorphism. The last isomorphism is
+Example~\ref{singular-homology:example-pair-point}. For $(D^n, S^{n-1})$ take $V = D^n \setminus \{0\}$ (Example~\ref{homotopy:example-contractible}); $D^n/S^{n-1}$ is
+compact, and the map $D^n \to S^n$, $x \mapsto (2\sqrt{1 - \|x\|^2}\,x, 2\|x\|^2 - 1)$, induces a continuous bijection $D^n/S^{n-1} \to S^n$, hence a homeomorphism. The
+last isomorphism follows from the long exact sequence of $(D^n, S^{n-1})$.
+\end{proof}
+
+\begin{definition}\label{singular-homology:definition-degree}
+The \emph{degree} of a map $f \colon S^n \to S^n$ is the integer $\deg f$ such that $f_*$ is multiplication by $\deg f$ on $\tilde{H}_n(S^n) \cong \ZZ$.
+\end{definition}
+
+\begin{proposition}\label{singular-homology:proposition-degree}
+\begin{enumerate}
+\item $\deg \id = 1$, $\deg(fg) = \deg f \deg g$, and homotopic maps have the same degree; a map that is not surjective has degree $0$.
+\item A reflection $x \mapsto (x_1, \ldots, -x_i, \ldots, x_{n+1})$ has degree $-1$, and the antipodal map has degree $(-1)^{n+1}$.
+\item A map $f \colon S^n \to S^n$ without fixed points is homotopic to the antipodal map, so $\deg f = (-1)^{n+1}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Functoriality and homotopy invariance; a non-surjective map factors through $S^n \setminus \{\mathrm{pt}\} \cong \RR^n$, which is contractible.
+
+(2) Let $r$ be the reflection in the first coordinate. For $n = 0$ it swaps the two points and acts by $-1$ on $\tilde{H}_0(S^0)$. For $n \geq 1$, $r$ preserves the sets $A$, $B$ of
+the proof of Theorem~\ref{singular-homology:theorem-spheres} and commutes with the deformation retraction of $A \cap B$ onto the equator, on which it is again the
+reflection in the first coordinate. By naturality of the Mayer--Vietoris sequence, $\deg r$ on $S^n$ equals $\deg r$ on $S^{n-1}$, hence equals $-1$. A reflection in the
+$i$-th coordinate is $\pi r \pi^{-1}$ for a coordinate permutation $\pi$, so has degree $-1$ by (1). The antipodal map is the composite of $n + 1$ reflections.
+
+(3) $(1 - t)f(x) - tx$ never vanishes: otherwise $f(x) = \frac{t}{1-t}x$ with $\|f(x)\| = \|x\| = 1$ forces $f(x) = x$. Normalising gives a homotopy from $f$ to $-\id$.
+\end{proof}
+
+\begin{corollary}\label{singular-homology:corollary-sphere-applications}
+\begin{enumerate}
+\item (Brouwer) There is no retraction $D^{n+1} \to S^n$, and every map $D^{n+1} \to D^{n+1}$ has a fixed point.
+\item (Hairy ball theorem) $S^n$ has a continuous nowhere vanishing tangent vector field ($v \colon S^n \to \RR^{n+1}$ with $\langle v(x), x \rangle = 0$) if and only if
+$n$ is odd.
+\item (Invariance of dimension) If nonempty open subsets $U \subseteq \RR^m$ and $V \subseteq \RR^n$ are homeomorphic, then $m = n$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) $\tilde{H}_n(S^n) \neq 0$ while $D^{n+1}$ is contractible, so the identity of $\tilde{H}_n(S^n)$ cannot factor through $\tilde{H}_n(D^{n+1}) = 0$. The formula in the proof
+of Corollary~\ref{homotopy:corollary-brouwer} turns a fixed point free map into a retraction.
+
+(2) If $n = 2k - 1$, $v(x) = (-x_2, x_1, \ldots, -x_{2k}, x_{2k-1})$ works. Conversely, if $v$ never vanishes, let $u = v/\|v\|$. Since $x \perp u(x)$ are unit vectors,
+$(1 - t)x + tu(x)$ and $(1 - t)u(x) - tx$ never vanish, and normalising gives homotopies $\id \simeq u \simeq -\id$. So $1 = (-1)^{n+1}$ and $n$ is odd.
+
+(3) Let $x \in U$. By excision (removing the closed set $\RR^m \setminus U$ from $\RR^m \setminus \{x\}$) and the long exact sequence,
+$H_k(U, U \setminus \{x\}) \cong H_k(\RR^m, \RR^m \setminus \{x\}) \cong \tilde{H}_{k-1}(\RR^m \setminus \{x\}) \cong \tilde{H}_{k-1}(S^{m-1})$ for $m \geq 1$, which is nonzero exactly
+for $k = m$. A homeomorphism $U \to V$ gives isomorphisms of these local homology groups. For $m = 0$ or $n = 0$ the spaces are points, and a nonempty open subset of
+$\RR^n$ is a point only if $n = 0$.
+\end{proof}
+
+\section{Cellular homology}\label{singular-homology:section-cellular}
+
+\begin{lemma}\label{singular-homology:lemma-cw-homology}
+Let $X$ be a CW complex (Definition~\ref{homotopy:definition-cw}).
+\begin{enumerate}
+\item $H_k(X^n, X^{n-1})$ is zero for $k \neq n$, and free abelian with basis the classes $e_\alpha$ of the characteristic maps $\Phi_\alpha \colon (D^n, S^{n-1}) \to (X^n, X^{n-1})$
+applied to a fixed generator of $H_n(D^n, S^{n-1}) \cong \ZZ$, for $k = n$.
+\item $H_k(X^n) = 0$ for $k > n$.
+\item The inclusion $X^n \to X$ induces an isomorphism $H_k(X^n) \to H_k(X)$ for $k < n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) $X^{n-1}$ is closed in $X^n$ (as in the proof of Proposition~\ref{homotopy:proposition-attaching-cells}), and it is a deformation retract of the open set obtained by
+removing the centres of the $n$-cells, via the radial deformation of $D^n \setminus \{0\}$ onto $S^{n-1}$, which descends to the quotient by
+Lemma~\ref{homotopy:lemma-quotient-times-interval}. So $(X^n, X^{n-1})$ is a good pair, and so is $(\coprod_\alpha D^n_\alpha, \coprod_\alpha S^{n-1}_\alpha)$. The
+characteristic maps induce a continuous bijection $\coprod_\alpha D^n_\alpha/\coprod_\alpha S^{n-1}_\alpha \to X^n/X^{n-1}$, which is a homeomorphism: a set whose
+preimage in $\coprod_\alpha D^n_\alpha$ is open has open preimage in $X^{n-1} \sqcup \coprod_\alpha D^n_\alpha$, since that preimage meets $X^{n-1}$ in $\emptyset$ or
+$X^{n-1}$. By Proposition~\ref{singular-homology:proposition-good-pair} and its naturality,
+$H_k(X^n, X^{n-1}) \cong H_k(\coprod_\alpha D^n_\alpha, \coprod_\alpha S^{n-1}_\alpha) = \bigoplus_\alpha H_k(D^n, S^{n-1})$, which is $\bigoplus_\alpha \ZZ$ for $k = n$ and $0$
+otherwise. (For $n = 0$, $X^{-1} = \emptyset$ and $H_k(X^0)$ is computed by Proposition~\ref{singular-homology:proposition-h0-point}.)
+
+(2) By the exact sequence $H_k(X^{n-1}) \to H_k(X^n) \to H_k(X^n, X^{n-1})$ and induction on $n$, starting from $X^{-1} = \emptyset$.
+
+(3) For $k < n$ the exact sequence $H_{k+1}(X^{n+1}, X^n) \to H_k(X^n) \to H_k(X^{n+1}) \to H_k(X^{n+1}, X^n)$ has outer terms zero, so $H_k(X^n) \cong H_k(X^m)$ for all
+$m \geq n$. A singular chain has compact image, which lies in a finite subcomplex (Theorem~\ref{homotopy:theorem-cw-properties}(2)), hence in some $X^m$. So
+every cycle of $X$ is a cycle of some $X^m$, and a cycle of $X^n$ that bounds in $X$ bounds in some $X^m$; this gives surjectivity and injectivity.
+\end{proof}
+
+\begin{definition}\label{singular-homology:definition-cellular}
+The \emph{cellular chain complex} of a CW complex $X$ has $C^{CW}_n(X) = H_n(X^n, X^{n-1})$ and differential $d_n$ the composite
+$H_n(X^n, X^{n-1}) \xrightarrow{\partial} H_{n-1}(X^{n-1}) \xrightarrow{j_{n-1}} H_{n-1}(X^{n-1}, X^{n-2})$. Then $d_{n-1}d_n = 0$ because it contains two consecutive maps
+$\partial \circ j_{n-1}$ of the long exact sequence of $(X^{n-1}, X^{n-2})$. Its homology is the \emph{cellular homology} $H^{CW}_n(X)$.
+\end{definition}
+
+\begin{theorem}\label{singular-homology:theorem-cellular}
+$H^{CW}_n(X) \cong H_n(X)$ for every CW complex $X$.
+\end{theorem}
+
+\begin{proof}
+Write $j_n \colon H_n(X^n) \to H_n(X^n, X^{n-1})$, which is injective since $H_n(X^{n-1}) = 0$ by Lemma~\ref{singular-homology:lemma-cw-homology}(2), and
+$\partial_{n+1} \colon H_{n+1}(X^{n+1}, X^n) \to H_n(X^n)$, so $d_{n+1} = j_n\partial_{n+1}$. Since $j_n$ is injective, $\ker d_n = \ker(j_{n-1}\partial_n) = \ker\partial_n = \im j_n$, and
+$j_n$ maps $\im\partial_{n+1}$ isomorphically onto $\im d_{n+1}$. Hence
+$H^{CW}_n(X) \cong \im j_n/\im d_{n+1} \cong H_n(X^n)/\im\partial_{n+1}$. By the exact sequence $H_{n+1}(X^{n+1}, X^n) \xrightarrow{\partial_{n+1}} H_n(X^n) \to H_n(X^{n+1}) \to H_n(X^{n+1}, X^n) = 0$,
+this is $H_n(X^{n+1})$, which is $H_n(X)$ by Lemma~\ref{singular-homology:lemma-cw-homology}(3).
+\end{proof}
+
+\begin{theorem}[Cellular boundary formula]\label{singular-homology:theorem-cellular-boundary}
+For $n \geq 2$, $d_n(e^n_\alpha) = \sum_\beta d_{\alpha\beta}e^{n-1}_\beta$, where $d_{\alpha\beta}$ is the degree of the composite
+$S^{n-1} \xrightarrow{\varphi_\alpha} X^{n-1} \to X^{n-1}/(X^{n-1} \setminus e^{n-1}_\beta) \cong S^{n-1}$ of the attaching map with the map collapsing the complement of
+the cell $e^{n-1}_\beta$ (identified with $S^{n-1}$ via $\Phi_\beta$). For $n = 1$, $d_1(e^1_\alpha)$ is the difference of the endpoint and the starting point of the
+$1$-cell.
+\end{theorem}
+
+This is \cite[Section 2.2, Cellular Boundary Formula]{hatcher-at}; the proof is a diagram chase using naturality of the long exact sequences for the characteristic
+maps.
+
+\begin{example}\label{singular-homology:example-cellular-computations}
+\begin{enumerate}
+\item If all cells of $X$ are in even dimensions, all $d_n$ vanish and $H_n(X)$ is free with basis the $n$-cells. For $\CC\PP^n$ (one cell in each even dimension
+$\leq 2n$), $H_k(\CC\PP^n) \cong \ZZ$ for $k$ even with $0 \leq k \leq 2n$, and $0$ otherwise.
+\item For the closed orientable surface $\Sigma_g$ of genus $g$ (Example~\ref{homotopy:example-cw}), $d_1 = 0$ (one $0$-cell) and $d_2 = 0$ (each $1$-cell appears twice
+in the attaching word with opposite signs), so $H_0 = \ZZ$, $H_1 = \ZZ^{2g}$, $H_2 = \ZZ$.
+\item For $\RR\PP^n$ with one cell in each dimension, $d_k$ is multiplication by $1 + (-1)^k$ \cite[Example 2.42]{hatcher-at}. So $H_k(\RR\PP^n)$ is $\ZZ$ for $k = 0$,
+$\ZZ/2\ZZ$ for $k$ odd with $0 < k < n$, $\ZZ$ for $k = n$ odd, and $0$ otherwise.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{singular-homology:definition-euler-characteristic}
+The \emph{Euler characteristic} of a finite CW complex with $c_n$ cells of dimension $n$ is $\chi(X) = \sum_n (-1)^nc_n$.
+\end{definition}
+
+\begin{proposition}\label{singular-homology:proposition-euler-characteristic}
+$\chi(X) = \sum_n (-1)^n\dim_\QQ(H_n(X) \otimes \QQ)$. In particular $\chi(X)$ depends only on the homotopy type of $X$.
+\end{proposition}
+
+\begin{proof}
+$\QQ = S^{-1}\ZZ$ is a flat $\ZZ$-module (Proposition~\ref{commutative-algebra:proposition-localisation}), so $H_n(C^{CW} \otimes \QQ) \cong H_n(C^{CW}) \otimes \QQ \cong H_n(X) \otimes \QQ$.
+For a bounded complex $V$ of finite-dimensional vector spaces, rank--nullity (Theorem~\ref{linear-algebra:theorem-rank-nullity}) gives
+$\dim V_n = \dim Z_n + \dim B_{n-1}$ and $\dim H_n = \dim Z_n - \dim B_n$, so $\sum(-1)^n\dim V_n = \sum(-1)^n\dim H_n$. Apply this to $C^{CW} \otimes \QQ$, with $\dim = c_n$.
+\end{proof}
+
+\begin{example}\label{singular-homology:example-euler}
+$\chi(S^n) = 1 + (-1)^n$, $\chi(\Sigma_g) = 2 - 2g$, $\chi(\CC\PP^n) = n + 1$, $\chi(\RR\PP^n) = 1$ for $n$ even and $0$ for $n$ odd. As $\chi(\Sigma_g)$ determines $g$, surfaces of
+different genus are not homotopy equivalent.
+\end{example}
+
+\section{Homology with coefficients}\label{singular-homology:section-coefficients}
+
+\begin{definition}\label{singular-homology:definition-coefficients}
+For an abelian group $G$, $C_n(X, A; G) = C_n(X, A) \otimes_\ZZ G$, and $H_n(X, A; G)$ is its homology. For a ring $R$ these are $R$-modules.
+\end{definition}
+
+\begin{theorem}\label{singular-homology:theorem-coefficients}
+\begin{enumerate}
+\item Homotopy invariance, the long exact sequences, excision and Mayer--Vietoris hold for $H_\bullet(-; G)$, and cellular homology with coefficients, computed from
+$C^{CW}_\bullet(X) \otimes G$, agrees with $H_\bullet(X; G)$.
+\item (Universal coefficients) There is a natural short exact sequence
+$0 \to H_n(X, A) \otimes G \to H_n(X, A; G) \to \Tor_1^\ZZ(H_{n-1}(X, A), G) \to 0$. It splits, non-naturally \cite[Theorem 3A.3]{hatcher-at}.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) The complexes $C(X, A)$ are free, so the short exact sequences of chain complexes used above are degreewise split and remain exact after $\otimes G$; chain homotopies
+remain chain homotopies. The arguments therefore apply verbatim, and the proof of Theorem~\ref{singular-homology:theorem-cellular} goes through with
+$H_n(X^n, X^{n-1}; G) \cong C^{CW}_n(X) \otimes G$. (2) Apply the K\"unneth formula (Theorem~\ref{homological-algebra:theorem-kunneth}) to the free complex $C(X, A)$ and
+the complex $G$ concentrated in degree $0$. The splitting is quoted.
+\end{proof}
+
+\begin{example}\label{singular-homology:example-rp-mod-2}
+With coefficients in $\mathbb{F}_2 = \ZZ/2\ZZ$ all cellular differentials of $\RR\PP^n$ vanish, since $1 + (-1)^k$ is even; so $H_k(\RR\PP^n; \mathbb{F}_2) \cong \mathbb{F}_2$ for
+$0 \leq k \leq n$. With coefficients in a field $F$ of characteristic $0$, $H_\bullet(X; F) \cong H_\bullet(X) \otimes F$, because $F$ is a $\QQ$-vector space, hence a direct sum of copies of the flat module $\QQ$, so $\Tor_1^\ZZ(-, F) = 0$
+(Proposition~\ref{homological-algebra:proposition-flat-tor}).
+\end{example}
+
+\section{The first homology group}\label{singular-homology:section-hurewicz}
+
+\begin{theorem}[Hurewicz in degree one]\label{singular-homology:theorem-hurewicz}
+Let $X$ be path-connected and $x_0 \in X$. Regarding a loop as a singular $1$-simplex via $\Delta^1 \cong I$, $(t_0, t_1) \mapsto t_1$, gives a well-defined homomorphism
+$h \colon \pi_1(X, x_0) \to H_1(X)$, which induces an isomorphism $\pi_1(X, x_0)^{\mathrm{ab}} \cong H_1(X)$ from the abelianisation
+(Proposition~\ref{groups:proposition-abelianization}).
+\end{theorem}
+
+\begin{proof}
+For paths we write $f \sim g$ if $f - g \in C_1(X)$ is a boundary. (i) A constant path $c$ satisfies $c \sim 0$: it is the boundary of the constant $2$-simplex.
+(ii) If $f \simeq g$ relative to endpoints via $F \colon I^2 \to X$, divide $I^2$ into two triangles along the diagonal and compose with $F$; the boundary of the
+difference of the two resulting $2$-simplices is $f - g$ plus constant paths, so $f \sim g$. (iii) $f * g \sim f + g$: the $2$-simplex $\sigma = (f * g) \circ \pi$, where
+$\pi \colon \Delta^2 \to I$ is the affine map with $e_0 \mapsto 0$, $e_1 \mapsto 1/2$, $e_2 \mapsto 1$, has $\partial\sigma = g - f * g + f$. (iv) Hence
+$f + \bar f \sim f * \bar f \sim c \sim 0$. So $h$ is well defined and a homomorphism, and it factors through $\pi_1^{\mathrm{ab}}$ as $H_1(X)$ is abelian.
+
+Choose for each $x \in X$ a path $\gamma_x$ from $x_0$ to $x$, with $\gamma_{x_0}$ constant. For a singular $1$-simplex $\tau$ let $L(\tau) = [\gamma_{\tau(0)} * \tau * \bar\gamma_{\tau(1)}]$
+in $\pi_1(X, x_0)^{\mathrm{ab}}$, written additively, and extend $L$ linearly to $C_1(X)$. For a singular $2$-simplex $\sigma$ with edges $\tau_0, \tau_1, \tau_2$ (so
+$\partial\sigma = \tau_0 - \tau_1 + \tau_2$), $L(\partial\sigma)$ is the class of the loop $\gamma_{\sigma(e_0)} * \tau_2 * \tau_0 * \bar\tau_1 * \bar\gamma_{\sigma(e_0)}$, which is
+null-homotopic because the loop around the boundary of $\Delta^2$ is null-homotopic in the contractible space $\Delta^2$. So $L$ induces
+$\bar L \colon H_1(X) \to \pi_1(X, x_0)^{\mathrm{ab}}$. Clearly $\bar L h = \id$. For a cycle $z = \sum n_i\tau_i$, by (iii) and (iv),
+$hL(z) = \sum n_i(\gamma_{\tau_i(0)} + \tau_i - \gamma_{\tau_i(1)}) = z - \Gamma(\partial z) = z$ in $H_1(X)$, where $\Gamma \colon C_0(X) \to C_1(X)$ is the homomorphism $x \mapsto \gamma_x$.
+So $h$ and $\bar L$ are inverse isomorphisms.
+\end{proof}
+
+\begin{remark}\label{singular-homology:remark-eilenberg-steenrod}
+Homotopy invariance, the long exact sequence, excision, additivity over disjoint unions and the value on a point are the \emph{Eilenberg--Steenrod axioms}. On
+CW complexes they determine homology, as the proof of Theorem~\ref{singular-homology:theorem-cellular} shows. Other constructions satisfying them, such as
+simplicial, \v{C}ech or sheaf-theoretic homology on suitable spaces, agree with singular homology there; the comparison with de Rham cohomology is
+Chapter~\ref{de-rham}.
+\end{remark}
+
+\section{Exercises}\label{singular-homology:section-exercises}
+
+\begin{exercise}\label{singular-homology:exercise-spheres-not-equivalent}
+Show that $S^m$ and $S^n$ are homotopy equivalent only if $m = n$, and that $\RR^m \setminus \{0\}$ and $\RR^n \setminus \{0\}$ are homeomorphic only if $m = n$.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{singular-homology:theorem-spheres}, $\tilde{H}_\bullet(S^m)$ is nonzero only in degree $m$. The spaces $\RR^m \setminus \{0\}$ and $S^{m-1}$ are homotopy equivalent
+(Example~\ref{homotopy:example-contractible}).
+\end{solution}
+
+\begin{exercise}\label{singular-homology:exercise-suspension}
+The \emph{suspension} $SX$ is the quotient of $X \times [-1, 1]$ collapsing $X \times \{1\}$ and $X \times \{-1\}$ to two points. Show that $\tilde{H}_{n+1}(SX) \cong \tilde{H}_n(X)$ for
+all $n$.
+\end{exercise}
+
+\begin{solution}
+Let $A$ and $B$ be the images of $X \times (-1/2, 1]$ and $X \times [-1, 1/2)$. They are contractible (slide to the cone points; the homotopies descend by
+Lemma~\ref{homotopy:lemma-quotient-times-interval}), and $A \cap B \cong X \times (-1/2, 1/2) \simeq X$. The reduced Mayer--Vietoris sequence gives the isomorphism.
+\end{solution}
+
+\begin{exercise}\label{singular-homology:exercise-wedge}
+Show that $\tilde{H}_n(\bigvee_\alpha X_\alpha) \cong \bigoplus_\alpha\tilde{H}_n(X_\alpha)$ if the basepoints $x_\alpha$ are such that each $(X_\alpha, x_\alpha)$ is a good pair.
+Compute $H_\bullet$ of a wedge of $k$ circles.
+\end{exercise}
+
+\begin{solution}
+The pair $(\coprod X_\alpha, \coprod\{x_\alpha\})$ is good with quotient $\bigvee X_\alpha$, so
+$\tilde{H}_n(\bigvee X_\alpha) \cong H_n(\coprod X_\alpha, \coprod\{x_\alpha\}) = \bigoplus H_n(X_\alpha, x_\alpha) = \bigoplus\tilde{H}_n(X_\alpha)$. For $k$ circles, $H_0 = \ZZ$, $H_1 = \ZZ^k$,
+and $H_n = 0$ for $n \geq 2$; this agrees with Theorem~\ref{singular-homology:theorem-hurewicz}, since the abelianisation of a free group of rank $k$ is $\ZZ^k$.
+\end{solution}
+
+\begin{exercise}\label{singular-homology:exercise-degree-comparison}
+Using Theorem~\ref{singular-homology:theorem-hurewicz} and Remark~\ref{homotopy:remark-exponential}, show that the degree of a map $S^1 \to S^1$ defined via $\pi_1$
+agrees with the homological degree.
+\end{exercise}
+
+\begin{exercise}\label{singular-homology:exercise-lefschetz}
+Let $X$ be a finite CW complex and $f \colon X \to X$ a cellular map. Define the Lefschetz number $\Lambda(f) = \sum_n(-1)^n\operatorname{tr}(f_* \mid H_n(X; \QQ))$. Show that
+$\Lambda(f) = \sum_n (-1)^n \operatorname{tr}(f_\# \mid C^{CW}_n(X) \otimes \QQ)$, and deduce that $\Lambda(\id) = \chi(X)$.
+\end{exercise}
+
+\begin{exercise}\label{singular-homology:exercise-klein-bottle}
+The Klein bottle $K$ is obtained from $S^1 \vee S^1$ by attaching a $2$-cell along $aba^{-1}b$. Compute $\pi_1(K)$, $H_\bullet(K)$ and $H_\bullet(K; \mathbb{F}_2)$.
+\end{exercise}
