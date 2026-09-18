@@ -1,16 +1,285 @@
 \chapter{Linear Algebraic Groups}\label{algebraic-groups}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Linear algebraic groups and their representations, as needed for Mumford--Tate groups.
+\section{Introduction}\label{algebraic-groups:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{schemes} (Schemes), Chapter~\ref{lie-groups} (Lie Groups) and Chapter~\ref{representation-theory} (Representations of Groups and Lie Algebras).
+A Hodge structure on a real vector space $V$ is the same as an action of the real algebraic group $\mathbb{S} = \mathrm{Res}_{\CC/\RR}\mathbb{G}_m$, the
+Deligne torus (Proposition~\ref{algebraic-groups:proposition-deligne-torus}). The symmetry group of a rational Hodge structure, its Mumford--Tate group
+(Chapter~\ref{mumford-tate}), is the smallest algebraic subgroup of $\mathrm{GL}(V)$ defined over $\QQ$ through which this action factors. This chapter provides
+the language: affine group schemes and their Hopf algebras, the embedding of every algebraic group into some $\mathrm{GL}_n$, representations, tori and characters,
+Lie algebras, reductive groups and Weil restriction. The ground field is a field $k$ of characteristic $0$ unless stated otherwise. References:
+\cite{waterhouse-affine}, \cite{milne-algebraic-groups}, \cite{borel-lag}, \cite{deligne-milne}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Affine group schemes and linear algebraic groups.
-\item Representations and the Tannakian point of view.
-\item Tori and characters; the Deligne torus.
-\item Reductive groups (overview).
-\item The Lie algebra of an algebraic group.
-\item Weil restriction of scalars.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{schemes} (Schemes), Chapter~\ref{lie-groups} (Lie Groups) and Chapter~\ref{representation-theory} (Representations of
+Groups and Lie Algebras).
+
+\section{Affine group schemes}\label{algebraic-groups:section-group-schemes}
+
+\begin{definition}\label{algebraic-groups:definition-group-scheme}
+An \emph{affine group scheme} over $k$ is an affine $k$-scheme $G = \Spec A$ whose functor of points $R \mapsto G(R) = \Hom_{k\text{-alg}}(A, R)$ takes values in groups,
+functorially in the $k$-algebra $R$. Equivalently (Yoneda), $A = \mathcal{O}(G)$ is a \emph{commutative Hopf algebra}: it has $k$-algebra maps
+$\Delta \colon A \to A \otimes A$ (comultiplication), $\varepsilon \colon A \to k$ (counit) and $S \colon A \to A$ (antipode), dual to multiplication, identity and inverse,
+satisfying the dual group axioms. A \emph{linear algebraic group} is an affine group scheme of finite type. Homomorphisms are morphisms of schemes compatible with the
+group laws.
+\end{definition}
+
+\begin{example}\label{algebraic-groups:example-groups}
+\begin{enumerate}
+\item The \emph{additive group} $\mathbb{G}_a = \Spec k[t]$, $\Delta(t) = t \otimes 1 + 1 \otimes t$, with $\mathbb{G}_a(R) = (R, +)$.
+\item The \emph{multiplicative group} $\mathbb{G}_m = \Spec k[t, t^{-1}]$, $\Delta(t) = t \otimes t$, with $\mathbb{G}_m(R) = (R^*, \cdot)$. Its subgroup $\mu_n = \Spec k[t]/(t^n - 1)$ of
+$n$-th roots of unity.
+\item $\mathrm{GL}_n = \Spec k[x_{ij}, 1/\det]$ with $\Delta(x_{ij}) = \sum_lx_{il} \otimes x_{lj}$, and its closed subgroups $\mathrm{SL}_n$ ($\det = 1$), the orthogonal group
+$\mathrm{O}(q) = \{g : q(gv) = q(v)\}$ of a nondegenerate quadratic form, the symplectic group $\mathrm{Sp}_{2g}$ of a nondegenerate alternating form, and the
+diagonal torus $\mathbb{G}_m^n$.
+\item For a finite-dimensional vector space $V$, $\mathrm{GL}(V)(R) = \mathrm{Aut}_R(V \otimes_kR)$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{algebraic-groups:definition-representation}
+A \emph{representation} of $G$ on a $k$-vector space $V$ is a natural action of $G(R)$ on $V \otimes_kR$ by $R$-linear maps. Equivalently it is a \emph{comodule}: a linear map
+$\rho \colon V \to V \otimes A$ with $(\rho \otimes \mathrm{id})\rho = (\mathrm{id} \otimes \Delta)\rho$ and $(\mathrm{id} \otimes \varepsilon)\rho = \mathrm{id}$. The element $g \in G(R)$,
+that is $g \colon A \to R$, acts by $(\mathrm{id} \otimes g) \circ \rho$ extended $R$-linearly. The \emph{regular representation} is $A$ itself with $\rho = \Delta$.
+\end{definition}
+
+\begin{lemma}\label{algebraic-groups:lemma-locally-finite}
+Every comodule is the union of its finite-dimensional subcomodules.
+\end{lemma}
+
+\begin{proof}
+Let $v \in V$ and choose a basis $(a_i)$ of $A$. Write $\rho(v) = \sum_iv_i \otimes a_i$ (finite sum) and $\Delta(a_i) = \sum_{j,l}c_{ijl}a_j \otimes a_l$. Applying the two sides of
+the coassociativity identity to $v$ gives $\sum_i\rho(v_i) \otimes a_i = \sum_{i,j,l}c_{ijl}v_i \otimes a_j \otimes a_l$, and comparing the coefficients of $a_l$ in the last factor gives
+$\rho(v_l) = \sum_{i,j}c_{ijl}v_i \otimes a_j$. So $W = \mathrm{span}(v_i)$ is a subcomodule, and $v = \sum_i\varepsilon(a_i)v_i \in W$ by the counit identity.
+\end{proof}
+
+\begin{theorem}\label{algebraic-groups:theorem-linear}
+Every linear algebraic group $G$ is isomorphic to a closed subgroup of some $\mathrm{GL}_n$.
+\end{theorem}
+
+\begin{proof}
+Let $A = \mathcal{O}(G)$ with algebra generators $f_1, \ldots, f_m$. By Lemma~\ref{algebraic-groups:lemma-locally-finite} for the regular representation, there is a
+finite-dimensional subcomodule $V \subseteq A$ containing all $f_i$. Choose a basis $v_1, \ldots, v_n$ of $V$ and write $\Delta(v_j) = \sum_iv_i \otimes a_{ij}$ with $a_{ij} \in A$.
+Coassociativity shows that $x_{ij} \mapsto a_{ij}$ defines a Hopf algebra map $k[x_{ij}, 1/\det] \to A$, that is, a homomorphism $\rho \colon G \to \mathrm{GL}_n$ (the determinant maps
+to a unit, whose inverse is the image of the determinant of $S(a_{ij})$). It is surjective on rings, because $v_j = (\varepsilon \otimes \mathrm{id})\Delta(v_j) = \sum_i\varepsilon(v_i)a_{ij}$ lies in
+the image, and the $v_j$ include the generators $f_i$. So $\rho$ is a closed immersion.
+\end{proof}
+
+\begin{remark}\label{algebraic-groups:remark-smoothness}
+In characteristic $0$ every linear algebraic group is smooth (Cartier's theorem) \cite[Theorem 3.23]{milne-algebraic-groups}, so its reduced structure causes no trouble and
+$\dim G = \dim\mathrm{Lie}(G)$. In characteristic $p$, $\mu_p = \Spec k[t]/(t^p - 1) = \Spec k[t]/(t - 1)^p$ is a non-reduced group scheme with one point.
+\end{remark}
+
+\section{Representations and Tannakian categories}\label{algebraic-groups:section-tannakian}
+
+\begin{definition}\label{algebraic-groups:definition-tensor-category}
+The finite-dimensional representations of $G$ form an abelian category $\mathrm{Rep}_k(G)$ with tensor products, duals and the unit object $k$ (trivial representation), and
+a \emph{fibre functor} $\omega \colon \mathrm{Rep}_k(G) \to \mathrm{Vec}_k$ forgetting the action. For a representation $V$, the tensor spaces are
+$T^{r,s}(V) = V^{\otimes r} \otimes (V^\vee)^{\otimes s}$, and a \emph{tensor} $t \in T^{r,s}(V)$ is \emph{fixed} by $G$ if $g(t \otimes 1) = t \otimes 1$ for all $g \in G(R)$ and all $R$.
+\end{definition}
+
+\begin{theorem}\label{algebraic-groups:theorem-tannakian}
+\begin{enumerate}
+\item (Tannaka duality) $G$ is recovered from $(\mathrm{Rep}_k(G), \omega)$: $G(R)$ is the group of families $(\lambda_V)$ of $R$-linear automorphisms of $V \otimes R$,
+natural in $V$ and compatible with tensor products and the unit.
+\item (Chevalley) Every closed subgroup $H \subseteq G$ is the stabiliser of a line $L$ in some finite-dimensional representation $W$ of $G$.
+\item If $H \subseteq \mathrm{GL}(V)$ is reductive (Definition~\ref{algebraic-groups:definition-reductive}), then $H$ is the subgroup of $\mathrm{GL}(V)$ fixing all tensors in
+$\bigoplus_{r,s}T^{r,s}(V)$ that are fixed by $H$.
+\end{enumerate}
+\end{theorem}
+
+Statement (1) is \cite[Theorem 2.11]{deligne-milne}, (2) is Chevalley's theorem \cite{milne-algebraic-groups}, and (3) is
+\cite[Proposition 3.1(c)]{deligne-abelian}. Statement (3) is the reason why Mumford--Tate groups, defined as stabilisers of Hodge tensors, capture all the Hodge classes in
+tensor spaces (Chapter~\ref{mumford-tate}). Without reductivity (3) fails. Every tensor fixed by the group $B$ of invertible upper triangular $2 \times 2$ matrices is fixed by
+$\mathrm{GL}_2$: a $B$-fixed vector in a representation of $\mathrm{GL}_2$ is a highest weight vector of weight $0$, so it spans a trivial subrepresentation. But $B \neq \mathrm{GL}_2$.
+
+\begin{proposition}\label{algebraic-groups:proposition-subgroup-fixing}
+Let $G$ be a linear algebraic group and $V$ a representation. For $t \in T^{r,s}(V)$ the stabiliser $G_t = \{g : gt = t\}$ is a closed subgroup of $G$, defined over the
+field of definition of $t$. For $v \in V$, the stabiliser of the line $kv$ is a closed subgroup.
+\end{proposition}
+
+\begin{proof}
+Write $\rho(t) = \sum_it_i \otimes a_i$ with the $t_i$ a basis of $T^{r,s}(V)$ containing $t = t_1$. Then $g \in G(R)$ fixes $t$ if and only if $g(a_1) = 1$ and $g(a_i) = 0$ for $i \geq 2$,
+which are polynomial equations. For the line, $g$ stabilises $kv$ if and only if $gv \wedge v = 0$ in $\Lambda^2V$, again polynomial equations.
+\end{proof}
+
+\section{Tori, characters and the Deligne torus}\label{algebraic-groups:section-tori}
+
+\begin{definition}\label{algebraic-groups:definition-torus}
+A \emph{character} of $G$ is a homomorphism $G \to \mathbb{G}_m$; they form an abelian group $X^*(G)$ under pointwise multiplication (written additively). A
+\emph{cocharacter} is a homomorphism $\mathbb{G}_m \to G$. A \emph{split torus} is a group isomorphic to $\mathbb{G}_m^r$, and a \emph{torus} is a group $T$ such that $T_{\bar k}$ is a split
+torus. $T$ is \emph{split} over a field extension $L$ if $T_L$ is.
+\end{definition}
+
+\begin{proposition}\label{algebraic-groups:proposition-torus-reps}
+Let $T = \mathbb{G}_m^r$. Then $X^*(T) \cong \ZZ^r$, the characters being the monomials $t^m = t_1^{m_1} \cdots t_r^{m_r}$, and $\mathcal{O}(T) = k[X^*(T)]$ is the group algebra. A
+representation of $T$ is the same as a $X^*(T)$-graded vector space $V = \bigoplus_\chi V_\chi$, where $T$ acts on $V_\chi$ through $\chi$. In particular every representation of a
+split torus is a direct sum of one-dimensional ones.
+\end{proposition}
+
+\begin{proof}
+$\mathcal{O}(T) = k[t_i^{\pm 1}]$ has basis the monomials $t^m$, which are group-like: $\Delta(t^m) = t^m \otimes t^m$. A character is a group-like unit, and the group-like elements of a
+group algebra are the group elements (a group-like element $\sum c_mt^m$ satisfies $\sum c_mt^m \otimes t^m = \sum c_mc_{m'}t^m \otimes t^{m'}$, forcing a single term with $c_m = 1$). For a
+comodule $V$ put $V_m = \{v : \rho(v) = v \otimes t^m\}$. Writing $\rho(v) = \sum_mv_m \otimes t^m$, coassociativity gives $\rho(v_m) = v_m \otimes t^m$, so $v_m \in V_m$, and the counit gives
+$v = \sum_mv_m$. The sum of the $V_m$ is direct because the $t^m$ are linearly independent.
+\end{proof}
+
+\begin{remark}\label{algebraic-groups:remark-galois-tori}
+For a torus $T$ over $k$, split over a finite Galois extension $L$, $\mathrm{Gal}(L/k)$ acts on $X^*(T_L) \cong \ZZ^r$, and $T \mapsto X^*(T_L)$ is an anti-equivalence between tori
+over $k$ split by $L$ and free abelian groups of finite rank with a $\mathrm{Gal}(L/k)$-action \cite[Theorem 12.23]{milne-algebraic-groups}. Representations of $T$ are
+$X^*(T_L)$-graded $L$-vector spaces $V_L$ with a semilinear Galois action compatible with the grading.
+\end{remark}
+
+\begin{definition}\label{algebraic-groups:definition-deligne-torus}
+The \emph{Deligne torus} is $\mathbb{S} = \mathrm{Res}_{\CC/\RR}\mathbb{G}_m$ (Section~\ref{algebraic-groups:section-weil-restriction}), the real algebraic group with
+$\mathbb{S}(R) = (R \otimes_\RR\CC)^*$. Concretely $\mathbb{S} = \Spec\RR[a, b, 1/(a^2 + b^2)]$, $\mathbb{S}(\RR) = \CC^*$ via $z = a + ib$, and
+$\mathbb{S}(\CC) = (\CC \otimes_\RR\CC)^* \cong \CC^* \times \CC^*$, where $z \in \CC^* = \mathbb{S}(\RR)$ maps to $(z, \bar z)$. The characters of $\mathbb{S}_\CC$ are
+$z^p\bar z^q$, $(p, q) \in \ZZ^2$. The \emph{weight cocharacter} $w \colon \mathbb{G}_m \to \mathbb{S}$ is the inclusion $\RR^* \subseteq \CC^*$, and the \emph{norm}
+$\mathrm{Nm} \colon \mathbb{S} \to \mathbb{G}_m$ is $z \mapsto z\bar z$.
+\end{definition}
+
+\begin{proposition}\label{algebraic-groups:proposition-deligne-torus}
+Let $V$ be a finite-dimensional real vector space. Representations $h \colon \mathbb{S} \to \mathrm{GL}(V)$ correspond bijectively to decompositions
+$V_\CC = \bigoplus_{p,q}V^{p,q}$ with $\overline{V^{p,q}} = V^{q,p}$, via
+\[
+V^{p,q} = \{v \in V_\CC : h(z)v = z^{-p}\bar z^{-q}v \text{ for all } z \in \CC^*\}.
+\]
+Under this correspondence $w(r)$ acts on $V^{p,q}$ by $r^{-(p+q)}$, so $V = \bigoplus_nV_n$ with $V_{n,\CC} = \bigoplus_{p+q=n}V^{p,q}$ is the \emph{weight decomposition}.
+\end{proposition}
+
+\begin{proof}
+$\mathbb{S}_\CC$ is a split torus with character group $\ZZ^2$ generated by $z$ and $\bar z$. By Proposition~\ref{algebraic-groups:proposition-torus-reps}, a representation of $\mathbb{S}_\CC$ on
+$V_\CC$ is a $\ZZ^2$-grading, which we index by $(p, q) \mapsto$ the character $z^{-p}\bar z^{-q}$ (Deligne's sign convention). The subgroup $\mathbb{S}(\RR) = \CC^*$ is Zariski dense in
+$\mathbb{S}_\CC$, since a Laurent polynomial in $z$, $\bar z$ vanishing on $\{(z, \bar z)\}$ is zero, so the grading is determined by the action of $\CC^*$ as displayed. The
+representation is defined over $\RR$ if and only if $V_\CC$ is stable under the action of $\CC^*$ and $h(z)$ commutes with complex conjugation on $V_\CC$. If $v \in V^{p,q}$, then
+$h(z)\bar v = \overline{h(z)v} = \overline{z^{-p}\bar z^{-q}v} = z^{-q}\bar z^{-p}\bar v$, so $\bar v \in V^{q,p}$. Conversely, a grading with $\overline{V^{p,q}} = V^{q,p}$ defines $h(z)$
+by the formula, and $h(z)$ commutes with conjugation by the same computation, hence is real. The statement about $w$ is the case $z = r \in \RR^*$.
+\end{proof}
+
+\section{The Lie algebra}\label{algebraic-groups:section-lie-algebra}
+
+\begin{definition}\label{algebraic-groups:definition-lie-algebra}
+Let $k[\varepsilon] = k[t]/(t^2)$. The \emph{Lie algebra} of $G$ is $\mathrm{Lie}(G) = \ker(G(k[\varepsilon]) \to G(k))$, a $k$-vector space identified with the tangent space
+$(\mathfrak{m}_e/\mathfrak{m}_e^2)^\vee$ at the identity (Exercise~\ref{schemes:exercise-dual-numbers}). The bracket is induced by the commutator in
+$G(k[\varepsilon_1, \varepsilon_2])$, and a representation $\rho$ of $G$ differentiates to a representation $d\rho$ of $\mathrm{Lie}(G)$.
+\end{definition}
+
+\begin{example}\label{algebraic-groups:example-lie-algebras}
+$\mathrm{Lie}(\mathrm{GL}_n) = \{1 + \varepsilon X\} \cong \mathfrak{gl}_n$, with the commutator bracket. Since $\det(1 + \varepsilon X) = 1 + \varepsilon\operatorname{tr}X$,
+$\mathrm{Lie}(\mathrm{SL}_n) = \{X : \operatorname{tr}X = 0\}$. Similarly $\mathrm{Lie}(\mathrm{O}(q)) = \{X : B(Xv, w) + B(v, Xw) = 0\}$, where $B$ is the bilinear form of $q$, and
+$\mathrm{Lie}(\mathbb{G}_m^r) = k^r$ with zero bracket. For $k = \RR$ or $\CC$, $\mathrm{Lie}(G)$ is the Lie algebra of the Lie group $G(k)$
+(Definition~\ref{lie-groups:definition-lie-algebra-of-g}).
+\end{example}
+
+\begin{proposition}\label{algebraic-groups:proposition-lie-correspondence}
+In characteristic $0$, for connected $G$, $H \mapsto \mathrm{Lie}(H)$ is an injective, inclusion-preserving map from connected closed subgroups of $G$ to Lie subalgebras of
+$\mathrm{Lie}(G)$. A subspace $W \subseteq V$ of a representation is $G$-stable if and only if it is $\mathrm{Lie}(G)$-stable, and a vector is fixed by $G$ if and only if it is
+killed by $\mathrm{Lie}(G)$.
+\end{proposition}
+
+See \cite{borel-lag} and \cite{milne-algebraic-groups}. It fails in characteristic $p$: $\mu_p$ and $\{1\}$ have
+different Lie algebras over a field of characteristic $p$ but the same points, and $\mathbb{G}_a$ acting on $k^2$ by $t \mapsto \left(\begin{smallmatrix}1 & t^p \\ 0 & 1\end{smallmatrix}\right)$
+has $\mathrm{Lie}$ acting trivially without fixing everything.
+
+\section{Reductive groups}\label{algebraic-groups:section-reductive}
+
+\begin{definition}\label{algebraic-groups:definition-reductive}
+A linear algebraic group $G$ over $k$ is \emph{unipotent} if it is isomorphic to a closed subgroup of the upper triangular unipotent matrices. The \emph{unipotent radical}
+$R_u(G)$ is the largest connected normal unipotent subgroup of $G_{\bar k}$. A connected $G$ is \emph{reductive} if $R_u(G) = 1$, and \emph{semisimple} if moreover its centre is finite.
+\end{definition}
+
+\begin{theorem}\label{algebraic-groups:theorem-reductive}
+Let $k$ have characteristic $0$ and $G$ be connected.
+\begin{enumerate}
+\item $G$ is reductive if and only if every finite-dimensional representation of $G$ is semisimple (a direct sum of irreducible representations).
+\item If $G$ is reductive, then $G = Z(G)^\circ \cdot G^{\mathrm{der}}$, where the connected centre $Z(G)^\circ$ is a torus and the derived group $G^{\mathrm{der}}$ is semisimple, and
+$Z(G)^\circ \cap G^{\mathrm{der}}$ is finite.
+\item Tori, $\mathrm{GL}_n$, $\mathrm{SL}_n$, $\mathrm{Sp}_{2g}$ and $\mathrm{SO}(q)$ are reductive; $\mathbb{G}_a$ and the group of invertible upper triangular matrices are not.
+\end{enumerate}
+\end{theorem}
+
+See \cite{milne-algebraic-groups} and \cite{borel-lag}. For example, the representation of $\mathbb{G}_a$ on $k^2$ by
+$t \mapsto \left(\begin{smallmatrix}1 & t \\ 0 & 1\end{smallmatrix}\right)$ has the invariant line $k e_1$ without an invariant complement, so $\mathbb{G}_a$ is not reductive.
+
+\begin{proposition}[Compact real forms]\label{algebraic-groups:proposition-cartan-involution}
+Let $G$ be a connected linear algebraic group over $\RR$ and $\theta$ an involution of $G_\CC$ such that
+$G^{(\theta)} = \{g \in G(\CC) : \theta(\bar g) = g\}$ is compact. Then $G$ is reductive. In particular, if $G \subseteq \mathrm{GL}(V)$ and there is a positive definite inner
+product on $V$ such that $G$ is stable under $g \mapsto g^T$ (the adjoint), then $G$ is reductive.
+\end{proposition}
+
+\begin{proof}
+The group $K = G^{(\theta)}$ is a compact real form of $G(\CC)$: it is the fixed group of the antiholomorphic involution $g \mapsto \theta(\bar g)$, so its Lie algebra $\mathfrak{k}$ is a real
+form of $\mathrm{Lie}(G_\CC)$, that is, $\mathrm{Lie}(G_\CC) = \mathfrak{k} \oplus i\mathfrak{k}$. Let $W$ be a complex representation of $G_\CC$ and $W' \subseteq W$ a subrepresentation. By
+Corollary~\ref{lie-groups:corollary-averaging}, $W$ has a $K$-invariant Hermitian inner product, and the orthogonal complement $W''$ of $W'$ is $K$-stable, hence $\mathfrak{k}$-stable. As
+$\mathfrak{k}$ spans $\mathrm{Lie}(G_\CC)$ over $\CC$, $W''$ is $\mathrm{Lie}(G_\CC)$-stable, hence $G_\CC$-stable by Proposition~\ref{algebraic-groups:proposition-lie-correspondence}. So
+every representation of $G_\CC$, and therefore of $G$, is semisimple, and $G$ is reductive by Theorem~\ref{algebraic-groups:theorem-reductive}(1). For the second statement,
+extend the inner product to a Hermitian one on $V_\CC$ and take $\theta(g) = (g^*)^{-1}$, where $g^*$ is the Hermitian adjoint of $g \in G(\CC)$. Then
+$\theta(\bar g) = (g^T)^{-1}$ in a real orthonormal basis, so $G^{(\theta)} = G(\CC) \cap U(V_\CC)$, which is compact.
+\end{proof}
+
+\begin{remark}\label{algebraic-groups:remark-mumford-tate-reductive}
+A variant of this argument, with the Weil operator of a polarisation in place of the transpose, shows that Mumford--Tate groups of polarisable Hodge structures are
+reductive (Chapter~\ref{mumford-tate}).
+\end{remark}
+
+\section{Weil restriction of scalars}\label{algebraic-groups:section-weil-restriction}
+
+\begin{definition}\label{algebraic-groups:definition-weil-restriction}
+Let $L/k$ be a finite field extension and $Y$ an affine scheme over $L$. The \emph{Weil restriction} $\mathrm{Res}_{L/k}Y$ is the functor on $k$-algebras
+$R \mapsto Y(R \otimes_kL)$.
+\end{definition}
+
+\begin{proposition}\label{algebraic-groups:proposition-weil-restriction}
+$\mathrm{Res}_{L/k}Y$ is represented by an affine $k$-scheme. If $Y$ is a linear algebraic group of dimension $d$, then $\mathrm{Res}_{L/k}Y$ is a linear algebraic group of dimension
+$d[L : k]$. If $L/k$ is Galois, then $(\mathrm{Res}_{L/k}Y)_L \cong \prod_{\sigma \in \mathrm{Gal}(L/k)}Y^\sigma$.
+\end{proposition}
+
+\begin{proof}
+Choose a basis $e_1, \ldots, e_m$ of $L$ over $k$. For $Y = \Aa^n_L$, a point of $Y(R \otimes_kL)$ is an $n$-tuple $y_j = \sum_ix_{ij}e_i$ with $x_{ij} \in R$, so
+$\mathrm{Res}_{L/k}\Aa^n_L = \Aa^{nm}_k$. If $Y = V(f_1, \ldots, f_s) \subseteq \Aa^n_L$, substitute $y_j = \sum_ix_{ij}e_i$ into $f_l$ and expand in the basis:
+$f_l = \sum_iF_{li}(x)e_i$ with $F_{li} \in k[x]$. Then $\mathrm{Res}_{L/k}Y = V(F_{li}) \subseteq \Aa^{nm}_k$. The group structure is inherited functorially. For the dimension and the
+Galois statement, use $(R \otimes_kL) \otimes_kL \cong \prod_\sigma R \otimes_kL$ for $R$ an $L$-algebra, which gives
+$\mathrm{Res}_{L/k}Y(R) = \prod_\sigma Y^\sigma(R)$ for $L$-algebras $R$.
+\end{proof}
+
+\begin{example}\label{algebraic-groups:example-weil-restriction}
+\begin{enumerate}
+\item $\mathbb{S} = \mathrm{Res}_{\CC/\RR}\mathbb{G}_m$ is a two-dimensional torus over $\RR$ that is not split, with $\mathbb{S}_\CC \cong \mathbb{G}_m^2$; complex conjugation swaps the two
+characters $z$ and $\bar z$.
+\item For a number field $E$, $T_E = \mathrm{Res}_{E/\QQ}\mathbb{G}_m$ has $T_E(\QQ) = E^*$. If $E$ is a CM field, the Mumford--Tate group of an abelian variety with complex
+multiplication by $E$ is a subtorus of $T_E$ (Chapter~\ref{abelian-varieties}).
+\item The kernel $\mathbb{U}(1) = \ker(\mathrm{Nm} \colon \mathbb{S} \to \mathbb{G}_m)$ is the circle group, with $\mathbb{U}(1)(\RR) = S^1$, a torus that is compact and not split over $\RR$.
+\end{enumerate}
+\end{example}
+
+\section{Exercises}\label{algebraic-groups:section-exercises}
+
+\begin{exercise}\label{algebraic-groups:exercise-characters-gln}
+Show that $X^*(\mathrm{GL}_n) = \ZZ$, generated by $\det$, and that $X^*(\mathrm{SL}_n) = 0$.
+\end{exercise}
+
+\begin{solution}
+A character is a unit $\chi \in k[x_{ij}, 1/\det]$ with $\Delta(\chi) = \chi \otimes \chi$. The units of this ring are $c\det^m$, since $\det$ is irreducible, and group-likeness forces $c = 1$.
+For $\mathrm{SL}_n$, the group $\mathrm{SL}_n(\bar k)$ is generated by the elementary matrices $1 + tE_{ij}$, $i \neq j$, and each family $t \mapsto 1 + tE_{ij}$ is a homomorphism
+$\mathbb{G}_a \to \mathrm{SL}_n$. A character of $\mathbb{G}_a$ is a group-like unit of $k[t]$, hence $1$. So every character of $\mathrm{SL}_n$ is trivial on a generating set of
+$\mathrm{SL}_n(\bar k)$, and as $\mathrm{SL}_n$ is reduced, it is trivial.
+\end{solution}
+
+\begin{exercise}\label{algebraic-groups:exercise-deligne-torus-examples}
+Describe the representations of $\mathbb{S}$ on $\RR^2$ given by $h(a + ib) = \left(\begin{smallmatrix}a & -b \\ b & a\end{smallmatrix}\right)$ and by $h(z) = z\bar z \cdot \mathrm{id}$, in terms of
+the decomposition of Proposition~\ref{algebraic-groups:proposition-deligne-torus}.
+\end{exercise}
+
+\begin{solution}
+The first is multiplication by $z$ on $\CC = \RR^2$. On $V_\CC = \CC^2$ its eigenvectors are $(1, -i)$ with eigenvalue $z$ and $(1, i)$ with eigenvalue $\bar z$. With
+$h(z)v = z^{-p}\bar z^{-q}v$, these are $V^{-1,0}$ and $V^{0,-1}$, a Hodge structure of weight $-1$ (the Hodge structure of $H_1$ of an elliptic curve). The second acts by
+$z\bar z = z^1\bar z^1$ on all of $V_\CC$, so $V = V^{-1,-1}$, of weight $-2$.
+\end{solution}
+
+\begin{exercise}\label{algebraic-groups:exercise-unipotent-not-reductive}
+Show directly that the group $B$ of invertible upper triangular $2 \times 2$ matrices has a representation that is not semisimple, and compute its unipotent radical.
+\end{exercise}
+
+\begin{solution}
+The standard representation on $k^2$ has the invariant line $ke_1$, and an invariant complement would be spanned by a common eigenvector outside $ke_1$, which does not exist
+because $\left(\begin{smallmatrix}1 & 1 \\ 0 & 1\end{smallmatrix}\right)$ has only the eigenline $ke_1$. The unipotent radical is the normal subgroup $U$ of unipotent upper triangular
+matrices, and $B/U \cong \mathbb{G}_m^2$ is a torus.
+\end{solution}
