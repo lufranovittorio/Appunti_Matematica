@@ -1,16 +1,196 @@
 \chapter{Characteristic Classes}\label{characteristic-classes}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Chern classes of complex vector bundles, from both the differential-geometric and the topological point of view.
+\section{Introduction}\label{characteristic-classes:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature), Chapter~\ref{de-rham} (de Rham Cohomology) and Chapter~\ref{cohomology-operations} (Cohomology Operations).
+Characteristic classes measure how far a vector bundle is from being trivial. For complex bundles they are the Chern classes
+$c_k(E) \in H^{2k}(M; \ZZ)$, which can be constructed either topologically or, in de Rham cohomology, from the curvature of any
+connection by Chern--Weil theory (Theorem~\ref{characteristic-classes:theorem-chern-weil}). They are central to the Hodge
+conjecture: Chern classes of algebraic vector bundles are Hodge classes, the Chern character appears in the Riemann--Roch theorem,
+and the class of a divisor is the first Chern class of a line bundle (Chapter~\ref{divisors}). References: \cite{milnor-stasheff},
+\cite{bott-tu}, \cite{hirzebruch-topological}, \cite[Chapter 1]{griffiths-harris}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Chern--Weil theory: characteristic forms from curvature.
-\item Chern classes of complex vector bundles and their axiomatic characterisation.
-\item The splitting principle; the Chern character and the Todd class.
-\item The Thom isomorphism and the Euler class.
-\item Pontryagin classes.
-\item Classifying spaces and Grassmannians.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature), Chapter~\ref{de-rham} (de Rham Cohomology)
+and Chapter~\ref{cohomology-operations} (Cohomology Operations).
+
+\section{Chern--Weil theory}\label{characteristic-classes:section-chern-weil}
+
+\begin{definition}\label{characteristic-classes:definition-invariant-polynomial}
+An \emph{invariant polynomial} of degree $k$ is a symmetric $k$-linear form $\tilde{P}$ on $\mathfrak{gl}_r(\CC) = M_r(\CC)$ with
+$\tilde{P}(gA_1g^{-1}, \ldots, gA_kg^{-1}) = \tilde{P}(A_1, \ldots, A_k)$ for $g \in \GL_r(\CC)$; we write $P(A) = \tilde{P}(A, \ldots, A)$. Differentiating the invariance along $g = \exp(tB)$ gives
+\[
+\sum_{i=1}^k\tilde{P}(A_1, \ldots, [B, A_i], \ldots, A_k) = 0 .
+\]
+Multilinear forms are extended to matrices of differential forms by multiplying the entries with the wedge product; then $\tilde{P}(\alpha_1, \ldots, \alpha_k)$ is a form of degree $\sum\deg\alpha_i$, and it is
+symmetric in the graded sense.
+\end{definition}
+
+\begin{theorem}[Chern--Weil]\label{characteristic-classes:theorem-chern-weil}
+Let $E \to M$ be a complex vector bundle of rank $r$, $\nabla$ a connection with curvature $F$, and $P$ an invariant polynomial of degree $k$. Then:
+\begin{enumerate}
+\item $P(F)$ is a well-defined global $2k$-form (computed in any local frame) and $dP(F) = 0$;
+\item the class $[P(F)] \in H^{2k}_{\mathrm{dR}}(M)$ does not depend on $\nabla$;
+\item the resulting map from invariant polynomials to $H^\bullet_{\mathrm{dR}}(M)$ is natural: $[P(F_{f^*\nabla})] = f^*[P(F_\nabla)]$ for smooth $f \colon N \to M$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Under a change of frame the curvature matrix transforms by conjugation (Proposition~\ref{connections:proposition-curvature}), so $P(F)$ is unchanged and defines a global form. For closedness, note that for
+matrices of forms and the covariant differential $d_\nabla\alpha = d\alpha + \theta \wedge \alpha - (-1)^{\deg\alpha}\alpha \wedge \theta$ one has
+$d\tilde{P}(\alpha_1, \ldots, \alpha_k) = \sum_i(-1)^{\deg\alpha_1 + \cdots + \deg\alpha_{i-1}}\tilde{P}(\alpha_1, \ldots, d_\nabla\alpha_i, \ldots, \alpha_k)$: the terms involving $\theta$ cancel by the infinitesimal
+invariance of Definition~\ref{characteristic-classes:definition-invariant-polynomial}. Applying this with all $\alpha_i = F$ and using the Bianchi identity $d_\nabla F = 0$ gives $dP(F) = 0$.
+
+(2) Let $\nabla_0$, $\nabla_1$ be connections and $\alpha = \nabla_1 - \nabla_0 \in \Omega^1(M, \End E)$. The family $\nabla_t = \nabla_0 + t\alpha$ has curvature $F_t = F_0 + t\,d_{\nabla_0}\alpha + t^2\alpha \wedge \alpha$, so
+$\frac{d}{dt}F_t = d_{\nabla_t}\alpha$. Hence
+\[
+\frac{d}{dt}P(F_t) = k\,\tilde{P}(d_{\nabla_t}\alpha, F_t, \ldots, F_t) = k\,d\,\tilde{P}(\alpha, F_t, \ldots, F_t),
+\]
+using the formula of (1) and $d_{\nabla_t}F_t = 0$. Integrating in $t$ from $0$ to $1$ gives $P(F_1) - P(F_0) = d\left(k\int_0^1\tilde{P}(\alpha, F_t, \ldots, F_t)\,dt\right)$, an exact form.
+
+(3) The pullback connection has curvature $f^*F$, and $P$ commutes with pullback.
+\end{proof}
+
+\begin{definition}\label{characteristic-classes:definition-chern-forms}
+The \emph{Chern forms} of $(E, \nabla)$ are defined by
+\[
+\det\left(I + \frac{i}{2\pi}F\right) = 1 + c_1(E, \nabla) + c_2(E, \nabla) + \cdots, \qquad c_k(E, \nabla) \in \Omega^{2k}(M),
+\]
+and the \emph{Chern classes} in de Rham cohomology are $c_k(E) = [c_k(E, \nabla)] \in H^{2k}_{\mathrm{dR}}(M)$, independent of $\nabla$ by Theorem~\ref{characteristic-classes:theorem-chern-weil}. The
+\emph{total Chern class} is $c(E) = \sum_kc_k(E)$.
+\end{definition}
+
+\begin{proposition}\label{characteristic-classes:proposition-chern-properties}
+\begin{enumerate}
+\item $c_0 = 1$ and $c_k(E) = 0$ for $k > r$; $c_k(f^*E) = f^*c_k(E)$.
+\item $c(E \oplus E') = c(E)c(E')$ (the \emph{Whitney formula}).
+\item For a line bundle $L$ with Hermitian metric and Chern connection, $c_1(L) = [\frac{i}{2\pi}F]$, which is the image in $H^2(M; \RR)$ of the integral class of
+Theorem~\ref{vector-bundles:theorem-line-bundles}.
+\item $c_k(\overline{E}) = (-1)^kc_k(E)$, and for the dual $c_k(E^\vee) = (-1)^kc_k(E)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The coefficients of $\det(I + tA)$ are the elementary symmetric functions of the eigenvalues, so they vanish above degree $r$; naturality is
+Theorem~\ref{characteristic-classes:theorem-chern-weil}(3). (2) Choose connections $\nabla$, $\nabla'$; their direct sum has block diagonal curvature, and the determinant of a block diagonal matrix is the
+product of the determinants. (4) A conjugate-linear isomorphism $E \cong \overline{E}$ carries a connection to the conjugate one with curvature $\overline{F}$, and
+$\det(I + \frac{i}{2\pi}\overline{F}) = \overline{\det(I - \frac{i}{2\pi}F)}$; comparing degrees gives the sign, and $E^\vee \cong \overline{E}$ for a Hermitian metric
+(Proposition~\ref{vector-bundles:proposition-metrics}).
+
+(3) For a line bundle the curvature is a $2$-form $F$ and $c_1(L, \nabla) = \frac{i}{2\pi}F$. To identify the class, represent $L$ by a cocycle $(g_{ij})$ and choose a partition of unity; the \v{C}ech--de Rham
+comparison (\cite[Chapter II]{bott-tu}) identifies the image of the integral class under $H^2(M; \ZZ) \to H^2_{\mathrm{dR}}(M)$ with the class of the $2$-form obtained from
+$\frac{1}{2\pi i}d\log g_{ij}$, which is exactly $\frac{i}{2\pi}F$ for a connection built from the same trivialisations; see \cite[Chapter 1]{griffiths-harris}.
+\end{proof}
+
+\begin{example}\label{characteristic-classes:example-tautological}
+For the tautological bundle $\mathcal{O}(-1)$ on $\CC\PP^1 = S^2$ with the metric induced from $\CC^2$, the Chern connection has curvature $F = -\frac{dz \wedge d\bar z}{(1 + |z|^2)^2}$ in the chart
+$z$, and $\int_{\CC\PP^1}\frac{i}{2\pi}F = -1$; so $c_1(\mathcal{O}(-1))$ is $-1$ times the positive generator of $H^2(\CC\PP^1; \ZZ) \cong \ZZ$. Consequently $c_1(\mathcal{O}(1)) = h$ is the positive
+generator, and $c(T\CC\PP^n) = (1 + h)^{n+1}$ by the Euler sequence (Example~\ref{vector-bundles:example-euler-sequence}) and the Whitney formula; for instance $c_1(T\CC\PP^n) = (n+1)h$.
+\end{example}
+
+\section{Chern classes: axioms and the splitting principle}\label{characteristic-classes:section-axioms}
+
+\begin{theorem}\label{characteristic-classes:theorem-chern-axioms}
+There is a unique way to assign to every complex vector bundle $E$ over a paracompact space classes $c_k(E) \in H^{2k}(M; \ZZ)$ such that: $c_0 = 1$; $c_k(f^*E) = f^*c_k(E)$; $c(E \oplus E') = c(E)c(E')$;
+and $c_1(\mathcal{O}(-1))$ is the negative generator of $H^2(\CC\PP^1; \ZZ)$. Their images in de Rham cohomology are the Chern--Weil classes of
+Definition~\ref{characteristic-classes:definition-chern-forms}.
+\end{theorem}
+
+This is \cite[Chapter 14]{milnor-stasheff}, where the classes are constructed from the Thom isomorphism or from the cohomology of projective bundles; the comparison with Chern--Weil theory is
+\cite[Appendix C]{milnor-stasheff} or \cite[Chapter 1]{griffiths-harris}.
+
+\begin{theorem}[Splitting principle]\label{characteristic-classes:theorem-splitting}
+For every complex vector bundle $E \to M$ of rank $r$ there is a space $F(E)$ (the flag bundle) and a map $\pi \colon F(E) \to M$ such that $\pi^*$ is injective on cohomology and $\pi^*E$ is a direct sum of line
+bundles $L_1 \oplus \cdots \oplus L_r$. Writing $x_i = c_1(L_i)$, the \emph{Chern roots}, one has $c(E) = \prod_i(1 + x_i)$, and every symmetric polynomial identity in the $x_i$ gives an identity between
+characteristic classes.
+\end{theorem}
+
+This is \cite[Chapter 21]{bott-tu} or \cite[Chapter 14]{milnor-stasheff}: one takes the bundle of full flags in the fibres, whose cohomology is a free module over $H^\bullet(M)$ by the Leray--Hirsch
+theorem, and the pullback of $E$ acquires a filtration with line bundle quotients, which splits after a further pullback or, over $\RR$, by choosing a metric.
+
+\begin{definition}\label{characteristic-classes:definition-chern-character}
+With Chern roots as above, the \emph{Chern character} and the \emph{Todd class} are
+\[
+\mathrm{ch}(E) = \sum_ie^{x_i} = r + c_1 + \tfrac12(c_1^2 - 2c_2) + \cdots, \qquad \mathrm{td}(E) = \prod_i\frac{x_i}{1 - e^{-x_i}} = 1 + \tfrac12c_1 + \tfrac{1}{12}(c_1^2 + c_2) + \cdots,
+\]
+elements of $H^\bullet(M; \QQ)$, well defined because they are symmetric power series in the roots, hence polynomials in the Chern classes.
+\end{definition}
+
+\begin{proposition}\label{characteristic-classes:proposition-chern-character}
+$\mathrm{ch}(E \oplus E') = \mathrm{ch}(E) + \mathrm{ch}(E')$ and $\mathrm{ch}(E \otimes E') = \mathrm{ch}(E)\mathrm{ch}(E')$; the Todd class is multiplicative in short exact sequences. Hence $\mathrm{ch}$ induces a
+ring homomorphism from the K-theory of $M$ to $H^{\mathrm{even}}(M; \QQ)$.
+\end{proposition}
+
+\begin{proof}
+By the splitting principle we may assume $E = \bigoplus L_i$ and $E' = \bigoplus L'_j$; then the Chern roots of $E \oplus E'$ are the $x_i$ and $y_j$, and those of $E \otimes E'$ are the $x_i + y_j$, because
+$c_1(L \otimes L') = c_1(L) + c_1(L')$ (Theorem~\ref{vector-bundles:theorem-line-bundles}). The statements follow from $e^{x+y} = e^xe^y$ and from multiplicativity of products over the roots. Short exact
+sequences of bundles split topologically (Proposition~\ref{vector-bundles:proposition-metrics}), which gives the last statements.
+\end{proof}
+
+\section{Euler, Pontryagin and Stiefel--Whitney classes}\label{characteristic-classes:section-euler}
+
+\begin{theorem}\label{characteristic-classes:theorem-euler}
+Let $E \to M$ be an oriented real vector bundle of rank $n$ over a compact manifold.
+\begin{enumerate}
+\item (Thom isomorphism) $H^{k}(M; \ZZ) \cong H^{k+n}(E, E \setminus 0; \ZZ)$, given by cup product with a \emph{Thom class} $u \in H^n(E, E \setminus 0; \ZZ)$ restricting to a generator on each fibre.
+\item The \emph{Euler class} $e(E) \in H^n(M; \ZZ)$ is the restriction of $u$ to the zero section. It is natural, satisfies $e(E \oplus E') = e(E)e(E')$, vanishes if $E$ has a nowhere vanishing section, and for
+a complex bundle of rank $r$ one has $e(E) = c_r(E)$.
+\item (Gauss--Bonnet--Chern and Poincar\'e--Hopf) For a compact oriented $n$-manifold, $\int_Me(TM) = \chi(M)$, and the sum of the indices of the zeros of a vector field with isolated zeros equals $\chi(M)$.
+\end{enumerate}
+\end{theorem}
+
+These are \cite[Chapters 9--11]{milnor-stasheff} and \cite[Chapter 6]{bott-tu}; in the Chern--Weil picture, $e(TM)$ is represented by the Pfaffian of the curvature of a metric connection divided by
+$(2\pi)^{n/2}$, which is Chern's proof of the Gauss--Bonnet theorem.
+
+\begin{definition}\label{characteristic-classes:definition-pontryagin}
+For a real vector bundle $E$, the \emph{Pontryagin classes} are $p_k(E) = (-1)^kc_{2k}(E \otimes \CC) \in H^{4k}(M; \ZZ)$, and the \emph{Stiefel--Whitney classes} $w_k(E) \in H^k(M; \ZZ/2\ZZ)$ are the mod $2$
+characteristic classes determined by the same axioms with $\ZZ/2$ coefficients; $w_1(E) = 0$ if and only if $E$ is orientable.
+\end{definition}
+
+\begin{remark}\label{characteristic-classes:remark-signature}
+Hirzebruch's signature theorem expresses the signature of a compact oriented $4m$-manifold (Definition~\ref{poincare-duality:definition-intersection-form}) as $\int_ML(p_1, \ldots, p_m)$ for a universal
+polynomial in the Pontryagin classes, and the Riemann--Roch--Hirzebruch theorem computes the holomorphic Euler characteristic of a holomorphic bundle on a compact complex manifold as
+$\int_X\mathrm{ch}(E)\,\mathrm{td}(TX)$ \cite{hirzebruch-topological}. Both are special cases of the Atiyah--Singer index theorem, and both are used in Chapter~\ref{kodaira} and
+Chapter~\ref{intersection-theory}.
+\end{remark}
+
+\begin{remark}\label{characteristic-classes:remark-classifying-spaces}
+Isomorphism classes of rank $r$ complex bundles over a paracompact space $M$ correspond to homotopy classes of maps $M \to \mathrm{BU}(r)$, where $\mathrm{BU}(r)$ is the infinite Grassmannian
+$\mathrm{Gr}_r(\CC^\infty)$, and $H^\bullet(\mathrm{BU}(r); \ZZ) = \ZZ[c_1, \ldots, c_r]$ is a polynomial ring on the universal Chern classes; every characteristic class is a pullback of a universal one
+\cite[Chapter 14]{milnor-stasheff}. For line bundles, $\mathrm{BU}(1) = \CC\PP^\infty = K(\ZZ, 2)$, which recovers Theorem~\ref{vector-bundles:theorem-line-bundles} and
+Theorem~\ref{cohomology-operations:theorem-representability}.
+\end{remark}
+
+\begin{example}\label{characteristic-classes:example-algebraic-chern}
+On a smooth projective complex variety, the Chern classes of an algebraic vector bundle are algebraic cycle classes, hence Hodge classes; for a line bundle, $c_1(L)$ is the class of a divisor
+(Chapter~\ref{divisors}), and the Lefschetz theorem on $(1,1)$-classes (Chapter~\ref{lefschetz-11}) says conversely that every integral $(1,1)$-class is of this form. This is the case $p = 1$ of the Hodge
+conjecture, and it is the only case known in general.
+\end{example}
+
+\section{Exercises}\label{characteristic-classes:section-exercises}
+
+\begin{exercise}\label{characteristic-classes:exercise-chern-projective}
+Using the Euler sequence, compute $c(T\CC\PP^2)$ and $\int_{\CC\PP^2}c_2(T\CC\PP^2)$, and check that the latter is $\chi(\CC\PP^2) = 3$.
+\end{exercise}
+
+\begin{solution}
+$c(T\CC\PP^2) = (1 + h)^3 = 1 + 3h + 3h^2$, so $c_2 = 3h^2$ and $\int_{\CC\PP^2}c_2 = 3$ since $\int h^2 = 1$. By Theorem~\ref{characteristic-classes:theorem-euler}, $c_2(T\CC\PP^2) = e(T\CC\PP^2)$ integrates to
+$\chi(\CC\PP^2) = 3$ (Example~\ref{singular-homology:example-euler}).
+\end{solution}
+
+\begin{exercise}\label{characteristic-classes:exercise-flat-bundle-classes}
+Show that a bundle with a flat connection has vanishing Chern classes in de Rham cohomology, and give an example where the integral Chern classes are nonzero.
+\end{exercise}
+
+\begin{solution}
+Chern--Weil forms are computed from the curvature, which is zero. A flat line bundle on a space with torsion in $H^2(M; \ZZ)$, for instance a nontrivial real line bundle on $\RR\PP^2$ complexified, has
+torsion $c_1 \neq 0$ mapping to zero in de Rham cohomology.
+\end{solution}
+
+\begin{exercise}\label{characteristic-classes:exercise-chern-character-line}
+Show that $\mathrm{ch}(L) = e^{c_1(L)}$ for a line bundle, and compute $\mathrm{ch}$ and $\mathrm{td}$ of $T\CC\PP^1$.
+\end{exercise}
+
+\begin{exercise}\label{characteristic-classes:exercise-no-almost-complex}
+Show that $S^4$ admits no almost complex structure, using that $c_1$ would lie in $H^2(S^4) = 0$ and $c_2 = e(TS^4)$ would have to satisfy $\int_{S^4}c_2 = \chi(S^4) = 2$ while also
+$c_1^2 = p_1 + 2c_2$ with $p_1(TS^4) = 0$.
+\end{exercise}
