@@ -1,15 +1,179 @@
 \chapter{Riemannian Geometry}\label{riemannian-geometry}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Riemannian metrics and the operators (Hodge star, codifferential, Laplacian) that lead to harmonic forms.
+\section{Introduction}\label{riemannian-geometry:section-introduction}
+
+A Riemannian metric turns a manifold into a metric space, produces a canonical connection (Theorem~\ref{riemannian-geometry:theorem-levi-civita})
+and, together with an orientation, defines the Hodge star, the codifferential and the Laplacian
+(Definition~\ref{riemannian-geometry:definition-laplacian}). Harmonic forms are the kernel of that Laplacian, and the Hodge theorem
+(Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. References:
+\cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Riemannian metrics and the Levi-Civita connection.
-\item Geodesics, the exponential map and the Hopf--Rinow theorem.
-\item The curvature tensor; Ricci and scalar curvature.
-\item The volume form, the Hodge star operator and the codifferential.
-\item The Hodge Laplacian and the Weitzenb\"ock formula.
-\end{itemize}
+\section{Metrics and the Levi-Civita connection}\label{riemannian-geometry:section-levi-civita}
+
+\begin{definition}\label{riemannian-geometry:definition-metric}
+A \emph{Riemannian metric} on a smooth manifold $M$ is a smooth section $g$ of $\mathrm{Sym}^2T^*M$ that is an inner product on each tangent space; $(M, g)$ is a \emph{Riemannian manifold}. The
+\emph{length} of a piecewise smooth curve is $L(\gamma) = \int_a^b|\dot\gamma(t)|\,dt$ with $|v| = g(v, v)^{1/2}$, and $d(p, q)$ is the infimum of the lengths of curves from $p$ to $q$. An \emph{isometry} is a
+diffeomorphism preserving $g$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-metric-exists}
+Every smooth manifold admits a Riemannian metric, and $d$ is a metric inducing the topology of $M$.
+\end{proposition}
+
+\begin{proof}
+Patch the Euclidean metrics of charts with a partition of unity (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}); a convex combination of inner products is an inner product. Symmetry and the
+triangle inequality for $d$ are clear, and $d(p, q) > 0$ for $p \neq q$ because in a chart around $p$ the metric is comparable to the Euclidean one on a compact neighbourhood, so curves leaving a small ball
+have length bounded below. The same comparison shows that the $d$-balls form a basis of the topology.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-metrics}
+The Euclidean metric on $\RR^n$; the induced metric on a submanifold, for instance the round metric on $S^n \subseteq \RR^{n+1}$; the hyperbolic metric $(dx^2 + dy^2)/y^2$ on the upper half plane; a
+left-invariant metric on a Lie group, obtained from any inner product on $\mathfrak{g}$, which is bi-invariant when $G$ is compact (average over Haar measure,
+Theorem~\ref{lie-groups:theorem-haar}); and the Fubini--Study metric on $\CC\PP^n$ (Chapter~\ref{kahler}).
+\end{example}
+
+\begin{theorem}[Fundamental theorem of Riemannian geometry]\label{riemannian-geometry:theorem-levi-civita}
+On a Riemannian manifold there is a unique connection $\nabla$ on $TM$ that is metric ($Xg(Y, Z) = g(\nabla_XY, Z) + g(Y, \nabla_XZ)$) and torsion-free ($\nabla_XY - \nabla_YX = [X, Y]$): the
+\emph{Levi-Civita connection}. It is determined by the Koszul formula
+\[
+2g(\nabla_XY, Z) = Xg(Y, Z) + Yg(X, Z) - Zg(X, Y) + g([X, Y], Z) - g([X, Z], Y) - g([Y, Z], X).
+\]
+In coordinates, $\nabla_{\partial_i}\partial_j = \sum_k\Gamma^k_{ij}\partial_k$ with $\Gamma^k_{ij} = \frac12\sum_lg^{kl}(\partial_ig_{jl} + \partial_jg_{il} - \partial_lg_{ij})$.
+\end{theorem}
+
+\begin{proof}
+If $\nabla$ is metric and torsion-free, expanding the three terms $Xg(Y, Z)$, $Yg(X, Z)$, $-Zg(X, Y)$ with the metric property and using torsion-freeness to replace $\nabla_XY - \nabla_YX$ by $[X, Y]$ gives the
+Koszul formula; since $g$ is nondegenerate, the formula determines $\nabla_XY$, which proves uniqueness. Conversely, define $\nabla_XY$ by the Koszul formula. The right-hand side is $\RR$-bilinear,
+$C^\infty$-linear in $X$ and $Z$ and satisfies the Leibniz rule in $Y$ (the terms with derivatives of $f$ in $Y \mapsto fY$ combine to $2(Xf)g(Y, Z)$), so $\nabla$ is a connection; exchanging $X$ and $Y$ shows it
+is torsion-free, and adding the formulas for $g(\nabla_XY, Z)$ and $g(Y, \nabla_XZ)$ gives $Xg(Y, Z)$. The coordinate formula follows by taking $X, Y, Z$ coordinate fields, whose brackets vanish.
+\end{proof}
+
+\begin{definition}\label{riemannian-geometry:definition-geodesic}
+A \emph{geodesic} is a curve with $\nabla_{\dot\gamma}\dot\gamma = 0$; in coordinates, $\ddot\gamma^k + \sum_{i,j}\Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$. By
+Theorem~\ref{real-analysis:theorem-picard-lindelof} there is a unique maximal geodesic with given initial position and velocity, depending smoothly on them; the \emph{exponential map}
+$\exp_p(v) = \gamma_v(1)$ is defined on a neighbourhood of $0 \in T_pM$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-exponential}
+$d_0\exp_p = \id$, so $\exp_p$ is a diffeomorphism from a neighbourhood of $0$ onto a neighbourhood of $p$, giving \emph{normal coordinates} in which $g_{ij}(p) = \delta_{ij}$ and $\Gamma^k_{ij}(p) = 0$.
+Geodesics through $p$ are the images of lines, and for small $r$ the geodesic ball $\exp_p(B(0, r))$ consists of the points at distance $< r$ from $p$, the geodesics being the unique shortest curves. Every
+point has a geodesically convex neighbourhood.
+\end{proposition}
+
+\begin{proof}
+The first statement follows from $\gamma_{tv}(1) = \gamma_v(t)$ and the inverse function theorem; normal coordinates then satisfy $\Gamma^k_{ij}(p) = 0$ because the lines $t \mapsto tv$ are geodesics, so the
+symmetric part of $\Gamma$ vanishes at $p$, and $\Gamma$ is symmetric by torsion-freeness. The statement that geodesics minimise locally is the Gauss lemma: the radial geodesics are orthogonal to the
+geodesic spheres, so any curve leaving the ball has length at least $r$; see \cite[Chapter 3]{do-carmo-riemannian} or \cite[Chapter 6]{lee-riemannian}, where the existence of convex neighbourhoods is also
+proved.
+\end{proof}
+
+\begin{theorem}[Hopf--Rinow]\label{riemannian-geometry:theorem-hopf-rinow}
+For a connected Riemannian manifold $(M, g)$ the following are equivalent: $(M, d)$ is a complete metric space; the geodesics are defined for all time; closed bounded subsets are compact. In that case any
+two points are joined by a minimising geodesic. In particular compact Riemannian manifolds are geodesically complete.
+\end{theorem}
+
+This is \cite[Chapter 7]{do-carmo-riemannian}.
+
+\section{Curvature}\label{riemannian-geometry:section-curvature}
+
+\begin{definition}\label{riemannian-geometry:definition-curvature-tensor}
+The \emph{Riemann curvature tensor} is the curvature of the Levi-Civita connection (Proposition~\ref{connections:proposition-curvature}),
+$R(X, Y)Z = \nabla_X\nabla_YZ - \nabla_Y\nabla_XZ - \nabla_{[X,Y]}Z$, viewed as the $4$-tensor $R(X, Y, Z, W) = g(R(X, Y)Z, W)$. For a plane $\sigma \subseteq T_pM$ with orthonormal basis $u, v$, the
+\emph{sectional curvature} is $K(\sigma) = R(u, v, v, u)$; the \emph{Ricci tensor} is $\mathrm{Ric}(X, Y) = \sum_iR(e_i, X, Y, e_i)$ for an orthonormal frame, and the \emph{scalar curvature} is
+$s = \sum_i\mathrm{Ric}(e_i, e_i)$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-curvature-symmetries}
+$R$ is tensorial and satisfies $R(X, Y, Z, W) = -R(Y, X, Z, W) = -R(X, Y, W, Z) = R(Z, W, X, Y)$ and the first Bianchi identity
+$R(X, Y)Z + R(Y, Z)X + R(Z, X)Y = 0$. The sectional curvatures determine $R$.
+\end{proposition}
+
+\begin{proof}
+Tensoriality and the first antisymmetry are general facts about curvature. The second follows by polarising $R(X, Y, Z, Z) = 0$, which holds because the connection is metric:
+$0 = XY g(Z,Z)/2 - \cdots$ expands to $g(R(X,Y)Z, Z)$. The first Bianchi identity follows from torsion-freeness and the Jacobi identity, and the symmetry in the pairs is a formal consequence of the other
+three, obtained by adding the Bianchi identities for the four cyclic permutations. The last statement is the standard polarisation argument \cite[Chapter 4]{do-carmo-riemannian}.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-curvature}
+Euclidean space has $R = 0$; the round sphere of radius $1$ has constant sectional curvature $1$ and $\mathrm{Ric} = (n-1)g$; hyperbolic space has constant curvature $-1$. A Lie group with a bi-invariant
+metric has $R(X, Y)Z = \frac14[[X, Y], Z]$ for left-invariant fields, hence non-negative sectional curvature.
+\end{example}
+
+\section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
+
+\begin{definition}\label{riemannian-geometry:definition-hodge-star}
+Let $(M, g)$ be an oriented Riemannian $n$-manifold. The metric induces inner products on $\Lambda^kT^*_pM$ (Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}), a volume form
+$\mathrm{vol}_g$, and the \emph{Hodge star} $* \colon \Omega^k(M) \to \Omega^{n-k}(M)$, characterised pointwise by $\alpha \wedge *\beta = \langle\alpha, \beta\rangle\,\mathrm{vol}_g$
+(Theorem~\ref{multilinear-algebra:theorem-hodge-star}); it satisfies $** = (-1)^{k(n-k)}$ on $k$-forms. In coordinates $\mathrm{vol}_g = \sqrt{\det(g_{ij})}\,dx^1 \wedge \cdots \wedge dx^n$ in a positively
+oriented chart.
+\end{definition}
+
+\begin{definition}\label{riemannian-geometry:definition-laplacian}
+On a compact oriented Riemannian manifold define the $L^2$ inner product on $\Omega^k(M)$ by
+\[
+(\alpha, \beta) = \int_M\alpha \wedge *\beta = \int_M\langle\alpha, \beta\rangle\,\mathrm{vol}_g,
+\]
+the \emph{codifferential} $\delta = (-1)^{n(k+1)+1}*d* \colon \Omega^k(M) \to \Omega^{k-1}(M)$, and the \emph{Hodge Laplacian} $\Delta = d\delta + \delta d$. A form is \emph{harmonic} if $\Delta\alpha = 0$; the space of
+harmonic $k$-forms is $\mathcal{H}^k(M)$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-adjoint}
+On a compact oriented Riemannian manifold:
+\begin{enumerate}
+\item $(d\alpha, \beta) = (\alpha, \delta\beta)$ for $\alpha \in \Omega^{k-1}$, $\beta \in \Omega^k$: the codifferential is the formal adjoint of $d$;
+\item $\Delta$ is self-adjoint and non-negative: $(\Delta\alpha, \alpha) = \|d\alpha\|^2 + \|\delta\alpha\|^2$;
+\item $\Delta\alpha = 0$ if and only if $d\alpha = 0$ and $\delta\alpha = 0$;
+\item $*\Delta = \Delta*$, so $*$ maps harmonic $k$-forms isomorphically to harmonic $(n-k)$-forms;
+\item $\Delta$ on functions is $-\sum_{i}\partial_i^2$ in normal coordinates at a point, and in general
+$\Delta f = -\frac{1}{\sqrt{\det g}}\sum_{i,j}\partial_i(\sqrt{\det g}\,g^{ij}\partial_jf)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}), $0 = \int_Md(\alpha \wedge *\beta) = \int_Md\alpha \wedge *\beta + (-1)^{k-1}\int_M\alpha \wedge d{*}\beta$. Using $** = (-1)^{k(n-k)}$ one
+rewrites $d*\beta = \pm *{*}d{*}\beta$, and the sign in the definition of $\delta$ is chosen exactly so that the identity becomes $(d\alpha, \beta) = (\alpha, \delta\beta)$.
+
+(2) $(\Delta\alpha, \beta) = (d\delta\alpha, \beta) + (\delta d\alpha, \beta) = (\delta\alpha, \delta\beta) + (d\alpha, d\beta)$, which is symmetric; taking $\beta = \alpha$ gives the formula. (3) If $\Delta\alpha = 0$ then
+$\|d\alpha\|^2 + \|\delta\alpha\|^2 = 0$, so both vanish; the converse is clear. (4) follows from the definition of $\delta$ and $** = \pm 1$: $*d\delta = \delta d*$ and $*\delta d = d\delta*$ up to the signs, which
+cancel. (5) is a computation with the coordinate formula for $*$ and $d$, using $\mathrm{vol}_g = \sqrt{\det g}\,dx^1\wedge\cdots\wedge dx^n$; in normal coordinates at $p$ the first derivatives of $g$ vanish, so
+$\Delta f(p) = -\sum_i\partial_i^2f(p)$.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-weitzenbock}
+The Levi-Civita connection gives a second Laplacian, the \emph{connection Laplacian} $\nabla^*\nabla$, and the two differ by curvature: the \emph{Weitzenb\"ock formula} states
+$\Delta = \nabla^*\nabla + \mathcal{R}$, where $\mathcal{R}$ is an endomorphism built from the curvature tensor; on $1$-forms $\mathcal{R} = \mathrm{Ric}$. Since $(\nabla^*\nabla\alpha, \alpha) = \|\nabla\alpha\|^2 \geq 0$,
+this gives vanishing theorems: if $\mathrm{Ric} > 0$ on a compact oriented manifold, every harmonic $1$-form vanishes, hence $b_1(M) = 0$ by the Hodge theorem (Bochner's theorem,
+Chapter~\ref{hodge-theorem}). For proofs see \cite[Chapter 6]{warner-foundations} and \cite[Chapter 4]{lee-riemannian}.
+\end{remark}
+
+\begin{example}\label{riemannian-geometry:example-harmonic-forms}
+On a compact connected oriented manifold the harmonic $0$-forms are the constants, since $\Delta f = 0$ implies $df = 0$; by (4) the harmonic $n$-forms are the multiples of $\mathrm{vol}_g$. On the flat torus
+$\RR^n/\ZZ^n$, the harmonic forms are exactly the forms with constant coefficients in the coordinates $dx^i$, a space of dimension $\binom{n}{k}$, which matches $b_k(T^n)$
+(Exercise~\ref{de-rham:exercise-torus}).
+\end{example}
+
+\section{Exercises}\label{riemannian-geometry:section-exercises}
+
+\begin{exercise}\label{riemannian-geometry:exercise-hodge-star-signs}
+Verify that $\delta = -*d*$ on $k$-forms when $n$ is even, and compute $\delta$ on $1$-forms in $\RR^3$, identifying it with minus the divergence.
+\end{exercise}
+
+\begin{exercise}\label{riemannian-geometry:exercise-conformal}
+Show that in dimension $n = 2k$ the Hodge star on $k$-forms depends only on the conformal class of the metric, and that $*^2 = (-1)^k$ on $\Omega^k$.
+\end{exercise}
+
+\begin{solution}
+Under $g \mapsto \lambda g$ with $\lambda > 0$, the inner product on $k$-forms scales by $\lambda^{-k}$ and the volume form by $\lambda^{n/2} = \lambda^k$, so $*$ is unchanged by the characterisation
+$\alpha \wedge *\beta = \langle\alpha,\beta\rangle\mathrm{vol}$. The sign is $(-1)^{k(n-k)} = (-1)^{k^2} = (-1)^k$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-laplacian-sphere}
+Compute the Laplacian on functions on the round sphere $S^2$ in spherical coordinates, and verify that the restrictions of linear functions of $\RR^3$ are eigenfunctions with eigenvalue $2$.
+\end{exercise}
+
+\begin{exercise}\label{riemannian-geometry:exercise-bi-invariant}
+Let $G$ be a compact Lie group with a bi-invariant metric. Show that the geodesics through $e$ are the one-parameter subgroups, and that $\nabla_XY = \frac12[X, Y]$ for left-invariant fields.
+\end{exercise}
