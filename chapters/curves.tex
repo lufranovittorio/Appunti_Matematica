@@ -1,15 +1,277 @@
 \chapter{Algebraic Curves and Riemann Surfaces}\label{curves}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Compact Riemann surfaces: the first testing ground for everything in this project.
+\section{Introduction}\label{curves:section-introduction}
+
+Curves are the one-dimensional case, in which almost everything can be computed. Over $\CC$, nonsingular projective curves are the same as
+compact Riemann surfaces (Theorem~\ref{curves:theorem-riemann-surfaces}). The Riemann--Roch theorem (Theorem~\ref{curves:theorem-riemann-roch})
+computes dimensions of spaces of sections, and from it follow the classification of curves of genus $0$ and $1$, the Riemann--Hurwitz formula, and the
+theory of the canonical embedding. The Jacobian of a curve is the first nontrivial example of a Hodge structure that is not of Tate type, and its theory
+(Abel--Jacobi) leads to the abelian varieties of Chapter~\ref{abelian-varieties} and the intermediate Jacobians of Chapter~\ref{intermediate-jacobians}.
+References: \cite[Chapter IV]{hartshorne-ag}, \cite[Chapter 2]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{gaga} (Analytic Spaces and GAGA).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Compact Riemann surfaces are projective algebraic curves.
-\item The Riemann--Roch theorem.
-\item Genus, the canonical divisor and the Riemann--Hurwitz formula.
-\item Hyperelliptic curves and the canonical embedding.
-\item Abel's theorem and the Jacobi inversion theorem.
-\end{itemize}
+Throughout, $k$ is algebraically closed, and a \emph{curve} is a nonsingular projective variety of dimension one over $k$, unless stated otherwise. Points are closed
+points. For a curve $X$, divisors are finite formal sums $D = \sum n_PP$ (Weil and Cartier divisors agree by Proposition~\ref{divisors:proposition-cartier-picard}),
+$\deg D = \sum n_P$, $\mathcal{O}(D)$ is the associated invertible sheaf, $l(D) = h^0(\mathcal{O}(D))$, and $K$ is a \emph{canonical divisor}, $\mathcal{O}(K) \cong \omega_X = \Omega_{X/k}$.
+
+\section{Curves and their function fields}\label{curves:section-function-fields}
+
+\begin{proposition}\label{curves:proposition-dvr}
+Let $X$ be a nonsingular curve (not necessarily projective). Every local ring $\mathcal{O}_{X,P}$ is a discrete valuation ring of $K(X)$ with residue field $k$. A rational map
+from $X$ to a projective variety $Y$ extends to a morphism $X \to Y$.
+\end{proposition}
+
+\begin{proof}
+$\mathcal{O}_{X,P}$ is a regular local ring of dimension one, hence a DVR (Theorem~\ref{commutative-algebra:theorem-dvr}), with residue field $k$ by the Nullstellensatz. For
+the extension, let $Y \subseteq \PP^n$ and let the map be defined near $P$ except at $P$, given by rational functions $[f_0 : \cdots : f_n]$. Let $v$ be the valuation at $P$
+and choose $m$ with $v(f_m)$ minimal among the nonzero $f_i$. Then $f_i/f_m \in \mathcal{O}_{X,P}$ for all $i$, and $[f_0/f_m : \cdots : f_n/f_m]$ is a morphism on a neighbourhood of
+$P$ that agrees with the map where both are defined. It lands in $Y$ because $Y$ is closed. (This is the valuative argument of Theorem~\ref{schemes:theorem-projective-proper}.)
+\end{proof}
+
+\begin{theorem}\label{curves:theorem-function-fields}
+The functor $X \mapsto K(X)$ is an anti-equivalence between the category of curves with nonconstant morphisms and the category of function fields of one variable over
+$k$ (finitely generated extensions of transcendence degree $1$). Every nonconstant morphism of curves $f \colon X \to Y$ is finite and surjective, and its \emph{degree}
+$\deg f = [K(X) : K(Y)]$ satisfies
+\[
+\sum_{P \mapsto Q}e_P = \deg f \qquad\text{for every } Q \in Y,
+\]
+where the \emph{ramification index} $e_P = v_P(t)$ for a uniformiser $t$ at $Q$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{varieties:theorem-birational-fields}, nonconstant morphisms $X \to Y$ give $k$-embeddings $K(Y) \to K(X)$, and every such embedding comes from a
+dominant rational map $X \dashrightarrow Y$, which is a morphism by Proposition~\ref{curves:proposition-dvr}. This gives full faithfulness. That every function field $K$ is
+$K(X)$ for a curve $X$ is \cite[Theorem I.6.9]{hartshorne-ag}: the points of $X$ are the discrete valuation rings of $K$ containing $k$, and $X$ is covered by the affine curves
+$\Spec A'$, where $A'$ is the integral closure of $k[t]$ in $K$ for a nonconstant $t \in K$.
+
+Let $f \colon X \to Y$ be nonconstant. Its image is closed (Theorem~\ref{schemes:theorem-projective-proper}) and irreducible, not a point, hence $Y$. For an affine
+$V = \Spec B \subseteq Y$, $f^{-1}(V)$ consists of the points whose valuation rings contain $B$. These are the points of $\Spec A'$, where $A'$ is the integral closure of $B$
+in $K(X)$, because a DVR is integrally closed and every local ring of $A'$ at a maximal ideal is a DVR. By the finiteness of integral closure \cite[Theorem I.3.9A]{hartshorne-ag},
+$A'$ is a finite $B$-module, so $f$ is finite. Localising at $Q$, $A'_Q = A' \otimes_B\mathcal{O}_{Y,Q}$ is a finitely generated torsion-free module over the DVR
+$\mathcal{O}_{Y,Q}$, hence free (Theorem~\ref{rings:theorem-structure-pid}), of rank $[K(X) : K(Y)]$ since $A'_Q \otimes K(Y) = K(X)$. So
+$\dim_kA'_Q/tA'_Q = \deg f$. The semilocal ring $A'_Q$ has maximal ideals the points $P$ over $Q$, and by the Chinese remainder theorem
+$A'_Q/tA'_Q \cong \prod_{P \mapsto Q}\mathcal{O}_{X,P}/t\mathcal{O}_{X,P}$, where the factor at $P$ has dimension $v_P(t) = e_P$.
+\end{proof}
+
+\begin{corollary}\label{curves:corollary-degree-principal}
+For nonconstant $f \in K(X)$, $\deg(f)_0 = \deg(f)_\infty = [K(X) : k(f)]$, where $(f)_0$ and $(f)_\infty$ are the divisors of zeros and poles. So principal divisors have
+degree $0$, and $\deg$ induces a surjection $\Pic(X) \to \ZZ$ with kernel $\Pic^0(X)$. For a nonconstant morphism $f \colon X \to Y$ and a divisor $D$ on $Y$,
+$\deg f^*D = \deg f \cdot \deg D$.
+\end{corollary}
+
+\begin{proof}
+$f$ defines a morphism $X \to \PP^1$ (Proposition~\ref{curves:proposition-dvr}) of degree $[K(X) : k(f)]$, and $(f)_0$, $(f)_\infty$ are the pullbacks of the points $0$ and
+$\infty$, with multiplicities $e_P$. Apply Theorem~\ref{curves:theorem-function-fields}. The last statement is the same formula applied to each point of $D$.
+\end{proof}
+
+\begin{lemma}\label{curves:lemma-negative-degree}
+If $\deg D < 0$ then $l(D) = 0$. If $\deg D = 0$, then $l(D) \leq 1$, with equality if and only if $D \sim 0$.
+\end{lemma}
+
+\begin{proof}
+A nonzero section of $\mathcal{O}(D)$ gives an effective divisor $D' \sim D$ (Proposition~\ref{divisors:proposition-linear-system}), and $\deg D' \geq 0$, with equality only
+for $D' = 0$, by Corollary~\ref{curves:corollary-degree-principal}.
+\end{proof}
+
+\begin{theorem}\label{curves:theorem-riemann-surfaces}
+The functor $X \mapsto X^{\mathrm{an}}$ is an equivalence between complex curves and compact Riemann surfaces. The topological genus of $X^{\mathrm{an}}$ equals
+$g(X) = h^1(X, \mathcal{O}_X) = h^0(X, \omega_X)$.
+\end{theorem}
+
+\begin{proof}
+A compact Riemann surface is K\"ahler with $H^{2,0} = 0$, hence projective (Corollary~\ref{kodaira:corollary-h20-zero}), hence of the form $X^{\mathrm{an}}$
+(Corollary~\ref{gaga:corollary-consequences}); full faithfulness is also part of that corollary. By GAGA and the Hodge decomposition
+(Example~\ref{hodge-decomposition:example-curves}), $b_1(X^{\mathrm{an}})/2 = h^{0,1} = h^1(X, \mathcal{O}_X) = h^{1,0} = h^0(X, \omega_X)$.
+\end{proof}
+
+\section{The Riemann--Roch theorem}\label{curves:section-riemann-roch}
+
+\begin{definition}\label{curves:definition-genus}
+The \emph{genus} of a curve is $g = h^1(X, \mathcal{O}_X)$. By Serre duality (Theorem~\ref{coherent-cohomology:theorem-serre-duality}) also $g = h^0(X, \omega_X) = l(K)$.
+\end{definition}
+
+\begin{theorem}[Riemann--Roch]\label{curves:theorem-riemann-roch}
+For every divisor $D$ on a curve $X$ of genus $g$,
+\[
+l(D) - l(K - D) = \deg D + 1 - g .
+\]
+\end{theorem}
+
+\begin{proof}
+First, $\chi(\mathcal{O}(D)) = \deg D + 1 - g$. This holds for $D = 0$, since $h^0(\mathcal{O}_X) = 1$ (Corollary~\ref{coherent-cohomology:corollary-finite-dimensional}) and
+$h^1 = g$. For a point $P$, the sequence $0 \to \mathcal{O}(D) \to \mathcal{O}(D + P) \to k(P) \to 0$, where $k(P)$ is the skyscraper sheaf at $P$, gives
+$\chi(\mathcal{O}(D + P)) = \chi(\mathcal{O}(D)) + 1$. Both sides of the formula change by $1$ when a point is added or removed, and every divisor is reached from $0$ this way. Second,
+$h^1(\mathcal{O}(D)) = h^0(\omega \otimes \mathcal{O}(-D)) = l(K - D)$ by Serre duality.
+\end{proof}
+
+\begin{corollary}\label{curves:corollary-riemann-roch-consequences}
+Let $X$ be a curve of genus $g$.
+\begin{enumerate}
+\item $\deg K = 2g - 2$.
+\item If $\deg D > 2g - 2$, then $l(D) = \deg D + 1 - g$.
+\item If $\deg D \geq 2g$, then $|D|$ has no base points; if $\deg D \geq 2g + 1$, then $D$ is very ample.
+\item $X \cong \PP^1$ if and only if $g = 0$, if and only if there are points $P \neq Q$ with $P \sim Q$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Put $D = K$: $g - 1 = \deg K + 1 - g$. (2) $\deg(K - D) < 0$, so $l(K - D) = 0$ by Lemma~\ref{curves:lemma-negative-degree}. (3) By (2), $l(D - P) = l(D) - 1$ if
+$\deg D - 1 > 2g - 2$, so $P$ is not a base point. Similarly $l(D - P - Q) = l(D) - 2$ for all $P$, $Q$ (possibly equal) if $\deg D - 2 > 2g - 2$, which means that $|D|$
+separates points and tangent vectors, and $D$ is very ample by Proposition~\ref{divisors:proposition-closed-immersion-criterion}. (4) If $g = 0$, then $l(P) = 2$ by (2), and a
+nonconstant $f \in \Gamma(\mathcal{O}(P))$ has a single simple pole, so $[K(X) : k(f)] = 1$ by Corollary~\ref{curves:corollary-degree-principal}, and $X \cong \PP^1$ by
+Theorem~\ref{curves:theorem-function-fields}. On $\PP^1$ all points are linearly equivalent. Conversely, if $P \sim Q$ with $P \neq Q$, then $l(P) \geq 2$, and as before
+$X \cong \PP^1$, which has $g = h^1(\mathcal{O}_{\PP^1}) = 0$ (Corollary~\ref{coherent-cohomology:corollary-p1}).
+\end{proof}
+
+\begin{example}\label{curves:example-elliptic}
+Let $g = 1$ and fix a point $O$. Then $K \sim 0$, since $\deg K = 0$ and $l(K) = 1$ (Lemma~\ref{curves:lemma-negative-degree}). The divisor $3O$ is very ample with
+$l(3O) = 3$, so it embeds $X$ as a plane cubic. Choosing coordinates $1, x, y$ with poles of order $0$, $2$, $3$ at $O$ ($l(2O) = 2$, $l(3O) = 3$), the seven functions
+$1, x, y, x^2, xy, x^3, y^2$ in the $6$-dimensional space $\Gamma(\mathcal{O}(6O))$ are linearly dependent, which gives a Weierstrass equation
+$y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6$. The map $P \mapsto \mathcal{O}(P - O)$ is a bijection $X \to \Pic^0(X)$ (Exercise~\ref{curves:exercise-elliptic-group}), which gives
+$X$ the structure of an abelian group with identity $O$: the \emph{elliptic curve}.
+\end{example}
+
+\section{The Riemann--Hurwitz formula}\label{curves:section-riemann-hurwitz}
+
+\begin{theorem}[Riemann--Hurwitz]\label{curves:theorem-riemann-hurwitz}
+Let $f \colon X \to Y$ be a nonconstant morphism of curves of degree $n$ such that $K(X)/K(Y)$ is separable and every ramification index $e_P$ is prime to the
+characteristic (always true in characteristic $0$). Then
+\[
+2g(X) - 2 = n\,(2g(Y) - 2) + \sum_{P \in X}(e_P - 1) .
+\]
+\end{theorem}
+
+\begin{proof}
+Let $\omega$ be a nonzero rational differential on $Y$, so that $\deg(\omega) = 2g(Y) - 2$ by Corollary~\ref{curves:corollary-riemann-roch-consequences}(1). Its pullback
+$f^*\omega$ is a nonzero rational differential on $X$, by separability. At $P \mapsto Q$ let $t$ be a uniformiser at $Q$ and $s$ at $P$, so $t = us^{e}$ with $u$ a unit and
+$e = e_P$. Then $dt = (eus^{e-1} + s^e\,du/ds)\,ds$, which has order exactly $e - 1$ at $P$ because $e \neq 0$ in $k$. Writing $\omega = h\,dt$ near $Q$ gives
+$v_P(f^*\omega) = e_Pv_Q(\omega) + e_P - 1$. Summing over $P$ and using $\sum_{P \mapsto Q}e_P = n$ (Theorem~\ref{curves:theorem-function-fields}) gives
+$\deg(f^*\omega) = n\deg(\omega) + \sum_P(e_P - 1)$.
+\end{proof}
+
+\begin{example}\label{curves:example-riemann-hurwitz}
+\begin{enumerate}
+\item A \emph{hyperelliptic} curve $y^2 = h(x)$, with $h$ a polynomial of degree $2g + 1$ or $2g + 2$ without repeated roots (characteristic $\neq 2$), has a degree-$2$ map to
+$\PP^1$ branched at the $2g + 2$ roots of $h$ (and $\infty$ if $\deg h$ is odd). Riemann--Hurwitz gives $2g(X) - 2 = 2(-2) + 2g + 2$, so $g(X) = g$.
+\item For the Fermat curve $x^d + y^d = z^d$ and the projection $[x : y : z] \mapsto [x : z]$ of degree $d$, the ramification points are the $d$ points with $y = 0$, each with $e = d$.
+So $2g - 2 = -2d + d(d - 1)$, and $g = (d-1)(d-2)/2$, as for every plane curve of degree $d$ (Example~\ref{coherent-cohomology:example-hilbert-polynomials}).
+\item Over $\CC$, Riemann--Hurwitz is the Euler characteristic computation $\chi(X) = n\chi(Y) - \sum(e_P - 1)$ for a branched covering of surfaces.
+\end{enumerate}
+\end{example}
+
+\section{Hyperelliptic curves and the canonical embedding}\label{curves:section-canonical}
+
+\begin{definition}\label{curves:definition-hyperelliptic}
+A curve of genus $g \geq 2$ is \emph{hyperelliptic} if it has a morphism of degree $2$ to $\PP^1$, equivalently a divisor $D$ with $\deg D = 2$ and $l(D) = 2$ (a $g^1_2$).
+\end{definition}
+
+\begin{theorem}\label{curves:theorem-canonical}
+Let $X$ be a curve of genus $g \geq 1$. Then $|K|$ has no base points. If $g \geq 2$, then $K$ is very ample if and only if $X$ is not hyperelliptic. Every curve of genus $2$ is
+hyperelliptic.
+\end{theorem}
+
+\begin{proof}
+By Riemann--Roch, $l(K - P) = g - 2 + l(P)$, and $l(P) = 1$ since $X \not\cong \PP^1$ (Corollary~\ref{curves:corollary-riemann-roch-consequences}(4)). So $l(K - P) = g - 1 = l(K) - 1$
+and $P$ is not a base point. Similarly $l(K - P - Q) = g - 3 + l(P + Q)$, so $l(K - P - Q) = l(K) - 2$ for all $P$, $Q$ if and only if $l(P + Q) = 1$ for all $P, Q$, that is, if
+and only if there is no $g^1_2$ among the divisors $P + Q$. Every $g^1_2$ is of this form, since it contains an effective divisor of degree $2$. By
+Proposition~\ref{divisors:proposition-closed-immersion-criterion}, $K$ is very ample exactly when $X$ is not hyperelliptic. For $g = 2$, $\deg K = 2$ and $l(K) = 2$, so $K$ is a
+$g^1_2$.
+\end{proof}
+
+\begin{example}\label{curves:example-canonical}
+A nonsingular plane quartic has genus $3$ and $\omega \cong \mathcal{O}(1)$ (Exercise~\ref{coherent-sheaves:exercise-canonical-curves}), so the plane embedding is the canonical
+embedding, and plane quartics are not hyperelliptic. Conversely every non-hyperelliptic curve of genus $3$ is canonically a plane quartic, since its canonical image
+in $\PP^2$ is a curve of degree $\deg K = 4$.
+\end{example}
+
+\section{The Jacobian and the Abel--Jacobi theorem}\label{curves:section-jacobian}
+
+\begin{definition}\label{curves:definition-jacobian}
+Let $X$ be a compact Riemann surface of genus $g$. The \emph{Jacobian} is the complex torus $J(X) = H^0(X, \Omega^1)^\vee/H_1(X; \ZZ)$, where $\gamma \in H_1(X; \ZZ)$ acts by
+$\omega \mapsto \int_\gamma\omega$. Fixing a base point $P_0$, the \emph{Abel--Jacobi map} is $u \colon X \to J(X)$, $u(P) = (\omega \mapsto \int_{P_0}^P\omega)$ modulo periods; it
+extends additively to divisors, and on degree-zero divisors it does not depend on $P_0$.
+\end{definition}
+
+\begin{proposition}\label{curves:proposition-jacobian-torus}
+$H_1(X; \ZZ) \to H^0(X, \Omega^1)^\vee$ is injective with image a lattice, so $J(X)$ is a compact complex torus of dimension $g$. Moreover
+$\Pic^0(X^{\mathrm{an}}) \cong H^1(X, \mathcal{O})/H^1(X; \ZZ) \cong J(X)$ as complex tori.
+\end{proposition}
+
+\begin{proof}
+Holomorphic $1$-forms are closed (Proposition~\ref{hodge-decomposition:proposition-holomorphic-forms}), so the integrals depend only on homology classes. By the Hodge
+decomposition, $H^1(X; \RR) \to H^{0,1} \cong H^1(X, \mathcal{O})$ is an isomorphism of real vector spaces (Exercise~\ref{hodge-decomposition:exercise-h1-real}), so the image of
+$H^1(X; \ZZ)$ is a lattice in the $g$-dimensional complex space $H^1(X, \mathcal{O})$, and by Theorem~\ref{holomorphic-bundles:theorem-exponential}(2),
+$\Pic^0(X^{\mathrm{an}}) \cong H^1(X, \mathcal{O})/H^1(X; \ZZ)$. Serre duality identifies $H^1(X, \mathcal{O})$ with $H^0(X, \Omega^1)^\vee$ via $(\alpha, \omega) \mapsto \int_X\alpha \wedge \omega$ for a
+Dolbeault representative $\alpha$, and Poincar\'e duality identifies $H^1(X; \ZZ)$ with $H_1(X; \ZZ)$. Under these identifications, the class of a closed real $1$-form
+$\eta$ Poincar\'e dual to $\gamma$ is sent to $\omega \mapsto \int_X\eta^{0,1} \wedge \omega = \int_X\eta \wedge \omega = \int_\gamma\omega$, since $\eta^{1,0} \wedge \omega = 0$ for type
+reasons. So the lattices correspond.
+\end{proof}
+
+\begin{theorem}[Abel and Jacobi]\label{curves:theorem-abel-jacobi}
+Let $X$ be a compact Riemann surface of genus $g$.
+\begin{enumerate}
+\item (Abel) A divisor $D$ of degree $0$ is principal if and only if $u(D) = 0$ in $J(X)$. Equivalently, under Proposition~\ref{curves:proposition-jacobian-torus} the class of
+$\mathcal{O}(D)$ in $\Pic^0(X)$ corresponds to $u(D)$.
+\item (Jacobi inversion) Every divisor class of degree $g$ contains an effective divisor. So the map $X^{(g)} = X^g/S_g \to \Pic^g(X)$, and hence
+$u \colon X^{(g)} \to J(X)$, is surjective. It is injective over a dense open subset.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+(2) By Riemann--Roch, $l(D) \geq \deg D + 1 - g = 1$ for $\deg D = g$, so $D$ is linearly equivalent to an effective divisor. Choosing points $P_1, \ldots, P_g$ successively,
+each outside the base locus of $|K - P_1 - \cdots - P_{i-1}|$, gives $l(K - P_1 - \cdots - P_g) = 0$, hence $l(P_1 + \cdots + P_g) = 1$ by Riemann--Roch; for such divisors the fibre
+of $X^{(g)} \to \Pic^g(X)$ is the single point $|D|$. (1) One direction: if $D = (f)$, let $D_t = f^*(t)$ for $t \in \PP^1$. Then $t \mapsto u(D_t - D_\infty)$ is a holomorphic map
+$\PP^1 \to J(X)$, which lifts to the universal cover $\CC^g$ because $\PP^1$ is simply connected, and is therefore constant. It vanishes at $t = \infty$, so
+$u(D) = u(D_0 - D_\infty) = 0$. The converse, which we omit, constructs a meromorphic function with divisor $D$ as the exponential of an abelian integral of the third kind whose
+periods are integral \cite[Chapter 2, Section 2]{griffiths-harris}.
+\end{proof}
+
+\begin{remark}\label{curves:remark-jacobian-hodge}
+The Jacobian is determined by the weight-one Hodge structure $H^1(X; \ZZ)$ with $H^1(X; \CC) = H^{1,0} \oplus H^{0,1}$, and it is polarised by the intersection form, which satisfies the
+Riemann bilinear relations (Example~\ref{lefschetz-theorems:example-curves-riemann}). So $J(X)$ is an abelian variety (Chapter~\ref{abelian-varieties}). By Torelli's
+theorem the polarised Jacobian determines $X$ \cite[Chapter 2, Section 7]{griffiths-harris}. Griffiths' intermediate Jacobians (Chapter~\ref{intermediate-jacobians}) generalise
+this construction to higher-dimensional varieties.
+\end{remark}
+
+\section{Exercises}\label{curves:section-exercises}
+
+\begin{exercise}\label{curves:exercise-elliptic-group}
+Let $X$ be a curve of genus $1$ with a point $O$. Show that $P \mapsto \mathcal{O}(P - O)$ is a bijection $X \to \Pic^0(X)$.
+\end{exercise}
+
+\begin{solution}
+Injective: if $P - O \sim Q - O$ with $P \neq Q$, then $P \sim Q$ and $X \cong \PP^1$ by Corollary~\ref{curves:corollary-riemann-roch-consequences}(4), contradicting $g = 1$. Surjective:
+for $D$ of degree $0$, $l(D + O) = 1$ by Riemann--Roch ($\deg(D + O) = 1 > 0 = 2g - 2$), so $D + O \sim P$ for an effective divisor $P$ of degree $1$, that is, a point.
+\end{solution}
+
+\begin{exercise}\label{curves:exercise-no-rational}
+Show that $g(X) \geq g(Y)$ for every nonconstant morphism of curves $X \to Y$ in characteristic $0$. Deduce that there is no nonconstant morphism $\PP^1 \to Y$ if
+$g(Y) \geq 1$ (\emph{L\"uroth's theorem} for curves).
+\end{exercise}
+
+\begin{solution}
+Riemann--Hurwitz gives
+$2g(X) - 2 \geq n(2g(Y) - 2)$. If $g(Y) \geq 1$ the right-hand side is $\geq 2g(Y) - 2$, so $g(X) \geq g(Y)$, and if $g(Y) = 0$ there is nothing to prove.
+\end{solution}
+
+\begin{exercise}\label{curves:exercise-genus-two}
+Show that a curve of genus $2$ over a field of characteristic $\neq 2$ is of the form $y^2 = h(x)$ with $h$ of degree $5$ or $6$ without repeated roots.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{curves:theorem-canonical}, $|K|$ gives a degree-$2$ morphism $X \to \PP^1$. So $K(X)$ is a quadratic extension of $k(x)$, of the form $k(x)(\sqrt{h})$ with
+$h \in k[x]$ squarefree (characteristic $\neq 2$). By Riemann--Hurwitz there are $2g + 2 = 6$ branch points, which are the roots of $h$ together with $\infty$ if $\deg h$ is odd.
+So $\deg h \in \{5, 6\}$.
+\end{solution}
+
+\begin{exercise}\label{curves:exercise-plane-curve-genus-rh}
+Let $C \subseteq \PP^2_\CC$ be a nonsingular curve of degree $d$ and $p \notin C$ a general point. By projecting from $p$ and applying Riemann--Hurwitz, recover $g(C) = (d-1)(d-2)/2$.
+\end{exercise}
+
+\begin{solution}
+Projection from $p$ is a morphism $C \to \PP^1$ of degree $d$. Its ramification points are the points where the line through $p$ is tangent to $C$. For general $p$ they are simple
+($e = 2$), and their number is the number of tangent lines to $C$ through $p$, which is the degree $d(d - 1)$ of the polar curve $\sum_ip_i\partial F/\partial x_i = 0$ meeting $C$
+(B\'ezout, Example~\ref{divisors:example-intersections}). So $2g - 2 = -2d + d(d - 1)$ and $g = (d-1)(d-2)/2$.
+\end{solution}
