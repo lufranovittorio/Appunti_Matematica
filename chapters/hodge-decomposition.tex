@@ -1,16 +1,554 @@
 \chapter{The Hodge Decomposition}\label{hodge-decomposition}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-The K\"ahler identities and the Hodge decomposition of the cohomology of a compact K\"ahler manifold.
+\section{Introduction}\label{hodge-decomposition:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{kahler} (K\"ahler Manifolds) and Chapter~\ref{hodge-theorem} (Harmonic Forms and the Hodge Theorem).
+On a compact K\"ahler manifold the complex cohomology splits as
+\[
+H^k(X; \CC) = \bigoplus_{p+q=k}H^{p,q}(X), \qquad \overline{H^{p,q}(X)} = H^{q,p}(X), \qquad H^{p,q}(X) \cong H^q(X, \Omega^p_X)
+\]
+(Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}). This \emph{Hodge decomposition} is the basic structure of the whole
+subject: Part~\ref{part-hodge-theory} axiomatises it as a Hodge structure, and the Hodge conjecture asks which rational classes of type
+$(p,p)$ come from algebraic cycles. The proof combines the Hodge theorem of Chapter~\ref{hodge-theorem} with the \emph{K\"ahler identities}
+(Theorem~\ref{hodge-decomposition:theorem-kahler-identities}), which give $\Delta_d = 2\Delta_{\bar\partial}$, so that the Laplacian
+preserves types. We also prove the $\partial\bar\partial$-lemma, derive the topological restrictions on K\"ahler manifolds, and compute
+examples. References: \cite[Chapter 0, Sections 6--7]{griffiths-harris}, \cite[Chapter 3]{huybrechts-complex},
+\cite[Chapter 6]{voisin-hodge-1}, \cite[Chapter V]{wells-differential-analysis}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item The K\"ahler identities.
-\item Comparison of Laplacians: $\Delta_d = 2\Delta_{\bar\partial} = 2\Delta_\partial$.
-\item The Hodge decomposition $H^k(X,\CC) = \bigoplus_{p+q=k} H^{p,q}(X)$ and Hodge symmetry.
-\item The $\partial\bar\partial$-lemma.
-\item Hodge numbers of curves, projective spaces, tori and hypersurfaces.
-\item A non-K\"ahler counterexample: the Hopf surface.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{kahler} (K\"ahler Manifolds) and Chapter~\ref{hodge-theorem} (Harmonic Forms and the Hodge
+Theorem).
+
+\section{Conventions}\label{hodge-decomposition:section-conventions}
+
+\begin{notation}\label{hodge-decomposition:notation-hermitian-forms}
+Let $X$ be a complex manifold of complex dimension $n$ with a Hermitian metric $g$ and fundamental form $\omega$. Complex forms carry the
+Hermitian inner product $\langle\alpha, \beta\rangle$ extending the real one of Definition~\ref{riemannian-geometry:definition-hodge-star}
+(linear in $\alpha$, conjugate linear in $\beta$). The Hodge star $*$ is extended complex linearly, so that
+$\alpha \wedge *\bar\beta = \langle\alpha, \beta\rangle\,\mathrm{vol}_g$, and when $X$ is compact the $L^2$ product is
+$(\alpha, \beta) = \int_X\alpha \wedge *\bar\beta$. The operators $d$, $\delta$ and $\Delta = \Delta_d = d\delta + \delta d$ are extended
+complex linearly; since they are real, $\delta$ is still the formal adjoint of $d$. We write $\partial^*$, $\bar\partial^*$ for the formal
+adjoints of $\partial$, $\bar\partial$, and
+\[
+\Delta_\partial = \partial\partial^* + \partial^*\partial, \qquad \Delta_{\bar\partial} = \bar\partial\bar\partial^* + \bar\partial^*\bar\partial,
+\]
+so that $\Delta_{\bar\partial}$ is the operator $\Box$ of Definition~\ref{dolbeault:definition-dbar-laplacian}. The operators $L$,
+$\Lambda$, $H$ are those of Definition~\ref{kahler:definition-lefschetz-operators}, applied pointwise, and $\Pi^{p,q}$ is the projection
+onto forms of type $(p,q)$. Finally $c(\alpha) = \bar\alpha$ is complex conjugation of forms. It is conjugate linear and satisfies
+$(c\alpha, c\beta) = \overline{(\alpha, \beta)}$, $c\partial c = \bar\partial$, and $cLc = L$, $c\Lambda c = \Lambda$, since
+$\omega$ is real.
+\end{notation}
+
+\begin{lemma}\label{hodge-decomposition:lemma-adjoints-by-type}
+The complex linear Hodge star maps $\Lambda^{p,q}$ to $\Lambda^{n-q,n-p}$, forms of different types are orthogonal, and
+\[
+\partial^* = -*\bar\partial*, \qquad \bar\partial^* = -*\partial*, \qquad \delta = \partial^* + \bar\partial^*,
+\]
+where $\partial^*$ has type $(-1, 0)$ and $\bar\partial^*$ has type $(0, -1)$. Moreover $c\,\partial^*c = \bar\partial^*$.
+\end{lemma}
+
+\begin{proof}
+At a point choose holomorphic coordinates with $h_{j\bar k} = \delta_{jk}$ there (as in the proof of
+Proposition~\ref{kahler:proposition-volume}). Then $dz^j = dx^j + i\,dy^j$ with $dx^j, dy^j$ orthonormal, so
+$\langle dz^j, dz^k\rangle = 2\delta_{jk}$ and $\langle dz^j, d\bar z^k\rangle = \langle dx^j, dx^k\rangle - \langle dy^j, dy^k\rangle = 0$
+(the term $i \cdot \overline{(-i)}$ is $-1$). Hence the products $dz^I \wedge d\bar z^J$ are pairwise orthogonal, and forms of different
+types are orthogonal.
+
+If $\beta \in \Lambda^{p,q}$, then $\alpha \wedge *\beta = \langle\alpha, \bar\beta\rangle\,\mathrm{vol} = 0$ for every $\alpha$ of
+degree $p + q$ and type other than $(q,p)$, since $\bar\beta$ has type $(q,p)$. The wedge pairing
+$\Lambda^{r,s} \times \Lambda^{n-r,n-s} \to \Lambda^{n,n}$ is perfect and pairs $\Lambda^{r,s}$ trivially with all other types of
+complementary degree, so the component of $*\beta$ of type $(n-r, n-s)$ vanishes for every $(r,s) \neq (q,p)$. Thus $*\beta$ has type
+$(n-q, n-p)$.
+
+The real dimension of $X$ is even, so $\delta = -*d*$ by Definition~\ref{riemannian-geometry:definition-laplacian}. On a form of type
+$(p,q)$, the operator $-*\partial*$ has type $(0, -1)$, since $(p,q) \mapsto (n-q, n-p) \mapsto (n-q+1, n-p) \mapsto (p, q-1)$, and
+likewise $-*\bar\partial*$ has type $(-1, 0)$. So $\delta = D' + D''$ with $D' = -*\bar\partial*$ of type $(-1,0)$ and $D'' = -*\partial*$
+of type $(0,-1)$. For $\alpha$ of type $(p-1, q)$ and $\beta$ of type $(p,q)$, orthogonality of types gives
+$(\partial\alpha, \beta) = (d\alpha, \beta) = (\alpha, \delta\beta) = (\alpha, D'\beta)$, so $D' = \partial^*$; similarly $D'' = \bar\partial^*$.
+Finally $(c\,\partial^*c\,\alpha, \beta) = \overline{(\partial^*c\alpha, c\beta)} = \overline{(c\alpha, \partial c\beta)} = (\alpha, c\,\partial c\,\beta) = (\alpha, \bar\partial\beta)$.
+\end{proof}
+
+\section{The K\"ahler identities}\label{hodge-decomposition:section-kahler-identities}
+
+\begin{lemma}\label{hodge-decomposition:lemma-osculation-principle}
+Let $P$ be a differential operator on forms, defined on every Hermitian manifold of dimension $n$, whose coefficients at each point, in
+any holomorphic coordinates, are given by universal expressions in the values at that point of the $h_{j\bar k}$ and their first
+derivatives. If $P = 0$ for the flat metric on $\CC^n$, then $P = 0$ on every K\"ahler manifold of dimension $n$.
+\end{lemma}
+
+\begin{proof}
+Let $p \in X$ and choose holomorphic coordinates centred at $p$ with $h_{j\bar k} = \delta_{jk} + O(|z|^2)$
+(Proposition~\ref{kahler:proposition-kahler-equivalent}). In this chart, the metric of $X$ and the flat metric $h_{j\bar k} = \delta_{jk}$ have
+the same values and the same first derivatives at $p$. So the coefficients of $P$ at $p$ are the same for both metrics, and those of
+the flat metric vanish.
+\end{proof}
+
+\begin{lemma}\label{hodge-decomposition:lemma-car}
+Let $W$ be a finite-dimensional complex vector space with a Hermitian inner product, and extend the inner product to $\Lambda^\bullet W$
+as above. For $\theta \in W$ let $\varepsilon(\theta) = \theta \wedge -$ and let $\varepsilon(\theta)^*$ be its adjoint. Then
+\[
+\varepsilon(\theta)\varepsilon(\theta') = -\varepsilon(\theta')\varepsilon(\theta), \qquad
+\varepsilon(\varphi)^*\varepsilon(\theta) + \varepsilon(\theta)\varepsilon(\varphi)^* = \langle\theta, \varphi\rangle\,\mathrm{id}.
+\]
+\end{lemma}
+
+\begin{proof}
+The first identity holds because $\theta \wedge \theta' = -\theta' \wedge \theta$. Both sides of the second are linear in $\theta$ and
+conjugate linear in $\varphi$, so it suffices to take $\theta = e_a$, $\varphi = e_b$ from an orthonormal basis $e_1, \ldots, e_m$ and to
+evaluate on $e_I = e_{i_1} \wedge \cdots \wedge e_{i_r}$, $i_1 < \cdots < i_r$. The adjoint $\varepsilon(e_b)^*$ sends $e_I$ to
+$(-1)^{s-1}e_{I \setminus b}$ if $b = i_s \in I$, and to $0$ if $b \notin I$. If $a = b$, exactly one of the two terms is nonzero on
+$e_I$, depending on whether $a \in I$, and it equals $e_I$. If $a \neq b$, both terms vanish unless $b \in I$ and $a \notin I$. In that case
+moving $e_b$ into place in $e_a \wedge e_I$ costs one extra sign compared with $e_I$, so the two terms cancel.
+\end{proof}
+
+\begin{theorem}[K\"ahler identities]\label{hodge-decomposition:theorem-kahler-identities}
+On a K\"ahler manifold,
+\[
+[\Lambda, \bar\partial] = -i\partial^*, \qquad [\Lambda, \partial] = i\bar\partial^*, \qquad [\bar\partial^*, L] = i\partial, \qquad [\partial^*, L] = -i\bar\partial,
+\]
+and $[L, d] = 0$, $[\Lambda, \delta] = 0$.
+\end{theorem}
+
+\begin{proof}
+The operator $P = [\Lambda, \bar\partial] + i\partial^*$ satisfies the hypothesis of
+Lemma~\ref{hodge-decomposition:lemma-osculation-principle}. Indeed $\Lambda$ and $*$ are algebraic operators whose coefficients are
+universal functions of the $h_{j\bar k}$, and $P$ is obtained from them and from $\bar\partial$ by composition, using
+$\partial^* = -*\bar\partial*$ (Lemma~\ref{hodge-decomposition:lemma-adjoints-by-type}). The derivatives in $\bar\partial$ fall at most
+once on these coefficients. So it suffices to prove $P = 0$ on $\CC^n$ with the flat metric. There $\omega = \frac{i}{2}\sum_kdz^k \wedge d\bar z^k$.
+Write $e_k = \varepsilon(dz^k)$ and $\bar e_k = \varepsilon(d\bar z^k)$, which are constant operators. Then
+\[
+L = \frac{i}{2}\sum_ke_k\bar e_k, \qquad \Lambda = L^* = -\frac{i}{2}\sum_k\bar e_k^*e_k^*, \qquad \bar\partial = \sum_l\bar e_l\,\partial_{\bar z^l},
+\qquad \partial = \sum_ke_k\,\partial_{z^k},
+\]
+where $\partial_{z^k}$, $\partial_{\bar z^l}$ act on the coefficients and commute with the constant operators. By
+Lemma~\ref{hodge-decomposition:lemma-car} and the inner products $\langle d\bar z^l, d\bar z^k\rangle = 2\delta_{kl}$,
+$\langle d\bar z^l, dz^k\rangle = 0$ computed in Lemma~\ref{hodge-decomposition:lemma-adjoints-by-type}, we have
+$e_k^*\bar e_l = -\bar e_le_k^*$ and $\bar e_k^*\bar e_l = 2\delta_{kl} - \bar e_l\bar e_k^*$. Hence
+\[
+\bar e_k^*e_k^*\bar e_l = -\bar e_k^*\bar e_le_k^* = -2\delta_{kl}e_k^* + \bar e_l\bar e_k^*e_k^*,
+\qquad\text{that is,}\qquad [\bar e_k^*e_k^*, \bar e_l] = -2\delta_{kl}e_k^*,
+\]
+and therefore $[\Lambda, \bar\partial] = -\frac{i}{2}\sum_k(-2)e_k^*\partial_{\bar z^k} = i\sum_ke_k^*\partial_{\bar z^k}$. On the other hand,
+integration by parts against compactly supported forms shows that the formal adjoint of $\partial_{z^k}$ acting on coefficients is
+$-\partial_{\bar z^k}$, because $\int\partial_{z}f\cdot\bar u = -\int f\,\overline{\partial_{\bar z}u}$. So
+$\partial^* = \sum_k(\partial_{z^k})^*e_k^* = -\sum_ke_k^*\partial_{\bar z^k}$, and $[\Lambda, \bar\partial] = -i\partial^*$.
+
+Conjugating with $c$ and using $c\Lambda c = \Lambda$, $c\bar\partial c = \partial$, $c\,\partial^*c = \bar\partial^*$ and $c(-i)c = i$ gives
+$[\Lambda, \partial] = i\bar\partial^*$. Taking formal adjoints of the first two identities gives
+$[\bar\partial^*, L] = (-i\partial^*)^* = i\partial$ and $[\partial^*, L] = (i\bar\partial^*)^* = -i\bar\partial$. Finally,
+$d(\omega \wedge \alpha) = \omega \wedge d\alpha$ because $d\omega = 0$ and $\omega$ has even degree, so $[L, d] = 0$, and its adjoint is
+$[\Lambda, \delta] = 0$.
+\end{proof}
+
+\begin{remark}\label{hodge-decomposition:remark-identities-conventions}
+The signs in the K\"ahler identities depend on conventions: the normalisation $\omega = \frac{i}{2}\sum h_{j\bar k}dz^j \wedge d\bar z^k$
+used here, the sign of $\delta$, and whether inner products are linear in the first or in the second variable. They agree with
+\cite[Proposition 3.1.12]{huybrechts-complex}. The proof via Lemma~\ref{hodge-decomposition:lemma-osculation-principle} is the typical use
+of the osculation property of K\"ahler metrics. The identities fail for non-K\"ahler Hermitian metrics, where torsion terms involving
+$d\omega$ appear.
+\end{remark}
+
+\section{Comparison of Laplacians}\label{hodge-decomposition:section-laplacians}
+
+\begin{theorem}\label{hodge-decomposition:theorem-laplacians}
+On a K\"ahler manifold, $\partial\bar\partial^* + \bar\partial^*\partial = 0$, $\bar\partial\partial^* + \partial^*\bar\partial = 0$, and
+\[
+\Delta_d = 2\Delta_{\bar\partial} = 2\Delta_\partial .
+\]
+Consequently $\Delta_d$ preserves types: it commutes with every $\Pi^{p,q}$, with $\partial$, $\bar\partial$, $\partial^*$,
+$\bar\partial^*$, and with $c$. Moreover $\Delta_d$ commutes with $*$, $L$ and $\Lambda$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{hodge-decomposition:theorem-kahler-identities}, $i\bar\partial^* = [\Lambda, \partial]$, so
+\[
+i(\partial\bar\partial^* + \bar\partial^*\partial) = \partial\Lambda\partial - \partial\partial\Lambda + \Lambda\partial\partial - \partial\Lambda\partial = 0,
+\]
+using $\partial^2 = 0$. The second identity is its conjugate. Expanding,
+\[
+\Delta_d = (\partial + \bar\partial)(\partial^* + \bar\partial^*) + (\partial^* + \bar\partial^*)(\partial + \bar\partial)
+= \Delta_\partial + \Delta_{\bar\partial} + (\partial\bar\partial^* + \bar\partial^*\partial) + (\bar\partial\partial^* + \partial^*\bar\partial) = \Delta_\partial + \Delta_{\bar\partial}.
+\]
+Using $\partial^* = i[\Lambda, \bar\partial]$ and $\bar\partial^* = -i[\Lambda, \partial]$,
+\[
+\Delta_\partial = i(\partial\Lambda\bar\partial - \partial\bar\partial\Lambda + \Lambda\bar\partial\partial - \bar\partial\Lambda\partial), \qquad
+\Delta_{\bar\partial} = -i(\bar\partial\Lambda\partial - \bar\partial\partial\Lambda + \Lambda\partial\bar\partial - \partial\Lambda\bar\partial),
+\]
+so $\Delta_\partial - \Delta_{\bar\partial} = i\left(-(\partial\bar\partial + \bar\partial\partial)\Lambda + \Lambda(\bar\partial\partial + \partial\bar\partial)\right) = 0$ by
+Proposition~\ref{complex-manifolds:proposition-dbar}. Hence $\Delta_d = 2\Delta_{\bar\partial} = 2\Delta_\partial$.
+
+$\Delta_{\bar\partial}$ has type $(0,0)$, so $\Delta_d$ commutes with the $\Pi^{p,q}$. $\Delta_d$ commutes with $d$ and $\delta$, hence with
+their components of each type, which are $\partial, \bar\partial, \partial^*, \bar\partial^*$. It is real, so it commutes with $c$, and it
+commutes with $*$ by Proposition~\ref{riemannian-geometry:proposition-adjoint}. For $L$: by the K\"ahler identities
+$[L, \delta] = -[\partial^*, L] - [\bar\partial^*, L] = i(\bar\partial - \partial)$ and $[L, d] = 0$, so
+\[
+[L, \Delta_d] = d[L, \delta] + [L, \delta]d = i\left((\partial + \bar\partial)(\bar\partial - \partial) + (\bar\partial - \partial)(\partial + \bar\partial)\right) = 0,
+\]
+again because $\partial^2 = \bar\partial^2 = \partial\bar\partial + \bar\partial\partial = 0$. Taking adjoints, $[\Lambda, \Delta_d] = 0$.
+\end{proof}
+
+\section{The Hodge decomposition}\label{hodge-decomposition:section-hodge-decomposition}
+
+\begin{definition}\label{hodge-decomposition:definition-hpq}
+For a complex manifold $X$, let $H^{p,q}(X) \subseteq H^{p+q}(X; \CC)$ be the subspace of classes that can be represented by a closed form
+of type $(p,q)$. For a Hermitian metric, let $\mathcal{H}^k_{\CC}$ be the complex $\Delta_d$-harmonic $k$-forms and
+$\mathcal{H}^{p,q} = \mathcal{H}^{p+q}_{\CC} \cap \mathcal{A}^{p,q}(X)$.
+\end{definition}
+
+\begin{theorem}[Hodge decomposition]\label{hodge-decomposition:theorem-hodge-decomposition}
+Let $X$ be a compact K\"ahler manifold. Then
+\begin{enumerate}
+\item $\mathcal{H}^k_{\CC} = \bigoplus_{p+q=k}\mathcal{H}^{p,q}$, and $\mathcal{H}^{p,q}$ is also the space of $\Delta_{\bar\partial}$-harmonic,
+and of $\Delta_\partial$-harmonic, forms of type $(p,q)$;
+\item $H^k(X; \CC) = \bigoplus_{p+q=k}H^{p,q}(X)$, and $\mathcal{H}^{p,q} \to H^{p,q}(X)$, $\alpha \mapsto [\alpha]$, is an isomorphism;
+\item $\overline{H^{p,q}(X)} = H^{q,p}(X)$ (\emph{Hodge symmetry});
+\item $H^{p,q}(X) \cong H^{p,q}_{\bar\partial}(X) \cong H^q(X, \Omega^p_X)$.
+\end{enumerate}
+The subspaces $H^{p,q}(X)$ depend only on the complex structure of $X$, not on the K\"ahler metric.
+\end{theorem}
+
+\begin{proof}
+(1) If $\Delta_d\alpha = 0$ then $\Delta_d\Pi^{p,q}\alpha = \Pi^{p,q}\Delta_d\alpha = 0$ by
+Theorem~\ref{hodge-decomposition:theorem-laplacians}, so the components of a harmonic form are harmonic. The second statement holds
+because $\Delta_d = 2\Delta_{\bar\partial} = 2\Delta_\partial$.
+
+(2) Applying Theorem~\ref{hodge-theorem:theorem-hodge} to real and imaginary parts, and Theorem~\ref{de-rham:theorem-de-rham}, the map
+$\mathcal{H}^k_{\CC} \to H^k(X; \CC)$ is an isomorphism. By (1), $H^k(X; \CC)$ is the direct sum of the images of the $\mathcal{H}^{p,q}$,
+and each image lies in $H^{p,q}(X)$ because harmonic forms are closed. Conversely, let $\alpha$ be a closed form of type $(p,q)$ and let
+$h$ be its harmonic projection. By Theorem~\ref{hodge-theorem:theorem-decomposition} (applied to real and imaginary parts),
+$\alpha = h + d\beta$ for some $\beta$, and $h$ is the orthogonal projection of $\alpha$ onto $\mathcal{H}^k_{\CC}$. Since forms of different
+types are orthogonal (Lemma~\ref{hodge-decomposition:lemma-adjoints-by-type}), $\alpha$ is orthogonal to $\mathcal{H}^{r,s}$ for
+$(r,s) \neq (p,q)$, so $h \in \mathcal{H}^{p,q}$ by (1). So $H^{p,q}(X)$ is exactly the image of $\mathcal{H}^{p,q}$, and (2) follows.
+
+(3) $\Delta_d$ is a real operator, so $c$ maps $\mathcal{H}^{p,q}$ onto $\mathcal{H}^{q,p}$. Alternatively, the conjugate of a closed
+$(p,q)$-form is a closed $(q,p)$-form.
+
+(4) By (1), $\mathcal{H}^{p,q}$ is the space of $\Delta_{\bar\partial}$-harmonic $(p,q)$-forms, which is isomorphic to
+$H^{p,q}_{\bar\partial}(X) \cong H^q(X, \Omega^p_X)$ by Theorem~\ref{dolbeault:theorem-dbar-hodge}.
+
+The definition of $H^{p,q}(X)$ does not involve a metric.
+\end{proof}
+
+\begin{corollary}\label{hodge-decomposition:corollary-hodge-numbers}
+Let $X$ be a compact K\"ahler manifold of dimension $n$, with Hodge numbers $h^{p,q} = \dim H^q(X, \Omega^p_X)$. Then:
+\begin{enumerate}
+\item $b_k = \sum_{p+q=k}h^{p,q}$, so the Fr\"olicher spectral sequence degenerates at $E_1$;
+\item $h^{p,q} = h^{q,p} = h^{n-p,n-q} = h^{n-q,n-p}$;
+\item $b_{2k+1}$ is even for every $k$;
+\item $h^{p,p} \geq 1$ for $0 \leq p \leq n$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) is Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}(2) and (4) together with
+Proposition~\ref{dolbeault:proposition-frolicher-inequality}. In (2), the first equality is Hodge symmetry and the second is Serre duality
+(Theorem~\ref{dolbeault:theorem-serre-duality}). For (3), $b_{2k+1} = \sum_{p+q=2k+1}h^{p,q} = 2\sum_{p<q,\ p+q=2k+1}h^{p,q}$, since
+$p \neq q$ when $p + q$ is odd. For (4), $\omega^p$ is a closed form of type $(p,p)$ and $[\omega]^p \neq 0$ by
+Proposition~\ref{kahler:proposition-kahler-class-powers}.
+\end{proof}
+
+\begin{remark}\label{hodge-decomposition:remark-hodge-diamond}
+The Hodge numbers are displayed in the \emph{Hodge diamond}, with $h^{n,n}$ at the top, $h^{0,0}$ at the bottom, and $h^{p,q}$ in row
+$p + q$. Row $k$ adds up to $b_k$, and the diamond is symmetric under the reflections $h^{p,q} \leftrightarrow h^{q,p}$ (Hodge symmetry) and
+$h^{p,q} \leftrightarrow h^{n-p,n-q}$ (Serre duality). For a compact K\"ahler surface it reads
+\[
+\begin{array}{ccccc}
+ & & h^{2,2} & & \\
+ & h^{2,1} & & h^{1,2} & \\
+h^{2,0} & & h^{1,1} & & h^{0,2} \\
+ & h^{1,0} & & h^{0,1} & \\
+ & & h^{0,0} & &
+\end{array}
+\qquad = \qquad
+\begin{array}{ccccc}
+ & & 1 & & \\
+ & q & & q & \\
+p_g & & h^{1,1} & & p_g \\
+ & q & & q & \\
+ & & 1 & &
+\end{array}
+\]
+where $q = h^{0,1}$ is the \emph{irregularity} and $p_g = h^{2,0}$ the \emph{geometric genus}.
+\end{remark}
+
+\begin{remark}\label{hodge-decomposition:remark-hodge-filtration}
+The \emph{Hodge filtration} $F^pH^k(X; \CC) = \bigoplus_{r \geq p}H^{r,k-r}(X)$ determines the decomposition, since
+$H^{p,q} = F^p \cap \overline{F^q}$ when $p + q = k$. Because the Fr\"olicher spectral sequence degenerates, $F^p$ is also the image of the
+hypercohomology of the truncated complex $\Omega^{\geq p}_X$ in $H^k(X; \CC)$ \cite[Chapter 8]{voisin-hodge-1}. The filtration varies
+holomorphically in families, whereas the decomposition does not. This is why the theory of Hodge structures in
+Part~\ref{part-hodge-theory} is phrased with filtrations.
+\end{remark}
+
+\begin{proposition}\label{hodge-decomposition:proposition-holomorphic-forms}
+On a compact K\"ahler manifold every holomorphic $p$-form is closed and harmonic, and
+$H^0(X, \Omega^p_X) = \mathcal{H}^{p,0} \cong H^{p,0}(X) \subseteq H^p(X; \CC)$. In particular a holomorphic form that is exact, or
+merely cohomologous to zero, vanishes, and $b_1(X) = 2\dim H^0(X, \Omega^1_X)$.
+\end{proposition}
+
+\begin{proof}
+If $\alpha$ is a holomorphic $p$-form, then $\bar\partial\alpha = 0$ and $\bar\partial^*\alpha = 0$, the latter because
+$\bar\partial^*\alpha$ would have type $(p, -1)$. So $\Delta_{\bar\partial}\alpha = 0$, hence $\Delta_d\alpha = 0$ and $\alpha$ is closed
+and harmonic. Conversely, if $\alpha \in \mathcal{H}^{p,0}$ then
+$0 = (\Delta_{\bar\partial}\alpha, \alpha) = \|\bar\partial\alpha\|^2 + \|\bar\partial^*\alpha\|^2$, so $\bar\partial\alpha = 0$ and $\alpha$ is holomorphic. The
+harmonic representative of a class is unique, so a harmonic form cohomologous to zero vanishes. Finally $b_1 = h^{1,0} + h^{0,1} = 2h^{1,0}$.
+\end{proof}
+
+\begin{proposition}\label{hodge-decomposition:proposition-functoriality}
+Let $f \colon X \to Y$ be a holomorphic map of compact K\"ahler manifolds. Then $f^*H^{p,q}(Y) \subseteq H^{p,q}(X)$. The cup product
+maps $H^{p,q} \times H^{r,s}$ into $H^{p+r,q+s}$. If $\dim X = n$, the Poincar\'e duality pairing
+$H^k(X; \CC) \times H^{2n-k}(X; \CC) \to \CC$ restricts to perfect pairings $H^{p,q}(X) \times H^{n-p,n-q}(X) \to \CC$, and it is zero on
+$H^{p,q} \times H^{r,s}$ for all other pairs of types.
+\end{proposition}
+
+\begin{proof}
+Pullback by a holomorphic map and wedge product preserve types of forms, and the wedge product corresponds to the cup product
+(Theorem~\ref{de-rham:theorem-de-rham}). For $(r,s) \neq (n-p, n-q)$ with $r + s = 2n - p - q$, the wedge product of forms of types
+$(p,q)$ and $(r,s)$ has type $(p+r, q+s) \neq (n,n)$ and so is zero, being a $2n$-form. The pairing on $H^k \times H^{2n-k}$ is perfect
+(Theorem~\ref{de-rham:theorem-poincare-duality-de-rham}), and by
+Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition} it is block diagonal with blocks $H^{p,q} \times H^{n-p,n-q}$. Each block
+is therefore perfect.
+\end{proof}
+
+\begin{proposition}\label{hodge-decomposition:proposition-cycle-classes-type}
+Let $X$ be a compact K\"ahler manifold of dimension $n$ and $Z \subseteq X$ an analytic subvariety of pure codimension $p$. Then its cycle
+class $[Z] \in H^{2p}(X; \CC)$ (Proposition~\ref{complex-manifolds:proposition-subvariety-class}) lies in $H^{p,p}(X)$.
+\end{proposition}
+
+\begin{proof}
+Let $k = n - p = \dim Z$. The restriction of a form of type $(r,s)$ to the complex manifold $Z_{\mathrm{reg}}$ of dimension $k$ has type
+$(r,s)$ there, so it vanishes if $r + s = 2k$ and $(r,s) \neq (k,k)$. Hence $\int_Z\beta = 0$ for every closed form $\beta$ of type
+$(r,s) \neq (k,k)$ with $r + s = 2k$. By definition of the cycle class, $\int_X\eta \wedge \beta = \int_Z\beta$ for a closed form $\eta$
+representing $[Z]$ (Theorem~\ref{de-rham:theorem-currents}). Write $[Z] = \sum_{a+b=2p}z^{a,b}$ with $z^{a,b} \in H^{a,b}(X)$. By
+Proposition~\ref{hodge-decomposition:proposition-functoriality}, $z^{a,b}$ pairs only with $H^{n-a,n-b}$, and it pairs to zero with it
+unless $(n-a, n-b) = (k,k)$. So $z^{a,b}$ pairs to zero with everything unless $(a,b) = (p,p)$, and by perfectness $z^{a,b} = 0$ for
+$(a,b) \neq (p,p)$.
+\end{proof}
+
+\begin{remark}\label{hodge-decomposition:remark-hodge-classes}
+The cycle class of $Z$ is the image of an integral class in $H^{2p}(X; \ZZ)$ (Chapter~\ref{cycle-class}). So algebraic cycles give
+\emph{Hodge classes}, the elements of $H^{2p}(X; \QQ) \cap H^{p,p}(X)$. The Hodge conjecture (Chapter~\ref{hodge-conjecture}) predicts that
+on a projective manifold every Hodge class is a rational linear combination of cycle classes.
+\end{remark}
+
+\section{The $\partial\bar\partial$-lemma}\label{hodge-decomposition:section-ddbar-lemma}
+
+\begin{lemma}\label{hodge-decomposition:lemma-del-hodge}
+Let $X$ be compact K\"ahler. Then
+$\mathcal{A}^{p,q}(X) = \mathcal{H}^{p,q} \oplus \partial\mathcal{A}^{p-1,q}(X) \oplus \partial^*\mathcal{A}^{p+1,q}(X)$ orthogonally, and
+$\ker\partial = \mathcal{H}^{p,q} \oplus \partial\mathcal{A}^{p-1,q}(X)$. The same holds with $\bar\partial$, $\bar\partial^*$ in place of
+$\partial$, $\partial^*$.
+\end{lemma}
+
+\begin{proof}
+For $\bar\partial$ the decomposition is Theorem~\ref{dolbeault:theorem-dbar-hodge}, with $\mathcal{H}^{p,q}$ the $\Delta_{\bar\partial}$-harmonic
+forms (Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}(1)). Applying the conjugate linear isometry $c$ to the decomposition
+of $\mathcal{A}^{q,p}(X)$, and using $c\bar\partial c = \partial$, $c\bar\partial^*c = \partial^*$ and $c\mathcal{H}^{q,p} = \mathcal{H}^{p,q}$, gives
+the decomposition for $\partial$. If $\partial\alpha = 0$ and $\alpha = h + \partial\beta + \partial^*\gamma$, then
+$0 = (\partial\alpha, \gamma) = (\partial\partial^*\gamma, \gamma) = \|\partial^*\gamma\|^2$, because $\partial h = 0$ and $\partial^2 = 0$. So
+$\alpha \in \mathcal{H}^{p,q} \oplus \operatorname{im}\partial$; the argument for $\bar\partial$ is the same.
+\end{proof}
+
+\begin{theorem}[$\partial\bar\partial$-lemma]\label{hodge-decomposition:theorem-ddbar-lemma}
+Let $X$ be a compact K\"ahler manifold and $\alpha$ a $d$-closed form of type $(p,q)$. The following are equivalent:
+\begin{enumerate}
+\item $\alpha$ is $d$-exact;
+\item $\alpha$ is $\partial$-exact;
+\item $\alpha$ is $\bar\partial$-exact;
+\item $\alpha = \partial\bar\partial\gamma$ for a form $\gamma$ of type $(p-1, q-1)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(4) implies the others: $\partial\bar\partial\gamma = d(\bar\partial\gamma) = \partial(\bar\partial\gamma) = \bar\partial(-\partial\gamma)$.
+
+Assume (1), (2) or (3). Then $\alpha$ is orthogonal to $\mathcal{H}^{p,q}$: for $h$ harmonic, $(d\beta, h) = (\beta, \delta h) = 0$, and
+likewise with $\partial^*h = 0$ or $\bar\partial^*h = 0$ (harmonic forms are killed by all of these, by
+Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}(1)). Since $\partial\alpha = 0$ (the $(p+1,q)$-part of $d\alpha = 0$),
+Lemma~\ref{hodge-decomposition:lemma-del-hodge} gives $\alpha = \partial\gamma$ with $\gamma$ of type $(p-1,q)$. Decompose
+$\gamma = h' + \bar\partial\mu + \bar\partial^*\nu$ by the same lemma. Then $\partial h' = 0$, and
+$\partial\bar\partial^*\nu = -\bar\partial^*\partial\nu$ by Theorem~\ref{hodge-decomposition:theorem-laplacians}, so
+\[
+\alpha = \partial\bar\partial\mu - \bar\partial^*\partial\nu .
+\]
+Now $\bar\partial\alpha = 0$ and $\bar\partial\partial\bar\partial\mu = -\partial\bar\partial\bar\partial\mu = 0$, hence
+$\bar\partial\bar\partial^*\partial\nu = 0$ and $\|\bar\partial^*\partial\nu\|^2 = (\bar\partial\bar\partial^*\partial\nu, \partial\nu) = 0$. Therefore
+$\alpha = \partial\bar\partial\mu$, with $\mu$ of type $(p-1, q-1)$.
+\end{proof}
+
+\begin{corollary}\label{hodge-decomposition:corollary-canonical-dolbeault}
+Let $X$ be compact K\"ahler. Every Dolbeault class in $H^{p,q}_{\bar\partial}(X)$ has a $d$-closed representative, and
+$[\alpha] \mapsto [\alpha]_{\bar\partial}$, for $\alpha$ a closed $(p,q)$-form, is a well-defined isomorphism
+$H^{p,q}(X) \to H^{p,q}_{\bar\partial}(X)$ that does not depend on any metric.
+\end{corollary}
+
+\begin{proof}
+If $\alpha$ and $\alpha'$ are closed $(p,q)$-forms in the same de Rham class, then $\alpha - \alpha'$ is a $d$-exact closed form of type
+$(p,q)$, hence $\bar\partial$-exact by Theorem~\ref{hodge-decomposition:theorem-ddbar-lemma}. So the map is well defined. For a K\"ahler
+metric, restricting it to harmonic representatives gives the isomorphism
+$\mathcal{H}^{p,q} \cong H^{p,q}_{\bar\partial}(X)$ of Theorem~\ref{dolbeault:theorem-dbar-hodge}. The harmonic representative of a Dolbeault
+class is $d$-closed.
+\end{proof}
+
+\begin{corollary}\label{hodge-decomposition:corollary-ddbar-real}
+Let $X$ be compact K\"ahler and let $\alpha$, $\alpha'$ be closed real $(1,1)$-forms with $[\alpha] = [\alpha']$ in $H^2(X; \RR)$. Then
+$\alpha' = \alpha + i\partial\bar\partial\varphi$ for a smooth real function $\varphi$. In particular any two K\"ahler forms with the same
+K\"ahler class differ by $i\partial\bar\partial\varphi$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{hodge-decomposition:theorem-ddbar-lemma}, $\alpha' - \alpha = \partial\bar\partial\mu$ for a complex function $\mu$. Since
+$\alpha' - \alpha$ is real, $\partial\bar\partial\mu = \overline{\partial\bar\partial\mu} = \bar\partial\partial\bar\mu = -\partial\bar\partial\bar\mu$. So
+$\alpha' - \alpha = \frac12\partial\bar\partial(\mu - \bar\mu) = i\partial\bar\partial\operatorname{Im}\mu$, and $\varphi = \operatorname{Im}\mu$ works.
+\end{proof}
+
+\begin{remark}\label{hodge-decomposition:remark-formality}
+Deligne, Griffiths, Morgan and Sullivan deduced from the $\partial\bar\partial$-lemma that the real homotopy type of a compact K\"ahler
+manifold is determined by its real cohomology ring (the manifold is \emph{formal}). In particular all Massey products vanish, which gives
+obstructions to K\"ahlerness beyond the Hodge numbers \cite{dgms}. The $\partial\bar\partial$-lemma, and hence the Hodge decomposition, also
+hold for compact complex manifolds bimeromorphic to K\"ahler ones \cite{dgms}.
+\end{remark}
+
+\section{Examples}\label{hodge-decomposition:section-examples}
+
+\begin{example}\label{hodge-decomposition:example-curves}
+Let $X$ be a compact Riemann surface. It is K\"ahler (Example~\ref{kahler:example-kahler}), so $b_1$ is even, and its Hodge diamond has $h^{0,0} = h^{1,1} = 1$ and
+$h^{1,0} = h^{0,1} = g$, where $g = b_1/2$. So the \emph{genus} $g$, a topological invariant, equals both the dimension of the space of
+holomorphic $1$-forms $H^0(X, K_X)$ and $\dim H^1(X, \mathcal{O}_X)$. For the Riemann sphere $g = 0$; for an elliptic curve
+$\CC/\Lambda$, $g = 1$ and $H^0(X, K_X)$ is spanned by $dz$.
+\end{example}
+
+\begin{example}\label{hodge-decomposition:example-projective-space}
+For $\CC\PP^n$, $b_{2k} = 1$ for $0 \leq k \leq n$ and all other Betti numbers vanish
+(Theorem~\ref{singular-cohomology:theorem-projective-spaces}). By Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}(4),
+$h^{k,k} \geq 1$, so $H^{2k}(\CC\PP^n; \CC) = H^{k,k}$ is spanned by $[\omega_{FS}]^k$, and $h^{p,q} = 0$ for $p \neq q$. In particular
+$\CC\PP^n$ has no nonzero holomorphic forms of positive degree, and $H^q(\CC\PP^n, \mathcal{O}) = 0$ for $q > 0$.
+\end{example}
+
+\begin{example}\label{hodge-decomposition:example-elliptic-periods}
+Let $E_\tau = \CC/(\ZZ + \tau\ZZ)$ with $\operatorname{Im}\tau > 0$, and let $a$, $b$ be the classes in $H_1(E_\tau; \ZZ)$ of the images of
+the segments $[0, 1]$ and $[0, \tau]$. Integration identifies $H^1(E_\tau; \CC)$ with $\CC^2$ through
+$[\alpha] \mapsto (\int_a\alpha, \int_b\alpha)$. Then $H^{1,0}$ is spanned by $[dz] \mapsto (1, \tau)$ and $H^{0,1}$ by
+$[d\bar z] \mapsto (1, \bar\tau)$. The lattice $H^1(E_\tau; \ZZ)$ and the vector space $H^1(E_\tau; \CC)$ do not depend on $\tau$, but the
+line $H^{1,0} = [1 : \tau] \in \PP^1$ does, and it recovers $\tau$. So the Hodge decomposition captures the complex structure, which is not a
+topological invariant. This is the first example of a \emph{period map} (Chapter~\ref{vhs}).
+\end{example}
+
+\begin{example}\label{hodge-decomposition:example-quartic}
+For a smooth quartic surface $X \subseteq \CC\PP^3$ (a K3 surface) the Hodge diamond is
+\[
+\begin{array}{ccccc}
+ & & 1 & & \\
+ & 0 & & 0 & \\
+1 & & 20 & & 1 \\
+ & 0 & & 0 & \\
+ & & 1 & &
+\end{array}
+\]
+Here $b_1 = 0$ by the Lefschetz hyperplane theorem (Chapter~\ref{lefschetz-theorems}), $K_X \cong \mathcal{O}_X$ by adjunction
+(Proposition~\ref{holomorphic-bundles:proposition-adjunction}) so that $p_g = 1$, and $b_2 = 22$ comes from the Euler characteristic
+$\chi = c_2(X) = 24$ \cite[Chapter VIII]{bhpv}. The subspace $H^{1,1} \cap H^2(X; \QQ)$ is where the Hodge conjecture for
+divisors, the Lefschetz $(1,1)$-theorem, lives.
+\end{example}
+
+\begin{counterexample}\label{hodge-decomposition:counterexample-hopf}
+The Hopf surface (Exercise~\ref{complex-manifolds:exercise-hopf-surface}) has $b_1 = 1$, which is odd, so by
+Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}(3) it is not K\"ahler, which gives a second proof of
+Counterexample~\ref{kahler:counterexample-hopf}. It also shows how the theorem fails: $h^{1,0} = 0 \neq 1 = h^{0,1}$
+(Example~\ref{dolbeault:example-hodge-numbers}).
+\end{counterexample}
+
+\begin{counterexample}\label{hodge-decomposition:counterexample-iwasawa}
+Let $G$ be the complex Heisenberg group of matrices
+$\left(\begin{smallmatrix}1 & z_1 & z_3 \\ 0 & 1 & z_2 \\ 0 & 0 & 1\end{smallmatrix}\right)$, $z \in \CC^3$, and $\Gamma \subseteq G$ the
+subgroup with entries in $\ZZ[i]$. The \emph{Iwasawa manifold} $X = \Gamma\backslash G$ is a compact complex manifold of dimension $3$ carrying
+a holomorphic $1$-form that is not closed. So $X$ is not K\"ahler, by Proposition~\ref{hodge-decomposition:proposition-holomorphic-forms}.
+\end{counterexample}
+
+\begin{proof}
+Left multiplication by an element with entries $(a_1, a_2, a_3)$ is
+$(z_1, z_2, z_3) \mapsto (z_1 + a_1, z_2 + a_2, z_3 + a_1z_2 + a_3)$. This map is holomorphic, and $\Gamma$ acts freely and properly
+discontinuously, being a discrete subgroup acting by translations of the group. So $X$ is a complex manifold. It is compact: using
+$a_1, a_2 \in \ZZ[i]$ one moves $z_1, z_2$ into the unit square, and then using $a_3$ one moves $z_3$ there, so the image of a compact
+set surjects onto $X$. The form $\theta = dz_3 - z_1\,dz_2$ is invariant under left multiplication:
+$d(z_3 + a_1z_2 + a_3) - (z_1 + a_1)\,d(z_2 + a_2) = dz_3 - z_1\,dz_2$. So it descends to a holomorphic $1$-form on $X$, and
+$d\theta = -dz_1 \wedge dz_2 \neq 0$.
+\end{proof}
+
+\section{Exercises}\label{hodge-decomposition:section-exercises}
+
+\begin{exercise}\label{hodge-decomposition:exercise-kunneth-hodge}
+Let $X$ and $Y$ be compact K\"ahler manifolds. Show that
+$h^{p,q}(X \times Y) = \sum h^{p_1,q_1}(X)\,h^{p_2,q_2}(Y)$, the sum over $p_1 + p_2 = p$, $q_1 + q_2 = q$.
+\end{exercise}
+
+\begin{solution}
+$X \times Y$ is K\"ahler (Example~\ref{kahler:example-kahler}). The K\"unneth isomorphism
+$H^\bullet(X; \CC) \otimes H^\bullet(Y; \CC) \to H^\bullet(X \times Y; \CC)$, $a \otimes b \mapsto \mathrm{pr}_X^*a \cup \mathrm{pr}_Y^*b$
+(Theorem~\ref{singular-cohomology:theorem-kunneth}), maps $H^{p_1,q_1}(X) \otimes H^{p_2,q_2}(Y)$ into $H^{p_1+p_2,q_1+q_2}(X \times Y)$ by
+Proposition~\ref{hodge-decomposition:proposition-functoriality}. The source is the direct sum of these pieces and the target is the direct
+sum of its $H^{p,q}$. So the isomorphism maps $\bigoplus_{p_1+p_2=p,\ q_1+q_2=q}H^{p_1,q_1} \otimes H^{p_2,q_2}$ onto $H^{p,q}(X \times Y)$.
+\end{solution}
+
+\begin{exercise}\label{hodge-decomposition:exercise-calabi-eckmann}
+Calabi and Eckmann constructed complex structures on $S^{2a+1} \times S^{2b+1}$ for all $a, b \geq 0$ \cite{calabi-eckmann}. Show that none
+of them is K\"ahler, except on $S^1 \times S^1$.
+\end{exercise}
+
+\begin{solution}
+The complex dimension is $a + b + 1 \geq 1$. By the K\"unneth formula, the cohomology of $S^{2a+1} \times S^{2b+1}$ lives in degrees
+$0$, $2a + 1$, $2b + 1$ and $2a + 2b + 2$. If $a, b \geq 1$, then $H^2 = 0$, contradicting
+Proposition~\ref{kahler:proposition-kahler-class-powers}. If $a = 0 < b$, then $b_1 = 1$ is odd, contradicting
+Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}(3), and the case $b = 0 < a$ is symmetric. The remaining case $a = b = 0$ is a
+torus of real dimension $2$, and every complex structure on it is K\"ahler (Example~\ref{kahler:example-kahler}).
+\end{solution}
+
+\begin{exercise}\label{hodge-decomposition:exercise-invariant-fubini-study}
+Show that $\omega_{FS}$ is the only $U(n+1)$-invariant K\"ahler form on $\CC\PP^n$ in its cohomology class.
+\end{exercise}
+
+\begin{solution}
+Let $\omega'$ be another one. By Corollary~\ref{hodge-decomposition:corollary-ddbar-real}, $\omega' = \omega_{FS} + i\partial\bar\partial\varphi$
+with $\varphi$ real. For $g \in U(n+1)$, $g^*\omega' = \omega'$ and $g^*\omega_{FS} = \omega_{FS}$, so $i\partial\bar\partial(\varphi \circ g) = i\partial\bar\partial\varphi$,
+since $g$ is holomorphic. Averaging over $U(n+1)$ with its normalised Haar measure gives an invariant function
+$\tilde\varphi = \int\varphi \circ g\,dg$ with $i\partial\bar\partial\tilde\varphi = i\partial\bar\partial\varphi$ (differentiate under the integral). As
+$U(n+1)$ acts transitively, $\tilde\varphi$ is constant. Hence $i\partial\bar\partial\varphi = 0$ and $\omega' = \omega_{FS}$.
+\end{solution}
+
+\begin{exercise}\label{hodge-decomposition:exercise-h1-real}
+Let $X$ be compact K\"ahler. Show that the map $H^1(X; \RR) \to H^1(X, \mathcal{O}_X)$ induced by the inclusion $\RR_X \to \mathcal{O}_X$ is an
+isomorphism of real vector spaces. (This is the starting point for the Picard variety $H^1(X, \mathcal{O}_X)/H^1(X; \ZZ)$.)
+\end{exercise}
+
+\begin{solution}
+Projecting forms to their $(0,q)$-components defines a morphism from the de Rham resolution of $\CC_X$ to the Dolbeault resolution of
+$\mathcal{O}_X$ over the inclusion $\CC_X \to \mathcal{O}_X$, because the $(0, q+1)$-part of $d\alpha$ is $\bar\partial$ of the
+$(0,q)$-part of $\alpha$. So the map sends $[\alpha]$ to $[\alpha^{0,1}]_{\bar\partial}$. Both sides have real dimension $b_1 = 2h^{0,1}$.
+If $\alpha$ is a real harmonic $1$-form with $\alpha^{0,1}$ $\bar\partial$-exact, then $\alpha^{0,1}$ is harmonic (by
+Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}(1)) and $\bar\partial$-exact, hence zero. Then $\alpha^{1,0} = \overline{\alpha^{0,1}} = 0$,
+so $\alpha = 0$ and the map is injective.
+\end{solution}
+
+\begin{exercise}\label{hodge-decomposition:exercise-lefschetz-harmonic}
+Let $X$ be compact K\"ahler. Show that $L$ and $\Lambda$ map harmonic forms to harmonic forms, and that the primitive components
+(Theorem~\ref{kahler:theorem-sl2-forms}) of a harmonic form are harmonic.
+\end{exercise}
+
+\begin{solution}
+$L$ and $\Lambda$ commute with $\Delta_d$ (Theorem~\ref{hodge-decomposition:theorem-laplacians}), so they preserve $\ker\Delta_d$. Let
+$\alpha = \sum_jL^j\alpha_j$ be the primitive decomposition of a harmonic form. Then $\Lambda\Delta_d\alpha_j = \Delta_d\Lambda\alpha_j = 0$,
+so $\Delta_d\alpha_j$ is primitive, and $0 = \Delta_d\alpha = \sum_jL^j(\Delta_d\alpha_j)$ is a primitive decomposition of $0$. By
+uniqueness, every $\Delta_d\alpha_j$ vanishes.
+\end{solution}
+
+\begin{exercise}\label{hodge-decomposition:exercise-holomorphic-closed-surface}
+Show that on a compact complex surface every holomorphic $1$-form is closed, even without assuming the surface is K\"ahler.
+(Hint: for a holomorphic $1$-form $\theta$, compute $\int_Xd\theta \wedge \overline{d\theta}$ in two ways.)
+\end{exercise}
+
+\begin{solution}
+$d\theta = \partial\theta$ is a holomorphic $2$-form, so $d\theta \wedge \overline{d\theta}$ is a form of type $(2,2)$. In local
+coordinates, $d\theta = f\,dz_1 \wedge dz_2$, and $d\theta \wedge \overline{d\theta} = |f|^2\,dz_1 \wedge dz_2 \wedge d\bar z_1 \wedge d\bar z_2$,
+which is $4|f|^2\,dx_1 \wedge dy_1 \wedge dx_2 \wedge dy_2$, a non-negative multiple of the volume form. On the other
+hand $d\theta \wedge \overline{d\theta} = d(\theta \wedge \overline{d\theta})$, because $\overline{d\theta}$ is closed. So its integral
+vanishes by Stokes' theorem, which forces $f = 0$. The Iwasawa manifold (Counterexample~\ref{hodge-decomposition:counterexample-iwasawa})
+shows that this fails in dimension $3$.
+\end{solution}
