@@ -1,16 +1,168 @@
 \chapter{Complex Manifolds}\label{complex-manifolds}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Complex manifolds, their basic examples and the calculus of $(p,q)$-forms.
+\section{Introduction}\label{complex-manifolds:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{smooth-manifolds} (Smooth Manifolds), Chapter~\ref{several-complex-variables} (Several Complex Variables), Chapter~\ref{multilinear-algebra} (Multilinear Algebra) and Chapter~\ref{vector-bundles} (Vector Bundles).
+A complex manifold is a manifold with holomorphic transition functions. The rigidity of holomorphic functions makes these spaces
+very different from smooth manifolds: compact complex manifolds have only constant holomorphic functions, and their geometry is
+recorded instead by the cohomology of holomorphic bundles and by the decomposition of differential forms into types, which is the
+subject of Hodge theory. This chapter sets up complex manifolds, the operators $\partial$ and $\bar\partial$, analytic subvarieties and
+blow-ups. References: \cite[Chapter 0]{griffiths-harris}, \cite[Chapter 2]{huybrechts-complex},
+\cite[Chapter 3]{voisin-hodge-1}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Complex manifolds and holomorphic maps.
-\item Examples: projective spaces, complex tori, Grassmannians, hypersurfaces.
-\item Almost complex structures and integrability (the Newlander--Nirenberg theorem).
-\item Forms of type $(p,q)$ and the operators $\partial$ and $\bar\partial$.
-\item Analytic subvarieties.
-\item Blow-ups.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{smooth-manifolds} (Smooth Manifolds), Chapter~\ref{several-complex-variables} (Several
+Complex Variables), Chapter~\ref{multilinear-algebra} (Multilinear Algebra) and Chapter~\ref{vector-bundles} (Vector Bundles).
+
+\section{Complex manifolds}\label{complex-manifolds:section-manifolds}
+
+\begin{definition}\label{complex-manifolds:definition-complex-manifold}
+A \emph{complex manifold} of dimension $n$ is a topological $2n$-manifold with an atlas of charts $\varphi_i \colon U_i \to \CC^n$ whose transition maps are holomorphic; a map of complex manifolds is
+\emph{holomorphic} if it is so in charts, and a \emph{biholomorphism} is a bijective holomorphic map with holomorphic inverse. The sheaf of holomorphic functions is $\mathcal{O}_X$, making $(X, \mathcal{O}_X)$ a
+locally ringed space. Every complex manifold is in particular a smooth $2n$-manifold, canonically oriented by the orientation of $\CC^n$ (transition maps have Jacobian determinant $|\det_\CC|^2 > 0$).
+\end{definition}
+
+\begin{example}\label{complex-manifolds:example-complex-manifolds}
+\begin{enumerate}
+\item Open subsets of $\CC^n$; $\CC\PP^n$ with the charts of Example~\ref{smooth-manifolds:example-manifolds}, whose transition maps are rational and nowhere singular.
+\item A \emph{complex torus} $X = \CC^n/\Lambda$ for a lattice $\Lambda \cong \ZZ^{2n}$; these are compact, and for $n = 1$ they are the elliptic curves. Two complex tori are rarely biholomorphic even when
+they are diffeomorphic, which is the first appearance of moduli (Chapter~\ref{hodge-structures}).
+\item Grassmannians $\mathrm{Gr}(k, n)$ of $k$-planes in $\CC^n$, with charts given by graphs of linear maps; they are compact complex manifolds of dimension $k(n-k)$.
+\item A smooth analytic hypersurface $\{f = 0\} \subseteq \CC\PP^n$, for $f$ a homogeneous polynomial with $df \neq 0$ on the zero set, is a compact complex manifold of dimension $n - 1$, by the implicit
+function theorem (Theorem~\ref{real-analysis:theorem-implicit-function}, valid for holomorphic maps by Remark~\ref{real-analysis:remark-constant-rank}).
+\item Not every even-dimensional smooth manifold admits a complex structure: $S^4$ does not (Exercise~\ref{characteristic-classes:exercise-no-almost-complex}), and whether $S^6$ does is open.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{complex-manifolds:proposition-no-functions}
+A holomorphic function on a compact connected complex manifold is constant. Consequently a compact complex manifold has no nonconstant holomorphic map to $\CC^n$, and $\mathcal{O}_X(X) = \CC$.
+\end{proposition}
+
+\begin{proof}
+$|f|$ attains a maximum at some $p$; in a chart around $p$, the maximum principle
+(Proposition~\ref{several-complex-variables:proposition-identity-maximum}) makes $f$ constant near $p$, and the set where $f$ equals $f(p)$ is open and closed by the identity theorem.
+\end{proof}
+
+\section{Almost complex structures and forms of type $(p,q)$}\label{complex-manifolds:section-pq}
+
+\begin{definition}\label{complex-manifolds:definition-almost-complex}
+An \emph{almost complex structure} on a smooth manifold $M$ is an endomorphism $J$ of $TM$ with $J^2 = -\id$. It makes each $T_pM$ a complex vector space, and gives the decomposition
+$T_pM \otimes \CC = T^{1,0}_p \oplus T^{0,1}_p$ into the $\pm i$ eigenspaces, with $T^{0,1} = \overline{T^{1,0}}$, and dually
+$\Lambda^k T^*_pM \otimes \CC = \bigoplus_{p+q=k}\Lambda^{p,q}$ (Proposition~\ref{multilinear-algebra:proposition-pq-decomposition}). A complex manifold has a canonical almost complex structure, given in
+holomorphic coordinates $z^j = x^j + iy^j$ by $J\partial_{x^j} = \partial_{y^j}$, $J\partial_{y^j} = -\partial_{x^j}$; then $T^{1,0}$ has frame $\partial/\partial z^j$ and $\Lambda^{p,q}$ has frame
+$dz^I \wedge d\bar z^J$ with $|I| = p$, $|J| = q$. An almost complex structure is \emph{integrable} if it arises from a complex structure.
+\end{definition}
+
+\begin{definition}\label{complex-manifolds:definition-dbar}
+On a complex manifold, $\Omega^{p,q}(X)$ denotes the smooth $(p,q)$-forms, so $\Omega^k(X, \CC) = \bigoplus_{p+q=k}\Omega^{p,q}(X)$. Writing $d = \partial + \bar\partial$ with
+$\partial \colon \Omega^{p,q} \to \Omega^{p+1,q}$ and $\bar\partial \colon \Omega^{p,q} \to \Omega^{p,q+1}$ the components of $d$, one has in coordinates
+\[
+\partial\left(\sum f_{IJ}\,dz^I \wedge d\bar z^J\right) = \sum\frac{\partial f_{IJ}}{\partial z^k}\,dz^k \wedge dz^I \wedge d\bar z^J, \qquad
+\bar\partial\left(\sum f_{IJ}\,dz^I \wedge d\bar z^J\right) = \sum\frac{\partial f_{IJ}}{\partial\bar z^k}\,d\bar z^k \wedge dz^I \wedge d\bar z^J .
+\]
+\end{definition}
+
+\begin{proposition}\label{complex-manifolds:proposition-dbar}
+On a complex manifold $d = \partial + \bar\partial$, and $\partial^2 = \bar\partial^2 = \partial\bar\partial + \bar\partial\partial = 0$. A function is holomorphic if and only if $\bar\partial f = 0$, and a $(p, 0)$-form
+$\alpha$ is \emph{holomorphic} (has holomorphic coefficients) if and only if $\bar\partial\alpha = 0$; the sheaf of holomorphic $p$-forms is denoted $\Omega^p_X$, with $\Omega^0_X = \mathcal{O}_X$ and
+$\Omega^n_X = K_X$ the \emph{canonical bundle}.
+\end{proposition}
+
+\begin{proof}
+In holomorphic coordinates $d$ of a $(p,q)$-form has components of types $(p+1, q)$ and $(p, q+1)$ only, by the coordinate formula for $d$; these are $\partial$ and $\bar\partial$. Then $0 = d^2$ decomposes into
+its components of types $(p+2, q)$, $(p+1, q+1)$ and $(p, q+2)$, which are $\partial^2$, $\partial\bar\partial + \bar\partial\partial$ and $\bar\partial^2$. The statement about functions is the Cauchy--Riemann
+equations (Definition~\ref{several-complex-variables:definition-holomorphic}), and for forms it is the same condition on the coefficients.
+\end{proof}
+
+\begin{theorem}[Newlander--Nirenberg]\label{complex-manifolds:theorem-newlander-nirenberg}
+An almost complex structure $J$ on a smooth manifold is integrable if and only if the \emph{Nijenhuis tensor} vanishes,
+\[
+N_J(X, Y) = [JX, JY] - J[JX, Y] - J[X, JY] - [X, Y] = 0,
+\]
+equivalently if and only if $T^{0,1}$ is closed under the Lie bracket, equivalently if and only if $d = \partial + \bar\partial$ on $1$-forms with respect to the induced type decomposition.
+\end{theorem}
+
+The implication ``integrable $\Rightarrow$ $N_J = 0$'' is a computation in holomorphic coordinates, where the brackets of the coordinate fields vanish; the converse is a hard analytic theorem, proved in
+\cite[Chapter 2]{huybrechts-complex} and, in the real-analytic case, by the Frobenius theorem (Theorem~\ref{smooth-manifolds:theorem-frobenius}) applied to $T^{0,1}$ after complexification.
+
+\section{Analytic subvarieties and blow-ups}\label{complex-manifolds:section-subvarieties}
+
+\begin{definition}\label{complex-manifolds:definition-analytic-subvariety}
+An \emph{analytic subvariety} of a complex manifold $X$ is a closed subset that is locally the common zero set of finitely many holomorphic functions (Definition~\ref{several-complex-variables:definition-analytic-set});
+it is \emph{smooth}, that is, a complex submanifold, at its regular points. By Theorem~\ref{several-complex-variables:theorem-analytic-structure} the singular locus is a proper analytic subvariety, the regular
+locus is dense, and $Z$ has a well-defined dimension on each irreducible component.
+\end{definition}
+
+\begin{proposition}\label{complex-manifolds:proposition-subvariety-class}
+Let $Z \subseteq X$ be an analytic subvariety of pure complex dimension $k$ in a compact complex manifold of dimension $n$. Then integration over the regular locus,
+$\varphi \mapsto \int_{Z_{\mathrm{reg}}}\varphi$, converges for every smooth $2k$-form $\varphi$ and defines a closed current of degree $2n - 2k$; its class in $H^{2n-2k}(X; \RR)$ is the \emph{cycle class} $[Z]$.
+Moreover $\int_Z\varphi \geq 0$ when $\varphi$ is a positive $(k,k)$-form.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+Convergence follows from the local structure of analytic sets: near a regular point $Z$ is a submanifold, and near a singular point it is a finite branched cover of a polydisc
+(Theorem~\ref{several-complex-variables:theorem-analytic-structure}), so the volume of $Z \cap K$ is finite for compact $K$ (in a chart, Wirtinger's inequality bounds the volume by the integral of a power of the
+standard form $\frac{i}{2}\sum_jdz^j \wedge d\bar z^j$ of $\CC^n$). Closedness, that is, Stokes' theorem across the singular locus, is proved by cutting out a neighbourhood of the singular set, whose boundary
+has small area because the singular locus has real codimension at least $2$. The positivity statement is local linear algebra. Details are in \cite[Chapter 0, Section 2]{griffiths-harris} and
+\cite[Chapter 11]{voisin-hodge-1}.
+\end{proof}
+
+\begin{remark}\label{complex-manifolds:remark-cycle-class-nonzero}
+If $X$ carries a K\"ahler form $\omega$ (Chapter~\ref{kahler}) and $Z \neq \emptyset$, then $[Z] \neq 0$: pairing with the closed form $\omega^k$ gives $\int_Z\omega^k > 0$, the volume of $Z$ up to a constant.
+On non-K\"ahler manifolds cycle classes can vanish; for instance on the Hopf surface of Exercise~\ref{complex-manifolds:exercise-hopf-surface} the elliptic curves $\{z_1 = 0\}/\langle 2 \rangle$ have
+zero class, since $H^2$ of the Hopf surface vanishes.
+\end{remark}
+
+\begin{definition}\label{complex-manifolds:definition-blowup}
+The \emph{blow-up} of $\CC^n$ at the origin is
+\[
+\mathrm{Bl}_0\CC^n = \{(z, \ell) \in \CC^n \times \CC\PP^{n-1} : z \in \ell\},
+\]
+with the projection $\pi$ to $\CC^n$. It is a complex manifold, $\pi$ is a biholomorphism over $\CC^n \setminus \{0\}$, and $E = \pi^{-1}(0) \cong \CC\PP^{n-1}$ is the \emph{exceptional divisor}. For a point $p$ of
+a complex manifold $X$ one defines $\mathrm{Bl}_pX$ by gluing $\mathrm{Bl}_0\CC^n$ in a chart, and similarly along a complex submanifold $Z \subseteq X$, with $E = \PP(N_{Z/X})$.
+\end{definition}
+
+\begin{proposition}\label{complex-manifolds:proposition-blowup}
+$\mathrm{Bl}_pX$ is a compact complex manifold if $X$ is, $\pi$ is proper and holomorphic, and
+\[
+H^k(\mathrm{Bl}_pX; \ZZ) \cong H^k(X; \ZZ) \oplus \bigoplus_{0 < j < n} H^{k-2j}(\mathrm{pt}; \ZZ),
+\]
+so blowing up a point adds one generator in each even degree $2, 4, \ldots, 2n-2$. The exceptional divisor has normal bundle $\mathcal{O}(-1)$ in $\mathrm{Bl}_0\CC^n$.
+\end{proposition}
+
+\begin{proof}
+In the chart $\ell = [1 : w_2 : \cdots : w_n]$ the map $(u, w_2, \ldots, w_n) \mapsto (u, uw_2, \ldots, uw_n)$ identifies $\CC^n$ with an open subset of $\mathrm{Bl}_0\CC^n$, which shows that the blow-up is a complex
+manifold and that $\pi$ is holomorphic and biholomorphic away from $E$; properness holds because $\CC\PP^{n-1}$ is compact. In these coordinates $E$ is $\{u = 0\}$, and the transition functions of its
+normal bundle are those of the tautological bundle, so $N_{E} \cong \mathcal{O}(-1)$. For the cohomology, use the Mayer--Vietoris sequence for $\mathrm{Bl}_pX = (\mathrm{Bl}_pX \setminus E) \cup \pi^{-1}(B)$ with
+$B$ a small ball, together with $\pi^{-1}(B) \simeq \CC\PP^{n-1}$ and $\mathrm{Bl}_pX \setminus E \cong X \setminus \{p\}$, and Example~\ref{singular-cohomology:example-cohomology-groups}.
+\end{proof}
+
+\begin{remark}\label{complex-manifolds:remark-blowup-birational}
+Blow-ups are the basic birational modifications: Hironaka's resolution of singularities states that every analytic (or algebraic, in characteristic zero) variety becomes smooth after finitely many blow-ups
+along smooth centres, and the weak factorisation theorem says that any two birational smooth projective varieties are connected by blow-ups and blow-downs. Both are used to reduce statements about the Hodge
+conjecture to the smooth projective case (Chapter~\ref{mixed-hodge-structures}).
+\end{remark}
+
+\section{Exercises}\label{complex-manifolds:section-exercises}
+
+\begin{exercise}\label{complex-manifolds:exercise-tori}
+Show that every complex torus of dimension $1$ is biholomorphic to $\CC/(\ZZ + \tau\ZZ)$ with $\operatorname{Im}\tau > 0$, and that two such are biholomorphic if and only if the parameters are related by
+an element of $\SL_2(\ZZ)$ acting by M\"obius transformations.
+\end{exercise}
+
+\begin{exercise}\label{complex-manifolds:exercise-projective-space-charts}
+Verify that the transition maps of $\CC\PP^n$ are holomorphic and that $\CC\PP^1$ is biholomorphic to the Riemann sphere $\CC \cup \{\infty\}$, with $S^2$ as underlying smooth manifold.
+\end{exercise}
+
+\begin{exercise}\label{complex-manifolds:exercise-hopf-surface}
+The \emph{Hopf surface} is $X = (\CC^2 \setminus \{0\})/\langle z \mapsto 2z\rangle$. Show that it is a compact complex manifold diffeomorphic to $S^1 \times S^3$, and deduce that $b_1(X) = 1$; conclude that $X$
+carries no K\"ahler metric (Chapter~\ref{hodge-decomposition}), since odd Betti numbers of compact K\"ahler manifolds are even.
+\end{exercise}
+
+\begin{solution}
+The action is free and properly discontinuous, so the quotient is a complex manifold, and it is compact because the annulus $1 \leq |z| \leq 2$ maps onto it. The diffeomorphism with $S^1 \times S^3$ comes from
+the polar decomposition $\CC^2 \setminus \{0\} \cong S^3 \times \RR_{>0}$, with the action becoming translation on the second factor. Then $b_1(S^1 \times S^3) = 1$ by the K\"unneth formula.
+\end{solution}
+
+\begin{exercise}\label{complex-manifolds:exercise-almost-complex-s6}
+Show that $S^2$ and $S^6$ admit almost complex structures (for $S^6$ use the octonionic cross product), and that $S^2$'s is integrable.
+\end{exercise}
