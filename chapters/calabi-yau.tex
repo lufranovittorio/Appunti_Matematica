@@ -1,0 +1,216 @@
+\chapter{Calabi--Yau Manifolds}\label{calabi-yau}
+\chapterstatus{complete}
+
+\section{Introduction}\label{calabi-yau:section-introduction}
+
+A compact K\"ahler manifold with vanishing first Chern class carries, in every K\"ahler class, a unique Ricci-flat K\"ahler metric. This is Yau's solution of
+the Calabi conjecture (Theorem~\ref{calabi-yau:theorem-yau}). Such manifolds, and in particular those with trivial canonical bundle, are called Calabi--Yau
+manifolds. They are among the richest examples in Hodge theory. Their Hodge numbers are constrained but far from trivial, their deformations are unobstructed
+and governed by $H^{n-1,1}$, and they are the setting of mirror symmetry. Elliptic curves, K3 surfaces and the quintic threefold are the basic examples. We
+compute the Hodge numbers of the quintic threefold completely (Proposition~\ref{calabi-yau:proposition-quintic}). References: \cite{gross-huybrechts-joyce},
+\cite[Chapter 6]{joyce-special-holonomy}, \cite{yau-1978}, \cite{beauville-1983}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{kodaira} (Vanishing and Embedding Theorems), Chapter~\ref{lefschetz-theorems} (Hard Lefschetz and the
+Hodge--Riemann Relations) and Chapter~\ref{characteristic-classes} (Characteristic Classes).
+
+Throughout, $X$ is a compact K\"ahler manifold of dimension $n$ with K\"ahler form $\omega = \frac{i}{2}\sum h_{j\bar k}dz^j \wedge d\bar z^k$ in local holomorphic
+coordinates (Proposition~\ref{kahler:proposition-fundamental-form-coordinates}). We write $c_1(X) = c_1(T^{1,0}X) = -c_1(K_X)$.
+
+\section{The Ricci form}\label{calabi-yau:section-ricci}
+
+\begin{definition}\label{calabi-yau:definition-ricci-form}
+The \emph{Ricci form} of the K\"ahler metric $\omega$ is the real $(1,1)$-form given in local holomorphic coordinates by
+\[
+\mathrm{Ric}(\omega) = -i\partial\bar\partial\log\det(h_{j\bar k}) .
+\]
+The metric is \emph{Ricci-flat} if $\mathrm{Ric}(\omega) = 0$ and \emph{K\"ahler--Einstein} if $\mathrm{Ric}(\omega) = \lambda\omega$ for a constant $\lambda$.
+\end{definition}
+
+\begin{proposition}\label{calabi-yau:proposition-ricci-form}
+$\mathrm{Ric}(\omega)$ is a well-defined closed real $(1,1)$-form, equal to $2\pi$ times the curvature form $\frac{i}{2\pi}F$ of the anticanonical bundle $K_X^{-1} = \Lambda^nT^{1,0}X$ with
+the metric induced by $\omega$. Hence
+\[
+\left[\frac{1}{2\pi}\mathrm{Ric}(\omega)\right] = c_1(X) \in H^2(X; \RR) .
+\]
+\end{proposition}
+
+\begin{proof}
+In a holomorphic chart, $e = \partial_1 \wedge \cdots \wedge \partial_n$ is a holomorphic frame of $K_X^{-1}$ whose norm for the induced metric is $|e|^2 = \det(g(\partial_j, \bar\partial_k)) = 2^{-n}\det(h_{j\bar k})$.
+So the local weight is $\varphi = -\log\det(h_{j\bar k}) + n\log 2$, and by Theorem~\ref{holomorphic-bundles:theorem-chern-connection} the curvature is
+$F = \partial\bar\partial\varphi = -\partial\bar\partial\log\det(h_{j\bar k})$, with $c_1(K_X^{-1}) = [\frac{i}{2\pi}F] = [\frac{1}{2\pi}\mathrm{Ric}(\omega)]$. This also shows that
+$\mathrm{Ric}(\omega)$ is independent of the chart: under a change of coordinates, $\det(h_{j\bar k})$ is multiplied by $|J|^2$ with $J$ the holomorphic Jacobian determinant, and
+$\partial\bar\partial\log|J|^2 = 0$. It is real and closed as a curvature form of a line bundle.
+\end{proof}
+
+\begin{remark}\label{calabi-yau:remark-riemannian-ricci}
+$\mathrm{Ric}(\omega)(U, V) = \mathrm{Ric}_g(JU, V)$, where $\mathrm{Ric}_g$ is the Ricci tensor of the underlying Riemannian metric \cite[Chapter 4]{huybrechts-complex}. So
+Ricci-flat K\"ahler metrics are Ricci-flat Riemannian metrics, and Proposition~\ref{calabi-yau:proposition-ricci-form} shows that $c_1(X)_\RR = 0$ is a necessary
+condition for a K\"ahler metric to be Ricci-flat.
+\end{remark}
+
+\section{The Calabi conjecture}\label{calabi-yau:section-calabi-conjecture}
+
+\begin{theorem}[Calabi--Yau]\label{calabi-yau:theorem-yau}
+Let $X$ be a compact K\"ahler manifold with K\"ahler form $\omega$, and let $\rho$ be a closed real $(1,1)$-form with $[\rho] = 2\pi c_1(X)$. Then there is a unique K\"ahler form
+$\omega'$ with $[\omega'] = [\omega]$ and $\mathrm{Ric}(\omega') = \rho$. In particular, if $c_1(X)_\RR = 0$, every K\"ahler class contains a unique Ricci-flat K\"ahler form.
+\end{theorem}
+
+Uniqueness is due to Calabi and existence to Yau \cite{yau-1978}. Proposition~\ref{calabi-yau:proposition-monge-ampere} reduces the theorem to a nonlinear elliptic
+equation and proves uniqueness; existence is proved by the continuity method with a priori estimates up to order $2$ and $3$ \cite[Chapter 5]{joyce-special-holonomy}.
+
+\begin{proposition}\label{calabi-yau:proposition-monge-ampere}
+In the situation of Theorem~\ref{calabi-yau:theorem-yau}, there is a smooth real function $F$ with $\rho = \mathrm{Ric}(\omega) - i\partial\bar\partial F$ and
+$\int_X(e^F - 1)\omega^n = 0$. A K\"ahler form $\omega' = \omega + i\partial\bar\partial\varphi$ in the class of $\omega$ satisfies $\mathrm{Ric}(\omega') = \rho$ if and only if
+\[
+(\omega + i\partial\bar\partial\varphi)^n = e^F\omega^n
+\]
+(the \emph{complex Monge--Amp\`ere equation}). Solutions of this equation are unique up to additive constants, so $\omega'$ is unique.
+\end{proposition}
+
+\begin{proof}
+$\rho$ and $\mathrm{Ric}(\omega)$ are cohomologous closed real $(1,1)$-forms, so $\rho = \mathrm{Ric}(\omega) - i\partial\bar\partial F$ by
+Corollary~\ref{hodge-decomposition:corollary-ddbar-real}, and adding a constant to $F$ achieves the normalisation. Every K\"ahler form in $[\omega]$ is
+$\omega + i\partial\bar\partial\varphi$ for a real $\varphi$, by the same corollary. The ratio of volume forms $\omega'^n/\omega^n = \det(h'_{j\bar k})/\det(h_{j\bar k})$ is a
+positive function, so $\mathrm{Ric}(\omega') - \mathrm{Ric}(\omega) = -i\partial\bar\partial\log(\omega'^n/\omega^n)$. Hence $\mathrm{Ric}(\omega') = \rho$ if and only if
+$i\partial\bar\partial(\log(\omega'^n/\omega^n) - F) = 0$, if and only if $\log(\omega'^n/\omega^n) = F + c$ with $c$ constant (a real function with $\partial\bar\partial u = 0$
+on a compact manifold is pluriharmonic, hence harmonic for the K\"ahler Laplacian, hence constant). Integrating, $\int\omega'^n = \int\omega^n$ because the forms are cohomologous,
+and the normalisation of $F$ forces $c = 0$.
+
+For uniqueness, let $\omega_1 = \omega + i\partial\bar\partial\varphi_1$ and $\omega_2 = \omega + i\partial\bar\partial\varphi_2$ with $\omega_1^n = \omega_2^n$, and let $\psi = \varphi_1 - \varphi_2$. Then
+\[
+0 = \omega_1^n - \omega_2^n = i\partial\bar\partial\psi \wedge T, \qquad T = \sum_{k=0}^{n-1}\omega_1^k \wedge \omega_2^{n-1-k} .
+\]
+Multiply by $\psi$ and integrate. Since $T$ is closed, Stokes' theorem gives
+$0 = \int_X\psi\,i\partial\bar\partial\psi \wedge T = -\int_Xi\,\partial\psi \wedge \bar\partial\psi \wedge T$. At each point, $\omega_1$ and $\omega_2$ are positive, so $T$ is a sum of
+products of positive $(1,1)$-forms, and $i\,\partial\psi \wedge \bar\partial\psi \wedge T$ is a non-negative multiple of the volume form, positive where $\partial\psi \neq 0$ (diagonalise
+$\omega_1$ and $\omega_2$ simultaneously at the point). Hence $\partial\psi = 0$, so $d\psi = 0$ as $\psi$ is real, and $\psi$ is constant.
+\end{proof}
+
+\section{Calabi--Yau manifolds and their Hodge numbers}\label{calabi-yau:section-definition}
+
+\begin{definition}\label{calabi-yau:definition-calabi-yau}
+A \emph{Calabi--Yau manifold} is a compact K\"ahler manifold $X$ with trivial canonical bundle $K_X \cong \mathcal{O}_X$. Equivalently, there is a nowhere vanishing holomorphic
+$n$-form $\Omega$, the \emph{holomorphic volume form}. It is \emph{strict} if moreover $h^{p,0}(X) = 0$ for $0 < p < n$.
+\end{definition}
+
+\begin{proposition}\label{calabi-yau:proposition-basic}
+Let $X$ be a Calabi--Yau manifold of dimension $n$.
+\begin{enumerate}
+\item $c_1(X) = 0$, so $X$ carries Ricci-flat K\"ahler metrics (Theorem~\ref{calabi-yau:theorem-yau}). Moreover $h^{0,q} = h^{n,q}$ for all $q$; in particular
+$h^{n,0} = h^{0,n} = 1$.
+\item Contraction with $\Omega$ is an isomorphism of holomorphic bundles $T^{1,0}X \to \Omega^{n-1}_X$, $v \mapsto \iota_v\Omega$, and more generally
+$\Lambda^pT^{1,0}X \cong \Omega^{n-p}_X$. Hence $H^1(X, T_X) \cong H^{n-1,1}(X)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $c_1(X) = -c_1(K_X) = 0$, and $h^{n,q} = h^q(X, K_X) = h^q(X, \mathcal{O}_X) = h^{0,q}$ (Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}(4)). For $q = 0$ this is
+$1$, and $h^{0,n} = h^{n,0}$ by Hodge symmetry. (2) At a point choose coordinates with $\Omega = f\,dz^1 \wedge \cdots \wedge dz^n$, $f \neq 0$. Then $\iota_{\partial_j}\Omega = (-1)^{j-1}f\,dz^1 \wedge \cdots \widehat{dz^j} \cdots \wedge dz^n$,
+and these form a basis of $\Omega^{n-1}$, so contraction is a holomorphic bundle isomorphism; the same computation with $\iota_{\partial_{j_1}} \cdots \iota_{\partial_{j_p}}$
+gives $\Lambda^pT^{1,0}X \cong \Omega^{n-p}_X$. By Dolbeault's theorem, $H^1(X, T_X) \cong H^1(X, \Omega^{n-1}) \cong H^{n-1,1}(X)$.
+\end{proof}
+
+\begin{example}\label{calabi-yau:example-calabi-yau}
+\begin{enumerate}
+\item Complex tori $\CC^n/\Lambda$, with $\Omega = dz^1 \wedge \cdots \wedge dz^n$ and the flat metric, which is Ricci-flat. They are not strict for $n \geq 2$.
+\item Elliptic curves are the Calabi--Yau manifolds of dimension $1$, since $K$ is trivial exactly in genus $1$.
+\item A \emph{K3 surface} is a strict Calabi--Yau surface, that is, $K_X \cong \mathcal{O}$ and $h^{1,0} = 0$. Smooth quartic surfaces in $\CC\PP^3$ are K3 surfaces
+(Example~\ref{hodge-decomposition:example-quartic}).
+\item A smooth hypersurface of degree $n + 2$ in $\CC\PP^{n+1}$ has trivial canonical bundle by adjunction, $K = \mathcal{O}(n + 2 - n - 2) = \mathcal{O}$
+(Proposition~\ref{holomorphic-bundles:proposition-adjunction}), and for $n \geq 2$ it is strict by the Lefschetz hyperplane theorem
+(Theorem~\ref{kodaira:theorem-lefschetz-hyperplane}), since $h^{p,0}(X) = h^{p,0}(\CC\PP^{n+1}) = 0$ for $0 < p < n$.
+\item Products of Calabi--Yau manifolds are Calabi--Yau, with $\Omega = \mathrm{pr}_1^*\Omega_1 \wedge \mathrm{pr}_2^*\Omega_2$; they are not strict.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}[The quintic threefold]\label{calabi-yau:proposition-quintic}
+Let $X \subseteq \CC\PP^4$ be a smooth quintic hypersurface. Then $X$ is a strict Calabi--Yau threefold with Hodge diamond determined by
+\[
+h^{0,0} = h^{3,0} = 1, \qquad h^{1,0} = h^{2,0} = 0, \qquad h^{1,1} = 1, \qquad h^{2,1} = 101,
+\]
+and Euler characteristic $\chi(X) = -200$.
+\end{proposition}
+
+\begin{proof}
+$K_X$ is trivial and $h^{1,0} = h^{2,0} = 0$ by Example~\ref{calabi-yau:example-calabi-yau}(4), with $n = 3$. By the Lefschetz hyperplane theorem, $b_1(X) = 0$ and $b_2(X) = b_2(\CC\PP^4) = 1$,
+so $h^{1,1} = b_2 - 2h^{2,0} = 1$. By Poincar\'e duality $b_4 = 1$ and $b_5 = 0$, and by the Hodge decomposition $b_3 = h^{3,0} + h^{2,1} + h^{1,2} + h^{0,3} = 2 + 2h^{2,1}$. So
+$\chi(X) = 1 + 1 - b_3 + 1 + 1 = 2 - 2h^{2,1}$.
+
+We compute $\chi(X) = \int_Xc_3(TX)$ (Theorem~\ref{characteristic-classes:theorem-euler}). Let $h$ be the hyperplane class. The tangent bundle of $\CC\PP^4$ has total Chern class $(1 + h)^5$
+(Example~\ref{characteristic-classes:example-tautological}). The normal bundle of $X$ is $\mathcal{O}(X)|_X = \mathcal{O}(5)|_X$ (Proposition~\ref{holomorphic-bundles:proposition-adjunction}),
+with $c = 1 + 5h$. From $0 \to TX \to T\CC\PP^4|_X \to N \to 0$ and the Whitney formula,
+\[
+c(TX) = \frac{(1 + h)^5}{1 + 5h} = (1 + 5h + 10h^2 + 10h^3)(1 - 5h + 25h^2 - 125h^3) = 1 + 10h^2 - 40h^3
+\]
+restricted to $X$, modulo $h^4$. So $c_1(X) = 0$, as it must be, and $\chi(X) = -40\int_Xh^3$. Finally $\int_Xh^3 = 5$: the class of $X$ is Poincar\'e dual to $c_1(\mathcal{O}(X)) = 5h$
+\cite[Chapter 1, Section 1]{griffiths-harris}, and $\int_{\CC\PP^4}h^4 = 1$. Hence $\chi(X) = -200$ and $h^{2,1} = 101$.
+\end{proof}
+
+\begin{remark}\label{calabi-yau:remark-moduli-count}
+The number $101$ is the number of moduli of quintic threefolds: the quintic polynomials in five variables form a space of dimension $\binom{9}{4} = 126$, and removing scalars and the
+$24$-dimensional group $\mathrm{PGL}_5$ leaves $126 - 1 - 24 = 101$ parameters. This matches $h^1(X, T_X) = h^{2,1}$ (Proposition~\ref{calabi-yau:proposition-basic}), which is the
+dimension of the space of first-order deformations of the complex structure. By the Bogomolov--Tian--Todorov theorem the deformations of a Calabi--Yau manifold are
+unobstructed, so its Kuranishi space is smooth of dimension $h^{n-1,1}$ \cite{tian-1987}, \cite{todorov-1989}.
+\end{remark}
+
+\section{Structure and symmetries}\label{calabi-yau:section-structure}
+
+\begin{theorem}[Beauville--Bogomolov decomposition]\label{calabi-yau:theorem-beauville-bogomolov}
+Let $X$ be a compact K\"ahler manifold with $c_1(X)_\RR = 0$. Then there is a finite \'etale cover $\tilde X \to X$ with
+\[
+\tilde X \cong T \times \prod_iY_i \times \prod_jZ_j,
+\]
+where $T$ is a complex torus, the $Y_i$ are simply connected strict Calabi--Yau manifolds with holonomy $\mathrm{SU}(\dim Y_i)$, and the $Z_j$ are simply connected
+\emph{hyperk\"ahler} manifolds, with holonomy $\mathrm{Sp}(\dim Z_j/2)$ and $H^0(Z_j, \Omega^2)$ spanned by a symplectic form.
+\end{theorem}
+
+This is \cite{beauville-1983}. Its proof uses the Ricci-flat metric of Theorem~\ref{calabi-yau:theorem-yau} and the de Rham and Berger classifications of holonomy
+groups. In dimension $2$ the only simply connected factors are K3 surfaces, which are both strict Calabi--Yau and hyperk\"ahler.
+
+\begin{remark}\label{calabi-yau:remark-bochner}
+The first step is Bochner's argument. For a Ricci-flat metric, harmonic $1$-forms are parallel (Theorem~\ref{hodge-theorem:theorem-bochner}), and more generally every holomorphic
+$p$-form is parallel. So the holomorphic forms are determined by the holonomy representation, and $h^{p,0}$ is the dimension of the space of holonomy-invariant forms of type
+$(p, 0)$ at a point \cite{gross-huybrechts-joyce}. For holonomy exactly $\mathrm{SU}(n)$ the only invariants are $1$ and the volume form, which gives $h^{p,0} = 0$ for $0 < p < n$.
+\end{remark}
+
+\begin{remark}\label{calabi-yau:remark-mirror-symmetry}
+\emph{Mirror symmetry} predicts that strict Calabi--Yau threefolds come in pairs $(X, X^\vee)$ with $h^{1,1}(X) = h^{2,1}(X^\vee)$ and $h^{2,1}(X) = h^{1,1}(X^\vee)$, the
+complex geometry of $X$ being equivalent to the symplectic geometry of $X^\vee$. The mirror of the quintic has $h^{1,1} = 101$ and $h^{2,1} = 1$, and the resulting prediction of the
+numbers of rational curves on the quintic \cite{candelas-1991} was a starting point of enumerative mirror symmetry.
+\end{remark}
+
+\begin{remark}\label{calabi-yau:remark-hodge-conjecture}
+For projective Calabi--Yau manifolds the Hodge conjecture is known in some degrees. On any projective threefold it holds in all degrees, by the Lefschetz $(1,1)$-theorem
+in degree $2$ and hard Lefschetz in degree $4$ (Chapter~\ref{lefschetz-11}); the interesting group $H^3$ carries no Hodge classes, being of odd degree. For K3 surfaces it holds
+in all degrees (Chapter~\ref{known-cases}). For higher-dimensional hyperk\"ahler varieties it is largely open.
+\end{remark}
+
+\section{Exercises}\label{calabi-yau:section-exercises}
+
+\begin{exercise}\label{calabi-yau:exercise-k3-hodge}
+Show that a smooth quartic surface $X \subseteq \CC\PP^3$ has $\chi(X) = 24$ by computing $c_2(TX)$ as in Proposition~\ref{calabi-yau:proposition-quintic}, and deduce $h^{1,1} = 20$.
+\end{exercise}
+
+\begin{solution}
+$c(TX) = (1 + h)^4/(1 + 4h) = (1 + 4h + 6h^2)(1 - 4h + 16h^2) = 1 + 6h^2$ modulo $h^3$, so $c_1 = 0$ and $\chi(X) = 6\int_Xh^2 = 6 \cdot 4 = 24$. With $b_1 = b_3 = 0$ and $b_0 = b_4 = 1$
+we get $b_2 = 22$, and $h^{1,1} = b_2 - 2h^{2,0} = 22 - 2 = 20$.
+\end{solution}
+
+\begin{exercise}\label{calabi-yau:exercise-ricci-projective}
+Show that the Fubini--Study metric on $\CC\PP^n$ is K\"ahler--Einstein with $\mathrm{Ric}(\omega_{FS}) = 2\pi(n + 1)\omega_{FS}$.
+\end{exercise}
+
+\begin{solution}
+By $U(n+1)$-invariance (Proposition~\ref{kahler:proposition-fubini-study}), $\mathrm{Ric}(\omega_{FS})$ is an invariant closed real $(1,1)$-form. At the point $w = 0$ of the affine
+chart, $\omega_{FS} = \frac{i}{2\pi}\partial\bar\partial\log(1 + |w|^2)$ has $h_{j\bar k} = \frac1\pi\frac{(1 + |w|^2)\delta_{jk} - \bar w_jw_k}{(1 + |w|^2)^2}$, whose determinant is
+$\pi^{-n}(1 + |w|^2)^{-n-1}$. So $\mathrm{Ric}(\omega_{FS}) = (n + 1)i\partial\bar\partial\log(1 + |w|^2) = 2\pi(n + 1)\omega_{FS}$ on the chart, hence everywhere.
+\end{solution}
+
+\begin{exercise}\label{calabi-yau:exercise-hypersurface-euler}
+Show that a smooth hypersurface $X \subseteq \CC\PP^{n+1}$ of degree $d$ has $c_1(X) = (n + 2 - d)h|_X$, so that it is Fano ($c_1 > 0$), Calabi--Yau or of general type
+($c_1 < 0$) according as $d < n + 2$, $d = n + 2$ or $d > n + 2$.
+\end{exercise}
+
+\begin{solution}
+$c(TX) = (1 + h)^{n+2}/(1 + dh)$ has degree-one part $(n + 2)h - dh$. Alternatively, $K_X = \mathcal{O}(d - n - 2)|_X$ by adjunction.
+\end{solution}
