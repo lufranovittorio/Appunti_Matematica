@@ -1,15 +1,167 @@
 \chapter{Intermediate Jacobians and Normal Functions}\label{intermediate-jacobians}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-The Abel--Jacobi map and invariants of homologically trivial cycles.
+\section{Introduction}\label{intermediate-jacobians:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{vhs} (Variations of Hodge Structure), Chapter~\ref{abelian-varieties} (Abelian Varieties) and Chapter~\ref{cycle-class} (The Cycle Class Map).
+Cycle classes forget much of the structure of Chow groups: a cycle whose class vanishes can still be very far from zero. Griffiths' intermediate Jacobian
+$J^p(X)$, a complex torus built from the odd-degree Hodge structure $H^{2p-1}(X)$, receives the \emph{Abel--Jacobi map} from homologically trivial cycles of
+codimension $p$. For $p = 1$ this is the Picard variety and the classical Abel--Jacobi map. Deligne cohomology packages the cycle class and the Abel--Jacobi
+invariant into one group. Families of intermediate Jacobians and their \emph{normal functions} give the only serious analytic method for constructing cycles; it
+reproves the Lefschetz $(1,1)$-theorem and proves the Hodge conjecture for cubic fourfolds. References: \cite[Chapter 12]{voisin-hodge-1}, \cite{voisin-hodge-2},
+\cite{griffiths-periods}, \cite{carlson-muller-stach-peters}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Griffiths intermediate Jacobians.
-\item The Abel--Jacobi map.
-\item Deligne cohomology.
-\item Griffiths' theorem on the Griffiths group.
-\item Normal functions and Poincar\'e's approach to the Lefschetz $(1,1)$ theorem.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{vhs} (Variations of Hodge Structure), Chapter~\ref{abelian-varieties} (Abelian Varieties) and Chapter~\ref{cycle-class}
+(The Cycle Class Map).
+
+Throughout, $X$ is a compact K\"ahler manifold of dimension $n$, usually projective, and $1 \leq p \leq n$.
+
+\section{Intermediate Jacobians}\label{intermediate-jacobians:section-definition}
+
+\begin{definition}\label{intermediate-jacobians:definition-intermediate-jacobian}
+The \emph{$p$-th intermediate Jacobian} of $X$ is
+\[
+J^p(X) = \frac{H^{2p-1}(X; \CC)}{F^pH^{2p-1}(X; \CC) + H^{2p-1}(X; \ZZ)} ,
+\]
+where $H^{2p-1}(X; \ZZ)$ means its image in $H^{2p-1}(X; \CC)$.
+\end{definition}
+
+\begin{proposition}\label{intermediate-jacobians:proposition-torus}
+$J^p(X)$ is a compact complex torus of dimension $\frac12b_{2p-1}(X)$. Via Poincar\'e duality,
+\[
+J^p(X) \cong \frac{F^{n-p+1}H^{2n-2p+1}(X; \CC)^\vee}{H_{2n-2p+1}(X; \ZZ)} ,
+\]
+where a homology class acts by integration. $J^1(X) = \Pic^0(X)$, and $J^n(X)$ is the \emph{Albanese torus} $\mathrm{Alb}(X) = H^0(X, \Omega^1)^\vee/H_1(X; \ZZ)$.
+\end{proposition}
+
+\begin{proof}
+$H^{2p-1}$ has odd weight $2p - 1$, so $H_\CC = F^p \oplus \overline{F^{(2p-1)-p+1}} = F^p \oplus \overline{F^p}$ (Proposition~\ref{hodge-structures:proposition-filtration}). Hence the real subspace
+$H^{2p-1}(X; \RR)$ meets $F^p$ trivially and maps isomorphically onto $H_\CC/F^p$ (dimensions: $b_{2p-1} = 2\dim_\CC H_\CC/F^p$). So the image of $H^{2p-1}(X; \ZZ)$ modulo torsion is a lattice in
+the complex vector space $H_\CC/F^p$, of complex dimension $\frac12b_{2p-1}$. For the second description, the Poincar\'e pairing $H^{2p-1} \times H^{2n-2p+1} \to \CC$ pairs $F^p$ with
+$F^{n-p+1}$ to zero (types add up to more than $n$ in one index) and is perfect, so $H_\CC/F^p \cong (F^{n-p+1}H^{2n-2p+1})^\vee$, and $H^{2p-1}(X; \ZZ) \cong H_{2n-2p+1}(X; \ZZ)$ modulo torsion.
+For $p = 1$, $H^1(X; \CC)/F^1 = H^{0,1} = H^1(X, \mathcal{O})$, giving $\Pic^0(X)$ (Corollary~\ref{lefschetz-11:corollary-neron-severi}); for $p = n$ the second description gives
+$H^0(X, \Omega^1)^\vee/H_1(X; \ZZ)$.
+\end{proof}
+
+\begin{remark}\label{intermediate-jacobians:remark-not-abelian}
+The complex structure of $J^p(X)$ is the one for which $F^p$ is killed; it varies holomorphically with $X$ by Griffiths transversality. But $J^p(X)$ is in general not an abelian variety:
+the Hodge--Riemann form on $H^{2p-1}$ is definite on each $H^{r,2p-1-r}$ with alternating signs, so it gives a positive definite form on $H_\CC/F^p$ only when the Hodge structure has
+\emph{level one}, $H^{2p-1} = H^{p,p-1} \oplus H^{p-1,p}$. Weil's intermediate Jacobian uses a different complex structure that makes it polarised, but it does not vary holomorphically. When
+$H^{2p-1}$ has level one, both agree and $J^p(X)$ is a principally polarised abelian variety, for instance for curves, and for $p = 2$ on the cubic threefold
+(Example~\ref{intermediate-jacobians:example-cubic-threefold}).
+\end{remark}
+
+\section{The Abel--Jacobi map}\label{intermediate-jacobians:section-abel-jacobi}
+
+\begin{definition}\label{intermediate-jacobians:definition-abel-jacobi}
+Let $X$ be projective and $Z \in Z^p(X)$ a cycle with $\mathrm{cl}(Z) = 0$ in $H^{2p}(X; \ZZ)$. Then $Z = \partial\Gamma$ for a real $(2n - 2p + 1)$-chain $\Gamma$ (the support of $Z$ has real dimension
+$2n - 2p$, and its fundamental class vanishes in $H_{2n-2p}(X; \ZZ)$). The \emph{Abel--Jacobi invariant} is
+\[
+\mathrm{AJ}(Z) = \Big(\omega \mapsto \int_\Gamma\omega\Big) \in \frac{F^{n-p+1}H^{2n-2p+1}(X; \CC)^\vee}{H_{2n-2p+1}(X; \ZZ)} = J^p(X),
+\]
+for $\omega$ closed forms of type $\geq n - p + 1$ representing classes in $F^{n-p+1}$.
+\end{definition}
+
+\begin{proposition}\label{intermediate-jacobians:proposition-abel-jacobi}
+$\mathrm{AJ}(Z)$ is well defined, and $\mathrm{AJ} \colon Z^p(X)_{\mathrm{hom}} \to J^p(X)$ is a homomorphism. It factors through rational equivalence, giving
+$\mathrm{AJ} \colon \CH^p(X)_{\mathrm{hom}} \to J^p(X)$. For $p = 1$, and for curves, it is the Abel--Jacobi map of Theorem~\ref{curves:theorem-abel-jacobi}.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+If $\Gamma$ and $\Gamma'$ both bound $Z$, then $\Gamma - \Gamma'$ is a cycle and $\int_{\Gamma-\Gamma'}\omega$ is a period, an element of the image of $H_{2n-2p+1}(X; \ZZ)$. The integral does not depend on the
+representative $\omega$ of the class: if $\omega = d\eta$ with $\omega$ of type $\geq n - p + 1$, one can choose $\eta$ of type $\geq n - p + 1$, because the degeneration of the
+Hodge-to-de Rham spectral sequence (Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}) makes $d$ strict for the filtration by type \cite[Chapter 8]{voisin-hodge-1}; and then $\int_\Gamma d\eta = \int_Z\eta = 0$ because $Z$ has complex dimension $n - p$ and $\eta$ has more than $n - p$ holomorphic indices. For
+rational equivalence one shows that $t \mapsto \mathrm{AJ}(Z_t - Z_0)$ is a holomorphic map from $\PP^1$ to the torus $J^p(X)$, hence constant, as in the proof of
+Theorem~\ref{curves:theorem-abel-jacobi} \cite[Chapter 12]{voisin-hodge-1}.
+\end{proof}
+
+\section{Deligne cohomology}\label{intermediate-jacobians:section-deligne-cohomology}
+
+\begin{definition}\label{intermediate-jacobians:definition-deligne-complex}
+The \emph{Deligne complex} is $\ZZ(p)_{\mathcal{D}} = \big(\ZZ(p) \to \mathcal{O}_X \to \Omega^1_X \to \cdots \to \Omega^{p-1}_X\big)$, with $\ZZ(p) = (2\pi i)^p\ZZ$ in degree $0$, and \emph{Deligne cohomology}
+is its hypercohomology $H^k_{\mathcal{D}}(X; \ZZ(p))$. For $p = 1$, $\ZZ(1)_{\mathcal{D}} \simeq \mathcal{O}_X^*[-1]$ by the exponential sequence, so $H^2_{\mathcal{D}}(X; \ZZ(1)) = \Pic(X)$.
+\end{definition}
+
+\begin{proposition}\label{intermediate-jacobians:proposition-deligne-sequence}
+For $X$ compact K\"ahler there is an exact sequence
+\[
+0 \to J^p(X) \to H^{2p}_{\mathcal{D}}(X; \ZZ(p)) \to \mathrm{Hdg}^p(X; \ZZ(p)) \to 0 .
+\]
+For $p = 1$ it is $0 \to \Pic^0(X) \to \Pic(X) \to \mathrm{NS}(X) \to 0$.
+\end{proposition}
+
+\begin{proof}
+The Deligne complex is the cone, shifted, of $\ZZ(p) \to \Omega^{<p}_X$. So there is a long exact sequence
+\[
+H^{2p-1}(X; \ZZ(p)) \to \mathbb{H}^{2p-1}(X, \Omega^{<p}) \to H^{2p}_{\mathcal{D}}(X; \ZZ(p)) \to H^{2p}(X; \ZZ(p)) \to \mathbb{H}^{2p}(X, \Omega^{<p}) .
+\]
+By the holomorphic Poincar\'e lemma and the degeneration of the Hodge-to-de Rham spectral sequence (Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}),
+$\mathbb{H}^k(X, \Omega^{<p}) = H^k(X; \CC)/F^pH^k(X; \CC)$. So the kernel of the last map consists of the integral classes whose image in $H^{2p}(X; \CC)$ lies in $F^p$; a real class in $F^p$ of
+weight $2p$ lies in $F^p \cap \overline{F^p} = H^{p,p}$, so these are the integral Hodge classes. The cokernel of the first map is $J^p(X)$ (the twist by $(2\pi i)^p$ only rescales the lattice).
+\end{proof}
+
+\begin{remark}\label{intermediate-jacobians:remark-deligne-cycle-class}
+There is a \emph{Deligne cycle class} $\mathrm{cl}_{\mathcal{D}} \colon \CH^p(X) \to H^{2p}_{\mathcal{D}}(X; \ZZ(p))$ lifting $\mathrm{cl}$ and restricting to $\mathrm{AJ}$ on homologically trivial cycles
+\cite[Chapter 12]{voisin-hodge-1}. In these terms the integral Hodge conjecture asks whether $\mathrm{cl}_{\mathcal{D}}$ followed by the projection to $\mathrm{Hdg}^p(X; \ZZ(p))$ is surjective. For
+$p = 1$ both maps are isomorphisms, $\CH^1(X) = \Pic(X) = H^2_{\mathcal{D}}(X; \ZZ(1))$; for $p \geq 2$, $\mathrm{cl}_{\mathcal{D}}$ is neither injective nor surjective in general.
+\end{remark}
+
+\section{Griffiths' theorem}\label{intermediate-jacobians:section-griffiths}
+
+\begin{theorem}[Griffiths]\label{intermediate-jacobians:theorem-griffiths}
+Let $X \subseteq \PP^4$ be a general quintic threefold. There are homologically trivial $1$-cycles on $X$, differences of lines, that are not algebraically equivalent to zero, even after multiplication
+by any nonzero integer. So the Griffiths group $\mathrm{Griff}^2(X) = Z^2(X)_{\mathrm{hom}}/Z^2(X)_{\mathrm{alg}}$ is not torsion.
+\end{theorem}
+
+This is \cite{griffiths-1969}. The argument: algebraically trivial cycles map under $\mathrm{AJ}$ to an abelian subvariety of $J^2(X)$ whose tangent space lies in $H^{1,2}$, which for a quintic
+threefold is forced to be zero by the variation of Hodge structure. But the Abel--Jacobi images of differences of lines, deformed in the family of quintics, have a nonzero infinitesimal
+invariant, so they are not torsion. Clemens later showed that $\mathrm{Griff}^2(X) \otimes \QQ$ is infinite-dimensional for the general quintic \cite{clemens-1983}.
+
+\section{Normal functions}\label{intermediate-jacobians:section-normal-functions}
+
+\begin{definition}\label{intermediate-jacobians:definition-normal-function}
+Let $f \colon \mathcal{X} \to S$ be a smooth projective family. The intermediate Jacobians of the fibres form a family of complex tori $\mathcal{J}^p \to S$, the quotient of the holomorphic bundle
+$\mathcal{H}^{2p-1}/\mathcal{F}^p$ by the local system $R^{2p-1}f_*\ZZ$. A \emph{normal function} is a holomorphic section $\nu$ of $\mathcal{J}^p$ that is \emph{horizontal}: its local lifts $\tilde\nu$ to
+$\mathcal{H}^{2p-1}$ satisfy $\nabla\tilde\nu \in \mathcal{F}^{p-1} \otimes \Omega^1_S$. A family of homologically trivial cycles $Z_t$ gives the normal function $t \mapsto \mathrm{AJ}(Z_t)$.
+\end{definition}
+
+\begin{remark}[Poincar\'e and Lefschetz]\label{intermediate-jacobians:remark-poincare-lefschetz}
+Lefschetz's original proof of the $(1,1)$-theorem for a surface $S$ used normal functions. Take a Lefschetz pencil of curves $C_t \subseteq S$. An integral class $\lambda$ of type $(1,1)$ restricts to
+classes on the $C_t$ that, after subtracting a multiple of the hyperplane class, have degree $0$, and a topological construction produces from $\lambda$ a normal function $\nu$ with
+$\nu(t) \in J(C_t) = \Pic^0(C_t)$. By Jacobi inversion (Theorem~\ref{curves:theorem-abel-jacobi}), $\nu(t)$ is the class of a divisor of degree $0$ on $C_t$, and these divisors sweep out a divisor on $S$
+whose class is $\lambda$ up to multiples of the hyperplane class (\emph{Poincar\'e's existence theorem}). The same strategy for $p = 2$ fails because the intermediate Jacobians of the
+hyperplane sections are not generated by cycles. For cubic fourfolds, where the relevant $J^2$ of the cubic threefold hyperplane sections is covered by Abel--Jacobi images of
+lines, Zucker carried it through \cite{zucker-1977}.
+\end{remark}
+
+\begin{remark}\label{intermediate-jacobians:remark-green-griffiths}
+Green and Griffiths showed that the Hodge conjecture for a primitive Hodge class $\lambda$ of degree $2p$ on $X$ is equivalent to the existence of singularities, over the discriminant locus of a
+sufficiently ample linear system, of the normal function attached to $\lambda$ \cite{green-griffiths-2007}. This converts the conjecture into a problem about the boundary behaviour of normal
+functions, studied by Brosnan, Pearlstein, Schnell and others.
+\end{remark}
+
+\begin{example}\label{intermediate-jacobians:example-cubic-threefold}
+For a nonsingular cubic threefold $X \subseteq \PP^4$, $H^3(X)$ has Hodge numbers $h^{3,0} = 0$, $h^{2,1} = 5$, so it has level one and $J^2(X)$ is a principally polarised abelian variety of
+dimension $5$. The Abel--Jacobi map from the Fano surface of lines on $X$ to $J^2(X)$ identifies $J^2(X)$ with the Albanese variety of the Fano surface. Clemens and Griffiths showed that
+$J^2(X)$ is not a product of Jacobians of curves, and deduced that $X$ is not rational, although it is unirational \cite{clemens-griffiths-1972}.
+\end{example}
+
+\section{Exercises}\label{intermediate-jacobians:section-exercises}
+
+\begin{exercise}\label{intermediate-jacobians:exercise-dimension}
+Compute $\dim J^p(X)$ for $X = \PP^n$, for an abelian variety of dimension $g$, and for a quintic threefold with $p = 2$.
+\end{exercise}
+
+\begin{solution}
+$\PP^n$ has no odd cohomology, so all $J^p = 0$. For an abelian variety, $b_{2p-1} = \binom{2g}{2p-1}$, so $\dim J^p = \frac12\binom{2g}{2p-1}$. For the quintic, $b_3 = 204$
+(Proposition~\ref{calabi-yau:proposition-quintic}), so $\dim J^2 = 102$.
+\end{solution}
+
+\begin{exercise}\label{intermediate-jacobians:exercise-aj-points}
+Show that for $p = n$ the Abel--Jacobi map on $0$-cycles of degree zero is $\sum n_ix_i \mapsto (\omega \mapsto \sum_in_i\int_{x_0}^{x_i}\omega)$, and that it gives the \emph{Albanese map}
+$X \to \mathrm{Alb}(X)$, $x \mapsto \mathrm{AJ}(x - x_0)$.
+\end{exercise}
+
+\begin{solution}
+For $Z = \sum n_i(x_i - x_0)$ with $\sum n_i = 0$, a chain $\Gamma$ with boundary $Z$ is a sum of paths from $x_0$ to $x_i$ with multiplicities $n_i$, and $F^1H^1 = H^{1,0}$ is spanned by holomorphic
+$1$-forms (Proposition~\ref{hodge-decomposition:proposition-holomorphic-forms}). The formula follows from Definition~\ref{intermediate-jacobians:definition-abel-jacobi} with $p = n$.
+\end{solution}
