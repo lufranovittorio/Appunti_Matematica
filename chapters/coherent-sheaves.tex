@@ -1,15 +1,348 @@
 \chapter{Quasi-coherent and Coherent Sheaves}\label{coherent-sheaves}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-Quasi-coherent sheaves, the algebraic counterpart of vector bundles.
+\section{Introduction}\label{coherent-sheaves:section-introduction}
+
+Quasi-coherent sheaves are to schemes what modules are to rings. On an affine scheme $\Spec A$ they are exactly the sheaves $\widetilde M$ attached
+to $A$-modules, and in general they are glued from such. Coherent sheaves, the finitely generated ones, include vector bundles, ideal sheaves of
+subvarieties, structure sheaves of closed subschemes and sheaves of differentials. Their cohomology is the subject of
+Chapter~\ref{coherent-cohomology}. This chapter develops the basic theory: the equivalence between modules and quasi-coherent sheaves on affine
+schemes, closed subschemes and ideal sheaves, the twisting sheaves $\mathcal{O}(n)$ and Serre's theorem that $\mathcal{F}(n)$ is globally generated
+for $n \gg 0$, and sheaves of differentials, with the Euler sequence and the canonical sheaf of $\PP^n$. References:
+\cite[Sections II.5 and II.8]{hartshorne-ag}, \cite{stacks-project}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{schemes} (Schemes).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Quasi-coherent sheaves on affine and general schemes.
-\item Coherent sheaves on Noetherian schemes.
-\item Locally free sheaves and vector bundles.
-\item The twisting sheaves $\mathcal{O}(n)$ on projective space; Serre's generation theorem.
-\item Sheaves of differentials and the canonical sheaf.
-\end{itemize}
+For a ringed space $(X, \mathcal{O}_X)$, $\mathcal{O}_X$-modules, their tensor products, $\mathcal{H}om$, direct and inverse images are as in
+Definition~\ref{sheaves:definition-module-operations}. For $f \in \Gamma(X, \mathcal{O}_X)$ we write $X_f = \{x \in X : f_x \notin \mathfrak{m}_x\}$, an open
+set on which $f$ is invertible.
+
+\section{The sheaf associated to a module}\label{coherent-sheaves:section-tilde}
+
+\begin{definition}\label{coherent-sheaves:definition-tilde}
+Let $A$ be a ring and $M$ an $A$-module. The sheaf $\widetilde M$ on $\Spec A$ assigns to an open $U$ the set of functions
+$s \colon U \to \bigsqcup_{\mathfrak{p} \in U}M_\mathfrak{p}$ with $s(\mathfrak{p}) \in M_\mathfrak{p}$ that are locally of the form $m/f$ with $m \in M$ and $f \in A$
+nonvanishing on the neighbourhood. It is an $\mathcal{O}_{\Spec A}$-module.
+\end{definition}
+
+\begin{proposition}\label{coherent-sheaves:proposition-tilde}
+Let $A$ be a ring, $M$, $N$ modules and $X = \Spec A$.
+\begin{enumerate}
+\item $(\widetilde M)_\mathfrak{p} \cong M_\mathfrak{p}$ and $\widetilde M(D(f)) \cong M_f$; in particular $\Gamma(X, \widetilde M) = M$.
+\item $M \mapsto \widetilde M$ is an exact, fully faithful functor from $A$-modules to $\mathcal{O}_X$-modules, commuting with direct sums, and
+$(M \otimes_AN)^\sim \cong \widetilde M \otimes_{\mathcal{O}_X}\widetilde N$.
+\item For a ring map $A \to B$ and $f \colon \Spec B \to \Spec A$: $f_*(\widetilde N) \cong ({}_AN)^\sim$ for a $B$-module $N$, and
+$f^*(\widetilde M) \cong (B \otimes_AM)^\sim$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The proof of Theorem~\ref{schemes:theorem-structure-sheaf} applies word for word with $A$ replaced by $M$ in the numerators. (2) Exactness can be
+checked on stalks, where it is exactness of localisation (Proposition~\ref{commutative-algebra:proposition-localisation}(2)). Full faithfulness: a
+morphism $\widetilde M \to \widetilde N$ is determined by its effect on global sections, by (1) on basic open sets, and every $A$-linear map induces one.
+Direct sums and tensor products commute with localisation, and the sheaf tensor product has stalks $M_\mathfrak{p} \otimes_{A_\mathfrak{p}}N_\mathfrak{p}$; the
+natural map is therefore an isomorphism on stalks. (3) For $g \in A$ with image $\bar g \in B$,
+$f_*(\widetilde N)(D(g)) = \widetilde N(D(\bar g)) = N_{\bar g} = (N_A)_g$, compatibly with restrictions. For the pullback, both sides represent the functor
+$\mathcal{G} \mapsto \Hom_{\mathcal{O}_{\Spec A}}(\widetilde M, f_*\mathcal{G})$ on quasi-coherent $\mathcal{G}$, by adjunction and (2); see
+\cite[Proposition II.5.2]{hartshorne-ag}.
+\end{proof}
+
+\section{Quasi-coherent sheaves}\label{coherent-sheaves:section-quasi-coherent}
+
+\begin{definition}\label{coherent-sheaves:definition-quasi-coherent}
+An $\mathcal{O}_X$-module $\mathcal{F}$ on a scheme $X$ is \emph{quasi-coherent} if $X$ has an affine open cover $X = \bigcup\Spec A_i$ with
+$\mathcal{F}|_{\Spec A_i} \cong \widetilde{M_i}$ for $A_i$-modules $M_i$. If $X$ is Noetherian, $\mathcal{F}$ is \emph{coherent} if moreover the $M_i$ can be
+taken finitely generated.
+\end{definition}
+
+\begin{lemma}\label{coherent-sheaves:lemma-extend-sections}
+Let $X$ be a scheme that is Noetherian, or quasi-compact and separated. Let $\mathcal{L}$ be an invertible sheaf, that is, locally isomorphic to $\mathcal{O}_X$, $f \in \Gamma(X, \mathcal{L})$, and
+$X_f = \{x : f_x \notin \mathfrak{m}_x\mathcal{L}_x\}$. Let $\mathcal{F}$ be quasi-coherent.
+\begin{enumerate}
+\item If $s \in \Gamma(X, \mathcal{F})$ restricts to $0$ on $X_f$, then $s \otimes f^n = 0$ in $\Gamma(X, \mathcal{F} \otimes \mathcal{L}^n)$ for some $n$.
+\item If $t \in \mathcal{F}(X_f)$, then $t \otimes f^n$ extends to a global section of $\mathcal{F} \otimes \mathcal{L}^n$ for some $n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Cover $X$ by finitely many affine opens $U_i = \Spec A_i$ with $\mathcal{L}|_{U_i} \cong \mathcal{O}_{U_i}$ and $\mathcal{F}|_{U_i} = \widetilde{M_i}$. Every
+$U_i \cap U_j$ is quasi-compact: every open subset of a Noetherian scheme is, and in the separated case $U_i \cap U_j$ is affine, being the preimage of
+the closed subscheme $\Delta(X)$ under $U_i \times U_j \to X \times X$. Under the trivialisation $f$ becomes $f_i \in A_i$ and
+$X_f \cap U_i = D(f_i)$. (1) $s|_{U_i} \in M_i$ vanishes in $(M_i)_{f_i}$ by Proposition~\ref{coherent-sheaves:proposition-tilde}(1), so $f_i^ns|_{U_i} = 0$ for
+large $n$, which we take uniform over the finitely many $i$. (2) $t|_{D(f_i)} \in (M_i)_{f_i}$, so $f_i^nt$ extends to a section $t_i$ over $U_i$. On
+$U_i \cap U_j$, which is quasi-compact and so covered by finitely many affine opens, $t_i - t_j$ vanishes on $X_f$. By (1) applied to $U_i \cap U_j$,
+$f^m(t_i - t_j) = 0$ there. So the sections $f^mt_i$ glue to a global section of $\mathcal{F} \otimes \mathcal{L}^{n+m}$ extending $t \otimes f^{n+m}$.
+\end{proof}
+
+\begin{theorem}\label{coherent-sheaves:theorem-affine}
+Let $X = \Spec A$. An $\mathcal{O}_X$-module $\mathcal{F}$ is quasi-coherent if and only if the natural map $\Gamma(X, \mathcal{F})^\sim \to \mathcal{F}$ is an
+isomorphism. Hence $M \mapsto \widetilde M$ is an equivalence between $A$-modules and quasi-coherent $\mathcal{O}_X$-modules, with inverse $\Gamma(X, -)$. A
+sequence of quasi-coherent sheaves on $X$ is exact if and only if the sequence of global sections is exact.
+\end{theorem}
+
+\begin{proof}
+The natural map is defined on $D(g)$ by $M_g \to \mathcal{F}(D(g))$, $m/g^n \mapsto g^{-n}m|_{D(g)}$, where $M = \Gamma(X, \mathcal{F})$. If $\mathcal{F}$ is
+quasi-coherent, apply Lemma~\ref{coherent-sheaves:lemma-extend-sections} with $\mathcal{L} = \mathcal{O}_X$ and $f = g$ to the affine, hence quasi-compact
+and separated, scheme $X$: part (2) gives surjectivity and part (1) injectivity of $M_g \to \mathcal{F}(D(g))$. So the map is an isomorphism on a basis.
+The converse is clear. The equivalence follows with Proposition~\ref{coherent-sheaves:proposition-tilde}(2). For exactness, kernels and cokernels
+of maps $\widetilde M \to \widetilde N$ are the sheaves associated to the kernel and cokernel, since $\sim$ is exact. So a sequence of quasi-coherent sheaves
+is isomorphic to $\sim$ applied to its sequence of global sections, and $\sim$ is exact and faithful: $\widetilde M = 0$ implies $M = 0$.
+\end{proof}
+
+\begin{corollary}\label{coherent-sheaves:corollary-qc-properties}
+On any scheme, kernels, cokernels, images, direct sums and tensor products of quasi-coherent sheaves are quasi-coherent, and pullbacks of
+quasi-coherent sheaves are quasi-coherent. $\mathcal{F}$ is quasi-coherent if and only if $\mathcal{F}|_U \cong \mathcal{F}(U)^\sim$ for every affine open $U$.
+On a Noetherian scheme the same statements hold for coherent sheaves (with pullbacks along morphisms of Noetherian schemes), and on
+$\Spec A$ with $A$ Noetherian, $\widetilde M$ is coherent if and only if $M$ is finitely generated.
+\end{corollary}
+
+\begin{proof}
+All statements are local, and for affine schemes they follow from Theorem~\ref{coherent-sheaves:theorem-affine} and
+Proposition~\ref{coherent-sheaves:proposition-tilde}. For the characterisation of quasi-coherence on every affine open, restrict a cover with
+$\mathcal{F}|_{U_i} = \widetilde{M_i}$ to the affine open $U$: then $\mathcal{F}|_U$ is quasi-coherent in the sense of the definition on $U$, and
+Theorem~\ref{coherent-sheaves:theorem-affine} applies. For coherence, submodules and quotients of finitely generated modules over a Noetherian ring are
+finitely generated (Proposition~\ref{commutative-algebra:proposition-noetherian}). If $\widetilde M$ is coherent on $\Spec A$, then $M$ is locally, on a
+finite cover by $D(f_i)$, generated by finitely many elements $m_{ij}/f_i^{n}$; the $m_{ij}$ generate $M$, since a module is zero when all its
+localisations at the $f_i$ vanish.
+\end{proof}
+
+\begin{proposition}\label{coherent-sheaves:proposition-pushforward}
+Let $f \colon X \to Y$ be a morphism with $X$ Noetherian, or with $X$ quasi-compact and separated. If $\mathcal{F}$ is quasi-coherent on $X$, then $f_*\mathcal{F}$ is
+quasi-coherent on $Y$.
+\end{proposition}
+
+\begin{proof}
+The question is local on $Y$, so let $Y$ be affine. Cover $X$ by finitely many affine opens $U_i$. The intersections $U_{ij} = U_i \cap U_j$ are covered by
+finitely many affine opens $U_{ijk}$ (in the separated case $U_{ij}$ itself is affine). By the sheaf axiom,
+\[
+0 \to f_*\mathcal{F} \to \bigoplus_if_*(\mathcal{F}|_{U_i}) \to \bigoplus_{i,j,k}f_*(\mathcal{F}|_{U_{ijk}})
+\]
+is exact. Each term on the right is the direct image of a quasi-coherent sheaf under a morphism of affine schemes, which is quasi-coherent by
+Proposition~\ref{coherent-sheaves:proposition-tilde}(3). So $f_*\mathcal{F}$ is a kernel of quasi-coherent sheaves.
+\end{proof}
+
+\begin{proposition}\label{coherent-sheaves:proposition-closed-subschemes}
+Let $X$ be a scheme. For a closed immersion $i \colon Y \to X$ the \emph{ideal sheaf} $\mathcal{I}_Y = \ker(\mathcal{O}_X \to i_*\mathcal{O}_Y)$ is quasi-coherent,
+and $Y \mapsto \mathcal{I}_Y$ is a bijection from closed subschemes of $X$ to quasi-coherent ideal sheaves of $\mathcal{O}_X$. For $X = \Spec A$, every closed
+subscheme is $\Spec A/I$ for a unique ideal $I$. If $X$ is Noetherian, $\mathcal{I}_Y$ is coherent.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+The question is local, so let $X = \Spec A$. The underlying space of $Y$ is closed in $X$, so $Y$ is quasi-compact. It is separated, since a closed immersion is
+separated (Proposition~\ref{schemes:proposition-affine-separated}). By Proposition~\ref{coherent-sheaves:proposition-pushforward}, $i_*\mathcal{O}_Y$ is
+quasi-coherent, so the kernel $\mathcal{I}_Y = \widetilde I$ is quasi-coherent with $I = \Gamma(X, \mathcal{I}_Y)$. As $\mathcal{O}_X \to i_*\mathcal{O}_Y$ is onto,
+$i_*\mathcal{O}_Y \cong (A/I)^\sim$, and its support $V(I)$ is the image of $Y$. Then $Y \to \Spec A/I$ is a homeomorphism with an isomorphism of structure
+sheaves, so $Y \cong \Spec A/I$. Conversely, a quasi-coherent ideal $\widetilde I$ defines $\Spec A/I$, and on a general $X$ these glue. The omitted
+verifications are the compatibilities of these constructions with restriction to smaller affine opens \cite[Corollary II.5.10]{hartshorne-ag}.
+\end{proof}
+
+\begin{definition}\label{coherent-sheaves:definition-support}
+The \emph{support} of a sheaf $\mathcal{F}$ is $\{x : \mathcal{F}_x \neq 0\}$. For a coherent sheaf it is closed: on $\Spec A$ with $M$ finitely generated,
+$\mathrm{Supp}\,\widetilde M = V(\mathrm{Ann}\,M)$. The \emph{fibre} of $\mathcal{F}$ at $x$ is $\mathcal{F}(x) = \mathcal{F}_x \otimes k(x)$.
+\end{definition}
+
+\begin{proposition}\label{coherent-sheaves:proposition-fibre-dimension}
+Let $\mathcal{F}$ be coherent on a Noetherian scheme $X$.
+\begin{enumerate}
+\item (Nakayama) If sections $s_1, \ldots, s_r$ of $\mathcal{F}$ near $x$ span $\mathcal{F}(x)$, they generate $\mathcal{F}$ on a neighbourhood of $x$.
+\item $x \mapsto \dim_{k(x)}\mathcal{F}(x)$ is upper semicontinuous.
+\item If $X$ is reduced, $\mathcal{F}$ is locally free (locally isomorphic to $\mathcal{O}_X^r$) if and only if this function is locally constant.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Nakayama's lemma (Corollary~\ref{commutative-algebra:corollary-nakayama-generators}) the $s_i$ generate the stalk $\mathcal{F}_x$. The cokernel of
+$\mathcal{O}^r \to \mathcal{F}$ is coherent with $x$ outside its closed support. (2) follows from (1): generators at $x$ generate nearby, so the
+fibre dimension cannot jump up near $x$. (3) If $X = \Spec A$ is reduced and the fibre dimension is $r$ near $x$, choose $s_1, \ldots, s_r$ as in (1) and
+let $\mathcal{K}$ be the kernel of the resulting surjection $\mathcal{O}^r \to \mathcal{F}$. For each $y$ nearby, $\mathcal{O}^r(y) \to \mathcal{F}(y)$ is a
+surjection of $r$-dimensional spaces, hence injective. So an element $(a_1, \ldots, a_r)$ of $\Gamma(\mathcal{K})$ has all $a_i$ vanishing at every point,
+hence nilpotent, hence $0$. So $\mathcal{K} = 0$.
+\end{proof}
+
+\section{Locally free sheaves and the Picard group}\label{coherent-sheaves:section-locally-free}
+
+\begin{definition}\label{coherent-sheaves:definition-locally-free}
+An $\mathcal{O}_X$-module $\mathcal{E}$ is \emph{locally free of rank $r$} if it is locally isomorphic to $\mathcal{O}_X^r$, and \emph{invertible} if $r = 1$. Its
+dual is $\mathcal{E}^\vee = \mathcal{H}om(\mathcal{E}, \mathcal{O}_X)$, its determinant $\det\mathcal{E} = \Lambda^r\mathcal{E}$. The \emph{Picard group} $\Pic(X)$ is
+the group of isomorphism classes of invertible sheaves under $\otimes$, with inverse $\mathcal{L}^{-1} = \mathcal{L}^\vee$.
+\end{definition}
+
+\begin{proposition}\label{coherent-sheaves:proposition-picard-cech}
+$\Pic(X) \cong H^1(X, \mathcal{O}_X^*)$. Locally free sheaves of rank $r$ on $X$ correspond to isomorphism classes of \emph{algebraic vector bundles}: schemes
+$E \to X$ locally isomorphic to $\Aa^r_U \to U$ with linear transition functions in $\mathrm{GL}_r(\mathcal{O}_X(U \cap V))$. The correspondence sends $E$ to its sheaf
+of sections.
+\end{proposition}
+
+\begin{proof}
+An invertible sheaf trivialised on an open cover $(U_i)$ by generators $e_i$ gives units $g_{ij} \in \mathcal{O}^*(U_i \cap U_j)$ with $e_j = g_{ij}e_i$. They form a
+\v{C}ech cocycle, changing the $e_i$ changes it by a coboundary, and tensor product multiplies cocycles. Conversely a cocycle glues copies of
+$\mathcal{O}_{U_i}$. So invertible sheaves trivialised on $(U_i)$ correspond to $\check H^1((U_i), \mathcal{O}^*)$, and passing to the limit over covers gives
+$\check H^1(X, \mathcal{O}^*) = H^1(X, \mathcal{O}^*)$ (Remark~\ref{sheaf-cohomology:remark-cech-limit}). The same cocycles with values in $\mathrm{GL}_r$ glue the
+$\Aa^r_{U_i}$ to a vector bundle, as for manifolds (Proposition~\ref{vector-bundles:proposition-cocycles}).
+\end{proof}
+
+\section{Twisting sheaves on projective schemes}\label{coherent-sheaves:section-twisting}
+
+\begin{definition}\label{coherent-sheaves:definition-twisting}
+Let $S$ be a graded ring and $M$ a graded $S$-module. The sheaf $\widetilde M$ on $\Proj S$ has sections over $D_+(f)$ equal to $M_{(f)}$, the degree-zero part
+of $M_f$, and stalks $M_{(\mathfrak{p})}$. For $n \in \ZZ$, $M(n)$ is $M$ with degrees shifted, $M(n)_d = M_{n+d}$, and $\mathcal{O}(n) = S(n)^\sim$. For an
+$\mathcal{O}$-module $\mathcal{F}$ put $\mathcal{F}(n) = \mathcal{F} \otimes \mathcal{O}(n)$ and $\Gamma_*(\mathcal{F}) = \bigoplus_{n \in \ZZ}\Gamma(X, \mathcal{F}(n))$.
+For a scheme $X$ with a closed immersion into $\PP^r_A$, $\mathcal{O}_X(1)$ is the restriction of $\mathcal{O}(1)$.
+\end{definition}
+
+\begin{proposition}\label{coherent-sheaves:proposition-twisting}
+Let $S$ be generated by $S_1$ as an $S_0$-algebra and $X = \Proj S$. Then $\mathcal{O}(n)$ is invertible, $\mathcal{O}(n) \otimes \mathcal{O}(m) \cong \mathcal{O}(n+m)$, and
+$\widetilde M(n) \cong (M(n))^\sim$. For $S = A[x_0, \ldots, x_r]$ and $X = \PP^r_A$,
+\[
+\Gamma(X, \mathcal{O}(n)) \cong S_n \quad \text{for all } n \in \ZZ,
+\]
+the homogeneous polynomials of degree $n$ (zero for $n < 0$); so $\Gamma_*(\mathcal{O}_X) = S$.
+\end{proposition}
+
+\begin{proof}
+Since $S$ is generated by $S_1$, the $D_+(f)$ with $f \in S_1$ cover $X$, and on $D_+(f)$ the module $S(n)_{(f)}$ is free over $S_{(f)}$ with basis $f^n$. This
+proves invertibility, and the other isomorphisms follow similarly from $M(n)_{(f)} = M_{(f)} \cdot f^n$. For $\PP^r_A$, a global section of $\mathcal{O}(n)$ is a
+compatible family of degree-$n$ elements $t_i \in S_{x_i}$. The $x_i$ are non-zero-divisors, so all $S_{x_i}$ embed in $S' = S_{x_0 \cdots x_r}$ and compatibility
+means that the $t_i$ are one element $t$ of $\bigcap_iS_{x_i}$, whose homogeneous components lie in the intersection. An element of $S'$ is a sum of Laurent
+monomials $x^a$, $a \in \ZZ^{r+1}$, with coefficients in $A$. It lies in $S_{x_i}$ exactly when only monomials with $a_j \geq 0$ for $j \neq i$ occur. Hence
+$\bigcap_iS_{x_i} = S$, and the degree-$n$ part is $S_n$.
+\end{proof}
+
+\begin{theorem}[Serre]\label{coherent-sheaves:theorem-serre-generation}
+Let $X$ be a closed subscheme of $\PP^r_A$ with $A$ Noetherian, and $\mathcal{F}$ a coherent sheaf on $X$. Then there is $n_0$ such that for all $n \geq n_0$ the
+sheaf $\mathcal{F}(n)$ is generated by finitely many global sections. Consequently $\mathcal{F}$ is a quotient of a finite direct sum of sheaves
+$\mathcal{O}_X(-n)$.
+\end{theorem}
+
+\begin{proof}
+Let $i \colon X \to \PP^r_A$ be the inclusion. Then $i_*\mathcal{F}$ is coherent (Proposition~\ref{coherent-sheaves:proposition-pushforward}, with
+finiteness checked on affines), and $i_*(\mathcal{F}(n)) = (i_*\mathcal{F})(n)$ since $\mathcal{O}_X(1) = i^*\mathcal{O}(1)$. So we may assume $X = \PP^r_A$. Cover
+$X$ by $U_i = D_+(x_i) = X_{x_i}$, where $x_i \in \Gamma(X, \mathcal{O}(1))$, and write $\mathcal{F}|_{U_i} = \widetilde{M_i}$ with $M_i$ generated by finitely
+many sections $s_{ij}$. By Lemma~\ref{coherent-sheaves:lemma-extend-sections}(2) with $\mathcal{L} = \mathcal{O}(1)$ and $f = x_i$, for $n$ large each
+$s_{ij} \otimes x_i^n$ extends to a global section of $\mathcal{F}(n)$, and we can take one $n$ for the finitely many sections. On $U_i$, $x_i^n$ generates
+$\mathcal{O}(n)$, so the sections $s_{ij} \otimes x_i^n$ generate $\mathcal{F}(n)|_{U_i}$. The same holds for all larger $n$ (multiply by $x_i$). Finally, $N$ global
+sections generating $\mathcal{F}(n)$ give a surjection $\mathcal{O}^N \to \mathcal{F}(n)$, that is, $\mathcal{O}(-n)^N \to \mathcal{F}$.
+\end{proof}
+
+\begin{definition}\label{coherent-sheaves:definition-very-ample}
+An invertible sheaf $\mathcal{L}$ on a scheme $X$ of finite type over $A$ is \emph{very ample} (relative to $A$) if $\mathcal{L} \cong i^*\mathcal{O}(1)$ for an
+immersion $i \colon X \to \PP^r_A$, and \emph{ample} if for every coherent $\mathcal{F}$ the sheaf $\mathcal{F} \otimes \mathcal{L}^n$ is globally generated for
+$n \gg 0$. By Theorem~\ref{coherent-sheaves:theorem-serre-generation}, very ample sheaves on projective schemes over Noetherian rings are ample. The
+converse relation, that some power of an ample sheaf is very ample, is in Chapter~\ref{divisors}.
+\end{definition}
+
+\section{Sheaves of differentials}\label{coherent-sheaves:section-differentials}
+
+\begin{definition}\label{coherent-sheaves:definition-differentials}
+Let $f \colon X \to Y$ be a morphism of schemes. The \emph{sheaf of relative differentials} $\Omega_{X/Y}$ is the quasi-coherent $\mathcal{O}_X$-module
+obtained by gluing the sheaves $(\Omega_{B/A})^\sim$ on affine opens $\Spec B \subseteq f^{-1}(\Spec A)$, together with the derivation
+$d \colon \mathcal{O}_X \to \Omega_{X/Y}$. The gluing is possible because $\Omega$ commutes with localisation
+(Proposition~\ref{commutative-algebra:proposition-differentials}(5)). For $X$ smooth of relative dimension $n$ over $Y$, the \emph{canonical sheaf} is
+$\omega_{X/Y} = \Lambda^n\Omega_{X/Y}$, and the \emph{tangent sheaf} is $\mathcal{T}_{X/Y} = \Omega_{X/Y}^\vee$.
+\end{definition}
+
+\begin{proposition}\label{coherent-sheaves:proposition-differentials}
+\begin{enumerate}
+\item For morphisms $X \to Y \to Z$ there is an exact sequence $f^*\Omega_{Y/Z} \to \Omega_{X/Z} \to \Omega_{X/Y} \to 0$.
+\item For a closed subscheme $Y \subseteq X$ over $Z$ with ideal sheaf $\mathcal{I}$ there is an exact sequence
+$\mathcal{I}/\mathcal{I}^2 \to \Omega_{X/Z}|_Y \to \Omega_{Y/Z} \to 0$ (the \emph{conormal sequence}).
+\item $\Omega$ commutes with base change: $\Omega_{X_{Y'}/Y'} \cong g'^*\Omega_{X/Y}$.
+\item If $X \to Y$ is smooth of relative dimension $n$, then $\Omega_{X/Y}$ is locally free of rank $n$. In particular, a nonsingular variety of
+dimension $n$ over an algebraically closed field has $\Omega_{X/k}$ locally free of rank $n$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1), (2) are Proposition~\ref{commutative-algebra:proposition-differentials}(3), (4) on affine opens. (3) holds because
+$\Omega_{(B \otimes_AA')/A'} \cong \Omega_{B/A} \otimes_AA'$, which follows from the universal property. (4) Locally
+$B = A[x_1, \ldots, x_{n+r}]/(g_1, \ldots, g_r)$ with $\det(\partial g_i/\partial x_{n+j})$ invertible. By
+Proposition~\ref{commutative-algebra:proposition-differentials}(2), (4), $\Omega_{B/A}$ is the quotient of the free module on $dx_1, \ldots, dx_{n+r}$ by the
+relations $dg_i = \sum_j(\partial g_i/\partial x_j)dx_j = 0$. Since the $r \times r$ block for $dx_{n+1}, \ldots, dx_{n+r}$ is invertible, these relations express
+$dx_{n+1}, \ldots, dx_{n+r}$ uniquely in terms of $dx_1, \ldots, dx_n$, and $\Omega_{B/A}$ is free on $dx_1, \ldots, dx_n$. The last statement uses
+Proposition~\ref{schemes:proposition-smooth-nonsingular}.
+\end{proof}
+
+\begin{theorem}[Euler sequence]\label{coherent-sheaves:theorem-euler-sequence}
+On $X = \PP^r_A$ there is an exact sequence of locally free sheaves
+\[
+0 \to \Omega_{X/A} \to \mathcal{O}(-1)^{r+1} \to \mathcal{O}_X \to 0,
+\]
+where the second map sends the basis section $e_j$ to $x_j$. Consequently $\omega_{\PP^r_A/A} \cong \mathcal{O}(-r-1)$.
+\end{theorem}
+
+\begin{proof}
+Write $\mathcal{O}(-1)^{r+1} = (S(-1)^{r+1})^\sim$ with basis $e_0, \ldots, e_r$ of degree $1$, and let $\pi$ be the map $e_j \mapsto x_j$. It is surjective: on $U_i$,
+the section $e_i/x_i$ maps to $1$. On $U_i = \Spec A[x_0/x_i, \ldots, x_r/x_i]$, $\Omega$ is free on the $d(x_j/x_i)$, $j \neq i$. Define
+\[
+\varphi_i \colon \Omega|_{U_i} \to \mathcal{O}(-1)^{r+1}|_{U_i}, \qquad d(x_j/x_i) \mapsto \frac{1}{x_i^2}\left(x_ie_j - x_je_i\right) .
+\]
+The composite with $\pi$ is $0$. The kernel of $\pi$ on $U_i$ consists of the $\sum_ja_je_j$ ($a_j$ of degree $-1$) with $\sum_ja_jx_j = 0$, that is,
+$a_i = -\sum_{j \neq i}a_jx_j/x_i$, and then $\sum_ja_je_j = \sum_{j \neq i}(a_jx_i)\,\varphi_i(d(x_j/x_i))$ with $a_jx_i$ of degree $0$. The images $\varphi_i(d(x_j/x_i))$
+are independent, since the coefficient of $e_j$ is $1/x_i$. So $\varphi_i$ is an isomorphism onto $\ker\pi|_{U_i}$. On $U_i \cap U_k$, writing
+$x_j/x_i = (x_j/x_k)(x_k/x_i)$ and $d(x_k/x_i) = -(x_k/x_i)^2d(x_i/x_k)$ shows $\varphi_k(d(x_j/x_i)) = \varphi_i(d(x_j/x_i))$ by a direct computation. So the $\varphi_i$
+glue. Taking determinants in the exact sequence gives $\omega \otimes \mathcal{O} \cong \det(\mathcal{O}(-1)^{r+1}) = \mathcal{O}(-r-1)$.
+\end{proof}
+
+\begin{proposition}[Adjunction]\label{coherent-sheaves:proposition-adjunction}
+Let $Y \subseteq X$ be nonsingular varieties over an algebraically closed field, of dimensions $n - 1$ and $n$, with ideal sheaf $\mathcal{I}$. Then
+$\mathcal{I}$ is invertible, $\mathcal{I}/\mathcal{I}^2 \cong \mathcal{I}|_Y$ is the conormal sheaf, the conormal sequence
+$0 \to \mathcal{I}/\mathcal{I}^2 \to \Omega_X|_Y \to \Omega_Y \to 0$ is exact on the left, and
+\[
+\omega_Y \cong \omega_X \otimes \mathcal{I}^{-1}|_Y .
+\]
+For a nonsingular hypersurface $Y$ of degree $d$ in $\PP^n$, $\omega_Y \cong \mathcal{O}_Y(d - n - 1)$.
+\end{proposition}
+
+\begin{proof}
+Near a point of $Y$, $\mathcal{O}_X$ is a regular local ring, hence a unique factorisation domain (Remark~\ref{commutative-algebra:remark-regular-domain}),
+and the height-one prime of $Y$ is principal, generated by $g$. So $\mathcal{I}$ is invertible and $\mathcal{I}/\mathcal{I}^2 = \mathcal{I} \otimes \mathcal{O}_Y$. The map
+$\mathcal{I}/\mathcal{I}^2 \to \Omega_X|_Y$ sends $g$ to $dg$. Both sides of the right-exact conormal sequence are locally free, of ranks $1$, $n$ and $n - 1$
+(Proposition~\ref{coherent-sheaves:proposition-differentials}(4)). A surjection of locally free sheaves of ranks $n$ and $n - 1$ has locally free
+kernel of rank $1$, which is the image of $\mathcal{I}/\mathcal{I}^2$. A surjection between invertible sheaves is an isomorphism, since locally it is
+multiplication by a function that generates the unit ideal. So the sequence is exact. Taking
+determinants gives $\omega_X|_Y \cong \omega_Y \otimes \mathcal{I}/\mathcal{I}^2$. For a hypersurface of degree $d$, $\mathcal{I} = \mathcal{O}(-d)$ and $\omega_{\PP^n} = \mathcal{O}(-n-1)$.
+\end{proof}
+
+\section{Exercises}\label{coherent-sheaves:section-exercises}
+
+\begin{exercise}\label{coherent-sheaves:exercise-not-quasi-coherent}
+Let $X = \Spec R$ for a discrete valuation ring $R$ with fraction field $K$, and let $\mathcal{F}$ be the sheaf with $\mathcal{F}(X) = 0$ and $\mathcal{F}(\{\eta\}) = K$ on
+the open generic point. Show that $\mathcal{F}$ is an $\mathcal{O}_X$-module that is not quasi-coherent, while $j_*K$ for $j \colon \{\eta\} \to X$ is quasi-coherent.
+\end{exercise}
+
+\begin{solution}
+If $\mathcal{F}$ were quasi-coherent, it would be $\widetilde{\Gamma(X, \mathcal{F})} = 0$ (Theorem~\ref{coherent-sheaves:theorem-affine}), but $\mathcal{F}_\eta = K \neq 0$.
+On the other hand $j_*K = \widetilde K$, since $\widetilde K(\{\eta\}) = K_{(0)} = K$ and $\widetilde K(X) = K$.
+\end{solution}
+
+\begin{exercise}\label{coherent-sheaves:exercise-o-minus-one}
+Show that $\mathcal{O}(-1)$ on $\PP^r_k$ is the sheaf of sections of the tautological line bundle
+$\{(x, \ell) \in \Aa^{r+1} \times \PP^r : x \in \ell\}$, and that $\mathcal{O}(1)$ has no nonzero section vanishing on a hyperplane twice.
+\end{exercise}
+
+\begin{solution}
+On $U_i$ the tautological bundle is trivialised by the section $\ell \mapsto (x_0/x_i, \ldots, x_r/x_i)$, and on $U_i \cap U_j$ these trivialisations differ by
+$x_i/x_j$. This is the cocycle of $\mathcal{O}(-1)$, whose generator on $U_i$ is $1/x_i$: $1/x_j = (x_i/x_j)(1/x_i)$. A section of $\mathcal{O}(1)$ is a linear form
+by Proposition~\ref{coherent-sheaves:proposition-twisting}, and a nonzero linear form vanishes on its hyperplane to order exactly $1$.
+\end{solution}
+
+\begin{exercise}\label{coherent-sheaves:exercise-canonical-curves}
+Using Proposition~\ref{coherent-sheaves:proposition-adjunction}, show that a nonsingular plane cubic has trivial canonical sheaf and that a nonsingular plane
+quartic has $\omega \cong \mathcal{O}(1)$, hence $\Gamma(Y, \omega_Y) \supseteq$ the three linear forms.
+\end{exercise}
+
+\begin{solution}
+$d - n - 1 = 3 - 3 = 0$ and $4 - 3 = 1$. The restriction $\Gamma(\PP^2, \mathcal{O}(1)) \to \Gamma(Y, \mathcal{O}_Y(1))$ is injective because a linear form vanishing on $Y$
+would be divisible by the quartic equation. So $\Gamma(Y, \omega_Y)$ contains a $3$-dimensional space. (In fact it equals it, and the genus is $3$;
+see Chapter~\ref{curves}.)
+\end{solution}
+
+\begin{exercise}\label{coherent-sheaves:exercise-differentials-cusp}
+Compute $\Omega_{X/k}$ for the cusp $X = \Spec k[x, y]/(y^2 - x^3)$ and show that it is not locally free.
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{commutative-algebra:example-cusp}, $\Omega = (B\,dx \oplus B\,dy)/(2y\,dy - 3x^2dx)$. Its fibre at the origin has dimension $2$, while at other
+points it has dimension $1$ (where $x \neq 0$ or $y \neq 0$, the relation is nonzero modulo the maximal ideal, in characteristic $\neq 2, 3$). As $X$ is
+reduced, Proposition~\ref{coherent-sheaves:proposition-fibre-dimension}(3) shows that $\Omega$ is not locally free.
+\end{solution}
