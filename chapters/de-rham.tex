@@ -1,16 +1,197 @@
 \chapter{de Rham Cohomology}\label{de-rham}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-de Rham cohomology and the de Rham theorem identifying it with singular cohomology with real coefficients.
+\section{Introduction}\label{de-rham:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{differential-forms} (Differential Forms and Integration), Chapter~\ref{sheaf-cohomology} (Sheaf Cohomology), Chapter~\ref{poincare-duality} (Topological Manifolds and Poincar\'e Duality) and Chapter~\ref{distributions} (Distributions and Sobolev Spaces).
+The de Rham complex of a smooth manifold computes its real cohomology: closed forms modulo exact forms are singular cohomology
+classes with real coefficients (Theorem~\ref{de-rham:theorem-de-rham}). This is the bridge between analysis and topology on which
+Hodge theory is built: the Hodge theorem selects a canonical harmonic representative in each de Rham class
+(Chapter~\ref{hodge-theorem}), and on a complex manifold the type decomposition of harmonic forms gives the Hodge decomposition
+(Chapter~\ref{hodge-decomposition}). References: \cite{bott-tu}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item The de Rham complex and de Rham cohomology.
-\item The Poincar\'e lemma and homotopy invariance.
-\item The Mayer--Vietoris sequence and cohomology with compact supports.
-\item The de Rham theorem via sheaf cohomology; wedge product and cup product.
-\item Poincar\'e duality in de Rham cohomology.
-\item Currents, and currents of integration over submanifolds.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{differential-forms} (Differential Forms and Integration), Chapter~\ref{sheaf-cohomology}
+(Sheaf Cohomology), Chapter~\ref{poincare-duality} (Topological Manifolds and Poincar\'e Duality) and Chapter~\ref{distributions}
+(Distributions and Sobolev Spaces).
+
+\section{The de Rham complex}\label{de-rham:section-complex}
+
+\begin{definition}\label{de-rham:definition-de-rham}
+The \emph{de Rham complex} of a smooth manifold $M$ is $0 \to \Omega^0(M) \xrightarrow{d} \Omega^1(M) \xrightarrow{d} \cdots$, a complex by Theorem~\ref{differential-forms:theorem-exterior-derivative}. Its
+cohomology $H^k_{\mathrm{dR}}(M) = \ker(d \colon \Omega^k \to \Omega^{k+1})/\operatorname{im}(d \colon \Omega^{k-1} \to \Omega^k)$ is the \emph{de Rham cohomology}; its elements are classes $[\omega]$ of
+\emph{closed} forms modulo \emph{exact} ones. The wedge product makes $H^\bullet_{\mathrm{dR}}(M)$ a graded-commutative $\RR$-algebra, and a smooth map $f \colon N \to M$ induces an algebra homomorphism
+$f^* \colon H^\bullet_{\mathrm{dR}}(M) \to H^\bullet_{\mathrm{dR}}(N)$. Replacing $\Omega^\bullet(M)$ by the compactly supported forms $\Omega^\bullet_c(M)$ gives $H^\bullet_{\mathrm{dR},c}(M)$, functorial for
+open inclusions (extension by zero) and for proper maps.
+\end{definition}
+
+\begin{proposition}\label{de-rham:proposition-h0}
+$H^0_{\mathrm{dR}}(M) \cong \RR^{\pi_0(M)}$, the locally constant functions. The wedge product is well defined on classes, and $f^*$ commutes with $d$, hence descends to cohomology.
+\end{proposition}
+
+\begin{proof}
+A function with $df = 0$ has vanishing differential, hence is constant on connected components (Theorem~\ref{real-analysis:theorem-mean-value} in charts, and connectedness). If $\alpha$, $\beta$ are closed then
+$d(\alpha \wedge \beta) = 0$, and if $\alpha = d\gamma$ then $\alpha \wedge \beta = d(\gamma \wedge \beta)$ up to sign; naturality of $d$ is
+Theorem~\ref{differential-forms:theorem-exterior-derivative}.
+\end{proof}
+
+\begin{theorem}[Homotopy invariance and the Poincar\'e lemma]\label{de-rham:theorem-homotopy-invariance}
+Let $i_0, i_1 \colon M \to M \times \RR$ be $p \mapsto (p, 0)$ and $p \mapsto (p, 1)$. There is a linear map $K \colon \Omega^k(M \times \RR) \to \Omega^{k-1}(M)$ with
+\[
+i_1^*\omega - i_0^*\omega = d(K\omega) + K(d\omega).
+\]
+Consequently smoothly homotopic maps induce the same map on de Rham cohomology, homotopy equivalent manifolds have isomorphic de Rham cohomology, and $H^k_{\mathrm{dR}}(U) = 0$ for $k > 0$ and
+$H^0_{\mathrm{dR}}(U) = \RR$ for every convex open $U \subseteq \RR^n$ (the \emph{Poincar\'e lemma}).
+\end{theorem}
+
+\begin{proof}
+Write a form on $M \times \RR$ uniquely as $\omega = \alpha_t + dt \wedge \beta_t$, where $\alpha_t$, $\beta_t$ are families of forms on $M$ depending smoothly on $t$ and containing no $dt$. Set
+$K\omega = \int_0^1\beta_t\,dt$. Writing $d = d_M + dt \wedge \partial_t$ in this decomposition, a computation gives
+\[
+d(K\omega) + K(d\omega) = \int_0^1d_M\beta_t\,dt + \int_0^1\left(\partial_t\alpha_t - d_M\beta_t\right)dt = \alpha_1 - \alpha_0 = i_1^*\omega - i_0^*\omega,
+\]
+using the fundamental theorem of calculus and differentiation under the integral sign
+(Proposition~\ref{real-analysis:proposition-parameter-integrals}).
+
+If $F \colon M \times \RR \to N$ is smooth with $F \circ i_0 = f$ and $F \circ i_1 = g$, then for closed $\omega$ on $N$,
+$g^*\omega - f^*\omega = d(K F^*\omega)$, so $f^* = g^*$ on cohomology. Continuous homotopies may be replaced by smooth ones: continuous maps between manifolds are homotopic to smooth maps, and continuously
+homotopic smooth maps are smoothly homotopic \cite[Chapter 2]{hirsch-differential-topology}. A convex $U$ is smoothly contractible, by the straight-line homotopy, so its de Rham cohomology is that of a
+point.
+\end{proof}
+
+\begin{theorem}[Mayer--Vietoris]\label{de-rham:theorem-mayer-vietoris}
+Let $M = U \cup V$ with $U$, $V$ open. There is a long exact sequence
+\[
+\cdots \to H^k_{\mathrm{dR}}(M) \to H^k_{\mathrm{dR}}(U) \oplus H^k_{\mathrm{dR}}(V) \to H^k_{\mathrm{dR}}(U \cap V) \xrightarrow{\ \delta\ } H^{k+1}_{\mathrm{dR}}(M) \to \cdots
+\]
+\end{theorem}
+
+\begin{proof}
+The sequence of complexes $0 \to \Omega^\bullet(M) \to \Omega^\bullet(U) \oplus \Omega^\bullet(V) \to \Omega^\bullet(U \cap V) \to 0$, with maps $\omega \mapsto (\omega|_U, \omega|_V)$ and
+$(\alpha, \beta) \mapsto \alpha|_{U \cap V} - \beta|_{U \cap V}$, is exact: injectivity and exactness in the middle are clear, and surjectivity holds because for a partition of unity $\{\psi_U, \psi_V\}$
+subordinate to $\{U, V\}$ (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}) and $\gamma \in \Omega^\bullet(U \cap V)$, the forms $\psi_V\gamma$ on $U$ and $-\psi_U\gamma$ on $V$, both extended by zero,
+have difference $\gamma$. Apply Theorem~\ref{homological-algebra:theorem-long-exact-sequence}.
+\end{proof}
+
+\begin{example}\label{de-rham:example-spheres}
+$H^k_{\mathrm{dR}}(S^n) \cong \RR$ for $k = 0, n$ and $0$ otherwise ($n \geq 1$): cover $S^n$ by two contractible open sets whose intersection is homotopy equivalent to $S^{n-1}$
+(Theorem~\ref{singular-homology:theorem-spheres}) and induct with Mayer--Vietoris. For the circle, the generator of $H^1$ is the form $d\theta$, which is closed but not exact; its integral over $S^1$ is $2\pi$
+(Exercise~\ref{differential-forms:exercise-pullback-computation}). In general $\int_M \colon H^n_{\mathrm{dR}}(M) \to \RR$ is well defined for compact oriented $M$ by Stokes' theorem
+(Theorem~\ref{differential-forms:theorem-stokes}).
+\end{example}
+
+\section{The de Rham theorem}\label{de-rham:section-de-rham-theorem}
+
+\begin{theorem}[de Rham]\label{de-rham:theorem-de-rham}
+For every smooth manifold $M$ there are natural isomorphisms
+\[
+H^k_{\mathrm{dR}}(M) \cong H^k(M, \RR_M) \cong H^k(M; \RR),
+\]
+the first to sheaf cohomology of the constant sheaf, the second to singular cohomology with real coefficients. Under these isomorphisms the wedge product corresponds to the cup product, and the
+isomorphism is induced by integration: the class of a closed $k$-form $\omega$ corresponds to the singular cochain $\sigma \mapsto \int_{\Delta^k}\sigma^*\omega$ on smooth simplices.
+\end{theorem}
+
+\begin{proof}
+Let $\underline{\Omega}^k$ be the sheaf $U \mapsto \Omega^k(U)$. The sequence of sheaves
+\[
+0 \to \RR_M \to \underline{\Omega}^0 \xrightarrow{d} \underline{\Omega}^1 \xrightarrow{d} \cdots
+\]
+is exact: exactness at $\underline{\Omega}^0$ is Proposition~\ref{de-rham:proposition-h0}, and exactness at $\underline{\Omega}^k$ for $k \geq 1$ holds on stalks, because every point has a basis of convex
+coordinate neighbourhoods, on which closed forms are exact by the Poincar\'e lemma (Theorem~\ref{de-rham:theorem-homotopy-invariance}). Each $\underline{\Omega}^k$ is a module over the sheaf of smooth
+functions, hence fine, hence acyclic on the paracompact space $M$ (Example~\ref{sheaf-cohomology:example-fine} and
+Theorem~\ref{sheaf-cohomology:theorem-soft-acyclic}). So this is an acyclic resolution of $\RR_M$ and
+Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}(3) gives $H^k(M, \RR_M) \cong H^k(\Gamma(M, \underline{\Omega}^\bullet)) = H^k_{\mathrm{dR}}(M)$. The second isomorphism is
+Theorem~\ref{sheaf-cohomology:theorem-singular-comparison}, since manifolds are locally contractible and paracompact, and it is compatible with products. The description by integration over smooth simplices
+is the standard comparison of the two resolutions; see \cite[Chapter 5]{warner-foundations} or \cite[Chapter III]{bredon-sheaf}.
+\end{proof}
+
+\begin{corollary}\label{de-rham:corollary-consequences}
+For a compact manifold $M$ the spaces $H^k_{\mathrm{dR}}(M)$ are finite-dimensional, they vanish for $k > \dim M$, and $\dim H^k_{\mathrm{dR}}(M) = b_k(M)$, the $k$-th Betti number. For a compact oriented
+$n$-manifold, $H^n_{\mathrm{dR}}(M) \cong \RR$ for each connected component, with the isomorphism given by integration.
+\end{corollary}
+
+\begin{proof}
+Compact manifolds have finitely generated singular homology \cite[Appendix]{hatcher-at}, so Theorem~\ref{de-rham:theorem-de-rham} and the universal coefficient theorem give finite dimension and the
+identification with Betti numbers; the vanishing above the dimension holds because there are no nonzero forms of degree $> n$. For the top degree, $H^n(M; \RR) \cong H_0(M; \RR) \cong \RR$ per component by
+Poincar\'e duality (Theorem~\ref{poincare-duality:theorem-poincare-duality}), and integration is nonzero on the class of a volume form
+(Corollary~\ref{differential-forms:corollary-volume}).
+\end{proof}
+
+\begin{theorem}[Poincar\'e duality in de Rham cohomology]\label{de-rham:theorem-poincare-duality-de-rham}
+Let $M$ be an oriented $n$-manifold. The pairing
+\[
+H^k_{\mathrm{dR}}(M) \times H^{n-k}_{\mathrm{dR},c}(M) \to \RR, \qquad ([\alpha], [\beta]) \mapsto \int_M\alpha \wedge \beta,
+\]
+is well defined and nondegenerate if $M$ has a finite good cover (for instance if $M$ is compact); in that case $H^k_{\mathrm{dR}}(M) \cong H^{n-k}_{\mathrm{dR},c}(M)^*$. For compact oriented $M$ this is the
+statement that $\int_M\alpha \wedge \beta$ is a perfect pairing between $H^k_{\mathrm{dR}}(M)$ and $H^{n-k}_{\mathrm{dR}}(M)$.
+\end{theorem}
+
+\begin{proof}
+The pairing is well defined by Stokes' theorem: if $\alpha$ is closed and $\beta = d\gamma$ has compact support, then $\alpha \wedge \beta = \pm d(\alpha \wedge \gamma)$ has compact support and integrates to zero.
+Nondegeneracy is proved by induction on the number of sets in a finite good cover, one in which all nonempty intersections are diffeomorphic to $\RR^n$ (such covers exist on any manifold, and finite ones
+on compact manifolds), comparing the Mayer--Vietoris sequences of $H^\bullet_{\mathrm{dR}}$ and $H^\bullet_{\mathrm{dR},c}$ with the five lemma; see \cite[Chapter I, Section 5]{bott-tu}. Alternatively it follows from Theorem~\ref{de-rham:theorem-de-rham} and topological Poincar\'e duality
+(Corollary~\ref{poincare-duality:corollary-cup-pairing}), since the wedge product corresponds to the cup product.
+\end{proof}
+
+\section{Currents}\label{de-rham:section-currents}
+
+\begin{definition}\label{de-rham:definition-current}
+Let $M$ be an oriented $n$-manifold. A \emph{$k$-current} is a linear functional $T$ on $\Omega^{n-k}_c(M)$ that is continuous in the sense of distributions: $T(\varphi_j) \to 0$ whenever the coefficients of
+$\varphi_j$, in any chart, have supports in a fixed compact set and converge to $0$ together with all derivatives. Currents form a space $\mathcal{D}'_k(M)$, and $dT$ is defined by
+$(dT)(\varphi) = (-1)^{k+1}T(d\varphi)$, so that $d \circ d = 0$.
+\end{definition}
+
+\begin{example}\label{de-rham:example-currents}
+\begin{enumerate}
+\item A locally integrable $k$-form $\eta$ defines a current $T_\eta(\varphi) = \int_M\eta \wedge \varphi$, and $dT_\eta = T_{d\eta}$ for smooth $\eta$ by Stokes' theorem; so currents generalise forms in the
+same way as distributions generalise functions (Chapter~\ref{distributions}).
+\item A compact oriented $k$-dimensional submanifold $Z \subseteq M$ defines the \emph{current of integration} $[Z](\varphi) = \int_Z\varphi$ for $\varphi \in \Omega^k_c(M)$. Stokes' theorem gives $d[Z] = 0$ when
+$\partial Z = \emptyset$, so $[Z]$ has a cohomology class.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}\label{de-rham:theorem-currents}
+On an oriented manifold the complex of currents computes de Rham cohomology: the inclusion of smooth forms into currents is a quasi-isomorphism. Under this identification and Poincar\'e duality, the class
+of $[Z]$ for a compact oriented $k$-dimensional submanifold $Z$ of a compact oriented $n$-manifold $M$ is the Poincar\'e dual of $Z$: it is the unique class $\eta_Z \in H^{n-k}_{\mathrm{dR}}(M)$ with
+\[
+\int_Z\varphi = \int_M\eta_Z \wedge \varphi \qquad \text{for all closed } \varphi \in \Omega^k(M).
+\]
+\end{theorem}
+
+This is proved in \cite[Chapter IV]{de-rham-book} and \cite[Chapter 0, Section 4]{griffiths-harris}; the first statement is a sheaf-theoretic argument like the proof of
+Theorem~\ref{de-rham:theorem-de-rham}, applied to the fine resolution of $\RR_M$ by sheaves of currents, and the second follows by comparing both sides with the topological Poincar\'e dual
+(Remark~\ref{poincare-duality:remark-fundamental-classes-subspaces}).
+
+\begin{remark}\label{de-rham:remark-cycle-classes}
+Currents are the natural home for the cycle classes of Hodge theory: an analytic subvariety $Z$ of a compact complex manifold, possibly singular, defines a current of integration because its singular locus
+has measure zero and $\int_{Z_{\mathrm{reg}}}\varphi$ converges (Chapter~\ref{cycle-class}); its class in $H^{2n-2k}(X; \ZZ)$ is the cycle class whose Hodge-theoretic characterisation the Hodge conjecture
+concerns.
+\end{remark}
+
+\section{Exercises}\label{de-rham:section-exercises}
+
+\begin{exercise}\label{de-rham:exercise-torus}
+Compute $H^\bullet_{\mathrm{dR}}(T^n)$ and show that it is the exterior algebra on $H^1$, generated by the forms $d\theta^1, \ldots, d\theta^n$.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{de-rham:theorem-de-rham} and Example~\ref{singular-cohomology:example-torus}, $H^\bullet_{\mathrm{dR}}(T^n) \cong \Lambda^\bullet\RR^n$. The classes of the closed forms $d\theta^i$, which are
+not exact since $\int_{S^1_i}d\theta^i = 2\pi$, generate: their products are the $\binom{n}{k}$ linearly independent classes of $d\theta^{i_1} \wedge \cdots \wedge d\theta^{i_k}$, which can be detected by
+integration over the corresponding subtori.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-compactly-supported-line}
+Show that $H^0_{\mathrm{dR},c}(\RR) = 0$ and $H^1_{\mathrm{dR},c}(\RR) \cong \RR$, with the isomorphism given by integration; so compactly supported de Rham cohomology is not homotopy invariant.
+\end{exercise}
+
+\begin{solution}
+A compactly supported function with $df = 0$ is constant, hence zero. The map $\int_\RR \colon \Omega^1_c(\RR) \to \RR$ is surjective, and $f\,dx$ integrates to zero if and only if $F(x) = \int_{-\infty}^xf$ has
+compact support, in which case $f\,dx = dF$ is exact.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-degree-de-rham}
+Let $f \colon M \to N$ be a smooth map of compact connected oriented $n$-manifolds. Show that $f^* \colon H^n_{\mathrm{dR}}(N) \to H^n_{\mathrm{dR}}(M)$ is multiplication by the degree of $f$, and that a map of
+nonzero degree is surjective.
+\end{exercise}
+
+\begin{exercise}\label{de-rham:exercise-kunneth-de-rham}
+Prove the K\"unneth formula $H^\bullet_{\mathrm{dR}}(M \times N) \cong H^\bullet_{\mathrm{dR}}(M) \otimes H^\bullet_{\mathrm{dR}}(N)$ for manifolds with finite good covers, by induction with Mayer--Vietoris.
+\end{exercise}
