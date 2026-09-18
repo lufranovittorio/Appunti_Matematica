@@ -1,16 +1,179 @@
 \chapter{\'Etale Cohomology}\label{etale-cohomology}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-\'Etale and $\ell$-adic cohomology, needed to state the Tate conjecture and to define absolute Hodge classes.
+\section{Introduction}\label{etale-cohomology:section-introduction}
+
+Singular cohomology needs the complex topology. For varieties over other fields, Grothendieck replaced open subsets by \'etale maps and built \'etale cohomology.
+With coefficients $\ZZ/\ell^n\ZZ$, and in the limit $\ZZ_\ell$ and $\QQ_\ell$, for a prime $\ell$ different from the characteristic, it has all the formal properties of singular
+cohomology. It agrees with singular cohomology over $\CC$ (Artin's comparison theorem, Theorem~\ref{etale-cohomology:theorem-comparison}) and carries an action of the
+Galois group of the field of definition. This Galois action is the arithmetic counterpart of the Hodge structure: the Tate conjecture (Chapter~\ref{tate-conjecture}) is the
+analogue of the Hodge conjecture with Galois invariants in place of Hodge classes. Most of the foundational results are quoted from SGA 4 and Milne's book. References:
+\cite{milne-etale}, \cite{sga4-1}, \cite{sga4-3}, \cite{sga4-half}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{schemes} (Schemes), Chapter~\ref{sheaf-cohomology} (Sheaf Cohomology) and Chapter~\ref{fields} (Fields and Galois Theory).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item \'Etale morphisms and the \'etale site.
-\item \'Etale sheaves and their cohomology.
-\item $\ell$-adic cohomology.
-\item The comparison theorem with singular cohomology.
-\item Galois actions on cohomology.
-\item The $\ell$-adic cycle class map.
-\end{itemize}
+Throughout, $\ell$ is a prime and schemes are Noetherian. For a field $k$, $k^s$ is a separable closure and $G_k = \mathrm{Gal}(k^s/k)$ the absolute Galois group, a profinite group
+(Remark~\ref{fields:remark-infinite-galois}).
+
+\section{\'Etale morphisms and the \'etale site}\label{etale-cohomology:section-etale-site}
+
+\begin{proposition}\label{etale-cohomology:proposition-etale}
+Let $f \colon X \to Y$ be a morphism locally of finite type. The following are equivalent: (a) $f$ is \'etale (Definition~\ref{schemes:definition-smooth}); (b) $f$ is flat and
+\emph{unramified}, meaning $\Omega_{X/Y} = 0$; (c) $f$ is flat, and every fibre $X_y$ is a disjoint union of spectra of finite separable field extensions of $k(y)$. \'Etale morphisms are
+stable under composition and base change, and a morphism between \'etale $Y$-schemes is \'etale. For varieties over $\CC$, $f$ is \'etale if and only if $f^{\mathrm{an}}$ is a local
+biholomorphism.
+\end{proposition}
+
+\begin{proof}
+For the equivalences see \cite[Chapter I]{milne-etale}. If $f$ is \'etale, locally $X = \Spec A[x_1, \ldots, x_r]/(g_1, \ldots, g_r)$ with invertible Jacobian determinant. Over
+$\CC$ the holomorphic inverse function theorem then shows that $f^{\mathrm{an}}$ is a local biholomorphism, as in Proposition~\ref{gaga:proposition-analytification-properties}(1).
+Conversely, if $f^{\mathrm{an}}$ is a local biholomorphism, the completed local rings of $X$ and $Y$ at corresponding points agree. So $f$ is flat and unramified at closed points, hence
+\'etale near them, and \'etaleness is an open condition.
+\end{proof}
+
+\begin{definition}\label{etale-cohomology:definition-etale-site}
+The \emph{small \'etale site} $X_{\mathrm{et}}$ has objects the \'etale morphisms $U \to X$, and a family $(U_i \to U)$ is a \emph{covering} if the union of the images is $U$. An \emph{\'etale
+sheaf} is a presheaf $\mathcal{F}$ of abelian groups on $X_{\mathrm{et}}$ such that for every covering the sequence
+$0 \to \mathcal{F}(U) \to \prod_i\mathcal{F}(U_i) \to \prod_{i,j}\mathcal{F}(U_i \times_UU_j)$ is exact. \'Etale sheaves form an abelian category with enough injectives, and
+\emph{\'etale cohomology} $H^i(X_{\mathrm{et}}, \mathcal{F})$ is the right derived functor of $\mathcal{F} \mapsto \mathcal{F}(X)$.
+\end{definition}
+
+\begin{example}\label{etale-cohomology:example-etale-sheaves}
+\begin{enumerate}
+\item Every quasi-coherent sheaf $\mathcal{F}$ defines an \'etale sheaf $U \mapsto \Gamma(U, f^*\mathcal{F})$ (faithfully flat descent), and $H^i(X_{\mathrm{et}}, \mathcal{F}) = H^i(X, \mathcal{F})$
+\cite[Chapter III]{milne-etale}.
+\item $\mathbb{G}_m \colon U \mapsto \Gamma(U, \mathcal{O}_U)^*$ and $\mu_n \colon U \mapsto \{f \in \Gamma(U, \mathcal{O}_U) : f^n = 1\}$ are \'etale sheaves.
+\item For an abelian group $A$, the constant sheaf $A_X$ assigns to $U$ the locally constant functions $U \to A$.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{etale-cohomology:proposition-galois}
+For a field $k$, the functor $\mathcal{F} \mapsto \varinjlim_{L}\mathcal{F}(\Spec L)$, the colimit over finite separable extensions $L \subseteq k^s$, is an equivalence between \'etale sheaves on
+$\Spec k$ and discrete $G_k$-modules (abelian groups with a continuous action). Under it, $H^i((\Spec k)_{\mathrm{et}}, \mathcal{F}) \cong H^i(G_k, M)$, the continuous Galois cohomology.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+An \'etale $k$-scheme is a disjoint union of spectra of finite separable extensions (Proposition~\ref{etale-cohomology:proposition-etale}), so a sheaf is determined by its values on the
+$\Spec L$, and the sheaf condition for the Galois covering $\Spec L' \to \Spec L$ ($L'/L$ Galois) says $\mathcal{F}(L) = \mathcal{F}(L')^{\mathrm{Gal}(L'/L)}$. This identifies sheaves with discrete
+$G_k$-modules $M$, with $\mathcal{F}(L) = M^{G_L}$. Global sections become $M^{G_k}$, and taking derived functors gives Galois cohomology \cite[Chapters II and III]{milne-etale}.
+\end{proof}
+
+\section{The Kummer sequence}\label{etale-cohomology:section-kummer}
+
+\begin{proposition}[Kummer sequence]\label{etale-cohomology:proposition-kummer}
+Let $n$ be invertible on $X$. Then $0 \to \mu_n \to \mathbb{G}_m \xrightarrow{f \mapsto f^n} \mathbb{G}_m \to 0$ is an exact sequence of \'etale sheaves. If $X$ is proper and connected over an
+algebraically closed field $k$ with $n$ invertible in $k$, there is an exact sequence
+\[
+0 \to \Pic(X)/n \to H^2(X_{\mathrm{et}}, \mu_n) \to \mathrm{Br}(X)[n] \to 0, \qquad H^1(X_{\mathrm{et}}, \mu_n) \cong \Pic(X)[n],
+\]
+where $\mathrm{Br}(X) = H^2(X_{\mathrm{et}}, \mathbb{G}_m)$ is the cohomological Brauer group and $[n]$ denotes $n$-torsion.
+\end{proposition}
+
+\begin{proof}
+Exactness on the left is clear. For surjectivity, let $f \in \Gamma(U, \mathcal{O}_U)^*$. The morphism $U' = \Spec_U\mathcal{O}_U[t]/(t^n - f) \to U$ is finite, flat and surjective, and
+\'etale because $\partial(t^n - f)/\partial t = nt^{n-1}$ is invertible on $U'$ ($n$ and $t$ are units). On $U'$, $f = t^n$ is an $n$-th power. So $f$ is locally an $n$-th power in the \'etale
+topology. The long exact cohomology sequence uses $H^0(X, \mathbb{G}_m) = \Gamma(X, \mathcal{O}_X)^* = k^*$, which is $n$-divisible as $k$ is algebraically closed, and
+$H^1(X_{\mathrm{et}}, \mathbb{G}_m) = \Pic(X)$ (Hilbert's theorem 90 in Grothendieck's form, \cite[Chapter III]{milne-etale}). It reads
+$0 \to H^1(\mu_n) \to \Pic(X) \xrightarrow{n} \Pic(X) \to H^2(\mu_n) \to \mathrm{Br}(X) \xrightarrow{n} \mathrm{Br}(X)$, which gives both statements.
+\end{proof}
+
+\begin{example}\label{etale-cohomology:example-kummer}
+For an elliptic curve $E$ over an algebraically closed field of characteristic prime to $n$, $H^1(E_{\mathrm{et}}, \mu_n) \cong \Pic^0(E)[n] \cong E[n] \cong (\ZZ/n)^2$, using $\Pic^0(E) \cong E$
+(Exercise~\ref{curves:exercise-elliptic-group}) and the structure of $n$-torsion \cite{mumford-abelian}. So $H^1$ has rank $2 = b_1$, as over $\CC$.
+\end{example}
+
+\section{$\ell$-adic cohomology}\label{etale-cohomology:section-l-adic}
+
+\begin{definition}\label{etale-cohomology:definition-l-adic}
+Let $X$ be a variety over a field $k$ of characteristic $\neq \ell$, and $\bar X = X \times_k\bar k$. The \emph{$\ell$-adic cohomology} is
+\[
+H^i(\bar X, \ZZ_\ell) = \varprojlim_mH^i(\bar X_{\mathrm{et}}, \ZZ/\ell^m\ZZ), \qquad H^i(\bar X, \QQ_\ell) = H^i(\bar X, \ZZ_\ell) \otimes_{\ZZ_\ell}\QQ_\ell .
+\]
+The \emph{Tate twist} is $\ZZ_\ell(1) = \varprojlim_m\mu_{\ell^m}(\bar k)$, a free $\ZZ_\ell$-module of rank one on which $G_k$ acts through the cyclotomic character, and
+$\ZZ_\ell(r) = \ZZ_\ell(1)^{\otimes r}$, $H^i(\bar X, \QQ_\ell(r)) = H^i(\bar X, \QQ_\ell) \otimes \QQ_\ell(r)$. The group $G_k$ acts on $H^i(\bar X, \QQ_\ell(r))$ through its action on $\bar X$.
+\end{definition}
+
+\begin{theorem}\label{etale-cohomology:theorem-l-adic-properties}
+Let $X$ be a nonsingular projective variety of dimension $n$ over $k$, and $\ell \neq \mathrm{char}\,k$.
+\begin{enumerate}
+\item $H^i(\bar X, \QQ_\ell)$ is finite-dimensional, and zero outside $0 \leq i \leq 2n$.
+\item (Poincar\'e duality) $H^{2n}(\bar X, \QQ_\ell(n)) \cong \QQ_\ell$ via a trace map, and cup product
+$H^i(\bar X, \QQ_\ell) \times H^{2n-i}(\bar X, \QQ_\ell(n)) \to \QQ_\ell$ is perfect and $G_k$-equivariant.
+\item (K\"unneth) $H^\bullet(\bar X \times \bar Y, \QQ_\ell) \cong H^\bullet(\bar X, \QQ_\ell) \otimes H^\bullet(\bar Y, \QQ_\ell)$.
+\item (Cycle classes) There is a cycle class map $\mathrm{cl}_\ell \colon \CH^p(\bar X) \to H^{2p}(\bar X, \QQ_\ell(p))$, a ring homomorphism compatible with pullback, pushforward and
+degrees, and $G_k$-equivariant; the class of a cycle defined over a finite extension $k'$ is fixed by $G_{k'}$.
+\item (Lefschetz trace formula) For an endomorphism $f$ of $\bar X$, $\deg(\Gamma_f \cdot \Delta) = \sum_i(-1)^i\operatorname{tr}(f^* \mid H^i(\bar X, \QQ_\ell))$.
+\item (Hard Lefschetz) Cup product with the class of a hyperplane section induces isomorphisms $H^{n-i}(\bar X, \QQ_\ell) \to H^{n+i}(\bar X, \QQ_\ell(i))$.
+\end{enumerate}
+\end{theorem}
+
+Statements (1)--(5) are \cite[Chapter VI]{milne-etale} and \cite{sga4-half}; (6) is due to Deligne \cite{deligne-weil-2}.
+
+\begin{theorem}[Artin's comparison theorem]\label{etale-cohomology:theorem-comparison}
+Let $X$ be a variety over $\CC$ and $A$ a finite abelian group. Then $H^i(X_{\mathrm{et}}, A) \cong H^i(X^{\mathrm{an}}; A)$, compatibly with cup products. Hence
+$H^i(X, \ZZ_\ell) \cong H^i(X^{\mathrm{an}}; \ZZ) \otimes \ZZ_\ell$ for $X$ nonsingular and projective (or more generally when the singular cohomology groups are finitely generated), and
+$\mathrm{cl}_\ell$ corresponds to $\mathrm{cl} \otimes \ZZ_\ell$ of Chapter~\ref{cycle-class}.
+\end{theorem}
+
+This is \cite[Expos\'e XI, Th\'eor\`eme 4.4]{sga4-3} and \cite[Chapter III]{milne-etale}. The proof compares both theories on a basis of neighbourhoods given by
+"elementary fibrations", which are $K(\pi, 1)$ spaces in both topologies. The isomorphism with $\ZZ_\ell$-coefficients follows by the universal coefficient theorem and passing to
+the limit.
+
+\begin{definition}\label{etale-cohomology:definition-weil-cohomology}
+A \emph{Weil cohomology theory} for nonsingular projective varieties over $k$, with coefficients in a field $K$ of characteristic $0$, is a contravariant functor
+$X \mapsto H^\bullet(X)$ to graded-commutative finite-dimensional $K$-algebras, satisfying Poincar\'e duality, the K\"unneth formula, and having a cycle class map compatible with pullback,
+pushforward and products, with the class of a point generating $H^{2n}$ and satisfying the weak and hard Lefschetz theorems. Examples: singular cohomology with $\QQ$-coefficients for
+$k \subseteq \CC$; $\ell$-adic cohomology for $\ell \neq \mathrm{char}\,k$ (Theorem~\ref{etale-cohomology:theorem-l-adic-properties}); algebraic de Rham cohomology in characteristic $0$
+(Chapter~\ref{gaga}); crystalline cohomology in characteristic $p$.
+\end{definition}
+
+\begin{remark}\label{etale-cohomology:remark-weil-conjectures}
+For $X$ over a finite field $\mathbb{F}_q$, the Frobenius $F$ acts on $\bar X$, its fixed points are $X(\mathbb{F}_{q^m})$ for $F^m$, and the trace formula
+(Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(5)) gives $\#X(\mathbb{F}_{q^m}) = \sum_i(-1)^i\operatorname{tr}(F^{m*} \mid H^i)$, so the zeta function is rational. Deligne proved that the
+eigenvalues of Frobenius on $H^i$ are algebraic integers of absolute value $q^{i/2}$ \cite{deligne-weil-1}, the analogue of the Hodge decomposition's weight: this is the
+Riemann hypothesis part of the Weil conjectures.
+\end{remark}
+
+\section{Galois actions and the Tate conjecture}\label{etale-cohomology:section-galois}
+
+\begin{example}\label{etale-cohomology:example-tate-module}
+Let $E$ be an elliptic curve over $k$ and $T_\ell(E) = \varprojlim E[\ell^m](\bar k)$ its \emph{Tate module}, free of rank $2$ over $\ZZ_\ell$ with an action of $G_k$. Then
+$H^1(\bar E, \ZZ_\ell) \cong \Hom(T_\ell(E), \ZZ_\ell)$ equivariantly, by Example~\ref{etale-cohomology:example-kummer} and duality. For $k$ a number field and $E$ without complex
+multiplication, the image of $G_k$ in $\mathrm{GL}_2(\ZZ_\ell)$ is open (Serre's open image theorem), the $\ell$-adic analogue of the fact that the Mumford--Tate group of $E$ is
+$\mathrm{GL}_2$ (Chapter~\ref{mumford-tate}).
+\end{example}
+
+\begin{remark}\label{etale-cohomology:remark-tate}
+By Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(4), the classes of cycles defined over $k$ lie in the invariants $H^{2p}(\bar X, \QQ_\ell(p))^{G_k}$, and those of cycles defined over finite
+extensions lie in the classes fixed by an open subgroup. The \emph{Tate conjecture} asserts that for $k$ finitely generated over its prime field the $\QQ_\ell$-span of the cycle classes is exactly
+$H^{2p}(\bar X, \QQ_\ell(p))^{G_k}$ (Chapter~\ref{tate-conjecture}).
+\end{remark}
+
+\section{Exercises}\label{etale-cohomology:section-exercises}
+
+\begin{exercise}\label{etale-cohomology:exercise-h1-z-mod-n}
+Let $k$ be a field. Show that $H^1((\Spec k)_{\mathrm{et}}, \ZZ/n) \cong \Hom_{\mathrm{cont}}(G_k, \ZZ/n)$, and describe it for $k = \mathbb{F}_q$.
+\end{exercise}
+
+\begin{solution}
+By Proposition~\ref{etale-cohomology:proposition-galois}, this is $H^1(G_k, \ZZ/n)$ with trivial action, which is the group of continuous homomorphisms. For $\mathbb{F}_q$, $G_k = \hat\ZZ$
+generated by Frobenius, so the group is $\ZZ/n$, corresponding to the unique cyclic extension of degree $d$ for each $d \mid n$.
+\end{solution}
+
+\begin{exercise}\label{etale-cohomology:exercise-kummer-field}
+Let $k$ be a field and $n$ invertible in $k$. Show that $H^1(G_k, \mu_n) \cong k^*/k^{*n}$ (Kummer theory).
+\end{exercise}
+
+\begin{solution}
+Apply the Kummer sequence on $\Spec k$ and Proposition~\ref{etale-cohomology:proposition-galois}: $k^* \xrightarrow{n} k^* \to H^1(G_k, \mu_n) \to H^1(G_k, (k^s)^*)$, and the last group is $0$ by Hilbert's
+theorem 90.
+\end{solution}
+
+\begin{exercise}\label{etale-cohomology:exercise-projective-line}
+Show that $H^2(\PP^1_{\bar k}, \mu_n) \cong \ZZ/n$ for $n$ prime to the characteristic, and that $H^2(\PP^1_{\bar k}, \ZZ_\ell(1)) \cong \ZZ_\ell$.
+\end{exercise}
+
+\begin{solution}
+In Proposition~\ref{etale-cohomology:proposition-kummer}, $\Pic(\PP^1) = \ZZ$ and the Brauer group of a curve over an algebraically closed field vanishes (Tsen's theorem)
+\cite[Chapter III]{milne-etale}, so $H^2(\mu_n) = \ZZ/n$. Passing to the limit over $n = \ell^m$ gives $\ZZ_\ell$.
+\end{solution}
