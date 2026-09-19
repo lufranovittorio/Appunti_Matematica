@@ -67,6 +67,24 @@ On the trivial bundle, $\nabla = d + \theta$ for a matrix of $1$-forms $\theta$,
 connection on $E$ induces connections on $E^\vee$, $E \otimes F$, $\Lambda^kE$ and $\End E$ by the Leibniz rule, with the corresponding curvatures; for instance $\nabla^{\End}(A) = \nabla \circ A - A \circ \nabla$.
 \end{example}
 
+\begin{proposition}\label{connections:proposition-pullback-tensor}
+Let $\nabla$ be a connection on $E \to M$ with curvature $F$, and $\nabla'$ a connection on $E' \to M$ with curvature $F'$.
+\begin{enumerate}
+\item For smooth $f \colon N \to M$ there is a unique connection $f^*\nabla$ on $f^*E$ with $(f^*\nabla)(f^*s) = f^*(\nabla s)$ for sections $s$ of $E$; its curvature is $f^*F$.
+\item The connection $\nabla \otimes 1 + 1 \otimes \nabla'$ on $E \otimes E'$ has curvature $F \otimes 1 + 1 \otimes F'$, and the dual connection on $E^\vee$, $(\nabla^\vee\phi)(s) = d(\phi(s)) - \phi(\nabla s)$, has curvature $-F^T$.
+\item For a line bundle, $\nabla$ and $\nabla + \alpha$, with $\alpha$ a $1$-form, have curvatures differing by $d\alpha$; so the curvature of a line bundle is a closed $2$-form whose class does not depend on the connection.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) In a local frame $(e_j)$ of $E$ with connection form $\theta$, the pullback frame $(f^*e_j)$ of $f^*E$ and the form $f^*\theta$ define a connection, and the transformation rule of
+Proposition~\ref{connections:proposition-connections-exist} is preserved by pullback, so these local connections glue. The condition determines $f^*\nabla$ on the pulled back frames, hence everywhere by the Leibniz rule. The curvature is
+$d(f^*\theta) + f^*\theta \wedge f^*\theta = f^*(d\theta + \theta \wedge \theta)$ (Proposition~\ref{connections:proposition-curvature}). (2) In frames $(e_j)$, $(e'_k)$ with connection forms $\theta$, $\theta'$, the frame $(e_j \otimes e'_k)$ has
+connection form $\theta \otimes 1 + 1 \otimes \theta'$, and as the two summands commute (they act on different factors), $d$ of it plus its square is $(d\theta + \theta \wedge \theta) \otimes 1 + 1 \otimes (d\theta' + \theta' \wedge \theta')$, the cross
+terms cancelling by graded commutativity. The dual frame has connection form $-\theta^T$, and $d(-\theta^T) + \theta^T \wedge \theta^T = -(d\theta + \theta \wedge \theta)^T$, as $(\theta \wedge \theta)^T = -\theta^T \wedge \theta^T$ for matrices of
+$1$-forms. (3) For rank one, $\theta$ is a $1$-form and $\theta \wedge \theta = 0$, so $F = d\theta$, and replacing $\theta$ by $\theta + \alpha$ adds $d\alpha$. Closedness is the Bianchi identity.
+\end{proof}
+
 \section{Parallel transport, holonomy and flatness}\label{connections:section-parallel-transport}
 
 \begin{definition}\label{connections:definition-parallel}
@@ -125,6 +143,13 @@ $\mathcal{E}$. Conversely a local system $\mathcal{L}$ determines the bundle $E 
 other. The correspondence with representations of $\pi_1$ is Theorem~\ref{sheaves:theorem-local-systems-representations}, and the monodromy of the local system of parallel sections is given by parallel
 transport; the inverse appears because monodromy was defined as a right action.
 \end{proof}
+
+\begin{example}\label{connections:example-flat-circle}
+Flat connections on the trivial line bundle over $S^1 = \RR/2\pi\ZZ$: every connection is $d + a(\theta)\,d\theta$, it is flat, and parallel transport around the circle is multiplication by $\exp(-\int_0^{2\pi}a)$. Two such connections are
+isomorphic (by a gauge transformation $g \colon S^1 \to \CC^\times$, which changes $a\,d\theta$ by $g^{-1}dg$) if and only if their holonomies agree, because the $1$-forms $g^{-1}dg$ are exactly those with $\int_{S^1}g^{-1}dg \in 2\pi i\ZZ$
+(a nonvanishing function has a continuous logarithm along the circle whose increase is $2\pi i$ times its winding number). So flat line bundles with connection on $S^1$ are classified by the holonomy in $\CC^\times$, in accordance with
+Theorem~\ref{connections:theorem-flat-local-systems}, since $\pi_1(S^1) = \ZZ$.
+\end{example}
 
 \section{Metric connections}\label{connections:section-metric}
 

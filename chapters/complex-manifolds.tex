@@ -42,6 +42,46 @@ $|f|$ attains a maximum at some $p$; in a chart around $p$, the maximum principl
 (Proposition~\ref{several-complex-variables:proposition-identity-maximum}) makes $f$ constant near $p$, and the set where $f$ equals $f(p)$ is open and closed by the identity theorem.
 \end{proof}
 
+\begin{corollary}\label{complex-manifolds:corollary-compact-submanifolds}
+Every compact complex submanifold of $\CC^n$ is a finite set of points. In particular no compact complex manifold of positive dimension, such as $\CC\PP^m$ or a complex torus, embeds holomorphically in $\CC^n$, in contrast with the
+Whitney embedding theorem for smooth manifolds (Theorem~\ref{smooth-manifolds:theorem-whitney}).
+\end{corollary}
+
+\begin{proof}
+The coordinate functions restrict to holomorphic functions on each connected component, which are constant by Proposition~\ref{complex-manifolds:proposition-no-functions}; so each component is a point, and a compact discrete set is
+finite.
+\end{proof}
+
+\begin{theorem}\label{complex-manifolds:theorem-maps-of-tori}
+Let $X = \CC^n/\Lambda$ and $Y = \CC^m/\Lambda'$ be complex tori. Every holomorphic map $f \colon X \to Y$ is induced by an affine map $\CC^n \to \CC^m$, $z \mapsto Az + b$, with $A$ a complex $m \times n$ matrix such that
+$A\Lambda \subseteq \Lambda'$. In particular $f$ is a group homomorphism followed by a translation, and $X \cong Y$ as complex manifolds if and only if $n = m$ and $\Lambda' = A\Lambda$ for some $A \in \GL_n(\CC)$.
+\end{theorem}
+
+\begin{proof}
+The projection $\CC^n \to X$ is a universal covering, as $\CC^n$ is simply connected and $\Lambda$ acts freely and properly (Theorem~\ref{topological-manifolds:theorem-covering-action}). By the lifting criterion
+(Proposition~\ref{homotopy:proposition-lifting-criterion}), $f \circ \pi$ lifts to a continuous map $F \colon \CC^n \to \CC^m$, holomorphic because $\pi'$ is a local biholomorphism. For $\lambda \in \Lambda$, $F(z + \lambda) - F(z) \in \Lambda'$ for all
+$z$, and by continuity and discreteness of $\Lambda'$ it is a constant $c(\lambda)$. Hence each partial derivative $\partial F_j/\partial z_k$ is $\Lambda$-periodic, so it is a holomorphic function on the compact manifold $X$, hence constant
+(Proposition~\ref{complex-manifolds:proposition-no-functions}). So $F(z) = Az + b$, and $A\lambda = c(\lambda) \in \Lambda'$. If $f$ is a biholomorphism, apply this to $f$ and $f^{-1}$: their lifts compose to a lift of the identity, which is
+a translation by an element of $\Lambda$, so $A$ is invertible with $A\Lambda = \Lambda'$ and $n = m$; the converse is clear.
+\end{proof}
+
+\begin{corollary}\label{complex-manifolds:corollary-elliptic-curves}
+Every one-dimensional complex torus is biholomorphic to $E_\tau = \CC/(\ZZ + \ZZ\tau)$ with $\operatorname{Im}\tau > 0$, and $E_\tau \cong E_{\tau'}$ if and only if $\tau' = \frac{a\tau + b}{c\tau + d}$ for some
+$\begin{pmatrix}a & b\\ c & d\end{pmatrix} \in \SL_2(\ZZ)$.
+\end{corollary}
+
+\begin{proof}
+A lattice $\ZZ\omega_1 + \ZZ\omega_2$ is carried by $z \mapsto z/\omega_1$ to $\ZZ + \ZZ\tau$ with $\tau = \omega_2/\omega_1 \notin \RR$, and replacing $\omega_2$ by $-\omega_2$ if necessary, $\operatorname{Im}\tau > 0$. By
+Theorem~\ref{complex-manifolds:theorem-maps-of-tori}, $E_\tau \cong E_{\tau'}$ if and only if $\alpha(\ZZ + \ZZ\tau) = \ZZ + \ZZ\tau'$ for some $\alpha \in \CC^\times$. Then $\alpha\tau = a\tau' + b$ and $\alpha = c\tau' + d$ for an integer matrix,
+invertible over $\ZZ$ because the inverse change of basis is also integral; so $\tau = \frac{a\tau' + b}{c\tau' + d}$, and the determinant is $+1$ because both $\tau$ and $\tau'$ lie in the upper half plane, as
+$\operatorname{Im}\frac{a\tau' + b}{c\tau' + d} = \frac{(ad - bc)\operatorname{Im}\tau'}{|c\tau' + d|^2}$. Conversely such a matrix gives the lattice isomorphism. The relation is symmetric, so $\tau'$ is also of this form in terms of $\tau$.
+\end{proof}
+
+\begin{counterexample}\label{complex-manifolds:counterexample-tori}
+Diffeomorphic complex manifolds need not be biholomorphic: all $E_\tau$ are diffeomorphic to $S^1 \times S^1$, but by Corollary~\ref{complex-manifolds:corollary-elliptic-curves} $E_i \not\cong E_{2i}$, since
+$\frac{ai + b}{ci + d} = 2i$ with integers of determinant $1$ would give, comparing imaginary parts, $|ci + d|^2 = \frac12$, impossible for integers $c$, $d$.
+\end{counterexample}
+
 \section{Almost complex structures and forms of type $(p,q)$}\label{complex-manifolds:section-pq}
 
 \begin{definition}\label{complex-manifolds:definition-almost-complex}
@@ -83,6 +123,16 @@ equivalently if and only if $T^{0,1}$ is closed under the Lie bracket, equivalen
 
 The implication ``integrable $\Rightarrow$ $N_J = 0$'' is a computation in holomorphic coordinates, where the brackets of the coordinate fields vanish; the converse is a hard analytic theorem, proved in
 \cite[Chapter 2]{huybrechts-complex} and, in the real-analytic case, by the Frobenius theorem (Theorem~\ref{smooth-manifolds:theorem-frobenius}) applied to $T^{0,1}$ after complexification.
+
+\begin{proposition}\label{complex-manifolds:proposition-surfaces-almost-complex}
+Every almost complex structure on a manifold of real dimension $2$ has vanishing Nijenhuis tensor. Consequently, by Theorem~\ref{complex-manifolds:theorem-newlander-nirenberg}, every oriented surface with a Riemannian metric is a Riemann
+surface, with $J$ the rotation by $\pi/2$ in each tangent plane.
+\end{proposition}
+
+\begin{proof}
+$N_J$ is antisymmetric and $C^\infty$-bilinear, so it suffices to evaluate it on $X$ and $JX$ for a local nowhere vanishing field $X$, which together with $JX$ form a frame. Using $J^2 = -1$,
+$N_J(X, JX) = [JX, -X] - J[JX, JX] - J[X, -X] - [X, JX] = [X, JX] - [X, JX] = 0$. On an oriented surface with a metric, rotation by $\pi/2$ in the positive sense is a smooth endomorphism with $J^2 = -1$.
+\end{proof}
 
 \section{Analytic subvarieties and blow-ups}\label{complex-manifolds:section-subvarieties}
 

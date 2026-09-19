@@ -115,6 +115,54 @@ Poincar\'e duality (Theorem~\ref{poincare-duality:theorem-poincare-duality}), an
 (Corollary~\ref{differential-forms:corollary-volume}).
 \end{proof}
 
+\begin{counterexample}\label{de-rham:counterexample-infinite-dimensional}
+De Rham cohomology of a noncompact manifold can be infinite-dimensional. On $M = \CC \setminus \ZZ$ let $\alpha_n$ be the angle form centred at $n$, the pullback of the angle form of
+Counterexample~\ref{differential-forms:counterexample-closed-not-exact} by $z \mapsto z - n$. It is closed, and its integral over the circle $\gamma_m$ of radius $\frac12$ around $m$ is $2\pi$ if $m = n$ and $0$ otherwise (for $m \neq n$ the circle lies in
+a half-plane, where $\alpha_n$ is exact). If $\sum_nc_n\alpha_n = d f$ for finitely many nonzero $c_n$, integrating over $\gamma_m$ gives $2\pi c_m = 0$ (Proposition~\ref{differential-forms:proposition-line-integrals}). So the classes
+$[\alpha_n]$, $n \in \ZZ$, are linearly independent in $H^1_{\mathrm{dR}}(M)$.
+\end{counterexample}
+
+\begin{proposition}\label{de-rham:proposition-finite-quotient}
+Let a finite group $G$ act freely on $M$ by diffeomorphisms, and $\pi \colon M \to M/G$ the quotient (Theorem~\ref{smooth-manifolds:theorem-smooth-quotient}). Then $\pi^*$ induces an isomorphism
+$H^k_{\mathrm{dR}}(M/G) \cong H^k_{\mathrm{dR}}(M)^G$ onto the classes fixed by $G$.
+\end{proposition}
+
+\begin{proof}
+As $\pi$ is a local diffeomorphism and $\pi \circ g = \pi$, $\pi^*$ identifies $\Omega^\bullet(M/G)$ with the complex $\Omega^\bullet(M)^G$ of $G$-invariant forms: an invariant form descends, because locally $\pi$ has smooth inverses that differ
+by elements of $G$. The averaging operator $A = \frac{1}{|G|}\sum_{g \in G}g^*$ commutes with $d$ and is a projection of $\Omega^\bullet(M)$ onto $\Omega^\bullet(M)^G$. The map $H^k(\Omega^\bullet(M)^G) \to H^k_{\mathrm{dR}}(M)^G$ is injective: if an
+invariant $\omega$ equals $d\eta$, then $\omega = A\omega = d(A\eta)$ with $A\eta$ invariant. It is surjective: if $[\omega]$ is $G$-fixed, then $A\omega$ is invariant, closed, and cohomologous to $\omega$, since each $g^*\omega$ is.
+\end{proof}
+
+\begin{example}\label{de-rham:example-real-projective}
+$H^k_{\mathrm{dR}}(\RR\PP^n) \cong \RR$ for $k = 0$, and for $k = n$ if $n$ is odd; it vanishes otherwise. By Proposition~\ref{de-rham:proposition-finite-quotient} and Example~\ref{de-rham:example-spheres}, only the action of the
+antipodal map $a$ on $H^n_{\mathrm{dR}}(S^n) \cong \RR$ matters. The volume form of $S^n$ is $\iota_X\Omega$ restricted to $S^n$, where $\Omega = dx^1 \wedge \cdots \wedge dx^{n+1}$ and $X = \sum x^i\partial_i$; as $a$ is the restriction of $-\mathrm{id}$,
+$a^*\Omega = (-1)^{n+1}\Omega$ and $a$ preserves $X$, so $a^*$ acts on $H^n$ by $(-1)^{n+1}$, and the invariant part is $H^n$ for $n$ odd and $0$ for $n$ even. In particular $\RR\PP^n$ is not orientable for $n$ even, by
+Corollary~\ref{de-rham:corollary-consequences}.
+\end{example}
+
+\begin{theorem}[K\"unneth formula]\label{de-rham:theorem-kunneth}
+If $M$ has a finite good cover, the map $\bigoplus_{p+q=k}H^p_{\mathrm{dR}}(M) \otimes H^q_{\mathrm{dR}}(N) \to H^k_{\mathrm{dR}}(M \times N)$, $[\alpha] \otimes [\beta] \mapsto [\mathrm{pr}_M^*\alpha \wedge \mathrm{pr}_N^*\beta]$, is an isomorphism for every
+manifold $N$.
+\end{theorem}
+
+\begin{proof}
+Write $\psi_M$ for the map. It is natural in $M$ for restrictions to open subsets. If $M \cong \RR^m$, then $\mathrm{pr}_N \colon M \times N \to N$ is a homotopy equivalence and $H^\bullet_{\mathrm{dR}}(M) = \RR$ in degree $0$, so $\psi_M$ is
+$\mathrm{pr}_N^*$, an isomorphism by Theorem~\ref{de-rham:theorem-homotopy-invariance}. For open $U, V \subseteq M$, tensoring the Mayer--Vietoris sequence of $U, V$ with the vector space $H^q_{\mathrm{dR}}(N)$ and summing over $q$ gives an
+exact sequence, which $\psi$ maps to the Mayer--Vietoris sequence of $U \times N$, $V \times N$. The squares involving restrictions commute, and so does the one with the connecting maps: with a partition of unity $\{\rho_U, \rho_V\}$ on
+$U \cup V$, the connecting maps are $[\omega] \mapsto [d(\rho_V\omega)]$ on both sides, and for closed $\beta$, $d(\mathrm{pr}_M^*(\rho_V\omega) \wedge \mathrm{pr}_N^*\beta) = \mathrm{pr}_M^*d(\rho_V\omega) \wedge \mathrm{pr}_N^*\beta$. So if $\psi$ is an isomorphism for $U$, $V$ and $U \cap V$, it is one for $U \cup V$
+by the five lemma (Lemma~\ref{homological-algebra:lemma-five}). Now let $U_1, \ldots, U_k$ be a finite good cover of $M$; we show by induction on $k$ that $\psi$ is an isomorphism for every open set covered by $k$ open sets forming a good
+cover. For $k = 1$ this is the case $\RR^m$. For the induction step apply the five lemma to $W = U_1 \cup \cdots \cup U_{k-1}$ and $U_k$, noting that $W \cap U_k$ is covered by the $k - 1$ sets $U_i \cap U_k$, which form a good cover.
+\end{proof}
+
+\begin{corollary}\label{de-rham:corollary-torus}
+$H^\bullet_{\mathrm{dR}}(T^n)$ is the exterior algebra on the classes of $dx^1, \ldots, dx^n$, so $b_k(T^n) = \binom nk$; and $H^\bullet_{\mathrm{dR}}(S^1 \times S^2)$ has dimensions $1, 1, 1, 1$.
+\end{corollary}
+
+\begin{proof}
+By Example~\ref{de-rham:example-spheres}, $H^\bullet(S^1)$ is spanned by $1$ and $[d\theta]$, and $T^n = (S^1)^n$ has a finite good cover; Theorem~\ref{de-rham:theorem-kunneth} and induction give the tensor product of $n$ copies of
+$\RR \oplus \RR[d\theta]$, which is the exterior algebra because $d\theta \wedge d\theta = 0$ and the wedge product is graded commutative. The second statement is the same computation with $H^\bullet(S^2)$.
+\end{proof}
+
 \begin{theorem}[Poincar\'e duality in de Rham cohomology]\label{de-rham:theorem-poincare-duality-de-rham}
 Let $M$ be an oriented $n$-manifold. The pairing
 \[
@@ -130,6 +178,32 @@ Nondegeneracy is proved by induction on the number of sets in a finite good cove
 on compact manifolds), comparing the Mayer--Vietoris sequences of $H^\bullet_{\mathrm{dR}}$ and $H^\bullet_{\mathrm{dR},c}$ with the five lemma; see \cite[Chapter I, Section 5]{bott-tu}. Alternatively it follows from Theorem~\ref{de-rham:theorem-de-rham} and topological Poincar\'e duality
 (Corollary~\ref{poincare-duality:corollary-cup-pairing}), since the wedge product corresponds to the cup product.
 \end{proof}
+
+\begin{theorem}[Cartan--Chevalley--Eilenberg]\label{de-rham:theorem-lie-group-cohomology}
+Let $G$ be a compact connected Lie group. Every de Rham class of $G$ has a unique representative that is invariant under left and right translations, and the bi-invariant forms are closed. Consequently
+$H^\bullet_{\mathrm{dR}}(G) \cong (\Lambda^\bullet\mathfrak{g}^*)^{G}$, the space of $\Ad(G)$-invariant alternating forms on the Lie algebra.
+\end{theorem}
+
+\begin{proof}
+$G \times G$ acts on $G$ by $(a, b) \cdot x = axb^{-1}$; let $\mu$ be the Haar probability measure on the compact connected group $K = G \times G$ (Theorem~\ref{lie-groups:theorem-haar}) and, for a form $\omega$, let
+$A\omega = \int_Kk^*\omega\,d\mu(k)$, defined pointwise; $A\omega$ is smooth and bi-invariant, $A$ commutes with $d$ (differentiation under the integral sign), and $A\omega = \omega$ for bi-invariant $\omega$.
+
+\emph{Averaging does not change classes.} Let $\omega$ be closed. Each $k \in K$ is connected to the identity by a smooth path, so $k^*\omega$ is cohomologous to $\omega$ (Theorem~\ref{de-rham:theorem-homotopy-invariance}). For a closed form $\eta$
+of complementary degree, Fubini's theorem gives $\int_GA\omega \wedge \eta = \int_K(\int_Gk^*\omega \wedge \eta)\,d\mu(k) = \int_G\omega \wedge \eta$, since the inner integral depends only on the class of $k^*\omega$ (Stokes). By Poincar\'e duality
+(Theorem~\ref{de-rham:theorem-poincare-duality-de-rham}), $[A\omega] = [\omega]$.
+
+\emph{Bi-invariant forms are closed.} The inversion $\iota(x) = x^{-1}$ satisfies $\iota \circ L_a = R_{a^{-1}} \circ \iota$, so it maps bi-invariant forms to bi-invariant forms, and $d_e\iota = -\mathrm{id}$ (differentiate $\exp(tX)^{-1} = \exp(-tX)$).
+A bi-invariant form is determined by its value at $e$, so $\iota^*\omega = (-1)^k\omega$ for a bi-invariant $k$-form. As $d\omega$ is bi-invariant of degree $k + 1$, $(-1)^{k+1}d\omega = \iota^*d\omega = d\iota^*\omega = (-1)^kd\omega$, so $d\omega = 0$.
+
+\emph{Uniqueness.} If a bi-invariant $\omega$ is exact, $\omega = d\eta$, then $\omega = A\omega = d(A\eta) = 0$, because $A\eta$ is bi-invariant, hence closed. So bi-invariant forms map isomorphically onto $H^\bullet_{\mathrm{dR}}(G)$. A
+left-invariant form is determined by its value $\omega_e \in \Lambda^\bullet\mathfrak{g}^*$, and it is also right-invariant if and only if $\omega_e$ is invariant under $\Ad(g) = d_e(L_g \circ R_{g^{-1}})$.
+\end{proof}
+
+\begin{example}\label{de-rham:example-su2}
+For $G = \mathrm{SU}(2)$, $\mathfrak{g} = \mathfrak{su}(2) \cong \RR^3$ and $\Ad$ maps $\mathrm{SU}(2)$ onto $\mathrm{SO}(3)$ (Exercise~\ref{lie-groups:exercise-su2}). The $\mathrm{SO}(3)$-invariants in $\Lambda^\bullet\RR^3$ are the constants and the
+multiples of the determinant $e_1^* \wedge e_2^* \wedge e_3^*$, since $\Lambda^1$ and $\Lambda^2 \cong \RR^3$ are irreducible nontrivial representations. So $H^\bullet(\mathrm{SU}(2))$ is $\RR$ in degrees $0$ and $3$, in accordance with
+$\mathrm{SU}(2) \cong S^3$.
+\end{example}
 
 \section{Currents}\label{de-rham:section-currents}
 

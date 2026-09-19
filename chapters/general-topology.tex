@@ -246,6 +246,12 @@ then $x \in B(q, 1/n) \subseteq B(x, 2/n) \subseteq U$. Finally $\QQ^n$ and $(\Q
 (Proposition~\ref{number-systems:proposition-complete-archimedean}).
 \end{proof}
 
+\begin{counterexample}[The Sorgenfrey line]\label{general-topology:counterexample-sorgenfrey}
+The half-open intervals $[a, b)$ form a basis of a topology on $\RR$, the \emph{Sorgenfrey line}, finer than the Euclidean topology. It is first countable (the sets $[x, x + 1/n)$ form a neighbourhood basis at $x$) and separable
+($\QQ$ is dense, as every $[a, b)$ contains a rational number). It is not second countable: if $\mathcal{B}$ is a basis, then for each $x$ some $B_x \in \mathcal{B}$ satisfies $x \in B_x \subseteq [x, x + 1)$, so $x = \min B_x$, and $x \mapsto B_x$ is
+injective from the uncountable set $\RR$ to $\mathcal{B}$. By Proposition~\ref{general-topology:proposition-countability}, it is therefore not metrisable: separable metric spaces are second countable.
+\end{counterexample}
+
 \section{Subspaces, products and quotients}\label{general-topology:section-constructions}
 
 \begin{definition}\label{general-topology:definition-initial-final}
@@ -783,6 +789,40 @@ and $V \ni 0$ are disjoint open sets. Since every interval around $0$ meets $K$,
 $1/n < b$. The only basic sets containing $1/n$ are intervals, so $U \supseteq (c, d) \ni 1/n$, and $(c, d) \cap (a, b)$ contains points not in $K$, which lie in
 $U \cap V$. So this Hausdorff space is not regular.
 \end{counterexample}
+
+\begin{lemma}[Tychonoff]\label{general-topology:lemma-regular-lindelof-normal}
+A regular space in which every open cover has a countable subcover (a \emph{Lindel\"of} space), for instance a regular second countable space, is normal.
+\end{lemma}
+
+\begin{proof}
+Let $A$, $B$ be disjoint closed sets. For $a \in A$, regularity and Lemma~\ref{general-topology:lemma-normal-shrinking} give an open $U \ni a$ with $\overline U \cap B = \emptyset$. As $A$ is closed in a Lindel\"of space, it is
+Lindel\"of, so countably many such sets $U_1, U_2, \ldots$ cover $A$; similarly open $V_1, V_2, \ldots$ cover $B$ with $\overline{V_k} \cap A = \emptyset$. Put $U'_n = U_n \setminus \bigcup_{k \leq n}\overline{V_k}$ and
+$V'_n = V_n \setminus \bigcup_{k \leq n}\overline{U_k}$, which are open, and $U' = \bigcup_nU'_n$, $V' = \bigcup_nV'_n$. Then $A \subseteq U'$, since a point of $A$ lies in some $U_n$ and in no $\overline{V_k}$; similarly $B \subseteq V'$. If
+$x \in U'_n \cap V'_m$ with $n \leq m$, then $x \in U_n$ but $x \notin \overline{U_n}$, a contradiction, and the case $n > m$ is symmetric. So $U' \cap V' = \emptyset$. Second countable spaces are Lindel\"of by
+Proposition~\ref{general-topology:proposition-countability}.
+\end{proof}
+
+\begin{theorem}[Urysohn metrisation theorem]\label{general-topology:theorem-urysohn-metrisation}
+Every regular second countable space is metrisable: its topology is induced by a metric.
+\end{theorem}
+
+\begin{proof}
+Let $X$ be regular with a countable basis $(B_n)$; by Lemma~\ref{general-topology:lemma-regular-lindelof-normal} it is normal. For each pair $(n, m)$ with $\overline{B_n} \subseteq B_m$ choose, by Urysohn's lemma
+(Theorem~\ref{general-topology:theorem-urysohn}), a continuous $f_{n,m} \colon X \to [0, 1]$ equal to $1$ on $\overline{B_n}$ and to $0$ outside $B_m$. Enumerate these functions as $f_1, f_2, \ldots$. They separate points from closed
+sets: if $x \in U$ with $U$ open, choose $m$ with $x \in B_m \subseteq U$, and by regularity and Lemma~\ref{general-topology:lemma-normal-shrinking} an open $V$ with $x \in V \subseteq \overline V \subseteq B_m$, and then $n$ with
+$x \in B_n \subseteq V$; the corresponding $f_k$ has $f_k(x) = 1$ and vanishes outside $U$.
+
+Define $d(x, y) = \sum_k2^{-k}|f_k(x) - f_k(y)|$. It is symmetric and satisfies the triangle inequality, and $d(x, y) > 0$ for $x \neq y$, because $X$ is $T_1$, so $X \setminus \{y\}$ is an open neighbourhood of $x$, and some $f_k$ equals $1$ at $x$ and vanishes
+outside it, so $f_k(x) = 1 \neq 0 = f_k(y)$. Each $d(x, -)$ is continuous, being a uniformly convergent series of continuous functions (Proposition~\ref{general-topology:proposition-uniform-limit}), so $d$-balls are open.
+Conversely, if $x \in U$ with $U$ open and $f_k$ is as above, then $d(x, y) < 2^{-k}$ implies $|f_k(y) - 1| < 1$, so $f_k(y) > 0$ and $y \in U$: the $d$-ball of radius $2^{-k}$ about $x$ lies in $U$. So $d$ induces the topology of $X$.
+\end{proof}
+
+\begin{remark}\label{general-topology:remark-metrisation}
+Topological manifolds are regular (indeed locally compact Hausdorff) and second countable, hence metrisable (Chapter~\ref{topological-manifolds}). Regularity cannot be weakened to the Hausdorff property:
+the space of Counterexample~\ref{general-topology:counterexample-hausdorff-not-regular} is second countable (a basis is given by the intervals with rational endpoints and their differences with $K$) and Hausdorff, but
+not regular, hence not metrisable, since metric spaces are normal
+(Proposition~\ref{general-topology:proposition-normal-examples}).
+\end{remark}
 
 \section{Local compactness and proper maps}\label{general-topology:section-local-compactness}
 

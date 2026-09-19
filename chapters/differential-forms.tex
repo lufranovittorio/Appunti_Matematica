@@ -61,6 +61,42 @@ $\frac{d}{dt}\Phi_t^*\omega = \Phi_t^*L_X\omega$ follows from the group law $\Ph
 (Proposition~\ref{smooth-manifolds:proposition-bracket}) by evaluating on forms.
 \end{proof}
 
+\begin{example}\label{differential-forms:example-forms-r3}
+On $\RR^3$ the Euclidean metric and orientation identify $1$-forms and $2$-forms with vector fields, by $F = (F_1, F_2, F_3) \mapsto F_1\,dx + F_2\,dy + F_3\,dz$ and
+$F \mapsto F_1\,dy \wedge dz + F_2\,dz \wedge dx + F_3\,dx \wedge dy$, and $3$-forms with functions. Under these identifications $d$ on $0$-, $1$- and $2$-forms is the gradient, the curl and the divergence, and $d \circ d = 0$ becomes
+$\operatorname{curl}\operatorname{grad} = 0$ and $\operatorname{div}\operatorname{curl} = 0$.
+\end{example}
+
+\begin{definition}\label{differential-forms:definition-closed-exact}
+A form $\omega$ is \emph{closed} if $d\omega = 0$ and \emph{exact} if $\omega = d\eta$ for some form $\eta$. Exact forms are closed, since $d \circ d = 0$.
+\end{definition}
+
+\begin{definition}\label{differential-forms:definition-line-integral}
+For a $1$-form $\alpha$ on $M$ and a piecewise smooth curve $\gamma \colon [a, b] \to M$, the \emph{line integral} is $\int_\gamma\alpha = \int_a^b\alpha_{\gamma(t)}(\dot\gamma(t))\,dt$, the sum of the integrals of $\gamma^*\alpha$ over the smooth pieces.
+\end{definition}
+
+\begin{proposition}\label{differential-forms:proposition-line-integrals}
+\begin{enumerate}
+\item The line integral is unchanged under orientation-preserving reparametrisation $\gamma \circ \phi$, $\phi \colon [c, d] \to [a, b]$ increasing and piecewise smooth with $\phi(c) = a$, $\phi(d) = b$, and changes sign under reversal.
+\item (Fundamental theorem for line integrals) $\int_\gamma df = f(\gamma(b)) - f(\gamma(a))$.
+\item On a connected manifold, a $1$-form $\alpha$ is exact if and only if $\int_\gamma\alpha = 0$ for every closed piecewise smooth curve $\gamma$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is the substitution rule (Corollary~\ref{real-analysis:corollary-integration-rules}) on each piece, as $(\gamma \circ \phi)^*\alpha = \phi^*\gamma^*\alpha$. (2) $\gamma^*df = d(f \circ \gamma) = (f \circ \gamma)'\,dt$, and
+Theorem~\ref{real-analysis:theorem-ftc} applies on each piece; the intermediate values cancel. (3) If $\alpha = df$, closed curves give $0$ by (2). Conversely, fix $p_0$ and define $f(p) = \int_\gamma\alpha$ for any piecewise smooth curve
+$\gamma$ from $p_0$ to $p$; such curves exist since $M$ is connected and locally path-connected by piecewise smooth curves (use straight segments in charts), and the value does not depend on $\gamma$, because for two
+curves $\gamma$, $\gamma'$ the concatenation of $\gamma$ with the reverse of $\gamma'$ is closed. In a chart around $p$, with $p$ at the origin, computing $f$ along $\gamma$ followed by the segment from $p$ to $p + se_i$ gives
+$f(p + se_i) - f(p) = \int_0^s\alpha_i(p + ue_i)\,du$, so $\partial_if = \alpha_i$ by Theorem~\ref{real-analysis:theorem-ftc}; hence $f$ is smooth and $df = \alpha$.
+\end{proof}
+
+\begin{counterexample}\label{differential-forms:counterexample-closed-not-exact}
+Closed forms need not be exact. On $M = \RR^2 \setminus \{0\}$, the \emph{angle form} $\alpha = (x\,dy - y\,dx)/(x^2 + y^2)$ is closed, as a direct computation shows, but along the unit circle $\gamma(t) = (\cos t, \sin t)$,
+$\gamma^*\alpha = (\cos^2t + \sin^2t)\,dt = dt$, so $\int_\gamma\alpha = 2\pi \neq 0$, and $\alpha$ is not exact by Proposition~\ref{differential-forms:proposition-line-integrals}(3). On the half-plane $\{x > 0\}$ it is exact, equal to
+$d\arctan(y/x)$: exactness is a global question, measured by de Rham cohomology (Chapter~\ref{de-rham}).
+\end{counterexample}
+
 \section{Orientations}\label{differential-forms:section-orientations}
 
 \begin{definition}\label{differential-forms:definition-orientation}
@@ -80,6 +116,12 @@ positive combination of positive multiples of $dx^1 \wedge \cdots \wedge dx^n$. 
 statement, in a positively oriented chart a generator of $H_n(M \mid p; \ZZ)$ is determined by the orientation of $\RR^n$, and this choice is locally constant, giving a section of the orientation covering;
 conversely such a section determines a compatible atlas.
 \end{proof}
+
+\begin{counterexample}\label{differential-forms:counterexample-mobius}
+The open M\"obius band is not orientable. Let $\ZZ$ act on $\RR \times (-1, 1)$ by $g^k(x, t) = (x + k, (-1)^kt)$, freely and properly, and let $B$ be the smooth quotient (Theorem~\ref{smooth-manifolds:theorem-smooth-quotient}). A
+nowhere vanishing $2$-form $\mu$ on $B$ would pull back to a nowhere vanishing form $f\,dx \wedge dt$ on $\RR \times (-1, 1)$ invariant under $g$. As $g^*(f\,dx \wedge dt) = (f \circ g)\,dx \wedge d(-t) = -(f \circ g)\,dx \wedge dt$,
+invariance means $f \circ g = -f$. But $f$ is continuous and nowhere zero on the connected set $\RR \times (-1, 1)$, hence of constant sign (Corollary~\ref{general-topology:corollary-ivt}), which contradicts $f(g(x, t)) = -f(x, t)$.
+\end{counterexample}
 
 \section{Integration and Stokes' theorem}\label{differential-forms:section-integration}
 
@@ -125,6 +167,16 @@ In the case of $\mathbb{H}^n$, the only surviving term is
 \]
 while $\int_{\partial M}\omega = \int_{\RR^{n-1}}(-1)^{n-1}f_n(x', 0)\,dx'$ computed with the induced orientation, which introduces the sign $(-1)^n$; the two agree.
 \end{proof}
+
+\begin{counterexample}\label{differential-forms:counterexample-stokes-support}
+Stokes' theorem needs compact support. On $M = \RR$, without boundary, the $0$-form $\arctan$ has $\int_\RR d\arctan = \int_\RR\frac{dx}{1 + x^2} = \pi \neq 0$. On $M = [0, +\infty)$, with boundary the point $0$ carrying the induced orientation $-1$,
+the constant function $1$ has $\int_Md1 = 0$ while $\int_{\partial M}1 = -1$.
+\end{counterexample}
+
+\begin{example}\label{differential-forms:example-stokes-dimension-one}
+For $M = [a, b]$ with its standard orientation, $\partial M = \{b\} - \{a\}$ with the induced orientation, and Stokes' theorem for a function $f$ is the fundamental theorem of calculus, $\int_a^bf' = f(b) - f(a)$. For a compact region
+$M \subseteq \RR^2$ with smooth boundary and $\omega = P\,dx + Q\,dy$, it is Green's formula $\int_M(\partial_xQ - \partial_yP)\,dx\,dy = \int_{\partial M}P\,dx + Q\,dy$, the boundary being traversed with $M$ on the left.
+\end{example}
 
 \begin{example}\label{differential-forms:example-classical}
 For $M \subseteq \RR^3$ a compact region with smooth boundary, Stokes' theorem specialises to the divergence theorem $\int_M\operatorname{div}F\,dV = \int_{\partial M}\langle F, \nu\rangle\,dA$ and to the classical

@@ -27,6 +27,24 @@ obtained from $[0,1] \times \RR$ by gluing $(0, t)$ to $(1, -t)$; the \emph{taut
 bundle $N_{S/M} = (TM|_S)/TS$ of a submanifold.
 \end{example}
 
+\begin{proposition}\label{vector-bundles:proposition-lie-group-parallelisable}
+The tangent bundle of a Lie group $G$ is trivial: $G \times \mathfrak{g} \to TG$, $(g, v) \mapsto d(L_g)_e(v)$, is an isomorphism of vector bundles. In particular $S^1$, $S^3 \cong \mathrm{SU}(2)$ and the tori $T^n$ have trivial tangent
+bundles.
+\end{proposition}
+
+\begin{proof}
+The map is smooth, as the differential of multiplication restricted to $G \times T_eG$, it covers the identity of $G$, and it is a linear isomorphism on each fibre since $L_g$ is a diffeomorphism. A bijective morphism of vector bundles over $M$
+is an isomorphism, because in local trivialisations it is given by a smooth family of invertible matrices, whose inverses are smooth by Cramer's rule. For $S^3$ note that
+$\mathrm{SU}(2) = \{\begin{pmatrix}a & -\bar b\\ b & \bar a\end{pmatrix} : |a|^2 + |b|^2 = 1\}$ is diffeomorphic to $S^3 \subseteq \CC^2$.
+\end{proof}
+
+\begin{counterexample}\label{vector-bundles:counterexample-mobius}
+The M\"obius bundle $E$ over $S^1$ (Example~\ref{vector-bundles:example-bundles}) is not trivial. A nowhere vanishing section would correspond to a continuous $s \colon [0, 1] \to \RR \setminus \{0\}$ with $s(1) = -s(0)$, and by the
+intermediate value theorem $s$ would vanish somewhere; and a real line bundle with a nowhere vanishing section $s$ is trivial, by $(p, t) \mapsto ts(p)$. The tautological line bundle of $\RR\PP^1$ is isomorphic to $E$: parametrising
+$\RR\PP^1$ by $\theta \in [0, \pi]$, with $\theta$ corresponding to the line through $u(\theta) = (\cos\theta, \sin\theta)$, the section $u$ trivialises the bundle over $[0, \pi]$ and $u(\pi) = -u(0)$, which is the gluing of $E$. Hence the
+tautological line bundle of $\RR\PP^n$, which restricts to it on $\RR\PP^1 \subseteq \RR\PP^n$, is nontrivial as well.
+\end{counterexample}
+
 \begin{proposition}\label{vector-bundles:proposition-cocycles}
 Let $(U_i)$ be an open cover of $M$.
 \begin{enumerate}
@@ -97,6 +115,26 @@ pulled-back standard inner products is a metric, since a convex combination of i
 local frame adapted to $E'$, apply Gram--Schmidt, Theorem~\ref{linear-algebra:theorem-gram-schmidt}, which depends smoothly on the frame) and $E = E' \oplus E'^\perp$; a surjection $E \to E''$ then splits
 by inverting $E'^\perp \to E''$. Statement (2) is the fibrewise isomorphism $v \mapsto \langle -, v \rangle$, which is smooth.
 \end{proof}
+
+\begin{proposition}\label{vector-bundles:proposition-constant-rank}
+Let $f \colon E \to F$ be a morphism of vector bundles over $M$ whose rank on the fibres is constant. Then $\ker f \subseteq E$ and $\operatorname{im}f \subseteq F$ are subbundles, and $\operatorname{coker}f = F/\operatorname{im}f$ is a vector
+bundle. For a submanifold $S \subseteq M$ the normal bundle $N_{S/M} = (TM|_S)/TS$ is a vector bundle, and if $S = \phi^{-1}(q)$ for a regular value $q$ of a smooth $\phi \colon M \to N$, then $d\phi$ induces an isomorphism
+$N_{S/M} \cong S \times T_qN$, so $N_{S/M}$ is trivial.
+\end{proposition}
+
+\begin{proof}
+The question is local, so let $E = U \times \mathbb{K}^r$, $F = U \times \mathbb{K}^s$ and $f$ a smooth family of matrices $A(p)$ of constant rank $k$. Near $p_0$ some $k \times k$ minor of $A$ is nonzero; after permuting bases,
+$A = \begin{pmatrix}A_{11} & A_{12}\\ A_{21} & A_{22}\end{pmatrix}$ with $A_{11}$ invertible near $p_0$. The first $k$ columns of $A$ are linearly independent and, as the rank is $k$, span the image; so they form a frame of $\operatorname{im}f$,
+which is therefore a subbundle. The vectors $\begin{pmatrix}-A_{11}^{-1}A_{12}w\\ w\end{pmatrix}$, $w \in \mathbb{K}^{r-k}$, lie in the kernel (the last $s - k$ rows are combinations of the first $k$), and they span it by dimension count; they
+form a frame of $\ker f$ depending smoothly on $p$. Completing a frame of $\operatorname{im}f$ by constant vectors to a frame of $F$ gives a frame of $\operatorname{coker}f$. For the normal bundle apply this to the inclusion
+$TS \to TM|_S$, of constant rank $\dim S$. If $S = \phi^{-1}(q)$ with $q$ regular, $d\phi \colon TM|_S \to S \times T_qN$ is surjective with kernel $TS$ (Theorem~\ref{smooth-manifolds:theorem-regular-value}), so it induces the stated isomorphism.
+\end{proof}
+
+\begin{example}\label{vector-bundles:example-stably-trivial}
+$TS^n$ is \emph{stably trivial}: $TS^n \oplus (S^n \times \RR) \cong S^n \times \RR^{n+1}$, because the normal bundle of $S^n = f^{-1}(1)$, $f(x) = |x|^2$, is trivial by Proposition~\ref{vector-bundles:proposition-constant-rank}, and
+$TS^n \oplus N_{S^n/\RR^{n+1}} \cong T\RR^{n+1}|_{S^n}$ by Proposition~\ref{vector-bundles:proposition-metrics}(1). Nevertheless $TS^2$ is not trivial, by the hairy ball theorem ($S^2$ has no nowhere vanishing vector field, as
+$\chi(S^2) \neq 0$, Theorem~\ref{characteristic-classes:theorem-euler}); so a bundle is not determined by its stable class.
+\end{example}
 
 \begin{example}\label{vector-bundles:example-euler-sequence}
 On $\CC\PP^n$ there is an exact sequence of holomorphic vector bundles
