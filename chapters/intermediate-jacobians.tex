@@ -42,6 +42,27 @@ For $p = 1$, $H^1(X; \CC)/F^1 = H^{0,1} = H^1(X, \mathcal{O})$, giving $\Pic^0(X
 $H^0(X, \Omega^1)^\vee/H_1(X; \ZZ)$.
 \end{proof}
 
+\begin{proposition}\label{intermediate-jacobians:proposition-functoriality}
+A holomorphic map $f \colon X \to Y$ of compact K\"ahler manifolds induces holomorphic group homomorphisms $f^* \colon J^p(Y) \to J^p(X)$, with $(g \circ f)^* = f^* \circ g^*$ and $\id^* = \id$. If
+$H^{2p-1}(X; \QQ) = 0$, then $J^p(X) = 0$.
+\end{proposition}
+
+\begin{proof}
+The pullback $f^* \colon H^{2p-1}(Y; \CC) \to H^{2p-1}(X; \CC)$ maps $H^{r,s}(Y)$ into $H^{r,s}(X)$ (Proposition~\ref{hodge-decomposition:proposition-functoriality}), hence $F^pH^{2p-1}(Y)$ into
+$F^pH^{2p-1}(X)$, and it maps the image of $H^{2p-1}(Y; \ZZ)$ into the image of $H^{2p-1}(X; \ZZ)$, being induced by the pullback of integral cohomology. So it induces a $\CC$-linear map
+$H^{2p-1}(Y; \CC)/F^p \to H^{2p-1}(X; \CC)/F^p$ carrying lattice into lattice, hence a holomorphic homomorphism of the quotient tori; functoriality holds already on cohomology. The last statement is
+the dimension formula of Proposition~\ref{intermediate-jacobians:proposition-torus}, since $b_{2p-1}(X) = \dim_\QQ H^{2p-1}(X; \QQ)$.
+\end{proof}
+
+\begin{example}\label{intermediate-jacobians:example-albanese-torus}
+Let $T = \CC^g/\Lambda$ be a complex torus and $x_0 = 0$. The holomorphic $1$-forms on $T$ are the constant forms $\sum_ja_j\,dz_j$ (Example~\ref{dolbeault:example-hodge-numbers} and
+Lemma~\ref{dolbeault:lemma-harmonic-closed}), so $H^0(T, \Omega^1)^\vee \cong \CC^g$, the functional $\omega \mapsto \int\omega$ being determined by its values on $dz_1, \ldots, dz_g$. For a path $\gamma$ in $T$
+from $0$ to $x$, lifted to a path in $\CC^g$ from $0$ to $\tilde x$, $\int_\gamma dz_j = \tilde x_j$; for a closed loop the lift ends at a point of $\Lambda$, and every $\lambda \in \Lambda$ arises from the loop
+$t \mapsto t\lambda$. So the period lattice is $\Lambda$, $\mathrm{Alb}(T) = \CC^g/\Lambda = T$, and the Albanese map $x \mapsto \mathrm{AJ}(x - 0)$ of Exercise~\ref{intermediate-jacobians:exercise-aj-points}
+is the identity of $T$. Likewise $J^1(T) = \Pic^0(T) = H^{0,1}(T)/H^1(T; \ZZ)$, where $H^{0,1}(T)$ is spanned by the forms $d\bar z_j$ and $H^1(T; \ZZ) = \Hom(\Lambda, \ZZ)$ embeds by sending an $\RR$-linear form on $\CC^g$
+with integer values on $\Lambda$ to its $(0,1)$-part; this is the \emph{dual torus} of $T$. For $g = 1$ it is again isomorphic to $T$ (Chapter~\ref{curves}).
+\end{example}
+
 \begin{remark}\label{intermediate-jacobians:remark-not-abelian}
 The complex structure of $J^p(X)$ is the one for which $F^p$ is killed; it varies holomorphically with $X$ by Griffiths transversality. But $J^p(X)$ is in general not an abelian variety:
 the Hodge--Riemann form on $H^{2p-1}$ is definite on each $H^{r,2p-1-r}$ with alternating signs, so it gives a positive definite form on $H_\CC/F^p$ only when the Hodge structure has
@@ -74,6 +95,13 @@ rational equivalence one shows that $t \mapsto \mathrm{AJ}(Z_t - Z_0)$ is a holo
 Theorem~\ref{curves:theorem-abel-jacobi} \cite[Chapter 12]{voisin-hodge-1}.
 \end{proof}
 
+\begin{remark}\label{intermediate-jacobians:remark-kernel-abel-jacobi}
+For curves, the Abel--Jacobi map $\CH^1(C)_{\mathrm{hom}} \to J^1(C)$ is an isomorphism (Theorem~\ref{curves:theorem-abel-jacobi}). In higher dimension its kernel can be enormous. For $0$-cycles on a
+surface $S$ with $h^{2,0}(S) > 0$, Mumford proved that the maps $\mathrm{Sym}^mS \times \mathrm{Sym}^mS \to \CH_0(S)_{\mathrm{hom}}$, $(a, b) \mapsto a - b$, are not surjective for any $m$
+\cite{mumford-1968}: the group $\CH_0(S)_{\mathrm{hom}}$ is ``infinite-dimensional'', while its image under the Albanese map $\CH_0(S)_{\mathrm{hom}} \to \mathrm{Alb}(S)$ is a torus of finite dimension. On the other side, Griffiths' theorem (Section~\ref{intermediate-jacobians:section-griffiths}) shows that $\mathrm{AJ}$ can detect cycles which are homologically, but not algebraically,
+trivial.
+\end{remark}
+
 \section{Deligne cohomology}\label{intermediate-jacobians:section-deligne-cohomology}
 
 \begin{definition}\label{intermediate-jacobians:definition-deligne-complex}
@@ -98,6 +126,18 @@ By the holomorphic Poincar\'e lemma and the degeneration of the Hodge-to-de Rham
 $\mathbb{H}^k(X, \Omega^{<p}) = H^k(X; \CC)/F^pH^k(X; \CC)$. So the kernel of the last map consists of the integral classes whose image in $H^{2p}(X; \CC)$ lies in $F^p$; a real class in $F^p$ of
 weight $2p$ lies in $F^p \cap \overline{F^p} = H^{p,p}$, so these are the integral Hodge classes. The cokernel of the first map is $J^p(X)$ (the twist by $(2\pi i)^p$ only rescales the lattice).
 \end{proof}
+
+\begin{example}\label{intermediate-jacobians:example-deligne-low-degree}
+\begin{enumerate}
+\item For $p = 0$ the Deligne complex is $\ZZ$ in degree $0$, so $H^k_{\mathcal{D}}(X; \ZZ(0)) = H^k(X; \ZZ)$.
+\item For $p = 1$, $\ZZ(1)_{\mathcal{D}} \simeq \mathcal{O}_X^*[-1]$ gives $H^k_{\mathcal{D}}(X; \ZZ(1)) = H^{k-1}(X, \mathcal{O}_X^*)$: for compact connected $X$, $H^1_{\mathcal{D}}(X; \ZZ(1)) = \CC^*$ (the
+nonzero constants, by Proposition~\ref{complex-manifolds:proposition-no-functions}) and $H^2_{\mathcal{D}}(X; \ZZ(1)) = \Pic(X)$.
+\item For $X$ a point and $p \geq 1$, the complex is $\ZZ(p) \to \CC$ in degrees $0$, $1$, so $H^1_{\mathcal{D}}(\mathrm{pt}; \ZZ(p)) = \CC/(2\pi i)^p\ZZ$ and the other groups vanish. For $p = 1$ this is
+$\CC/2\pi i\ZZ \cong \CC^*$ via $\exp$, in accordance with (2).
+\end{enumerate}
+Deligne cohomology is thus a mixture of integral cohomology and of the holomorphic data $\CC/F^p$; it is not a topological invariant, and for $p \geq 1$ its groups are in general neither finitely generated nor
+vector spaces.
+\end{example}
 
 \begin{remark}\label{intermediate-jacobians:remark-deligne-cycle-class}
 There is a \emph{Deligne cycle class} $\mathrm{cl}_{\mathcal{D}} \colon \CH^p(X) \to H^{2p}_{\mathcal{D}}(X; \ZZ(p))$ lifting $\mathrm{cl}$ and restricting to $\mathrm{AJ}$ on homologically trivial cycles

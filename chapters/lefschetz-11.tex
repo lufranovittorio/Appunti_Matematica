@@ -43,6 +43,54 @@ $\Pic^0(X)$ is a torus by Remark~\ref{holomorphic-bundles:remark-picard-variety}
 classes of type $(1,1)$, which form a real vector space of dimension $h^{1,1}$ (a real structure on $H^{1,1}$, since $\overline{H^{1,1}} = H^{1,1}$).
 \end{proof}
 
+\begin{proposition}\label{lefschetz-11:proposition-flat}
+Let $X$ be a compact K\"ahler manifold, and let $U(1)_X$ be the sheaf of locally constant functions with values in $U(1) = \{z \in \CC : |z| = 1\}$. The inclusion $U(1)_X \subseteq \mathcal{O}_X^*$ induces a
+homomorphism $b \colon H^1(X, U(1)_X) \to \Pic(X)$, whose image consists of the \emph{flat unitary} line bundles, those given by locally constant transition functions of modulus one.
+\begin{enumerate}
+\item $b$ maps the kernel of the connecting map $\delta \colon H^1(X, U(1)_X) \to H^2(X; \ZZ)$ isomorphically onto $\Pic^0(X)$, and this kernel is $H^1(X; \RR)/H^1(X; \ZZ)$, a real torus of dimension $b_1(X)$.
+\item A holomorphic line bundle is flat unitary if and only if its first Chern class is a torsion element of $H^2(X; \ZZ)$. In particular every torsion class in $H^2(X; \ZZ)$ lies in $\mathrm{NS}(X)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The map $t \mapsto e^{2\pi it}$ gives a short exact sequence of sheaves $0 \to \ZZ_X \to \RR_X \to U(1)_X \to 0$: on a connected neighbourhood a locally constant function is constant, and $\RR \to U(1)$ is
+surjective with kernel $\ZZ$. The inclusions $\RR_X \subseteq \mathcal{O}_X$ and $U(1)_X \subseteq \mathcal{O}_X^*$ map it to the exponential sequence of
+Theorem~\ref{holomorphic-bundles:theorem-exponential}, and by naturality of the long exact sequence (Theorem~\ref{homological-algebra:theorem-long-exact-sequence}) we get a commutative diagram with exact rows
+\begin{center}
+\begin{tikzcd}
+H^1(X; \ZZ) \arrow[r] \arrow[d, equal] & H^1(X; \RR) \arrow[r, "\beta"] \arrow[d, "a"] & H^1(X, U(1)_X) \arrow[r, "\delta"] \arrow[d, "b"] & H^2(X; \ZZ) \arrow[r] \arrow[d, equal] & H^2(X; \RR) \\
+H^1(X; \ZZ) \arrow[r] & H^1(X, \mathcal{O}_X) \arrow[r, "\beta'"] & \Pic(X) \arrow[r, "c_1"] & H^2(X; \ZZ) &
+\end{tikzcd}
+\end{center}
+where $a$ is induced by $\RR_X \subseteq \mathcal{O}_X$. By Exercise~\ref{hodge-decomposition:exercise-h1-real}, $a$ is an isomorphism of real vector spaces. By exactness,
+$\ker\delta = \beta(H^1(X; \RR)) \cong H^1(X; \RR)/H^1(X; \ZZ)$ and $\Pic^0(X) = \ker c_1 = \beta'(H^1(X, \mathcal{O}_X)) \cong H^1(X, \mathcal{O}_X)/H^1(X; \ZZ)$, and $a$ induces an isomorphism between these
+quotients, since the left square commutes. As $b\beta = \beta'a$, this isomorphism is the restriction of $b$, proving (1); the image of $H^1(X; \ZZ)$ in $H^1(X; \RR)$ is a lattice by the universal coefficient
+theorem (Theorem~\ref{singular-cohomology:theorem-universal-coefficients}).
+
+(2) If $L = b(y)$, then $c_1(L) = \delta(y)$ maps to $0$ in $H^2(X; \RR)$ by exactness of the top row, so it is torsion, because the kernel of $H^2(X; \ZZ) \to H^2(X; \RR)$ is the torsion subgroup (again by
+the universal coefficient theorem). Conversely, let $c_1(L)$ be torsion. Then it maps to $0$ in $H^2(X; \RR)$, so $c_1(L) = \delta(y)$ for some $y$, and $L \otimes b(y)^{-1}$ has $c_1 = 0$. By (1),
+$L \otimes b(y)^{-1} = b(y')$ is flat unitary, and so is $L = b(yy')$. The same argument, starting from a torsion class $t = \delta(y)$, shows $t = c_1(b(y)) \in \mathrm{NS}(X)$.
+\end{proof}
+
+\begin{example}\label{lefschetz-11:example-two-torus}
+Let $T = \CC^2/\Lambda$ be a complex torus of dimension $2$ and $\sigma = dz_1 \wedge dz_2$. By Example~\ref{dolbeault:example-hodge-numbers}, $h^{2,0} = h^{0,2} = 1$ and $h^{1,1} = 4$, with $H^{2,0}(T)$
+spanned by $[\sigma]$ and $H^{0,2}(T)$ by $[\bar\sigma]$; and $H^2(T; \ZZ) \cong \ZZ^6$ (Example~\ref{singular-cohomology:example-torus}). A real class $a \in H^2(T; \RR)$ is of type $(1,1)$ if and only if
+$\int_Ta \wedge \sigma = 0$. Indeed, write $a = a^{2,0} + a^{1,1} + a^{0,2}$ (Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}), with $a^{2,0} = \overline{a^{0,2}}$ because $a$ is real, and
+$a^{0,2} = c[\bar\sigma]$. For type reasons only $a^{0,2}$ contributes to $\int_Ta \wedge \sigma$, so the integral is $c\int_T\bar\sigma \wedge \sigma$, and $\bar\sigma \wedge \sigma$ is a nonzero constant
+multiple of $dx_1 \wedge dy_1 \wedge dx_2 \wedge dy_2$ ($z_j = x_j + iy_j$); hence it vanishes if and only if $c = 0$, that is, $a^{0,2} = a^{2,0} = 0$.
+
+By Theorem~\ref{lefschetz-11:theorem-kahler}, $\mathrm{NS}(T)$ is therefore the kernel of $\varphi \colon H^2(T; \ZZ) \to \CC$, $\varphi(a) = \int_Ta \wedge \sigma$. If $e_1, \ldots, e_6$ is a $\ZZ$-basis of
+$H^2(T; \ZZ)$ with \emph{periods} $\pi_k = \varphi(e_k)$, then
+\[
+\rho(T) = 6 - \dim_\QQ(\QQ\pi_1 + \cdots + \QQ\pi_6),
+\]
+since the kernel of $\ZZ^6 \to \CC$, $m \mapsto \sum_km_k\pi_k$, has the same rank as the kernel of its extension to $\QQ^6$. The real extension $H^2(T; \RR) \to \CC$ has as kernel the real classes of type
+$(1,1)$, of real dimension $h^{1,1} = 4$, so it is surjective and the $\pi_k$ span $\CC$ over $\RR$. Hence the $\QQ$-dimension above is at least $2$ and $\rho(T) \leq 4$, as predicted by
+Corollary~\ref{lefschetz-11:corollary-neron-severi}. The Picard number of $T$ is thus governed by the linear relations over $\QQ$ among six complex numbers: $\rho(T) = 4$ when the periods span only a
+two-dimensional $\QQ$-vector space, as for $E \times E$ with $E = \CC/(\ZZ + \ZZ i)$ (Example~\ref{lefschetz-11:example-neron-severi}(2), since $\Hom(E, E) \supseteq \ZZ[i]$ has rank $2$), and
+$\rho(T) = 0$ when they are linearly independent over $\QQ$, which is the situation of Exercise~\ref{lefschetz-11:exercise-picard-number-torus}.
+\end{example}
+
 \section{The projective case: classes of divisors}\label{lefschetz-11:section-projective}
 
 \begin{theorem}[Lefschetz $(1,1)$]\label{lefschetz-11:theorem-lefschetz-11}
@@ -80,6 +128,15 @@ class in $H^4$ is algebraic, since $L^{n-2}$ need not be an isomorphism over $\Z
 \item For $E \times E'$, $\mathrm{NS} \cong \ZZ^2 \oplus \Hom(E, E')$ (Exercise~\ref{abelian-varieties:exercise-ns-product}), which by Theorem~\ref{lefschetz-11:theorem-lefschetz-11} is also the
 lattice of integral classes of type $(1,1)$, a statement about Hodge structures (Example~\ref{hodge-conjecture:example-elliptic-product}).
 \end{enumerate}
+\end{example}
+
+\begin{example}\label{lefschetz-11:example-quadric}
+Let $X = \PP^1 \times \PP^1$, which is isomorphic to a nonsingular quadric surface in $\PP^3$ (Example~\ref{holomorphic-bundles:example-adjunction}), with projections $\mathrm{pr}_1$, $\mathrm{pr}_2$, and let $h$ be the
+positive generator of $H^2(\PP^1; \ZZ)$. By the K\"unneth formula (Theorem~\ref{singular-cohomology:theorem-kunneth}), $H^2(X; \ZZ) = \ZZ a \oplus \ZZ b$ with $a = \mathrm{pr}_1^*h$ and $b = \mathrm{pr}_2^*h$. By
+naturality of $c_1$ (Theorem~\ref{vector-bundles:theorem-line-bundles}), $a = c_1(\mathrm{pr}_1^*\mathcal{O}(1))$ and $b = c_1(\mathrm{pr}_2^*\mathcal{O}(1))$; these are the classes of the divisors
+$\{p\} \times \PP^1$ and $\PP^1 \times \{p\}$, the two rulings of the quadric. So every integral class is algebraic and $\rho(X) = b_2(X) = 2$, without any Hodge theory. Conversely this determines the Hodge
+numbers: $\rho(X) \leq h^{1,1}(X)$ (Corollary~\ref{lefschetz-11:corollary-neron-severi}) and $h^{2,0} + h^{1,1} + h^{0,2} = b_2 = 2$ with $h^{2,0} = h^{0,2}$ force $h^{1,1} = 2$ and $h^{2,0} = 0$. The
+intersection numbers are $a^2 = b^2 = 0$ and $ab = 1$: two lines of the same ruling are disjoint, and two lines of different rulings meet transversally in one point.
 \end{example}
 
 \begin{theorem}[Noether--Lefschetz]\label{lefschetz-11:theorem-noether-lefschetz}
