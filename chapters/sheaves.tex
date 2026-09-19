@@ -69,6 +69,28 @@ injective. Let $t \in \mathcal{G}(U)$. For each $x \in U$ choose $s^{(x)} \in \m
 $W_x \cap W_y$, $\varphi(s^{(x)}) = \varphi(s^{(y)})$, so $s^{(x)} = s^{(y)}$ there by injectivity. By gluing there is $s$ with $s|_{W_x} = s^{(x)}$, and $\varphi(s) = t$ by locality.
 \end{proof}
 
+\begin{proposition}[Gluing sheaves]\label{sheaves:proposition-gluing}
+Let $(U_i)_{i \in I}$ be an open cover of $X$, let $\mathcal{F}_i$ be a sheaf on $U_i$, and write $U_{ij} = U_i \cap U_j$, $U_{ijk} = U_i \cap U_j \cap U_k$. Let
+$\varphi_{ij} \colon \mathcal{F}_j|_{U_{ij}} \to \mathcal{F}_i|_{U_{ij}}$ be isomorphisms with $\varphi_{ii} = \id$ and $\varphi_{ij} \circ \varphi_{jk} = \varphi_{ik}$ on $U_{ijk}$ (the \emph{cocycle condition}). Then there is a sheaf $\mathcal{F}$
+on $X$ with isomorphisms $\psi_i \colon \mathcal{F}|_{U_i} \to \mathcal{F}_i$ such that $\psi_i = \varphi_{ij} \circ \psi_j$ on $U_{ij}$, and $(\mathcal{F}, (\psi_i))$ is unique up to unique isomorphism.
+\end{proposition}
+
+\begin{proof}
+For $U$ open let $\mathcal{F}(U)$ be the set of families $(s_i)_i$ with $s_i \in \mathcal{F}_i(U \cap U_i)$ and $s_i = \varphi_{ij}(s_j)$ on $U \cap U_{ij}$ for all $i, j$, with componentwise restriction. The sheaf
+axioms hold componentwise, since each $\mathcal{F}_i$ is a sheaf and the compatibility conditions can be checked locally (by locality of the $\mathcal{F}_i$). For $V \subseteq U_i$ define
+$\psi_i(( s_j)_j) = s_i$. Its inverse sends $t \in \mathcal{F}_i(V)$ to the family $s_j = \varphi_{ji}(t|_{V \cap U_j})$; this family is compatible because
+$\varphi_{jk}(s_k) = \varphi_{jk}\varphi_{ki}(t) = \varphi_{ji}(t) = s_j$, and $s_i = t$ because $\varphi_{ii} = \id$. Conversely a compatible family is determined by its $i$-th member, as $s_j = \varphi_{ji}(s_i)$; so
+$\psi_i$ is an isomorphism, and $\psi_i = \varphi_{ij}\psi_j$ is the compatibility condition. If $(\mathcal{G}, (\psi'_i))$ is another solution, the isomorphisms $\psi_i^{-1}\psi'_i \colon \mathcal{G}|_{U_i} \to \mathcal{F}|_{U_i}$ agree on
+the overlaps, since $\psi_i^{-1}\psi'_i = \psi_j^{-1}\varphi_{ij}^{-1}\varphi_{ij}\psi'_j = \psi_j^{-1}\psi'_j$; morphisms of sheaves that agree on overlaps glue uniquely, by the sheaf axioms of the target applied
+to the images of sections, so they define the unique isomorphism $\mathcal{G} \to \mathcal{F}$ compatible with the $\psi$'s.
+\end{proof}
+
+\begin{example}\label{sheaves:example-gluing}
+Vector bundles are the basic instance: on a cover trivialising a bundle, the sheaves of sections $\mathcal{F}_i \cong \mathcal{C}^r_{U_i}$ are glued by the transition functions, and the cocycle condition of
+Proposition~\ref{sheaves:proposition-gluing} is the cocycle condition for transition functions. Local systems (Section~\ref{sheaves:section-local-systems}) are glued in the same way from constant sheaves, with locally
+constant transition functions.
+\end{example}
+
 \section{Sheafification}\label{sheaves:section-sheafification}
 
 \begin{theorem}\label{sheaves:theorem-sheafification}
@@ -115,6 +137,21 @@ For the failure of right exactness, let $X = \RR$, $p \neq q$ in $X$, and consid
 defined). On stalks it is surjective: at $p$ it is $\ZZ \to \ZZ$, the identity, and at points $x \neq p, q$ the target stalk is $0$, since $x$ has a neighbourhood containing neither
 $p$ nor $q$. On global sections it is $\ZZ \to \ZZ \oplus \ZZ$, $n \mapsto (n, n)$, because $\RR$ is connected, and this is not surjective.
 \end{proof}
+
+\begin{counterexample}\label{sheaves:counterexample-lifting}
+Surjectivity on stalks is a local lifting property, and global sections can fail to lift for topological reasons. Let $T = \RR/\ZZ$ with quotient map $q \colon \RR \to T$. The covering
+$p \colon \RR \to S^1$ of Proposition~\ref{homotopy:proposition-circle-covering} induces a continuous bijection $\RR/4\ZZ \to S^1$ from a compact space to a Hausdorff space, hence a homeomorphism
+(Proposition~\ref{general-topology:proposition-compact-basic}), so $T \cong \RR/4\ZZ \cong S^1$ and $q$ is a covering map. On any space $X$, let $\mathcal{C}_\RR$ and $\mathcal{C}_T$ be the sheaves of continuous maps
+to $\RR$ and to the abelian group $T$, and consider
+\[
+0 \to \ZZ_X \to \mathcal{C}_\RR \xrightarrow{\ f \mapsto q \circ f\ } \mathcal{C}_T \to 0 .
+\]
+The kernel of $f \mapsto q \circ f$ consists of the continuous maps to $\ZZ$, that is, $\ZZ_X$. On stalks the map is surjective: a continuous $g \colon W \to T$ near $x$ takes a small neighbourhood of $x$ into an evenly covered
+open set, over which $q$ has a continuous inverse on each sheet. So the sequence is exact (Proposition~\ref{sheaves:proposition-abelian-category}). But for $X = T$, the identity $\id_T \in \mathcal{C}_T(T)$ is not
+of the form $q \circ f$: a continuous $f \colon T \to \RR$ with $q \circ f = \id$ would be a lift of $\id_T$ through $q$, which by the lifting criterion (Proposition~\ref{homotopy:proposition-lifting-criterion})
+requires $\pi_1(T) \subseteq q_*\pi_1(\RR) = 0$, whereas $\pi_1(T) \cong \pi_1(S^1) \cong \ZZ$ (Theorem~\ref{homotopy:theorem-circle}). So $\Gamma(T, -)$ is not right exact on this sequence; the obstruction
+will reappear as the nonzero group $H^1(S^1, \ZZ) \cong \ZZ$ (Chapter~\ref{sheaf-cohomology}).
+\end{counterexample}
 
 \section{Direct and inverse images}\label{sheaves:section-images}
 

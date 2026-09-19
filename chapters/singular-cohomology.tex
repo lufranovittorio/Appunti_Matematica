@@ -98,6 +98,23 @@ isomorphism for $k < n$. The proof of Theorem~\ref{singular-homology:theorem-cel
 $H^n(X^n, X^{n-1}) \to H^n(X^n) \to H^{n+1}(X^{n+1}, X^n)$ is the transpose of $d_{n+1}$ by the formula $\langle\delta\alpha, c\rangle = \langle\alpha, \partial c\rangle$.
 \end{proof}
 
+\begin{corollary}\label{singular-cohomology:corollary-even-cells}
+Let $X$ be a CW complex with finitely many cells in each dimension and no cells of odd dimension. Then $H^k(X; G) = 0$ for $k$ odd, and $H^k(X; G) \cong G^{c_k}$ for $k$ even, where $c_k$ is the
+number of $k$-cells. The same holds for homology, and $\chi(X) = \sum_kc_k$ when $X$ is finite.
+\end{corollary}
+
+\begin{proof}
+The cellular chain complex has $C^{CW}_k(X) = 0$ for $k$ odd, so all its differentials vanish, being maps into or out of zero groups. By Theorem~\ref{singular-cohomology:theorem-cellular} the cohomology is
+$\Hom(C^{CW}_k(X), G) = \Hom(\ZZ^{c_k}, G) = G^{c_k}$ in each even degree $k$, and $0$ in odd degrees; the homology statement is Theorem~\ref{singular-homology:theorem-cellular}. The Euler characteristic is
+the alternating sum of the ranks.
+\end{proof}
+
+\begin{example}\label{singular-cohomology:example-even-cells}
+$\CC\PP^n$ has one cell in each even dimension $0, 2, \ldots, 2n$ (Example~\ref{singular-homology:example-cellular-computations}), so $H^{2k}(\CC\PP^n; \ZZ) \cong \ZZ$ for $0 \leq k \leq n$ and all other groups
+vanish, and $\chi(\CC\PP^n) = n + 1$. The product $S^2 \times S^2$, with cells $e^0$, $e^2 \times e^0$, $e^0 \times e^2$, $e^2 \times e^2$, has $H^0 = H^4 = \ZZ$ and $H^2 = \ZZ^2$. For $\RR\PP^n$, which has one
+cell in each dimension $\leq n$, the corollary does not apply, and indeed its cohomology has torsion (Example~\ref{singular-cohomology:example-cohomology-groups}).
+\end{example}
+
 \section{The cup product}\label{singular-cohomology:section-cup}
 
 \begin{definition}\label{singular-cohomology:definition-cup}
@@ -206,6 +223,57 @@ $g \circ \gamma$ from $g(x)$ to $-g(x)$, whose lift is not a loop; so $w_{n-1}(\
 $\bar{g}^*(w_{n-1}^n) = \alpha^n \neq 0$ by Theorem~\ref{singular-cohomology:theorem-projective-spaces}, but $w_{n-1}^n \in H^n(\RR\PP^{n-1}; \mathbb{F}_2) = 0$, a contradiction.
 If $f(x) \neq f(-x)$ for all $x$, then $g(x) = (f(x) - f(-x))/\|f(x) - f(-x)\|$ is an odd map $S^n \to S^{n-1}$.
 \end{proof}
+
+\section{Cup length and coverings by contractible sets}\label{singular-cohomology:section-cup-length}
+
+\begin{lemma}\label{singular-cohomology:lemma-relative-cup}
+Let $A$, $B$ be open subsets of $X$. The cup product of cochains induces a product $H^k(X, A; R) \times H^l(X, B; R) \to H^{k+l}(X, A \cup B; R)$, compatible with the absolute cup product under the maps
+$H^\bullet(X, C; R) \to H^\bullet(X; R)$ for $C = A, B, A \cup B$.
+\end{lemma}
+
+\begin{proof}
+If $\varphi$ vanishes on simplices in $A$ and $\psi$ on simplices in $B$, then $\varphi \smile \psi$ vanishes on simplices in $A$ (because of its front face) and on simplices in $B$ (because of its back face),
+hence on the subcomplex $C(A) + C(B) \subseteq C(A \cup B)$. By Lemma~\ref{singular-cohomology:lemma-cup-coboundary}, this gives a product with values in the cohomology of
+$\Hom(C(X)/(C(A) + C(B)), R)$. It remains to identify this cohomology with $H^\bullet(X, A \cup B; R)$. The inclusion $C(A) + C(B) \to C(A \cup B)$ is a chain homotopy equivalence by
+Proposition~\ref{singular-homology:proposition-small-chains}, applied to the open cover $\{A, B\}$ of $A \cup B$, so it induces isomorphisms on cohomology with coefficients in $R$. The sequences
+$0 \to C(A) + C(B) \to C(X) \to C(X)/(C(A) + C(B)) \to 0$ and $0 \to C(A \cup B) \to C(X) \to C(X, A \cup B) \to 0$ split degreewise, the quotients being free on the simplices not in the subcomplex, so
+they give long exact cohomology sequences after applying $\Hom(-, R)$, and the inclusions give a map between them. The five lemma (Lemma~\ref{homological-algebra:lemma-five}) shows that
+$H^\bullet(X, A \cup B; R) \to H^\bullet(\Hom(C(X)/(C(A) + C(B)), R))$ is an isomorphism. Compatibility with the absolute product holds on cochains.
+\end{proof}
+
+\begin{proposition}\label{singular-cohomology:proposition-lusternik-schnirelmann}
+Let $X$ be covered by open sets $U_1, \ldots, U_n$ such that each inclusion $U_i \to X$ is homotopic to a constant map. Then $\alpha_1 \smile \cdots \smile \alpha_n = 0$ for all
+$\alpha_i \in H^{k_i}(X; R)$ with $k_i \geq 1$.
+\end{proposition}
+
+\begin{proof}
+The restriction $H^{k}(X; R) \to H^{k}(U_i; R)$ is induced by the inclusion, which is homotopic to a map factoring through a point, so it is zero for $k \geq 1$, as $H^k(\mathrm{pt}; R) = 0$
+(Theorem~\ref{singular-cohomology:theorem-axioms}(1)). By the long exact sequence of the pair $(X, U_i)$, each $\alpha_i$ lifts to $\tilde\alpha_i \in H^{k_i}(X, U_i; R)$. By
+Lemma~\ref{singular-cohomology:lemma-relative-cup}, applied $n - 1$ times, $\tilde\alpha_1 \smile \cdots \smile \tilde\alpha_n$ lies in $H^\bullet(X, U_1 \cup \cdots \cup U_n; R) = H^\bullet(X, X; R) = 0$ and
+maps to $\alpha_1 \smile \cdots \smile \alpha_n$.
+\end{proof}
+
+\begin{corollary}\label{singular-cohomology:corollary-cup-length}
+\begin{enumerate}
+\item The torus $T^n$ cannot be covered by $n$ open sets that are contractible in $T^n$, but it can be covered by $n + 1$ of them.
+\item $\CC\PP^n$ cannot be covered by $n$ open sets contractible in $\CC\PP^n$, and it is covered by the $n + 1$ standard affine charts, each homeomorphic to $\CC^n$.
+\item $\RR\PP^n$ cannot be covered by $n$ open sets contractible in $\RR\PP^n$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{singular-cohomology:proposition-lusternik-schnirelmann} it suffices to exhibit $n$ classes of positive degree with nonzero product: $x_1 \smile \cdots \smile x_n$ generates $H^n(T^n)$
+(Example~\ref{singular-cohomology:example-torus}), and $\alpha^n \neq 0$ in $H^{2n}(\CC\PP^n; \ZZ)$ and in $H^n(\RR\PP^n; \mathbb{F}_2)$ (Theorem~\ref{singular-cohomology:theorem-projective-spaces}). For the
+covering of $T^n = \RR^n/\ZZ^n$ by $n + 1$ sets, let $U_j$, $0 \leq j \leq n$, be the image of the open set of points $x \in \RR^n$ whose coordinates avoid the interval
+$[\frac{j}{n+1} + \frac{1}{4(n+1)}, \frac{j}{n+1} + \frac{3}{4(n+1)}]$ modulo $1$: each coordinate then ranges in an open interval of $\RR/\ZZ$, so $U_j$ is homeomorphic to an open cube, which is contractible.
+Every $x$ lies in some $U_j$, because its $n$ coordinates can meet at most $n$ of the $n + 1$ disjoint intervals.
+\end{proof}
+
+\begin{remark}\label{singular-cohomology:remark-ls-category}
+The least $m$ such that $X$ is covered by $m + 1$ open sets contractible in $X$ is the \emph{Lusternik--Schnirelmann category} of $X$. Proposition~\ref{singular-cohomology:proposition-lusternik-schnirelmann} bounds it from
+below by the \emph{cup length}, the largest number of classes of positive degree with nonzero product. By Corollary~\ref{singular-cohomology:corollary-cup-length} the category of $T^n$ is $n$. Lusternik and
+Schnirelmann introduced this invariant to bound from below the number of critical points of smooth functions on closed manifolds.
+\end{remark}
 
 \section{The cap product}\label{singular-cohomology:section-cap}
 
