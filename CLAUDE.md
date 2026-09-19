@@ -17,12 +17,10 @@ Language: English.
   Every `.js` file in the theme is loaded on every page, so page-specific
   scripts live elsewhere: `web/search.js` drives `search.html`, which
   `make.py html` writes together with the index `search-index.js`.
-- `sources/` — reference material (e.g. the Hodge conjecture PDF the Part IX
-  chapters are based on). Not part of the build.
 - `output/` — generated; never edit by hand.
-- `_old/`, `build/`, `main/`, `template/`, `algebra.tex`, `analisi.tex`,
-  `geometria.tex`, `main.tex`, `main.paux` (if present) — the user's earlier
-  experiments, unrelated to this project. Do not use or modify them.
+- `OLD_NOT_Needed/` — the user's earlier experiments and the reference PDF on
+  the Hodge conjecture that the Part IX chapters were based on. Ignored by git
+  and not part of the project or the public repository; do not use or modify it.
 
 ## Rules for writing chapters
 
