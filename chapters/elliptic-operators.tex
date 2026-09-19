@@ -111,6 +111,17 @@ regular as $Pu$ allows. The omitted verifications are the construction of the pa
 \cite[Chapter 4]{wells-differential-analysis} or \cite[Chapters 17--18]{hormander-pdo1}.
 \end{proof}
 
+\begin{counterexample}\label{elliptic-operators:counterexample-wave}
+Regularity fails for non-elliptic operators. On $\RR^2$ with coordinates $(t, x)$ let $P = \partial_t^2 - \partial_x^2$, whose symbol $-\tau^2 + \xi^2$ vanishes on the lines $\tau = \pm\xi$. For every locally integrable $g$ on $\RR$,
+the function $u(t, x) = g(x - t)$ satisfies $Pu = 0$ in $\mathcal{D}'(\RR^2)$. Indeed, in the coordinates $s = x - t$, $r = x + t$ one has $\partial_t = \partial_r - \partial_s$, $\partial_x = \partial_r + \partial_s$, so
+$\partial_t^2 - \partial_x^2 = -4\partial_r\partial_s$ and $dt\,dx = \frac12ds\,dr$. For a test function $\varphi$, written $\tilde\varphi(s, r)$ in the new coordinates,
+\[
+\langle Pu, \varphi\rangle = \int u\,(\partial_t^2 - \partial_x^2)\varphi\,dt\,dx = -2\int g(s)\Big(\int\partial_r(\partial_s\tilde\varphi)\,dr\Big)ds = 0,
+\]
+since $\partial_s\tilde\varphi$ has compact support in $r$. Taking $g$ the indicator function of $[0, \infty)$ gives a discontinuous solution of $Pu = 0$, although $0$ is smooth. For elliptic operators this cannot happen: a
+distribution $u$ with $\sum_j\partial_j^2u$ smooth is smooth, by the local form of Theorem~\ref{elliptic-operators:theorem-elliptic-estimate}.
+\end{counterexample}
+
 \section{Fredholm theory and the spectral decomposition}\label{elliptic-operators:section-fredholm}
 
 \begin{definition}\label{elliptic-operators:definition-formal-adjoint}
@@ -142,6 +153,14 @@ applied to $P$ and $P^*$ it is Fredholm; the kernel is independent of $s$ by reg
 $P^*f = 0$ in the sense of distributions, which by elliptic regularity means $f \in \ker P^*$ and $f$ smooth. Since the range is closed, $L^2 = \overline{\operatorname{im}P} \oplus \ker P^* = \operatorname{im}P \oplus \ker P^*$, where
 $\operatorname{im}P$ is taken on $H^m$; and if $f$ is smooth and orthogonal to $\ker P^*$, a solution $u \in H^m$ exists and is smooth by regularity.
 \end{proof}
+
+\begin{example}\label{elliptic-operators:example-circle-derivative}
+On the circle $S^1 = \RR/2\pi\ZZ$ let $P = d/d\theta$ on complex functions. Its symbol $i\xi$ is invertible for $\xi \neq 0$, so $P$ is elliptic of order $1$, and integration by parts gives $P^* = -d/d\theta$. Both kernels
+consist of the constants. Theorem~\ref{elliptic-operators:theorem-fredholm} predicts that $u' = f$ has a smooth periodic solution exactly when $f$ is orthogonal to $\ker P^*$, that is, when $\int_0^{2\pi}f\,d\theta = 0$; this
+is visible directly, since $u(\theta) = \int_0^\theta f$ is periodic exactly in that case. The index is $\dim\ker P - \dim\ker P^* = 0$. For the perturbation $P_c = d/d\theta + c$ with a constant $c \in \CC$, the kernel is
+spanned by $e^{-c\theta}$ when this function is $2\pi$-periodic, that is, when $c \in i\ZZ$, and is $0$ otherwise; so the dimension of the kernel jumps. The adjoint $P_c^* = -d/d\theta + \bar c$ has kernel spanned by $e^{\bar c\theta}$ for exactly the same values of $c$, so the index stays $0$,
+as predicted by Remark~\ref{elliptic-operators:remark-index}, since the principal symbol does not depend on $c$.
+\end{example}
 
 \begin{theorem}\label{elliptic-operators:theorem-spectral}
 Let $P$ be a formally self-adjoint elliptic operator of order $m > 0$ on a compact manifold, with $P \geq 0$ in the sense that $\int\langle Pu, u\rangle \geq 0$. Then $L^2(E)$ has a complete orthonormal

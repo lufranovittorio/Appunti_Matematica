@@ -82,6 +82,47 @@ Diffeomorphic complex manifolds need not be biholomorphic: all $E_\tau$ are diff
 $\frac{ai + b}{ci + d} = 2i$ with integers of determinant $1$ would give, comparing imaginary parts, $|ci + d|^2 = \frac12$, impossible for integers $c$, $d$.
 \end{counterexample}
 
+\begin{proposition}\label{complex-manifolds:proposition-normal-form}
+Let $f \colon X \to Y$ be a nonconstant holomorphic map of connected Riemann surfaces (complex manifolds of dimension $1$), and $p \in X$. There are holomorphic coordinates $z$ centred at $p$ and $w$ centred at $f(p)$ in
+which $f$ is $z \mapsto z^k$ for a unique integer $k = e_p \geq 1$, the \emph{ramification index}. Consequently $f$ is open, its fibres are discrete, and if $X$ is compact and $Y$ connected, then $f$ is surjective and
+has finite fibres.
+\end{proposition}
+
+\begin{proof}
+Choose coordinates $z$ at $p$ and $w$ at $f(p)$ with $z(p) = 0$, $w(f(p)) = 0$. In them $f$ is a holomorphic function of one variable with $f(0) = 0$, not identically zero near $0$ by the identity theorem
+(Theorem~\ref{complex-analysis:theorem-identity}) and connectedness of $X$. So $f(z) = z^kg(z)$ with $k \geq 1$ and $g(0) \neq 0$. On a small disc where $g$ has no zeros, $g'/g$ has a primitive $L$
+(Corollary~\ref{complex-analysis:corollary-primitive-convex}), and $(ge^{-L})' = 0$, so $g = ce^L$ with $c \neq 0$; writing $c = e^{c'}$, the function $h = e^{(L + c')/k}$ satisfies $h^k = g$. The new coordinate
+$\tilde z = zh(z)$ has derivative $h(0) \neq 0$ at $0$, so it is a local biholomorphism (Theorem~\ref{complex-analysis:theorem-open-mapping}, or
+Proposition~\ref{several-complex-variables:proposition-inverse-function}), and $f = \tilde z^k$. The integer $k$ is determined by $f$, as the number of preimages near $p$ of points $w \neq 0$ near $0$. The map
+$z \mapsto z^k$ is open with discrete fibres, so $f$ is. If $X$ is compact, $f(X)$ is compact, hence closed, and open, so $f(X) = Y$ when $Y$ is connected; the fibres are discrete and closed in a compact space, hence
+finite.
+\end{proof}
+
+\begin{proposition}\label{complex-manifolds:proposition-degree}
+Let $f \colon X \to Y$ be a nonconstant holomorphic map of compact connected Riemann surfaces. The number $\deg f = \sum_{p \in f^{-1}(q)}e_p$ does not depend on $q \in Y$. It equals the number of preimages of every
+point $q$ outside the finite set $f(\{p : e_p > 1\})$ of \emph{branch points}.
+\end{proposition}
+
+\begin{proof}
+The ramification points, where $f'$ vanishes in coordinates, are the zeros of a holomorphic function locally, hence discrete, hence finitely many in the compact $X$. Fix $q_0$ with preimages $p_1, \ldots, p_r$
+(Proposition~\ref{complex-manifolds:proposition-normal-form}), and choose disjoint coordinate discs $D_i$ around $p_i$ on which $f$ is $z \mapsto z^{e_i}$ onto a disc $D$ around $q_0$. The set
+$f(X \setminus \bigcup_iD_i)$ is compact and does not contain $q_0$, so there is a neighbourhood $D' \subseteq D$ of $q_0$ avoiding it. For $q \in D' \setminus \{q_0\}$, all preimages of $q$ lie in $\bigcup_iD_i$,
+and in $D_i$ the equation $z^{e_i} = w(q) \neq 0$ has exactly $e_i$ solutions, each with ramification index $1$. So the weighted count equals $\sum_ie_i$ on $D'$. Hence $q \mapsto \deg_q f$ is locally constant, hence
+constant on the connected $Y$.
+\end{proof}
+
+\begin{corollary}\label{complex-manifolds:corollary-maps-to-tori}
+Every holomorphic map from a simply connected compact connected complex manifold, such as $\CC\PP^1$, to a complex torus is constant. In particular $\CC\PP^1$ is not biholomorphic, and admits no nonconstant holomorphic
+map, to an elliptic curve.
+\end{corollary}
+
+\begin{proof}
+Let $f \colon X \to T = \CC^m/\Lambda$. The projection $\CC^m \to T$ is a covering (Theorem~\ref{topological-manifolds:theorem-covering-action}), so by the lifting criterion
+(Proposition~\ref{homotopy:proposition-lifting-criterion}) $f$ lifts to a continuous $F \colon X \to \CC^m$, which is holomorphic because the projection is a local biholomorphism. By
+Proposition~\ref{complex-manifolds:proposition-no-functions} each component of $F$ is constant, so $f$ is constant. The projective line is covered by the two charts $U_0$, $U_1$, each homeomorphic to $\CC$, with
+path-connected intersection $\CC^\times$; by the Seifert--van Kampen theorem (Theorem~\ref{homotopy:theorem-van-kampen}) $\pi_1(\CC\PP^1)$ is a quotient of the free product of two trivial groups, hence trivial.
+\end{proof}
+
 \section{Almost complex structures and forms of type $(p,q)$}\label{complex-manifolds:section-pq}
 
 \begin{definition}\label{complex-manifolds:definition-almost-complex}

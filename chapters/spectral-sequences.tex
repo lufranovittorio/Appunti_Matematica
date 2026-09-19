@@ -82,6 +82,24 @@ $E_\infty^{n,0} = \operatorname{coker}(d_{s+1} \colon E_2^{n-s-1,s} \to E_2^{n,0
 an extension $0 \to E_\infty^{n,0} \to H^n \to E_\infty^{n-s,s} \to 0$. Splicing these sequences gives the claim.
 \end{proof}
 
+\begin{proposition}\label{spectral-sequences:proposition-euler-characteristic}
+Let $E$ be a spectral sequence of finite-dimensional vector spaces over a field, with only finitely many nonzero $E_{r_0}^{p,q}$. Then $\chi(E_r) = \sum_{p,q}(-1)^{p+q}\dim E_r^{p,q}$ does not depend on $r$, and if
+$E_{r_0}^{p,q} \Rightarrow H^{p+q}$ converges, then $\chi(E_{r_0}) = \sum_n(-1)^n\dim H^n$. In particular $\dim H^n \leq \sum_{p+q=n}\dim E_r^{p,q}$ for every $r$.
+\end{proposition}
+
+\begin{proof}
+Grading $E_r$ by total degree $n = p + q$, the differential $d_r$ raises $n$ by one, so $(E_r, d_r)$ is a finite complex of finite-dimensional spaces with cohomology $E_{r+1}$. For such a complex
+$C^\bullet$, rank--nullity gives $\dim C^n = \dim Z^n + \dim B^{n+1}$ and $\dim H^n = \dim Z^n - \dim B^n$, so $\sum_n(-1)^n\dim C^n = \sum_n(-1)^n\dim H^n$. Hence $\chi(E_{r+1}) = \chi(E_r)$. Only finitely many
+positions are nonzero, so the pages stabilise, and convergence gives $\dim H^n = \sum_p\dim E_\infty^{p,n-p}$. The inequality holds because each $E_\infty^{p,q}$ is a subquotient of $E_r^{p,q}$.
+\end{proof}
+
+\begin{counterexample}\label{spectral-sequences:counterexample-extension}
+The limit of a spectral sequence determines the abutment only up to extensions. Let $K$ and $K'$ be the complexes concentrated in degree $0$, with zero differential, given by $K^0 = \ZZ/4$ with the filtration
+$F^0 = \ZZ/4 \supseteq F^1 = 2\ZZ/4 \supseteq F^2 = 0$, and $K'^0 = \ZZ/2 \oplus \ZZ/2$ with $F^0 = K'^0 \supseteq F^1 = 0 \oplus \ZZ/2 \supseteq F^2 = 0$. In both cases all differentials vanish and the spectral
+sequence of the filtered complex (Section~\ref{spectral-sequences:section-filtered-complex}) has $E_0^{0,0} = \ZZ/2$ and $E_0^{1,-1} = \ZZ/2$ on every page. The spectral sequences are isomorphic, but the abutments
+$\ZZ/4$ and $\ZZ/2 \oplus \ZZ/2$ are not. Over a field this cannot happen, since every extension of vector spaces splits and $H^n \cong \bigoplus_pE_\infty^{p,n-p}$.
+\end{counterexample}
+
 \section{The spectral sequence of a filtered complex}\label{spectral-sequences:section-filtered-complex}
 
 \begin{definition}\label{spectral-sequences:definition-filtered-complex}

@@ -113,6 +113,31 @@ The first equality is Theorem~\ref{hodge-theorem:theorem-hodge} together with th
 forms $\bigoplus_{k \text{ odd}}\mathcal{H}^k$, because $(d + \delta)\alpha = 0$ implies $\Delta\alpha = (d+\delta)^2\alpha = 0$; so the index is $\sum_k(-1)^k\dim\mathcal{H}^k$.
 \end{proof}
 
+\begin{corollary}[Poincar\'e inequality]\label{hodge-theorem:corollary-poincare-inequality}
+Let $M$ be compact and connected, and let $\lambda_1 > 0$ be the smallest nonzero eigenvalue of the Laplacian $\Delta = \delta d$ on functions. Then for every smooth function $f$ with $\int_Mf\,\mathrm{vol} = 0$,
+\[
+\int_Mf^2\,\mathrm{vol} \leq \frac{1}{\lambda_1}\int_M|df|^2\,\mathrm{vol},
+\]
+with equality exactly for the eigenfunctions of eigenvalue $\lambda_1$.
+\end{corollary}
+
+\begin{proof}
+A function $u$ with $\Delta u = 0$ satisfies $\|du\|^2 = (\delta du, u) = 0$, so it is locally constant, hence constant as $M$ is connected: $\mathcal{H}^0 = \RR$. By Theorem~\ref{elliptic-operators:theorem-spectral} there is an
+orthonormal basis $u_0, u_1, \ldots$ of $L^2(M)$ of smooth eigenfunctions with eigenvalues $0 = \lambda^{(0)} < \lambda_1 = \lambda^{(1)} \leq \lambda^{(2)} \leq \cdots$, where $u_0$ is constant. Write
+$f = \sum_kc_ku_k$; then $c_0 = (f, u_0) = 0$ by hypothesis. Since $\Delta f = \sum_k\lambda^{(k)}c_ku_k$ in $L^2$,
+\[
+\|df\|^2 = (\Delta f, f) = \sum_{k \geq 1}\lambda^{(k)}c_k^2 \geq \lambda_1\sum_{k \geq 1}c_k^2 = \lambda_1\|f\|^2,
+\]
+with equality if and only if $c_k = 0$ whenever $\lambda^{(k)} > \lambda_1$, that is, $f$ lies in the $\lambda_1$-eigenspace.
+\end{proof}
+
+\begin{example}\label{hodge-theorem:example-wirtinger}
+On the circle $M = \RR/2\pi\ZZ$ with its standard metric, $\Delta f = -f''$. The real solutions of $f'' = -\lambda f$ with $\lambda > 0$ are $a\cos(\sqrt\lambda\,\theta) + b\sin(\sqrt\lambda\,\theta)$, which are
+$2\pi$-periodic only for $\sqrt\lambda \in \ZZ$; so the eigenvalues are the $k^2$, with eigenfunctions $\cos k\theta$, $\sin k\theta$ (and $1$ for $k = 0$). Hence $\lambda_1 = 1$, and
+Corollary~\ref{hodge-theorem:corollary-poincare-inequality} is \emph{Wirtinger's inequality}: $\int_0^{2\pi}f^2 \leq \int_0^{2\pi}f'^2$ for $2\pi$-periodic smooth $f$ with $\int_0^{2\pi}f = 0$, with equality exactly for
+$f = a\cos\theta + b\sin\theta$. Theorem~\ref{elliptic-operators:theorem-spectral} also shows that the functions $1$, $\cos k\theta$, $\sin k\theta$ span a dense subspace of $L^2$, which is the completeness of Fourier series.
+\end{example}
+
 \begin{theorem}[Bochner]\label{hodge-theorem:theorem-bochner}
 Let $(M, g)$ be a compact oriented Riemannian manifold with $\mathrm{Ric} \geq 0$. Then every harmonic $1$-form is parallel, and $b_1(M) \leq n$. If moreover $\mathrm{Ric} > 0$ at some point, then
 $b_1(M) = 0$.
