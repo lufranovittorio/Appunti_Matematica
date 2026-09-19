@@ -172,6 +172,13 @@ def scan_chapter(project, chapter):
     in_section = False
     has_chapter_label = False
 
+    # A shell or a script can turn "\r", "\t", "\b", "\f" in "\ref", "\theta",
+    # "\beta", "\frac" into control characters; report any that are left.
+    source = path.read_bytes().replace(b"\r\n", b"\n")
+    for m in re.finditer(rb"[\x00-\x08\x0b-\x1f\x7f]", source):
+        lineno = source.count(b"\n", 0, m.start()) + 1
+        project.errors.append(f"{rel}:{lineno}: control character {m.group(0)!r} (a backslash lost to escaping?)")
+
     for lineno, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = strip_comment(raw)
         where = f"{rel}:{lineno}"
