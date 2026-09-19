@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Curvature - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="riemannian-geometry-section-holonomy.html" /><link rel="next" href="riemannian-geometry-section-hodge-star.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2 active">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+  <ul><li class="level-3">
+  <a href="riemannian-geometry-section-introduction.html"><span class="toc_ref">38.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-levi-civita.html"><span class="toc_ref">38.2</span> <span class="toc_entry">Metrics and the Levi-Civita connection</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-along-curves.html"><span class="toc_ref">38.3</span> <span class="toc_entry">Covariant derivatives along curves</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exponential.html"><span class="toc_ref">38.4</span> <span class="toc_entry">The exponential map and minimising geodesics</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-holonomy.html"><span class="toc_ref">38.5</span> <span class="toc_entry">Parallel transport and holonomy</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="riemannian-geometry-section-curvature.html"><span class="toc_ref">38.6</span> <span class="toc_entry">Curvature</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-hodge-star.html"><span class="toc_ref">38.7</span> <span class="toc_entry">The Hodge star and the Laplacian</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exercises.html"><span class="toc_ref">38.8</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="riemannian-geometry.html">38 Riemannian Geometry</a></li></ol>
+
+<article class="main-text">
+<h1 id="riemannian-geometry:section-curvature">38.6 Curvature<a class="tag" href="tag/01CG.html" title="Permanent link: tag 01CG">01CG</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="riemannian-geometry:definition-curvature-tensor">
+  <div class="definition_thmheading"><a class="tag" href="tag/01CH.html" title="Permanent link: tag 01CH">01CH</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">38.6.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The <em>Riemann curvature tensor</em> is the curvature of the Levi-Civita connection (Proposition&#160;<a href="connections-section-connections.html#connections:proposition-curvature">36.2.4</a>), \(R(X, Y)Z = \nabla _X\nabla _YZ - \nabla _Y\nabla _XZ - \nabla _{[X,Y]}Z\), viewed as the \(4\)-tensor \(R(X, Y, Z, W) = g(R(X, Y)Z, W)\). For a plane \(\sigma \subseteq T_pM\) with orthonormal basis \(u, v\), the <em>sectional curvature</em> is \(K(\sigma ) = R(u, v, v, u)\); the <em>Ricci tensor</em> is \(\mathrm{Ric}(X, Y) = \sum _iR(e_i, X, Y, e_i)\) for an orthonormal frame, and the <em>scalar curvature</em> is \(s = \sum _i\mathrm{Ric}(e_i, e_i)\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-curvature-symmetries">
+  <div class="proposition_thmheading"><a class="tag" href="tag/01CI.html" title="Permanent link: tag 01CI">01CI</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">38.6.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> \(R\) is tensorial and satisfies \(R(X, Y, Z, W) = -R(Y, X, Z, W) = -R(X, Y, W, Z) = R(Z, W, X, Y)\) and the first Bianchi identity \(R(X, Y)Z + R(Y, Z)X + R(Z, X)Y = 0\). The sectional curvatures determine \(R\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000933">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Tensoriality and the first antisymmetry are general facts about curvature. The second follows by polarising \(R(X, Y, Z, Z) = 0\), which holds because the connection is metric: \(0 = XY g(Z,Z)/2 - \cdots \) expands to \(g(R(X,Y)Z, Z)\). The first Bianchi identity follows from torsion-freeness and the Jacobi identity, and the symmetry in the pairs is a formal consequence of the other three, obtained by adding the Bianchi identities for the four cyclic permutations. The last statement is the standard polarisation argument <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 4]</span>. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-curvature">
+  <div class="example_thmheading"><a class="tag" href="tag/01CJ.html" title="Permanent link: tag 01CJ">01CJ</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">38.6.3</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Euclidean space has \(R = 0\); the round sphere of radius \(1\) has constant sectional curvature \(1\) and \(\mathrm{Ric} = (n-1)g\); hyperbolic space has constant curvature \(-1\). A Lie group with a bi-invariant metric has \(R(X, Y)Z = \frac14[[X, Y], Z]\) for left-invariant fields, hence non-negative sectional curvature. A metric has constant sectional curvature \(\kappa \) if and only if \(R(X, Y)Z = \kappa (\langle Y, Z\rangle X - \langle X, Z\rangle Y)\), since the right-hand side has the symmetries of Proposition&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:proposition-curvature-symmetries">38.6.2</a> and sectional curvature \(\kappa \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="riemannian-geometry:lemma-curvature-families">
+  <div class="lemma_thmheading"><a class="tag" href="tag/0285.html" title="Permanent link: tag 0285">0285</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">38.6.4</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For \(f\) as in Lemma&#160;<a href="riemannian-geometry-section-along-curves.html#riemannian-geometry:lemma-symmetry">38.3.2</a> and a vector field \(V\) along \(f\), \(D_sD_tV - D_tD_sV = R(\partial _sf, \partial _tf)V\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000934">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Write \(V = V^k(\partial _k \circ f)\). In \(D_sD_tV\) the terms containing derivatives of the \(V^k\) are symmetric in \(s\) and \(t\), so the left side is \(V^k(D_sD_t - D_tD_s)(\partial _k \circ f)\). Now \(D_t(\partial _k \circ f) = \partial _tf^i(\nabla _{\partial _i}\partial _k) \circ f\), and \(D_sD_t(\partial _k \circ f) = \partial _s\partial _tf^i(\nabla _{\partial _i}\partial _k) \circ f + \partial _tf^i\partial _sf^j(\nabla _{\partial _j}\nabla _{\partial _i}\partial _k) \circ f\). Antisymmetrising and using \([\partial _i, \partial _j] = 0\) gives \(\partial _sf^j\partial _tf^iR(\partial _j, \partial _i)\partial _k = R(\partial _sf, \partial _tf)\partial _k\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="riemannian-geometry:definition-jacobi">
+  <div class="definition_thmheading"><a class="tag" href="tag/0286.html" title="Permanent link: tag 0286">0286</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">38.6.5</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>Jacobi field</em> along a geodesic \(\gamma \) is a vector field \(J\) along \(\gamma \) with \(D_t^2J + R(J, \dot\gamma )\dot\gamma = 0\). A point \(\gamma (b)\) is <em>conjugate</em> to \(\gamma (a)\) along \(\gamma \) if there is a nonzero Jacobi field vanishing at \(a\) and \(b\). </p>
+
+  </div>
+</div>
+<p>The Jacobi equation is a linear second order equation, so a Jacobi field is determined by \(J(a)\) and \(D_tJ(a)\), and the Jacobi fields along \(\gamma \) form a vector space of dimension \(2n\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-jacobi">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0287.html" title="Permanent link: tag 0287">0287</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">38.6.6</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>If \(f(s, t)\) is a family of geodesics \(t \mapsto f(s, t)\), then \(J = \partial _sf(0, -)\) is a Jacobi field along \(\gamma = f(0, -)\). </p>
+</li>
+  <li><p>For \(v \in \mathcal{E}_p\) and \(w \in T_pM\), \(J(t) = d_{tv}\exp _p(tw)\) is the Jacobi field along \(\gamma (t) = \exp _p(tv)\) with \(J(0) = 0\) and \(D_tJ(0) = w\). </p>
+</li>
+  <li><p>\(d_v\exp _p\) is singular if and only if \(\exp _p(v)\) is conjugate to \(p\) along \(t \mapsto \exp _p(tv)\), \(t \in [0, 1]\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000935">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) With \(T = \partial _tf\) and \(S = \partial _sf\), Lemmas&#160;<a href="riemannian-geometry-section-along-curves.html#riemannian-geometry:lemma-symmetry">38.3.2</a> and&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:lemma-curvature-families">38.6.4</a> give \(D_tD_tS = D_tD_sT = D_sD_tT + R(T, S)T = R(T, S)T = -R(S, T)T\), since \(D_tT = 0\). (2) Apply (1) to \(f(s, t) = \exp _p(t(v + sw))\): \(\partial _sf(0, t) = d_{tv}\exp _p(tw)\). It vanishes at \(t = 0\), and \(D_tS(0, 0) = D_sT(0, 0) = \frac{d}{ds}(v + sw) = w\), the covariant derivative along the constant curve \(s \mapsto p\) being the ordinary derivative in \(T_pM\). (3) By (2) and uniqueness, the Jacobi fields vanishing at \(0\) are exactly the \(d_{tv}\exp _p(tw)\), and at \(t = 1\) this is \(d_v\exp _p(w)\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-jacobi-constant">
+  <div class="example_thmheading"><a class="tag" href="tag/0288.html" title="Permanent link: tag 0288">0288</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">38.6.7</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> If \(g\) has constant sectional curvature \(\kappa \) and \(\gamma \) has unit speed, then for a parallel unit field \(E \perp \dot\gamma \), \(R(E, \dot\gamma )\dot\gamma = \kappa E\) by Example&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:example-curvature">38.6.3</a>, and the Jacobi fields normal to \(\gamma \) with \(J(0) = 0\) are \(J(t) = s_\kappa (t)E(t)\) with \(s_\kappa (t) = t\), \(\sin (\sqrt\kappa t)/\sqrt\kappa \) or \(\sinh (\sqrt{-\kappa }t)/\sqrt{-\kappa }\) for \(\kappa = 0\), \({\gt} 0\), \({\lt} 0\). On the unit sphere they vanish again at \(t = \pi \): antipodal points are conjugate, which explains Remark&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:remark-non-unique-geodesics">38.4.9</a>. For \(\kappa \leq 0\) there are no conjugate points. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-cartan-hadamard">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0289.html" title="Permanent link: tag 0289">0289</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">38.6.8</span>
+    <span class="theorem_thmtitle">Cartan–Hadamard</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \((M, g)\) be complete and connected with sectional curvature \(K \leq 0\). Then for every \(p\), \(\exp _p \colon T_pM \to M\) is a covering map; if \(M\) is simply connected, it is a diffeomorphism, so \(M\) is diffeomorphic to \(\mathbb {R}^n\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000936">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Sketch of proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(J\) be a Jacobi field along a geodesic \(\gamma \) with \(J(0) = 0\) and \(D_tJ(0) \neq 0\), and \(\phi = |J|^2\). Then \(\phi '' = 2|D_tJ|^2 - 2\langle R(J, \dot\gamma )\dot\gamma , J\rangle = 2|D_tJ|^2 - 2K(J, \dot\gamma )(|J|^2|\dot\gamma |^2 - \langle J, \dot\gamma \rangle ^2) \geq 0\), where \(K(J, \dot\gamma )\) is the sectional curvature of the plane they span (if they are independent). So \(\phi \) is convex with \(\phi (0) = \phi '(0) = 0\) and \(\phi ''(0) {\gt} 0\), hence positive for \(t {\gt} 0\): there are no conjugate points, and \(\exp _p\) is a local diffeomorphism on \(T_pM\) (defined everywhere by Theorem&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:theorem-hopf-rinow">38.4.7</a>) by Proposition&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:proposition-jacobi">38.6.6</a>(3). The omitted verification is that a local diffeomorphism from a complete Riemannian manifold (here \(T_pM\) with the pulled back metric, whose radial lines are geodesics) that is a local isometry is a covering map <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 7]</span>. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-bonnet-myers">
+  <div class="theorem_thmheading"><a class="tag" href="tag/028A.html" title="Permanent link: tag 028A">028A</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">38.6.9</span>
+    <span class="theorem_thmtitle">Bonnet–Myers</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \((M, g)\) be complete and connected with \(\mathrm{Ric} \geq (n - 1)\kappa g\) for some \(\kappa {\gt} 0\). Then \(M\) has diameter at most \(\pi /\sqrt\kappa \); hence \(M\) is compact, and \(\pi _1(M)\) is finite. </p>
+
+  </div>
+</div>
+<p>This is <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 9]</span>. The proof computes the second variation of length along a minimising geodesic of length \(L {\gt} \pi /\sqrt\kappa \) in the directions \(\sin (\pi t/L)E_i(t)\), for a parallel orthonormal frame \(E_i \perp \dot\gamma \), and finds that their sum is negative, contradicting minimality. Finiteness of \(\pi _1\) follows by applying the diameter bound to the universal cover with the pulled back metric, which is compact, so the fibres of the covering are finite. </p>
+<div class="remark_thmwrapper theorem-style-remark" id="riemannian-geometry:remark-comparison">
+  <div class="remark_thmheading"><a class="tag" href="tag/028B.html" title="Permanent link: tag 028B">028B</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">38.6.10</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Theorems&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:theorem-cartan-hadamard">38.6.8</a> and&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:theorem-bonnet-myers">38.6.9</a> are the simplest <em>comparison theorems</em>, which compare a manifold with a space of constant curvature through its Jacobi fields. The Rauch comparison theorem <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 10]</span> and the Bishop–Gromov volume comparison <span class="cite">[<a href="Bibliography.html#lee-riemannian" >Lee18</a>]</span> are their refinements, and they lead to the sphere theorems and to Gromov’s compactness theorem. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-gauss-bonnet">
+  <div class="theorem_thmheading"><a class="tag" href="tag/02DH.html" title="Permanent link: tag 02DH">02DH</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">38.6.11</span>
+    <span class="theorem_thmtitle">Gauss–Bonnet</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(M\) be a compact oriented Riemannian surface, with Gaussian curvature \(K\) (the sectional curvature of its tangent planes) and area form \(dA\). Then </p>
+<div class="displaymath" id="a0000000937">
+  \[  \int _MK\, dA = 2\pi \chi (M) .  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000938">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(J\) be the rotation by \(+\pi /2\) in each tangent plane, for the metric and the orientation: \(Je_1 = e_2\) for every oriented orthonormal frame \((e_1, e_2)\). It is a smooth endomorphism with \(J^2 = -1\), so \(TM\) becomes a complex line bundle, with \(i\) acting as \(J\), whose underlying oriented real bundle is \(TM\). Near a point choose an oriented orthonormal frame \((e_1, e_2)\) and define the \(1\)-form \(\omega \) by \(\nabla _Xe_1 = \omega (X)e_2\); since \(\nabla \) is metric, \(\langle \nabla _Xe_1, e_1\rangle = 0\) and \(\nabla _Xe_2 = -\omega (X)e_1\). Hence \(\nabla J = J\nabla \), so \(\nabla \) is a connection on the complex line bundle, and in the complex frame \(e_1\) it reads \(\nabla e_1 = \omega \otimes Je_1 = i\omega \otimes e_1\): its connection form is \(\theta = i\omega \) and its curvature is \(F = d\theta = i\, d\omega \) (Proposition&#160;<a href="connections-section-connections.html#connections:proposition-curvature">36.2.4</a>). </p>
+<p>We compare \(d\omega \) with \(K\). From the definition of the curvature tensor, </p>
+<div class="displaymath" id="a0000000939">
+  \[  R(X, Y)e_1 = \nabla _X(\omega (Y)e_2) - \nabla _Y(\omega (X)e_2) - \omega ([X, Y])e_2 = \big(X\omega (Y) - Y\omega (X) - \omega ([X, Y])\big)e_2 = d\omega (X, Y)\, e_2,  \]
+</div>
+<p> the terms \(\mp \omega (X)\omega (Y)e_1\) cancelling. By Definition&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:definition-curvature-tensor">38.6.1</a> and Proposition&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:proposition-curvature-symmetries">38.6.2</a>, \(K = R(e_1, e_2, e_2, e_1) = -R(e_1, e_2, e_1, e_2) = -\langle R(e_1, e_2)e_1, e_2\rangle = -d\omega (e_1, e_2)\). So \(d\omega = -K\, e^1 \wedge e^2 = -K\, dA\) and \(F = -iK\, dA\). </p>
+<p>By Chern–Weil theory (Theorem&#160;<a href="characteristic-classes-section-chern-weil.html#characteristic-classes:theorem-chern-weil">37.2.2</a> and Definition&#160;<a href="characteristic-classes-section-chern-weil.html#characteristic-classes:definition-chern-forms">37.2.3</a>), \(c_1(TM)\) is represented by \(\frac{i}{2\pi }F = \frac{1}{2\pi }K\, dA\) for this connection. For a complex line bundle the Euler class of the underlying oriented real bundle is \(c_1\) (Theorem&#160;<a href="characteristic-classes-section-euler.html#characteristic-classes:theorem-euler">37.5.1</a>(2)), and \(\int _Me(TM) = \chi (M)\) by Theorem&#160;<a href="characteristic-classes-section-euler.html#characteristic-classes:theorem-euler">37.5.1</a>(3). Hence \(\frac{1}{2\pi }\int _MK\, dA = \chi (M)\). </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="riemannian-geometry:corollary-gauss-bonnet">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02DI.html" title="Permanent link: tag 02DI">02DI</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">38.6.12</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(\Sigma _g\) be the closed orientable surface of genus \(g\), so that \(\chi (\Sigma _g) = 2 - 2g\) (Example&#160;<a href="singular-homology-section-cellular.html#singular-homology:example-cellular-computations">19.7.5</a>). </p>
+<ol class="enumerate">
+  <li><p>The integral of the Gaussian curvature does not depend on the metric: for the round unit sphere, \(K = 1\) and the area is \(4\pi = 2\pi \cdot 2\). </p>
+</li>
+  <li><p>If \(\Sigma _g\) carries a metric with \(K {\gt} 0\) everywhere, then \(g = 0\); if it carries a metric with \(K \geq 0\) everywhere, then \(g \leq 1\); if it carries one with \(K {\lt} 0\) everywhere, then \(g \geq 2\). </p>
+</li>
+  <li><p>The torus admits flat metrics, as \(\mathbb {R}^2/\mathbb {Z}^2\), but no metric with \(K {\gt} 0\) everywhere or \(K {\lt} 0\) everywhere. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000940">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) is Theorem&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:theorem-gauss-bonnet">38.6.11</a>. (2) The sign of \(\int _MK\, dA = 2\pi (2 - 2g)\) is positive, non-negative or negative accordingly, and \(2 - 2g {\gt} 0\) forces \(g = 0\), \(2 - 2g \geq 0\) forces \(g \leq 1\), and \(2 - 2g {\lt} 0\) forces \(g \geq 2\). (3) The torus has \(\chi = 0\), so \(K\) cannot have constant nonzero sign, while the flat metric induced from \(\mathbb {R}^2\) has \(K = 0\) (Example&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:example-curvature">38.6.3</a>). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="riemannian-geometry-section-holonomy.html"><span class="dir">Previous</span> Parallel transport and holonomy</a><a class="next" href="riemannian-geometry-section-hodge-star.html"><span class="dir">Next</span> The Hodge star and the Laplacian</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

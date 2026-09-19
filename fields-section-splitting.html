@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Splitting fields and algebraic closures - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="fields-section-extensions.html" /><link rel="next" href="fields-section-separability.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2 active">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+  <ul><li class="level-3">
+  <a href="fields-section-introduction.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-extensions.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Field extensions</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="fields-section-splitting.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Splitting fields and algebraic closures</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-separability.html"><span class="toc_ref">8.4</span> <span class="toc_entry">Separability</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-galois.html"><span class="toc_ref">8.5</span> <span class="toc_entry">Galois extensions</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-finite-fields.html"><span class="toc_ref">8.6</span> <span class="toc_entry">Finite fields</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-fta.html"><span class="toc_ref">8.7</span> <span class="toc_entry">The fundamental theorem of algebra</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-cyclotomic.html"><span class="toc_ref">8.8</span> <span class="toc_entry">Cyclotomic fields</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-radicals.html"><span class="toc_ref">8.9</span> <span class="toc_entry">Solvability by radicals</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-transcendence.html"><span class="toc_ref">8.10</span> <span class="toc_entry">Transcendence bases</span></a>
+</li>
+<li class="level-3">
+  <a href="fields-section-exercises.html"><span class="toc_ref">8.11</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-algebra.html">II Algebra</a></li><li><a href="fields.html">8 Fields and Galois Theory</a></li></ol>
+
+<article class="main-text">
+<h1 id="fields:section-splitting">8.3 Splitting fields and algebraic closures<a class="tag" href="tag/00GX.html" title="Permanent link: tag 00GX">00GX</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="fields:definition-splitting-field">
+  <div class="definition_thmheading"><a class="tag" href="tag/00GY.html" title="Permanent link: tag 00GY">00GY</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">8.3.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(f \in K[x]\) be nonconstant. An extension \(L/K\) is a <em>splitting field</em> of \(f\) if \(f = c(x - \alpha _1) \cdots (x - \alpha _n)\) in \(L[x]\) and \(L = K(\alpha _1, \ldots , \alpha _n)\). A field is <em>algebraically closed</em> if every nonconstant polynomial over it has a root, and an <em>algebraic closure</em> of \(K\) is an algebraic extension that is algebraically closed. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="fields:proposition-splitting-exists">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00GZ.html" title="Permanent link: tag 00GZ">00GZ</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">8.3.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Every nonconstant \(f \in K[x]\) has a splitting field \(L\), with \([L : K] \leq (\deg f)!\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000233">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By induction on \(n = \deg f\). Let \(g\) be an irreducible factor of \(f\) and \(K_1 = K[x]/(g)\), in which \(f\) has a root \(\alpha _1\) and \([K_1 : K] \leq n\). Over \(K_1\), \(f = (x - \alpha _1) f_1\) with \(\deg f_1 = n - 1\); a splitting field of \(f_1\) over \(K_1\) is a splitting field of \(f\) over \(K\) of degree at most \(n \cdot (n-1)!\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="fields:theorem-extension">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00H0.html" title="Permanent link: tag 00H0">00H0</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">8.3.3</span>
+    <span class="theorem_thmtitle">Extension of homomorphisms</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(L = K(\alpha _1, \ldots , \alpha _r)\) be a finite extension and \(\tau \colon K \to M\) a field homomorphism. The number of homomorphisms \(L \to M\) extending \(\tau \) is at most \([L : K]\). For \(i = 1, \ldots , r\) let \(g_i\) be the minimal polynomial of \(\alpha _i\) over \(K(\alpha _1, \ldots , \alpha _{i-1})\). If for every extension \(\tau '\) of \(\tau \) to \(K(\alpha _1, \ldots , \alpha _{i-1})\) the polynomial \(g_i^{\tau '}\) splits into distinct linear factors in \(M[x]\), then there are exactly \([L : K]\) extensions. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000234">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By induction on \(r\), using the tower law, it suffices to treat \(r = 1\): \(L = K(\alpha )\) with minimal polynomial \(g\). An extension \(\sigma \) of \(\tau \) is determined by \(\sigma (\alpha )\), which is a root of \(g^\tau \) (the polynomial obtained by applying \(\tau \) to the coefficients). Conversely, for each root \(\beta \in M\) of \(g^\tau \), the homomorphism \(K[x] \to M\) extending \(\tau \) with \(x \mapsto \beta \) kills \(g\) and so induces an extension \(K(\alpha ) \cong K[x]/(g) \to M\). Hence the extensions correspond to the roots of \(g^\tau \) in \(M\), of which there are at most \(\deg g = [K(\alpha ) : K]\) by Corollary&#160;<a href="rings-section-polynomials.html#rings:corollary-roots">7.6.6</a>, with equality if \(g^\tau \) splits into distinct linear factors. </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="fields:corollary-splitting-unique">
+  <div class="corollary_thmheading"><a class="tag" href="tag/00H1.html" title="Permanent link: tag 00H1">00H1</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">8.3.4</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(L\) and \(L'\) be splitting fields of \(f \in K[x]\). Then there is a \(K\)-isomorphism \(L \to L'\). For every finite extension \(L/K\), \(|\operatorname {Aut}(L/K)| \leq [L : K]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000235">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Write \(L = K(\alpha _1, \ldots , \alpha _n)\) with the \(\alpha _i\) the roots of \(f\). At each stage the minimal polynomial \(g_i\) divides \(f\), and \(f\) splits in \(L'\), so \(g_i^{\tau '}\) has a root in \(L'\) and the proof of Theorem&#160;<a href="fields-section-splitting.html#fields:theorem-extension">8.3.3</a> gives at least one extension of the inclusion \(K \to L'\) to \(\sigma \colon L \to L'\). It is injective, and its image contains all roots of \(f\) in \(L'\) (it contains \(n\) roots counted with multiplicity), so it is \(L'\). The second statement is the first part of Theorem&#160;<a href="fields-section-splitting.html#fields:theorem-extension">8.3.3</a> with \(M = L\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="fields:theorem-algebraic-closure">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00H2.html" title="Permanent link: tag 00H2">00H2</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">8.3.5</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Every field \(K\) has an algebraic closure \(\bar K\). If \(L/K\) is algebraic and \(\tau \colon K \to M\) is a homomorphism into an algebraically closed field, then \(\tau \) extends to \(L \to M\). Any two algebraic closures of \(K\) are \(K\)-isomorphic. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000236">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Existence</em> (Artin). Let \(\mathcal{F}\) be the set of monic nonconstant polynomials in \(K[x]\), let \(A = K[x_f : f \in \mathcal{F}]\) be the polynomial ring in variables indexed by \(\mathcal{F}\) (the union of the polynomial rings in finitely many of them), and \(I\) the ideal generated by the \(f(x_f)\). Then \(I \neq A\): otherwise \(1 = \sum _{i=1}^n g_i f_i(x_{f_i})\) for finitely many \(f_i\); in a splitting field of \(f_1 \cdots f_n\) choose roots \(\beta _i\) of \(f_i\), and apply the homomorphism \(x_{f_i} \mapsto \beta _i\), other variables \(\mapsto 0\), to get \(1 = 0\). Let \(\mathfrak {m} \supseteq I\) be maximal (Theorem&#160;<a href="rings-section-prime-maximal.html#rings:theorem-maximal-ideals-exist">7.4.3</a>) and \(E_1 = A/\mathfrak {m}\), a field extension of \(K\) in which every \(f \in \mathcal{F}\) has a root. Repeating, we get \(K = E_0 \subseteq E_1 \subseteq E_2 \subseteq \cdots \) where every nonconstant polynomial over \(E_n\) has a root in \(E_{n+1}\). The union \(E\) is algebraically closed, since a polynomial over \(E\) has coefficients in some \(E_n\). The elements of \(E\) algebraic over \(K\) form a field \(\bar K\) (Proposition&#160;<a href="fields-section-extensions.html#fields:proposition-algebraic-closure-in-extension">8.2.5</a>). If \(g \in \bar K[x]\) is nonconstant, a root \(\alpha \in E\) is algebraic over \(\bar K\), hence over \(K\), so \(\alpha \in \bar K\). Thus \(\bar K\) is an algebraic closure. </p>
+<p><em>Extension.</em> Consider pairs \((F, \sigma )\) with \(K \subseteq F \subseteq L\) a subfield and \(\sigma \colon F \to M\) extending \(\tau \), ordered by extension. Chains have upper bounds (take unions), so by Zorn’s lemma there is a maximal \((F, \sigma )\). If \(\alpha \in L \setminus F\), its minimal polynomial over \(F\) maps to a polynomial with a root in \(M\), and Theorem&#160;<a href="fields-section-splitting.html#fields:theorem-extension">8.3.3</a> extends \(\sigma \) to \(F(\alpha )\); contradiction. So \(F = L\). </p>
+<p><em>Uniqueness.</em> If \(\bar K\) and \(\bar K'\) are algebraic closures, extend the inclusion \(K \to \bar K'\) to \(\sigma \colon \bar K \to \bar K'\). Its image is an algebraically closed field over which \(\bar K'\) is algebraic, so every element of \(\bar K'\) is a root of a polynomial that splits over \(\sigma (\bar K)\), and \(\sigma \) is surjective. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="fields-section-extensions.html"><span class="dir">Previous</span> Field extensions</a><a class="next" href="fields-section-separability.html"><span class="dir">Next</span> Separability</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Paracompactness and partitions of unity - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="general-topology-section-local-compactness.html" /><link rel="next" href="general-topology-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2 active">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+  <ul><li class="level-3">
+  <a href="general-topology-section-introduction.html"><span class="toc_ref">16.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-spaces.html"><span class="toc_ref">16.2</span> <span class="toc_entry">Topological spaces and continuous maps</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-metric.html"><span class="toc_ref">16.3</span> <span class="toc_entry">Metric spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-constructions.html"><span class="toc_ref">16.4</span> <span class="toc_entry">Subspaces, products and quotients</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-connectedness.html"><span class="toc_ref">16.5</span> <span class="toc_entry">Connectedness</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-compactness.html"><span class="toc_ref">16.6</span> <span class="toc_entry">Compactness</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-complete.html"><span class="toc_ref">16.7</span> <span class="toc_entry">Complete and compact metric spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-separation.html"><span class="toc_ref">16.8</span> <span class="toc_entry">Separation axioms, Urysohn and Tietze</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-local-compactness.html"><span class="toc_ref">16.9</span> <span class="toc_entry">Local compactness and proper maps</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="general-topology-section-paracompactness.html"><span class="toc_ref">16.10</span> <span class="toc_entry">Paracompactness and partitions of unity</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-exercises.html"><span class="toc_ref">16.11</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-topology.html">III Topology</a></li><li><a href="general-topology.html">16 General Topology</a></li></ol>
+
+<article class="main-text">
+<h1 id="general-topology:section-paracompactness">16.10 Paracompactness and partitions of unity<a class="tag" href="tag/00T5.html" title="Permanent link: tag 00T5">00T5</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-paracompact">
+  <div class="definition_thmheading"><a class="tag" href="tag/00T6.html" title="Permanent link: tag 00T6">00T6</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">16.10.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A family \((A_i)_{i \in I}\) of subsets of \(X\) is <em>locally finite</em> if every point has a neighbourhood meeting \(A_i\) for only finitely many \(i\). A <em>refinement</em> of a cover \((U_i)\) is a cover \((V_j)\) such that each \(V_j\) is contained in some \(U_i\). A space is <em>paracompact</em> if every open cover has a locally finite open refinement. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="general-topology:lemma-locally-finite">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00T7.html" title="Permanent link: tag 00T7">00T7</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">16.10.2</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \((A_i)\) is locally finite, then so is \((\overline{A_i})\), and \(\overline{\bigcup _i A_i} = \bigcup _i \overline{A_i}\). In particular a union of a locally finite family of closed sets is closed. If \((f_i)\) are continuous functions \(X \to \mathbb {K}\) whose supports form a locally finite family, then \(\sum _i f_i\) is a well-defined continuous function. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000449">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>An open set meets \(\overline{A_i}\) if and only if it meets \(A_i\). Let \(x \in \overline{\bigcup _i A_i}\) and let \(W\) be an open neighbourhood of \(x\) meeting only \(A_{i_1}, \ldots , A_{i_k}\). Every open \(W' \ni x\) satisfies \(W' \cap W \cap \bigcup _i A_i \neq \emptyset \), so \(W'\) meets \(A_{i_1} \cup \cdots \cup A_{i_k}\); hence \(x \in \overline{A_{i_1} \cup \cdots \cup A_{i_k}} = \overline{A_{i_1}} \cup \cdots \cup \overline{A_{i_k}}\) by Lemma&#160;<a href="general-topology-section-spaces.html#general-topology:lemma-closure">16.2.4</a>. For the sum, each point has an open neighbourhood on which all but finitely many \(f_i\) vanish, and on it the sum is a finite sum of continuous functions (Proposition&#160;<a href="general-topology-section-constructions.html#general-topology:proposition-product">16.4.6</a>(5)); conclude by the pasting lemma. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="general-topology:proposition-paracompact-normal">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00T8.html" title="Permanent link: tag 00T8">00T8</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">16.10.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> A paracompact Hausdorff space is normal. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000450">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Regularity.</em> Let \(C\) be closed and \(x \notin C\). For \(c \in C\) choose disjoint open \(U_c \ni c\) and \(W_c \ni x\). Let \(\mathcal{V}\) be a locally finite open refinement of the cover \(\{ U_c\}  \cup \{ X \setminus C\} \), and \(\mathcal{V}'\) the members meeting \(C\); each is contained in some \(U_c\), so its closure is contained in \(X \setminus W_c\) and does not contain \(x\). Then \(V = \bigcup \mathcal{V}'\) is an open set containing \(C\) with \(\overline{V} = \bigcup _{V' \in \mathcal{V}'} \overline{V'} \not\ni x\) by Lemma&#160;<a href="general-topology-section-paracompactness.html#general-topology:lemma-locally-finite">16.10.2</a>. So \(V\) and \(X \setminus \overline{V}\) separate \(C\) and \(x\). </p>
+<p><em>Normality.</em> The same argument, with \(x\) replaced by a closed set \(D\) disjoint from \(C\) and the sets \(U_c\), \(W_c\) provided by regularity, separates \(C\) and \(D\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="general-topology:lemma-shrinking">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00T9.html" title="Permanent link: tag 00T9">00T9</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">16.10.4</span>
+    <span class="lemma_thmtitle">Shrinking lemma</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(X\) be normal and \((U_i)_{i \in I}\) an open cover that is <em>point-finite</em> (each point lies in finitely many \(U_i\)), for instance locally finite. There is an open cover \((V_i)_{i \in I}\) with \(\overline{V_i} \subseteq U_i\) for all \(i\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000451">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Consider pairs \((J, (V_j)_{j \in J})\) with \(J \subseteq I\), \(V_j\) open and \(\overline{V_j} \subseteq U_j\), such that \((V_j)_{j \in J} \cup (U_i)_{i \notin J}\) covers \(X\), ordered by extension. The pair \((\emptyset , ())\) is one. Given a chain, let \(J^*\) be the union of the index sets, with the \(V_j\) defined compatibly. Let \(x \in X\) and \(F\) the finite nonempty set of \(i\) with \(x \in U_i\). If \(F \not\subseteq J^*\), \(x\) is covered by some \(U_i\) with \(i \notin J^*\). Otherwise \(F \subseteq J\) for some member \((J, V)\) of the chain; there \(x\) is covered by some \(V_j\), \(j \in J\), since \(x \in U_i\) implies \(i \in F \subseteq J\). So the union is an upper bound, and Zorn’s lemma gives a maximal pair \((J, V)\). If \(i \notin J\), the set \(C = X \setminus (\bigcup _{j \in J} V_j \cup \bigcup _{k \notin J, k \neq i} U_k)\) is closed and contained in \(U_i\); by Lemma&#160;<a href="general-topology-section-separation.html#general-topology:lemma-normal-shrinking">16.8.2</a> choose open \(V_i\) with \(C \subseteq V_i \subseteq \overline{V_i} \subseteq U_i\), contradicting maximality. So \(J = I\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-partition-of-unity">
+  <div class="definition_thmheading"><a class="tag" href="tag/00TA.html" title="Permanent link: tag 00TA">00TA</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">16.10.5</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>partition of unity</em> on \(X\) is a family of continuous functions \(\psi _i \colon X \to [0, 1]\) whose supports form a locally finite family and with \(\sum _i \psi _i = 1\). It is <em>subordinate</em> to an open cover \((U_i)_{i \in I}\) (with the same index set) if \(\operatorname {supp} \psi _i \subseteq U_i\) for all \(i\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="general-topology:theorem-partitions-of-unity">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00TB.html" title="Permanent link: tag 00TB">00TB</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">16.10.6</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(X\) be paracompact Hausdorff. Every open cover \((U_i)_{i \in I}\) has a subordinate partition of unity. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000452">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \((W_k)_{k \in K}\) be a locally finite open refinement, with \(W_k \subseteq U_{\varphi (k)}\) for a chosen map \(\varphi \colon K \to I\). The space is normal (Proposition&#160;<a href="general-topology-section-paracompactness.html#general-topology:proposition-paracompact-normal">16.10.3</a>), so by Lemma&#160;<a href="general-topology-section-paracompactness.html#general-topology:lemma-shrinking">16.10.4</a> there is an open cover \((V_k)\) with \(\overline{V_k} \subseteq W_k\), and by Lemma&#160;<a href="general-topology-section-separation.html#general-topology:lemma-normal-shrinking">16.8.2</a> open \(V'_k\) with \(\overline{V_k} \subseteq V'_k \subseteq \overline{V'_k} \subseteq W_k\). By Urysohn’s lemma choose \(f_k \colon X \to [0, 1]\) equal to \(1\) on \(\overline{V_k}\) and \(0\) outside \(V'_k\), so \(\operatorname {supp} f_k \subseteq \overline{V'_k} \subseteq W_k\). By Lemma&#160;<a href="general-topology-section-paracompactness.html#general-topology:lemma-locally-finite">16.10.2</a>, \(f = \sum _k f_k\) is continuous, and \(f \geq 1\) because the \(V_k\) cover. The functions \(g_k = f_k/f\) are continuous with supports in \(W_k\) and sum \(1\). Finally let \(\psi _i = \sum _{\varphi (k) = i} g_k\). Its support is contained in \(\bigcup _{\varphi (k) = i}\overline{V'_k}\), which is closed by Lemma&#160;<a href="general-topology-section-paracompactness.html#general-topology:lemma-locally-finite">16.10.2</a> and contained in \(U_i\); the supports of the \(\psi _i\) are locally finite because each point has a neighbourhood meeting only finitely many \(W_k\); and \(\sum _i \psi _i = \sum _k g_k = 1\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="general-topology:proposition-exhaustion">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00TC.html" title="Permanent link: tag 00TC">00TC</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">16.10.7</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(X\) be locally compact Hausdorff and second countable. There are compact sets \(K_1 \subseteq K_2 \subseteq \cdots \) with \(K_n \subseteq \operatorname {int} K_{n+1}\) and \(\bigcup _n K_n = X\) (an <em>exhaustion by compact sets</em>), and \(X\) is paracompact. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000453">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\mathcal{B}\) be a countable basis, and \(\mathcal{B}'\) the members with compact closure. \(\mathcal{B}'\) covers \(X\): if \(x\) has a compact neighbourhood \(K\) and \(x \in B \subseteq \operatorname {int} K\) with \(B \in \mathcal{B}\), then \(\overline{B} \subseteq K\) is compact. Enumerate \(\mathcal{B}' = \{ B_1, B_2, \ldots \} \) (with repetitions if finite; if \(X = \emptyset \) there is nothing to prove). Let \(K_1 = \overline{B_1}\), and given \(K_n\) choose \(m_n \geq n + 1\) with \(K_n \subseteq B_1 \cup \cdots \cup B_{m_n}\) and let \(K_{n+1} = \overline{B_1} \cup \cdots \cup \overline{B_{m_n}}\). Then \(K_n \subseteq \operatorname {int} K_{n+1}\) and \(B_n \subseteq K_{n+1}\). </p>
+<p>Put \(K_0 = K_{-1} = \emptyset \) and let \(\mathcal{U}\) be an open cover. For \(n \geq 1\) the compact set \(L_n = K_n \setminus \operatorname {int} K_{n-1}\) is contained in the open set \(O_n = \operatorname {int} K_{n+1} \setminus K_{n-2}\). Cover \(L_n\) by finitely many sets \(U \cap O_n\) with \(U \in \mathcal{U}\), and let \(\mathcal{V}\) be the collection of all these sets for all \(n\). It is an open refinement of \(\mathcal{U}\), and it covers \(X\) because a point lies in \(L_n\) for the least \(n\) with \(x \in K_n\). A point \(x\) lies in \(\operatorname {int} K_m\) for some \(m\), and the sets of \(\mathcal{V}\) coming from \(L_n\) lie in \(X \setminus K_{n-2}\), so they meet \(\operatorname {int} K_m\) only if \(n \leq m + 1\). Hence \(\mathcal{V}\) is locally finite. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="general-topology:theorem-stone">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00TD.html" title="Permanent link: tag 00TD">00TD</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">16.10.8</span>
+    <span class="theorem_thmtitle">Stone</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Every metric space is paracompact. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000454">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>This is <span class="cite">[<a href="Bibliography.html#stone-1948" >Sto48</a>]</span>; we give the proof of <span class="cite">[<a href="Bibliography.html#rudin-paracompact" >Rud69</a>]</span>. Let \((U_s)_{s \in S}\) be an open cover and well-order \(S\) (Theorem&#160;<a href="sets-section-choice.html#sets:theorem-choice-equivalents">3.7.2</a>). For \(n \geq 1\) define inductively \(V_{s,n}\) as the union of the balls \(B(x, 2^{-n})\) over all \(x\) such that: (i) \(s\) is the least index with \(x \in U_s\); (ii) \(x \notin V_{t,j}\) for all \(t\) and all \(j {\lt} n\); (iii) \(B(x, 3 \cdot 2^{-n}) \subseteq U_s\). Each \(V_{s,n}\) is open and contained in \(U_s\) by (iii). </p>
+<p><em>Cover.</em> For \(x \in X\) let \(s\) be least with \(x \in U_s\) and \(n\) with \(B(x, 3 \cdot 2^{-n}) \subseteq U_s\). Either \(x \in V_{t,j}\) for some \(j {\lt} n\), or \(x\) satisfies (i)–(iii) and \(x \in V_{s,n}\). </p>
+<p><em>Local finiteness.</em> Let \(x \in X\), let \(s\) be least such that \(x \in V_{s,n}\) for some \(n\), fix such \(n\), and choose \(j \geq 1\) with \(B(x, 2^{-j}) \subseteq V_{s,n}\). We claim that \(B(x, 2^{-n-j})\) meets only finitely many \(V_{t,i}\). If \(i \geq n + j\), a ball \(B(y, 2^{-i})\) in \(V_{t,i}\) has \(y \notin V_{s,n}\) by (ii) (as \(n {\lt} i\)), so \(d(x, y) \geq 2^{-j}\); since \(2^{-i} + 2^{-n-j} \leq 2^{-j}\), it does not meet \(B(x, 2^{-n-j})\). If \(i {\lt} n + j\), then \(B(x, 2^{-n-j})\) meets \(V_{t,i}\) for at most one \(t\): suppose it contains \(p \in B(y, 2^{-i}) \subseteq V_{t,i}\) and \(q \in B(z, 2^{-i}) \subseteq V_{t',i}\) with \(t {\lt} t'\) and centres \(y\), \(z\) as in the definition. By (iii) \(B(y, 3 \cdot 2^{-i}) \subseteq U_t\), and by (i) \(z \notin U_t\), so \(d(y, z) \geq 3 \cdot 2^{-i}\). But \(d(y, z) {\lt} 2^{-i} + 2 \cdot 2^{-n-j} + 2^{-i} \leq 3 \cdot 2^{-i}\), since \(2^{-n-j} \leq 2^{-i-1}\). So only finitely many pairs \((t, i)\) occur. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="general-topology:remark-paracompact">
+  <div class="remark_thmheading"><a class="tag" href="tag/00TE.html" title="Permanent link: tag 00TE">00TE</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">16.10.9</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Topological manifolds (Hausdorff, second countable and locally homeomorphic to \(\mathbb {R}^n\)) are locally compact, hence paracompact by Proposition&#160;<a href="general-topology-section-paracompactness.html#general-topology:proposition-exhaustion">16.10.7</a>, and admit partitions of unity; smooth partitions of unity are constructed in Chapter&#160;<a href="smooth-manifolds.html">31</a>. Without second countability this fails: the long line is a Hausdorff space locally homeomorphic to \(\mathbb {R}\) that is not paracompact <span class="cite">[<a href="Bibliography.html#engelking-general-topology" >Eng89</a>]</span>. Paracompactness is also the natural hypothesis under which Čech cohomology computes sheaf cohomology (Chapter&#160;<a href="sheaf-cohomology.html">24</a>). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="general-topology-section-local-compactness.html"><span class="dir">Previous</span> Local compactness and proper maps</a><a class="next" href="general-topology-section-exercises.html"><span class="dir">Next</span> Exercises</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Propositional logic - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="logic-section-introduction.html" /><link rel="next" href="logic-section-languages.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1 active">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2 active">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+  <ul><li class="level-3">
+  <a href="logic-section-introduction.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="logic-section-propositional.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Propositional logic</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-languages.html"><span class="toc_ref">2.3</span> <span class="toc_entry">First-order languages</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-structures.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Structures and satisfaction</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-deductions.html"><span class="toc_ref">2.5</span> <span class="toc_entry">Formal deductions</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-completeness.html"><span class="toc_ref">2.6</span> <span class="toc_entry">The completeness theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-compactness.html"><span class="toc_ref">2.7</span> <span class="toc_entry">Compactness and the Löwenheim–Skolem theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-incompleteness.html"><span class="toc_ref">2.8</span> <span class="toc_entry">The incompleteness theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-exercises.html"><span class="toc_ref">2.9</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-foundations.html">I Foundations</a></li><li><a href="logic.html">2 Mathematical Logic</a></li></ol>
+
+<article class="main-text">
+<h1 id="logic:section-propositional">2.2 Propositional logic<a class="tag" href="tag/004C.html" title="Permanent link: tag 004C">004C</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="logic:definition-propositional-formula">
+  <div class="definition_thmheading"><a class="tag" href="tag/004D.html" title="Permanent link: tag 004D">004D</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(P\) be a set, whose elements we call <em>propositional variables</em>, and let \(\neg \), \(\to \), \((\) and \()\) be four symbols not in \(P\). A <em>string</em> is a finite sequence of symbols. The set of <em>propositional formulas</em> over \(P\) is the smallest set of strings such that </p>
+<ol class="enumerate">
+  <li><p>every \(p \in P\), viewed as a string of length one, is a formula; </p>
+</li>
+  <li><p>if \(\varphi \) is a formula, then \(\neg \varphi \) is a formula; </p>
+</li>
+  <li><p>if \(\varphi \) and \(\psi \) are formulas, then \((\varphi \to \psi )\) is a formula. </p>
+</li>
+</ol>
+<p> Here \(\neg \varphi \) denotes the string consisting of \(\neg \) followed by the symbols of \(\varphi \), and similarly for \((\varphi \to \psi )\). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="logic:remark-induction-formulas">
+  <div class="remark_thmheading"><a class="tag" href="tag/004E.html" title="Permanent link: tag 004E">004E</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">2.2.2</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Every formula is obtained from propositional variables by finitely many applications of the two operations, since the set of such strings contains \(P\) and is closed under the operations. Hence statements about all formulas can be proved by <em>induction on formulas</em>: it suffices to prove them for propositional variables and to show that they are preserved by the two operations. </p>
+
+  </div>
+</div>
+<div class="notation_thmwrapper theorem-style-definition" id="logic:notation-connectives">
+  <div class="notation_thmheading"><a class="tag" href="tag/004F.html" title="Permanent link: tag 004F">004F</a>
+    <span class="notation_thmcaption">
+    Notation
+    </span>
+    <span class="notation_thmlabel">2.2.3</span>
+  </div>
+  <div class="notation_thmcontent">
+  <p> We use the abbreviations \((\varphi \wedge \psi ) := \neg (\varphi \to \neg \psi )\), \((\varphi \vee \psi ) := (\neg \varphi \to \psi )\) and \((\varphi \leftrightarrow \psi ) := ((\varphi \to \psi ) \wedge (\psi \to \varphi ))\), and we omit outer parentheses when no confusion is possible. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-parentheses">
+  <div class="lemma_thmheading"><a class="tag" href="tag/004G.html" title="Permanent link: tag 004G">004G</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.2.4</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\varphi \) be a propositional formula. Then \(\varphi \) contains as many symbols \((\) as symbols \()\). Moreover, every proper initial segment of \(\varphi \) either consists only of symbols \(\neg \) (possibly none), or contains strictly more symbols \((\) than symbols \()\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000003">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For a string \(u\) let \(b(u)\) be the number of symbols \((\) in \(u\) minus the number of symbols \()\) in \(u\). We argue by induction on \(\varphi \). </p>
+<p>If \(\varphi = p\) is a variable, then \(b(p) = 0\) and the only proper initial segment is empty. </p>
+<p>If \(\varphi = \neg \psi \), then \(b(\varphi ) = b(\psi ) = 0\). A proper initial segment of \(\varphi \) is empty or of the form \(\neg u\) with \(u\) a proper initial segment of \(\psi \). By induction, \(u\) consists of symbols \(\neg \) or \(b(u) {\gt} 0\), and the same holds for \(\neg u\). </p>
+<p>If \(\varphi = (\psi \to \chi )\), then \(b(\varphi ) = 1 + b(\psi ) + b(\chi ) - 1 = 0\). A nonempty proper initial segment of \(\varphi \) has one of the forms \((u\) with \(u\) an initial segment of \(\psi \), or \((\psi \to u\) with \(u\) an initial segment of \(\chi \) (possibly empty or equal to \(\chi \)). By induction every initial segment \(u\) of \(\psi \) or \(\chi \) satisfies \(b(u) \geq 0\), so these segments have \(b \geq 1\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-unique-readability">
+  <div class="theorem_thmheading"><a class="tag" href="tag/004H.html" title="Permanent link: tag 004H">004H</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.5</span>
+    <span class="theorem_thmtitle">Unique readability</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Every propositional formula \(\varphi \) satisfies exactly one of the following: \(\varphi \) is a propositional variable; \(\varphi = \neg \psi \) for a formula \(\psi \); \(\varphi = (\psi \to \chi )\) for formulas \(\psi \) and \(\chi \). In the second case \(\psi \) is uniquely determined, and in the third case \(\psi \) and \(\chi \) are uniquely determined. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000004">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The three cases are distinguished by the first symbol of \(\varphi \), and in the second case \(\psi \) is \(\varphi \) with its first symbol removed. Suppose \((\psi \to \chi ) = (\psi ' \to \chi ')\) with \(\psi \neq \psi '\). After the first symbol the two strings agree, so one of \(\psi \), \(\psi '\) is a proper initial segment of the other, say \(\psi \) of \(\psi '\). By Lemma&#160;<a href="logic-section-propositional.html#logic:lemma-parentheses">2.2.4</a>, \(b(\psi ) = 0\), so \(\psi \) must consist only of symbols \(\neg \). But every formula contains at least one propositional variable (by induction on formulas), a contradiction. Hence \(\psi = \psi '\), and then \(\chi = \chi '\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="logic:definition-truth-assignment">
+  <div class="definition_thmheading"><a class="tag" href="tag/004I.html" title="Permanent link: tag 004I">004I</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.6</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>truth assignment</em> is a map \(v \colon P \to \{ 0, 1\} \). By Theorem&#160;<a href="logic-section-propositional.html#logic:theorem-unique-readability">2.2.5</a>, there is a unique map \(\bar v\) from the set of formulas to \(\{ 0, 1\} \), defined by recursion on formulas, such that \(\bar v(p) = v(p)\) for \(p \in P\), \(\bar v(\neg \varphi ) = 1 - \bar v(\varphi )\), and \(\bar v(\varphi \to \psi ) = 0\) if and only if \(\bar v(\varphi ) = 1\) and \(\bar v(\psi ) = 0\). We say that \(v\) <em>satisfies</em> \(\varphi \) if \(\bar v(\varphi ) = 1\), and that \(v\) satisfies a set of formulas \(\Sigma \) if it satisfies every element of \(\Sigma \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="logic:definition-tautology">
+  <div class="definition_thmheading"><a class="tag" href="tag/004J.html" title="Permanent link: tag 004J">004J</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.7</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A formula \(\varphi \) is a <em>tautology</em> if every truth assignment satisfies it. A set \(\Sigma \) of formulas <em>tautologically implies</em> \(\varphi \), written \(\Sigma \models \varphi \), if every truth assignment satisfying \(\Sigma \) satisfies \(\varphi \). A set of formulas is <em>satisfiable</em> if some truth assignment satisfies it. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-abbreviations">
+  <div class="lemma_thmheading"><a class="tag" href="tag/004K.html" title="Permanent link: tag 004K">004K</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.2.8</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For every truth assignment \(v\): \(\bar v(\varphi \wedge \psi ) = 1\) if and only if \(\bar v(\varphi ) = \bar v(\psi ) = 1\); \(\bar v(\varphi \vee \psi ) = 1\) if and only if \(\bar v(\varphi ) = 1\) or \(\bar v(\psi ) = 1\); and \(\bar v(\varphi \leftrightarrow \psi ) = 1\) if and only if \(\bar v(\varphi ) = \bar v(\psi )\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000005">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>\(\bar v(\neg (\varphi \to \neg \psi )) = 1\) if and only if \(\bar v(\varphi \to \neg \psi ) = 0\), that is, \(\bar v(\varphi ) = 1\) and \(\bar v(\neg \psi ) = 0\). Next, \(\bar v(\neg \varphi \to \psi ) = 0\) if and only if \(\bar v(\varphi ) = 0\) and \(\bar v(\psi ) = 0\). The last statement follows from the first and the definition of \(\bar v\) on implications. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="logic:example-tautologies">
+  <div class="example_thmheading"><a class="tag" href="tag/004L.html" title="Permanent link: tag 004L">004L</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">2.2.9</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> The following are tautologies, as one checks by computing \(\bar v\) for the finitely many possible values of \(v\) on the variables involved: \(\varphi \vee \neg \varphi \) (excluded middle); \(\neg \neg \varphi \leftrightarrow \varphi \); \(((\varphi \to \psi ) \to \varphi ) \to \varphi \) (Peirce’s law); \(\neg (\varphi \wedge \psi ) \leftrightarrow (\neg \varphi \vee \neg \psi )\) (De Morgan); \((\varphi \to (\psi \to \chi )) \to ((\varphi \to \psi ) \to (\varphi \to \chi ))\). By contrast, \((\varphi \to \psi ) \to (\psi \to \varphi )\) is not a tautology when \(\varphi \) and \(\psi \) are distinct variables. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="logic:proposition-functional-completeness">
+  <div class="proposition_thmheading"><a class="tag" href="tag/004M.html" title="Permanent link: tag 004M">004M</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">2.2.10</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(p_1, \ldots , p_n\) be distinct propositional variables, \(n \geq 1\), and let \(F \colon \{ 0,1\} ^n \to \{ 0,1\} \) be any function. There is a formula \(\varphi \) whose variables are among \(p_1, \ldots , p_n\) such that \(\bar v(\varphi ) = F(v(p_1), \ldots , v(p_n))\) for every truth assignment \(v\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000006">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(\varepsilon \in \{ 0,1\} ^n\) let \(\gamma _\varepsilon = \ell _1 \wedge \cdots \wedge \ell _n\), where \(\ell _i = p_i\) if \(\varepsilon _i = 1\) and \(\ell _i = \neg p_i\) if \(\varepsilon _i = 0\) (with parentheses grouped to the left). By Lemma&#160;<a href="logic-section-propositional.html#logic:lemma-abbreviations">2.2.8</a>, \(\bar v(\gamma _\varepsilon ) = 1\) if and only if \(v(p_i) = \varepsilon _i\) for all \(i\). If \(F\) is identically \(0\), take \(\varphi = p_1 \wedge \neg p_1\). Otherwise let \(\varphi \) be the disjunction of the \(\gamma _\varepsilon \) over all \(\varepsilon \) with \(F(\varepsilon ) = 1\). Then \(\bar v(\varphi ) = 1\) if and only if \((v(p_1), \ldots , v(p_n))\) is one of these \(\varepsilon \), that is, if and only if \(F(v(p_1), \ldots , v(p_n)) = 1\). </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="logic:counterexample-monotone-connectives">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/004N.html" title="Permanent link: tag 004N">004N</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">2.2.11</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Proposition&#160;<a href="logic-section-propositional.html#logic:proposition-functional-completeness">2.2.10</a> fails if only \(\wedge \) and \(\vee \) may be used, taken as primitive connectives with the truth tables of Lemma&#160;<a href="logic-section-propositional.html#logic:lemma-abbreviations">2.2.8</a>. Indeed, by induction on such formulas, if \(v(p) \leq w(p)\) for every variable \(p\) then \(\bar v(\varphi ) \leq \bar w(\varphi )\). So no such formula computes the function \(F(x) = 1 - x\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-propositional-compactness">
+  <div class="theorem_thmheading"><a class="tag" href="tag/004O.html" title="Permanent link: tag 004O">004O</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.12</span>
+    <span class="theorem_thmtitle">Compactness, propositional case</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(P\) be countable and let \(\Sigma \) be a set of formulas over \(P\). If every finite subset of \(\Sigma \) is satisfiable, then \(\Sigma \) is satisfiable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000007">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Call a set of formulas <em>finitely satisfiable</em> if all its finite subsets are satisfiable. The formulas are finite strings over a countable set of symbols, so they can be enumerated as \(\varphi _0, \varphi _1, \ldots \). Put \(\Delta _0 = \Sigma \), and let \(\Delta _{n+1} = \Delta _n \cup \{ \varphi _n\} \) if this set is finitely satisfiable, and \(\Delta _{n+1} = \Delta _n \cup \{ \neg \varphi _n\} \) otherwise. </p>
+<p>Each \(\Delta _n\) is finitely satisfiable. Suppose \(\Delta _n\) is, but neither \(\Delta _n \cup \{ \varphi _n\} \) nor \(\Delta _n \cup \{ \neg \varphi _n\} \) is. Then there are finite \(\Delta , \Delta ' \subseteq \Delta _n\) such that \(\Delta \cup \{ \varphi _n\} \) and \(\Delta ' \cup \{ \neg \varphi _n\} \) are not satisfiable. A truth assignment \(v\) satisfying \(\Delta \cup \Delta '\) satisfies \(\varphi _n\) or \(\neg \varphi _n\), hence one of the two sets; contradiction. </p>
+<p>Let \(\Delta = \bigcup _n \Delta _n\). Every finite subset of \(\Delta \) lies in some \(\Delta _n\), so \(\Delta \) is finitely satisfiable; in particular \(\Delta \) never contains both \(\psi \) and \(\neg \psi \). For every formula \(\psi \), exactly one of \(\psi \), \(\neg \psi \) lies in \(\Delta \). Define \(v(p) = 1\) if and only if \(p \in \Delta \). We show by induction on \(\psi \) that \(\bar v(\psi ) = 1\) if and only if \(\psi \in \Delta \). For variables this is the definition. For \(\neg \psi \): \(\bar v(\neg \psi ) = 1\) iff \(\psi \notin \Delta \) iff \(\neg \psi \in \Delta \). For \(\psi \to \chi \): if \((\psi \to \chi ) \in \Delta \), \(\psi \in \Delta \) and \(\chi \notin \Delta \), then \(\neg \chi \in \Delta \) and the finite set \(\{ \psi \to \chi , \psi , \neg \chi \} \) is not satisfiable. If \((\psi \to \chi ) \notin \Delta \), then \(\neg (\psi \to \chi ) \in \Delta \); if moreover \(\psi \notin \Delta \) or \(\chi \in \Delta \), then \(\Delta \) contains \(\{ \neg (\psi \to \chi ), \neg \psi \} \) or \(\{ \neg (\psi \to \chi ), \chi \} \), neither of which is satisfiable. So \((\psi \to \chi ) \in \Delta \) if and only if \(\psi \notin \Delta \) or \(\chi \in \Delta \), which by induction is equivalent to \(\bar v(\psi \to \chi ) = 1\). Hence \(v\) satisfies \(\Delta \supseteq \Sigma \). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="logic:remark-compactness-uncountable">
+  <div class="remark_thmheading"><a class="tag" href="tag/004P.html" title="Permanent link: tag 004P">004P</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">2.2.13</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> The theorem holds for arbitrary sets \(P\), but the proof then needs a form of the axiom of choice (for instance Zorn’s lemma, Chapter&#160;<a href="sets.html">3</a>) to replace the enumeration of all formulas. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="logic-section-introduction.html"><span class="dir">Previous</span> Introduction</a><a class="next" href="logic-section-languages.html"><span class="dir">Next</span> First-order languages</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

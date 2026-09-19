@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Limits of sequences - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="real-analysis-section-introduction.html" /><link rel="next" href="real-analysis-section-limits-functions.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2 active">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+  <ul><li class="level-3">
+  <a href="real-analysis-section-introduction.html"><span class="toc_ref">25.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="real-analysis-section-sequences.html"><span class="toc_ref">25.2</span> <span class="toc_entry">Limits of sequences</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-limits-functions.html"><span class="toc_ref">25.3</span> <span class="toc_entry">Limits of functions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-continuity-real.html"><span class="toc_ref">25.4</span> <span class="toc_entry">Continuous functions of a real variable</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-series.html"><span class="toc_ref">25.5</span> <span class="toc_entry">Upper and lower limits, and series</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-one-variable.html"><span class="toc_ref">25.6</span> <span class="toc_entry">Differentiation in one variable</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-exponential.html"><span class="toc_ref">25.7</span> <span class="toc_entry">The exponential and trigonometric functions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-riemann.html"><span class="toc_ref">25.8</span> <span class="toc_entry">The Riemann integral</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-function-sequences.html"><span class="toc_ref">25.9</span> <span class="toc_entry">Sequences of functions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-several-variables.html"><span class="toc_ref">25.10</span> <span class="toc_entry">Derivatives in several variables</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-inverse-function.html"><span class="toc_ref">25.11</span> <span class="toc_entry">The inverse and implicit function theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-ode.html"><span class="toc_ref">25.12</span> <span class="toc_entry">Ordinary differential equations</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-approximation.html"><span class="toc_ref">25.13</span> <span class="toc_entry">Stone–Weierstrass and Arzelà–Ascoli</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-exercises.html"><span class="toc_ref">25.14</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="real-analysis.html">25 Real Analysis</a></li></ol>
+
+<article class="main-text">
+<h1 id="real-analysis:section-sequences">25.2 Limits of sequences<a class="tag" href="tag/023R.html" title="Permanent link: tag 023R">023R</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>We recall that a real sequence \((a_n)_{n \in \mathbb {N}}\) <em>converges</em> to \(a \in \mathbb {R}\) if for every \(\varepsilon {\gt} 0\) there is \(N\) with \(|a_n - a| {\lt} \varepsilon \) for all \(n \geq N\) (Definition&#160;<a href="number-systems-section-complete-ordered-fields.html#number-systems:definition-cauchy">4.7.5</a>). This is convergence in the metric space \(\mathbb {R}\) (Chapter&#160;<a href="general-topology.html">16</a>). In this section we develop the theory of limits of sequences directly from this definition. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="real-analysis:definition-sequence-terms">
+  <div class="definition_thmheading"><a class="tag" href="tag/023S.html" title="Permanent link: tag 023S">023S</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">25.2.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \((a_n)\) be a real sequence. </p>
+<ol class="enumerate">
+  <li><p>If \((a_n)\) converges to \(a\) we write \(a_n \to a\) or \(\lim _na_n = a\), and call \(a\) the <em>limit</em>. </p>
+</li>
+  <li><p>\((a_n)\) <em>diverges to \(+\infty \)</em>, written \(a_n \to +\infty \), if for every \(M \in \mathbb {R}\) there is \(N\) with \(a_n {\gt} M\) for all \(n \geq N\); similarly \(a_n \to -\infty \) if for every \(M\) eventually \(a_n {\lt} M\). </p>
+</li>
+  <li><p>\((a_n)\) is <em>regular</em> if it converges or diverges to \(\pm \infty \), and <em>oscillating</em> otherwise. </p>
+</li>
+  <li><p>\((a_n)\) is <em>bounded</em> if there is \(C\) with \(|a_n| \leq C\) for all \(n\); <em>bounded above</em> or <em>below</em> are defined similarly. </p>
+</li>
+  <li><p>\((a_n)\) is <em>increasing</em> if \(a_n \leq a_{n+1}\) for all \(n\), <em>strictly increasing</em> if \(a_n {\lt} a_{n+1}\), and similarly <em>decreasing</em>; it is <em>monotone</em> if it is increasing or decreasing. </p>
+</li>
+  <li><p>A <em>subsequence</em> of \((a_n)\) is a sequence \((a_{n_k})_{k \in \mathbb {N}}\) with \(n_0 {\lt} n_1 {\lt} n_2 {\lt} \cdots \). </p>
+</li>
+</ol>
+<p> A property holds <em>eventually</em>, or <em>for large \(n\)</em>, if there is \(N\) such that it holds for all \(n \geq N\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-sequence-basic">
+  <div class="proposition_thmheading"><a class="tag" href="tag/023T.html" title="Permanent link: tag 023T">023T</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \((a_n)\) be a real sequence. </p>
+<ol class="enumerate">
+  <li><p>A sequence has at most one limit. </p>
+</li>
+  <li><p>A convergent sequence is bounded. </p>
+</li>
+  <li><p>(Permanence of sign) If \(a_n \to a\) and \(a {\gt} 0\), then \(a_n {\gt} a/2 {\gt} 0\) for large \(n\). </p>
+</li>
+  <li><p>Changing, adding or removing finitely many terms does not affect convergence or the limit. </p>
+</li>
+  <li><p>If \(a_n \to a\), every subsequence converges to \(a\); the same holds for divergence to \(\pm \infty \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000611">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) Suppose \(a_n \to a\) and \(a_n \to b\) with \(a \neq b\), and let \(\varepsilon = |a - b|/2\). For \(n\) larger than both thresholds, \(|a - b| \leq |a - a_n| + |a_n - b| {\lt} 2\varepsilon = |a - b|\), a contradiction. (2) Take \(\varepsilon = 1\): for \(n \geq N\), \(|a_n| \leq |a_n - a| + |a| {\lt} |a| + 1\), so \(|a_n| \leq \max (|a_0|, \ldots , |a_{N-1}|, |a| + 1)\) for all \(n\). (3) Take \(\varepsilon = a/2\): then \(a_n {\gt} a - a/2 = a/2\) for large \(n\). (4) The definitions only involve the terms with \(n \geq N\), and \(N\) may be enlarged. (5) By induction \(n_k \geq k\), so \(k \geq N\) implies \(n_k \geq N\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="real-analysis:lemma-bernoulli">
+  <div class="lemma_thmheading"><a class="tag" href="tag/023U.html" title="Permanent link: tag 023U">023U</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">25.2.3</span>
+    <span class="lemma_thmtitle">Bernoulli’s inequality</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For \(h \geq -1\) and \(n \in \mathbb {N}\), \((1 + h)^n \geq 1 + nh\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000612">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(n = 0\) both sides are \(1\). If \((1 + h)^n \geq 1 + nh\), then, as \(1 + h \geq 0\), \((1 + h)^{n+1} \geq (1 + nh)(1 + h) = 1 + (n + 1)h + nh^2 \geq 1 + (n + 1)h\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-algebra-limits">
+  <div class="proposition_thmheading"><a class="tag" href="tag/023V.html" title="Permanent link: tag 023V">023V</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.4</span>
+    <span class="proposition_thmtitle">Algebra of limits</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(a_n \to a\) and \(b_n \to b\) be real sequences and \(c \in \mathbb {R}\). Then \(a_n + b_n \to a + b\), \(ca_n \to ca\), \(a_nb_n \to ab\) and \(|a_n| \to |a|\). If \(b \neq 0\), then \(b_n \neq 0\) for large \(n\) and \(a_n/b_n \to a/b\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000613">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Given \(\varepsilon {\gt} 0\), for large \(n\) we have \(|a_n - a| {\lt} \varepsilon /2\) and \(|b_n - b| {\lt} \varepsilon /2\), so \(|(a_n + b_n) - (a + b)| {\lt} \varepsilon \). The reverse triangle inequality \(||a_n| - |a|| \leq |a_n - a|\) gives \(|a_n| \to |a|\), and \(|ca_n - ca| = |c|\, |a_n - a|\) gives \(ca_n \to ca\). For the product, let \(C\) bound \(|a_n|\) (Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-sequence-basic">25.2.2</a>(2)); then </p>
+<div class="displaymath" id="a0000000614">
+  \[  |a_nb_n - ab| \leq |a_n|\, |b_n - b| + |b|\, |a_n - a| \leq C|b_n - b| + |b|\, |a_n - a|,  \]
+</div>
+<p> which is less than \(\varepsilon \) for large \(n\). For the quotient it suffices to show \(1/b_n \to 1/b\). As \(|b_n| \to |b| {\gt} 0\), permanence of sign gives \(|b_n| {\gt} |b|/2\) for large \(n\), and then \(|1/b_n - 1/b| = |b - b_n|/(|b_n|\, |b|) \leq 2|b_n - b|/|b|^2\), which tends to \(0\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-squeeze">
+  <div class="proposition_thmheading"><a class="tag" href="tag/023W.html" title="Permanent link: tag 023W">023W</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.5</span>
+    <span class="proposition_thmtitle">Comparison and squeeze</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \((a_n)\), \((b_n)\), \((c_n)\) be real sequences. </p>
+<ol class="enumerate">
+  <li><p>If \(a_n \leq b_n\) for large \(n\), \(a_n \to a\) and \(b_n \to b\), then \(a \leq b\). </p>
+</li>
+  <li><p>(Squeeze theorem) If \(a_n \leq c_n \leq b_n\) for large \(n\) and \(a_n \to L\), \(b_n \to L\), then \(c_n \to L\). </p>
+</li>
+  <li><p>If \(a_n \leq b_n\) for large \(n\) and \(a_n \to +\infty \), then \(b_n \to +\infty \). </p>
+</li>
+  <li><p>If \(|a_n| \leq b_n\) for large \(n\) and \(b_n \to 0\), then \(a_n \to 0\). In particular, if \((a_n)\) is bounded and \(b_n \to 0\), then \(a_nb_n \to 0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000615">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) If \(a {\gt} b\), then \(a_n - b_n \to a - b {\gt} 0\) by Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-algebra-limits">25.2.4</a>, so \(a_n - b_n {\gt} 0\) for large \(n\) by permanence of sign, a contradiction. (2) Given \(\varepsilon {\gt} 0\), for large \(n\) we have \(L - \varepsilon {\lt} a_n \leq c_n \leq b_n {\lt} L + \varepsilon \). (3) Eventually \(b_n \geq a_n {\gt} M\). (4) Apply (2) to \(-b_n \leq a_n \leq b_n\); for the last statement, \(|a_nb_n| \leq C|b_n|\). </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-strict-inequality">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/023X.html" title="Permanent link: tag 023X">023X</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">25.2.6</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Strict inequalities do not pass to the limit: \(1/(n + 1) {\gt} 0\) for all \(n\), but the limit is \(0\). The convergence \(|a_n| \to |a|\) does not imply \(a_n \to a\) unless \(a = 0\): the sequence \(a_n = (-1)^n\) oscillates although \(|a_n| \to 1\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-infinite-limits">
+  <div class="proposition_thmheading"><a class="tag" href="tag/023Y.html" title="Permanent link: tag 023Y">023Y</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.7</span>
+    <span class="proposition_thmtitle">Infinite limits</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(a_n \to +\infty \). </p>
+<ol class="enumerate">
+  <li><p>If \((b_n)\) is bounded below, then \(a_n + b_n \to +\infty \). </p>
+</li>
+  <li><p>If \(b_n \geq c\) for large \(n\), for some \(c {\gt} 0\), then \(a_nb_n \to +\infty \). </p>
+</li>
+  <li><p>\(a_n {\gt} 0\) for large \(n\), and \(1/a_n \to 0\). Conversely, if \(b_n {\gt} 0\) and \(b_n \to 0\), then \(1/b_n \to +\infty \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000616">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) If \(b_n \geq -C\), then for any \(M\), eventually \(a_n {\gt} M + C\), so \(a_n + b_n {\gt} M\). (2) Eventually \(a_n {\gt} M/c\) with \(M {\gt} 0\), so \(a_nb_n {\gt} M\). (3) Eventually \(a_n {\gt} 1/\varepsilon {\gt} 0\), so \(0 {\lt} 1/a_n {\lt} \varepsilon \). Conversely, eventually \(0 {\lt} b_n {\lt} 1/M\) for \(M {\gt} 0\), so \(1/b_n {\gt} M\). </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-indeterminate">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/023Z.html" title="Permanent link: tag 023Z">023Z</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">25.2.8</span>
+    <span class="counterexample_thmtitle">Indeterminate forms</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> If \(a_n \to +\infty \) and \(b_n \to -\infty \), the limits alone do not determine the behaviour of \(a_n + b_n\): with \(a_n = n\), the choices \(b_n = -n + c\), \(b_n = -n/2\), \(b_n = -2n\) and \(b_n = -n + (-1)^n\) give the limit \(c\), the limit \(+\infty \), the limit \(-\infty \), and an oscillating sequence. Similarly, if \(a_n \to 0\) and \(b_n \to +\infty \), then with \(a_n = 1/(n+1)\) the choices \(b_n = c(n + 1)\), \((n + 1)^2\) and \((-1)^n(n + 1)\) show that \(a_nb_n\) can converge to any \(c\), diverge, or oscillate. The same happens for the forms \(\infty /\infty \) and \(0/0\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-fundamental-limits">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0240.html" title="Permanent link: tag 0240">0240</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.9</span>
+    <span class="proposition_thmtitle">Fundamental limits</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>For \(q \in \mathbb {R}\): \(q^n \to 0\) if \(|q| {\lt} 1\), \(q^n \to 1\) if \(q = 1\), \(q^n \to +\infty \) if \(q {\gt} 1\), and \((q^n)\) oscillates if \(q \leq -1\). </p>
+</li>
+  <li><p>For \(a {\gt} 0\), \(a^{1/n} \to 1\), and \(n^{1/n} \to 1\). </p>
+</li>
+  <li><p>For \(k \in \mathbb {N}\) and \(a {\gt} 1\), \(n^k/a^n \to 0\): exponentials beat powers. </p>
+</li>
+  <li><p>For every \(a \in \mathbb {R}\), \(a^n/n! \to 0\), and \(n!/n^n \to 0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000617">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) If \(q {\gt} 1\), write \(q = 1 + h\) with \(h {\gt} 0\); by Lemma&#160;<a href="real-analysis-section-sequences.html#real-analysis:lemma-bernoulli">25.2.3</a>, \(q^n \geq 1 + nh \to +\infty \). If \(0 {\lt} |q| {\lt} 1\), then \(|q|^{-n} \to +\infty \), so \(|q^n| \to 0\) by Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-infinite-limits">25.2.7</a>(3), and \(q^n \to 0\) by Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-squeeze">25.2.5</a>(4). If \(q = -1\) the terms alternate between \(\pm 1\); if \(q {\lt} -1\), \(|q^n| \to +\infty \) and the signs alternate, so the sequence is unbounded above and below and has no limit. (2) Let \(a \geq 1\) and \(a^{1/n} = 1 + h_n\) with \(h_n \geq 0\) (the \(n\)-th root exists by Proposition&#160;<a href="number-systems-section-complete-ordered-fields.html#number-systems:proposition-roots">4.7.4</a>). By Bernoulli, \(a \geq 1 + nh_n\), so \(0 \leq h_n \leq (a - 1)/n \to 0\). For \(a {\lt} 1\) apply this to \(1/a\) and use Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-algebra-limits">25.2.4</a>. For \(n^{1/n} = 1 + h_n\) with \(n \geq 2\), the binomial formula gives \(n \geq \binom {n}{2}h_n^2\), so \(0 \leq h_n \leq \sqrt{2/(n - 1)} \to 0\). (3) Write \(a = 1 + h\). For \(n \geq 2k + 2\) the binomial formula gives \(a^n \geq \binom {n}{k+1}h^{k+1} \geq \frac{(n/2)^{k+1}}{(k+1)!}h^{k+1}\), since each of the \(k + 1\) factors \(n, n - 1, \ldots , n - k\) is at least \(n/2\). Hence \(0 \leq n^k/a^n \leq 2^{k+1}(k + 1)!/(h^{k+1}n) \to 0\). (4) Choose an integer \(N {\gt} 2|a|\). For \(n \geq N\), \(|a|^n/n! \leq \frac{|a|^N}{N!}2^{N-n}\), which tends to \(0\) by (1). Finally \(n!/n^n = \frac1n\cdot \frac2n\cdots \frac nn \leq \frac1n\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-monotone-regular">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0241.html" title="Permanent link: tag 0241">0241</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.10</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Every monotone sequence is regular. An increasing sequence converges to its supremum if it is bounded above, and diverges to \(+\infty \) otherwise; a decreasing sequence converges to its infimum if it is bounded below, and diverges to \(-\infty \) otherwise. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000618">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \((a_n)\) be increasing. If it is bounded above, let \(s = \sup _na_n\) (Definition&#160;<a href="number-systems-section-complete-ordered-fields.html#number-systems:definition-complete">4.7.1</a>). For \(\varepsilon {\gt} 0\), \(s - \varepsilon \) is not an upper bound, so \(a_N {\gt} s - \varepsilon \) for some \(N\), and then \(s - \varepsilon {\lt} a_N \leq a_n \leq s\) for \(n \geq N\). If it is not bounded above, for every \(M\) some \(a_N {\gt} M\), and then \(a_n \geq a_N {\gt} M\) for \(n \geq N\). The decreasing case follows by passing to \((-a_n)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="real-analysis:lemma-monotone-subsequence">
+  <div class="lemma_thmheading"><a class="tag" href="tag/0242.html" title="Permanent link: tag 0242">0242</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">25.2.11</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Every real sequence has a monotone subsequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000619">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Call \(n\) a <em>peak</em> if \(a_n \geq a_m\) for all \(m {\gt} n\). If there are infinitely many peaks \(n_0 {\lt} n_1 {\lt} \cdots \), then \(a_{n_0} \geq a_{n_1} \geq \cdots \) is a decreasing subsequence. Otherwise let \(n_0\) be larger than all peaks. As \(n_0\) is not a peak, there is \(n_1 {\gt} n_0\) with \(a_{n_1} {\gt} a_{n_0}\); as \(n_1\) is not a peak, there is \(n_2 {\gt} n_1\) with \(a_{n_2} {\gt} a_{n_1}\); continuing (by recursion), we obtain a strictly increasing subsequence. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="real-analysis:theorem-bolzano-weierstrass-real">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0243.html" title="Permanent link: tag 0243">0243</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">25.2.12</span>
+    <span class="theorem_thmtitle">Bolzano–Weierstrass</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Every bounded real sequence has a convergent subsequence. Every real sequence has a regular subsequence: a sequence that is unbounded above has a subsequence diverging to \(+\infty \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000620">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By Lemma&#160;<a href="real-analysis-section-sequences.html#real-analysis:lemma-monotone-subsequence">25.2.11</a> there is a monotone subsequence, which is regular by Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-monotone-regular">25.2.10</a>, and convergent if the sequence is bounded. If \((a_n)\) is unbounded above, choose recursively \(n_{k+1} {\gt} n_k\) with \(a_{n_{k+1}} {\gt} k + 1\), which is possible because only finitely many terms have index \(\leq n_k\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="real-analysis:theorem-cauchy-criterion">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0244.html" title="Permanent link: tag 0244">0244</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">25.2.13</span>
+    <span class="theorem_thmtitle">Cauchy criterion</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> A real sequence converges if and only if it is a Cauchy sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000621">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(a_n \to a\), then \(|a_n - a_m| \leq |a_n - a| + |a - a_m| {\lt} \varepsilon \) when both are within \(\varepsilon /2\) of \(a\). Conversely, let \((a_n)\) be Cauchy. Taking \(\varepsilon = 1\) shows that \((a_n)\) is bounded, so by Theorem&#160;<a href="real-analysis-section-sequences.html#real-analysis:theorem-bolzano-weierstrass-real">25.2.12</a> a subsequence converges to some \(a\). Given \(\varepsilon {\gt} 0\), choose \(N\) with \(|a_n - a_m| {\lt} \varepsilon /2\) for \(m, n \geq N\), and \(k\) with \(n_k \geq N\) and \(|a_{n_k} - a| {\lt} \varepsilon /2\). Then \(|a_n - a| \leq |a_n - a_{n_k}| + |a_{n_k} - a| {\lt} \varepsilon \) for \(n \geq N\). (This is a second proof of Proposition&#160;<a href="number-systems-section-complete-ordered-fields.html#number-systems:proposition-cauchy-complete">4.7.6</a> for \(\mathbb {R}\).) </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-consecutive-differences">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/0245.html" title="Permanent link: tag 0245">0245</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">25.2.14</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> It is not enough that consecutive terms get close. The partial sums \(H_n = \sum _{k=1}^n1/k\) of the harmonic series satisfy \(H_{n+1} - H_n = 1/(n + 1) \to 0\), but \(H_{2n} - H_n = \sum _{k=n+1}^{2n}1/k \geq n \cdot \frac{1}{2n} = \frac12\), so \((H_n)\) is not Cauchy; being increasing, it diverges to \(+\infty \). Likewise \(\sqrt{n + 1} - \sqrt n = 1/(\sqrt{n + 1} + \sqrt n) \to 0\) while \(\sqrt n \to +\infty \). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-subsequence-criterion">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0246.html" title="Permanent link: tag 0246">0246</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.15</span>
+    <span class="proposition_thmtitle">Subsequence criterion</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>\(a_n \to a\) if and only if every subsequence of \((a_n)\) has a further subsequence converging to \(a\). </p>
+</li>
+  <li><p>A bounded sequence all of whose convergent subsequences have the same limit \(a\) converges to \(a\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000622">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) One direction is Proposition&#160;<a href="real-analysis-section-sequences.html#real-analysis:proposition-sequence-basic">25.2.2</a>(5). Conversely, if \(a_n \not\to a\), there is \(\varepsilon {\gt} 0\) such that \(|a_n - a| \geq \varepsilon \) for infinitely many \(n\); these terms form a subsequence none of whose subsequences converges to \(a\). (2) By Theorem&#160;<a href="real-analysis-section-sequences.html#real-analysis:theorem-bolzano-weierstrass-real">25.2.12</a>, every subsequence is bounded and has a convergent subsequence, whose limit is \(a\) by hypothesis; apply (1). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-stolz-cesaro">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0247.html" title="Permanent link: tag 0247">0247</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">25.2.16</span>
+    <span class="proposition_thmtitle">Stolz–Cesàro</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \((b_n)\) be strictly increasing with \(b_n \to +\infty \), and let \((a_n)\) be a real sequence with \(\frac{a_{n+1} - a_n}{b_{n+1} - b_n} \to L \in \mathbb {R}\). Then \(a_n/b_n \to L\). In particular (Cesàro), if \(a_n \to L\), then the averages \(\frac{1}{n}(a_1 + \cdots + a_n) \to L\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000623">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\varepsilon {\gt} 0\) and choose \(N\) such that \(b_N {\gt} 0\) and \(|(a_{k+1} - a_k) - L(b_{k+1} - b_k)| \leq \varepsilon (b_{k+1} - b_k)\) for \(k \geq N\). Summing over \(N \leq k {\lt} n\) gives \(|a_n - a_N - L(b_n - b_N)| \leq \varepsilon (b_n - b_N) \leq \varepsilon b_n\). Dividing by \(b_n {\gt} 0\), </p>
+<div class="displaymath" id="a0000000624">
+  \[  \Big|\frac{a_n}{b_n} - L\Big| \leq \varepsilon + \frac{|a_N - Lb_N|}{b_n},  \]
+</div>
+<p> and the last term is less than \(\varepsilon \) for large \(n\), as \(b_n \to +\infty \). For Cesàro, apply this to \(a'_n = a_1 + \cdots + a_n\) and \(b_n = n\). </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-cesaro-converse">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/0248.html" title="Permanent link: tag 0248">0248</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">25.2.17</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> The converse of Cesàro’s theorem fails: \(a_n = (-1)^n\) does not converge, but its averages tend to \(0\), since the partial sums are \(0\) or \(-1\). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="real-analysis-section-introduction.html"><span class="dir">Previous</span> Introduction</a><a class="next" href="real-analysis-section-limits-functions.html"><span class="dir">Next</span> Limits of functions</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

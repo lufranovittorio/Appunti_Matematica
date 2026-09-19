@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Cauchy’s theorem - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="complex-analysis-section-holomorphic.html" /><link rel="next" href="complex-analysis-section-cauchy-formula.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2 active">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+  <ul><li class="level-3">
+  <a href="complex-analysis-section-introduction.html"><span class="toc_ref">27.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="complex-analysis-section-holomorphic.html"><span class="toc_ref">27.2</span> <span class="toc_entry">Holomorphic functions</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="complex-analysis-section-cauchy.html"><span class="toc_ref">27.3</span> <span class="toc_entry">Cauchy’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="complex-analysis-section-cauchy-formula.html"><span class="toc_ref">27.4</span> <span class="toc_entry">The Cauchy integral formula</span></a>
+</li>
+<li class="level-3">
+  <a href="complex-analysis-section-residues.html"><span class="toc_ref">27.5</span> <span class="toc_entry">Singularities, Laurent series and residues</span></a>
+</li>
+<li class="level-3">
+  <a href="complex-analysis-section-riemann-mapping.html"><span class="toc_ref">27.6</span> <span class="toc_entry">Conformal maps and the Riemann mapping theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="complex-analysis-section-exercises.html"><span class="toc_ref">27.7</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="complex-analysis.html">27 Complex Analysis</a></li></ol>
+
+<article class="main-text">
+<h1 id="complex-analysis:section-cauchy">27.3 Cauchy’s theorem<a class="tag" href="tag/014D.html" title="Permanent link: tag 014D">014D</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="theorem_thmwrapper theorem-style-plain" id="complex-analysis:theorem-goursat">
+  <div class="theorem_thmheading"><a class="tag" href="tag/014E.html" title="Permanent link: tag 014E">014E</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.3.1</span>
+    <span class="theorem_thmtitle">Goursat</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(U\) be open, \(p \in U\), and \(f \colon U \to \mathbb {C}\) continuous on \(U\) and holomorphic on \(U \setminus \{ p\} \). Then \(\int _{\partial T}f = 0\) for every closed triangle \(T \subseteq U\), where \(\partial T\) is its boundary traversed once. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000736">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>First assume \(f\) is holomorphic on all of \(U\). Let \(I = \int _{\partial T}f\). Joining the midpoints of the sides divides \(T\) into four triangles whose boundary integrals add up to \(I\) (the inner edges cancel), so one of them, \(T_1\), has \(|\int _{\partial T_1}f| \geq |I|/4\). Iterating gives nested triangles \(T_n\) with \(\operatorname {diam}T_n = 2^{-n}\operatorname {diam}T\), \(L(\partial T_n) = 2^{-n}L(\partial T)\) and \(|\int _{\partial T_n}f| \geq 4^{-n}|I|\). Their intersection is a point \(z_0\). Given \(\varepsilon {\gt} 0\), holomorphy at \(z_0\) gives \(\delta \) with \(|f(z) - f(z_0) - f'(z_0)(z - z_0)| \leq \varepsilon |z - z_0|\) for \(|z - z_0| {\lt} \delta \). The affine function \(f(z_0) + f'(z_0)(z - z_0)\) has a primitive, so its integral over \(\partial T_n\) vanishes, and for large \(n\), \(|\int _{\partial T_n}f| \leq \varepsilon \operatorname {diam}(T_n)L(\partial T_n) = \varepsilon 4^{-n}\operatorname {diam}(T)L(\partial T)\). Hence \(|I| \leq \varepsilon \operatorname {diam}(T)L(\partial T)\) for all \(\varepsilon \). </p>
+<p>If \(f\) is only continuous at \(p\): if \(p \notin T\) we are done. If \(p\) is a vertex of \(T\), write \(T\) as the union of a small triangle \(T'\) with vertex \(p\) and two triangles not containing \(p\); then \(|\int _{\partial T}f| = |\int _{\partial T'}f| \leq L(\partial T')\sup _T|f| \to 0\) as \(T'\) shrinks. For general \(p \in T\), join \(p\) to the vertices. </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="complex-analysis:corollary-primitive-convex">
+  <div class="corollary_thmheading"><a class="tag" href="tag/014F.html" title="Permanent link: tag 014F">014F</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">27.3.2</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(U\) be convex, \(p \in U\), and \(f\) continuous on \(U\) and holomorphic on \(U \setminus \{ p\} \). Then \(f\) has a primitive on \(U\), and \(\int _\gamma f = 0\) for every closed path \(\gamma \) in \(U\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000737">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Fix \(z_0 \in U\) and set \(F(z) = \int _{[z_0, z]}f\), the integral over the segment. For \(z, z + h \in U\), the triangle with vertices \(z_0, z, z + h\) lies in \(U\), so \(F(z + h) - F(z) = \int _{[z, z+h]}f\) by Theorem&#160;<a href="complex-analysis-section-cauchy.html#complex-analysis:theorem-goursat">27.3.1</a>. Hence \(|F(z + h) - F(z) - f(z)h| \leq |h|\sup _{[z, z+h]}|f - f(z)| = o(|h|)\) by continuity, so \(F' = f\). Apply Lemma&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:lemma-path-integral">27.2.5</a>. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="complex-analysis:theorem-cauchy-homotopy">
+  <div class="theorem_thmheading"><a class="tag" href="tag/014G.html" title="Permanent link: tag 014G">014G</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.3.3</span>
+    <span class="theorem_thmtitle">Cauchy’s theorem, homotopy form</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(f\) be holomorphic on an open \(U \subseteq \mathbb {C}\) and let \(\gamma _0, \gamma _1\) be paths in \(U\) that are homotopic in \(U\), either as closed paths or with fixed endpoints. Then \(\int _{\gamma _0}f = \int _{\gamma _1}f\). In particular \(\int _\gamma f = 0\) for every closed path that is null-homotopic in \(U\), and every holomorphic function on a simply connected open set has a primitive. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000738">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(H \colon [0, 1]^2 \to U\) be the homotopy, \(H(s, 0) = \gamma _0(s)\), \(H(s, 1) = \gamma _1(s)\). Its image is compact, so there is \(\rho {\gt} 0\) with \(D(H(s, t), \rho ) \subseteq U\) for all \((s, t)\), and by uniform continuity there is \(N\) with \(|H(s, t) - H(s', t')| {\lt} \rho \) whenever \(|s - s'|, |t - t'| \leq 1/N\). Put \(z_{jk} = H(j/N, k/N)\) and let \(D_{jk} = D(z_{jk}, \rho )\), so that \(H\) maps the square \([j/N, (j+1)/N] \times [k/N, (k+1)/N]\) into \(D_{jk}\). Let \(P_k\) be the closed polygonal path through \(z_{0k}, z_{1k}, \ldots , z_{Nk}\). </p>
+<p>Each segment \([z_{jk}, z_{j+1,k}]\) and the corresponding piece of \(H(-, k/N)\) lie in the convex set \(D_{jk}\), where \(f\) has a primitive by Corollary&#160;<a href="complex-analysis-section-cauchy.html#complex-analysis:corollary-primitive-convex">27.3.2</a>; so the integrals of \(f\) over them agree, and \(\int _{\gamma _0}f = \int _{P_0}f\), \(\int _{\gamma _1}f = \int _{P_N}f\) (for \(\gamma _0\), \(\gamma _1\) piecewise \(C^1\); the intermediate paths are only continuous, and the polygonal paths replace them). The closed polygon with vertices \(z_{jk}, z_{j+1,k}, z_{j+1,k+1}, z_{j,k+1}\) lies in the convex set \(D_{jk}\), so the integral of \(f\) over it vanishes. Summing over \(j\), the contributions of the segments \([z_{jk}, z_{j,k+1}]\) cancel in pairs (for closed homotopies because \(z_{0k} = z_{Nk}\); for fixed endpoints because those segments are constant), so \(\int _{P_k}f = \int _{P_{k+1}}f\). Hence \(\int _{P_0}f = \int _{P_N}f\). The last statement follows by fixing \(z_0 \in U\) and setting \(F(z) = \int _\gamma f\) for any path from \(z_0\) to \(z\), which is independent of the path since \(U\) is simply connected; then \(F' = f\) as in Corollary&#160;<a href="complex-analysis-section-cauchy.html#complex-analysis:corollary-primitive-convex">27.3.2</a>. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="complex-analysis:definition-winding-number">
+  <div class="definition_thmheading"><a class="tag" href="tag/014H.html" title="Permanent link: tag 014H">014H</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">27.3.4</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For a closed path \(\gamma \) and \(a \notin \gamma ^*\), the <em>winding number</em> is \(n(\gamma , a) = \frac{1}{2\pi i}\int _\gamma \frac{dz}{z - a}\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="complex-analysis:proposition-winding-number">
+  <div class="proposition_thmheading"><a class="tag" href="tag/014I.html" title="Permanent link: tag 014I">014I</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">27.3.5</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> \(n(\gamma , a)\) is an integer; it is constant on connected components of \(\mathbb {C}\setminus \gamma ^*\) and zero on the unbounded component. Homotopic closed paths in \(\mathbb {C}\setminus \{ a\} \) have the same winding number about \(a\), and for the circle \(\gamma (t) = a + re^{2\pi it}\) one has \(n(\gamma , a) = 1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000739">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\gamma \colon [0, 1] \to \mathbb {C}\) and \(\varphi (t) = \int _0^t\frac{\gamma '(s)}{\gamma (s) - a}\, ds\). Then \((e^{-\varphi }(\gamma - a))' = 0\) on each \(C^1\) piece, so \(e^{\varphi (1)} = (\gamma (1) - a)/(\gamma (0) - a) = 1\) and \(\varphi (1) \in 2\pi i\mathbb {Z}\) by Theorem&#160;<a href="real-analysis-section-exponential.html#real-analysis:theorem-pi">25.7.3</a>. The function \(a \mapsto n(\gamma , a)\) is continuous on \(\mathbb {C}\setminus \gamma ^*\) and integer valued, hence locally constant, and it tends to \(0\) as \(|a| \to \infty \). Homotopy invariance is Theorem&#160;<a href="complex-analysis-section-cauchy.html#complex-analysis:theorem-cauchy-homotopy">27.3.3</a> applied to \(z \mapsto 1/(z - a)\) on \(\mathbb {C}\setminus \{ a\} \), and the circle was computed in Lemma&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:lemma-path-integral">27.2.5</a>. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="complex-analysis-section-holomorphic.html"><span class="dir">Previous</span> Holomorphic functions</a><a class="next" href="complex-analysis-section-cauchy-formula.html"><span class="dir">Next</span> The Cauchy integral formula</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

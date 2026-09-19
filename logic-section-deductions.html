@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Formal deductions - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="logic-section-structures.html" /><link rel="next" href="logic-section-completeness.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1 active">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2 active">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+  <ul><li class="level-3">
+  <a href="logic-section-introduction.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-propositional.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Propositional logic</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-languages.html"><span class="toc_ref">2.3</span> <span class="toc_entry">First-order languages</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-structures.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Structures and satisfaction</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="logic-section-deductions.html"><span class="toc_ref">2.5</span> <span class="toc_entry">Formal deductions</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-completeness.html"><span class="toc_ref">2.6</span> <span class="toc_entry">The completeness theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-compactness.html"><span class="toc_ref">2.7</span> <span class="toc_entry">Compactness and the Löwenheim–Skolem theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-incompleteness.html"><span class="toc_ref">2.8</span> <span class="toc_entry">The incompleteness theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="logic-section-exercises.html"><span class="toc_ref">2.9</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-foundations.html">I Foundations</a></li><li><a href="logic.html">2 Mathematical Logic</a></li></ol>
+
+<article class="main-text">
+<h1 id="logic:section-deductions">2.5 Formal deductions<a class="tag" href="tag/005C.html" title="Permanent link: tag 005C">005C</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>We now define formal proofs. The system below, a Hilbert-style system with modus ponens as its only rule, is the one of <span class="cite">[<a href="Bibliography.html#enderton-logic" >End01</a>]</span>. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="logic:definition-first-order-tautology">
+  <div class="definition_thmheading"><a class="tag" href="tag/005D.html" title="Permanent link: tag 005D">005D</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.5.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A formula is <em>prime</em> if it is atomic or of the form \(\forall x\, \varphi \). Every formula is built from prime formulas using \(\neg \) and \(\to \) alone. A <em>truth assignment</em> for \(\mathcal{L}\) is a map \(v\) from the set of prime formulas to \(\{ 0, 1\} \); it extends to \(\bar v\) on all formulas as in Definition&#160;<a href="logic-section-propositional.html#logic:definition-truth-assignment">2.2.6</a>. A formula is a <em>tautology</em> if \(\bar v(\varphi ) = 1\) for all \(v\), and a set \(\Sigma \) <em>tautologically implies</em> \(\varphi \) if \(\bar v(\varphi ) = 1\) for all \(v\) with \(\bar v(\Sigma ) = \{ 1\} \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="logic:definition-logical-axioms">
+  <div class="definition_thmheading"><a class="tag" href="tag/005E.html" title="Permanent link: tag 005E">005E</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.5.2</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>generalization</em> of a formula \(\alpha \) is a formula \(\forall x_1 \cdots \forall x_n\,  \alpha \) with \(n \geq 0\). The <em>logical axioms</em> are all generalizations of formulas of the following forms, where \(x, y, z\) are variables, \(t\) is a term and \(\alpha , \beta \) are formulas: </p>
+<ol class="enumerate">
+  <li><p>tautologies; </p>
+</li>
+  <li><p>\(\forall x\, \alpha \to \alpha [t/x]\), where \(t\) is substitutable for \(x\) in \(\alpha \); </p>
+</li>
+  <li><p>\(\forall x\, (\alpha \to \beta ) \to (\forall x\, \alpha \to \forall x\, \beta )\); </p>
+</li>
+  <li><p>\(\alpha \to \forall x\, \alpha \), where \(x \notin \mathrm{FV}(\alpha )\); </p>
+</li>
+  <li><p>\(x = x\); </p>
+</li>
+  <li><p>\(x = y \to (\alpha [x/z] \to \alpha [y/z])\), where \(\alpha \) is atomic. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="logic:definition-deduction">
+  <div class="definition_thmheading"><a class="tag" href="tag/005F.html" title="Permanent link: tag 005F">005F</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.5.3</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(\Gamma \) be a set of formulas. A <em>deduction</em> from \(\Gamma \) is a finite sequence \((\alpha _0, \ldots , \alpha _n)\) of formulas such that each \(\alpha _i\) is a logical axiom, or belongs to \(\Gamma \), or is obtained by <em>modus ponens</em> from earlier formulas, that is, there are \(j, k {\lt} i\) with \(\alpha _k = (\alpha _j \to \alpha _i)\). We write \(\Gamma \vdash \varphi \), and say that \(\varphi \) is a <em>theorem</em> of \(\Gamma \), if there is a deduction from \(\Gamma \) whose last formula is \(\varphi \). The set \(\Gamma \) is <em>inconsistent</em> if there is a formula \(\beta \) with \(\Gamma \vdash \beta \) and \(\Gamma \vdash \neg \beta \), and <em>consistent</em> otherwise. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="logic:remark-deductions-finite">
+  <div class="remark_thmheading"><a class="tag" href="tag/005G.html" title="Permanent link: tag 005G">005G</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">2.5.4</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> A deduction is finite, so it uses only finitely many formulas of \(\Gamma \). Hence \(\Gamma \vdash \varphi \) if and only if \(\Gamma _0 \vdash \varphi \) for some finite \(\Gamma _0 \subseteq \Gamma \), and \(\Gamma \) is consistent if and only if all its finite subsets are. Whether \(\Gamma \vdash \varphi \) holds could depend on the language in which deductions are carried out; see Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-new-constants">2.5.12</a> below. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-rule-t">
+  <div class="lemma_thmheading"><a class="tag" href="tag/005H.html" title="Permanent link: tag 005H">005H</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.5.5</span>
+    <span class="lemma_thmtitle">Rule T</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(\Gamma \vdash \alpha _1, \ldots , \Gamma \vdash \alpha _n\) and \(\{ \alpha _1, \ldots , \alpha _n\} \) tautologically implies \(\beta \), then \(\Gamma \vdash \beta \). In particular, if \(\Gamma \) is inconsistent, then \(\Gamma \vdash \beta \) for every formula \(\beta \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000012">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The formula \(\alpha _1 \to (\alpha _2 \to \cdots (\alpha _n \to \beta ) \cdots )\) is a tautology, hence a logical axiom. Applying modus ponens \(n\) times gives \(\Gamma \vdash \beta \). For the second claim, \(\{ \gamma , \neg \gamma \} \) tautologically implies every formula. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-soundness">
+  <div class="theorem_thmheading"><a class="tag" href="tag/005I.html" title="Permanent link: tag 005I">005I</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.5.6</span>
+    <span class="theorem_thmtitle">Soundness</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> If \(\Gamma \vdash \varphi \), then \(\Gamma \models \varphi \). In particular, a set of formulas that is satisfied by some structure and assignment is consistent. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000013">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We first show that every logical axiom is valid. If \(\alpha \) is valid, so is every generalization of \(\alpha \), by the definition of satisfaction. Fix \(\mathcal{A}\) and \(s\). (A1) Let \(v(\pi ) = 1\) if and only if \(\mathcal{A} \models \pi [s]\), for prime \(\pi \). By induction, \(\bar v(\alpha ) = 1\) if and only if \(\mathcal{A} \models \alpha [s]\); so tautologies are satisfied. (A2) If \(\mathcal{A} \models \forall x\, \alpha [s]\) then \(\mathcal{A} \models \alpha [s[x \mapsto t^{\mathcal{A}}[s]]]\), which by Lemma&#160;<a href="logic-section-structures.html#logic:lemma-substitution">2.4.6</a> means \(\mathcal{A} \models \alpha [t/x][s]\). (A3) is immediate from the definitions. (A4) If \(x \notin \mathrm{FV}(\alpha )\), then \(s\) and \(s[x \mapsto a]\) agree on \(\mathrm{FV}(\alpha )\), so this follows from Lemma&#160;<a href="logic-section-structures.html#logic:lemma-coincidence">2.4.4</a>. (A5) is clear. (A6) If \(s(x) = s(y) = a\), then by Lemma&#160;<a href="logic-section-structures.html#logic:lemma-substitution">2.4.6</a> both \(\alpha [x/z]\) and \(\alpha [y/z]\) are satisfied under \(s\) if and only if \(\alpha \) is satisfied under \(s[z \mapsto a]\). </p>
+<p>Now let \((\alpha _0, \ldots , \alpha _n)\) be a deduction from \(\Gamma \) and let \((\mathcal{A}, s)\) satisfy \(\Gamma \). By induction on \(i\), \(\mathcal{A} \models \alpha _i[s]\): this holds for axioms and elements of \(\Gamma \), and if \(\mathcal{A} \models \alpha _j[s]\) and \(\mathcal{A} \models (\alpha _j \to \alpha _i)[s]\) then \(\mathcal{A} \models \alpha _i[s]\). For the last claim, no \((\mathcal{A}, s)\) satisfies both \(\beta \) and \(\neg \beta \). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-generalization">
+  <div class="theorem_thmheading"><a class="tag" href="tag/005J.html" title="Permanent link: tag 005J">005J</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.5.7</span>
+    <span class="theorem_thmtitle">Generalization theorem</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> If \(\Gamma \vdash \varphi \) and \(x\) is not free in any formula of \(\Gamma \), then \(\Gamma \vdash \forall x\, \varphi \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000014">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We show by induction on \(i\) that \(\Gamma \vdash \forall x\, \alpha _i\) for every formula \(\alpha _i\) of a deduction \((\alpha _0, \ldots , \alpha _n)\) from \(\Gamma \). If \(\alpha _i\) is a logical axiom, so is its generalization \(\forall x\, \alpha _i\). If \(\alpha _i \in \Gamma \), then \(x \notin \mathrm{FV}(\alpha _i)\), so \(\alpha _i \to \forall x\, \alpha _i\) is an instance of (A4), and modus ponens gives \(\Gamma \vdash \forall x\, \alpha _i\). If \(\alpha _i\) is obtained from \(\alpha _j\) and \(\alpha _j \to \alpha _i\) by modus ponens, then by induction \(\Gamma \vdash \forall x\, \alpha _j\) and \(\Gamma \vdash \forall x\, (\alpha _j \to \alpha _i)\); using the instance \(\forall x\, (\alpha _j \to \alpha _i) \to (\forall x\, \alpha _j \to \forall x\, \alpha _i)\) of (A3) and modus ponens twice, \(\Gamma \vdash \forall x\, \alpha _i\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-deduction">
+  <div class="theorem_thmheading"><a class="tag" href="tag/005K.html" title="Permanent link: tag 005K">005K</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.5.8</span>
+    <span class="theorem_thmtitle">Deduction theorem</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> \(\Gamma \cup \{ \gamma \}  \vdash \varphi \) if and only if \(\Gamma \vdash \gamma \to \varphi \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000015">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(\Gamma \vdash \gamma \to \varphi \), then \(\Gamma \cup \{ \gamma \} \) proves both \(\gamma \to \varphi \) and \(\gamma \), hence \(\varphi \). Conversely, let \((\alpha _0, \ldots , \alpha _n)\) be a deduction from \(\Gamma \cup \{ \gamma \} \); we show \(\Gamma \vdash \gamma \to \alpha _i\) by induction on \(i\). If \(\alpha _i = \gamma \), then \(\gamma \to \gamma \) is a tautology. If \(\alpha _i\) is a logical axiom or lies in \(\Gamma \), then \(\Gamma \vdash \alpha _i\), and \(\alpha _i\) tautologically implies \(\gamma \to \alpha _i\); apply Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-rule-t">2.5.5</a>. If \(\alpha _i\) comes from \(\alpha _j\) and \(\alpha _j \to \alpha _i\) by modus ponens, then by induction \(\Gamma \) proves \(\gamma \to \alpha _j\) and \(\gamma \to (\alpha _j \to \alpha _i)\), and these two formulas tautologically imply \(\gamma \to \alpha _i\). </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="logic:corollary-reductio">
+  <div class="corollary_thmheading"><a class="tag" href="tag/005L.html" title="Permanent link: tag 005L">005L</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">2.5.9</span>
+    <span class="corollary_thmtitle">Reductio ad absurdum</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> If \(\Gamma \cup \{ \neg \varphi \} \) is inconsistent, then \(\Gamma \vdash \varphi \). If \(\Gamma \cup \{ \varphi \} \) is inconsistent, then \(\Gamma \vdash \neg \varphi \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000016">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(\Gamma \cup \{ \neg \varphi \} \) proves \(\beta \) and \(\neg \beta \), then by Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-deduction">2.5.8</a> \(\Gamma \) proves \(\neg \varphi \to \beta \) and \(\neg \varphi \to \neg \beta \), which tautologically imply \(\varphi \). The second statement is proved in the same way, using that \(\{ \varphi \to \beta , \varphi \to \neg \beta \} \) tautologically implies \(\neg \varphi \). </p>
+
+  </div>
+</div>
+<p>For a constant symbol \(c\) and a variable \(y\), let \(\alpha [y/c]\) denote the result of replacing every occurrence of \(c\) in \(\alpha \) by \(y\) (defined by recursion like substitution, but also inside the scope of quantifiers). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-replace-constants">
+  <div class="lemma_thmheading"><a class="tag" href="tag/005M.html" title="Permanent link: tag 005M">005M</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.5.10</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \((\alpha _0, \ldots , \alpha _n)\) be a deduction from \(\Gamma \), let \(c\) be a constant symbol that does not occur in any formula of \(\Gamma \), and let \(y\) be a variable that does not occur in any \(\alpha _i\). Then \((\alpha _0[y/c], \ldots , \alpha _n[y/c])\) is a deduction from \(\Gamma \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000017">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Elements of \(\Gamma \) are unchanged, and replacement commutes with \(\to \), so applications of modus ponens remain applications of modus ponens. It remains to see that the replacement of a logical axiom \(\alpha \) is a logical axiom. Replacement commutes with generalization, so we may assume \(\alpha \) is of one of the forms (A1)–(A6). Note that \(y\) does not occur in \(\alpha \). </p>
+<p>(A1) Let \(w\) be a truth assignment, and define \(v(\pi ) = w(\pi [y/c])\) for prime \(\pi \); replacement sends prime formulas to prime formulas and commutes with \(\neg \) and \(\to \), so \(\bar v(\alpha ) = \bar w(\alpha [y/c])\). Hence if \(\alpha \) is a tautology so is \(\alpha [y/c]\). (A2) By induction on formulas, \(\beta [t/x][y/c] = \beta [y/c][t[y/c]/x]\). The term \(t[y/c]\) is substitutable for \(x\) in \(\beta [y/c]\): the only variable it may contain besides those of \(t\) is \(y\), and \(y\) is not quantified anywhere in \(\beta \). (A3), (A5) are clear, and (A4) is preserved because the variable \(x\) occurs in \(\alpha \), so \(x \neq y\), and replacing a constant by \(y\) does not make \(x\) free. (A6) Write the axiom as \(x = x' \to (\beta [x/z] \to \beta [x'/z])\) with \(\beta \) atomic; renaming \(z\) if necessary we may assume \(z \neq y\). Then its replacement is \(x = x' \to (\beta [y/c][x/z] \to \beta [y/c][x'/z])\), again an instance of (A6). </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="logic:corollary-generalization-constants">
+  <div class="corollary_thmheading"><a class="tag" href="tag/005N.html" title="Permanent link: tag 005N">005N</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">2.5.11</span>
+    <span class="corollary_thmtitle">Generalization on constants</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Suppose \(\Gamma \vdash \varphi [c/x]\), where the constant symbol \(c\) occurs neither in \(\Gamma \) nor in \(\varphi \). Then \(\Gamma \vdash \forall x\, \varphi \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000018">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Choose a deduction of \(\varphi [c/x]\) from \(\Gamma \), and a variable \(y \neq x\) that occurs neither in this deduction nor in \(\varphi \). Since \(c\) does not occur in \(\varphi \), we have \(\varphi [c/x][y/c] = \varphi [y/x]\). By Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-replace-constants">2.5.10</a>, there is a deduction of \(\varphi [y/x]\) from a finite subset \(\Gamma _0 \subseteq \Gamma \) in whose formulas \(y\) does not occur. By Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-generalization">2.5.7</a>, \(\Gamma _0 \vdash \forall y\, \varphi [y/x]\). </p>
+<p>By Lemma&#160;<a href="logic-section-languages.html#logic:lemma-rereplacement">2.3.9</a>, \(x\) is substitutable for \(y\) in \(\varphi [y/x]\) and \(\varphi [y/x][x/y] = \varphi \), so \(\forall y\, \varphi [y/x] \to \varphi \) is an instance of (A2). Hence \(\{ \forall y\, \varphi [y/x]\}  \vdash \varphi \). The variable \(x\) is not free in \(\forall y\, \varphi [y/x]\), so Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-generalization">2.5.7</a> and Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-deduction">2.5.8</a> give \(\vdash \forall y\, \varphi [y/x] \to \forall x\, \varphi \). By modus ponens, \(\Gamma \vdash \forall x\, \varphi \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-new-constants">
+  <div class="lemma_thmheading"><a class="tag" href="tag/005O.html" title="Permanent link: tag 005O">005O</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.5.12</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\mathcal{L}'\) be obtained from \(\mathcal{L}\) by adding new constant symbols. If \(\Gamma \cup \{ \varphi \} \) is a set of \(\mathcal{L}\)-formulas and \(\Gamma \vdash \varphi \) by a deduction in \(\mathcal{L}'\), then \(\Gamma \vdash \varphi \) by a deduction in \(\mathcal{L}\). In particular, a set of \(\mathcal{L}\)-formulas that is consistent in \(\mathcal{L}\) is consistent in \(\mathcal{L}'\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000019">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>A deduction in \(\mathcal{L}'\) contains finitely many new constants. Replace them one at a time by distinct variables not occurring in the deduction. By Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-replace-constants">2.5.10</a> (applied in \(\mathcal{L}'\)), the result is a deduction from \(\Gamma \) of \(\varphi \), which is unchanged because it contains no new constants. All its formulas are \(\mathcal{L}\)-formulas, and an \(\mathcal{L}\)-formula that is a logical axiom of \(\mathcal{L}'\) is a logical axiom of \(\mathcal{L}\) (for (A1), every prime \(\mathcal{L}\)-formula is a prime \(\mathcal{L}'\)-formula). The last statement follows by applying the first to \(\varphi = (x = x)\) and \(\varphi = \neg (x = x)\), using Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-rule-t">2.5.5</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-equality">
+  <div class="lemma_thmheading"><a class="tag" href="tag/005P.html" title="Permanent link: tag 005P">005P</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.5.13</span>
+    <span class="lemma_thmtitle">Equality</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For all terms \(t, t', t'', t_1, \ldots , t_n, s_1, \ldots , s_n\): </p>
+<ol class="enumerate">
+  <li><p>\(\vdash t = t\); </p>
+</li>
+  <li><p>\(\{ t = t'\}  \vdash t' = t\); </p>
+</li>
+  <li><p>\(\{ t = t', t' = t''\}  \vdash t = t''\); </p>
+</li>
+  <li><p>\(\{ t_1 = s_1, \ldots , t_n = s_n\}  \vdash f(t_1, \ldots , t_n) = f(s_1, \ldots , s_n)\) for every \(n\)-ary function symbol \(f\); </p>
+</li>
+  <li><p>\(\{ t_1 = s_1, \ldots , t_n = s_n, R(t_1, \ldots , t_n)\}  \vdash R(s_1, \ldots , s_n)\) for every \(n\)-ary relation symbol \(R\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000020">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We use the following observation. If \(\vdash \beta \) where \(\beta \) has no quantifiers, and \(x_1, \ldots , x_k\) are distinct variables not occurring in the terms \(u_1, \ldots , u_k\), then \(\vdash \beta [u_1/x_1] \cdots [u_k/x_k]\). Indeed, by Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-generalization">2.5.7</a>, \(\vdash \forall x_1 \cdots \forall x_k\,  \beta \), and we remove the quantifiers one at a time with (A2): each term \(u_i\) is substitutable because it contains none of the quantified variables and the remaining formula has no other quantifiers. In each part below, the variables used are chosen distinct and not occurring in the terms of the statement. </p>
+<p>(1) Apply the observation to the axiom \(x = x\). (2) Let \(\alpha \) be \(z = x\). The instance \(x = y \to (x = x \to y = x)\) of (A6), with \(x := t\) and \(y := t'\), together with (1) gives the claim. (3) Let \(\alpha \) be \(z = w\). The instance \(x = y \to (x = w \to y = w)\) of (A6), with \(x := t'\), \(y := t\), \(w := t''\), gives \(\vdash t' = t \to (t' = t'' \to t = t'')\); combine with (2). (4) For \(0 \leq k \leq n\) let \(a_k = f(y_1, \ldots , y_k, x_{k+1}, \ldots , x_n)\). With \(\alpha \) the atomic formula \(f(x_1, \ldots , x_n) = f(y_1, \ldots , y_{k-1}, z, x_{k+1}, \ldots , x_n)\), axiom (A6) gives \(\vdash x_k = y_k \to (f(x_1, \ldots , x_n) = a_{k-1} \to f(x_1, \ldots , x_n) = a_k)\). Starting from \(f(x_1, \ldots , x_n) = a_0\), which holds by (1), we obtain \(\{ x_1 = y_1, \ldots , x_n = y_n\}  \vdash f(x_1, \ldots , x_n) = a_n\). By the deduction theorem this becomes a deducible quantifier-free implication, and the observation with \(x_i := t_i\), \(y_i := s_i\) gives the claim. (5) is proved in the same way as (4), with \(\alpha \) the atomic formula \(R(y_1, \ldots , y_{k-1}, z, x_{k+1}, \ldots , x_n)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="logic:lemma-alphabetic-variants">
+  <div class="lemma_thmheading"><a class="tag" href="tag/005Q.html" title="Permanent link: tag 005Q">005Q</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.5.14</span>
+    <span class="lemma_thmtitle">Alphabetic variants</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\varphi \) be a formula, \(x\) a variable and \(t\) a term. There is a formula \(\varphi '\) with \(c(\varphi ') = c(\varphi )\) such that \(t\) is substitutable for \(x\) in \(\varphi '\), \(\vdash \varphi \to \varphi '\) and \(\vdash \varphi ' \to \varphi \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000021">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By induction on \(\varphi \). For atomic \(\varphi \) take \(\varphi ' = \varphi \). For \(\neg \psi \) and \(\psi \to \chi \), take \(\neg \psi '\) and \(\psi ' \to \chi '\) and use Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-rule-t">2.5.5</a>. Let \(\varphi = \forall y\, \psi \), and let \(\psi '\) be given by induction. Choose a variable \(z\) that does not occur in \(\psi '\) or in \(t\) and is different from \(x\), and put \(\varphi ' = \forall z\, \psi '[z/y]\). </p>
+<p>The term \(t\) is substitutable for \(x\) in \(\varphi '\). If \(x = y\), then \(x\) is not free in \(\varphi '\). If \(x \neq y\), then \(z\) does not occur in \(t\), and \(t\) is substitutable for \(x\) in \(\psi '[z/y]\) because it is substitutable in \(\psi '\) and \(\psi '[z/y]\) has the same quantifiers as \(\psi '\) in the same places. </p>
+<p>From \(\vdash \psi \to \psi '\), Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-generalization">2.5.7</a> and (A3) give \(\vdash \forall y\, \psi \to \forall y\, \psi '\), and similarly \(\vdash \forall y\, \psi ' \to \forall y\, \psi \). By Lemma&#160;<a href="logic-section-languages.html#logic:lemma-rereplacement">2.3.9</a>, \(\forall y\, \psi ' \to \psi '[z/y]\) and \(\forall z\, \psi '[z/y] \to \psi '\) are instances of (A2). The variable \(z\) is not free in \(\forall y\, \psi '\), and \(y\) is not free in \(\forall z\, \psi '[z/y]\); so by Theorems&#160;<a href="logic-section-deductions.html#logic:theorem-generalization">2.5.7</a> and&#160;<a href="logic-section-deductions.html#logic:theorem-deduction">2.5.8</a>, \(\vdash \forall y\, \psi ' \to \forall z\, \psi '[z/y]\) and \(\vdash \forall z\, \psi '[z/y] \to \forall y\, \psi '\). Combining these implications with Lemma&#160;<a href="logic-section-deductions.html#logic:lemma-rule-t">2.5.5</a> gives the claim. Finally \(c(\varphi ') = c(\psi ') + 1 = c(\varphi )\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="logic:example-deduction">
+  <div class="example_thmheading"><a class="tag" href="tag/005R.html" title="Permanent link: tag 005R">005R</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">2.5.15</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let us check that \(\vdash \forall x \forall y\,  \varphi \to \forall y \forall x\,  \varphi \). By (A2) twice (a variable is substitutable for itself), \(\{ \forall x \forall y\,  \varphi \}  \vdash \varphi \). Neither \(x\) nor \(y\) is free in \(\forall x \forall y\,  \varphi \), so the generalization theorem gives \(\{ \forall x \forall y\,  \varphi \}  \vdash \forall y \forall x\,  \varphi \), and the deduction theorem gives the claim. In practice, one rarely writes deductions: by Corollary&#160;<a href="logic-section-completeness.html#logic:corollary-completeness">2.6.2</a> below it suffices to check that the implication is valid. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="logic-section-structures.html"><span class="dir">Previous</span> Structures and satisfaction</a><a class="next" href="logic-section-completeness.html"><span class="dir">Next</span> The completeness theorem</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

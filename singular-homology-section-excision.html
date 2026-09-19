@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Excision and Mayer–Vietoris - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="singular-homology-section-relative.html" /><link rel="next" href="singular-homology-section-spheres.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2 active">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+  <ul><li class="level-3">
+  <a href="singular-homology-section-introduction.html"><span class="toc_ref">19.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-chains.html"><span class="toc_ref">19.2</span> <span class="toc_entry">Singular chains</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-homotopy-invariance.html"><span class="toc_ref">19.3</span> <span class="toc_entry">Homotopy invariance</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-relative.html"><span class="toc_ref">19.4</span> <span class="toc_entry">Relative homology and exact sequences</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="singular-homology-section-excision.html"><span class="toc_ref">19.5</span> <span class="toc_entry">Excision and Mayer–Vietoris</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-spheres.html"><span class="toc_ref">19.6</span> <span class="toc_entry">Spheres, good pairs and degree</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-cellular.html"><span class="toc_ref">19.7</span> <span class="toc_entry">Cellular homology</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-coefficients.html"><span class="toc_ref">19.8</span> <span class="toc_entry">Homology with coefficients</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-hurewicz.html"><span class="toc_ref">19.9</span> <span class="toc_entry">The first homology group</span></a>
+</li>
+<li class="level-3">
+  <a href="singular-homology-section-exercises.html"><span class="toc_ref">19.10</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-topology.html">III Topology</a></li><li><a href="singular-homology.html">19 Singular Homology</a></li></ol>
+
+<article class="main-text">
+<h1 id="singular-homology:section-excision">19.5 Excision and Mayer–Vietoris<a class="tag" href="tag/00VK.html" title="Permanent link: tag 00VK">00VK</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="singular-homology:definition-small-chains">
+  <div class="definition_thmheading"><a class="tag" href="tag/00VL.html" title="Permanent link: tag 00VL">00VL</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">19.5.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(\mathcal{U}\) be a family of subspaces of \(X\) whose interiors cover \(X\). Then \(C^{\mathcal{U}}_n(X) \subseteq C_n(X)\) is the subgroup generated by singular simplices with image in some \(U \in \mathcal{U}\). It is a subcomplex. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="singular-homology:lemma-subdivision">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00VM.html" title="Permanent link: tag 00VM">00VM</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">19.5.2</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> There are homomorphisms \(S \colon C_n(X) \to C_n(X)\) and \(T \colon C_n(X) \to C_{n+1}(X)\), natural in \(X\) (\(f_\# S = Sf_\# \), \(f_\# T = Tf_\# \)), with \(\partial S = S\partial \) and \(\partial T + T\partial = 1 - S\), such that \(S(\sigma )\) and \(T(\sigma )\) are combinations of simplices with image in \(\sigma (\Delta ^n)\). Moreover \(S^m(\sigma ) = \sigma _\# (S^m\iota _n)\) with \(\iota _n = [e_0, \ldots , e_n]\), and \(S^m\iota _n\) is a combination of affine simplices of diameter at most \((n/(n+1))^m\sqrt{2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000515">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Linear chains.</em> For a convex \(Y \subseteq \mathbb {R}^N\) let \(LC_n(Y) \subseteq C_n(Y)\) be generated by the affine simplices \([w_0, \ldots , w_n]\); it is a subcomplex. For \(b \in Y\) the <em>cone</em> \(b \colon LC_n(Y) \to LC_{n+1}(Y)\), \([w_0, \ldots , w_n] \mapsto [b, w_0, \ldots , w_n]\), satisfies \(\partial b(\lambda ) = \lambda - b(\partial \lambda )\) for \(n \geq 1\), and \(\partial b(\lambda ) = \lambda - \varepsilon (\lambda )[b]\) for \(n = 0\), by the formula for \(\partial \). For an affine simplex \(\lambda \) let \(b_\lambda \) be its barycentre \(\frac{1}{n+1}\sum _i w_i\). Define \(S = \mathrm{id}\) on \(LC_0\) and \(S(\lambda ) = b_\lambda (S\partial \lambda )\) for \(n \geq 1\); define \(T = 0\) on \(LC_0\) and \(T(\lambda ) = b_\lambda (\lambda - T\partial \lambda )\) for \(n \geq 1\). </p>
+<p>By induction on \(n\): \(\partial S\lambda = S\partial \lambda - b_\lambda (\partial S\partial \lambda ) = S\partial \lambda - b_\lambda (S\partial \partial \lambda ) = S\partial \lambda \) for \(n \geq 2\), and for \(n = 1\), \(\partial S\lambda = S\partial \lambda - \varepsilon (\partial \lambda )[b_\lambda ] = S\partial \lambda \). Similarly, using \(\partial T\partial \lambda = \partial \lambda - S\partial \lambda \) by induction, \(\partial T\lambda = \lambda - T\partial \lambda - b_\lambda (\partial \lambda - \partial T\partial \lambda ) = \lambda - T\partial \lambda - b_\lambda (S\partial \lambda ) = \lambda - T\partial \lambda - S\lambda \). Affine maps preserve barycentres and cones, so \(S\) and \(T\) commute with \(g_\# \) for affine maps \(g\). </p>
+<p><em>General chains.</em> Put \(S\sigma = \sigma _\# S\iota _n\) and \(T\sigma = \sigma _\# T\iota _n\). Naturality is clear, and since \(\sigma \circ \delta ^i = \sigma _\# \delta ^i\) with \(\delta ^i\) affine, \(\partial S\sigma = \sigma _\# S\partial \iota _n = \sum _i(-1)^i\sigma _\# \delta ^i_\# S\iota _{n-1} = S\partial \sigma \), and likewise for \(T\). By naturality \(S^m\sigma = \sigma _\# S^m\iota _n\). </p>
+<p><em>Diameters.</em> The diameter of an affine simplex is the largest distance between its vertices, since \(|\sum _i t_iw_i - y| \leq \max _i|w_i - y|\). The simplices of \(S\lambda \) are of the form \([b_\lambda , u_0, \ldots , u_{n-1}]\) with \([u_0, \ldots , u_{n-1}]\) a simplex of \(S\) applied to a face of \(\lambda \). For a vertex \(w_i\), \(|b_\lambda - w_i| = |\sum _j (w_j - w_i)|/(n+1) \leq \frac{n}{n+1}\operatorname {diam}\lambda \), so all points of \(\lambda \) are within this distance of \(b_\lambda \); and by induction the simplices of \(S\) of a face have diameter at most \(\frac{n-1}{n}\operatorname {diam}\lambda \). So the simplices of \(S\lambda \) have diameter at most \(\frac{n}{n+1}\operatorname {diam}\lambda \). Iterate, using \(\operatorname {diam}\Delta ^n = \sqrt{2}\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="singular-homology:proposition-small-chains">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00VN.html" title="Permanent link: tag 00VN">00VN</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">19.5.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> The inclusion \(\iota \colon C^{\mathcal{U}}(X) \to C(X)\) is a chain homotopy equivalence. Hence it induces isomorphisms on homology. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000516">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For a singular simplex \(\sigma \colon \Delta ^n \to X\) let \(m(\sigma )\) be the least \(m \geq 0\) such that every subset of \(\Delta ^n\) of diameter at most \((n/(n+1))^m\sqrt2\) lies in \(\sigma ^{-1}(\operatorname {int}U)\) for some \(U \in \mathcal{U}\). It exists by the Lebesgue number lemma (Lemma&#160;<a href="general-topology-section-complete.html#general-topology:lemma-lebesgue-number">16.7.3</a>), and by Lemma&#160;<a href="singular-homology-section-excision.html#singular-homology:lemma-subdivision">19.5.2</a>, \(S^i\sigma \in C^{\mathcal{U}}(X)\) for \(i \geq m(\sigma )\). The face maps are isometric embeddings and \(\frac{n-1}{n} {\lt} \frac{n}{n+1}\), so \(m(\sigma \circ \delta ^j) \leq m(\sigma )\). </p>
+<p>Let \(D_m = \sum _{0 \leq i {\lt} m}TS^i\), so that \(\partial D_m + D_m\partial = \sum _i(1 - S)S^i = 1 - S^m\). Define \(D\sigma = D_{m(\sigma )}\sigma \) and \(\rho = 1 - \partial D - D\partial \). Then \(\rho \) is a chain map, and </p>
+<div class="displaymath" id="a0000000517">
+  \[  \rho (\sigma ) = S^{m(\sigma )}\sigma + (D_{m(\sigma )} - D)\partial \sigma = S^{m(\sigma )}\sigma + \sum _j (-1)^j\sum _{m(\sigma \delta ^j) \leq i {\lt} m(\sigma )} TS^i(\sigma \delta ^j)  \]
+</div>
+<p> lies in \(C^{\mathcal{U}}(X)\), since \(T\) preserves \(C^{\mathcal{U}}(X)\). So \(\rho \colon C(X) \to C^{\mathcal{U}}(X)\) satisfies \(1 - \iota \rho = \partial D + D\partial \). As \(D\) maps \(C^{\mathcal{U}}(X)\) into itself, the same identity shows \(1 - \rho \iota = \partial D + D\partial \) on \(C^{\mathcal{U}}(X)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="singular-homology:theorem-excision">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00VO.html" title="Permanent link: tag 00VO">00VO</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">19.5.4</span>
+    <span class="theorem_thmtitle">Excision</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(Z \subseteq A \subseteq X\) with \(\overline{Z} \subseteq \operatorname {int}A\). Then the inclusion \((X \setminus Z, A \setminus Z) \to (X, A)\) induces isomorphisms on all \(H_n\). Equivalently, if \(A, B \subseteq X\) with \(\operatorname {int}A \cup \operatorname {int}B = X\), then \(H_n(B, A \cap B) \to H_n(X, A)\) is an isomorphism. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000518">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The two statements correspond via \(B = X \setminus Z\), since \(\operatorname {int}B = X \setminus \overline{Z}\). Let \(\mathcal{U} = \{ A, B\} \). The map \(C(B)/C(A \cap B) \to C^{\mathcal{U}}(X)/C(A)\) is an isomorphism of complexes: it is surjective as every generator of \(C^{\mathcal{U}}\) lies in \(C(A)\) or \(C(B)\), and its kernel is \(C(B) \cap C(A) = C(A \cap B)\). The map \(C^{\mathcal{U}}(X)/C(A) \to C(X)/C(A)\) induces isomorphisms on homology, by Proposition&#160;<a href="singular-homology-section-excision.html#singular-homology:proposition-small-chains">19.5.3</a> and the five lemma applied to the long exact sequences of \(0 \to C(A) \to C^{\mathcal{U}}(X) \to C^{\mathcal{U}}(X)/C(A) \to 0\) and \(0 \to C(A) \to C(X) \to C(X, A) \to 0\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="singular-homology:theorem-mayer-vietoris">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00VP.html" title="Permanent link: tag 00VP">00VP</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">19.5.5</span>
+    <span class="theorem_thmtitle">Mayer–Vietoris</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> If \(A, B \subseteq X\) with \(\operatorname {int}A \cup \operatorname {int}B = X\), there is a natural long exact sequence </p>
+<div class="displaymath" id="a0000000519">
+  \[  \cdots \to H_n(A \cap B) \xrightarrow {(i_*, -j_*)} H_n(A) \oplus H_n(B) \xrightarrow {k_* + l_*} H_n(X) \xrightarrow {\partial } H_{n-1}(A \cap B) \to \cdots ,  \]
+</div>
+<p> where \(i, j, k, l\) are the inclusions, and similarly in reduced homology if \(A \cap B \neq \emptyset \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000520">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The sequence \(0 \to C(A \cap B) \xrightarrow {(x \mapsto (x, -x))} C(A) \oplus C(B) \xrightarrow {((x, y) \mapsto x + y)} C^{\{ A, B\} }(X) \to 0\) is exact: the kernel of the second map consists of pairs \((x, -x)\) with \(x \in C(A) \cap C(B) = C(A \cap B)\). Take the long exact sequence and replace \(H_n(C^{\{ A,B\} }(X))\) by \(H_n(X)\) using Proposition&#160;<a href="singular-homology-section-excision.html#singular-homology:proposition-small-chains">19.5.3</a>. For reduced homology augment each complex by \(\mathbb {Z}\), \(\mathbb {Z}\oplus \mathbb {Z}\), \(\mathbb {Z}\). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="singular-homology-section-relative.html"><span class="dir">Previous</span> Relative homology and exact sequences</a><a class="next" href="singular-homology-section-spheres.html"><span class="dir">Next</span> Spheres, good pairs and degree</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

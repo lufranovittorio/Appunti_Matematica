@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>The exponential map and minimising geodesics - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="riemannian-geometry-section-along-curves.html" /><link rel="next" href="riemannian-geometry-section-holonomy.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2 active">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+  <ul><li class="level-3">
+  <a href="riemannian-geometry-section-introduction.html"><span class="toc_ref">38.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-levi-civita.html"><span class="toc_ref">38.2</span> <span class="toc_entry">Metrics and the Levi-Civita connection</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-along-curves.html"><span class="toc_ref">38.3</span> <span class="toc_entry">Covariant derivatives along curves</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="riemannian-geometry-section-exponential.html"><span class="toc_ref">38.4</span> <span class="toc_entry">The exponential map and minimising geodesics</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-holonomy.html"><span class="toc_ref">38.5</span> <span class="toc_entry">Parallel transport and holonomy</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-curvature.html"><span class="toc_ref">38.6</span> <span class="toc_entry">Curvature</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-hodge-star.html"><span class="toc_ref">38.7</span> <span class="toc_entry">The Hodge star and the Laplacian</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exercises.html"><span class="toc_ref">38.8</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="riemannian-geometry.html">38 Riemannian Geometry</a></li></ol>
+
+<article class="main-text">
+<h1 id="riemannian-geometry:section-exponential">38.4 The exponential map and minimising geodesics<a class="tag" href="tag/027P.html" title="Permanent link: tag 027P">027P</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>Geodesics are the projections to \(M\) of the integral curves of a vector field on \(TM\), the <em>geodesic spray</em>, which in the coordinates \((x, v)\) of \(TM\) is \(v^k\partial _{x^k} - \Gamma ^k_{ij}(x)v^iv^j\partial _{v^k}\). By Theorem&#160;<a href="smooth-manifolds-section-flows.html#smooth-manifolds:theorem-flow">31.7.1</a>, the set \(\mathcal{E} \subseteq TM\) of vectors \(v\) for which \(\gamma _v\) is defined on \([0, 1]\) is open, and \(\exp \colon \mathcal{E} \to M\) is smooth. Since \(\gamma _{cv}(t) = \gamma _v(ct)\), each \(\mathcal{E}_p = \mathcal{E} \cap T_pM\) is star-shaped about \(0\), and \(\exp _p(tv) = \gamma _v(t)\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-exponential">
+  <div class="proposition_thmheading"><a class="tag" href="tag/01CE.html" title="Permanent link: tag 01CE">01CE</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">38.4.1</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> \(d_0\exp _p = \mathrm{id}\), so \(\exp _p\) is a diffeomorphism from a neighbourhood of \(0\) onto a neighbourhood of \(p\), giving <em>normal coordinates</em> in which \(g_{ij}(p) = \delta _{ij}\) and \(\Gamma ^k_{ij}(p) = 0\). Geodesics through \(p\) are the images of lines through \(0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000922">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Since \(\exp _p(tv) = \gamma _v(t)\), the differential of \(\exp _p\) at \(0\) sends \(v\) to \(\dot\gamma _v(0) = v\), and the inverse function theorem applies. In normal coordinates for an orthonormal basis of \(T_pM\), \(g_{ij}(p) = \delta _{ij}\), and the lines \(t \mapsto tv\) are geodesics, so the geodesic equation at \(t = 0\) gives \(\Gamma ^k_{ij}(p)v^iv^j = 0\) for all \(v\); as \(\Gamma ^k_{ij}\) is symmetric in \(i\), \(j\), it vanishes at \(p\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-gauss-lemma">
+  <div class="theorem_thmheading"><a class="tag" href="tag/027Q.html" title="Permanent link: tag 027Q">027Q</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">38.4.2</span>
+    <span class="theorem_thmtitle">Gauss lemma</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(v \in \mathcal{E}_p\) and \(w \in T_pM\), and identify \(T_v(T_pM)\) with \(T_pM\). Then \(\langle d_v\exp _p(v), d_v\exp _p(w)\rangle = \langle v, w\rangle \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000923">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Since \(\mathcal{E}_p\) is open and star-shaped, \(f(s, t) = \exp _p(t(v + sw))\) is defined and smooth for \(|s|\) small and \(t \in [0, 1]\). Let \(T = \partial _tf\) and \(S = \partial _sf\). For fixed \(s\), \(t \mapsto f(s, t)\) is the geodesic with initial velocity \(v + sw\), so \(D_tT = 0\) and \(|T|^2 = |v + sw|^2\) for all \(t\). Using Proposition&#160;<a href="riemannian-geometry-section-along-curves.html#riemannian-geometry:proposition-covariant-derivative-curves">38.3.1</a> and Lemma&#160;<a href="riemannian-geometry-section-along-curves.html#riemannian-geometry:lemma-symmetry">38.3.2</a>, </p>
+<div class="displaymath" id="a0000000924">
+  \[  \partial _t\langle S, T\rangle = \langle D_tS, T\rangle + \langle S, D_tT\rangle = \langle D_sT, T\rangle = \tfrac 12\partial _s|T|^2 = \tfrac 12\partial _s|v + sw|^2 = \langle v + sw, w\rangle .  \]
+</div>
+<p> At \(s = 0\) this is \(\langle v, w\rangle \). Also \(f(s, 0) = p\), so \(S(s, 0) = 0\). Integrating, \(\langle S, T\rangle (0, 1) = \langle v, w\rangle \). Finally \(T(0, 1) = \frac{d}{dt}\exp _p(tv)|_{t=1} = d_v\exp _p(v)\) and \(S(0, 1) = \frac{d}{ds}\exp _p(v + sw)|_{s=0} = d_v\exp _p(w)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-local-minimisation">
+  <div class="theorem_thmheading"><a class="tag" href="tag/027R.html" title="Permanent link: tag 027R">027R</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">38.4.3</span>
+    <span class="theorem_thmtitle">Geodesics are locally minimising</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(\varepsilon {\gt} 0\) be such that \(\exp _p\) is a diffeomorphism from \(B(0, \varepsilon ) \subseteq T_pM\) onto an open set \(U\) (a <em>normal ball</em>). </p>
+<ol class="enumerate">
+  <li><p>For \(|v| {\lt} \varepsilon \), every curve from \(p\) to \(\exp _p(v)\) has length \(\geq |v|\), with equality if and only if it is a monotone reparametrisation of the radial geodesic \(t \mapsto \exp _p(tv)\), \(t \in [0, 1]\). </p>
+</li>
+  <li><p>\(d(p, \exp _p(v)) = |v|\) for \(|v| {\lt} \varepsilon \), and \(\exp _p(B(0, r))\) is the metric ball \(\{ x : d(p, x) {\lt} r\} \) for \(0 {\lt} r \leq \varepsilon \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000925">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(x \in U\) let \(\rho (x) = |\exp _p^{-1}(x)|\), a continuous function, smooth on \(U \setminus \{ p\} \). Let \(c \colon [a, b] \to U \setminus \{ p\} \) be a piecewise smooth curve and write \(c(t) = \exp _p(\rho (t)u(t))\) with \(\rho (t) = \rho (c(t)) {\gt} 0\) and \(|u(t)| = 1\). Then \(\dot c = d\exp _p(\dot\rho u + \rho \dot u)\) at the point \(\rho u\), with \(\langle u, \dot u\rangle = 0\). By the Gauss lemma, \(d\exp _p(u)\) has length \(1\) and is orthogonal to \(d\exp _p(\rho \dot u)\) (both at \(\rho u\)), so </p>
+<div class="displaymath" id="a0000000926">
+  \[  |\dot c|^2 = \dot\rho ^2 + |d\exp _p(\rho \dot u)|^2 \geq \dot\rho ^2, \qquad \text{hence}\qquad L(c) \geq \int _a^b|\dot\rho |\, dt \geq \rho (b) - \rho (a). \tag {$**$}  \]
+</div>
+<p> Now let \(c \colon [a, b] \to M\) go from \(p\) to \(q = \exp _p(v)\), \(0 {\lt} |v| = r {\lt} \varepsilon \). Suppose first that \(c\) stays in \(U\). Let \(a'\) be the last time with \(c(a') = p\); applying \((**)\) on \([a'', b]\) for \(a'' \downarrow a'\) gives \(L(c) \geq r\). If \(L(c) = r\), then \(c\) is constant on \([a, a']\), and on \((a', b]\) equality holds in \((**)\): \(\dot\rho \geq 0\) and \(d\exp _p(\rho \dot u) = 0\), so \(\dot u = 0\) (\(d\exp _p\) being injective on \(B(0, \varepsilon )\)), \(u\) is constant and \(c\) is a monotone reparametrisation of the radial geodesic. Conversely such reparametrisations have length \(r\). If \(c\) leaves \(U\), choose \(r {\lt} r' {\lt} \varepsilon \). The set \(K = \exp _p(\bar B(0, r'))\) is compact, hence closed, and contains \(p\); so \(c\) leaves \(K\), and by continuity \(\rho (c(t))\) takes the value \(r'\) at some first time \(t_2\) with \(c([a, t_2]) \subseteq K\). The first case applied to \(c|_{[a, t_2]}\) gives \(L(c) \geq r' {\gt} r\). This proves (1). </p>
+<p>For (2), the radial geodesic has length \(|v|\), so \(d(p, \exp _p(v)) = |v|\) by (1). The ball \(\exp _p(B(0, r))\) lies in the metric ball of radius \(r\). Conversely, if \(d(p, x) {\lt} r\), choose a curve \(c\) from \(p\) to \(x\) with \(L(c) {\lt} r' {\lt} r\); if \(x \notin \exp _p(B(0, r'))\), the argument above shows \(L(c) \geq r'\), a contradiction. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="riemannian-geometry:remark-convex">
+  <div class="remark_thmheading"><a class="tag" href="tag/027S.html" title="Permanent link: tag 027S">027S</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">38.4.4</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Every point also has a <em>geodesically convex</em> neighbourhood, in which any two points are joined by a unique minimising geodesic, contained in the neighbourhood <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 3]</span>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="riemannian-geometry:lemma-uniformly-normal">
+  <div class="lemma_thmheading"><a class="tag" href="tag/027T.html" title="Permanent link: tag 027T">027T</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">38.4.5</span>
+    <span class="lemma_thmtitle">Uniformly normal neighbourhoods</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Every \(q \in M\) has a neighbourhood \(W\) and a \(\delta {\gt} 0\) such that for every \(x \in W\), \(\exp _x\) is defined on \(B(0, \delta ) \subseteq T_xM\), is a diffeomorphism from it onto an open set, and \(\exp _x(B(0, \delta )) \supseteq W\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000927">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Consider \(E \colon \mathcal{E} \to M \times M\), \(E(v) = (\pi (v), \exp (v))\). In coordinates \((x, v)\) near \(0_q \in TM\), its differential at \(0_q\) is \(\begin{pmatrix} I 
+
+&  0
+
+\\ I 
+
+&  I
+
+\end{pmatrix}\), since \(\exp (0_x) = x\) and \(d_0\exp _x = \mathrm{id}\); so by the inverse function theorem \(E\) is a diffeomorphism from a neighbourhood \(O\) of \(0_q\) onto a neighbourhood of \((q, q)\). Shrinking, we may take \(O = \{ v \in T_xM : x \in W', |v| {\lt} \delta \} \) for a neighbourhood \(W'\) of \(q\) and some \(\delta {\gt} 0\) (the norm is continuous on \(TM\)), and choose a neighbourhood \(W \subseteq W'\) of \(q\) with \(W \times W \subseteq E(O)\). For \(x \in W\), \(\exp _x\) is injective on \(B(0, \delta )\) with invertible differential, hence a diffeomorphism onto an open set; and for \(y \in W\), \((x, y) = E(v)\) with \(v \in O\), that is \(y = \exp _x(v)\) with \(|v| {\lt} \delta \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="riemannian-geometry:lemma-minimising-geodesic">
+  <div class="lemma_thmheading"><a class="tag" href="tag/027U.html" title="Permanent link: tag 027U">027U</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">38.4.6</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(c \colon [a, b] \to M\) be a piecewise smooth curve of constant speed with \(L(c) = d(c(a), c(b))\). Then \(c\) is a geodesic; in particular it is smooth. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000928">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Every subarc of \(c\) is also minimising, since otherwise replacing it by a shorter curve would shorten \(c\). Let \(t_0 \in [a, b]\), and take \(W\) and \(\delta \) for \(q = c(t_0)\) as in Lemma&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:lemma-uniformly-normal">38.4.5</a>. For \(t_1 {\lt} t_0 {\lt} t_2\) close to \(t_0\) (or \(t_1 = t_0\) at the endpoints), \(c([t_1, t_2]) \subseteq W\) and \(L(c|_{[t_1, t_2]}) {\lt} \delta \). Then \(c|_{[t_1, t_2]}\) is a minimising curve from \(x = c(t_1)\) to a point of the normal ball \(\exp _x(B(0, \delta ))\), so by Theorem&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:theorem-local-minimisation">38.4.3</a>(1) it is a monotone reparametrisation of a radial geodesic from \(x\), and having constant speed, it is that geodesic, affinely reparametrised. So \(c\) is a geodesic near every \(t_0\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-hopf-rinow">
+  <div class="theorem_thmheading"><a class="tag" href="tag/01CF.html" title="Permanent link: tag 01CF">01CF</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">38.4.7</span>
+    <span class="theorem_thmtitle">Hopf–Rinow</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For a connected Riemannian manifold \((M, g)\) the following are equivalent: \((M, d)\) is a complete metric space; the geodesics are defined for all time; closed bounded subsets are compact. In that case any two points are joined by a minimising geodesic. In particular compact Riemannian manifolds are geodesically complete. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000929">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We show more: the three conditions are also equivalent to (d) <em>\(\exp _p\) is defined on all of \(T_pM\) for some \(p\)</em>; and (d) implies that every \(q\) is joined to \(p\) by a minimising geodesic. </p>
+<p><em>Step 1: (d) gives minimising geodesics from \(p\).</em> Let \(q \neq p\), \(r = d(p, q)\), and choose \(0 {\lt} \delta {\lt} r\) with \(\exp _p\) a diffeomorphism on \(B(0, \delta ')\) for some \(\delta ' {\gt} \delta \). The <em>geodesic sphere</em> \(S = \exp _p(\{ |w| = \delta \} )\) is compact; let \(x_0 = \exp _p(\delta u) \in S\), \(|u| = 1\), minimise \(d(\cdot , q)\) on \(S\). Every curve from \(p\) to \(q\) meets \(S\) (by the argument in the proof of Theorem&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:theorem-local-minimisation">38.4.3</a>), and points of \(S\) have distance \(\delta \) from \(p\), so \(r = \delta + d(x_0, q)\). Let \(\gamma (t) = \exp _p(tu)\), defined for all \(t\) by (d), and let \(T = \{ t \in [\delta , r] : d(\gamma (t), q) = r - t\} \), a closed set containing \(\delta \). Let \(t_0 = \max T\) and suppose \(t_0 {\lt} r\). Apply the same construction at \(\gamma (t_0)\): for small \(\eta {\gt} 0\) there is \(x_1\) on the geodesic sphere of radius \(\eta \) about \(\gamma (t_0)\) with \(d(\gamma (t_0), q) = \eta + d(x_1, q)\), so \(d(x_1, q) = r - t_0 - \eta \) and \(d(p, x_1) \geq d(p, q) - d(x_1, q) = t_0 + \eta \). The curve going along \(\gamma \) from \(p\) to \(\gamma (t_0)\) and then along the radial geodesic to \(x_1\) has length \(t_0 + \eta \), so it is minimising, and by Lemma&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:lemma-minimising-geodesic">38.4.6</a> (after parametrising by arc length) it is a geodesic, hence equal to \(\gamma \) on \([0, t_0 + \eta ]\). So \(x_1 = \gamma (t_0 + \eta )\) and \(t_0 + \eta \in T\), a contradiction. Hence \(t_0 = r\), \(\gamma (r) = q\) and \(L(\gamma |_{[0, r]}) = r\). </p>
+<p><em>Step 2: the equivalences.</em> If closed bounded sets are compact, a Cauchy sequence, being bounded, has a convergent subsequence, hence converges; so \(M\) is complete. If \(M\) is complete, let \(\gamma \colon [0, b) \to M\) be a maximal unit-speed geodesic with \(b {\lt} \infty \). For \(t_k \uparrow b\), \(d(\gamma (t_k), \gamma (t_l)) \leq |t_k - t_l|\), so \((\gamma (t_k))\) is Cauchy and converges to some \(q\). Take \(W\), \(\delta \) for \(q\) as in Lemma&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:lemma-uniformly-normal">38.4.5</a>; then geodesics with initial point in \(W\) and speed \(1\) are defined on \((-\delta , \delta )\). Choose \(t_k {\gt} b - \delta \) with \(\gamma (t_k) \in W\); the geodesic with initial velocity \(\dot\gamma (t_k)\) is defined up to time \(t_k + \delta {\gt} b\) and extends \(\gamma \) by uniqueness, a contradiction. So geodesics are defined for all time, which implies (d). Finally, assume (d) and let \(K\) be closed and bounded, say \(K \subseteq \{ x : d(p, x) \leq R\} \). By Step 1, this ball is contained in \(\exp _p(\bar B(0, R))\), which is compact; so \(K\) is compact. The last statements follow from Step 1 applied at every point, and from the compactness of closed bounded subsets of a compact space. </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="riemannian-geometry:counterexample-incomplete">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/027V.html" title="Permanent link: tag 027V">027V</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">38.4.8</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Completeness is needed. In \(M = \mathbb {R}^2 \setminus \{ 0\} \) with the Euclidean metric, the geodesic \(t \mapsto (1 - t, 0)\) is not defined at \(t = 1\), the Cauchy sequence \((1/k, 0)\) has no limit, and the set \(\{ x \in M : |x| \leq 1\} \) is closed in \(M\) and bounded but not compact. The points \((1, 0)\) and \((-1, 0)\) have distance \(2\), the infimum of the lengths of curves avoiding the origin, but no curve of length \(2\) joins them in \(M\), since in \(\mathbb {R}^2\) the only such curve is the segment through the origin. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="riemannian-geometry:remark-non-unique-geodesics">
+  <div class="remark_thmheading"><a class="tag" href="tag/027W.html" title="Permanent link: tag 027W">027W</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">38.4.9</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Minimising geodesics need not be unique: on the round sphere every half great circle joins two antipodal points, and has length \(\pi \). And geodesics stop minimising: a great circle arc longer than \(\pi \) is a geodesic but not the shortest curve between its endpoints. Both phenomena are explained by conjugate points (Section&#160;<a href="riemannian-geometry-section-curvature.html">38.6</a>). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="riemannian-geometry-section-along-curves.html"><span class="dir">Previous</span> Covariant derivatives along curves</a><a class="next" href="riemannian-geometry-section-holonomy.html"><span class="dir">Next</span> Parallel transport and holonomy</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

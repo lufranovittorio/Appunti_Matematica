@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Euler characteristic and Hilbert polynomial - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="coherent-cohomology-section-finiteness.html" /><link rel="next" href="coherent-cohomology-section-serre-duality.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2 active">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+  <ul><li class="level-3">
+  <a href="coherent-cohomology-section-introduction.html"><span class="toc_ref">52.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="coherent-cohomology-section-affine.html"><span class="toc_ref">52.2</span> <span class="toc_entry">Vanishing on affine schemes</span></a>
+</li>
+<li class="level-3">
+  <a href="coherent-cohomology-section-projective-space.html"><span class="toc_ref">52.3</span> <span class="toc_entry">The cohomology of projective space</span></a>
+</li>
+<li class="level-3">
+  <a href="coherent-cohomology-section-finiteness.html"><span class="toc_ref">52.4</span> <span class="toc_entry">Finiteness and Serre vanishing</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="coherent-cohomology-section-hilbert.html"><span class="toc_ref">52.5</span> <span class="toc_entry">Euler characteristic and Hilbert polynomial</span></a>
+</li>
+<li class="level-3">
+  <a href="coherent-cohomology-section-serre-duality.html"><span class="toc_ref">52.6</span> <span class="toc_entry">Serre duality</span></a>
+</li>
+<li class="level-3">
+  <a href="coherent-cohomology-section-base-change.html"><span class="toc_ref">52.7</span> <span class="toc_entry">Semicontinuity and base change</span></a>
+</li>
+<li class="level-3">
+  <a href="coherent-cohomology-section-exercises.html"><span class="toc_ref">52.8</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-algebraic-geometry.html">VIII Algebraic Geometry</a></li><li><a href="coherent-cohomology.html">52 Cohomology of Coherent Sheaves</a></li></ol>
+
+<article class="main-text">
+<h1 id="coherent-cohomology:section-hilbert">52.5 Euler characteristic and Hilbert polynomial<a class="tag" href="tag/01NE.html" title="Permanent link: tag 01NE">01NE</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="coherent-cohomology:definition-euler">
+  <div class="definition_thmheading"><a class="tag" href="tag/01NF.html" title="Permanent link: tag 01NF">01NF</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">52.5.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For a coherent sheaf \(\mathcal{F}\) on a projective scheme \(X\) over a field \(k\), the <em>Euler characteristic</em> is \(\chi (\mathcal{F}) = \sum _i(-1)^ih^i(\mathcal{F})\), where \(h^i = \dim _kH^i\). It is additive in short exact sequences, by the long exact sequence. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="coherent-cohomology:theorem-hilbert-polynomial">
+  <div class="theorem_thmheading"><a class="tag" href="tag/01NG.html" title="Permanent link: tag 01NG">01NG</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">52.5.2</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(X \subseteq \mathbb {P}^r_k\) be a projective scheme over an infinite field \(k\) and \(\mathcal{F}\) a coherent sheaf on \(X\). There is a polynomial \(P_\mathcal {F} \in \mathbb {Q}[t]\), the <em>Hilbert polynomial</em>, with \(\chi (\mathcal{F}(n)) = P_\mathcal {F}(n)\) for all \(n \in \mathbb {Z}\). Its degree is \(\dim \mathrm{Supp}\, \mathcal{F}\) (\(-\infty \) if \(\mathcal{F} = 0\)), and \(h^0(\mathcal{F}(n)) = P_\mathcal {F}(n)\) for \(n \gg 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001246">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Induction on \(d = \dim \mathrm{Supp}\, \mathcal{F}\). If \(d \leq 0\), the support is finite, \(\mathcal{O}(1)\) is trivial on a neighbourhood of it, so \(\mathcal{F}(n) \cong \mathcal{F}\) and \(\chi \) is constant, equal to \(h^0(\mathcal{F})\), which is nonzero if \(\mathcal{F} \neq 0\) (a sheaf with finite support is a sum of skyscrapers). Let \(d \geq 1\). The <em>associated points</em> of \(\mathcal{F}\), the points \(x\) such that \(\mathfrak {m}_x\) is an associated prime of \(\mathcal{F}_x\), are finite in number (Proposition&#160;<a href="commutative-algebra-section-primary.html#commutative-algebra:proposition-associated-primes">12.8.2</a>, on a finite affine cover). Since \(k\) is infinite, there is a linear form \(h\) vanishing at none of them: \(S_1\) is not a finite union of proper subspaces. Then multiplication by \(h\) is injective on \(\mathcal{F}(-1) \to \mathcal{F}\), because its kernel would have an associated point among those of \(\mathcal{F}\). So there is an exact sequence </p>
+<div class="displaymath" id="a0000001247">
+  \[  0 \to \mathcal{F}(n-1) \xrightarrow {h} \mathcal{F}(n) \to \mathcal{F}_H(n) \to 0, \qquad \mathcal{F}_H = \mathcal{F}/h\mathcal{F}.  \]
+</div>
+<p> \(\mathrm{Supp}\, \mathcal{F}_H = \mathrm{Supp}\, \mathcal{F} \cap V_+(h)\) has dimension \(d - 1\) by Theorem&#160;<a href="varieties-section-dimension.html#varieties:theorem-projective-dimension">49.5.5</a>, since \(h\) vanishes at no generic point of a component of the support (these are associated points). By induction \(\chi (\mathcal{F}(n)) - \chi (\mathcal{F}(n-1)) = P_{\mathcal{F}_H}(n)\) is a polynomial of degree \(d - 1\), so \(\chi (\mathcal{F}(n))\) is a polynomial of degree \(d\). The last statement follows from Theorem&#160;<a href="coherent-cohomology-section-finiteness.html#coherent-cohomology:theorem-finiteness">52.4.1</a>(2). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="coherent-cohomology:definition-degree-genus">
+  <div class="definition_thmheading"><a class="tag" href="tag/01NH.html" title="Permanent link: tag 01NH">01NH</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">52.5.3</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For a closed subscheme \(X \subseteq \mathbb {P}^r_k\) of dimension \(d\) with Hilbert polynomial \(P_X = P_{\mathcal{O}_X}\), the <em>degree</em> of \(X\) is \(d!\) times the leading coefficient of \(P_X\), and the <em>arithmetic genus</em> is \(p_a(X) = (-1)^d(P_X(0) - 1)\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="coherent-cohomology:example-hilbert-polynomials">
+  <div class="example_thmheading"><a class="tag" href="tag/01NI.html" title="Permanent link: tag 01NI">01NI</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">52.5.4</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>\(P_{\mathbb {P}^r}(n) = \binom {n+r}{r}\) for all \(n\), by Theorem&#160;<a href="coherent-cohomology-section-projective-space.html#coherent-cohomology:theorem-projective-space">52.3.1</a>. So \(\mathbb {P}^r\) has degree \(1\) and \(p_a = 0\). </p>
+</li>
+  <li><p>For a hypersurface \(X = V_+(f)\) of degree \(d\), the sequence \(0 \to \mathcal{O}(n-d) \to \mathcal{O}(n) \to \mathcal{O}_X(n) \to 0\) gives \(P_X(n) = \binom {n+r}{r} - \binom {n-d+r}{r}\), of degree \(r - 1\) with leading coefficient \(d/(r-1)!\). So \(X\) has degree \(d\). </p>
+</li>
+  <li><p>For a plane curve of degree \(d\), \(P_X(n) = dn + 1 - \frac{(d-1)(d-2)}{2}\), so \(p_a = \frac{(d-1)(d-2)}{2}\): \(0\) for lines and conics, \(1\) for cubics, \(3\) for quartics. </p>
+</li>
+  <li><p>The twisted cubic \(C = v_3(\mathbb {P}^1) \subseteq \mathbb {P}^3\) has \(\mathcal{O}_C(n) = \mathcal{O}_{\mathbb {P}^1}(3n)\), so \(P_C(n) = 3n + 1\): degree \(3\), genus \(0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="coherent-cohomology-section-finiteness.html"><span class="dir">Previous</span> Finiteness and Serre vanishing</a><a class="next" href="coherent-cohomology-section-serre-duality.html"><span class="dir">Next</span> Serre duality</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

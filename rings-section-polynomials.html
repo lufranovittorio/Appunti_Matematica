@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Polynomial rings - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="rings-section-factorisation.html" /><link rel="next" href="rings-section-modules.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2 active">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+  <ul><li class="level-3">
+  <a href="rings-section-introduction.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-rings.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Rings</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-ideals.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Ideals and quotient rings</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-prime-maximal.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Prime and maximal ideals</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-factorisation.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Factorisation in integral domains</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="rings-section-polynomials.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Polynomial rings</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-modules.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Modules</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-rank.html"><span class="toc_ref">7.8</span> <span class="toc_entry">Vector spaces and rank</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-tensor.html"><span class="toc_ref">7.9</span> <span class="toc_entry">Tensor products</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-algebras.html"><span class="toc_ref">7.10</span> <span class="toc_entry">Algebras and graded rings</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-pid.html"><span class="toc_ref">7.11</span> <span class="toc_entry">Modules over a principal ideal domain</span></a>
+</li>
+<li class="level-3">
+  <a href="rings-section-exercises.html"><span class="toc_ref">7.12</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-algebra.html">II Algebra</a></li><li><a href="rings.html">7 Rings and Modules</a></li></ol>
+
+<article class="main-text">
+<h1 id="rings:section-polynomials">7.6 Polynomial rings<a class="tag" href="tag/00F3.html" title="Permanent link: tag 00F3">00F3</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="rings:definition-polynomials">
+  <div class="definition_thmheading"><a class="tag" href="tag/00F4.html" title="Permanent link: tag 00F4">00F4</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">7.6.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(R\) be a ring. The <em>polynomial ring</em> \(R[x]\) is the set of sequences \((a_0, a_1, \ldots )\) in \(R\) with only finitely many nonzero terms, with termwise addition and the product \((a_i)(b_j) = (c_k)\), \(c_k = \sum _{i + j = k} a_i b_j\). We identify \(r \in R\) with \((r, 0, 0, \ldots )\) and write \(x = (0, 1, 0, \ldots )\), so that every polynomial is uniquely \(f = \sum _{i=0}^n a_i x^i\). If \(f \neq 0\), its <em>degree</em> \(\deg f\) is the largest \(i\) with \(a_i \neq 0\), and \(a_{\deg f}\) is the <em>leading coefficient</em>; \(f\) is <em>monic</em> if the leading coefficient is \(1\). The ring \(R[x_1, \ldots , x_n]\) is defined inductively as \(R[x_1, \ldots , x_{n-1}][x_n]\), and the <em>power series ring</em> \(R[[x]]\) is defined like \(R[x]\) but with all sequences allowed. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="rings:proposition-polynomial-universal">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00F5.html" title="Permanent link: tag 00F5">00F5</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">7.6.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(\varphi \colon R \to S\) be a ring homomorphism and \(s \in S\) an element commuting with all elements of \(\varphi (R)\). There is a unique ring homomorphism \(R[x] \to S\) extending \(\varphi \) and sending \(x\) to \(s\), namely \(\sum a_i x^i \mapsto \sum \varphi (a_i) s^i\). In particular, for \(R\) commutative, \(R[x_1, \ldots , x_n]\) is the free commutative \(R\)-algebra on \(x_1, \ldots , x_n\): homomorphisms to a commutative ring \(S\) extending \(\varphi \) correspond to \(n\)-tuples of elements of \(S\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000201">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The formula is forced, and it preserves products because \(s\) commutes with the \(\varphi (a_i)\): \(\bigl(\sum \varphi (a_i)s^i\bigr)\bigl(\sum \varphi (b_j)s^j\bigr) = \sum _k \bigl(\sum _{i+j=k} \varphi (a_i)\varphi (b_j)\bigr)s^k\). The last statement follows by induction on \(n\). </p>
+
+  </div>
+</div>
+<div class="notation_thmwrapper theorem-style-definition" id="rings:notation-evaluation">
+  <div class="notation_thmheading"><a class="tag" href="tag/00F6.html" title="Permanent link: tag 00F6">00F6</a>
+    <span class="notation_thmcaption">
+    Notation
+    </span>
+    <span class="notation_thmlabel">7.6.3</span>
+  </div>
+  <div class="notation_thmcontent">
+  <p> For \(R\) commutative, \(f \in R[x]\) and \(a \in R\), we write \(f(a)\) for the image of \(f\) under the homomorphism \(R[x] \to R\) with \(x \mapsto a\). An element \(a\) with \(f(a) = 0\) is a <em>root</em> of \(f\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="rings:proposition-polynomial-domain">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00F7.html" title="Permanent link: tag 00F7">00F7</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">7.6.4</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> If \(R\) is an integral domain, then \(\deg (fg) = \deg f + \deg g\) for nonzero \(f, g\), so \(R[x]\) is an integral domain and \(R[x]^\times = R^\times \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000202">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The coefficient of \(x^{\deg f + \deg g}\) in \(fg\) is the product of the leading coefficients, which is nonzero; all higher coefficients vanish. If \(fg = 1\) then \(\deg f = \deg g = 0\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="rings:theorem-polynomial-division">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00F8.html" title="Permanent link: tag 00F8">00F8</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.6.5</span>
+    <span class="theorem_thmtitle">Division with remainder</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(R\) be commutative and \(g \in R[x]\) a polynomial whose leading coefficient is a unit. For every \(f \in R[x]\) there are unique \(q, r \in R[x]\) with \(f = qg + r\) and \(r = 0\) or \(\deg r {\lt} \deg g\). Consequently, if \(k\) is a field then \(k[x]\) is Euclidean with \(N = \deg \), hence a PID and a UFD. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000203">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Existence by induction on \(\deg f\): if \(f = 0\) or \(\deg f {\lt} \deg g\) take \(q = 0\). Otherwise, with \(a\) and \(b\) the leading coefficients of \(f\) and \(g\), the polynomial \(f - ab^{-1}x^{\deg f - \deg g}g\) has smaller degree or is zero. Uniqueness: if \(qg + r = q'g + r'\) with \(q \neq q'\), then \((q - q')g = r' - r\) has degree \(\geq \deg g\), because the leading coefficient of \(g\) is a unit (so it is not a zero divisor), which is impossible. The last statement follows from Theorem&#160;<a href="rings-section-factorisation.html#rings:theorem-euclidean-pid-ufd">7.5.4</a>. </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="rings:corollary-roots">
+  <div class="corollary_thmheading"><a class="tag" href="tag/00F9.html" title="Permanent link: tag 00F9">00F9</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">7.6.6</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(R\) be commutative, \(f \in R[x]\) and \(a \in R\). Then \(f(a) = 0\) if and only if \((x - a) \mid f\). If \(R\) is an integral domain and \(f \neq 0\), then \(f\) has at most \(\deg f\) roots in \(R\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000204">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Divide: \(f = q(x - a) + r\) with \(r \in R\), and \(r = f(a)\). If \(R\) is a domain and \(a_1, \ldots , a_m\) are distinct roots, induction shows \((x - a_1) \cdots (x - a_m) \mid f\): if \(f = (x - a_1)g\) then \(0 = f(a_j) = (a_j - a_1)g(a_j)\) gives \(g(a_j) = 0\) for \(j \geq 2\). So \(m \leq \deg f\) by Proposition&#160;<a href="rings-section-polynomials.html#rings:proposition-polynomial-domain">7.6.4</a>. </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="rings:counterexample-many-roots">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/00FA.html" title="Permanent link: tag 00FA">00FA</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">7.6.7</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> The hypothesis that \(R\) is a domain is needed: in \(\mathbb {Z}/8\mathbb {Z}\) the polynomial \(x^2 - 1\) of degree \(2\) has the four roots \(1, 3, 5, 7\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="rings:proposition-power-series-units">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00FB.html" title="Permanent link: tag 00FB">00FB</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">7.6.8</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(R\) be commutative. A power series \(f = \sum a_i x^i \in R[[x]]\) is a unit if and only if \(a_0\) is a unit of \(R\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000205">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(fg = 1\) then \(a_0 b_0 = 1\). Conversely, if \(a_0\) is a unit define \(b_0 = a_0^{-1}\) and recursively \(b_k = -a_0^{-1}\sum _{i=1}^k a_i b_{k-i}\); then \(\sum _{i+j=k} a_i b_j = 0\) for \(k \geq 1\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="rings:definition-content">
+  <div class="definition_thmheading"><a class="tag" href="tag/00FC.html" title="Permanent link: tag 00FC">00FC</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">7.6.9</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(R\) be a UFD. A <em>greatest common divisor</em> of elements of \(R\) is a common divisor divisible by every common divisor; it exists (take the product of the common prime factors with their minimal multiplicities) and is unique up to associates. The <em>content</em> \(c(f)\) of a nonzero \(f \in R[x]\) is a greatest common divisor of its coefficients, and \(f\) is <em>primitive</em> if \(c(f)\) is a unit. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="rings:lemma-gauss">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00FD.html" title="Permanent link: tag 00FD">00FD</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">7.6.10</span>
+    <span class="lemma_thmtitle">Gauss</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(R\) be a UFD. A product of primitive polynomials is primitive, and \(c(fg) = c(f)c(g)\) up to associates. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000206">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(f\), \(g\) are primitive and a prime \(p\) divides all coefficients of \(fg\), then the images of \(f\) and \(g\) in \((R/(p))[x]\) are nonzero but their product is zero; this is impossible because \(R/(p)\) is a domain, hence so is \((R/(p))[x]\) (Proposition&#160;<a href="rings-section-polynomials.html#rings:proposition-polynomial-domain">7.6.4</a>). In general write \(f = c(f)f_0\) and \(g = c(g)g_0\) with \(f_0\), \(g_0\) primitive; then \(fg = c(f)c(g) f_0 g_0\) with \(f_0g_0\) primitive. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="rings:theorem-polynomial-ufd">
+  <div class="theorem_thmheading"><a class="tag" href="tag/00FE.html" title="Permanent link: tag 00FE">00FE</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">7.6.11</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(R\) be a UFD with fraction field \(K\). </p>
+<ol class="enumerate">
+  <li><p>A primitive polynomial \(f \in R[x]\) of positive degree is irreducible in \(R[x]\) if and only if it is irreducible in \(K[x]\). </p>
+</li>
+  <li><p>\(R[x]\) is a UFD, whose prime elements are the prime elements of \(R\) and the primitive polynomials of positive degree that are irreducible in \(K[x]\). </p>
+</li>
+</ol>
+<p> Consequently \(\mathbb {Z}[x_1, \ldots , x_n]\) and \(k[x_1, \ldots , x_n]\) for a field \(k\) are UFDs. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000207">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Every \(h \in K[x]\), \(h \neq 0\), can be written \(h = a h_0\) with \(a \in K^\times \) and \(h_0 \in R[x]\) primitive (clear denominators, then divide by the content), and if also \(h = a' h_0'\) then \(h_0' = u h_0\) with \(u \in R^\times \): writing \(a/a' = b/b'\) with \(b, b' \in R\), \(b h_0 = b' h_0'\) and comparing contents gives \(b = b'u\). </p>
+<p>(1) If \(f = gh\) in \(K[x]\) with \(\deg g, \deg h {\gt} 0\), write \(g = ag_0\), \(h = bh_0\); then \(f = ab\,  g_0h_0\) with \(g_0h_0\) primitive (Lemma&#160;<a href="rings-section-polynomials.html#rings:lemma-gauss">7.6.10</a>), so \(ab \in R^\times \) by the uniqueness just shown, and \(f = (ab\,  g_0)h_0\) is a factorisation in \(R[x]\) into polynomials of positive degree. Conversely a factorisation in \(R[x]\) of a primitive polynomial into nonunits has both factors of positive degree (a constant factor would divide the content), hence is a factorisation in \(K[x]\). </p>
+<p>(2) A prime \(p\) of \(R\) is prime in \(R[x]\) since \(R[x]/(p) \cong (R/(p))[x]\) is a domain. Let \(f\) be primitive of positive degree and irreducible in \(K[x]\), and suppose \(f \mid gh\) in \(R[x]\) with \(g, h \neq 0\). Since \(K[x]\) is a PID, \(f\) is prime in \(K[x]\), so say \(g = fq\) with \(q \in K[x]\). Write \(q = aq_0\) with \(a = c/c'\), \(c, c' \in R\) and \(q_0 \in R[x]\) primitive. Then \(c'g = c\, fq_0\), and comparing contents using Lemma&#160;<a href="rings-section-polynomials.html#rings:lemma-gauss">7.6.10</a> gives \(c = c'c(g)u\) with \(u \in R^\times \), so \(a \in R\) and \(q \in R[x]\). Hence \(f\) is prime in \(R[x]\). </p>
+<p>Every irreducible element of \(R[x]\) is of one of these two kinds: an irreducible of degree \(0\) is irreducible in \(R\), hence prime in \(R\); an irreducible \(f\) of positive degree is primitive (otherwise \(c(f)\) would be a nonunit factor), hence irreducible in \(K[x]\) by (1). Every nonzero nonunit of \(R[x]\) is a product of irreducibles: write \(f = c(f) f_0\), factor \(c(f)\) in \(R\), and factor \(f_0\) in \(K[x]\) into irreducibles, which by the first paragraph and (1) can be taken primitive in \(R[x]\), the remaining constant being a unit of \(R\) by Lemma&#160;<a href="rings-section-polynomials.html#rings:lemma-gauss">7.6.10</a>. By Lemma&#160;<a href="rings-section-factorisation.html#rings:lemma-ufd-criterion">7.5.3</a>, \(R[x]\) is a UFD. The last statement follows by induction from \(\mathbb {Z}\) and \(k\) being UFDs. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="rings:proposition-eisenstein">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00FF.html" title="Permanent link: tag 00FF">00FF</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">7.6.12</span>
+    <span class="proposition_thmtitle">Eisenstein’s criterion</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(R\) be a UFD with fraction field \(K\), \(f = a_nx^n + \cdots + a_0 \in R[x]\) with \(n \geq 1\), and \(p\) a prime of \(R\) with \(p \nmid a_n\), \(p \mid a_i\) for \(i {\lt} n\) and \(p^2 \nmid a_0\). Then \(f\) is irreducible in \(K[x]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000208">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By Theorem&#160;<a href="rings-section-polynomials.html#rings:theorem-polynomial-ufd">7.6.11</a>(1) applied to \(f/c(f)\) (note \(p \nmid c(f)\)) it suffices to exclude \(f = gh\) in \(R[x]\) with \(\deg g, \deg h \geq 1\). Reducing modulo \(p\) gives \(\bar g \bar h = \bar a_n x^n\) in \((R/(p))[x]\), which embeds in \(L[x]\) for \(L = \mathrm{Frac}(R/(p))\). By unique factorisation in \(L[x]\), \(\bar g = bx^k\) and \(\bar h = cx^{n-k}\) with \(k = \deg g\) and \(n - k = \deg h\) both positive. So \(p\) divides the constant terms of \(g\) and \(h\), and \(p^2 \mid a_0\), a contradiction. </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="rings:counterexample-ufd-not-pid">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/00FG.html" title="Permanent link: tag 00FG">00FG</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">7.6.13</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> A UFD need not be a PID: in \(\mathbb {Z}[x]\) the ideal \((2, x)\) is not principal. If \((2, x) = (f)\), then \(f \mid 2\), so \(f = \pm 1\) or \(f = \pm 2\). But \(2 \nmid x\), and \(1 \notin (2, x)\) since every element of \((2, x)\) has even constant term. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="rings-section-factorisation.html"><span class="dir">Previous</span> Factorisation in integral domains</a><a class="next" href="rings-section-modules.html"><span class="dir">Next</span> Modules</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

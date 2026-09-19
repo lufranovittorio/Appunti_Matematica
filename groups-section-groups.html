@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Groups and homomorphisms - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="groups-section-introduction.html" /><link rel="next" href="groups-section-cosets.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">5</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2 active">
+  <a href="groups.html"><span class="toc_ref">6</span> <span class="toc_entry">Groups</span></a>
+  <ul><li class="level-3">
+  <a href="groups-section-introduction.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="groups-section-groups.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Groups and homomorphisms</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-cosets.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Cosets and Lagrange’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-quotients.html"><span class="toc_ref">6.4</span> <span class="toc_entry">Normal subgroups and quotients</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-products.html"><span class="toc_ref">6.5</span> <span class="toc_entry">Products</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-actions.html"><span class="toc_ref">6.6</span> <span class="toc_entry">Group actions</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-sylow.html"><span class="toc_ref">6.7</span> <span class="toc_entry">The Sylow theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-symmetric.html"><span class="toc_ref">6.8</span> <span class="toc_entry">Symmetric and alternating groups</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-solvable.html"><span class="toc_ref">6.9</span> <span class="toc_entry">Solvable and nilpotent groups</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-free.html"><span class="toc_ref">6.10</span> <span class="toc_entry">Free groups and presentations</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-abelian.html"><span class="toc_ref">6.11</span> <span class="toc_entry">Abelian groups</span></a>
+</li>
+<li class="level-3">
+  <a href="groups-section-exercises.html"><span class="toc_ref">6.12</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">7</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">8</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">11</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">14</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">15</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">16</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">17</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">18</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">19</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">21</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">22</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">23</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">25</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">26</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">29</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">30</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">31</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">32</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">33</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">34</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">35</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">36</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">37</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">38</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">39</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">40</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">41</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">42</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">43</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">44</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">45</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">46</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">47</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">48</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">49</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">50</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">51</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">52</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">53</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">54</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">55</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">56</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">57</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">59</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">60</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">61</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">62</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">63</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">64</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">65</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">66</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">67</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">68</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">69</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">70</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">71</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">72</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">73</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">74</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-algebra.html">II Algebra</a></li><li><a href="groups.html">6 Groups</a></li></ol>
+
+<article class="main-text">
+<h1 id="groups:section-groups">6.2 Groups and homomorphisms<a class="tag" href="tag/00BX.html" title="Permanent link: tag 00BX">00BX</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="groups:definition-group">
+  <div class="definition_thmheading"><a class="tag" href="tag/00BY.html" title="Permanent link: tag 00BY">00BY</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6.2.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>group</em> is a set \(G\) together with a map \(G \times G \to G\), called the <em>group law</em> and written \((a, b) \mapsto a \cdot b\), and an element \(e \in G\), such that for all \(a, b, c \in G\): </p>
+<ol class="enumerate">
+  <li><p>(associativity) \((a \cdot b) \cdot c = a \cdot (b \cdot c)\); </p>
+</li>
+  <li><p>(neutral element) \(e \cdot a = a \cdot e = a\); </p>
+</li>
+  <li><p>(inverses) there is an element \(a' \in G\) with \(a \cdot a' = a' \cdot a = e\). </p>
+</li>
+</ol>
+<p> The group is <em>abelian</em> if \(a \cdot b = b \cdot a\) for all \(a, b \in G\). The <em>order</em> of \(G\) is its cardinality \(|G|\). </p>
+
+  </div>
+</div>
+<div class="notation_thmwrapper theorem-style-definition" id="groups:notation-multiplicative-additive">
+  <div class="notation_thmheading"><a class="tag" href="tag/00IE.html" title="Permanent link: tag 00IE">00IE</a>
+    <span class="notation_thmcaption">
+    Notation
+    </span>
+    <span class="notation_thmlabel">6.2.2</span>
+  </div>
+  <div class="notation_thmcontent">
+  <p> Two notations are used for the group law. </p>
+<ul class="itemize">
+  <li><p><em>Multiplicative notation</em>, used for all groups: the group law is written \(a \cdot b\) or simply \(ab\), the neutral element \(e\) (or \(1\)), the inverse of \(a\) is written \(a^{-1}\) (it is unique by Lemma&#160;<a href="groups-section-groups.html#groups:lemma-basic">6.2.3</a>), and \(a^n\) denotes the \(n\)-th power (Lemma&#160;<a href="groups-section-groups.html#groups:lemma-powers">6.2.9</a>). </p>
+</li>
+  <li><p><em>Additive notation</em>, used only for abelian groups: the group law is written \(a + b\), the neutral element \(0\), the inverse \(-a\), and \(na\) the \(n\)-th multiple. </p>
+</li>
+</ul>
+<p> Every statement in multiplicative notation applies to abelian groups written additively through the dictionary \(ab \leftrightarrow a + b\), \(e \leftrightarrow 0\), \(a^{-1} \leftrightarrow -a\), \(a^n \leftrightarrow na\). General results in this chapter are stated multiplicatively. For groups arising from a familiar structure we keep the familiar symbol: \(+\) for \((\mathbb {Z}, +)\), multiplication for \(\mathbb {Q}^\times \) or for invertible matrices, and composition \(\circ \) (written as juxtaposition) for groups of bijections. The symbol \(*\) never denotes a group law; \(G_1 * G_2\) is the free product of Definition&#160;<a href="groups-section-free.html#groups:definition-amalgam">6.10.6</a>. When the group law has to be named, we write \((G, \cdot )\) or \((G, +)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="groups:lemma-basic">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00BZ.html" title="Permanent link: tag 00BZ">00BZ</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">6.2.3</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> In a group the neutral element and inverses are unique, \((ab)^{-1} = b^{-1}a^{-1}\), \((a^{-1})^{-1} = a\), and \(ab = ac\) or \(ba = ca\) implies \(b = c\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000150">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(e'\) is also neutral, \(e = ee' = e'\). If \(b\) and \(c\) are inverses of \(a\), then \(b = b(ac) = (ba)c = c\); we write \(a^{-1}\) for the inverse. The element \(b^{-1}a^{-1}\) is inverse to \(ab\), and \(a\) is inverse to \(a^{-1}\). Cancellation follows by multiplying with \(a^{-1}\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="groups:example-groups">
+  <div class="example_thmheading"><a class="tag" href="tag/00C0.html" title="Permanent link: tag 00C0">00C0</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">6.2.4</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>\((\mathbb {Z}, +)\), \((\mathbb {Q}, +)\), \((\mathbb {R}, +)\) and \((\mathbb {C}, +)\) are abelian groups, as are \(\mathbb {Q}^\times = \mathbb {Q}\setminus \{ 0\} \), \(\mathbb {R}^\times \) and \(\mathbb {C}^\times \) under multiplication. More generally, for a commutative ring \(R\) the invertible elements form a group \(R^\times \). </p>
+</li>
+  <li><p>For a set \(X\), the bijections \(X \to X\) form the <em>symmetric group</em> \(\mathrm{Sym}(X)\) under composition. We write \(S_n = \mathrm{Sym}(\{ 1, \ldots , n\} )\). </p>
+</li>
+  <li><p>For a field \(k\), the invertible \(n \times n\) matrices form the group \(\mathrm{GL}_n(k)\) (Chapter&#160;<a href="linear-algebra.html">9</a>). </p>
+</li>
+  <li><p>The <em>trivial group</em> has one element. </p>
+</li>
+  <li><p>A group with one object as a category (Example&#160;<a href="categories-section-categories.html#categories:example-monoid-as-category">5.2.8</a>) is a category with one object in which every morphism is an isomorphism. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="groups:definition-homomorphism">
+  <div class="definition_thmheading"><a class="tag" href="tag/00C1.html" title="Permanent link: tag 00C1">00C1</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6.2.5</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>homomorphism</em> of groups is a map \(f \colon G \to H\) with \(f(ab) = f(a)f(b)\) for all \(a, b \in G\). Its <em>kernel</em> is \(\ker f = \{ a \in G : f(a) = e\} \) and its <em>image</em> is \(\operatorname {im}f = f[G]\). An <em>isomorphism</em> is a bijective homomorphism; an <em>automorphism</em> of \(G\) is an isomorphism \(G \to G\), and they form a group \(\operatorname {Aut}(G)\). Small groups and homomorphisms form a locally small category \(\mathsf{Grp}\), with the full subcategory \(\mathsf{Ab}\) of abelian groups. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="groups:lemma-homomorphism">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00C2.html" title="Permanent link: tag 00C2">00C2</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">6.2.6</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> A homomorphism \(f\) satisfies \(f(e) = e\) and \(f(a^{-1}) = f(a)^{-1}\); it is injective if and only if \(\ker f = \{ e\} \); and the inverse of a bijective homomorphism is a homomorphism. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000151">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>\(f(e) = f(e)f(e)\) gives \(f(e) = e\) by cancellation, and then \(f(a)f(a^{-1}) = f(e) = e\). If \(\ker f\) is trivial and \(f(a) = f(b)\), then \(f(ab^{-1}) = e\), so \(a = b\). If \(f\) is bijective with inverse \(g\), then \(f(g(x)g(y)) = xy\), so \(g(xy) = g(x)g(y)\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="groups:definition-subgroup">
+  <div class="definition_thmheading"><a class="tag" href="tag/00C3.html" title="Permanent link: tag 00C3">00C3</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6.2.7</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>subgroup</em> of \(G\) is a subset \(H\) containing \(e\) with \(ab \in H\) and \(a^{-1} \in H\) for all \(a, b \in H\); it is a group with the restricted operation. We write \(H \leq G\). For a subset \(S \subseteq G\), the <em>subgroup generated by</em> \(S\), written \(\langle S \rangle \), is the intersection of all subgroups containing \(S\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="groups:lemma-generated-subgroup">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00C4.html" title="Permanent link: tag 00C4">00C4</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">6.2.8</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The subgroup \(\langle S \rangle \) consists of all finite products \(s_1^{\epsilon _1} \cdots s_k^{\epsilon _k}\) with \(k \geq 0\), \(s_i \in S\) and \(\epsilon _i \in \{ 1, -1\} \) (the empty product being \(e\)). Kernels and images of homomorphisms are subgroups. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000152">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The set of such products contains \(S\) and is closed under products and inverses (Lemma&#160;<a href="groups-section-groups.html#groups:lemma-basic">6.2.3</a>), so it contains \(\langle S \rangle \); and every subgroup containing \(S\) contains all such products. The second statement follows from Lemma&#160;<a href="groups-section-groups.html#groups:lemma-homomorphism">6.2.6</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="groups:lemma-powers">
+  <div class="lemma_thmheading"><a class="tag" href="tag/00C5.html" title="Permanent link: tag 00C5">00C5</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">6.2.9</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(G\) be a group and \(g \in G\). There is a unique homomorphism \(\mathbb {Z}\to G\) sending \(1\) to \(g\); we write \(n \mapsto g^n\). Thus \(g^{m+n} = g^m g^n\) and \((g^m)^n = g^{mn}\) for all \(m, n \in \mathbb {Z}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000153">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Uniqueness is clear since \(1\) generates \(\mathbb {Z}\). For existence define \(g^n\) for \(n \in \mathbb {N}\) by recursion (\(g^0 = e\), \(g^{n+1} = g^n g\)) and put \(g^{-n} = (g^{-1})^n\). One checks \(g^{m+1} = g^m g\) for all \(m \in \mathbb {Z}\) (for \(m = -n - 1 {\lt} 0\) this reads \((g^{-1})^{n} = (g^{-1})^{n+1} g\), which holds since \(g^{-1}g = e\)), and then \(g^{m+n} = g^m g^n\) follows by induction on \(n \geq 0\) and on \(-n \geq 0\). The last formula holds because \(n \mapsto g^{mn}\) and \(n \mapsto (g^m)^n\) are both homomorphisms sending \(1\) to \(g^m\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="groups:proposition-subgroups-integers">
+  <div class="proposition_thmheading"><a class="tag" href="tag/00C6.html" title="Permanent link: tag 00C6">00C6</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">6.2.10</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Every subgroup of \(\mathbb {Z}\) is of the form \(n\mathbb {Z}= \{ nk : k \in \mathbb {Z}\} \) for a unique \(n \in \mathbb {N}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000154">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(H \leq \mathbb {Z}\). If \(H = \{ 0\} \) take \(n = 0\). Otherwise \(H\) contains a positive element, and we let \(n\) be the least one. Then \(n\mathbb {Z}\subseteq H\), and for \(h \in H\), division with remainder (Theorem&#160;<a href="number-systems-section-divisibility.html#number-systems:theorem-division">4.5.2</a>) gives \(h = qn + r\) with \(0 \leq r {\lt} n\) and \(r = h - qn \in H\), so \(r = 0\). The number \(n\) is the least positive element of \(n\mathbb {Z}\), hence unique. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="groups:definition-order-element">
+  <div class="definition_thmheading"><a class="tag" href="tag/00C7.html" title="Permanent link: tag 00C7">00C7</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6.2.11</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The <em>order</em> of \(g \in G\) is the least \(n \geq 1\) with \(g^n = e\) if it exists, and \(\infty \) otherwise. By Proposition&#160;<a href="groups-section-groups.html#groups:proposition-subgroups-integers">6.2.10</a>, the kernel of \(n \mapsto g^n\) is \(\operatorname {ord}(g)\mathbb {Z}\) (with \(\infty \mathbb {Z}:= \{ 0\} \)). A group is <em>cyclic</em> if it is generated by one element. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="groups-section-introduction.html"><span class="dir">Previous</span> Introduction</a><a class="next" href="groups-section-cosets.html"><span class="dir">Next</span> Cosets and Lagrange’s theorem</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>
