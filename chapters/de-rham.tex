@@ -115,6 +115,31 @@ Poincar\'e duality (Theorem~\ref{poincare-duality:theorem-poincare-duality}), an
 (Corollary~\ref{differential-forms:corollary-volume}).
 \end{proof}
 
+\begin{proposition}\label{de-rham:proposition-periods}
+Let $M$ be a connected manifold and $x_0 \in M$. There is an isomorphism
+\[
+H^1_{\mathrm{dR}}(M) \xrightarrow{\ \sim\ } \Hom(\pi_1(M, x_0), \RR),
+\]
+sending $[\omega]$ to the homomorphism whose value on the class of a piecewise smooth loop $\gamma$ is the \emph{period} $\int_\gamma\omega$. In particular $H^1_{\mathrm{dR}}(M) = 0$ if $M$ is simply connected, and a closed
+$1$-form is exact if and only if all its periods vanish.
+\end{proposition}
+
+\begin{proof}
+Compose the isomorphism $H^1_{\mathrm{dR}}(M) \cong H^1(M; \RR)$ of Theorem~\ref{de-rham:theorem-de-rham}, given by integration over smooth simplices, with $H^1(M; \RR) \cong \Hom_\RR(H_1(M; \RR), \RR) = \Hom(H_1(M), \RR)$
+(Theorem~\ref{singular-cohomology:theorem-universal-coefficients} over the field $\RR$) and with $\Hom(H_1(M), \RR) \cong \Hom(\pi_1(M, x_0), \RR)$, which holds by the Hurewicz theorem
+(Theorem~\ref{singular-homology:theorem-hurewicz}) because homomorphisms to the abelian group $\RR$ factor through the abelianisation. The composite is the period map.
+
+The last statement can also be seen directly. If $\omega = df$, then $\int_\gamma\omega = f(\gamma(1)) - f(\gamma(0)) = 0$ for loops. Conversely, if all periods vanish, $f(x) = \int_{x_0}^x\omega$ along any piecewise smooth path is
+well defined, since two paths differ by a loop, and in a chart around $x$ that is a ball, integrating along segments shows $df = \omega$, by the Poincar\'e lemma on the ball
+(Theorem~\ref{de-rham:theorem-homotopy-invariance}): there $\omega = dg$, and $f - g$ is constant.
+\end{proof}
+
+\begin{example}\label{de-rham:example-angle-form}
+On $M = \RR^2 \setminus \{0\}$ the \emph{angle form} $\omega = \frac{x\,dy - y\,dx}{x^2 + y^2}$ is closed, and its period on the unit circle is $2\pi$, so it is not exact. Since $\pi_1(M) \cong \ZZ$, Proposition~\ref{de-rham:proposition-periods}
+gives $H^1_{\mathrm{dR}}(M) = \RR[\omega]$: a closed $1$-form $\eta$ on $M$ is exact if and only if $\int_{S^1}\eta = 0$, and in general $\eta - \frac{1}{2\pi}\big(\int_{S^1}\eta\big)\omega$ is exact. On the simply connected
+$\RR^3 \setminus \{0\}$, by contrast, every closed $1$-form is exact.
+\end{example}
+
 \begin{counterexample}\label{de-rham:counterexample-infinite-dimensional}
 De Rham cohomology of a noncompact manifold can be infinite-dimensional. On $M = \CC \setminus \ZZ$ let $\alpha_n$ be the angle form centred at $n$, the pullback of the angle form of
 Counterexample~\ref{differential-forms:counterexample-closed-not-exact} by $z \mapsto z - n$. It is closed, and its integral over the circle $\gamma_m$ of radius $\frac12$ around $m$ is $2\pi$ if $m = n$ and $0$ otherwise (for $m \neq n$ the circle lies in

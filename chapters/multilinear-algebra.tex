@@ -133,6 +133,37 @@ alternating; by Theorem~\ref{linear-algebra:theorem-determinant} applied to the 
 of $f$, $f(e_1) \wedge \cdots \wedge f(e_n) = \det(f)\, e_1 \wedge \cdots \wedge e_n$.
 \end{proof}
 
+\begin{proposition}\label{multilinear-algebra:proposition-minors}
+Let $f \colon V \to W$ be linear with matrix $A = (a_{ij})$ in bases $(e_1, \ldots, e_m)$ of $V$ and $(e'_1, \ldots, e'_n)$ of $W$. For subsets $I \subseteq \{1, \ldots, n\}$, $J \subseteq \{1, \ldots, m\}$ of size $p$, let
+$A_{I,J}$ be the $p \times p$ submatrix with rows $I$ and columns $J$.
+\begin{enumerate}
+\item The matrix of $\Lambda^pf$ in the bases $(e_J)$ and $(e'_I)$ is $(\det A_{I,J})_{I,J}$: $\Lambda^pf(e_J) = \sum_I\det(A_{I,J})\,e'_I$.
+\item (Cauchy--Binet) For an $n \times m$ matrix $A$ and an $m \times n$ matrix $B$, $\det(AB) = \sum_S\det A_{\{1..n\},S}\det B_{S,\{1..n\}}$, the sum over the subsets $S \subseteq \{1, \ldots, m\}$ of size $n$; in
+particular $\det(AB) = 0$ if $m < n$, and $\det(AB) = \det A\det B$ if $m = n$.
+\item The rank of $f$ is the largest $p$ with $\Lambda^pf \neq 0$, that is, the largest size of a nonzero minor of $A$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\Lambda^pf(e_J) = f(e_{j_1}) \wedge \cdots \wedge f(e_{j_p})$, and its coefficient on $e'_I$ is obtained by applying the functional $\varphi_I$ of the proof of
+Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(3), which gives $\det(e'^*_{i_a}(f(e_{j_b})))_{a,b} = \det(a_{i_aj_b}) = \det A_{I,J}$.
+
+(2) By functoriality $\Lambda^n(AB) = \Lambda^nA \circ \Lambda^nB$ on $\Lambda^n(k^n)$, which is one-dimensional with basis $e_{\{1..n\}}$, and $\Lambda^n(AB)$ is multiplication by $\det(AB)$
+(Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(5)). By (1), $\Lambda^nB(e_{\{1..n\}}) = \sum_S\det B_{S,\{1..n\}}e_S$ and $\Lambda^nA(e_S) = \det A_{\{1..n\},S}\,e_{\{1..n\}}$. If $m < n$ there are
+no such $S$.
+
+(3) The image of $\Lambda^pf$ is spanned by the products $f(v_1) \wedge \cdots \wedge f(v_p)$, so it is the image of $\Lambda^p(\operatorname{im}f) \to \Lambda^pW$, which is injective because a basis of $\operatorname{im}f$ extends
+to a basis of $W$ and Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(3) applies to both. So $\Lambda^pf \neq 0$ if and only if $\Lambda^p(\operatorname{im}f) \neq 0$, that is, $p \leq \operatorname{rank}f$.
+Combine with (1).
+\end{proof}
+
+\begin{counterexample}\label{multilinear-algebra:counterexample-characteristic-two}
+In characteristic $2$ symmetric and alternating notions separate. Let $k = \mathbb{F}_2$ and $V = k$. The bilinear form $B(x, y) = xy$ satisfies $B(y, x) = B(x, y) = -B(x, y)$, so it is both symmetric and
+antisymmetric, but it is not alternating, since $B(1, 1) = 1$; so it does not factor through $\Lambda^2V = 0$. Similarly the symmetrisation $S^2V \to V \otimes V$, $vw \mapsto v \otimes w + w \otimes v$, sends the generator $e^2$
+of $S^2V$ to $2\,e \otimes e = 0$, so it is not injective. Factorials cause the same phenomena elsewhere: in Proposition~\ref{multilinear-algebra:proposition-symplectic-determinant} the characteristic enters through the factor $m!$ in
+$\omega^m = m!\,e_1^* \wedge f_1^* \wedge \cdots \wedge e_m^* \wedge f_m^*$, which vanishes in characteristic $p \leq m$.
+\end{counterexample}
+
 \section{Alternating forms}\label{multilinear-algebra:section-alternating-forms}
 
 In this section $V$ has finite dimension $n$.
