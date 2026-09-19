@@ -1,0 +1,206 @@
+\chapter{Index Theorems and Riemann--Roch}\label{index-theorems}
+\chapterstatus{complete}
+
+\section{Introduction}\label{index-theorems:section-introduction}
+
+An elliptic operator on a compact manifold has a finite-dimensional kernel and cokernel (Theorem~\ref{elliptic-operators:theorem-fredholm}), and the difference of their dimensions, the \emph{index}, is remarkably stable: it does
+not change under deformations, and the Atiyah--Singer index theorem computes it from characteristic classes. For the three classical elliptic complexes the index is a familiar invariant: the Euler characteristic, the
+signature, and the holomorphic Euler characteristic $\chi(X, E) = \sum_q(-1)^q\dim H^q(X, E)$. The corresponding cases of the index theorem are the Gauss--Bonnet--Chern theorem, Hirzebruch's signature theorem and the
+Hirzebruch--Riemann--Roch theorem. This chapter identifies the three indices with complete proofs, states the index theorem and its three cases, proves Hirzebruch--Riemann--Roch directly for line bundles on curves and for
+all line bundles on projective spaces, and draws the integrality consequences (Noether's formula, divisibility of Chern numbers) that make these theorems useful in algebraic geometry. References: \cite{hirzebruch-topological},
+\cite{atiyah-singer-1968-1}, \cite{atiyah-singer-1968-3}, \cite{lawson-michelsohn}, \cite{griffiths-harris}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-theorem} (Harmonic Forms and the Hodge Theorem), Chapter~\ref{dolbeault} (Dolbeault Cohomology), Chapter~\ref{characteristic-classes} (Characteristic Classes),
+Chapter~\ref{curves} (Algebraic Curves), Chapter~\ref{coherent-cohomology} (Cohomology of Coherent Sheaves) and Chapter~\ref{cycle-class} (The Cycle Class Map).
+
+\noindent\textbf{Conventions.} Manifolds are compact, and characteristic classes are taken in de Rham cohomology (or rational cohomology), identified by the de Rham theorem. For a real vector bundle $V$ we write
+$V_\CC = V \otimes_\RR \CC$. For a class $a$ in the cohomology of a compact oriented manifold, $\int_Ma$ is the integral of its top-degree component.
+
+\section{The index of an elliptic operator}\label{index-theorems:section-index}
+
+\begin{definition}\label{index-theorems:definition-index}
+The \emph{index} of an elliptic differential operator $P \colon \Gamma(M, E) \to \Gamma(M, F)$ on a compact manifold is $\operatorname{ind}P = \dim\ker P - \dim\ker P^*$, where $P^*$ is the formal adjoint
+(Definition~\ref{elliptic-operators:definition-formal-adjoint}).
+\end{definition}
+
+By Theorem~\ref{elliptic-operators:theorem-fredholm}, $\ker P^*$ is isomorphic to the cokernel of $P$ on smooth sections, so $\operatorname{ind}P = \dim\ker P - \dim\operatorname{coker}P$, and it is the Fredholm index of
+$P \colon H^{s+m}(E) \to H^s(F)$ for every $s$. As the Fredholm index is locally constant on the space of Fredholm operators (Chapter~\ref{functional-analysis}), $\operatorname{ind}P$ is unchanged when $P$ is deformed through a
+continuous family of elliptic operators of the same order; in particular it depends only on the principal symbol up to homotopy through invertible symbols.
+
+\begin{proposition}[Euler characteristic operator]\label{index-theorems:proposition-euler-operator}
+For a compact oriented Riemannian manifold, $d + \delta \colon \Omega^{\mathrm{even}}(M) \to \Omega^{\mathrm{odd}}(M)$ is elliptic with index $\chi(M)$.
+\end{proposition}
+
+\begin{proof}
+This is Corollary~\ref{hodge-theorem:corollary-euler-characteristic}; ellipticity holds because $(d + \delta)^2 = \Delta$ has principal symbol $|\xi|^2$, so the symbol of $d + \delta$ is injective for $\xi \neq 0$, and it maps between bundles of
+the same rank ($2^{n-1}$).
+\end{proof}
+
+\begin{proposition}[Dolbeault operator]\label{index-theorems:proposition-dolbeault-operator}
+Let $X$ be a compact complex manifold with a Hermitian metric and $E$ a holomorphic vector bundle with a Hermitian metric. The operator
+$\bar\partial_E + \bar\partial_E^* \colon \mathcal{A}^{0,\mathrm{even}}(X, E) \to \mathcal{A}^{0,\mathrm{odd}}(X, E)$ is elliptic, and its index is $\chi(X, E) = \sum_q(-1)^q\dim H^q(X, E)$.
+\end{proposition}
+
+\begin{proof}
+Let $D = \bar\partial_E + \bar\partial_E^*$ on $\mathcal{A}^{0,\bullet}(X, E)$. As $\bar\partial_E^2 = 0$, $D^2 = \bar\partial_E\bar\partial_E^* + \bar\partial_E^*\bar\partial_E = \Box_E$, which is elliptic with principal symbol $\frac12|\xi|^2$
+(Theorem~\ref{dolbeault:theorem-dbar-hodge}); so $D$ is elliptic, and it is formally self-adjoint, so the formal adjoint of its even part is its odd part. If $D\alpha = 0$, then $\Box_E\alpha = 0$; conversely
+$(\Box_E\alpha, \alpha) = \|D\alpha\|^2$, so $\ker D = \ker\Box_E = \bigoplus_q\mathcal{H}^{0,q}(X, E)$, split into even and odd $q$. By Theorem~\ref{dolbeault:theorem-dbar-hodge}, $\mathcal{H}^{0,q}(X, E) \cong H^q(X, E)$, and the index is
+$\sum_q(-1)^q\dim H^q(X, E)$.
+\end{proof}
+
+\begin{proposition}[Signature operator]\label{index-theorems:proposition-signature-operator}
+Let $M$ be a compact oriented Riemannian manifold of dimension $4m$, and $\tau$ the operator on $\Omega^\bullet(M) \otimes \CC$ equal to $i^{k(k-1)+2m}{*}$ on $k$-forms. Then $\tau^2 = 1$, $\tau$ anticommutes with $d + \delta$,
+and $d + \delta \colon \Omega^+ \to \Omega^-$, between the $\pm1$-eigenspaces of $\tau$, is elliptic with index the signature $\sigma(M)$ (Definition~\ref{poincare-duality:definition-intersection-form}).
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+We omit the verification of $\tau^2 = 1$ and $\tau(d + \delta) = -(d + \delta)\tau$, which follow from $** = (-1)^{k(n-k)}$ and $\delta = -{*}d{*}$ in even dimension (Proposition~\ref{riemannian-geometry:proposition-adjoint}) by
+tracking signs \cite[Chapter 3]{lawson-michelsohn}. Granting these, $d + \delta$ maps $\Omega^+$ to $\Omega^-$, the kernel of $d + \delta$ on $\Omega^\pm$ is the space $\mathcal{H}^\pm$ of harmonic forms in $\Omega^\pm$, and the index is
+$\dim\mathcal{H}^+ - \dim\mathcal{H}^-$, exactly as in Proposition~\ref{index-theorems:proposition-euler-operator}. As $\tau$ commutes with $\Delta$ and maps harmonic $k$-forms to harmonic $(4m - k)$-forms, for $k < 2m$ the space
+$\mathcal{H}^k \oplus \mathcal{H}^{4m-k}$ is $\tau$-stable, and $\alpha \mapsto \alpha \pm \tau\alpha$ identifies $\mathcal{H}^k$ with its $\pm1$-eigenspaces, which therefore have equal dimensions and cancel in the index. On
+$\mathcal{H}^{2m}$, $\tau = i^{2m(2m-1)+2m}{*} = *$, and for a real harmonic $2m$-form $\alpha$ with $*\alpha = \pm\alpha$, $\int_M\alpha \wedge \alpha = \pm\int_M\alpha \wedge *\alpha = \pm\|\alpha\|^2$. So the intersection form is positive definite on
+the self-dual and negative definite on the anti-self-dual harmonic forms, which are orthogonal for it, and by the Hodge theorem the index $\dim\mathcal{H}^{2m}_+ - \dim\mathcal{H}^{2m}_-$ is the signature.
+\end{proof}
+
+\section{The Atiyah--Singer index theorem}\label{index-theorems:section-atiyah-singer}
+
+\begin{definition}\label{index-theorems:definition-genera}
+For a complex vector bundle with Chern roots $x_1, \ldots, x_r$ and a real vector bundle $V$ whose complexification has Chern roots $\pm y_1, \ldots, \pm y_s$ (and $0$ if the rank is odd), define
+\[
+\mathrm{td}(E) = \prod_i\frac{x_i}{1 - e^{-x_i}}, \qquad L(V) = \prod_j\frac{y_j}{\tanh y_j}, \qquad \hat A(V) = \prod_j\frac{y_j/2}{\sinh(y_j/2)}.
+\]
+$L$ and $\hat A$ are even in each $y_j$, hence polynomials in the Pontryagin classes: $L = 1 + \frac13p_1 + \frac{1}{45}(7p_2 - p_1^2) + \cdots$ and $\hat A = 1 - \frac{1}{24}p_1 + \cdots$. For a compact oriented $4m$-manifold, the
+\emph{$L$-genus} is $\int_ML(TM)$; for a compact complex manifold, the \emph{Todd genus} is $\int_X\mathrm{td}(T_X)$.
+\end{definition}
+
+\begin{theorem}[Atiyah--Singer]\label{index-theorems:theorem-atiyah-singer}
+The index of an elliptic operator on a compact manifold depends only on the class of its principal symbol in the compactly supported K-theory of the tangent bundle, and it is given by a universal cohomological formula in
+the Chern character of that class and the Todd class of $TM_\CC$. For the three classical operators the formula gives:
+\begin{enumerate}
+\item (Gauss--Bonnet--Chern) $\chi(M) = \int_Me(TM)$ for a compact oriented manifold;
+\item (Hirzebruch signature theorem) $\sigma(M) = \int_ML(TM)$ for a compact oriented $4m$-manifold;
+\item (Hirzebruch--Riemann--Roch) $\chi(X, E) = \int_X\mathrm{ch}(E)\,\mathrm{td}(T_X)$ for a holomorphic vector bundle $E$ on a compact complex manifold $X$, where $T_X$ is the holomorphic tangent bundle.
+\end{enumerate}
+\end{theorem}
+
+This is \cite{atiyah-singer-1968-1} and \cite{atiyah-singer-1968-3}; for the formulation and the heat equation proof see \cite{lawson-michelsohn}. The signature theorem and Riemann--Roch for projective manifolds were proved
+earlier by Hirzebruch, using Thom's cobordism theory \cite{hirzebruch-topological}. Case (1) is also Theorem~\ref{characteristic-classes:theorem-euler}(3). For the Dirac operator of a spin manifold the index is the
+$\hat A$-genus, which is therefore an integer on spin manifolds.
+
+\begin{remark}\label{index-theorems:remark-grr}
+For a projective manifold $X$ and an algebraic vector bundle $E$, case (3) also follows from the Grothendieck--Riemann--Roch theorem (Theorem~\ref{intersection-theory:theorem-grr}): it gives
+$\chi(X, E) = \deg(\mathrm{ch}(E)\,\mathrm{td}(T_X))$ in the Chow ring, and the cycle class map is a ring homomorphism compatible with Chern classes and degrees (Theorem~\ref{cycle-class:theorem-cycle-class}), so the right-hand
+side is $\int_X\mathrm{ch}(E)\,\mathrm{td}(T_X)$; by GAGA the algebraic and analytic Euler characteristics agree (Chapter~\ref{gaga}).
+\end{remark}
+
+\section{Riemann--Roch: direct verifications}\label{index-theorems:section-verifications}
+
+\begin{proposition}\label{index-theorems:proposition-rr-curves}
+Hirzebruch--Riemann--Roch holds for line bundles on a nonsingular projective curve $X$ of genus $g$: $\chi(X, \mathcal{O}(D)) = \int_X\mathrm{ch}(\mathcal{O}(D))\,\mathrm{td}(T_X) = \deg D + 1 - g$.
+\end{proposition}
+
+\begin{proof}
+The left side is $l(D) - h^1(\mathcal{O}(D)) = l(D) - l(K - D)$ by Serre duality (Theorem~\ref{coherent-cohomology:theorem-serre-duality}), which is $\deg D + 1 - g$ by the Riemann--Roch theorem
+(Theorem~\ref{curves:theorem-riemann-roch}). On the right, $\mathrm{ch}(\mathcal{O}(D)) = 1 + c_1(\mathcal{O}(D))$ and $\mathrm{td}(T_X) = 1 + \frac12c_1(T_X)$ in $H^\bullet(X)$, as $H^{>2}(X) = 0$; so the integrand of degree $2$ is
+$c_1(\mathcal{O}(D)) + \frac12c_1(T_X)$. Now $\int_Xc_1(\mathcal{O}(D)) = \deg D$, because $c_1(\mathcal{O}(D))$ is the cycle class of $D$ and the cycle class map is compatible with degrees
+(Theorem~\ref{cycle-class:theorem-cycle-class}); and $c_1(T_X) = -c_1(K_X)$ with $\deg K = 2g - 2$ (Corollary~\ref{curves:corollary-riemann-roch-consequences}). So the right side is $\deg D - (g - 1)$.
+\end{proof}
+
+\begin{lemma}\label{index-theorems:lemma-todd-projective}
+On $\PP^n$ with hyperplane class $h$, $\mathrm{td}(T_{\PP^n}) = \big(h/(1 - e^{-h})\big)^{n+1}$ and $\mathrm{ch}(\mathcal{O}(k)) = e^{kh}$.
+\end{lemma}
+
+\begin{proof}
+The Euler sequence $0 \to \mathcal{O} \to \mathcal{O}(1)^{\oplus(n+1)} \to T_{\PP^n} \to 0$ (Example~\ref{vector-bundles:example-euler-sequence}) and the multiplicativity of the Todd class in exact sequences
+(Proposition~\ref{characteristic-classes:proposition-chern-character}) give $\mathrm{td}(T)\,\mathrm{td}(\mathcal{O}) = \mathrm{td}(\mathcal{O}(1))^{n+1}$, with $\mathrm{td}(\mathcal{O}) = 1$ and $\mathrm{td}(\mathcal{O}(1)) = h/(1 - e^{-h})$,
+as $c_1(\mathcal{O}(1)) = h$ (Example~\ref{characteristic-classes:example-tautological}). Also $\mathrm{ch}(\mathcal{O}(k)) = e^{c_1(\mathcal{O}(k))} = e^{kh}$.
+\end{proof}
+
+\begin{proposition}\label{index-theorems:proposition-rr-projective}
+For all $n \geq 1$ and $k \in \ZZ$,
+\[
+\chi(\PP^n, \mathcal{O}(k)) = \int_{\PP^n}\mathrm{ch}(\mathcal{O}(k))\,\mathrm{td}(T_{\PP^n}) = \binom{n + k}{n} = \frac{(k + 1)(k + 2)\cdots(k + n)}{n!}.
+\]
+\end{proposition}
+
+\begin{proof}
+\emph{The left side.} By Theorem~\ref{coherent-cohomology:theorem-projective-space}, $H^q(\PP^n, \mathcal{O}(k)) = 0$ for $0 < q < n$; $h^0(\mathcal{O}(k))$ is the number of monomials of degree $k$ in $n + 1$ variables, which is
+$\binom{n+k}{n}$ for $k \geq 0$ and $0$ for $k < 0$; and $h^n(\mathcal{O}(k))$ is the number of Laurent monomials $x_0^{a_0}\cdots x_n^{a_n}$ with all $a_i \leq -1$ and $\sum a_i = k$, which is the number of monomials of degree $-k - n - 1$,
+that is $\binom{-k-1}{n}$ for $k \leq -n - 1$ and $0$ otherwise. For $k \geq 0$ the polynomial $P(k) = (k + 1)\cdots(k + n)/n!$ equals $\binom{n+k}{n}$; for $-n \leq k \leq -1$ it vanishes, as does $\chi$; and for $k \leq -n - 1$,
+$P(k) = (-1)^n(-k - 1)(-k - 2)\cdots(-k - n)/n! = (-1)^n\binom{-k-1}{n} = (-1)^nh^n(\mathcal{O}(k))$. So $\chi(\PP^n, \mathcal{O}(k)) = P(k)$ in all cases.
+
+\emph{The right side.} By Lemma~\ref{index-theorems:lemma-todd-projective} and $\int_{\PP^n}h^n = 1$, the integral is the coefficient of $h^n$ in $e^{kh}(h/(1 - e^{-h}))^{n+1}$, a power series convergent near $0$, that is, the residue at
+$0$ of the meromorphic function $e^{kh}(1 - e^{-h})^{-n-1}$:
+\[
+\frac{1}{2\pi i}\oint_{|h| = \varepsilon}\frac{e^{kh}\,dh}{(1 - e^{-h})^{n+1}}.
+\]
+The substitution $u = 1 - e^{-h}$ is biholomorphic near $0$ with $u(0) = 0$, so it maps the small circle to a loop winding once around $0$; since $e^{-h} = 1 - u$, $e^{kh} = (1 - u)^{-k}$ and $dh = du/(1 - u)$, the integral becomes
+$\frac{1}{2\pi i}\oint(1 - u)^{-k-1}u^{-n-1}\,du$, the coefficient of $u^n$ in $(1 - u)^{-k-1} = \sum_j\binom{k + j}{j}u^j$ (Chapter~\ref{complex-analysis}). This coefficient is $\binom{k+n}{n} = P(k)$, read as a polynomial in $k$.
+\end{proof}
+
+\begin{corollary}[Noether's formula]\label{index-theorems:corollary-noether}
+For a compact complex surface $S$, $\chi(S, \mathcal{O}_S) = \frac{1}{12}\int_S(c_1^2 + c_2)$, where $c_i = c_i(T_S)$. Consequently $\int_S(c_1^2 + c_2)$ is divisible by $12$, and for a line bundle $L$ with $l = c_1(L)$,
+$\chi(S, L) = \chi(S, \mathcal{O}_S) + \frac12\int_Sl(l + c_1)$.
+\end{corollary}
+
+\begin{proof}
+By Definition~\ref{index-theorems:definition-genera}, the degree-$4$ part of the Todd class is $\frac{1}{12}(c_1^2 + c_2)$ (Definition~\ref{characteristic-classes:definition-chern-character}), and Theorem~\ref{index-theorems:theorem-atiyah-singer}(3) with
+$E = \mathcal{O}_S$ gives the formula; the left side is an integer. For $L$, the degree-$4$ part of $(1 + l + \frac12l^2)(1 + \frac12c_1 + \frac{1}{12}(c_1^2 + c_2))$ is $\frac12l^2 + \frac12lc_1 + \frac{1}{12}(c_1^2 + c_2)$.
+\end{proof}
+
+\begin{lemma}\label{index-theorems:lemma-pontryagin-complex}
+For a complex vector bundle $E$, $(E_\RR)_\CC \cong E \oplus \bar E$, and hence $p_1(E_\RR) = c_1(E)^2 - 2c_2(E)$.
+\end{lemma}
+
+\begin{proof}
+The complex structure $J$ of $E$ extends $\CC$-linearly to $(E_\RR)_\CC$, where it has eigenvalues $\pm i$; the $+i$-eigenbundle $\{v - iJv\}$ is isomorphic to $E$ by $v \mapsto \frac12(v - iJv)$, and the $-i$-eigenbundle to $\bar E$. By
+Definition~\ref{characteristic-classes:definition-pontryagin} and the Whitney formula, $p_1(E_\RR) = -c_2(E \oplus \bar E) = -(c_2(E) + c_1(E)c_1(\bar E) + c_2(\bar E)) = c_1^2 - 2c_2$, using $c_1(\bar E) = -c_1(E)$ and $c_2(\bar E) = c_2(E)$
+(Proposition~\ref{characteristic-classes:proposition-chern-properties}(4)).
+\end{proof}
+
+\begin{example}\label{index-theorems:example-surfaces}
+\begin{enumerate}
+\item $\PP^2$: $c(T) = (1 + h)^3$, so $c_1^2 = 9$, $c_2 = 3$ and Noether's formula gives $\chi(\mathcal{O}) = 12/12 = 1$, as it must. By Lemma~\ref{index-theorems:lemma-pontryagin-complex}, $p_1 = 9 - 6 = 3$, and the signature theorem
+$\sigma = \frac13\int p_1 = 1$ agrees with the intersection form $(1)$ on $H^2(\PP^2) = \ZZ h$.
+\item $\PP^1 \times \PP^1$: $c_1 = 2a + 2b$ and $c_2 = 4ab$, where $a$, $b$ are the pullbacks of the point classes, with $a^2 = b^2 = 0$ and $\int ab = 1$. So $c_1^2 = 8$, $c_2 = 4$, $\chi(\mathcal{O}) = 1$, and $p_1 = 8 - 8 = 0$, in agreement with the
+hyperbolic intersection form on $H^2$, of signature $0$.
+\item A K3 surface has $c_1 = 0$ and $\chi(\mathcal{O}) = h^0 - h^1 + h^2 = 1 - 0 + 1 = 2$ (Chapter~\ref{calabi-yau}), so Noether's formula gives $\int c_2 = 24$, the topological Euler characteristic; then $p_1 = -48$ and
+$\sigma = -16$. As $b_2 = 22$, the intersection form has $3$ positive and $19$ negative eigenvalues.
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{index-theorems:counterexample-integrality}
+The characteristic numbers appearing in the index theorems are a priori rational, and their integrality is a real constraint. There is no compact complex surface with $\int c_1^2 = \int c_2 = 1$, since $12 \nmid 2$ would contradict
+Noether's formula. By the signature theorem, $\int_Mp_1(TM) = 3\sigma(M)$ is divisible by $3$ for every compact oriented $4$-manifold $M$; so no such manifold has first Pontryagin number $1$, although nothing in the formal properties
+of characteristic classes excludes it.
+\end{counterexample}
+
+\section{Exercises}\label{index-theorems:section-exercises}
+
+\begin{exercise}\label{index-theorems:exercise-quadric}
+Using Hirzebruch--Riemann--Roch on $\PP^1 \times \PP^1$, show that $\chi(\mathcal{O}(p, q)) = (p + 1)(q + 1)$ for the line bundle of bidegree $(p, q)$, and check it for $p, q \geq 0$ by counting bihomogeneous polynomials.
+\end{exercise}
+
+\begin{solution}
+With $l = pa + qb$ and $c_1 = 2a + 2b$, Corollary~\ref{index-theorems:corollary-noether} gives $\chi = 1 + \frac12\int(pa + qb)((p + 2)a + (q + 2)b) = 1 + \frac12(p(q + 2) + q(p + 2)) = pq + p + q + 1$. For $p, q \geq 0$ the higher cohomology
+vanishes (by the K\"unneth formula and Theorem~\ref{coherent-cohomology:theorem-projective-space}) and the sections are the polynomials of bidegree $(p, q)$, of which there are $(p + 1)(q + 1)$.
+\end{solution}
+
+\begin{exercise}\label{index-theorems:exercise-todd-genus}
+Show that the Todd genus of $\PP^n$ is $1$, and that the Todd genus of a compact complex manifold equals $\chi(X, \mathcal{O}_X) = \sum_q(-1)^qh^{0,q}(X)$.
+\end{exercise}
+
+\begin{solution}
+The second statement is Theorem~\ref{index-theorems:theorem-atiyah-singer}(3) with $E = \mathcal{O}_X$, since $\mathrm{ch}(\mathcal{O}_X) = 1$. For $\PP^n$, Proposition~\ref{index-theorems:proposition-rr-projective} with $k = 0$ gives
+$\binom{n}{n} = 1$.
+\end{solution}
+
+\begin{exercise}\label{index-theorems:exercise-hypersurface-euler}
+Let $S \subseteq \PP^3$ be a smooth surface of degree $d$. Using the adjunction formula $c_1(T_S) = (4 - d)h$ and Noether's formula, show that $\int_Sc_2(T_S) = d^3 - 4d^2 + 6d$, and check that this gives $24$ for a quartic.
+\end{exercise}
+
+\begin{solution}
+From the exact sequence $0 \to \mathcal{O}_{\PP^3}(-d) \to \mathcal{O}_{\PP^3} \to \mathcal{O}_S \to 0$, additivity of $\chi$ and Proposition~\ref{index-theorems:proposition-rr-projective},
+$\chi(\mathcal{O}_S) = 1 - \frac{(1 - d)(2 - d)(3 - d)}{6} = 1 + \frac{(d - 1)(d - 2)(d - 3)}{6}$. As
+$\int_Sh^2 = d$, $\int c_1^2 = (4 - d)^2d$. Noether's formula gives $\int c_2 = 12\chi(\mathcal{O}_S) - (4 - d)^2d = 12 + 2(d - 1)(d - 2)(d - 3) - d(4 - d)^2 = d^3 - 4d^2 + 6d$. For $d = 4$: $64 - 64 + 24 = 24$.
+\end{solution}
