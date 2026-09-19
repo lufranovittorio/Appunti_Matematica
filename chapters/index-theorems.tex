@@ -186,6 +186,28 @@ Definition~\ref{characteristic-classes:definition-pontryagin} and the Whitney fo
 (Proposition~\ref{characteristic-classes:proposition-chern-properties}(4)).
 \end{proof}
 
+\begin{corollary}[Gauss--Bonnet for complex manifolds]\label{index-theorems:corollary-gauss-bonnet-complex}
+Let $X$ be a compact complex manifold of dimension $n$ and $c_i(X) = c_i(T_X)$ the Chern classes of its holomorphic tangent bundle. Then
+\[
+\chi(X) = \int_Xc_n(X) = \sum_{p,q}(-1)^{p+q}h^{p,q}(X) = \sum_p(-1)^p\chi(X, \Omega^p_X).
+\]
+For a curve of genus $g$ this is $\int_Cc_1(C) = 2 - 2g$, and for a surface $\chi(S) = \int_Sc_2(S)$, so Noether's formula reads $\chi(S, \mathcal{O}_S) = \frac{1}{12}(K_S^2 + \chi(S))$.
+\end{corollary}
+
+\begin{proof}
+The real tangent bundle $TX$ with the complex structure $J$ is isomorphic, as a complex vector bundle, to $T_X = T^{1,0}X$, by $v \mapsto \frac12(v - iJv)$ (as in Lemma~\ref{index-theorems:lemma-pontryagin-complex}), and the
+orientation of $X$ is the one induced by $J$. So $e(TX) = c_n(T_X)$ and $\int_Xc_n(X) = \chi(X)$ by Theorem~\ref{characteristic-classes:theorem-euler}(2),(3). The Fr\"olicher spectral sequence gives
+$\chi(X) = \sum_{p,q}(-1)^{p+q}h^{p,q}(X)$ (Proposition~\ref{dolbeault:proposition-frolicher-inequality}), and grouping the terms with the same $p$ gives $\sum_p(-1)^p\chi(X, \Omega^p_X)$.
+
+The equality $\sum_p(-1)^p\chi(X, \Omega^p_X) = \int_Xc_n(X)$ also follows from Hirzebruch--Riemann--Roch (Theorem~\ref{index-theorems:theorem-atiyah-singer}(3)), which is how it is often presented. If $x_1, \ldots, x_n$ are the Chern roots of
+$T_X$, those of $\Omega^1_X = T_X^\vee$ are $-x_1, \ldots, -x_n$, so $\mathrm{ch}(\Omega^p_X) = \mathrm{ch}(\Lambda^p\Omega^1_X)$ is the $p$-th elementary symmetric function of the $e^{-x_i}$, and
+\[
+\sum_p(-1)^p\,\mathrm{ch}(\Omega^p_X)\,\mathrm{td}(T_X) = \prod_{i=1}^n(1 - e^{-x_i}) \cdot \prod_{i=1}^n\frac{x_i}{1 - e^{-x_i}} = x_1 \cdots x_n = c_n(X).
+\]
+Integrating and summing Theorem~\ref{index-theorems:theorem-atiyah-singer}(3) over $p$ gives the claim. For a curve, $c_1(C) = c_1(T_C)$ has degree $2 - 2g$ (Corollary~\ref{index-theorems:corollary-rr-bundles-curves}), and for
+a surface $c_1^2 = K_S^2$ since $c_1(S) = -c_1(K_S)$ (Corollary~\ref{index-theorems:corollary-noether}).
+\end{proof}
+
 \begin{example}\label{index-theorems:example-surfaces}
 \begin{enumerate}
 \item $\PP^2$: $c(T) = (1 + h)^3$, so $c_1^2 = 9$, $c_2 = 3$ and Noether's formula gives $\chi(\mathcal{O}) = 12/12 = 1$, as it must. By Lemma~\ref{index-theorems:lemma-pontryagin-complex}, $p_1 = 9 - 6 = 3$, and the signature theorem

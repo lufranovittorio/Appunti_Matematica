@@ -8,6 +8,7 @@
     python make.py html     build the website in output/html
     python make.py all      tags, check, pdf and html
     python make.py serve    serve the website at http://localhost:8000
+    python make.py pages    commit output/html to the gh-pages branch (GitHub Pages)
 """
 
 import argparse
@@ -832,6 +833,49 @@ even if chapters are renumbered. There are {count} tags.</p>
 """
 
 
+def command_pages(args):
+    """Record output/html as a new commit on the gh-pages branch, without checking it out.
+
+    GitHub Pages then serves that branch; push it with 'git push origin gh-pages'."""
+    if not (HTML_DIR / "index.html").exists():
+        print("pages: build the website first (python make.py html)")
+        return False
+    git_dir = ROOT / ".git"
+    index = git_dir / "pages-index"
+    env = dict(os.environ, GIT_INDEX_FILE=str(index))
+
+    def git(*arguments, check=True):
+        result = subprocess.run(["git", f"--git-dir={git_dir}", f"--work-tree={HTML_DIR}", *arguments],
+                                cwd=HTML_DIR, env=env, capture_output=True, text=True)
+        if check and result.returncode != 0:
+            raise RuntimeError(result.stderr.strip())
+        return result.stdout.strip()
+
+    # GitHub Pages must serve the files as they are, without running Jekyll.
+    (HTML_DIR / ".nojekyll").write_text("", encoding="utf-8")
+    if index.exists():
+        index.unlink()
+    try:
+        git("add", "--all", "--force", ".")
+        tree = git("write-tree")
+        parent = git("rev-parse", "--verify", "--quiet", "refs/heads/gh-pages", check=False)
+        if parent and git("rev-parse", parent + "^{tree}") == tree:
+            print("pages: gh-pages already contains this website")
+            return True
+        source = git("rev-parse", "--short", "HEAD")
+        message = f"Website built from {source}"
+        commit = git("commit-tree", tree, *(["-p", parent] if parent else []), "-m", message)
+        git("update-ref", "refs/heads/gh-pages", commit)
+    except RuntimeError as error:
+        print(f"pages: git failed: {error}")
+        return False
+    finally:
+        if index.exists():
+            index.unlink()
+    print(f"pages: gh-pages is now {commit[:7]}; publish it with 'git push origin gh-pages'")
+    return True
+
+
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="replace")
@@ -845,6 +889,7 @@ def main():
         ("html", command_html, "build the website"),
         ("all", command_all, "build the PDF and the website"),
         ("serve", command_serve, "serve the website locally"),
+        ("pages", command_pages, "commit the built website to the gh-pages branch"),
     ]:
         p = sub.add_parser(name, help=help_text)
         p.set_defaults(func=func)

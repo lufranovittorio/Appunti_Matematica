@@ -62,7 +62,8 @@ Language: English.
   macro argument: write `\bar{\QQ}`, not `\bar\QQ` (MathJax would see
   `\bar\mathbb {Q}`); `make.py check` reports this. Do not use `align*`:
   plasTeX treats its body as text and turns `''` into a curly quote. Write
-  `\[\begin{aligned} ... \end{aligned}\]` instead.
+  `\[\begin{aligned} ... \end{aligned}\]` instead, and inside it write primes
+  as `^{\prime}` (plasTeX converts `'` there too).
 - **Diagrams**: use `tikz-cd`, *outside* math mode, wrapped in `center`:
   `\begin{center}\begin{tikzcd} ... \end{tikzcd}\end{center}`. plasTeX turns it
   into an SVG image. A `tikzcd` inside `\[ \]` is not rendered on the website.

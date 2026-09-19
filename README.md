@@ -36,6 +36,21 @@ definitions, results, examples, exercises and remarks. The index,
 website, and the search runs entirely in the browser. `tags.html` lists all
 tags.
 
+## Publishing
+
+The sources live on the `main` branch of
+<https://github.com/lufranovittorio/Appunti_Matematica>, and the website is
+served by GitHub Pages from the `gh-pages` branch at
+<https://lufranovittorio.github.io/Appunti_Matematica/>. After a build,
+
+```
+python make.py pages          # commit output/html to gh-pages (no checkout)
+git push origin main gh-pages
+```
+
+`make.py pages` records the built website as a new commit on `gh-pages`
+without touching the working tree; nothing is pushed until `git push`.
+
 ## Writing
 
 See `CLAUDE.md` for the conventions: labels, environments, proofs, diagrams

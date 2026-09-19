@@ -409,6 +409,45 @@ through its Jacobi fields. The Rauch comparison theorem \cite[Chapter 10]{do-car
 Gromov's compactness theorem.
 \end{remark}
 
+\begin{theorem}[Gauss--Bonnet]\label{riemannian-geometry:theorem-gauss-bonnet}
+Let $M$ be a compact oriented Riemannian surface, with Gaussian curvature $K$ (the sectional curvature of its tangent planes) and area form $dA$. Then
+\[
+\int_MK\,dA = 2\pi\chi(M) .
+\]
+\end{theorem}
+
+\begin{proof}
+Let $J$ be the rotation by $+\pi/2$ in each tangent plane, for the metric and the orientation: $Je_1 = e_2$ for every oriented orthonormal frame $(e_1, e_2)$. It is a smooth endomorphism with $J^2 = -1$, so $TM$ becomes a
+complex line bundle, with $i$ acting as $J$, whose underlying oriented real bundle is $TM$. Near a point choose an oriented orthonormal frame $(e_1, e_2)$ and define the $1$-form $\omega$ by $\nabla_Xe_1 = \omega(X)e_2$; since
+$\nabla$ is metric, $\langle\nabla_Xe_1, e_1\rangle = 0$ and $\nabla_Xe_2 = -\omega(X)e_1$. Hence $\nabla J = J\nabla$, so $\nabla$ is a connection on the complex line bundle, and in the complex frame $e_1$ it reads
+$\nabla e_1 = \omega \otimes Je_1 = i\omega \otimes e_1$: its connection form is $\theta = i\omega$ and its curvature is $F = d\theta = i\,d\omega$ (Proposition~\ref{connections:proposition-curvature}).
+
+We compare $d\omega$ with $K$. From the definition of the curvature tensor,
+\[
+R(X, Y)e_1 = \nabla_X(\omega(Y)e_2) - \nabla_Y(\omega(X)e_2) - \omega([X, Y])e_2 = \big(X\omega(Y) - Y\omega(X) - \omega([X, Y])\big)e_2 = d\omega(X, Y)\,e_2,
+\]
+the terms $\mp\omega(X)\omega(Y)e_1$ cancelling. By Definition~\ref{riemannian-geometry:definition-curvature-tensor} and Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries},
+$K = R(e_1, e_2, e_2, e_1) = -R(e_1, e_2, e_1, e_2) = -\langle R(e_1, e_2)e_1, e_2\rangle = -d\omega(e_1, e_2)$. So $d\omega = -K\,e^1 \wedge e^2 = -K\,dA$ and $F = -iK\,dA$.
+
+By Chern--Weil theory (Theorem~\ref{characteristic-classes:theorem-chern-weil} and Definition~\ref{characteristic-classes:definition-chern-forms}), $c_1(TM)$ is represented by $\frac{i}{2\pi}F = \frac{1}{2\pi}K\,dA$ for this connection.
+For a complex line bundle the Euler class of the underlying oriented real bundle is $c_1$ (Theorem~\ref{characteristic-classes:theorem-euler}(2)), and $\int_Me(TM) = \chi(M)$ by
+Theorem~\ref{characteristic-classes:theorem-euler}(3). Hence $\frac{1}{2\pi}\int_MK\,dA = \chi(M)$.
+\end{proof}
+
+\begin{corollary}\label{riemannian-geometry:corollary-gauss-bonnet}
+Let $\Sigma_g$ be the closed orientable surface of genus $g$, so that $\chi(\Sigma_g) = 2 - 2g$ (Example~\ref{singular-homology:example-cellular-computations}).
+\begin{enumerate}
+\item The integral of the Gaussian curvature does not depend on the metric: for the round unit sphere, $K = 1$ and the area is $4\pi = 2\pi \cdot 2$.
+\item If $\Sigma_g$ carries a metric with $K > 0$ everywhere, then $g = 0$; if it carries a metric with $K \geq 0$ everywhere, then $g \leq 1$; if it carries one with $K < 0$ everywhere, then $g \geq 2$.
+\item The torus admits flat metrics, as $\RR^2/\ZZ^2$, but no metric with $K > 0$ everywhere or $K < 0$ everywhere.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) is Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}. (2) The sign of $\int_MK\,dA = 2\pi(2 - 2g)$ is positive, non-negative or negative accordingly, and $2 - 2g > 0$ forces $g = 0$, $2 - 2g \geq 0$ forces
+$g \leq 1$, and $2 - 2g < 0$ forces $g \geq 2$. (3) The torus has $\chi = 0$, so $K$ cannot have constant nonzero sign, while the flat metric induced from $\RR^2$ has $K = 0$ (Example~\ref{riemannian-geometry:example-curvature}).
+\end{proof}
+
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 
 \begin{definition}\label{riemannian-geometry:definition-hodge-star}
