@@ -60,6 +60,11 @@ Language: English.
   `macros.tex` itself, and MathJax 2.7.9 renders the result. Stick to amsmath /
   amssymb commands that MathJax supports; do not add packages without testing
   the HTML build. `mathtools` and `amscd` are not supported.
+  Because plasTeX expands the macros first, an accent needs braces around a
+  macro argument: write `\bar{\QQ}`, not `\bar\QQ` (MathJax would see
+  `\bar\mathbb {Q}`); `make.py check` reports this. Do not use `align*`:
+  plasTeX treats its body as text and turns `''` into a curly quote. Write
+  `\[\begin{aligned} ... \end{aligned}\]` instead.
 - **Diagrams**: use `tikz-cd`, *outside* math mode, wrapped in `center`:
   `\begin{center}\begin{tikzcd} ... \end{tikzcd}\end{center}`. plasTeX turns it
   into an SVG image. A `tikzcd` inside `\[ \]` is not rendered on the website.
