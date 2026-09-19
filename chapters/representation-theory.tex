@@ -139,6 +139,61 @@ Their characters take the values $(1, 1, 1)$, $(1, -1, 1)$ and $(2, 0, -1)$ on t
 orthonormality directly: for instance $\langle \chi_U, \chi_U\rangle = \frac16(4 + 0 + 2 \cdot 1) = 1$.
 \end{example}
 
+\begin{proposition}\label{representation-theory:proposition-abelian}
+Let $G$ be a finite abelian group. Every irreducible complex representation of $G$ is one-dimensional, given by a homomorphism $\chi \colon G \to \CC^\times$, and there are exactly $|G|$ of them. For $G = \ZZ/n\ZZ$ they are
+$\chi_j(k) = e^{2\pi ijk/n}$, $0 \leq j < n$.
+\end{proposition}
+
+\begin{proof}
+Let $V$ be irreducible. Each $g$ commutes with the action of $G$, so by Schur's lemma (Lemma~\ref{representation-theory:lemma-schur}) it acts by a scalar; then every line in $V$ is a subrepresentation, and $\dim V = 1$. The conjugacy
+classes of an abelian group are its elements, so by Theorem~\ref{representation-theory:theorem-number-irreducibles} there are $|G|$ irreducible representations. For $\ZZ/n\ZZ$, a homomorphism to $\CC^\times$ is determined by the image
+$\zeta$ of $1$, with $\zeta^n = 1$, and the $n$ choices give the $\chi_j$.
+\end{proof}
+
+\begin{counterexample}\label{representation-theory:counterexample-schur-real}
+The second statement of Schur's lemma needs an algebraically closed field. The group $\ZZ/4\ZZ$ acting on $\RR^2$ by rotation by $\pi/2$, with generator acting by $J = \begin{pmatrix}0 & -1\\ 1 & 0\end{pmatrix}$, is irreducible over $\RR$,
+since $J$ has no real eigenvector; but its endomorphisms, the matrices commuting with $J$, are the $aI + bJ$, a field isomorphic to $\CC$, not $\RR\cdot\mathrm{id}$. Over $\CC$ the representation splits as $\chi_1 \oplus \chi_3$ in the notation of
+Proposition~\ref{representation-theory:proposition-abelian}.
+\end{counterexample}
+
+\begin{definition}\label{representation-theory:definition-induced}
+Let $H \subseteq G$ be a subgroup of a finite group and $W$ a representation of $H$. The \emph{induced representation} is
+$\operatorname{Ind}_H^GW = \{f \colon G \to W : f(hx) = hf(x) \text{ for } h \in H, x \in G\}$, with $(gf)(x) = f(xg)$. For a representation $V$ of $G$, $\operatorname{Res}^G_HV$ is $V$ viewed as a representation of $H$.
+\end{definition}
+
+\begin{proposition}[Frobenius reciprocity]\label{representation-theory:proposition-frobenius}
+In the situation of Definition~\ref{representation-theory:definition-induced}:
+\begin{enumerate}
+\item $\Hom_G(V, \operatorname{Ind}_H^GW) \cong \Hom_H(\operatorname{Res}^G_HV, W)$, via $\varphi \mapsto (v \mapsto \varphi(v)(e))$;
+\item $\dim\operatorname{Ind}_H^GW = [G : H]\dim W$, and
+\[
+\chi_{\operatorname{Ind}W}(g) = \frac{1}{|H|}\sum_{x \in G,\ xgx^{-1} \in H}\chi_W(xgx^{-1});
+\]
+\item $\langle\chi_{\operatorname{Ind}W}, \chi_V\rangle_G = \langle\chi_W, \chi_{\operatorname{Res}V}\rangle_H$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $\varphi$ is $G$-equivariant, then $\psi(v) = \varphi(v)(e)$ satisfies $\psi(hv) = \varphi(hv)(e) = (h\varphi(v))(e) = \varphi(v)(h) = h\varphi(v)(e) = h\psi(v)$. Conversely, for $\psi \in \Hom_H(V, W)$ put $\varphi(v)(x) = \psi(xv)$; then
+$\varphi(v)(hx) = \psi(hxv) = h\varphi(v)(x)$, so $\varphi(v) \in \operatorname{Ind}W$, and $\varphi(gv)(x) = \psi(xgv) = \varphi(v)(xg) = (g\varphi(v))(x)$. The two constructions are inverse, since $\varphi(v)(x) = (x\varphi(v))(e) = \varphi(xv)(e)$.
+
+(2) Choose representatives $x_1, \ldots, x_m$ of the cosets $Hx$, $m = [G : H]$. An element $f$ is determined by the values $f(x_i)$, which are arbitrary, so $f \mapsto (f(x_i))_i$ is an isomorphism with $W^m$. For $g \in G$ write
+$x_ig = h_ix_{\sigma(i)}$ with $h_i \in H$ and $\sigma$ a permutation; then $(gf)(x_i) = f(x_ig) = h_if(x_{\sigma(i)})$. So in the decomposition $W^m$, $g$ maps the $\sigma(i)$-th summand to the $i$-th by $h_i$, and only the indices with
+$\sigma(i) = i$ contribute to the trace, with $h_i = x_igx_i^{-1} \in H$. Hence $\chi_{\operatorname{Ind}W}(g) = \sum_{i : x_igx_i^{-1} \in H}\chi_W(x_igx_i^{-1})$, and since $\chi_W$ is a class function on $H$, each coset $Hx_i$ contributes $|H|$ equal terms to
+the sum in the statement.
+
+(3) By Theorem~\ref{representation-theory:theorem-orthogonality}, both sides are dimensions of the spaces in (1): the left side is $\dim\Hom_G(V, \operatorname{Ind}_H^GW)$ and the right side is $\dim\Hom_H(\operatorname{Res}^G_HV, W)$.
+\end{proof}
+
+\begin{counterexample}\label{representation-theory:counterexample-character-table}
+The character table does not determine the group. Let $G$ be a group of order $8$ whose centre $Z$ has order $2$ and with $G/Z \cong (\ZZ/2\ZZ)^2$; the dihedral group $D_4$ of symmetries of a square and the quaternion group
+$Q_8 = \{\pm1, \pm i, \pm j, \pm k\}$ are examples. For $x \notin Z$ the centraliser contains $\langle x\rangle Z$, of order $4$, and is not $G$, so the class of $x$ is $\{x, zx\}$, $Z = \{e, z\}$: there are five classes. For $x 
+otin Z$, $x^2 \in Z$ and every conjugate of $x$ lies in $xZ$, because $G/Z$ is abelian of exponent $2$. The commutator subgroup is
+$Z$ ($G/Z$ is abelian and $G$ is not), so the one-dimensional characters are the four characters of $G/Z$, equal to $1$ at $z$; at each non-identity element of $G/Z$ two of them take the value $1$ and two the value $-1$; by Theorem~\ref{representation-theory:theorem-number-irreducibles} the fifth irreducible character $\chi$ has
+degree $2$ ($4 + 2^2 = 8$), and comparing with the regular character, $2\chi = \chi_{\mathrm{reg}} - \sum\chi_{1\text{-dim}}$ gives $\chi(z) = -2$ and $\chi(x) = 0$ for $x \notin Z$. So the character tables of $D_4$ and $Q_8$ coincide, but the
+groups are not isomorphic: $D_4$ has five elements of order $2$ and $Q_8$ only one.
+\end{counterexample}
+
 \section{Lie algebras}\label{representation-theory:section-lie-algebras}
 
 \begin{definition}\label{representation-theory:definition-lie-algebra}
@@ -317,8 +372,8 @@ Determine the character table of $S_4$.
 \end{exercise}
 
 \begin{exercise}\label{representation-theory:exercise-abelian-irreducible}
-Show that every irreducible complex representation of a finite abelian group is one-dimensional, and that a
-finite group is abelian if and only if all its irreducible complex representations are one-dimensional.
+Show that a finite group is abelian if and only if all its irreducible complex representations are one-dimensional. (One direction is
+Proposition~\ref{representation-theory:proposition-abelian}; for the other use Theorem~\ref{representation-theory:theorem-number-irreducibles}.)
 \end{exercise}
 
 \begin{exercise}\label{representation-theory:exercise-sl2-lefschetz}

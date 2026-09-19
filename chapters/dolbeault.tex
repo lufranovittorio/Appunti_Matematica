@@ -69,6 +69,55 @@ Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}(1) and Theorem~\r
 Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}(2).
 \end{proof}
 
+\begin{proposition}\label{dolbeault:proposition-functoriality}
+Let $f \colon X \to Y$ be a holomorphic map of complex manifolds. Pullback of forms maps $\mathcal{A}^{p,q}(Y)$ into $\mathcal{A}^{p,q}(X)$ and commutes with $\partial$ and $\bar\partial$, so it induces
+maps $f^* \colon H^{p,q}_{\bar\partial}(Y) \to H^{p,q}_{\bar\partial}(X)$, with $(g \circ f)^* = f^* \circ g^*$. The wedge product induces products
+$H^{p,q}_{\bar\partial}(X) \times H^{p',q'}_{\bar\partial}(X) \to H^{p+p',q+q'}_{\bar\partial}(X)$, making $\bigoplus_{p,q}H^{p,q}_{\bar\partial}(X)$ a graded-commutative algebra (for the total degree $p + q$), and
+$f^*$ is a homomorphism of algebras.
+\end{proposition}
+
+\begin{proof}
+In local holomorphic coordinates $w_j$ on $Y$, $f^*dw_j = d(w_j \circ f) = \partial(w_j \circ f)$ because $w_j \circ f$ is holomorphic, so $f^*dw_j$ has type $(1,0)$, and by conjugation $f^*d\bar w_j$ has type $(0,1)$;
+hence $f^*$ preserves types. Since $f^*d = df^*$ and $d = \partial + \bar\partial$ with $\partial$ of type $(1,0)$ and $\bar\partial$ of type $(0,1)$ (Proposition~\ref{complex-manifolds:proposition-dbar}), comparing the
+components of type $(p+1,q)$ and $(p,q+1)$ of $f^*d\alpha = df^*\alpha$ for $\alpha$ of type $(p,q)$ gives $f^*\partial\alpha = \partial f^*\alpha$ and $f^*\bar\partial\alpha = \bar\partial f^*\alpha$. So $f^*$ maps
+$\bar\partial$-closed forms to $\bar\partial$-closed forms and $\bar\partial$-exact forms to $\bar\partial$-exact forms. Functoriality holds already for forms.
+
+Similarly, taking the component of type $(p+p',q+q'+1)$ of the Leibniz rule $d(\alpha \wedge \beta) = d\alpha \wedge \beta + (-1)^{p+q}\alpha \wedge d\beta$ gives
+$\bar\partial(\alpha \wedge \beta) = \bar\partial\alpha \wedge \beta + (-1)^{p+q}\alpha \wedge \bar\partial\beta$. Hence the wedge product of $\bar\partial$-closed forms is $\bar\partial$-closed, and if $\bar\partial\beta = 0$
+then $\bar\partial\gamma \wedge \beta = \bar\partial(\gamma \wedge \beta)$ is exact; so the product is well defined on classes. Graded commutativity and compatibility with $f^*$ hold for forms.
+\end{proof}
+
+\begin{definition}\label{dolbeault:definition-bott-chern}
+The \emph{Bott--Chern} and \emph{Aeppli cohomology} groups of $X$ are
+\[
+H^{p,q}_{BC}(X) = \frac{\{\alpha \in \mathcal{A}^{p,q}(X) : \partial\alpha = \bar\partial\alpha = 0\}}{\partial\bar\partial\mathcal{A}^{p-1,q-1}(X)}, \qquad
+H^{p,q}_{A}(X) = \frac{\{\alpha \in \mathcal{A}^{p,q}(X) : \partial\bar\partial\alpha = 0\}}{\partial\mathcal{A}^{p-1,q}(X) + \bar\partial\mathcal{A}^{p,q-1}(X)}.
+\]
+\end{definition}
+
+\begin{lemma}\label{dolbeault:lemma-bott-chern-maps}
+The identity on forms induces natural linear maps
+\[
+H^{p,q}_{BC}(X) \to H^{p,q}_{\bar\partial}(X), \qquad H^{p,q}_{BC}(X) \to H^{p+q}_{\mathrm{dR}}(X; \CC), \qquad H^{p,q}_{\bar\partial}(X) \to H^{p,q}_{A}(X).
+\]
+Complex conjugation induces isomorphisms $H^{p,q}_{BC}(X) \cong H^{q,p}_{BC}(X)$ of real vector spaces, conjugate-linear over $\CC$.
+\end{lemma}
+
+\begin{proof}
+The quotients in Definition~\ref{dolbeault:definition-bott-chern} make sense because $\partial\bar\partial\beta$ is $\partial$- and $\bar\partial$-closed and $\partial\alpha = 0$, $\bar\partial\alpha = 0$ imply
+$\partial\bar\partial\alpha = 0$ (using $\partial^2 = \bar\partial^2 = 0$ and $\partial\bar\partial = -\bar\partial\partial$). If $\partial\alpha = \bar\partial\alpha = 0$, then $\alpha$ is $\bar\partial$-closed and
+$d\alpha = 0$; and $\partial\bar\partial\beta = -\bar\partial(\partial\beta)$ is $\bar\partial$-exact, while $\partial\bar\partial\beta = d(\bar\partial\beta)$ is $d$-exact because $\bar\partial^2\beta = 0$. This gives the first
+two maps. For the third, a $\bar\partial$-closed form is $\partial\bar\partial$-closed, and $\bar\partial$-exact forms lie in the denominator of $H_A$. Finally $\overline{\partial\alpha} = \bar\partial\bar\alpha$, so conjugation
+preserves the conditions defining $H_{BC}$ and maps $\partial\bar\partial\mathcal{A}^{p-1,q-1}$ onto $\bar\partial\partial\mathcal{A}^{q-1,p-1} = \partial\bar\partial\mathcal{A}^{q-1,p-1}$.
+\end{proof}
+
+\begin{remark}\label{dolbeault:remark-bott-chern}
+Unlike $H^{p,q}_{\bar\partial}$, the Bott--Chern groups have a definition symmetric in $p$ and $q$, and they map to de Rham cohomology. On a compact K\"ahler manifold the $\partial\bar\partial$-lemma
+(Chapter~\ref{hodge-decomposition}) says that a $d$-closed form of pure type which is $d$-exact or $\bar\partial$-exact is of the form $\partial\bar\partial\beta$; this is exactly the injectivity of the first two
+maps of Lemma~\ref{dolbeault:lemma-bott-chern-maps}. On general compact complex manifolds these maps need not be injective, and Bott--Chern cohomology is a finer invariant than Dolbeault or de Rham
+cohomology.
+\end{remark}
+
 \section{Harmonic theory for $\bar\partial$}\label{dolbeault:section-harmonic}
 
 \begin{definition}\label{dolbeault:definition-dbar-laplacian}
@@ -76,6 +125,21 @@ Let $X$ be compact with a Hermitian metric and $E$ a Hermitian holomorphic bundl
 (Definition~\ref{elliptic-operators:definition-formal-adjoint}) and $\Box_E = \bar\partial_E\bar\partial_E^* + \bar\partial_E^*\bar\partial_E$, the \emph{$\bar\partial$-Laplacian}. The space of
 \emph{$\bar\partial$-harmonic forms} is $\mathcal{H}^{p,q}(X, E) = \ker\Box_E$.
 \end{definition}
+
+\begin{lemma}\label{dolbeault:lemma-harmonic-closed}
+In the situation of Definition~\ref{dolbeault:definition-dbar-laplacian}, a form $\alpha \in \mathcal{A}^{p,q}(X, E)$ is $\Box_E$-harmonic if and only if $\bar\partial_E\alpha = 0$ and $\bar\partial_E^*\alpha = 0$. In
+particular, for $q = 0$ the harmonic forms are exactly the holomorphic sections of $\Omega^p_X \otimes E$, for every choice of the metrics, and
+\[
+\mathcal{H}^{p,0}(X, E) = H^{p,0}_{\bar\partial}(X, E) = H^0(X, \Omega^p_X \otimes E).
+\]
+\end{lemma}
+
+\begin{proof}
+Since $X$ is compact, the defining property of formal adjoints gives $\langle\Box_E\alpha, \alpha\rangle = \|\bar\partial_E\alpha\|^2 + \|\bar\partial_E^*\alpha\|^2$ in $L^2$, so $\Box_E\alpha = 0$ forces
+$\bar\partial_E\alpha = \bar\partial_E^*\alpha = 0$; the converse is clear from the definition of $\Box_E$. For $q = 0$, $\bar\partial_E^*$ maps $\mathcal{A}^{p,0}$ to $\mathcal{A}^{p,-1} = 0$, so the harmonic
+$(p,0)$-forms are the $\bar\partial_E$-closed ones, which are the holomorphic sections of $\Omega^p_X \otimes E$ (Proposition~\ref{complex-manifolds:proposition-dbar}, in a holomorphic frame of $E$); and
+$H^{p,0}_{\bar\partial}(X, E)$ is the kernel of $\bar\partial_E$ on $\mathcal{A}^{p,0}(X, E)$, as there are no forms of type $(p,-1)$.
+\end{proof}
 
 \begin{theorem}\label{dolbeault:theorem-dbar-hodge}
 $\Box_E$ is elliptic, with principal symbol $\frac12|\xi|^2$. Consequently $\mathcal{H}^{p,q}(X, E)$ is finite-dimensional, there is an orthogonal decomposition
@@ -133,6 +197,23 @@ $h^{k,k} \geq 1$, which is witnessed by the class of $\omega_{FS}^k$; see \cite[
 complex surface always degenerates), but $h^{1,0} \neq h^{0,1}$: the Hodge symmetry $h^{p,q} = h^{q,p}$ of compact K\"ahler manifolds fails \cite[Chapter IV]{bhpv}.
 \end{enumerate}
 \end{example}
+
+\begin{example}\label{dolbeault:example-riemann-sphere}
+The Hodge numbers of $\CC\PP^1$ can be computed directly. First $h^{0,0} = 1$ by Proposition~\ref{complex-manifolds:proposition-no-functions}. A holomorphic $1$-form is $f(z)\,dz$ on the chart $\CC$, with $f$
+entire; in the chart $w = 1/z$ at infinity, $dz = -w^{-2}dw$, so $-f(1/w)w^{-2}$ must extend holomorphically to $w = 0$. Hence $|f(z)| \leq C|z|^{-2}$ for $|z| \geq 1$, so $f$ is bounded, hence constant by
+Liouville's theorem (Corollary~\ref{complex-analysis:corollary-liouville}), and the constant is $0$. So $h^{1,0} = 0$ by Lemma~\ref{dolbeault:lemma-harmonic-closed}. Serre duality
+(Theorem~\ref{dolbeault:theorem-serre-duality}, with $n = 1$ and $E = \mathcal{O}$ or $E = \Omega^1$) gives $h^{0,1} = h^{1,0} = 0$ and $h^{1,1} = h^{0,0} = 1$. Since $b_0 = b_2 = 1$ and $b_1 = 0$, equality
+holds in Proposition~\ref{dolbeault:proposition-frolicher-inequality}. Moreover $H^1(\CC\PP^1, \mathcal{O}) = 0$, and $H^2(\CC\PP^1, \mathcal{O}) = 0$ because there are no forms of type $(0,2)$ on a curve; by
+Theorem~\ref{holomorphic-bundles:theorem-exponential}, $c_1 \colon \Pic(\CC\PP^1) \to H^2(\CC\PP^1; \ZZ) \cong \ZZ$ is an isomorphism.
+\end{example}
+
+\begin{counterexample}\label{dolbeault:counterexample-not-homotopy-invariant}
+Dolbeault cohomology is not a homotopy invariant, unlike de Rham cohomology. The plane $\CC$ is contractible, so $H^k_{\mathrm{dR}}(\CC) = 0$ for $k > 0$ and $H^0_{\mathrm{dR}}(\CC) = \CC$. But
+$H^{0,0}_{\bar\partial}(\CC)$ and $H^{1,0}_{\bar\partial}(\CC)$ are the spaces of entire functions and of holomorphic $1$-forms $f(z)\,dz$ (there is nothing to divide by in type $(p,0)$), both
+infinite-dimensional: they contain the $z^k$ and the $z^k\,dz$. The two computations are reconciled by $\partial \colon H^{0,0}_{\bar\partial}(\CC) \to H^{1,0}_{\bar\partial}(\CC)$, $f \mapsto f'\,dz$, which is
+surjective, because every entire function has an entire primitive (Corollary~\ref{complex-analysis:corollary-primitive-convex}), and has kernel the constants. In the Fr\"olicher spectral sequence of Theorem~\ref{dolbeault:theorem-holomorphic-de-rham} the first differential is induced
+by $\partial$, and here it cancels the two infinite-dimensional groups against each other, leaving $H^0_{\mathrm{dR}}(\CC) = \CC$.
+\end{counterexample}
 
 \begin{remark}\label{dolbeault:remark-vanishing}
 Cohomology of line bundles on projective space is computed by Bott's formula: $H^q(\CC\PP^n, \mathcal{O}(k))$ vanishes for $0 < q < n$ and all $k$, $H^0 = $ homogeneous polynomials of degree $k$, and
