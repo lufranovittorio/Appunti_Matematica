@@ -1,0 +1,396 @@
+\chapter{Derived Categories}\label{derived-categories}
+\chapterstatus{complete}
+
+\section{Introduction}\label{derived-categories:section-introduction}
+
+The derived category of an abelian category is obtained from complexes by declaring quasi-isomorphisms to be
+isomorphisms. It is the natural home of derived functors: instead of a sequence of functors $R^nF$ one has a
+single functor $RF$ on complexes, compositions of derived functors are derived functors of compositions, and
+hypercohomology of complexes (for instance of the de Rham complex of a manifold) is defined without choices.
+Filtered derived categories and strict morphisms, discussed at the end, are the framework of Deligne's mixed Hodge
+theory (Chapter~\ref{mixed-hodge-structures}).
+
+Some foundational verifications (the octahedral axiom, and the construction of localisations by roofs) are quoted
+from \cite[Chapter 10]{weibel-homological}, \cite[Chapter III]{gelfand-manin} and \cite{kashiwara-schapira}; everything
+used about derived functors is proved.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{categories} (Categories), Chapter~\ref{homological-algebra} (Homological
+Algebra) and Chapter~\ref{spectral-sequences} (Spectral Sequences).
+
+Throughout, $\mathcal{A}$ is an abelian category, complexes are as in
+Definition~\ref{homological-algebra:definition-complex}, and we argue with elements as justified by
+Remark~\ref{homological-algebra:remark-freyd-mitchell}.
+
+\section{The homotopy category}\label{derived-categories:section-homotopy-category}
+
+\begin{definition}\label{derived-categories:definition-homotopy-category}
+The \emph{homotopy category} $K(\mathcal{A})$ has the complexes as objects and homotopy classes of morphisms of complexes
+(Definition~\ref{homological-algebra:definition-homotopy}) as morphisms. $K^+(\mathcal{A})$ is its full subcategory of bounded
+below complexes. The \emph{shift} $X \mapsto X[1]$ is an automorphism of $K(\mathcal{A})$. A \emph{distinguished triangle} in
+$K(\mathcal{A})$ is a diagram $X \to Y \to Z \to X[1]$ isomorphic (in $K(\mathcal{A})$) to one of the form
+$X \xrightarrow{f} Y \xrightarrow{i} \mathrm{Cone}(f) \xrightarrow{p} X[1]$, with $i$ and $p$ the maps of
+Proposition~\ref{homological-algebra:proposition-cone}.
+\end{definition}
+
+\begin{remark}\label{derived-categories:remark-homotopy-well-defined}
+Homotopy is compatible with sums and compositions, so $K(\mathcal{A})$ is an additive category, and cohomology
+$H^n \colon K(\mathcal{A}) \to \mathcal{A}$ is a well-defined functor by Lemma~\ref{homological-algebra:lemma-homotopy-invariance}.
+\end{remark}
+
+\begin{definition}\label{derived-categories:definition-triangulated}
+A \emph{triangulated category} is an additive category $\mathcal{T}$ with an additive automorphism $X \mapsto X[1]$ and a class of
+\emph{distinguished triangles} $X \to Y \to Z \to X[1]$ such that:
+\begin{enumerate}
+\item[(TR1)] $X \xrightarrow{\id} X \to 0 \to X[1]$ is distinguished; triangles isomorphic to distinguished ones are distinguished;
+every morphism $X \to Y$ is the first morphism of a distinguished triangle.
+\item[(TR2)] $X \xrightarrow{f} Y \xrightarrow{g} Z \xrightarrow{h} X[1]$ is distinguished if and only if
+$Y \xrightarrow{g} Z \xrightarrow{h} X[1] \xrightarrow{-f[1]} Y[1]$ is.
+\item[(TR3)] Given distinguished triangles $X \to Y \to Z \to X[1]$ and $X' \to Y' \to Z' \to X'[1]$ and morphisms $u \colon X \to X'$,
+$v \colon Y \to Y'$ making the first square commute, there is $w \colon Z \to Z'$ making the whole diagram commute.
+\item[(TR4)] (Octahedral axiom) For composable $X \xrightarrow{f} Y \xrightarrow{g} Z$ and distinguished triangles on $f$, $g$ and $gf$ with
+third vertices $Z'$, $X'$, $Y'$, there is a distinguished triangle $Z' \to Y' \to X' \to Z'[1]$ compatible with the given
+morphisms.
+\end{enumerate}
+An additive functor between triangulated categories commuting with the shifts and preserving distinguished triangles is
+\emph{exact} (or triangulated).
+\end{definition}
+
+\begin{theorem}\label{derived-categories:theorem-homotopy-triangulated}
+$K(\mathcal{A})$ and $K^+(\mathcal{A})$ are triangulated categories.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+(TR1): $\mathrm{Cone}(\id_X)$ is contractible, with contracting homotopy $(a, b) \mapsto (b, 0)$, so it is isomorphic to $0$ in
+$K(\mathcal{A})$; the other two parts hold by definition. (TR3): if $h$ is a homotopy with $vf - f'u = dh + hd$, then
+$(a, b) \mapsto (u(a), v(b) + h(a))$ is a morphism of complexes $\mathrm{Cone}(f) \to \mathrm{Cone}(f')$ (a direct check using the formula for
+the differential of the cone in Definition~\ref{homological-algebra:definition-cone}) compatible with the maps of the triangles. The
+omitted verifications are (TR2), which amounts to an explicit homotopy equivalence $\mathrm{Cone}(i) \simeq X[1]$ for
+$i \colon Y \to \mathrm{Cone}(f)$, and the octahedral axiom (TR4); see \cite[Sections 10.1--10.2]{weibel-homological}.
+\end{proof}
+
+\begin{proposition}\label{derived-categories:proposition-cohomological}
+Let $X \xrightarrow{f} Y \xrightarrow{g} Z \xrightarrow{h} X[1]$ be a distinguished triangle in a triangulated category $\mathcal{T}$ and $W$ an
+object. Then $gf = 0$, and the sequence $\Hom(W, X) \to \Hom(W, Y) \to \Hom(W, Z)$ is exact; so by (TR2) there is a long exact
+sequence $\cdots \to \Hom(W, X) \to \Hom(W, Y) \to \Hom(W, Z) \to \Hom(W, X[1]) \to \cdots$. Similarly for $\Hom(-, W)$. For
+$\mathcal{T} = K(\mathcal{A})$, the functor $H^0$ sends distinguished triangles to long exact sequences.
+\end{proposition}
+
+\begin{proof}
+Apply (TR3) to the triangles $X \xrightarrow{\id} X \to 0 \to X[1]$ and $X \to Y \to Z \to X[1]$ with $u = \id$, $v = f$: the resulting $w$
+satisfies $gf = w \circ 0 = 0$. Let $\varphi \colon W \to Y$ with $g\varphi = 0$. By (TR1) and (TR2), the rotated triangles
+$W \to 0 \to W[1] \xrightarrow{-\id} W[1]$ and $Y \xrightarrow{g} Z \xrightarrow{h} X[1] \xrightarrow{-f[1]} Y[1]$ are distinguished. The square formed by
+$\varphi \colon W \to Y$ and $0 \colon 0 \to Z$ commutes because $g\varphi = 0$, so (TR3) gives $w \colon W[1] \to X[1]$ with
+$(-f[1]) \circ w = \varphi[1] \circ (-\id)$. Then $\psi = w[-1]$ satisfies $f\psi = \varphi$. The dual statement is proved in the same way. For $K(\mathcal{A})$ the last claim
+follows from the long exact sequence of the cone (Proposition~\ref{homological-algebra:proposition-cone}) and invariance under
+isomorphism.
+\end{proof}
+
+\section{The derived category}\label{derived-categories:section-derived-category}
+
+\begin{definition}\label{derived-categories:definition-multiplicative-system}
+A class $S$ of morphisms in a category $\mathcal{C}$ is a \emph{multiplicative system} if it contains the identities and is closed
+under composition, and:
+\begin{enumerate}
+\item for $s \colon X' \to X$ in $S$ and $f \colon Y \to X$ there are $t \colon Y' \to Y$ in $S$ and $g \colon Y' \to X'$ with $ft = sg$, and dually;
+\item if $f, g \colon X \to Y$ and $s \colon Y \to Y'$ in $S$ satisfy $sf = sg$, then $ft = gt$ for some $t \colon X' \to X$ in $S$, and dually.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Localisation]\label{derived-categories:theorem-localisation}
+Let $S$ be a multiplicative system in $\mathcal{C}$. There is a category $\mathcal{C}[S^{-1}]$ with the same objects and a functor
+$Q \colon \mathcal{C} \to \mathcal{C}[S^{-1}]$ that is the identity on objects, sends $S$ to isomorphisms, and is universal: every functor sending
+$S$ to isomorphisms factors uniquely through $Q$. Morphisms $X \to Y$ in $\mathcal{C}[S^{-1}]$ are equivalence classes of \emph{roofs}
+$X \xleftarrow{s} X' \xrightarrow{f} Y$ with $s \in S$, representing $Q(f)Q(s)^{-1}$, and for $f, g \colon X \to Y$ in $\mathcal{C}$ one has
+$Q(f) = Q(g)$ if and only if $ft = gt$ for some $t \in S$. If $\mathcal{C}$ is additive (triangulated) and $S$ is compatible
+with the structure, then $\mathcal{C}[S^{-1}]$ is additive (triangulated), with distinguished triangles the images of those of $\mathcal{C}$.
+\end{theorem}
+
+This is proved in \cite[Chapter III]{gelfand-manin} and \cite[Chapter 7]{kashiwara-schapira}; for the triangulated case see
+\cite[Section 10.3]{weibel-homological}.
+
+\begin{proposition}\label{derived-categories:proposition-qis-multiplicative}
+The quasi-isomorphisms form a multiplicative system in $K(\mathcal{A})$ and in $K^+(\mathcal{A})$.
+\end{proposition}
+
+\begin{proof}
+Identities and composites of quasi-isomorphisms are quasi-isomorphisms. Note that a morphism is a quasi-isomorphism iff its cone
+is acyclic (Proposition~\ref{homological-algebra:proposition-cone}), and by
+Proposition~\ref{derived-categories:proposition-cohomological} the cohomology of the three vertices of a distinguished triangle
+forms a long exact sequence.
+
+(1) Let $s \colon X' \to X$ be a quasi-isomorphism and $f \colon Y \to X$. Complete $s$ to a triangle $X' \to X \xrightarrow{p} C \to X'[1]$, so $C$ is
+acyclic, and complete $pf \colon Y \to C$ to a triangle $Y' \xrightarrow{t} Y \xrightarrow{pf} C \to Y'[1]$ (using (TR1) and (TR2)). Then $t$ is a
+quasi-isomorphism since $C$ is acyclic, and (TR3) applied to the rotated triangles gives $g \colon Y' \to X'$ with $sg = ft$. The dual
+statement is proved in the same way.
+
+(2) Suppose $s(f - g) = 0$ with $s \colon Y \to Y'$ a quasi-isomorphism. Complete $s$ to a triangle $C[-1] \xrightarrow{k} Y \xrightarrow{s} Y' \to C$ with $C$
+acyclic. By Proposition~\ref{derived-categories:proposition-cohomological}, $f - g = k\varphi$ for some $\varphi \colon X \to C[-1]$. Complete $\varphi$ to a
+triangle $X' \xrightarrow{t} X \xrightarrow{\varphi} C[-1] \to X'[1]$; then $t$ is a quasi-isomorphism and $(f - g)t = k\varphi t = 0$. Dually.
+\end{proof}
+
+\begin{definition}\label{derived-categories:definition-derived-category}
+The \emph{derived category} is $D(\mathcal{A}) = K(\mathcal{A})[\mathrm{Qis}^{-1}]$, and $D^+(\mathcal{A}) = K^+(\mathcal{A})[\mathrm{Qis}^{-1}]$. By
+Theorem~\ref{derived-categories:theorem-localisation} and Proposition~\ref{derived-categories:proposition-qis-multiplicative} they are
+triangulated, $H^n$ factors through them, and a morphism in $D(\mathcal{A})$ is an isomorphism if and only if it induces
+isomorphisms on all $H^n$.
+\end{definition}
+
+\begin{remark}\label{derived-categories:remark-size}
+The morphism classes of $D(\mathcal{A})$ need not be small sets for an arbitrary locally small $\mathcal{A}$, since roofs involve all complexes.
+For $\mathcal{A}$ with enough injectives this problem disappears for $D^+(\mathcal{A})$ by
+Corollary~\ref{derived-categories:corollary-hom-injectives}, which computes morphisms using a single complex of injectives.
+\end{remark}
+
+\section{Injective resolutions of complexes}\label{derived-categories:section-injective-resolutions}
+
+\begin{lemma}\label{derived-categories:lemma-acyclic-to-injective}
+Let $X$ be an acyclic complex and $I$ a bounded below complex of injective objects. Every morphism of complexes $f \colon X \to I$ is
+homotopic to zero.
+\end{lemma}
+
+\begin{proof}
+Let $I^n = 0$ for $n < n_0$; put $h^n = 0 \colon X^n \to I^{n-1}$ for $n \leq n_0$. Suppose $h^k$ is defined for $k \leq n$ with
+$f^{k-1} = dh^{k-1} + h^kd$ for $k \leq n$. Let $g = f^n - dh^n \colon X^n \to I^n$. Then
+$gd = df^{n-1} - dh^nd = df^{n-1} - d(f^{n-1} - dh^{n-1}) = 0$, so $g$ vanishes on $\im(X^{n-1} \to X^n) = \ker(X^n \to X^{n+1})$. Hence $g$
+factors through $X^n/\ker \cong \im(X^n \to X^{n+1}) \subseteq X^{n+1}$ and extends, by injectivity of $I^n$, to $h^{n+1} \colon X^{n+1} \to I^n$ with
+$h^{n+1}d = g$, that is, $f^n = dh^n + h^{n+1}d$.
+\end{proof}
+
+\begin{corollary}\label{derived-categories:corollary-hom-injectives}
+Let $I$ be a bounded below complex of injectives. For every quasi-isomorphism $s \colon X' \to X$, composition with $s$ is a bijection
+$\Hom_{K(\mathcal{A})}(X, I) \to \Hom_{K(\mathcal{A})}(X', I)$. Consequently $\Hom_{D(\mathcal{A})}(X, I) = \Hom_{K(\mathcal{A})}(X, I)$, and every quasi-isomorphism
+$I \to I'$ between bounded below complexes of injectives is a homotopy equivalence.
+\end{corollary}
+
+\begin{proof}
+Complete $s$ to a distinguished triangle $X' \to X \to C \to X'[1]$ with $C$ acyclic. By Lemma~\ref{derived-categories:lemma-acyclic-to-injective},
+$\Hom_K(C, I) = \Hom_K(C[-1], I) = 0$ ($C[-1]$ is also acyclic), and the long exact sequence of
+Proposition~\ref{derived-categories:proposition-cohomological} gives the bijection. For the second statement, we use the description of morphisms in
+Theorem~\ref{derived-categories:theorem-localisation}. The map $Q \colon \Hom_K(X, I) \to \Hom_D(X, I)$ is surjective: a roof
+$X \xleftarrow{s} X' \xrightarrow{f} I$ has $f = f's$ for some $f' \colon X \to I$, and then $Q(f)Q(s)^{-1} = Q(f')$. It is injective: if $Q(f_1) = Q(f_2)$,
+then $f_1t = f_2t$ for a quasi-isomorphism $t$, so $f_1 = f_2$ by the bijection just proved. For the last, a quasi-isomorphism $I \to I'$ is an isomorphism in
+$D(\mathcal{A})$, hence by the second statement an isomorphism in $K(\mathcal{A})$.
+\end{proof}
+
+\begin{proposition}\label{derived-categories:proposition-resolutions-complexes}
+If $\mathcal{A}$ has enough injectives, every bounded below complex $X$ admits a quasi-isomorphism $X \to I$ to a bounded below complex of
+injectives. Hence $K^+(\mathrm{Inj}\,\mathcal{A}) \to D^+(\mathcal{A})$ is an equivalence of categories.
+\end{proposition}
+
+\begin{proof}
+Shifting, assume $X^n = 0$ for $n < 0$. Let $J^{\bullet,\bullet}$ be a Cartan--Eilenberg resolution of $X$
+(Lemma~\ref{spectral-sequences:lemma-cartan-eilenberg-exists}) and $I = \mathrm{Tot}(J)$, a bounded below complex of injectives (each $I^n$ is a
+finite sum). The augmentations $X^p \to J^{p,0}$ define a morphism $X \to I$. For each $p$ the column $0 \to X^p \to J^{p,0} \to J^{p,1} \to \cdots$ is
+exact, so by Lemma~\ref{homological-algebra:lemma-acyclic-assembly} (applied with the roles of rows and columns exchanged) the map
+$X \to I$ is a quasi-isomorphism. (The total complex of the transposed double complex is isomorphic to $I$ by the signs $(-1)^{pq}$, and the
+compatibility of $X^p \to J^{p,0}$ with the differentials holds because the column differential kills the image of $X^p$.) The functor $K^+(\mathrm{Inj}\,\mathcal{A}) \to D^+(\mathcal{A})$ is fully faithful by
+Corollary~\ref{derived-categories:corollary-hom-injectives} and essentially surjective by the first statement.
+\end{proof}
+
+\begin{definition}\label{derived-categories:definition-right-derived}
+Let $\mathcal{A}$ have enough injectives and $F \colon \mathcal{A} \to \mathcal{B}$ be an additive functor to an abelian category. For each bounded
+below complex $X$ choose a quasi-isomorphism $X \to I_X$ as in Proposition~\ref{derived-categories:proposition-resolutions-complexes}. The
+\emph{right derived functor} is $RF \colon D^+(\mathcal{A}) \to D^+(\mathcal{B})$, $RF(X) = F(I_X)$ (with $F$ applied termwise), on morphisms via
+$\Hom_{D}(X, Y) \cong \Hom_K(I_X, I_Y)$. For $X \in D^+(\mathcal{A})$ and $n \in \ZZ$, $R^nF(X) = H^n(RF(X))$ is the $n$-th \emph{hypercohomology}
+of $F$ at $X$.
+\end{definition}
+
+\begin{proposition}\label{derived-categories:proposition-derived-functor-properties}
+$RF$ is an exact functor of triangulated categories, independent of the choices up to canonical isomorphism. If $F$ is left exact and
+$X \in \mathcal{A}$ is viewed as a complex in degree $0$, then $H^n(RF(X)) = R^nF(X)$ as in
+Definition~\ref{homological-algebra:definition-derived-functor}. For $X, Y \in \mathcal{A}$ and $n \in \ZZ$,
+$\Hom_{D(\mathcal{A})}(X, Y[n]) \cong R^n\Hom(X, -)(Y)$; in particular $\Hom_{D(R\text{-}\cat{Mod})}(M, N[n]) \cong \Ext^n_R(M, N)$ for
+$R$-modules $M$, $N$.
+\end{proposition}
+
+\begin{proof}
+Independence of the choices follows from uniqueness of $I_X$ up to unique isomorphism in $K(\mathcal{A})$
+(Corollary~\ref{derived-categories:corollary-hom-injectives}). For exactness, a distinguished triangle of $D^+(\mathcal{A})$ is isomorphic to one
+of the form $X \xrightarrow{g} Y \to \mathrm{Cone}(g) \to X[1]$ with $g$ a morphism of bounded below complexes. By
+Corollary~\ref{derived-categories:corollary-hom-injectives} there is $g_I \colon I_X \to I_Y$ with $g_I\iota_X = \iota_Y g$ in $K(\mathcal{A})$, where
+$\iota$ denotes the resolutions, and (TR3) in $K(\mathcal{A})$ gives a morphism of triangles $(\iota_X, \iota_Y, w)$ from the triangle of $g$ to that of
+$g_I$. By Proposition~\ref{derived-categories:proposition-cohomological}, the five lemma (Lemma~\ref{homological-algebra:lemma-five}) shows
+that $w$ is a quasi-isomorphism. So the triangle is isomorphic in $D(\mathcal{A})$ to $I_X \to I_Y \to \mathrm{Cone}(g_I) \to I_X[1]$, whose vertices are
+bounded below complexes of injectives, and $RF$ sends it to $F(I_X) \to F(I_Y) \to F(\mathrm{Cone}(g_I)) \to F(I_X)[1]$. Since $F$ is additive and applied
+termwise, $F(\mathrm{Cone}(g_I)) = \mathrm{Cone}(F(g_I))$ with the corresponding maps, so this triangle is distinguished.
+
+For $X \in \mathcal{A}$, an injective resolution is a quasi-isomorphism $X \to I$, so $H^n(RF(X)) = H^n(F(I)) = R^nF(X)$. Finally
+$\Hom_D(X, Y[n]) = \Hom_K(X, I_Y[n])$ by Corollary~\ref{derived-categories:corollary-hom-injectives}. A morphism of complexes $X \to I_Y[n]$ is a
+morphism $\varphi \colon X \to I_Y^n$ with $d\varphi = 0$, that is, an element of $\ker(\Hom(X, I_Y^n) \to \Hom(X, I_Y^{n+1}))$, and it is homotopic to
+zero if and only if $\varphi = dh$ for some $h \colon X \to I_Y^{n-1}$. So $\Hom_K(X, I_Y[n]) = H^n(\Hom(X, I_Y)) = R^n\Hom(X, -)(Y)$. For modules this
+is $\Ext^n_R(M, N)$ by Definition~\ref{homological-algebra:definition-ext-tor}, as $R\text{-}\cat{Mod}$ has enough injectives
+(Theorem~\ref{homological-algebra:theorem-enough-injectives}).
+\end{proof}
+
+\begin{lemma}\label{derived-categories:lemma-acyclic-complexes}
+Let $\mathcal{B}$ have enough injectives, $G \colon \mathcal{B} \to \mathcal{C}$ be left exact, and $Y$ a bounded below acyclic complex of
+$G$-acyclic objects (Proposition~\ref{homological-algebra:proposition-acyclic-resolutions}). Then $G(Y)$ is acyclic.
+Consequently, if $Y$ is any bounded below complex of $G$-acyclic objects, then $RG(Y) \cong G(Y)$ in $D^+(\mathcal{C})$.
+\end{lemma}
+
+\begin{proof}
+Let $Z^n = \ker(Y^n \to Y^{n+1})$. Acyclicity gives short exact sequences $0 \to Z^n \to Y^n \to Z^{n+1} \to 0$, and $Z^n = 0$ for $n \ll 0$. By induction
+and the long exact sequence of Theorem~\ref{homological-algebra:theorem-derived-functors}, all $Z^n$ are $G$-acyclic, so $G$ preserves the
+exactness of these sequences ($R^1G(Z^n) = 0$). Since $G(Z^{n+1}) \to G(Y^{n+1})$ is a monomorphism, the kernel of $G(Y^n) \to G(Y^{n+1})$ is
+$G(Z^n)$, which is the image of $G(Y^{n-1}) \to G(Z^n) \to G(Y^n)$; so $G(Y)$ is acyclic. For the second statement, let $Y \to I$ be a quasi-isomorphism to a complex of
+injectives; its cone is a bounded below acyclic complex (Proposition~\ref{homological-algebra:proposition-cone}) of $G$-acyclic objects
+(termwise $Y^{n+1} \oplus I^n$, and $R^kG$ is additive). By the first statement $G(\mathrm{Cone}) = \mathrm{Cone}(G(Y) \to G(I))$ is acyclic, so
+$G(Y) \to G(I) = RG(Y)$ is a quasi-isomorphism.
+\end{proof}
+
+\begin{theorem}\label{derived-categories:theorem-composition}
+Let $F \colon \mathcal{A} \to \mathcal{B}$ and $G \colon \mathcal{B} \to \mathcal{C}$ be left exact, with $\mathcal{A}$ and $\mathcal{B}$ having enough injectives,
+and suppose $F$ sends injectives to $G$-acyclic objects. Then $R(G \circ F) \cong RG \circ RF$.
+\end{theorem}
+
+\begin{proof}
+For $X \in D^+(\mathcal{A})$ with resolution $X \to I_X$, $RF(X) = F(I_X)$ is a bounded below complex of $G$-acyclic objects, so
+$RG(RF(X)) \cong G(F(I_X)) = R(GF)(X)$ by Lemma~\ref{derived-categories:lemma-acyclic-complexes}.
+\end{proof}
+
+\begin{proposition}[Hypercohomology spectral sequences]\label{derived-categories:proposition-hypercohomology}
+Let $F$ be left exact, $\mathcal{A}$ with enough injectives, and $X$ a complex with $X^n = 0$ for $n < 0$. There are convergent first-quadrant
+spectral sequences
+\[
+{}'E_1^{p,q} = R^qF(X^p) \Rightarrow R^{p+q}F(X), \qquad {}''E_2^{p,q} = R^pF(H^q(X)) \Rightarrow R^{p+q}F(X).
+\]
+\end{proposition}
+
+\begin{proof}
+Let $J$ be a Cartan--Eilenberg resolution of $X$; by the proof of Proposition~\ref{derived-categories:proposition-resolutions-complexes},
+$RF(X) = F(\mathrm{Tot}(J)) = \mathrm{Tot}(F(J))$. Filtering by columns as in the proof of Theorem~\ref{spectral-sequences:theorem-double-complex},
+${}'E_1^{p,q} = H^q_v(F(J^{p,\bullet})) = R^qF(X^p)$, since $J^{p,\bullet}$ is an injective resolution of $X^p$. Filtering by rows, the rows of $J$ are split
+(second filtration in the proof of Theorem~\ref{spectral-sequences:theorem-grothendieck}), so $H^q_h(F(J)) = F(H^q_h(J))$, and $H^q_h(J)^{\bullet}$ is
+an injective resolution of $H^q(X)$; hence ${}''E_2^{p,q} = H^p(F(H^q_h(J))) = R^pF(H^q(X))$. Convergence is
+Theorem~\ref{spectral-sequences:theorem-double-complex}.
+\end{proof}
+
+\section{$t$-structures}\label{derived-categories:section-t-structures}
+
+\begin{definition}\label{derived-categories:definition-truncation}
+For a complex $X$ and $n \in \ZZ$ the \emph{truncations} are
+\[
+\tau_{\leq n}X = (\cdots \to X^{n-1} \to Z^n(X) \to 0 \to \cdots), \qquad
+\tau_{\geq n}X = (\cdots \to 0 \to X^n/B^n(X) \to X^{n+1} \to \cdots).
+\]
+\end{definition}
+
+\begin{proposition}\label{derived-categories:proposition-truncation}
+There are natural morphisms $\tau_{\leq n}X \to X \to \tau_{\geq n}X$, and $H^k(\tau_{\leq n}X) = H^k(X)$ for $k \leq n$ and $0$ otherwise, while
+$H^k(\tau_{\geq n}X) = H^k(X)$ for $k \geq n$ and $0$ otherwise. There is a distinguished triangle
+$\tau_{\leq n}X \to X \to \tau_{\geq n+1}X \to (\tau_{\leq n}X)[1]$ in $D(\mathcal{A})$.
+\end{proposition}
+
+\begin{proof}
+The cohomology computations are immediate from the definitions. The morphism $X \to \tau_{\geq n+1}X$ is surjective with kernel the complex
+$K = (\cdots \to X^{n-1} \to X^n \to B^{n+1}(X) \to 0 \to \cdots)$, and $\tau_{\leq n}X \to K$ is a quasi-isomorphism (both have cohomology $H^k(X)$ for
+$k \leq n$ and zero above, $H^{n+1}(K) = 0$ as $X^n \to B^{n+1}$ is onto). Finally, a short exact sequence of complexes $0 \to K \xrightarrow{\iota} X \xrightarrow{\pi} Q \to 0$ gives a distinguished triangle
+$K \to X \to Q \to K[1]$ in $D(\mathcal{A})$: the map $\mathrm{Cone}(\iota) \to Q$, $(a, b) \mapsto \pi(b)$, is a surjective morphism of complexes whose kernel
+$K^{n+1} \oplus K^n$ is $\mathrm{Cone}(\id_K)$, which is contractible (proof of
+Theorem~\ref{derived-categories:theorem-homotopy-triangulated}); by the long exact sequence
+(Theorem~\ref{homological-algebra:theorem-long-exact-sequence}) it is a quasi-isomorphism, so the triangle of $\iota$ is isomorphic in
+$D(\mathcal{A})$ to $K \to X \to Q \to K[1]$. Apply this to $K \to X \to \tau_{\geq n+1}X$ and replace $K$ by $\tau_{\leq n}X$.
+\end{proof}
+
+\begin{remark}\label{derived-categories:remark-t-structures}
+The full subcategories $D^{\leq 0}$ and $D^{\geq 0}$ of complexes with cohomology in degrees $\leq 0$, respectively $\geq 0$, form the \emph{standard
+$t$-structure} on $D(\mathcal{A})$: $\Hom(D^{\leq 0}, D^{\geq 1}) = 0$, $D^{\leq 0}[1] \subseteq D^{\leq 0}$, and every object sits in a triangle as in
+Proposition~\ref{derived-categories:proposition-truncation}. Its \emph{heart} $D^{\leq 0} \cap D^{\geq 0}$ is equivalent to $\mathcal{A}$. Abstract
+$t$-structures, and in particular the perverse $t$-structure on derived categories of sheaves, were introduced in \cite{bbd}; perverse sheaves
+and M.~Saito's mixed Hodge modules are the modern setting for the Hodge theory of singular varieties.
+\end{remark}
+
+\section{Filtered complexes and strictness}\label{derived-categories:section-filtered}
+
+\begin{definition}\label{derived-categories:definition-strict}
+A \emph{filtered object} $(A, F)$ is an object with a decreasing filtration $F^pA$, \emph{finite} if $F^aA = A$ and $F^bA = 0$ for some $a, b$. A
+morphism $f \colon (A, F) \to (B, F)$ is \emph{filtered} if $f(F^pA) \subseteq F^pB$, and \emph{strict} if $f(F^pA) = f(A) \cap F^pB$ for all $p$. A
+morphism of filtered complexes is a \emph{filtered quasi-isomorphism} if it induces quasi-isomorphisms on all $\mathrm{gr}^p$.
+\end{definition}
+
+\begin{counterexample}\label{derived-categories:counterexample-not-strict}
+Filtered morphisms need not be strict, and the category of filtered vector spaces is not abelian. Let $A = B = k$ with $F^0A = A$, $F^1A = 0$ and
+$F^0B = F^1B = B$, $F^2B = 0$. The identity $A \to B$ is filtered and bijective, but not strict ($f(F^1A) = 0 \neq F^1B \cap B = k$), and it is not an
+isomorphism of filtered objects, because its inverse is not filtered. Its kernel and cokernel (with the induced filtrations) are zero, so it is a
+monomorphism and an epimorphism; by Lemma~\ref{homological-algebra:lemma-mono-epi-iso} the category is not abelian.
+\end{counterexample}
+
+\begin{proposition}[Deligne]\label{derived-categories:proposition-degeneration-strictness}
+Let $K$ be a complex with a filtration that is finite in each degree. The spectral sequence of
+Theorem~\ref{spectral-sequences:theorem-filtered-complex} degenerates at $E_1$ (that is, $d_r = 0$ for all $r \geq 1$) if and only if every
+differential $d \colon K^n \to K^{n+1}$ is strict. In this case $H^n(\mathrm{gr}^pK) \cong \mathrm{gr}^pH^n(K)$.
+\end{proposition}
+
+\begin{proof}
+We use the notation of Definition~\ref{spectral-sequences:definition-z-b}; strictness of $d$ means $F^p \cap d(K) = d(F^p)$.
+
+Suppose $d$ is strict. Let $x \in Z_r^p$ with $r \geq 1$. Then $dx \in F^{p+1} \cap d(K) = d(F^{p+1})$, so $dx = dy$ with $y \in F^{p+1}$. Since
+$dy = dx \in F^{p+r}$, $y \in Z_{r-1}^{p+1}$, so $x$ and the cocycle $x - y$ have the same class in $E_r^p$. Hence every class in $E_r^p$ is represented by
+a cocycle of $K$, and $d_r = 0$.
+
+Suppose all $d_r$, $r \geq 1$, vanish. Fix a degree $n$. We show $F^p \cap d(K^{n-1}) \subseteq d(F^pK^{n-1})$ for all $p$ by descending
+induction on $p$ (for $p$ large, $F^pK^n = 0$). Let $y = dx \in F^p$ with $x \in F^aK^{n-1}$; since the filtration is finite in degree $n - 1$, it suffices
+to treat all $a$, by descending induction on $a$. If $a \geq p$ there is nothing to show. If $a < p$, then
+$x \in Z_{p-a}^a$, and $d_{p-a}[x] = [dx] = 0$ in $E_{p-a}^p$, so $dx \in B_{p-a}^p + Z_{p-a-1}^{p+1}$: $dx = dx' + z$ with $x' \in F^{a+1}$, $dx' \in F^p$,
+and $z \in F^{p+1}$ with $z = d(x - x') \in d(K)$. By induction on $a$ (as $x' \in F^{a+1}$), $dx' \in d(F^p)$; by induction on $p$, $z \in d(F^{p+1}) \subseteq d(F^p)$. So
+$y \in d(F^p)$. The last statement follows from $E_1 = E_\infty$ and Theorem~\ref{spectral-sequences:theorem-filtered-complex}.
+\end{proof}
+
+\begin{remark}\label{derived-categories:remark-filtered-derived}
+Localising the homotopy category of filtered complexes at filtered quasi-isomorphisms gives the \emph{filtered derived category} $DF(\mathcal{A})$.
+Deligne used it to construct mixed Hodge structures on the cohomology of algebraic varieties \cite{deligne-hodge-2}; the degeneration of the
+Hodge-to-de Rham spectral sequence of a compact K\"ahler manifold (Chapter~\ref{hodge-decomposition}) is, by
+Proposition~\ref{derived-categories:proposition-degeneration-strictness}, the strictness of the de Rham differential with respect to the
+Hodge filtration.
+\end{remark}
+
+\section{Exercises}\label{derived-categories:section-exercises}
+
+\begin{exercise}\label{derived-categories:exercise-five-lemma-triangles}
+Show that in a triangulated category, if $(u, v, w)$ is a morphism of distinguished triangles and two of $u$, $v$, $w$ are isomorphisms, so is the
+third.
+\end{exercise}
+
+\begin{solution}
+Let $(u, v, w)$ be a morphism from $X \to Y \to Z \to X[1]$ to $X' \to Y' \to Z' \to X'[1]$ with $u$, $v$ isomorphisms, and let $W$ be any object.
+Applying $\Hom(W, -)$ and Proposition~\ref{derived-categories:proposition-cohomological} gives two long exact sequences of abelian groups
+connected by the maps induced by $u$, $v$, $w$, $u[1]$, $v[1]$. The five lemma (Lemma~\ref{homological-algebra:lemma-five}) shows that
+$w_* \colon \Hom(W, Z) \to \Hom(W, Z')$ is bijective for all $W$. Taking $W = Z'$ gives $s \colon Z' \to Z$ with $ws = \id$; then $w(sw) = w$, and
+injectivity of $w_*$ for $W = Z$ gives $sw = \id$. The other cases follow by rotating the triangles with (TR2).
+\end{solution}
+
+\begin{exercise}\label{derived-categories:exercise-split-complex}
+Let $k$ be a field. Show that every complex $X$ of $k$-vector spaces is isomorphic in $D(\cat{Vect}_k)$ to the complex $\bigoplus_n H^n(X)[-n]$ with
+zero differential.
+\end{exercise}
+
+\begin{solution}
+Every subspace has a complement. Choose complements $X^n = Z^n \oplus C^n$ and $Z^n = B^n \oplus H^n$, where $H^n \cong H^n(X)$. The subcomplex
+$H = \bigoplus_n H^n$ has zero differential. Choose linear maps $r^n \colon X^n \to H^n$ that are the identity on $H^n$ and vanish on $B^n \oplus C^n$. Then
+$r \colon X \to H$ is a morphism of complexes: $r(dx) = 0$ because $dx \in B^{n+1}$. It induces the identity on cohomology, so it is a
+quasi-isomorphism, hence an isomorphism in $D(\cat{Vect}_k)$.
+\end{solution}
+
+\begin{exercise}\label{derived-categories:exercise-ext-composition}
+Using Proposition~\ref{derived-categories:proposition-derived-functor-properties}, define the Yoneda product
+$\Ext^m(Y, Z) \times \Ext^n(X, Y) \to \Ext^{m+n}(X, Z)$ as composition in $D(\mathcal{A})$ and show that it is associative.
+\end{exercise}
+
+\begin{exercise}\label{derived-categories:exercise-not-abelian}
+Show that $D(\mathcal{A})$ is not abelian unless every short exact sequence in $\mathcal{A}$ splits. (Hint: a monomorphism in a triangulated category
+is split.)
+\end{exercise}
+
+\begin{solution}
+Let $f \colon X \to Y$ be a monomorphism in a triangulated category, and complete it to a triangle $Z[-1] \xrightarrow{h} X \xrightarrow{f} Y \to Z$. Then
+$fh = 0$, so $h = 0$. Applying Proposition~\ref{derived-categories:proposition-cohomological} with $\Hom(-, X)$ shows that
+$\Hom(Y, X) \to \Hom(X, X)$ is surjective (the next term maps through $h = 0$), so $f$ has a retraction. Dually, epimorphisms have sections.
+
+Suppose $D(\mathcal{A})$ is abelian and let $0 \to A \to B \xrightarrow{g} C \to 0$ be exact in $\mathcal{A}$. As in the proof of
+Proposition~\ref{derived-categories:proposition-truncation}, it gives a distinguished triangle $A \to B \xrightarrow{g} C \xrightarrow{\delta} A[1]$.
+Factor $\delta = me$ with $e \colon C \to I$ an epimorphism and $m \colon I \to A[1]$ a monomorphism. Both split, so $I$ is a direct summand of $C$ and of
+$A[1]$ in $D(\mathcal{A})$. Cohomology is additive, so $H^k(I)$ vanishes for $k \neq 0$ (as a summand of $C$) and for $k \neq -1$ (as a summand of $A[1]$).
+Hence $I$ is acyclic, $I \cong 0$ and $\delta = 0$. By Proposition~\ref{derived-categories:proposition-cohomological}, the sequence
+$\Hom(C, B) \to \Hom(C, C) \to \Hom(C, A[1])$ is exact and $\id_C \mapsto \delta = 0$, so $g\sigma = \id_C$ for some $\sigma \colon C \to B$ in
+$D(\mathcal{A})$. Applying $H^0$ gives $g \circ H^0(\sigma) = \id_C$ in $\mathcal{A}$, so the sequence splits.
+\end{solution}

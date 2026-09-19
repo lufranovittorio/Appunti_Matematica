@@ -1,0 +1,552 @@
+\chapter{Riemannian Geometry}\label{riemannian-geometry}
+\chapterstatus{complete}
+
+\section{Introduction}\label{riemannian-geometry:section-introduction}
+
+A Riemannian metric turns a manifold into a metric space, produces a canonical connection (Theorem~\ref{riemannian-geometry:theorem-levi-civita})
+and, together with an orientation, defines the Hodge star, the codifferential and the Laplacian
+(Definition~\ref{riemannian-geometry:definition-laplacian}). Harmonic forms are the kernel of that Laplacian, and the Hodge theorem
+(Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the local and global theory of geodesics: covariant derivatives along curves,
+the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
+theorems of Ambrose--Singer, de Rham and Berger; and Jacobi fields, conjugate points and the first comparison theorems. References:
+\cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{kobayashi-nomizu}, \cite{joyce-special-holonomy}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature).
+
+\noindent\textbf{Conventions.} $(M, g)$ is a Riemannian manifold of dimension $n$, and we write $\langle v, w\rangle = g(v, w)$ and $|v| = \langle v, v\rangle^{1/2}$. Curves are piecewise smooth unless stated otherwise. In local
+coordinates we use the summation convention: an index repeated once up and once down is summed over.
+
+\section{Metrics and the Levi-Civita connection}\label{riemannian-geometry:section-levi-civita}
+
+\begin{definition}\label{riemannian-geometry:definition-metric}
+A \emph{Riemannian metric} on a smooth manifold $M$ is a smooth section $g$ of $\mathrm{Sym}^2T^*M$ that is an inner product on each tangent space; $(M, g)$ is a \emph{Riemannian manifold}. The
+\emph{length} of a piecewise smooth curve is $L(\gamma) = \int_a^b|\dot\gamma(t)|\,dt$ with $|v| = g(v, v)^{1/2}$, and $d(p, q)$ is the infimum of the lengths of curves from $p$ to $q$. An \emph{isometry} is a
+diffeomorphism preserving $g$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-metric-exists}
+Every smooth manifold admits a Riemannian metric, and $d$ is a metric inducing the topology of $M$.
+\end{proposition}
+
+\begin{proof}
+Patch the Euclidean metrics of charts with a partition of unity (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}); a convex combination of inner products is an inner product. Symmetry and the
+triangle inequality for $d$ are clear, and $d(p, q) > 0$ for $p \neq q$ because in a chart around $p$ the metric is comparable to the Euclidean one on a compact neighbourhood, so curves leaving a small ball
+have length bounded below. The same comparison shows that the $d$-balls form a basis of the topology.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-metrics}
+The Euclidean metric on $\RR^n$; the induced metric on a submanifold, for instance the round metric on $S^n \subseteq \RR^{n+1}$; the hyperbolic metric $(dx^2 + dy^2)/y^2$ on the upper half plane; a
+left-invariant metric on a Lie group, obtained from any inner product on $\mathfrak{g}$, which is bi-invariant when $G$ is compact (average over Haar measure,
+Theorem~\ref{lie-groups:theorem-haar}); and the Fubini--Study metric on $\CC\PP^n$ (Chapter~\ref{kahler}).
+\end{example}
+
+\begin{proposition}\label{riemannian-geometry:proposition-quotient-metric}
+Let a discrete group $G$ act freely and properly on $M$ by isometries of $g$. Then $M/G$ carries a unique Riemannian metric for which $\pi \colon M \to M/G$ is a local isometry.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{smooth-manifolds:theorem-smooth-quotient}, $\pi$ is a local diffeomorphism. For $x \in M$ define the metric on $T_{\pi(x)}(M/G)$ by transporting $g_x$ through $d_x\pi$. This does not depend on the choice of $x$
+in its orbit: $\pi \circ h = \pi$ for $h \in G$, so $d_{hx}\pi \circ d_xh = d_x\pi$, and $d_xh$ is an isometry $T_xM \to T_{hx}M$. On an open set $\pi(U)$ over which $\pi$ has the smooth inverse $(\pi|_U)^{-1}$ the metric is the pullback
+of $g$ by this inverse, hence smooth. Uniqueness is clear.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-quotient-metrics}
+The \emph{flat torus} $\RR^n/\ZZ^n$ and the \emph{flat Klein bottle} $\RR^2/G$ (Example~\ref{topological-manifolds:example-covering-actions}), since translations and the maps $(x, y) \mapsto (x + \frac12, -y)$ are Euclidean isometries; and
+the round metric on $\RR\PP^n = S^n/\{\pm1\}$, as $-\mathrm{id}$ is an isometry of $S^n$.
+\end{example}
+
+\begin{theorem}[Fundamental theorem of Riemannian geometry]\label{riemannian-geometry:theorem-levi-civita}
+On a Riemannian manifold there is a unique connection $\nabla$ on $TM$ that is metric ($Xg(Y, Z) = g(\nabla_XY, Z) + g(Y, \nabla_XZ)$) and torsion-free ($\nabla_XY - \nabla_YX = [X, Y]$): the
+\emph{Levi-Civita connection}. It is determined by the Koszul formula
+\[
+2g(\nabla_XY, Z) = Xg(Y, Z) + Yg(X, Z) - Zg(X, Y) + g([X, Y], Z) - g([X, Z], Y) - g([Y, Z], X).
+\]
+In coordinates, $\nabla_{\partial_i}\partial_j = \sum_k\Gamma^k_{ij}\partial_k$ with $\Gamma^k_{ij} = \frac12\sum_lg^{kl}(\partial_ig_{jl} + \partial_jg_{il} - \partial_lg_{ij})$.
+\end{theorem}
+
+\begin{proof}
+If $\nabla$ is metric and torsion-free, expanding the three terms $Xg(Y, Z)$, $Yg(X, Z)$, $-Zg(X, Y)$ with the metric property and using torsion-freeness to replace $\nabla_XY - \nabla_YX$ by $[X, Y]$ gives the
+Koszul formula; since $g$ is nondegenerate, the formula determines $\nabla_XY$, which proves uniqueness. Conversely, define $\nabla_XY$ by the Koszul formula. The right-hand side is $\RR$-bilinear,
+$C^\infty$-linear in $X$ and $Z$ and satisfies the Leibniz rule in $Y$ (the terms with derivatives of $f$ in $Y \mapsto fY$ combine to $2(Xf)g(Y, Z)$), so $\nabla$ is a connection; exchanging $X$ and $Y$ shows it
+is torsion-free, and adding the formulas for $g(\nabla_XY, Z)$ and $g(Y, \nabla_XZ)$ gives $Xg(Y, Z)$. The coordinate formula follows by taking $X, Y, Z$ coordinate fields, whose brackets vanish.
+\end{proof}
+
+In coordinates, torsion-freeness says $\Gamma^k_{ij} = \Gamma^k_{ji}$, and the metric property for coordinate fields says
+\[
+\partial_ig_{jk} = \Gamma^l_{ij}g_{lk} + \Gamma^l_{ik}g_{jl}. \tag{$*$}
+\]
+
+\begin{definition}\label{riemannian-geometry:definition-geodesic}
+A \emph{geodesic} is a curve with $\nabla_{\dot\gamma}\dot\gamma = 0$; in coordinates, $\ddot\gamma^k + \sum_{i,j}\Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$. By
+Theorem~\ref{real-analysis:theorem-picard-lindelof} there is a unique maximal geodesic with given initial position and velocity, depending smoothly on them; the \emph{exponential map}
+$\exp_p(v) = \gamma_v(1)$ is defined on a neighbourhood of $0 \in T_pM$.
+\end{definition}
+
+\section{Covariant derivatives along curves}\label{riemannian-geometry:section-along-curves}
+
+A \emph{vector field along} a smooth curve $\gamma \colon I \to M$ is a smooth map $V \colon I \to TM$ with $V(t) \in T_{\gamma(t)}M$; for instance the velocity $\dot\gamma$, or $Y \circ \gamma$ for a vector field $Y$ on $M$.
+
+\begin{proposition}\label{riemannian-geometry:proposition-covariant-derivative-curves}
+There is a unique operator $D_t$ sending vector fields along $\gamma$ to vector fields along $\gamma$ such that $D_t$ is $\RR$-linear, $D_t(fV) = \dot fV + fD_tV$ for smooth $f \colon I \to \RR$, and
+$D_t(Y \circ \gamma) = \nabla_{\dot\gamma}Y$ for every vector field $Y$ defined near $\gamma(I)$. In coordinates, for $V = V^k\partial_k$,
+\[
+D_tV = \big(\dot V^k + \Gamma^k_{ij}(\gamma)\dot\gamma^iV^j\big)\partial_k.
+\]
+Moreover $\frac{d}{dt}\langle V, W\rangle = \langle D_tV, W\rangle + \langle V, D_tW\rangle$. A vector field along $\gamma$ is parallel in the sense of Definition~\ref{connections:definition-parallel} if and only if $D_tV = 0$.
+\end{proposition}
+
+\begin{proof}
+In a chart, $V = V^k(\partial_k \circ \gamma)$, and the axioms force $D_tV = \dot V^k\partial_k + V^k\nabla_{\dot\gamma}\partial_k = (\dot V^k + \dot\gamma^iV^j\Gamma^k_{ij})\partial_k$, since $\nabla_{\dot\gamma}\partial_j = \dot\gamma^i\Gamma^k_{ij}\partial_k$. This
+proves uniqueness. Conversely, the formula satisfies the axioms in each chart (for $Y = Y^k\partial_k$, $\frac{d}{dt}Y^k(\gamma) = \dot\gamma^i\partial_iY^k$ matches the coordinate expression of $\nabla_{\dot\gamma}Y$), and by uniqueness the
+local definitions agree on overlaps. For the metric property, differentiate $\langle V, W\rangle = g_{jk}(\gamma)V^jW^k$: the derivative of $g_{jk}(\gamma)$ is $\dot\gamma^i\partial_ig_{jk}$, and by $(*)$ the result equals
+$\langle D_tV, W\rangle + \langle V, D_tW\rangle$. The last statement is the local expression of $\nabla_{\dot\gamma}s = 0$ in the coordinate frame.
+\end{proof}
+
+\begin{lemma}[Symmetry lemma]\label{riemannian-geometry:lemma-symmetry}
+Let $f \colon (-\varepsilon, \varepsilon) \times (a, b) \to M$ be smooth, and write $D_s$, $D_t$ for the covariant derivatives along the curves $s \mapsto f(s, t)$ and $t \mapsto f(s, t)$. Then $D_s\partial_tf = D_t\partial_sf$.
+\end{lemma}
+
+\begin{proof}
+In coordinates both sides equal $(\partial_s\partial_tf^k + \Gamma^k_{ij}\partial_sf^i\partial_tf^j)\partial_k$, by the symmetry $\Gamma^k_{ij} = \Gamma^k_{ji}$.
+\end{proof}
+
+\begin{proposition}\label{riemannian-geometry:proposition-geodesic-speed}
+A curve $\gamma$ is a geodesic (Definition~\ref{riemannian-geometry:definition-geodesic}) if and only if $D_t\dot\gamma = 0$. Geodesics have constant speed, and parallel transport along any curve is a linear isometry.
+\end{proposition}
+
+\begin{proof}
+The coordinate expression of $D_t\dot\gamma$ is the geodesic equation. If $D_t\dot\gamma = 0$ then $\frac{d}{dt}|\dot\gamma|^2 = 2\langle D_t\dot\gamma, \dot\gamma\rangle = 0$. If $V$ and $W$ are parallel, $\langle V, W\rangle$ is constant by
+Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}.
+\end{proof}
+
+\section{The exponential map and minimising geodesics}\label{riemannian-geometry:section-exponential}
+
+Geodesics are the projections to $M$ of the integral curves of a vector field on $TM$, the \emph{geodesic spray}, which in the coordinates $(x, v)$ of $TM$ is $v^k\partial_{x^k} - \Gamma^k_{ij}(x)v^iv^j\partial_{v^k}$. By
+Theorem~\ref{smooth-manifolds:theorem-flow}, the set $\mathcal{E} \subseteq TM$ of vectors $v$ for which $\gamma_v$ is defined on $[0, 1]$ is open, and $\exp \colon \mathcal{E} \to M$ is smooth. Since $\gamma_{cv}(t) = \gamma_v(ct)$, each
+$\mathcal{E}_p = \mathcal{E} \cap T_pM$ is star-shaped about $0$, and $\exp_p(tv) = \gamma_v(t)$.
+
+\begin{proposition}\label{riemannian-geometry:proposition-exponential}
+$d_0\exp_p = \id$, so $\exp_p$ is a diffeomorphism from a neighbourhood of $0$ onto a neighbourhood of $p$, giving \emph{normal coordinates} in which $g_{ij}(p) = \delta_{ij}$ and $\Gamma^k_{ij}(p) = 0$.
+Geodesics through $p$ are the images of lines through $0$.
+\end{proposition}
+
+\begin{proof}
+Since $\exp_p(tv) = \gamma_v(t)$, the differential of $\exp_p$ at $0$ sends $v$ to $\dot\gamma_v(0) = v$, and the inverse function theorem applies. In normal coordinates for an orthonormal basis of $T_pM$, $g_{ij}(p) = \delta_{ij}$, and the lines
+$t \mapsto tv$ are geodesics, so the geodesic equation at $t = 0$ gives $\Gamma^k_{ij}(p)v^iv^j = 0$ for all $v$; as $\Gamma^k_{ij}$ is symmetric in $i$, $j$, it vanishes at $p$.
+\end{proof}
+
+\begin{theorem}[Gauss lemma]\label{riemannian-geometry:theorem-gauss-lemma}
+Let $v \in \mathcal{E}_p$ and $w \in T_pM$, and identify $T_v(T_pM)$ with $T_pM$. Then $\langle d_v\exp_p(v), d_v\exp_p(w)\rangle = \langle v, w\rangle$.
+\end{theorem}
+
+\begin{proof}
+Since $\mathcal{E}_p$ is open and star-shaped, $f(s, t) = \exp_p(t(v + sw))$ is defined and smooth for $|s|$ small and $t \in [0, 1]$. Let $T = \partial_tf$ and $S = \partial_sf$. For fixed $s$, $t \mapsto f(s, t)$ is the geodesic with initial
+velocity $v + sw$, so $D_tT = 0$ and $|T|^2 = |v + sw|^2$ for all $t$. Using Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves} and Lemma~\ref{riemannian-geometry:lemma-symmetry},
+\[
+\partial_t\langle S, T\rangle = \langle D_tS, T\rangle + \langle S, D_tT\rangle = \langle D_sT, T\rangle = \tfrac12\partial_s|T|^2 = \tfrac12\partial_s|v + sw|^2 = \langle v + sw, w\rangle.
+\]
+At $s = 0$ this is $\langle v, w\rangle$. Also $f(s, 0) = p$, so $S(s, 0) = 0$. Integrating, $\langle S, T\rangle(0, 1) = \langle v, w\rangle$. Finally $T(0, 1) = \frac{d}{dt}\exp_p(tv)|_{t=1} = d_v\exp_p(v)$ and
+$S(0, 1) = \frac{d}{ds}\exp_p(v + sw)|_{s=0} = d_v\exp_p(w)$.
+\end{proof}
+
+\begin{theorem}[Geodesics are locally minimising]\label{riemannian-geometry:theorem-local-minimisation}
+Let $\varepsilon > 0$ be such that $\exp_p$ is a diffeomorphism from $B(0, \varepsilon) \subseteq T_pM$ onto an open set $U$ (a \emph{normal ball}).
+\begin{enumerate}
+\item For $|v| < \varepsilon$, every curve from $p$ to $\exp_p(v)$ has length $\geq |v|$, with equality if and only if it is a monotone reparametrisation of the radial geodesic $t \mapsto \exp_p(tv)$, $t \in [0, 1]$.
+\item $d(p, \exp_p(v)) = |v|$ for $|v| < \varepsilon$, and $\exp_p(B(0, r))$ is the metric ball $\{x : d(p, x) < r\}$ for $0 < r \leq \varepsilon$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For $x \in U$ let $\rho(x) = |\exp_p^{-1}(x)|$, a continuous function, smooth on $U \setminus \{p\}$. Let $c \colon [a, b] \to U \setminus \{p\}$ be a piecewise smooth curve and write $c(t) = \exp_p(\rho(t)u(t))$ with $\rho(t) = \rho(c(t)) > 0$ and $|u(t)| = 1$.
+Then $\dot c = d\exp_p(\dot\rho u + \rho\dot u)$ at the point $\rho u$, with $\langle u, \dot u\rangle = 0$. By the Gauss lemma, $d\exp_p(u)$ has length $1$ and is orthogonal to $d\exp_p(\rho\dot u)$ (both at $\rho u$), so
+\[
+|\dot c|^2 = \dot\rho^2 + |d\exp_p(\rho\dot u)|^2 \geq \dot\rho^2, \qquad\text{hence}\qquad L(c) \geq \int_a^b|\dot\rho|\,dt \geq \rho(b) - \rho(a). \tag{$**$}
+\]
+Now let $c \colon [a, b] \to M$ go from $p$ to $q = \exp_p(v)$, $0 < |v| = r < \varepsilon$. Suppose first that $c$ stays in $U$. Let $a'$ be the last time with $c(a') = p$; applying $(**)$ on $[a'', b]$ for $a'' \downarrow a'$ gives $L(c) \geq r$. If
+$L(c) = r$, then $c$ is constant on $[a, a']$, and on $(a', b]$ equality holds in $(**)$: $\dot\rho \geq 0$ and $d\exp_p(\rho\dot u) = 0$, so $\dot u = 0$ ($d\exp_p$ being injective on $B(0, \varepsilon)$), $u$ is constant and $c$ is a monotone
+reparametrisation of the radial geodesic. Conversely such reparametrisations have length $r$. If $c$ leaves $U$, choose $r < r' < \varepsilon$. The set $K = \exp_p(\bar B(0, r'))$ is compact, hence closed, and contains $p$; so $c$
+leaves $K$, and by continuity $\rho(c(t))$ takes the value $r'$ at some first time $t_2$ with $c([a, t_2]) \subseteq K$. The first case applied to $c|_{[a, t_2]}$ gives $L(c) \geq r' > r$. This proves (1).
+
+For (2), the radial geodesic has length $|v|$, so $d(p, \exp_p(v)) = |v|$ by (1). The ball $\exp_p(B(0, r))$ lies in the metric ball of radius $r$. Conversely, if $d(p, x) < r$, choose a curve $c$ from $p$ to $x$ with $L(c) < r' < r$; if
+$x \notin \exp_p(B(0, r'))$, the argument above shows $L(c) \geq r'$, a contradiction.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-convex}
+Every point also has a \emph{geodesically convex} neighbourhood, in which any two points are joined by a unique minimising geodesic, contained in the neighbourhood \cite[Chapter 3]{do-carmo-riemannian}.
+\end{remark}
+
+\begin{lemma}[Uniformly normal neighbourhoods]\label{riemannian-geometry:lemma-uniformly-normal}
+Every $q \in M$ has a neighbourhood $W$ and a $\delta > 0$ such that for every $x \in W$, $\exp_x$ is defined on $B(0, \delta) \subseteq T_xM$, is a diffeomorphism from it onto an open set, and $\exp_x(B(0, \delta)) \supseteq W$.
+\end{lemma}
+
+\begin{proof}
+Consider $E \colon \mathcal{E} \to M \times M$, $E(v) = (\pi(v), \exp(v))$. In coordinates $(x, v)$ near $0_q \in TM$, its differential at $0_q$ is $\begin{pmatrix}I & 0\\ I & I\end{pmatrix}$, since $\exp(0_x) = x$ and $d_0\exp_x = \mathrm{id}$; so by the
+inverse function theorem $E$ is a diffeomorphism from a neighbourhood $O$ of $0_q$ onto a neighbourhood of $(q, q)$. Shrinking, we may take $O = \{v \in T_xM : x \in W', |v| < \delta\}$ for a neighbourhood $W'$ of $q$ and some $\delta > 0$
+(the norm is continuous on $TM$), and choose a neighbourhood $W \subseteq W'$ of $q$ with $W \times W \subseteq E(O)$. For $x \in W$, $\exp_x$ is injective on $B(0, \delta)$ with invertible differential, hence a diffeomorphism onto an open
+set; and for $y \in W$, $(x, y) = E(v)$ with $v \in O$, that is $y = \exp_x(v)$ with $|v| < \delta$.
+\end{proof}
+
+\begin{lemma}\label{riemannian-geometry:lemma-minimising-geodesic}
+Let $c \colon [a, b] \to M$ be a piecewise smooth curve of constant speed with $L(c) = d(c(a), c(b))$. Then $c$ is a geodesic; in particular it is smooth.
+\end{lemma}
+
+\begin{proof}
+Every subarc of $c$ is also minimising, since otherwise replacing it by a shorter curve would shorten $c$. Let $t_0 \in [a, b]$, and take $W$ and $\delta$ for $q = c(t_0)$ as in Lemma~\ref{riemannian-geometry:lemma-uniformly-normal}. For
+$t_1 < t_0 < t_2$ close to $t_0$ (or $t_1 = t_0$ at the endpoints), $c([t_1, t_2]) \subseteq W$ and $L(c|_{[t_1, t_2]}) < \delta$. Then $c|_{[t_1, t_2]}$ is a minimising curve from $x = c(t_1)$ to a point of the normal ball $\exp_x(B(0, \delta))$, so by
+Theorem~\ref{riemannian-geometry:theorem-local-minimisation}(1) it is a monotone reparametrisation of a radial geodesic from $x$, and having constant speed, it is that geodesic, affinely reparametrised. So $c$ is a geodesic near every $t_0$.
+\end{proof}
+
+\begin{theorem}[Hopf--Rinow]\label{riemannian-geometry:theorem-hopf-rinow}
+For a connected Riemannian manifold $(M, g)$ the following are equivalent: $(M, d)$ is a complete metric space; the geodesics are defined for all time; closed bounded subsets are compact. In that case any
+two points are joined by a minimising geodesic. In particular compact Riemannian manifolds are geodesically complete.
+\end{theorem}
+
+\begin{proof}
+We show more: the three conditions are also equivalent to (d) \emph{$\exp_p$ is defined on all of $T_pM$ for some $p$}; and (d) implies that every $q$ is joined to $p$ by a minimising geodesic.
+
+\emph{Step 1: (d) gives minimising geodesics from $p$.} Let $q \neq p$, $r = d(p, q)$, and choose $0 < \delta < r$ with $\exp_p$ a diffeomorphism on $B(0, \delta')$ for some $\delta' > \delta$. The \emph{geodesic sphere}
+$S = \exp_p(\{|w| = \delta\})$ is compact; let $x_0 = \exp_p(\delta u) \in S$, $|u| = 1$, minimise $d(\cdot, q)$ on $S$. Every curve from $p$ to $q$ meets $S$ (by the argument in the proof of
+Theorem~\ref{riemannian-geometry:theorem-local-minimisation}), and points of $S$ have distance $\delta$ from $p$, so $r = \delta + d(x_0, q)$. Let $\gamma(t) = \exp_p(tu)$, defined for all $t$ by (d), and let
+$T = \{t \in [\delta, r] : d(\gamma(t), q) = r - t\}$, a closed set containing $\delta$. Let $t_0 = \max T$ and suppose $t_0 < r$. Apply the same construction at $\gamma(t_0)$: for small $\eta > 0$ there is $x_1$ on the geodesic sphere of
+radius $\eta$ about $\gamma(t_0)$ with $d(\gamma(t_0), q) = \eta + d(x_1, q)$, so $d(x_1, q) = r - t_0 - \eta$ and $d(p, x_1) \geq d(p, q) - d(x_1, q) = t_0 + \eta$. The curve going along $\gamma$ from $p$ to $\gamma(t_0)$ and then along the
+radial geodesic to $x_1$ has length $t_0 + \eta$, so it is minimising, and by Lemma~\ref{riemannian-geometry:lemma-minimising-geodesic} (after parametrising by arc length) it is a geodesic, hence equal to $\gamma$ on $[0, t_0 + \eta]$.
+So $x_1 = \gamma(t_0 + \eta)$ and $t_0 + \eta \in T$, a contradiction. Hence $t_0 = r$, $\gamma(r) = q$ and $L(\gamma|_{[0, r]}) = r$.
+
+\emph{Step 2: the equivalences.} If closed bounded sets are compact, a Cauchy sequence, being bounded, has a convergent subsequence, hence converges; so $M$ is complete. If $M$ is complete, let $\gamma \colon [0, b) \to M$ be a maximal unit-speed
+geodesic with $b < \infty$. For $t_k \uparrow b$, $d(\gamma(t_k), \gamma(t_l)) \leq |t_k - t_l|$, so $(\gamma(t_k))$ is Cauchy and converges to some $q$. Take $W$, $\delta$ for $q$ as in Lemma~\ref{riemannian-geometry:lemma-uniformly-normal}; then
+geodesics with initial point in $W$ and speed $1$ are defined on $(-\delta, \delta)$. Choose $t_k > b - \delta$ with $\gamma(t_k) \in W$; the geodesic with initial velocity $\dot\gamma(t_k)$ is defined up to time $t_k + \delta > b$ and extends $\gamma$ by
+uniqueness, a contradiction. So geodesics are defined for all time, which implies (d). Finally, assume (d) and let $K$ be closed and bounded, say $K \subseteq \{x : d(p, x) \leq R\}$. By Step 1, this ball is contained in
+$\exp_p(\bar B(0, R))$, which is compact; so $K$ is compact. The last statements follow from Step 1 applied at every point, and from the compactness of closed bounded subsets of a compact space.
+\end{proof}
+
+\begin{counterexample}\label{riemannian-geometry:counterexample-incomplete}
+Completeness is needed. In $M = \RR^2 \setminus \{0\}$ with the Euclidean metric, the geodesic $t \mapsto (1 - t, 0)$ is not defined at $t = 1$, the Cauchy sequence $(1/k, 0)$ has no limit, and the set $\{x \in M : |x| \leq 1\}$ is closed in $M$
+and bounded but not compact. The points $(1, 0)$ and $(-1, 0)$ have distance $2$, the infimum of the lengths of curves avoiding the origin, but no
+curve of length $2$ joins them in $M$, since in $\RR^2$ the only such curve is the segment through the origin.
+\end{counterexample}
+
+\begin{remark}\label{riemannian-geometry:remark-non-unique-geodesics}
+Minimising geodesics need not be unique: on the round sphere every half great circle joins two antipodal points, and has length $\pi$. And geodesics stop minimising: a great circle arc longer than $\pi$ is a geodesic
+but not the shortest curve between its endpoints. Both phenomena are explained by conjugate points (Section~\ref{riemannian-geometry:section-curvature}).
+\end{remark}
+
+\section{Parallel transport and holonomy}\label{riemannian-geometry:section-holonomy}
+
+The \emph{holonomy group} $\mathrm{Hol}_p(g) \subseteq \GL(T_pM)$ of $(M, g)$ at $p$ is the holonomy group of the Levi-Civita connection (Definition~\ref{connections:definition-holonomy}), for piecewise smooth loops at $p$. The
+\emph{restricted holonomy group} $\mathrm{Hol}^0_p(g)$ is the subgroup of transports along null-homotopic loops.
+
+\begin{proposition}\label{riemannian-geometry:proposition-holonomy-basic}
+Let $(M, g)$ be connected and $p, q \in M$.
+\begin{enumerate}
+\item $\mathrm{Hol}_p(g) \subseteq \mathrm{O}(T_pM, g_p)$.
+\item For a curve $\sigma$ from $p$ to $q$, $\mathrm{Hol}_q(g) = P_\sigma\mathrm{Hol}_p(g)P_\sigma^{-1}$; so the holonomy groups at different points are conjugate.
+\item $\mathrm{Hol}^0_p(g)$ is a normal subgroup of $\mathrm{Hol}_p(g)$, and $[\gamma] \mapsto P_\gamma^{-1}\mathrm{Hol}^0_p(g)$ is a surjective homomorphism $\pi_1(M, p) \to \mathrm{Hol}_p(g)/\mathrm{Hol}^0_p(g)$. In particular
+$\mathrm{Hol}_p = \mathrm{Hol}^0_p$ if $M$ is simply connected.
+\item $M$ is orientable if and only if $\mathrm{Hol}_p(g) \subseteq \mathrm{SO}(T_pM)$.
+\item $\mathrm{Hol}^0_p(g)$ is trivial if and only if $g$ is flat, $R = 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is Proposition~\ref{riemannian-geometry:proposition-geodesic-speed}. (2) Loops $\gamma$ at $p$ correspond bijectively to loops $\bar\sigma * \gamma * \sigma$ at $q$, with transport $P_\sigma P_\gamma P_\sigma^{-1}$
+(Proposition~\ref{connections:proposition-parallel-transport}). (3) If $\beta$ is null-homotopic and $\alpha$ is a loop at $p$, then $\bar\alpha * \beta * \alpha$ is null-homotopic, with transport $P_\alpha P_\beta P_\alpha^{-1}$; so
+$\mathrm{Hol}^0_p$ is normal. If $\gamma \simeq \gamma'$, then $\bar\gamma * \gamma'$ is null-homotopic and $P_{\gamma'}P_\gamma^{-1} \in \mathrm{Hol}^0_p$, so the map is well defined on homotopy classes, and it is multiplicative since
+$P_{\gamma * \delta}^{-1} = P_\gamma^{-1}P_\delta^{-1}$. Surjectivity is clear. (4) If $M$ is oriented, a parallel frame along a curve is continuous, so the set of times at which it is positively oriented is open and closed; hence parallel
+transport preserves orientations. Conversely, if $\mathrm{Hol}_p \subseteq \mathrm{SO}(T_pM)$, fix an orientation of $T_pM$ and transport it along curves from $p$; by (2) the result does not depend on the curve, and near each point the
+transported frames along radial geodesics form a smooth local frame, so the orientation is continuous. (5) By Theorem~\ref{connections:theorem-flat-local-systems}, $R = 0$ if and only if parallel transport depends only on the
+homotopy class of the path with fixed endpoints, which is equivalent to the triviality of transport around null-homotopic loops.
+\end{proof}
+
+\begin{theorem}[Holonomy principle]\label{riemannian-geometry:theorem-holonomy-principle}
+Let $(M, g)$ be connected and let $E$ be a tensor bundle $T^{\otimes a} \otimes (T^*)^{\otimes b}$ of $M$ with the connection induced by $\nabla$. A tensor $\tau_p \in E_p$ is the value at $p$ of a parallel section of $E$ if and only if it is
+invariant under $\mathrm{Hol}_p(g)$, acting on $E_p$ through its action on $T_pM$; the parallel section is then unique. Similarly, a subspace $V \subseteq T_pM$ is the fibre at $p$ of a parallel subbundle of $TM$ if and only if it is
+$\mathrm{Hol}_p(g)$-invariant.
+\end{theorem}
+
+\begin{proof}
+Parallel transport on $E$ is induced by that on $TM$. If $\tau$ is parallel, then along every loop $\gamma$ at $p$ the section $\tau \circ \gamma$ is parallel, so $P_\gamma\tau_p = \tau_p$. Conversely, if $\tau_p$ is invariant, define $\tau_q = P_\sigma\tau_p$
+for any curve $\sigma$ from $p$ to $q$. If $\sigma'$ is another such curve, $P_{\sigma'}^{-1}P_\sigma$ is the transport along the loop $\sigma * \bar\sigma'$ at $p$, which lies in $\mathrm{Hol}_p$ and fixes $\tau_p$; so
+$\tau_q$ is well defined. Near a point $q_0$, $\tau_q$ is the transport of $\tau_{q_0}$ along the radial geodesic from $q_0$ to $q$ in a normal ball, which depends smoothly on $q$ by smooth dependence of solutions of
+differential equations; so $\tau$ is smooth. For every curve $c$, $\tau \circ c$ is the transport of $\tau_{c(0)}$ along $c$, hence parallel; so $\nabla\tau = 0$. Uniqueness holds because a parallel section is determined by its value at one
+point of a connected manifold. The statement for subbundles is proved in the same way.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-holonomy}
+\begin{enumerate}
+\item On $\RR^n$ the Christoffel symbols vanish in the standard coordinates, so parallel transport is the identity and $\mathrm{Hol} = \{1\}$; the same holds for the flat torus, since parallel transport in the quotient is induced from
+$\RR^n$ and translations have trivial differential.
+\item For the flat Klein bottle $\RR^2/G$ (Example~\ref{riemannian-geometry:example-quotient-metrics}), a loop at $\pi(\tilde x)$ lifts to a curve from $\tilde x$ to $h\tilde x$ for some $h \in G$; transport in $\RR^2$ is the identity, and
+$d\pi_{h\tilde x} = d\pi_{\tilde x} \circ (dh)^{-1}$, so the holonomy is $(dh)^{-1}$, the inverse of the linear part of $h$. Hence $\mathrm{Hol} = \{1, \mathrm{diag}(1, -1)\}$: the Klein bottle is flat, $\mathrm{Hol}^0 = \{1\}$, but
+$\mathrm{Hol} \neq \{1\}$, and $\mathrm{Hol} \not\subseteq \mathrm{SO}(2)$, in accordance with non-orientability.
+\item For the round sphere $S^2$, $\mathrm{Hol}_p = \mathrm{Hol}^0_p$ is a nontrivial subgroup of $\mathrm{SO}(2)$ by Proposition~\ref{riemannian-geometry:proposition-holonomy-basic}(3),(4),(5), as $S^2$ is simply connected, orientable and
+not flat. Since $\mathrm{Hol}^0_p$ is a connected Lie subgroup (Theorem~\ref{riemannian-geometry:theorem-ambrose-singer} below), it is $\mathrm{SO}(2)$. Concretely, transport around the boundary of the octant
+$\{x, y, z \geq 0\}$ rotates tangent vectors by $\pi/2$, the area enclosed.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[Ambrose--Singer]\label{riemannian-geometry:theorem-ambrose-singer}
+$\mathrm{Hol}_p(g)$ is a Lie subgroup of $\mathrm{O}(T_pM)$ with identity component $\mathrm{Hol}^0_p(g)$, and the Lie algebra of $\mathrm{Hol}_p(g)$ is spanned by the endomorphisms $P_\sigma^{-1} \circ R(P_\sigma u, P_\sigma v) \circ P_\sigma$ of
+$T_pM$, for all curves $\sigma$ starting at $p$ and all $u, v \in T_pM$.
+\end{theorem}
+
+This is \cite[Chapter II]{kobayashi-nomizu}; see also \cite{joyce-special-holonomy}. The theorem makes Proposition~\ref{riemannian-geometry:proposition-holonomy-basic}(5) quantitative: curvature measures infinitesimal holonomy.
+
+\begin{theorem}[de Rham decomposition]\label{riemannian-geometry:theorem-de-rham-decomposition}
+If the holonomy representation of a connected Riemannian manifold on $T_pM$ is reducible, $T_pM = V_1 \oplus V_2$ with both summands $\mathrm{Hol}_p$-invariant and nonzero, then $M$ is locally isometric to a Riemannian product.
+If moreover $M$ is complete and simply connected, it is globally isometric to a product $M_1 \times M_2$ of Riemannian manifolds with $T_pM_i = V_i$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+By Theorem~\ref{riemannian-geometry:theorem-holonomy-principle}, $V_1$ and $V_2$ extend to parallel, mutually orthogonal distributions $D_1$ and $D_2$. A parallel distribution is involutive, as $[X, Y] = \nabla_XY - \nabla_YX$ lies in
+$D_i$ when $X$, $Y$ do, so by the Frobenius theorem (Theorem~\ref{smooth-manifolds:theorem-frobenius}) there are local coordinates $(x, y)$ with $D_1$ spanned by the $\partial_x$ and $D_2$ by the $\partial_y$; the omitted verification is that in
+these coordinates the metric has the product form $g_1(x) + g_2(y)$, which follows from the parallelism of $D_1$ and $D_2$. The global statement is \cite[Chapter IV]{kobayashi-nomizu}.
+\end{proof}
+
+\begin{theorem}[Berger]\label{riemannian-geometry:theorem-berger}
+Let $(M, g)$ be a simply connected Riemannian manifold of dimension $n$ that is not locally a product (its holonomy representation is irreducible) and not locally symmetric ($\nabla R \neq 0$). Then $\mathrm{Hol}(g)$ is one
+of: $\mathrm{SO}(n)$; $\mathrm{U}(m)$ with $n = 2m \geq 4$ (K\"ahler metrics); $\mathrm{SU}(m)$ with $n = 2m \geq 4$ (Ricci-flat K\"ahler, Calabi--Yau); $\mathrm{Sp}(m)$ with $n = 4m \geq 8$ (hyper-K\"ahler); $\mathrm{Sp}(m)\mathrm{Sp}(1)$ with
+$n = 4m \geq 8$ (quaternionic K\"ahler); $G_2$ with $n = 7$; $\mathrm{Spin}(7)$ with $n = 8$.
+\end{theorem}
+
+This is \cite{berger-1955}; Berger's list also contained $\mathrm{Spin}(9)$ in dimension $16$, which was later shown to occur only for symmetric metrics. See \cite{joyce-special-holonomy} for the modern treatment and for the
+existence of metrics with holonomy $G_2$ and $\mathrm{Spin}(7)$.
+
+\begin{remark}\label{riemannian-geometry:remark-special-holonomy}
+By the holonomy principle, the reduction of the holonomy group to a subgroup of $\mathrm{O}(n)$ is the same as the existence of a parallel tensor with that stabiliser. For instance $\mathrm{Hol} \subseteq \mathrm{U}(m)$ if and only
+if there is a parallel orthogonal almost complex structure $J$, that is, $(M, g, J)$ is K\"ahler (Chapter~\ref{kahler}); and $\mathrm{Hol} \subseteq \mathrm{SU}(m)$ if and only if there is moreover a parallel complex volume form,
+which for a simply connected K\"ahler manifold is equivalent to Ricci-flatness (Chapter~\ref{calabi-yau}). This is the dictionary between Riemannian holonomy and complex geometry that underlies Part~\ref{part-complex-geometry}.
+\end{remark}
+
+\section{Curvature}\label{riemannian-geometry:section-curvature}
+
+\begin{definition}\label{riemannian-geometry:definition-curvature-tensor}
+The \emph{Riemann curvature tensor} is the curvature of the Levi-Civita connection (Proposition~\ref{connections:proposition-curvature}),
+$R(X, Y)Z = \nabla_X\nabla_YZ - \nabla_Y\nabla_XZ - \nabla_{[X,Y]}Z$, viewed as the $4$-tensor $R(X, Y, Z, W) = g(R(X, Y)Z, W)$. For a plane $\sigma \subseteq T_pM$ with orthonormal basis $u, v$, the
+\emph{sectional curvature} is $K(\sigma) = R(u, v, v, u)$; the \emph{Ricci tensor} is $\mathrm{Ric}(X, Y) = \sum_iR(e_i, X, Y, e_i)$ for an orthonormal frame, and the \emph{scalar curvature} is
+$s = \sum_i\mathrm{Ric}(e_i, e_i)$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-curvature-symmetries}
+$R$ is tensorial and satisfies $R(X, Y, Z, W) = -R(Y, X, Z, W) = -R(X, Y, W, Z) = R(Z, W, X, Y)$ and the first Bianchi identity
+$R(X, Y)Z + R(Y, Z)X + R(Z, X)Y = 0$. The sectional curvatures determine $R$.
+\end{proposition}
+
+\begin{proof}
+Tensoriality and the first antisymmetry are general facts about curvature. The second follows by polarising $R(X, Y, Z, Z) = 0$, which holds because the connection is metric:
+$0 = XY g(Z,Z)/2 - \cdots$ expands to $g(R(X,Y)Z, Z)$. The first Bianchi identity follows from torsion-freeness and the Jacobi identity, and the symmetry in the pairs is a formal consequence of the other
+three, obtained by adding the Bianchi identities for the four cyclic permutations. The last statement is the standard polarisation argument \cite[Chapter 4]{do-carmo-riemannian}.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-curvature}
+Euclidean space has $R = 0$; the round sphere of radius $1$ has constant sectional curvature $1$ and $\mathrm{Ric} = (n-1)g$; hyperbolic space has constant curvature $-1$. A Lie group with a bi-invariant
+metric has $R(X, Y)Z = \frac14[[X, Y], Z]$ for left-invariant fields, hence non-negative sectional curvature. A metric has constant sectional curvature $\kappa$ if and only if
+$R(X, Y)Z = \kappa(\langle Y, Z\rangle X - \langle X, Z\rangle Y)$, since the right-hand side has the symmetries of Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries} and sectional curvature $\kappa$.
+\end{example}
+
+\begin{lemma}\label{riemannian-geometry:lemma-curvature-families}
+For $f$ as in Lemma~\ref{riemannian-geometry:lemma-symmetry} and a vector field $V$ along $f$, $D_sD_tV - D_tD_sV = R(\partial_sf, \partial_tf)V$.
+\end{lemma}
+
+\begin{proof}
+Write $V = V^k(\partial_k \circ f)$. In $D_sD_tV$ the terms containing derivatives of the $V^k$ are symmetric in $s$ and $t$, so the left side is $V^k(D_sD_t - D_tD_s)(\partial_k \circ f)$. Now
+$D_t(\partial_k \circ f) = \partial_tf^i(\nabla_{\partial_i}\partial_k) \circ f$, and
+$D_sD_t(\partial_k \circ f) = \partial_s\partial_tf^i(\nabla_{\partial_i}\partial_k) \circ f + \partial_tf^i\partial_sf^j(\nabla_{\partial_j}\nabla_{\partial_i}\partial_k) \circ f$. Antisymmetrising and using $[\partial_i, \partial_j] = 0$ gives
+$\partial_sf^j\partial_tf^iR(\partial_j, \partial_i)\partial_k = R(\partial_sf, \partial_tf)\partial_k$.
+\end{proof}
+
+\begin{definition}\label{riemannian-geometry:definition-jacobi}
+A \emph{Jacobi field} along a geodesic $\gamma$ is a vector field $J$ along $\gamma$ with $D_t^2J + R(J, \dot\gamma)\dot\gamma = 0$. A point $\gamma(b)$ is \emph{conjugate} to $\gamma(a)$ along $\gamma$ if there is a nonzero Jacobi field
+vanishing at $a$ and $b$.
+\end{definition}
+
+The Jacobi equation is a linear second order equation, so a Jacobi field is determined by $J(a)$ and $D_tJ(a)$, and the Jacobi fields along $\gamma$ form a vector space of dimension $2n$.
+
+\begin{proposition}\label{riemannian-geometry:proposition-jacobi}
+\begin{enumerate}
+\item If $f(s, t)$ is a family of geodesics $t \mapsto f(s, t)$, then $J = \partial_sf(0, -)$ is a Jacobi field along $\gamma = f(0, -)$.
+\item For $v \in \mathcal{E}_p$ and $w \in T_pM$, $J(t) = d_{tv}\exp_p(tw)$ is the Jacobi field along $\gamma(t) = \exp_p(tv)$ with $J(0) = 0$ and $D_tJ(0) = w$.
+\item $d_v\exp_p$ is singular if and only if $\exp_p(v)$ is conjugate to $p$ along $t \mapsto \exp_p(tv)$, $t \in [0, 1]$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) With $T = \partial_tf$ and $S = \partial_sf$, Lemmas~\ref{riemannian-geometry:lemma-symmetry} and~\ref{riemannian-geometry:lemma-curvature-families} give
+$D_tD_tS = D_tD_sT = D_sD_tT + R(T, S)T = R(T, S)T = -R(S, T)T$, since $D_tT = 0$. (2) Apply (1) to $f(s, t) = \exp_p(t(v + sw))$: $\partial_sf(0, t) = d_{tv}\exp_p(tw)$. It vanishes at $t = 0$, and
+$D_tS(0, 0) = D_sT(0, 0) = \frac{d}{ds}(v + sw) = w$, the covariant derivative along the constant curve $s \mapsto p$ being the ordinary derivative in $T_pM$. (3) By (2) and uniqueness, the Jacobi fields vanishing at $0$ are exactly the
+$d_{tv}\exp_p(tw)$, and at $t = 1$ this is $d_v\exp_p(w)$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-jacobi-constant}
+If $g$ has constant sectional curvature $\kappa$ and $\gamma$ has unit speed, then for a parallel unit field $E \perp \dot\gamma$, $R(E, \dot\gamma)\dot\gamma = \kappa E$ by Example~\ref{riemannian-geometry:example-curvature}, and the Jacobi fields
+normal to $\gamma$ with $J(0) = 0$ are $J(t) = s_\kappa(t)E(t)$ with $s_\kappa(t) = t$, $\sin(\sqrt\kappa t)/\sqrt\kappa$ or $\sinh(\sqrt{-\kappa}t)/\sqrt{-\kappa}$ for $\kappa = 0$, $> 0$, $< 0$. On the unit sphere they vanish again at $t = \pi$: antipodal
+points are conjugate, which explains Remark~\ref{riemannian-geometry:remark-non-unique-geodesics}. For $\kappa \leq 0$ there are no conjugate points.
+\end{example}
+
+\begin{theorem}[Cartan--Hadamard]\label{riemannian-geometry:theorem-cartan-hadamard}
+Let $(M, g)$ be complete and connected with sectional curvature $K \leq 0$. Then for every $p$, $\exp_p \colon T_pM \to M$ is a covering map; if $M$ is simply connected, it is a diffeomorphism, so $M$ is diffeomorphic to $\RR^n$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Let $J$ be a Jacobi field along a geodesic $\gamma$ with $J(0) = 0$ and $D_tJ(0) \neq 0$, and $\phi = |J|^2$. Then
+$\phi'' = 2|D_tJ|^2 - 2\langle R(J, \dot\gamma)\dot\gamma, J\rangle = 2|D_tJ|^2 - 2K(J, \dot\gamma)(|J|^2|\dot\gamma|^2 - \langle J, \dot\gamma\rangle^2) \geq 0$, where $K(J, \dot\gamma)$ is the sectional curvature of the plane they span (if they are
+independent). So $\phi$ is convex with $\phi(0) = \phi'(0) = 0$ and $\phi''(0) > 0$, hence positive for $t > 0$: there are no conjugate points, and $\exp_p$ is a local diffeomorphism on $T_pM$ (defined everywhere by
+Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}) by Proposition~\ref{riemannian-geometry:proposition-jacobi}(3). The omitted verification is that a local diffeomorphism from a complete Riemannian manifold (here $T_pM$ with the
+pulled back metric, whose radial lines are geodesics) that is a local isometry is a covering map \cite[Chapter 7]{do-carmo-riemannian}.
+\end{proof}
+
+\begin{theorem}[Bonnet--Myers]\label{riemannian-geometry:theorem-bonnet-myers}
+Let $(M, g)$ be complete and connected with $\mathrm{Ric} \geq (n - 1)\kappa g$ for some $\kappa > 0$. Then $M$ has diameter at most $\pi/\sqrt\kappa$; hence $M$ is compact, and $\pi_1(M)$ is finite.
+\end{theorem}
+
+This is \cite[Chapter 9]{do-carmo-riemannian}. The proof computes the second variation of length along a minimising geodesic of length $L > \pi/\sqrt\kappa$ in the directions $\sin(\pi t/L)E_i(t)$, for a parallel orthonormal frame
+$E_i \perp \dot\gamma$, and finds that their sum is negative, contradicting minimality. Finiteness of $\pi_1$ follows by applying the diameter bound to the universal cover with the pulled back metric, which is compact, so the
+fibres of the covering are finite.
+
+\begin{remark}\label{riemannian-geometry:remark-comparison}
+Theorems~\ref{riemannian-geometry:theorem-cartan-hadamard} and~\ref{riemannian-geometry:theorem-bonnet-myers} are the simplest \emph{comparison theorems}, which compare a manifold with a space of constant curvature
+through its Jacobi fields. The Rauch comparison theorem \cite[Chapter 10]{do-carmo-riemannian} and the Bishop--Gromov volume comparison \cite{lee-riemannian} are their refinements, and they lead to the sphere theorems and to
+Gromov's compactness theorem.
+\end{remark}
+
+\begin{theorem}[Gauss--Bonnet]\label{riemannian-geometry:theorem-gauss-bonnet}
+Let $M$ be a compact oriented Riemannian surface, with Gaussian curvature $K$ (the sectional curvature of its tangent planes) and area form $dA$. Then
+\[
+\int_MK\,dA = 2\pi\chi(M) .
+\]
+\end{theorem}
+
+\begin{proof}
+Let $J$ be the rotation by $+\pi/2$ in each tangent plane, for the metric and the orientation: $Je_1 = e_2$ for every oriented orthonormal frame $(e_1, e_2)$. It is a smooth endomorphism with $J^2 = -1$, so $TM$ becomes a
+complex line bundle, with $i$ acting as $J$, whose underlying oriented real bundle is $TM$. Near a point choose an oriented orthonormal frame $(e_1, e_2)$ and define the $1$-form $\omega$ by $\nabla_Xe_1 = \omega(X)e_2$; since
+$\nabla$ is metric, $\langle\nabla_Xe_1, e_1\rangle = 0$ and $\nabla_Xe_2 = -\omega(X)e_1$. Hence $\nabla J = J\nabla$, so $\nabla$ is a connection on the complex line bundle, and in the complex frame $e_1$ it reads
+$\nabla e_1 = \omega \otimes Je_1 = i\omega \otimes e_1$: its connection form is $\theta = i\omega$ and its curvature is $F = d\theta = i\,d\omega$ (Proposition~\ref{connections:proposition-curvature}).
+
+We compare $d\omega$ with $K$. From the definition of the curvature tensor,
+\[
+R(X, Y)e_1 = \nabla_X(\omega(Y)e_2) - \nabla_Y(\omega(X)e_2) - \omega([X, Y])e_2 = \big(X\omega(Y) - Y\omega(X) - \omega([X, Y])\big)e_2 = d\omega(X, Y)\,e_2,
+\]
+the terms $\mp\omega(X)\omega(Y)e_1$ cancelling. By Definition~\ref{riemannian-geometry:definition-curvature-tensor} and Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries},
+$K = R(e_1, e_2, e_2, e_1) = -R(e_1, e_2, e_1, e_2) = -\langle R(e_1, e_2)e_1, e_2\rangle = -d\omega(e_1, e_2)$. So $d\omega = -K\,e^1 \wedge e^2 = -K\,dA$ and $F = -iK\,dA$.
+
+By Chern--Weil theory (Theorem~\ref{characteristic-classes:theorem-chern-weil} and Definition~\ref{characteristic-classes:definition-chern-forms}), $c_1(TM)$ is represented by $\frac{i}{2\pi}F = \frac{1}{2\pi}K\,dA$ for this connection.
+For a complex line bundle the Euler class of the underlying oriented real bundle is $c_1$ (Theorem~\ref{characteristic-classes:theorem-euler}(2)), and $\int_Me(TM) = \chi(M)$ by
+Theorem~\ref{characteristic-classes:theorem-euler}(3). Hence $\frac{1}{2\pi}\int_MK\,dA = \chi(M)$.
+\end{proof}
+
+\begin{corollary}\label{riemannian-geometry:corollary-gauss-bonnet}
+Let $\Sigma_g$ be the closed orientable surface of genus $g$, so that $\chi(\Sigma_g) = 2 - 2g$ (Example~\ref{singular-homology:example-cellular-computations}).
+\begin{enumerate}
+\item The integral of the Gaussian curvature does not depend on the metric: for the round unit sphere, $K = 1$ and the area is $4\pi = 2\pi \cdot 2$.
+\item If $\Sigma_g$ carries a metric with $K > 0$ everywhere, then $g = 0$; if it carries a metric with $K \geq 0$ everywhere, then $g \leq 1$; if it carries one with $K < 0$ everywhere, then $g \geq 2$.
+\item The torus admits flat metrics, as $\RR^2/\ZZ^2$, but no metric with $K > 0$ everywhere or $K < 0$ everywhere.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) is Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}. (2) The sign of $\int_MK\,dA = 2\pi(2 - 2g)$ is positive, non-negative or negative accordingly, and $2 - 2g > 0$ forces $g = 0$, $2 - 2g \geq 0$ forces
+$g \leq 1$, and $2 - 2g < 0$ forces $g \geq 2$. (3) The torus has $\chi = 0$, so $K$ cannot have constant nonzero sign, while the flat metric induced from $\RR^2$ has $K = 0$ (Example~\ref{riemannian-geometry:example-curvature}).
+\end{proof}
+
+\section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
+
+\begin{definition}\label{riemannian-geometry:definition-hodge-star}
+Let $(M, g)$ be an oriented Riemannian $n$-manifold. The metric induces inner products on $\Lambda^kT^*_pM$ (Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}), a volume form
+$\mathrm{vol}_g$, and the \emph{Hodge star} $* \colon \Omega^k(M) \to \Omega^{n-k}(M)$, characterised pointwise by $\alpha \wedge *\beta = \langle\alpha, \beta\rangle\,\mathrm{vol}_g$
+(Theorem~\ref{multilinear-algebra:theorem-hodge-star}); it satisfies $** = (-1)^{k(n-k)}$ on $k$-forms. In coordinates $\mathrm{vol}_g = \sqrt{\det(g_{ij})}\,dx^1 \wedge \cdots \wedge dx^n$ in a positively
+oriented chart.
+\end{definition}
+
+\begin{definition}\label{riemannian-geometry:definition-laplacian}
+On a compact oriented Riemannian manifold define the $L^2$ inner product on $\Omega^k(M)$ by
+\[
+(\alpha, \beta) = \int_M\alpha \wedge *\beta = \int_M\langle\alpha, \beta\rangle\,\mathrm{vol}_g,
+\]
+the \emph{codifferential} $\delta = (-1)^{n(k+1)+1}*d* \colon \Omega^k(M) \to \Omega^{k-1}(M)$, and the \emph{Hodge Laplacian} $\Delta = d\delta + \delta d$. A form is \emph{harmonic} if $\Delta\alpha = 0$; the space of
+harmonic $k$-forms is $\mathcal{H}^k(M)$.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-adjoint}
+On a compact oriented Riemannian manifold:
+\begin{enumerate}
+\item $(d\alpha, \beta) = (\alpha, \delta\beta)$ for $\alpha \in \Omega^{k-1}$, $\beta \in \Omega^k$: the codifferential is the formal adjoint of $d$;
+\item $\Delta$ is self-adjoint and non-negative: $(\Delta\alpha, \alpha) = \|d\alpha\|^2 + \|\delta\alpha\|^2$;
+\item $\Delta\alpha = 0$ if and only if $d\alpha = 0$ and $\delta\alpha = 0$;
+\item $*\Delta = \Delta*$, so $*$ maps harmonic $k$-forms isomorphically to harmonic $(n-k)$-forms;
+\item $\Delta$ on functions is $-\sum_{i}\partial_i^2$ in normal coordinates at a point, and in general
+$\Delta f = -\frac{1}{\sqrt{\det g}}\sum_{i,j}\partial_i(\sqrt{\det g}\,g^{ij}\partial_jf)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}), $0 = \int_Md(\alpha \wedge *\beta) = \int_Md\alpha \wedge *\beta + (-1)^{k-1}\int_M\alpha \wedge d{*}\beta$. Using $** = (-1)^{k(n-k)}$ one
+rewrites $d*\beta = \pm *{*}d{*}\beta$, and the sign in the definition of $\delta$ is chosen exactly so that the identity becomes $(d\alpha, \beta) = (\alpha, \delta\beta)$.
+
+(2) $(\Delta\alpha, \beta) = (d\delta\alpha, \beta) + (\delta d\alpha, \beta) = (\delta\alpha, \delta\beta) + (d\alpha, d\beta)$, which is symmetric; taking $\beta = \alpha$ gives the formula. (3) If $\Delta\alpha = 0$ then
+$\|d\alpha\|^2 + \|\delta\alpha\|^2 = 0$, so both vanish; the converse is clear. (4) follows from the definition of $\delta$ and $** = \pm 1$: $*d\delta = \delta d*$ and $*\delta d = d\delta*$ up to the signs, which
+cancel. (5) is a computation with the coordinate formula for $*$ and $d$, using $\mathrm{vol}_g = \sqrt{\det g}\,dx^1\wedge\cdots\wedge dx^n$; in normal coordinates at $p$ the first derivatives of $g$ vanish, so
+$\Delta f(p) = -\sum_i\partial_i^2f(p)$.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-weitzenbock}
+The Levi-Civita connection gives a second Laplacian, the \emph{connection Laplacian} $\nabla^*\nabla$, and the two differ by curvature: the \emph{Weitzenb\"ock formula} states
+$\Delta = \nabla^*\nabla + \mathcal{R}$, where $\mathcal{R}$ is an endomorphism built from the curvature tensor; on $1$-forms $\mathcal{R} = \mathrm{Ric}$. Since $(\nabla^*\nabla\alpha, \alpha) = \|\nabla\alpha\|^2 \geq 0$,
+this gives vanishing theorems: if $\mathrm{Ric} > 0$ on a compact oriented manifold, every harmonic $1$-form vanishes, hence $b_1(M) = 0$ by the Hodge theorem (Bochner's theorem,
+Chapter~\ref{hodge-theorem}). For proofs see \cite[Chapter 6]{warner-foundations} and \cite[Chapter 4]{lee-riemannian}.
+\end{remark}
+
+\begin{example}\label{riemannian-geometry:example-harmonic-forms}
+On a compact connected oriented manifold the harmonic $0$-forms are the constants, since $\Delta f = 0$ implies $df = 0$; by (4) the harmonic $n$-forms are the multiples of $\mathrm{vol}_g$. On the flat torus
+$\RR^n/\ZZ^n$, the harmonic forms are exactly the forms with constant coefficients in the coordinates $dx^i$, a space of dimension $\binom{n}{k}$, which matches $b_k(T^n)$
+(Exercise~\ref{de-rham:exercise-torus}).
+\end{example}
+
+\section{Exercises}\label{riemannian-geometry:section-exercises}
+
+\begin{exercise}\label{riemannian-geometry:exercise-hodge-star-signs}
+Verify that $\delta = -*d*$ on $k$-forms when $n$ is even, and compute $\delta$ on $1$-forms in $\RR^3$, identifying it with minus the divergence.
+\end{exercise}
+
+\begin{exercise}\label{riemannian-geometry:exercise-conformal}
+Show that in dimension $n = 2k$ the Hodge star on $k$-forms depends only on the conformal class of the metric, and that $*^2 = (-1)^k$ on $\Omega^k$.
+\end{exercise}
+
+\begin{solution}
+Under $g \mapsto \lambda g$ with $\lambda > 0$, the inner product on $k$-forms scales by $\lambda^{-k}$ and the volume form by $\lambda^{n/2} = \lambda^k$, so $*$ is unchanged by the characterisation
+$\alpha \wedge *\beta = \langle\alpha,\beta\rangle\mathrm{vol}$. The sign is $(-1)^{k(n-k)} = (-1)^{k^2} = (-1)^k$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-laplacian-sphere}
+Compute the Laplacian on functions on the round sphere $S^2$ in spherical coordinates, and verify that the restrictions of linear functions of $\RR^3$ are eigenfunctions with eigenvalue $2$.
+\end{exercise}
+
+\begin{exercise}\label{riemannian-geometry:exercise-bi-invariant}
+Let $G$ be a compact Lie group with a bi-invariant metric. Show that the geodesics through $e$ are the one-parameter subgroups, and that $\nabla_XY = \frac12[X, Y]$ for left-invariant fields.
+\end{exercise}
+\begin{exercise}\label{riemannian-geometry:exercise-great-circles}
+Show that the geodesics of the round sphere $S^n \subseteq \RR^{n+1}$ are the great circles $\gamma(t) = \cos(t)p + \sin(t)v$ with $|p| = |v| = 1$ and $v \perp p$ (up to affine reparametrisation).
+\end{exercise}
+
+\begin{solution}
+The reflection $\rho$ of $\RR^{n+1}$ fixing the plane spanned by $p$ and $v$ pointwise preserves $S^n$ and its metric, so it is an isometry, and it maps geodesics to geodesics. The geodesic $\gamma_v$ with $\gamma_v(0) = p$, $\dot\gamma_v(0) = v$
+is mapped to a geodesic with the same initial data, hence to itself by uniqueness; so $\gamma_v$ lies in the fixed set of $\rho$ on $S^n$, the great circle through $p$ and $v$. Having constant speed $1$
+(Proposition~\ref{riemannian-geometry:proposition-geodesic-speed}) and starting at $p$ with velocity $v$, it is $\cos(t)p + \sin(t)v$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-holonomy-product}
+Show that the holonomy group of a Riemannian product $M_1 \times M_2$ at $(p_1, p_2)$ is $\mathrm{Hol}_{p_1}(M_1) \times \mathrm{Hol}_{p_2}(M_2)$, acting on $T_{p_1}M_1 \oplus T_{p_2}M_2$.
+\end{exercise}
+
+\begin{solution}
+The Levi-Civita connection of the product metric is the direct sum of those of the factors, since the direct sum connection is metric and torsion-free. So a vector $(v_1, v_2)$ is transported along a curve $(c_1, c_2)$ to
+$(P_{c_1}v_1, P_{c_2}v_2)$. Loops at $(p_1, p_2)$ are exactly the pairs of loops at $p_1$ and $p_2$, which gives the claim.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-trivial-holonomy}
+Let $(M, g)$ be connected with $\mathrm{Hol}_p(g) = \{1\}$. Show that $M$ is flat and that $TM$ is trivial.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{riemannian-geometry:theorem-holonomy-principle}, each vector of an orthonormal basis of $T_pM$ extends to a parallel vector field $E_i$; the $E_i$ are orthonormal everywhere (parallel transport is an isometry), so they
+trivialise $TM$. For parallel fields $R(X, Y)E_i = \nabla_X\nabla_YE_i - \nabla_Y\nabla_XE_i - \nabla_{[X,Y]}E_i = 0$, so $R = 0$.
+\end{solution}

@@ -1,0 +1,393 @@
+\chapter{Hard Lefschetz and the Hodge--Riemann Relations}\label{lefschetz-theorems}
+\chapterstatus{complete}
+
+\section{Introduction}\label{lefschetz-theorems:section-introduction}
+
+Let $X$ be a compact K\"ahler manifold of dimension $n$ with K\"ahler form $\omega$. Cup product with the K\"ahler class is an operator
+$L$ on $H^\bullet(X; \RR)$ of degree $2$. The \emph{hard Lefschetz theorem}
+(Theorem~\ref{lefschetz-theorems:theorem-hard-lefschetz}) says that
+\[
+L^{n-k} \colon H^k(X; \RR) \to H^{2n-k}(X; \RR)
+\]
+is an isomorphism for $k \leq n$. The proof takes the pointwise $\mathfrak{sl}_2$-action of Theorem~\ref{kahler:theorem-sl2-forms} and
+passes it to harmonic forms, using that $L$ and $\Lambda$ commute with the Laplacian. The result is a canonical decomposition of cohomology
+into primitive pieces. On them the intersection form, twisted by powers of $\omega$, has definite signs: these are the
+\emph{Hodge--Riemann bilinear relations} (Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}). Their consequences include the
+\emph{Hodge index theorem} (Theorem~\ref{lefschetz-theorems:theorem-hodge-index}) and, in Part~\ref{part-hodge-theory}, the polarisations of
+the Hodge structures of projective manifolds. References: \cite[Chapter 0, Section 7]{griffiths-harris}, \cite[Section 3.3]{huybrechts-complex},
+\cite[Chapter 6]{voisin-hodge-1}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-decomposition} (The Hodge Decomposition).
+
+Throughout, $X$ is a compact K\"ahler manifold of dimension $n$ with K\"ahler form $\omega$, and we use the notation of
+Notation~\ref{hodge-decomposition:notation-hermitian-forms}. We identify $H^k(X; \CC)$ with the space $\mathcal{H}^k_\CC$ of complex
+harmonic forms and $H^k(X; \RR)$ with the real harmonic forms (Theorem~\ref{hodge-theorem:theorem-hodge}).
+
+\section{The $\mathfrak{sl}_2$-action on cohomology}\label{lefschetz-theorems:section-sl2-cohomology}
+
+\begin{definition}\label{lefschetz-theorems:definition-lefschetz-cohomology}
+The \emph{Lefschetz operator} on cohomology is $L \colon H^k(X; \RR) \to H^{k+2}(X; \RR)$, $L(a) = [\omega] \cup a$, which is
+represented on forms by $\alpha \mapsto \omega \wedge \alpha$. A class $a \in H^k(X; \RR)$ with $k \leq n$ is \emph{primitive} if
+$L^{n-k+1}a = 0$. We write $P^k(X) = P^k(X; \RR)$ for the primitive classes of degree $k$, $P^k(X; \CC)$ for their complexification,
+and $P^{p,q}(X) = P^{p+q}(X; \CC) \cap H^{p,q}(X)$.
+\end{definition}
+
+\begin{theorem}[Hard Lefschetz]\label{lefschetz-theorems:theorem-hard-lefschetz}
+Let $X$ be a compact K\"ahler manifold of dimension $n$ with K\"ahler class $[\omega]$. Then:
+\begin{enumerate}
+\item the pointwise operators $L$, $\Lambda$ and $H$ preserve the space $\mathcal{H}^\bullet$ of harmonic forms, which becomes a
+finite-dimensional representation of $\mathfrak{sl}_2$ in which $\mathcal{H}^k$ has weight $k - n$;
+\item for $0 \leq k \leq n$, $L^{n-k} \colon H^k(X; \RR) \to H^{2n-k}(X; \RR)$ is an isomorphism;
+\item (\emph{Lefschetz decomposition}) for every $k$,
+\[
+H^k(X; \RR) = \bigoplus_{j \geq 0}L^jP^{k-2j}(X),
+\]
+and $L^j$ is injective on $P^{k-2j}(X)$;
+\item a class of degree $k \leq n$ is primitive if and only if its harmonic representative $\alpha$ satisfies $\Lambda\alpha = 0$, that is,
+$\alpha$ is primitive at every point;
+\item the decompositions are compatible with the Hodge decomposition:
+$P^k(X; \CC) = \bigoplus_{p+q=k}P^{p,q}(X)$ and $H^{p,q}(X) = \bigoplus_jL^jP^{p-j,q-j}(X)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By Theorem~\ref{hodge-decomposition:theorem-laplacians}, $L$ and $\Lambda$ commute with $\Delta_d$, so they preserve
+$\mathcal{H}^\bullet = \ker\Delta_d$; so does $H$, which acts on $\mathcal{H}^k$ as multiplication by $k - n$. The commutation relations
+$[L, \Lambda] = H$, $[H, L] = 2L$, $[H, \Lambda] = -2\Lambda$ hold pointwise by Theorem~\ref{kahler:theorem-sl2-forms}, hence on
+$\mathcal{H}^\bullet$. The space $\mathcal{H}^\bullet$ is finite-dimensional by Theorem~\ref{hodge-theorem:theorem-decomposition}, and it
+is real since all three operators are real.
+
+(2) and (3) now follow exactly as statements (1) and (2) of Theorem~\ref{kahler:theorem-sl2-forms} were derived from
+Corollary~\ref{representation-theory:corollary-lefschetz-structure}: that argument used only a finite-dimensional
+$\mathfrak{sl}_2$-representation in which the degree $k$ part has weight $k - n$. Under the Hodge isomorphism, $L$ on harmonic forms
+is the cup product with $[\omega]$, since $\omega \wedge \alpha$ is harmonic and represents $[\omega] \cup [\alpha]$
+(Theorem~\ref{de-rham:theorem-de-rham}). This gives (2), and it gives (3) with the primitive subspaces defined as
+$\ker\Lambda \cap \mathcal{H}^{k-2j}$.
+
+(4) Part (3) of Theorem~\ref{kahler:theorem-sl2-forms} was also derived from the representation theory alone. Applied to
+$\mathcal{H}^\bullet$, it says that for $\alpha \in \mathcal{H}^k$ with $k \leq n$, $\Lambda\alpha = 0$ if and only if
+$L^{n-k+1}\alpha = 0$. So the subspaces $\ker\Lambda \cap \mathcal{H}^k$ used in (3) are the $P^k(X)$ of
+Definition~\ref{lefschetz-theorems:definition-lefschetz-cohomology}.
+
+(5) $L$ maps $H^{p,q}$ to $H^{p+1,q+1}$. So the kernel of $L^{n-k+1}$ on $H^k(X; \CC) = \bigoplus_{p+q=k}H^{p,q}$ is the direct sum of
+its kernels on the summands, which gives the first statement. The second follows by comparing types in (3).
+\end{proof}
+
+\begin{remark}\label{lefschetz-theorems:remark-metric-independence}
+Primitivity is defined by $L$ alone, so $P^k(X)$ and the Lefschetz decomposition depend only on the K\"ahler class $[\omega]$, not on the
+metric. The operator $\Lambda$ on cohomology was defined using harmonic forms, but it too depends only on $[\omega]$, by
+Proposition~\ref{lefschetz-theorems:proposition-lambda-unique}.
+\end{remark}
+
+\begin{proposition}\label{lefschetz-theorems:proposition-lambda-unique}
+Let $V$ be a finite-dimensional vector space over a field $K$ of characteristic zero, graded by degree. Let $e$ and $h$ be endomorphisms
+such that $h$ acts on the degree $k$ part by $k - n$ and $[h, e] = 2e$. Then there is at most one endomorphism $f$ with $[e, f] = h$ and
+$[h, f] = -2f$. If $K \subseteq K'$ is a field extension and such an $f$ exists over $K'$, then it is defined over $K$. In particular, if $X$ is
+projective and $[\omega]$ is the restriction of the hyperplane class, then $L$ and $\Lambda$ preserve $H^\bullet(X; \QQ)$, and the
+Lefschetz decomposition is defined over $\QQ$.
+\end{proposition}
+
+\begin{proof}
+It suffices to treat $K = \CC$ for uniqueness, after extending scalars. If $f$ and $f'$ both work, then $g = f - f'$ satisfies $[e, g] = 0$ and
+$[h, g] = -2g$. The Lie algebra $\mathfrak{sl}_2$ acts on $\End(V)$ through the triple $(e, f, h)$ by $x \cdot \phi = [x, \phi]$. In this
+representation $g$ is killed by $e$ and has weight $-2$. By Theorem~\ref{representation-theory:theorem-sl2-irreducibles}, a nonzero vector
+killed by $e$ has a non-negative weight, so $g = 0$. The conditions on $f$ are linear equations with coefficients in $K$. A system of linear
+equations over $K$ that has a solution over $K'$ has one over $K$, since the rank of a matrix does not change under field extension, and by
+uniqueness the two solutions coincide. For the last statement, $[\omega] = c_1(\mathcal{O}(1))|_X$ lies in the image of
+$H^2(X; \ZZ)$ (Proposition~\ref{kahler:proposition-fubini-study}), so $L$ preserves $H^\bullet(X; \QQ)$, and the rest follows.
+\end{proof}
+
+\begin{corollary}\label{lefschetz-theorems:corollary-betti-inequalities}
+Let $X$ be a compact K\"ahler manifold of dimension $n$. Then $L \colon H^k \to H^{k+2}$ is injective for $k < n$ and surjective for
+$k \geq n - 1$. Consequently
+\[
+b_k \leq b_{k+2} \quad (k < n), \qquad h^{p,q} \leq h^{p+1,q+1} \quad (p + q < n), \qquad \dim P^k = b_k - b_{k-2} \quad (k \leq n).
+\]
+\end{corollary}
+
+\begin{proof}
+For $k < n$, $L^{n-k}$ is injective on $H^k$ and equals $L^{n-k-1} \circ L$, so $L$ is injective on $H^k$. For $k \geq n - 1$, put
+$j = 2n - k - 2 \leq n - 1$. Then $L^{n-j} = L \circ L^{n-j-1}$ maps $H^j$ onto $H^{2n-j} = H^{k+2}$, and $L^{n-j-1}$ lands in $H^k$, so $L$ is
+onto $H^{k+2}$. The inequality for Hodge numbers follows since $L$ has type $(1,1)$, and the last formula from
+$H^k = P^k \oplus LH^{k-2}$ with $L$ injective on $H^{k-2}$.
+\end{proof}
+
+\begin{example}\label{lefschetz-theorems:example-tori}
+Let $X = \CC^n/\Lambda$ be a complex torus with a flat K\"ahler metric, so that $\omega$ has constant coefficients. The harmonic forms are the
+forms with constant coefficients (Example~\ref{dolbeault:example-hodge-numbers}), so $H^\bullet(X; \RR) \cong \Lambda^\bullet V^*$ with
+$V = \RR^{2n}$, and $L$ is the wedge product with the constant form $\omega$. In this case
+Theorem~\ref{lefschetz-theorems:theorem-hard-lefschetz} is exactly the linear algebra of Theorem~\ref{kahler:theorem-sl2-forms}. For
+instance, for $n = 2$, $H^2(X; \RR)$ has dimension $6$ and is the sum of $\RR[\omega]$ and the $5$-dimensional primitive part
+(Exercise~\ref{kahler:exercise-primitive-dimension}).
+\end{example}
+
+\begin{example}\label{lefschetz-theorems:example-betti-obstruction}
+The manifold $S^2 \times S^3 \times S^3$ has Poincar\'e polynomial $(1 + t^2)(1 + t^3)^2 = 1 + t^2 + 2t^3 + 2t^5 + t^6 + t^8$. Its real
+dimension is $8$, so a K\"ahler structure would have $n = 4$, and Corollary~\ref{lefschetz-theorems:corollary-betti-inequalities} would
+give $b_2 \leq b_4$. But $b_2 = 1 > 0 = b_4$, so no complex structure on this manifold is K\"ahler.
+\end{example}
+
+\section{Pointwise Hodge--Riemann relations}\label{lefschetz-theorems:section-pointwise}
+
+\begin{proposition}\label{lefschetz-theorems:proposition-pointwise-hodge-riemann}
+Let $V$ be a complex vector space of dimension $n$ with a Hermitian inner product and fundamental form $\omega$, as in
+Definition~\ref{kahler:definition-lefschetz-operators}. Let $\alpha$ be a primitive form of type $(p,q)$ and degree $k = p + q \leq n$. Then
+\[
+i^{p-q}(-1)^{k(k-1)/2}\,\alpha \wedge \bar\alpha \wedge \omega^{n-k} = (n-k)!\,|\alpha|^2\,\mathrm{vol} .
+\]
+More generally, if $\alpha$ and $\beta$ are primitive of type $(p,q)$, then
+$i^{p-q}(-1)^{k(k-1)/2}\alpha \wedge \bar\beta \wedge \omega^{n-k} = (n-k)!\,\langle\alpha, \beta\rangle\,\mathrm{vol}$.
+\end{proposition}
+
+\begin{proof}
+The second statement follows from the first by polarisation, since both sides are Hermitian forms in $(\alpha, \beta)$. Choose a basis
+with $h_{j\bar k} = \delta_{jk}$, so that $dz_j = dx_j + i\,dy_j$ with $dx_j, dy_j$ orthonormal, and put
+$\nu_j = dx_j \wedge dy_j = \frac{i}{2}dz_j \wedge d\bar z_j$. Then $\omega = \sum_j\nu_j$, and $\mathrm{vol} = \nu_1 \wedge \cdots \wedge \nu_n$.
+For a set $R$ of indices write $\nu_R = \bigwedge_{j \in R}\nu_j$, and for disjoint $A, B$ write $D = A \cup B$ and
+$dz_A \wedge d\bar z_B$ for the wedge products in increasing order.
+
+\emph{Step 1: splitting.} Every monomial $dz_I \wedge d\bar z_J$ equals $\pm(2/i)^{|I \cap J|}dz_A \wedge d\bar z_B \wedge \nu_C$ with
+$C = I \cap J$, $A = I \setminus C$, $B = J \setminus C$. So $\Lambda^{p,q}$ is the orthogonal direct sum of the subspaces
+$dz_A \wedge d\bar z_B \wedge S_D$, where $S_D$ is spanned by the $\nu_R$ with $R \cap D = \emptyset$. Write
+$\alpha = \sum_{A,B}dz_A \wedge d\bar z_B \wedge f_{AB}$ with $f_{AB} \in S_D$ homogeneous of degree $r = p - |A| = q - |B|$ in the $\nu_j$. In the proof
+of Theorem~\ref{kahler:theorem-sl2-forms}, $\Lambda = \sum_j\Lambda_j$, where $\Lambda_j$ acts on the $j$-th factor, kills $1$, $dz_j$
+and $d\bar z_j$, and sends $\nu_j$ to $1$. Hence
+$\Lambda(dz_A \wedge d\bar z_B \wedge f) = dz_A \wedge d\bar z_B \wedge \Lambda f$, where $\Lambda\nu_R = \sum_{j \in R}\nu_{R \setminus j}$, and
+$\alpha$ is primitive if and only if every $f_{AB}$ is.
+
+\emph{Step 2: the summands are orthogonal for the left-hand side.} Let $\alpha$ and $\beta$ lie in the summands of $(A, B)$ and
+$(A', B')$. For $j \in A$, the form $\alpha$ contains $dz_j$ but not $d\bar z_j$. A top-degree monomial needs exactly one $d\bar z_j$, and it
+cannot come from a power of $\omega$ or from a $\nu_j$ in $\bar\beta$, both of which would repeat $dz_j$. So it must come from
+$\bar\beta = d\bar z_{A'} \wedge dz_{B'} \wedge \bar f'$, which forces $j \in A'$. Thus $\alpha \wedge \bar\beta \wedge \omega^{n-k} = 0$
+unless $A \subseteq A'$, and by symmetry $A = A'$ and $B = B'$. The summands are also orthogonal for $\langle\ ,\ \rangle$, so it suffices
+to treat $\alpha = dz_A \wedge d\bar z_B \wedge f$ with $|A| = a$, $|B| = b$, $f = \sum_{|R|=r}f_R\nu_R \in S_D$ primitive, and $m = n - a - b$
+indices outside $D$. Then $n - k = m - 2r$.
+
+\emph{Step 3: the $\nu$-part.} Only the $\nu_j$ with $j \notin D$ survive in $\omega^{n-k}$ after wedging with $dz_A \wedge d\bar z_B \wedge d\bar z_A \wedge dz_B$.
+Moreover $\big(\sum_{j \notin D}\nu_j\big)^{m-2r} = (m-2r)!\sum_{|T|=m-2r}\nu_T$, and $\nu_R\nu_{R'}\nu_T$ is the product of all $\nu_j$, $j \notin D$, exactly
+when $R, R', T$ partition the complement of $D$. So
+\[
+f \wedge \bar f \wedge \Big(\sum_{j \notin D}\nu_j\Big)^{m-2r} = (m-2r)!\sum_{R \cap R' = \emptyset}f_R\overline{f_{R'}}\;\nu_{\{1, \ldots, n\} \setminus D}.
+\]
+We claim that $\sum_{R \cap R' = \emptyset}f_R\overline{f_{R'}} = (-1)^r\sum_R|f_R|^2$ for primitive $f$. Primitivity says that
+$\sum_{R' \supseteq Q}f_{R'} = 0$ for every set $Q$ of size $r - 1$. For $|S| = s < r$, each $R' \supseteq S$ of size $r$ contains exactly $r - s$ sets
+$Q$ of size $r - 1$ with $S \subseteq Q$, so $\sum_{R' \supseteq S}f_{R'} = \frac{1}{r-s}\sum_Q\sum_{R' \supseteq Q}f_{R'} = 0$. By
+inclusion--exclusion, $[R \cap R' = \emptyset] = \sum_{S \subseteq R \cap R'}(-1)^{|S|}$. Hence
+\[
+\sum_{R'}\overline{f_{R'}}\,[R \cap R' = \emptyset] = \sum_{S \subseteq R}(-1)^{|S|}\sum_{R' \supseteq S}\overline{f_{R'}} = (-1)^r\,\overline{f_R},
+\]
+because only $S = R$ survives. Multiplying by $f_R$ and summing over $R$ proves the claim.
+
+\emph{Step 4: the $dz$-part and the signs.} Reordering gives
+\[
+dz_A \wedge d\bar z_B \wedge d\bar z_A \wedge dz_B = (-1)^{ab + b}(dz_A \wedge d\bar z_A) \wedge (dz_B \wedge d\bar z_B)
+= (-1)^{ab + b + a(a-1)/2 + b(b-1)/2}(-2i)^{a+b}\,\nu_D,
+\]
+using $dz_A \wedge d\bar z_A = (-1)^{a(a-1)/2}\bigwedge_{j \in A}(dz_j \wedge d\bar z_j)$ and $dz_j \wedge d\bar z_j = -2i\,\nu_j$. The forms $f$ and $\bar f$
+have even degree, so they can be moved freely. Therefore $i^{p-q}(-1)^{k(k-1)/2}\alpha \wedge \bar\alpha \wedge \omega^{n-k}$ equals
+$(m-2r)!\sum_R|f_R|^2\,\mathrm{vol}$ times
+\[
+i^{a-b}(-2i)^{a+b}(-1)^{k(k-1)/2 + ab + b + a(a-1)/2 + b(b-1)/2 + r} .
+\]
+Now $i^{a-b}(-i)^{a+b} = (-1)^{a+b}i^{2a} = (-1)^b$. With $s = a + b$ and $k = s + 2r$, we have
+$k(k-1)/2 \equiv s(s-1)/2 + r \equiv a(a-1)/2 + b(b-1)/2 + ab + r \pmod 2$. So the total sign is $+1$ and the factor is $2^{a+b}$. Finally
+$|\alpha|^2 = |dz_A \wedge d\bar z_B|^2|f|^2 = 2^{a+b}\sum_R|f_R|^2$, since the $dz_j$, $d\bar z_j$ are orthogonal of squared length $2$
+(Lemma~\ref{hodge-decomposition:lemma-adjoints-by-type}) and the $\nu_R$ are orthonormal. As $m - 2r = n - k$, this is the assertion.
+\end{proof}
+
+\begin{remark}\label{lefschetz-theorems:remark-weil-formula}
+Proposition~\ref{lefschetz-theorems:proposition-pointwise-hodge-riemann} also follows from Weil's formula
+$*\alpha = (-1)^{k(k+1)/2}i^{p-q}L^{n-k}\alpha/(n-k)!$ for primitive $\alpha$ of type $(p,q)$ (Remark~\ref{kahler:remark-hodge-riemann-pointwise}),
+using $\beta \wedge *\bar\alpha = \langle\beta, \alpha\rangle\,\mathrm{vol}$. The direct computation above avoids proving Weil's formula in
+general.
+\end{remark}
+
+\section{The Hodge--Riemann bilinear relations}\label{lefschetz-theorems:section-hodge-riemann}
+
+\begin{definition}\label{lefschetz-theorems:definition-q}
+For $k \leq n$ define the bilinear form $Q$ on $H^k(X; \RR)$, and its complex bilinear extension to $H^k(X; \CC)$, by
+\[
+Q(a, b) = (-1)^{k(k-1)/2}\int_Xa \cup b \cup [\omega]^{n-k} .
+\]
+\end{definition}
+
+\begin{theorem}[Hodge--Riemann bilinear relations]\label{lefschetz-theorems:theorem-hodge-riemann}
+Let $X$ be a compact K\"ahler manifold of dimension $n$ and $k \leq n$. Then:
+\begin{enumerate}
+\item $Q(b, a) = (-1)^kQ(a, b)$, and $Q$ is nondegenerate on $H^k(X; \RR)$;
+\item $Q(H^{p,q}, H^{p',q'}) = 0$ unless $(p', q') = (q, p)$;
+\item the Lefschetz decomposition is $Q$-orthogonal: $Q(L^jP^{k-2j}, L^{j'}P^{k-2j'}) = 0$ for $j \neq j'$;
+\item for $0 \neq a \in P^{p,q}(X)$, $p + q = k$, we have $i^{p-q}Q(a, \bar a) > 0$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) The symmetry is graded commutativity of the cup product. For nondegeneracy, if $Q(a, b) = 0$ for all $b$, then $a \cup [\omega]^{n-k}$
+pairs trivially with $H^k$, so $L^{n-k}a = 0$ by Poincar\'e duality (Theorem~\ref{de-rham:theorem-poincare-duality-de-rham}), and $a = 0$ by
+Theorem~\ref{lefschetz-theorems:theorem-hard-lefschetz}.
+
+(2) is Proposition~\ref{hodge-decomposition:proposition-functoriality}, as $L^{n-k}$ has type $(n-k, n-k)$.
+
+(3) Let $j < j'$, $a \in P^{k-2j}$ and $b \in P^{k-2j'}$. Then $Q(L^ja, L^{j'}b) = \pm\int_Xb \cup L^{n-k+j+j'}a$, and
+$n - k + j + j' \geq n - (k - 2j) + 1$, so $L^{n-k+j+j'}a = 0$ by primitivity. The case $j > j'$ follows by (1).
+
+(4) Let $\alpha$ be the harmonic representative of $a$. It has type $(p,q)$ (Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition})
+and is primitive at every point (Theorem~\ref{lefschetz-theorems:theorem-hard-lefschetz}(4)), and $\bar\alpha$ represents $\bar a$. By
+Proposition~\ref{lefschetz-theorems:proposition-pointwise-hodge-riemann},
+\[
+i^{p-q}Q(a, \bar a) = \int_Xi^{p-q}(-1)^{k(k-1)/2}\alpha \wedge \bar\alpha \wedge \omega^{n-k} = (n-k)!\,\|\alpha\|^2 > 0 .
+\]
+\end{proof}
+
+\begin{remark}\label{lefschetz-theorems:remark-polarisation}
+In the language of Chapter~\ref{hodge-structures}: if $[\omega]$ is integral, then $P^k(X; \QQ)$ with the decomposition
+$P^k(X; \CC) = \bigoplus P^{p,q}$ and the form $Q$ is a \emph{polarised Hodge structure} of weight $k$. By
+Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(3), $H^k(X; \QQ)$ is an orthogonal direct sum of such structures, with $Q$ twisted by
+signs on the summands. This is why the Hodge structures of projective manifolds are polarisable, a fact that underlies the semisimplicity
+arguments of Part~\ref{part-hodge-theory}.
+\end{remark}
+
+\begin{example}\label{lefschetz-theorems:example-curves-riemann}
+For a compact Riemann surface ($n = 1$) and $k = 1$, every class is primitive, and part (4) says that $i\int_X\alpha \wedge \bar\alpha > 0$ for
+every nonzero holomorphic $1$-form $\alpha$. These are \emph{Riemann's bilinear relations}. For $E_\tau = \CC/(\ZZ + \tau\ZZ)$ and $\alpha = dz$,
+\[
+i\int_{E_\tau}dz \wedge d\bar z = i\cdot(-2i)\operatorname{area}(E_\tau) = 2\operatorname{Im}\tau > 0,
+\]
+so the positivity condition $\operatorname{Im}\tau > 0$ on the period $\tau$ is an instance of the Hodge--Riemann relations. It is the
+condition cutting out the period domain, here the upper half plane (Chapter~\ref{vhs}).
+\end{example}
+
+\section{The Hodge index theorem}\label{lefschetz-theorems:section-hodge-index}
+
+\begin{theorem}[Hodge index theorem]\label{lefschetz-theorems:theorem-hodge-index}
+Let $X$ be a compact K\"ahler manifold of even dimension $n$. The signature of the intersection form $(a, b) \mapsto \int_Xa \cup b$ on
+$H^n(X; \RR)$ is
+\[
+\sigma(X) = \sum_{p,q = 0}^n(-1)^ph^{p,q}(X).
+\]
+\end{theorem}
+
+\begin{proof}
+Let $I(a, b) = \int_Xa \cup b$ on $H^n$. By Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(3) and the Hodge decomposition, $H^n(X; \RR)$
+is the $I$-orthogonal direct sum of the real subspaces $W_{j,p,q} = L^j\big(P^{p,q} + P^{q,p}\big) \cap H^n(X; \RR)$ over $j \geq 0$ and
+$p \leq q$ with $p + q = n - 2j =: k$. Here $P^{p,q}$ is paired by $I$ only with $P^{q,p}$ (Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(2)).
+We compute the sign of $I$ on each piece. Note that $k$ is even. For $a \in P^{p,q}$ we have
+$I(L^ja, L^j\bar a) = \int a \cup \bar a \cup [\omega]^{2j} = (-1)^{k(k-1)/2}Q(a, \bar a)$, since $n - k = 2j$. So
+$I(L^ja, L^j\bar a) = (-1)^{k(k-1)/2}i^{q-p}\cdot i^{p-q}Q(a, \bar a)$ has the sign $\varepsilon_{p,q} = (-1)^{k(k-1)/2 + (q-p)/2}$. Writing $k = 2m$,
+$k(k-1)/2 \equiv m$ and $(q - p)/2 = m - p$, so $\varepsilon_{p,q} = (-1)^p$.
+\begin{itemize}
+\item If $p < q$, the real points of $L^j(P^{p,q} \oplus P^{q,p})$ are the $L^j(a + \bar a)$, $a \in P^{p,q}$, and
+$I(L^j(a + \bar a), L^j(a + \bar a)) = 2I(L^ja, L^j\bar a)$, because $I(L^ja, L^ja) = 0$ by type. So $I$ is definite of sign $(-1)^p$ on a
+real space of dimension $2\dim P^{p,q}$.
+\item If $p = q$, then $I$ is definite of sign $(-1)^p$ on the real points of $L^jP^{p,p}$, which has real dimension $\dim P^{p,p}$.
+\end{itemize}
+Hence $\sigma(X) = \sum_{p+q \leq n,\ p+q \text{ even}}(-1)^p\dim P^{p,q}$. By
+Theorem~\ref{lefschetz-theorems:theorem-hard-lefschetz}(5) and Corollary~\ref{lefschetz-theorems:corollary-betti-inequalities},
+$\dim P^{p,q} = h^{p,q} - h^{p-1,q-1}$ for $p + q \leq n$. Substituting $p' = p - 1$, $q' = q - 1$ in the second sum gives
+\[
+\sigma(X) = \sum_{p+q = n}(-1)^ph^{p,q} + 2\sum_{p+q < n,\ p+q \text{ even}}(-1)^ph^{p,q} .
+\]
+On the other hand, in $\sum_{p,q}(-1)^ph^{p,q}$ the terms with $p + q$ odd cancel in pairs by Hodge symmetry $h^{p,q} = h^{q,p}$, since then
+$(-1)^p = -(-1)^q$. The terms with $p + q > n$ even equal those with $p + q < n$ by Serre duality $h^{p,q} = h^{n-p,n-q}$, since $n$ is
+even. So the two expressions agree.
+\end{proof}
+
+\begin{corollary}\label{lefschetz-theorems:corollary-surfaces}
+Let $X$ be a compact K\"ahler surface with irregularity $q = h^{0,1}$ and geometric genus $p_g = h^{2,0}$. The intersection form on
+$H^2(X; \RR)$ has signature $(2p_g + 1, h^{1,1} - 1)$, and its restriction to $H^{1,1}_\RR = H^{1,1}(X) \cap H^2(X; \RR)$ has signature
+$(1, h^{1,1} - 1)$. So $b^+(X) = 2p_g + 1$, and a real $(1,1)$-class $a$ with $\int_Xa \cup [\omega] = 0$ satisfies $\int_Xa^2 \leq 0$, with
+equality only for $a = 0$.
+\end{corollary}
+
+\begin{proof}
+For $n = 2$ the pieces in the proof of Theorem~\ref{lefschetz-theorems:theorem-hodge-index} are: $L(P^{0,0}) = \RR[\omega]$ with sign $+$;
+$P^{0,2} + P^{2,0} = H^{0,2} \oplus H^{2,0}$ with sign $+$ and real dimension $2p_g$ (every class of type $(2,0)$ is primitive since
+$H^{3,1} = 0$); and $P^{1,1}$ with sign $-$ and dimension $h^{1,1} - 1$. The real $(1,1)$-classes are $\RR[\omega] \oplus P^{1,1}_\RR$. A class
+$a \in H^{1,1}_\RR$ with $\int a \cup [\omega] = 0$ is orthogonal to $[\omega]$, so it lies in $P^{1,1}_\RR$, where the form is negative
+definite.
+\end{proof}
+
+\begin{remark}\label{lefschetz-theorems:remark-hodge-index-divisors}
+For a projective surface, applied to classes of divisors, Corollary~\ref{lefschetz-theorems:corollary-surfaces} is the classical Hodge
+index theorem: the intersection form on the N\'eron--Severi group has exactly one positive eigenvalue (Chapter~\ref{intersection-theory}).
+Grothendieck's standard conjecture of Hodge type asks for the analogue of Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(4) for
+algebraic cycles in arbitrary characteristic (Chapter~\ref{standard-conjectures}).
+\end{remark}
+
+\section{Further remarks and counterexamples}\label{lefschetz-theorems:section-remarks}
+
+\begin{remark}\label{lefschetz-theorems:remark-symplectic}
+Hard Lefschetz is a special property of K\"ahler manifolds. Thurston gave a compact symplectic $4$-manifold, a nilmanifold with
+$b_1 = 3$, that admits no K\"ahler structure \cite{thurston-1976}. Its first Betti number is odd, so
+Corollary~\ref{hodge-decomposition:corollary-hodge-numbers} already rules out a K\"ahler structure. Moreover, for every symplectic form
+$\omega$ the Lefschetz map $[\omega] \cup - \colon H^1 \to H^3$ fails to be an isomorphism: otherwise $(a, b) \mapsto \int a \cup b \cup [\omega]$
+would be a nondegenerate skew-symmetric form on the odd-dimensional space $H^1$. For singular projective varieties, hard Lefschetz
+fails for ordinary cohomology but holds for intersection cohomology \cite{bbd}. In characteristic $p$, Deligne proved hard Lefschetz for
+$\ell$-adic cohomology as part of his second proof of the Weil conjectures \cite{deligne-weil-2}.
+\end{remark}
+
+\begin{counterexample}\label{lefschetz-theorems:counterexample-non-primitive-sign}
+The sign in Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(4) genuinely requires primitivity. On $X = \CC\PP^1 \times \CC\PP^1$ with
+$\omega = \mathrm{pr}_1^*\omega_{FS} + \mathrm{pr}_2^*\omega_{FS}$, let $h_1$, $h_2$ be the pullbacks of the generators, so $[\omega] = h_1 + h_2$,
+$h_1^2 = h_2^2 = 0$ and $\int h_1h_2 = 1$. For $k = 2$, $Q(a, a) = -\int a^2$. Then $Q(h_1 - h_2, h_1 - h_2) = 2 > 0$ for the primitive class
+$h_1 - h_2$, as predicted for type $(1,1)$, while $Q([\omega], [\omega]) = -2 < 0$ for the non-primitive class $[\omega]$.
+\end{counterexample}
+
+\section{Exercises}\label{lefschetz-theorems:section-exercises}
+
+\begin{exercise}\label{lefschetz-theorems:exercise-signatures}
+Compute the signature of $\CC\PP^2$, of $\CC\PP^1 \times \CC\PP^1$, and of a smooth quartic surface in $\CC\PP^3$ from
+Theorem~\ref{lefschetz-theorems:theorem-hodge-index}, using the Hodge numbers of Chapter~\ref{hodge-decomposition}.
+\end{exercise}
+
+\begin{solution}
+For a surface $\sigma = 2 + 2p_g - h^{1,1}$ (the $q$-terms cancel). For $\CC\PP^2$: $p_g = 0$, $h^{1,1} = 1$, so $\sigma = 1$. For
+$\CC\PP^1 \times \CC\PP^1$: $p_g = 0$ and $h^{1,1} = 2$ by Exercise~\ref{hodge-decomposition:exercise-kunneth-hodge}, so $\sigma = 0$, matching the
+hyperbolic form of Counterexample~\ref{lefschetz-theorems:counterexample-non-primitive-sign}. For the quartic (Example~\ref{hodge-decomposition:example-quartic}):
+$p_g = 1$ and $h^{1,1} = 20$, so $\sigma = -16$.
+\end{solution}
+
+\begin{exercise}\label{lefschetz-theorems:exercise-h1-injective}
+Let $X$ be compact K\"ahler of dimension $n \geq 1$ and $0 \neq a \in H^1(X; \RR)$. Show that $a \cup [\omega]^{n-1} \neq 0$, and that
+$(a, b) \mapsto \int_Xa \cup b \cup [\omega]^{n-1}$ is a symplectic form on $H^1(X; \RR)$.
+\end{exercise}
+
+\begin{solution}
+The first statement is hard Lefschetz for $k = 1$. The form is $Q$ for $k = 1$, so it is skew-symmetric and nondegenerate by
+Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(1). This gives another proof that $b_1$ is even.
+\end{solution}
+
+\begin{exercise}\label{lefschetz-theorems:exercise-b2-kahler-surface}
+Let $X$ be a compact K\"ahler surface with $b_2(X) = 1$. Show that $p_g = 0$ and $h^{1,1} = 1$, and that a generator $e$ of
+$H^2(X; \ZZ)/\mathrm{torsion} \cong \ZZ$ satisfies $\int_Xe^2 = 1$.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}, $b_2 = 2p_g + h^{1,1}$, and $h^{1,1} \geq 1$
+(Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}), so $p_g = 0$ and $h^{1,1} = 1$. By
+Corollary~\ref{lefschetz-theorems:corollary-surfaces} the intersection form has signature $(1, 0)$, so $\int e^2 > 0$. By Poincar\'e duality
+the cup product pairing on $H^2(X; \ZZ)/\mathrm{torsion}$ is unimodular (Corollary~\ref{poincare-duality:corollary-cup-pairing}), so
+$\int e^2 = \pm 1$, hence $1$.
+\end{solution}
+
+\begin{exercise}\label{lefschetz-theorems:exercise-primitive-cp1-squared}
+Determine the Lefschetz decomposition of $H^\bullet(\CC\PP^1 \times \CC\PP^1; \RR)$ for $[\omega] = h_1 + h_2$, and for
+$[\omega] = h_1 + 2h_2$.
+\end{exercise}
+
+\begin{solution}
+In both cases $P^0 = \RR$ and $H^4 = L^2P^0$. For $[\omega] = h_1 + h_2$, $P^2$ is the kernel of $L \colon H^2 \to H^4$,
+$a_1h_1 + a_2h_2 \mapsto (a_1 + a_2)h_1h_2$, which is spanned by $h_1 - h_2$, and $H^2 = LP^0 \oplus P^2$. For $[\omega] = h_1 + 2h_2$, $L$
+sends $a_1h_1 + a_2h_2$ to $(2a_1 + a_2)h_1h_2$, so $P^2$ is spanned by $h_1 - 2h_2$. The primitive subspace depends on the K\"ahler class.
+\end{solution}
+
+\begin{exercise}\label{lefschetz-theorems:exercise-sl2-weights-cohomology}
+Show that the character of the $\mathfrak{sl}_2$-representation $H^\bullet(X; \RR)$ determines the Betti numbers and vice versa, and write
+$H^\bullet(\CC\PP^n; \RR)$ and $H^\bullet$ of a compact Riemann surface of genus $g$ as sums of irreducibles $V(m)$.
+\end{exercise}
+
+\begin{solution}
+The weight $k - n$ has multiplicity $b_k$, so the character is $\sum_kb_kt^{k-n}$. For $\CC\PP^n$, $H^\bullet = V(n)$, spanned by
+$1, [\omega], \ldots, [\omega]^n$. For a Riemann surface, $H^\bullet = V(1) \oplus 2g\,V(0)$: the classes $1$ and $[\omega]$ span $V(1)$, and $H^1$
+consists of primitive classes of weight $0$.
+\end{solution}

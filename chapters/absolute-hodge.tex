@@ -1,0 +1,361 @@
+\chapter{Absolute Hodge Classes}\label{absolute-hodge}
+\chapterstatus{complete}
+
+\section{Introduction}\label{absolute-hodge:section-introduction}
+
+The cohomology of a nonsingular projective variety over $\CC$ comes in several flavours: Betti cohomology with its rational structure, algebraic de Rham cohomology with its Hodge filtration, and
+$\ell$-adic cohomology with, for varieties defined over smaller fields, a Galois action. The Hodge conjecture concerns classes that are special in the first two at once. An automorphism
+$\sigma$ of the field $\CC$, in general wildly discontinuous, transforms a variety $X$ into a \emph{conjugate variety} $X^\sigma$ and acts on de Rham and $\ell$-adic cohomology, but not on Betti
+cohomology. Classes of algebraic cycles are carried to classes of algebraic cycles, so they remain rational and of type $(p,p)$ after conjugation. Deligne called a Hodge class \emph{absolute} if it
+shares this property. Absolute Hodge classes sit between algebraic classes and Hodge classes, and, unlike algebraic classes, one can prove things about them: Deligne's
+theorem that all Hodge classes on abelian varieties are absolute (Theorem~\ref{absolute-hodge:theorem-deligne}) is the strongest general result in the direction of the Hodge conjecture.
+References: \cite{deligne-abelian}, \cite{charles-schnell}, \cite{voisin-2007}, and the source \emph{The Hodge Conjecture} (Chapter 8).
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-conjecture} (The Hodge Conjecture), Chapter~\ref{etale-cohomology} (\'Etale Cohomology), Chapter~\ref{gaga} (Analytic Spaces and GAGA),
+Chapter~\ref{mumford-tate} (Mumford--Tate Groups), Chapter~\ref{known-cases} (Known Cases and Evidence) and Chapter~\ref{mixed-hodge-structures} (Mixed Hodge Structures).
+
+\noindent\textbf{Conventions.} In this chapter $X$ is a nonsingular projective variety over $\CC$ of dimension $n$, and $\ell$ runs over all primes. We write
+$\QQ(p) = (2\pi i)^p\QQ \subseteq \CC$ and $H^k_B(X)(p) = H^k(X^{\mathrm{an}}; \QQ) \otimes \QQ(p) \subseteq H^k(X^{\mathrm{an}}; \CC)$ for twisted Betti cohomology, $H^k_{\mathrm{dR}}(X) = H^k_{\mathrm{dR}}(X/\CC)$
+(Definition~\ref{gaga:definition-algebraic-de-rham}), and $H^k_\ell(X)(p) = H^k_{\mathrm{et}}(X, \QQ_\ell(p))$ (Definition~\ref{etale-cohomology:definition-l-adic}; here $X$ is already over an algebraically
+closed field).
+
+\section{Conjugate varieties and comparison isomorphisms}\label{absolute-hodge:section-conjugates}
+
+\begin{definition}\label{absolute-hodge:definition-conjugate}
+Let $\sigma \in \mathrm{Aut}(\CC)$. The \emph{conjugate variety} is $X^\sigma = X \times_{\Spec\CC,\sigma}\Spec\CC$, the base change of $X$ along the morphism $\Spec\CC \to \Spec\CC$ induced by $\sigma$. The
+projection $\sigma_X \colon X^\sigma \to X$ is an isomorphism of schemes, but not of $\CC$-schemes. If $X \subseteq \PP^N$ is cut out by homogeneous polynomials $f_j$, then $X^\sigma$ is cut out by the
+polynomials $f_j^\sigma$ obtained by applying $\sigma$ to the coefficients, and on closed points $\sigma_X^{-1}$ is $(x_0 : \cdots : x_N) \mapsto (\sigma(x_0) : \cdots : \sigma(x_N))$.
+\end{definition}
+
+\begin{example}\label{absolute-hodge:example-elliptic}
+Let $E$ be the elliptic curve $y^2 = x^3 + ax + b$. Then $E^\sigma$ is $y^2 = x^3 + \sigma(a)x + \sigma(b)$, so $j(E^\sigma) = \sigma(j(E))$, and $E^\sigma \cong E$ if and only if $\sigma$ fixes $j(E)$. If
+$j(E)$ is transcendental, then $\sigma(j(E))$ can be any transcendental number, and $E$ has uncountably many pairwise non-isomorphic conjugates. If $E$ is defined over $\QQ$, then $E^\sigma = E$ for
+every $\sigma$, but $\sigma_E$ is a discontinuous bijection of $E(\CC)$ for $\sigma \neq \mathrm{id}$, complex conjugation.
+\end{example}
+
+\begin{definition}\label{absolute-hodge:definition-transport}
+For $\sigma \in \mathrm{Aut}(\CC)$ define
+\begin{enumerate}
+\item $\sigma_* \colon H^k_{\mathrm{dR}}(X) \to H^k_{\mathrm{dR}}(X^\sigma)$, the $\sigma$-linear isomorphism induced by $\sigma_X^*\Omega^\bullet_{X/\CC} = \Omega^\bullet_{X^\sigma/\CC}$
+(Corollary~\ref{gaga:corollary-conjugates}); it maps $F^pH^k_{\mathrm{dR}}(X)$ onto $F^pH^k_{\mathrm{dR}}(X^\sigma)$;
+\item $\sigma_* = \sigma_X^* \colon H^k_\ell(X)(p) \to H^k_\ell(X^\sigma)(p)$, the pullback in \'etale cohomology along the isomorphism of schemes $\sigma_X$, which identifies the sheaves $\mu_{\ell^m}$; it is
+$\QQ_\ell$-linear.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}\label{absolute-hodge:remark-no-betti}
+There is no map $H^k_B(X) \to H^k_B(X^\sigma)$ for general $\sigma$: $\sigma_X$ is not continuous for the classical topology unless $\sigma$ is the identity or complex conjugation, and
+$X^{\mathrm{an}}$ and $(X^\sigma)^{\mathrm{an}}$ need not even be homeomorphic (Remark~\ref{gaga:remark-conjugates-not-homeomorphic}). The \emph{comparison isomorphisms}
+\[
+c_{\mathrm{dR}} \colon H^k_B(X)(p) \otimes_\QQ\CC \xrightarrow{\ \sim\ } H^k_{\mathrm{dR}}(X), \qquad c_\ell \colon H^k_B(X)(p) \otimes_\QQ\QQ_\ell \xrightarrow{\ \sim\ } H^k_\ell(X)(p)
+\]
+of Theorem~\ref{gaga:theorem-grothendieck-comparison} and Theorem~\ref{etale-cohomology:theorem-comparison} (the second uses $\ZZ(1) \otimes \ZZ/\ell^m \cong \mu_{\ell^m}$, $2\pi i/\ell^m \mapsto e^{2\pi i/\ell^m}$) give two
+further structures on $H^k_{\mathrm{dR}}(X)$ and $H^k_\ell(X)$: a $\QQ$-structure and the complex conjugation it defines. The map $\sigma_*$ preserves the algebraic structure (the Hodge filtration,
+cup products, algebraic cycle classes) but has no reason to preserve these transcendental ones. In particular it preserves $F^p$ but not $\overline{F^q}$, so it need not map $H^{p,q}(X)$ to $H^{p,q}(X^\sigma)$.
+\end{remark}
+
+\begin{proposition}\label{absolute-hodge:proposition-invariants}
+The Betti numbers, the Hodge numbers, the dimension of $\mathrm{Hdg}^1(X)$ and the Picard number of $X$ and $X^\sigma$ agree.
+\end{proposition}
+
+\begin{proof}
+Betti and Hodge numbers: Corollary~\ref{gaga:corollary-conjugates}. For divisors, $\sigma_X^*$ gives a bijection between divisors on $X$ and divisors on $X^\sigma$ that preserves linear and algebraic
+equivalence, since these are defined algebraically; so the N\'eron--Severi groups are isomorphic and the Picard numbers agree. By the Lefschetz $(1,1)$-theorem
+(Theorem~\ref{lefschetz-11:theorem-lefschetz-11}), $\dim\mathrm{Hdg}^1(X)$ is the Picard number.
+\end{proof}
+
+\section{Absolute Hodge classes}\label{absolute-hodge:section-absolute}
+
+\begin{definition}[Deligne]\label{absolute-hodge:definition-hodge-cycle}
+Write $H^{2p}_{\mathbb{A}}(X)(p) = H^{2p}_{\mathrm{dR}}(X) \times \prod_\ell H^{2p}_\ell(X)(p)$ and $t = (t_{\mathrm{dR}}, (t_\ell)_\ell)$ for its elements.
+\begin{enumerate}
+\item $t$ is a \emph{Hodge cycle} on $X$ if there is $t_B \in H^{2p}_B(X)(p)$ with $c_{\mathrm{dR}}(t_B) = t_{\mathrm{dR}}$ and $c_\ell(t_B) = t_\ell$ for all $\ell$, and $t_{\mathrm{dR}} \in F^pH^{2p}_{\mathrm{dR}}(X)$.
+\item $t$ is an \emph{absolute Hodge cycle} if $\sigma_*t = (\sigma_*t_{\mathrm{dR}}, (\sigma_*t_\ell)_\ell)$ is a Hodge cycle on $X^\sigma$ for every $\sigma \in \mathrm{Aut}(\CC)$.
+\end{enumerate}
+The absolute Hodge cycles form a $\QQ$-vector space $C^p_{\mathrm{AH}}(X)$: $\sigma_*$ is additive and fixes rational scalars.
+\end{definition}
+
+\begin{lemma}\label{absolute-hodge:lemma-hodge-cycles}
+The map $t \mapsto (2\pi i)^{-p}t_B$ is an isomorphism from the $\QQ$-vector space of Hodge cycles on $X$ onto $\mathrm{Hdg}^p(X)$. Its inverse sends $\alpha$ to
+$(c_{\mathrm{dR}}((2\pi i)^p\alpha), (c_\ell((2\pi i)^p\alpha))_\ell)$.
+\end{lemma}
+
+\begin{proof}
+$t_B$ is determined by $t$, because $c_\ell$ is injective. Put $\alpha = (2\pi i)^{-p}t_B \in H^{2p}(X^{\mathrm{an}}; \QQ)$. Since $F^p$ is a complex subspace, $t_{\mathrm{dR}} \in F^p$ if and only if $\alpha \in F^p$.
+A rational class is fixed by complex conjugation, so $\alpha \in F^p$ if and only if $\alpha \in F^p \cap \overline{F^p} = H^{p,p}$ (Proposition~\ref{hodge-structures:proposition-filtration}), that is,
+$\alpha \in \mathrm{Hdg}^p(X)$. The inverse map is clear.
+\end{proof}
+
+We write $\mathrm{Hdg}^p_{\mathrm{AH}}(X) \subseteq \mathrm{Hdg}^p(X)$ for the image of $C^p_{\mathrm{AH}}(X)$, and call its elements \emph{absolute Hodge classes}.
+
+\begin{proposition}\label{absolute-hodge:proposition-algebraic}
+Classes of algebraic cycles are absolute Hodge: $Z^p_{\mathrm{alg}}(X) \subseteq \mathrm{Hdg}^p_{\mathrm{AH}}(X) \subseteq \mathrm{Hdg}^p(X)$.
+\end{proposition}
+
+\begin{proof}
+Let $Z$ be a cycle of codimension $p$ with $\QQ$-coefficients. There are cycle classes $\mathrm{cl}_{\mathrm{dR}}(Z) \in F^pH^{2p}_{\mathrm{dR}}(X)$ and $\mathrm{cl}_\ell(Z) \in H^{2p}_\ell(X)(p)$
+(Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(4)), both defined algebraically, and with suitable sign conventions they are the images of $(2\pi i)^p\mathrm{cl}(Z)$ under $c_{\mathrm{dR}}$ and $c_\ell$:
+for $\ell$-adic cohomology this is Theorem~\ref{etale-cohomology:theorem-comparison}, and for de Rham cohomology it is \cite{deligne-abelian}. So $\mathrm{cl}_{\mathbb{A}}(Z) = (\mathrm{cl}_{\mathrm{dR}}(Z), (\mathrm{cl}_\ell(Z))_\ell)$ is a Hodge cycle. Since the cycle classes are defined algebraically,
+they are compatible with transport of structure along the isomorphism of schemes $\sigma_X$: $\sigma_*\mathrm{cl}_{\mathbb{A}}(Z) = \mathrm{cl}_{\mathbb{A}}(Z^\sigma)$, where $Z^\sigma = \sigma_X^{-1}(Z)$ is a cycle on
+$X^\sigma$. By the same argument on $X^\sigma$, this is a Hodge cycle. The second inclusion is the case $\sigma = \mathrm{id}$.
+\end{proof}
+
+\begin{remark}\label{absolute-hodge:remark-two-pi-i}
+The factor $(2\pi i)^p$ is forced: already for a point on $\PP^1$, the de Rham class is $\pm 2\pi i$ times the Betti class (Exercise~\ref{absolute-hodge:exercise-two-pi-i}). This is why the rational
+structure relevant for cycle classes of codimension $p$ is $H^{2p}_B(X)(p)$ and not $H^{2p}(X^{\mathrm{an}}; \QQ)$.
+\end{remark}
+
+\begin{conjecture}[Absolute Hodge conjecture]\label{absolute-hodge:conjecture-absolute}
+Every Hodge class is absolute Hodge: $\mathrm{Hdg}^p_{\mathrm{AH}}(X) = \mathrm{Hdg}^p(X)$.
+\end{conjecture}
+
+By Proposition~\ref{absolute-hodge:proposition-algebraic}, the Hodge conjecture for $X$ and $X^\sigma$ in all codimensions implies Conjecture~\ref{absolute-hodge:conjecture-absolute}. The
+converse is not expected to be provable directly: being absolute Hodge is a condition on cohomology and its comparison isomorphisms, and it never produces a subvariety.
+
+\begin{remark}\label{absolute-hodge:remark-de-rham-betti}
+Several variants are in use. Omitting the $\ell$-adic components gives \emph{de Rham--Betti absolute} classes, which is the version in the source \emph{The Hodge Conjecture}; Deligne's theorem below holds
+for the full definition, and all known results hold for both. Andr\'e's \emph{motivated cycles} \cite{andre-1996-motifs} are a smaller class, generated by algebraic cycles and the inverse Lefschetz
+operators (Corollary~\ref{absolute-hodge:corollary-lambda}); they are absolute Hodge.
+\end{remark}
+
+\section{Operations on absolute Hodge classes}\label{absolute-hodge:section-operations}
+
+\begin{proposition}\label{absolute-hodge:proposition-operations}
+Let $f \colon X \to Y$ be a morphism of nonsingular projective varieties, of relative dimension $d = \dim X - \dim Y$. Then absolute Hodge classes are preserved by
+\begin{enumerate}
+\item pullback $f^* \colon \mathrm{Hdg}^p(Y) \to \mathrm{Hdg}^p(X)$ and pushforward $f_* \colon \mathrm{Hdg}^p(X) \to \mathrm{Hdg}^{p-d}(Y)$;
+\item cup product, so $\bigoplus_p\mathrm{Hdg}^p_{\mathrm{AH}}(X)$ is a $\QQ$-subalgebra of $\bigoplus_p\mathrm{Hdg}^p(X)$;
+\item the K\"unneth projections $H^{2p}(X \times Y) \to H^i(X) \otimes H^{2p-i}(Y)$: the K\"unneth components of an absolute Hodge class on $X \times Y$ are absolute Hodge;
+\item correspondences: if $\gamma \in \mathrm{Hdg}^q_{\mathrm{AH}}(X \times Y)$ then $\gamma_* = \mathrm{pr}_{2*}(\mathrm{pr}_1^*(-) \cup \gamma)$ maps absolute Hodge classes on $X$ to absolute Hodge classes on $Y$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Each operation is defined in Betti, de Rham and $\ell$-adic cohomology. In de Rham and $\ell$-adic cohomology it is defined algebraically, from pullbacks, cup products and trace maps, so it commutes with
+$\sigma_*$: for instance $\sigma_*(f^*t) = (f^\sigma)^*(\sigma_*t)$, where $f^\sigma \colon X^\sigma \to Y^\sigma$ is the conjugate morphism. The operations are compatible with the comparison isomorphisms
+$c_{\mathrm{dR}}$ and $c_\ell$ (with the Tate twists indicated: $f_*$ goes from $H^{2p}(X)(p)$ to $H^{2p-2d}(Y)(p - d)$), and on Betti cohomology they are morphisms of Hodge structures, so they map Hodge cycles to Hodge
+cycles \cite{deligne-abelian}. Given an absolute Hodge cycle $t$ on $Y$ and $\sigma \in \mathrm{Aut}(\CC)$, the cycle $\sigma_*(f^*t) = (f^\sigma)^*(\sigma_*t)$ is the image of the Hodge cycle $\sigma_*t$ on $Y^\sigma$
+under an operation that preserves Hodge cycles, hence a Hodge cycle. The other cases are identical: for (3), the K\"unneth decomposition is built from $\mathrm{pr}_1^*$, $\mathrm{pr}_2^*$ and cup product, so the
+projections commute with $\sigma_*$ and preserve Hodge cycles, because the K\"unneth decomposition of $H^{2p}(X \times Y)$ is a decomposition into sub-Hodge structures; and (4) is a composite of (1) and (2).
+\end{proof}
+
+\begin{corollary}\label{absolute-hodge:corollary-kunneth}
+The K\"unneth components $\pi_i \in H^{2n-i}(X) \otimes H^i(X) \subseteq H^{2n}(X \times X)$ of the class of the diagonal are absolute Hodge classes.
+\end{corollary}
+
+\begin{proof}
+The class of the diagonal is algebraic, hence absolute Hodge by Proposition~\ref{absolute-hodge:proposition-algebraic}; apply Proposition~\ref{absolute-hodge:proposition-operations}(3).
+\end{proof}
+
+\begin{corollary}\label{absolute-hodge:corollary-lambda}
+Let $h \in H^2(X)$ be the class of an ample divisor and $\Lambda$ the inverse Lefschetz operator of $L = h \cup -$ (Proposition~\ref{lefschetz-theorems:proposition-lambda-unique}). The class
+$\lambda \in H^{2n-2}(X \times X)(n-1)$ of $\Lambda$, obtained through the K\"unneth decomposition and Poincar\'e duality, is an absolute Hodge class.
+\end{corollary}
+
+\begin{proof}
+Let $\sigma \in \mathrm{Aut}(\CC)$ and let $h^\sigma$ be the class of the conjugate divisor on $X^\sigma$, with operators $L^\sigma$ and $\Lambda^\sigma$. In de Rham cohomology, $\sigma_*$ intertwines $L$ with $L^\sigma$ (it
+preserves cup products and cycle classes) and preserves degrees. Hence $\sigma_*\Lambda\sigma_*^{-1}$ satisfies the equations $[L^\sigma, f] = h_{\deg}$, $[h_{\deg}, f] = -2f$, where $h_{\deg}$ acts by $k - n$ in degree $k$,
+and by the uniqueness in Proposition~\ref{lefschetz-theorems:proposition-lambda-unique} it equals $\Lambda^\sigma_{\mathrm{dR}}$. The same argument applies in $\ell$-adic cohomology, using hard Lefschetz there
+(Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(6)). On the other hand, the Betti operator $\Lambda^\sigma_B$ is defined over $\QQ$ (Proposition~\ref{lefschetz-theorems:proposition-lambda-unique}),
+and its images under $c_{\mathrm{dR}}$ and $c_\ell$ satisfy the defining equations, so they are $\Lambda^\sigma_{\mathrm{dR}}$ and $\Lambda^\sigma_\ell$ by uniqueness again. Finally, $\Lambda^\sigma_B$ is a morphism of Hodge
+structures of type $(-1,-1)$. Indeed, let $h(z)$, $z \in \mathbb{S}(\RR) = \CC^*$, be the action of the Deligne torus on $H^\bullet(X^\sigma; \RR)$ (Proposition~\ref{hodge-structures:proposition-deligne-torus}). Since
+$L^\sigma$ maps $H^{p,q}$ to $H^{p+1,q+1}$, $h(z)L^\sigma h(z)^{-1} = |z|^{-2}L^\sigma$, and $h(z)$ commutes with the grading operator. So $|z|^{-2}h(z)\Lambda^\sigma_Bh(z)^{-1}$ solves the defining equations for
+$L^\sigma$, and by uniqueness $h(z)\Lambda^\sigma_Bh(z)^{-1} = |z|^2\Lambda^\sigma_B$ for all $z$, which says exactly that $\Lambda^\sigma_B$ maps $H^{p,q}$ to $H^{p-1,q-1}$. So the class of $\Lambda^\sigma$ is a Hodge class on $X^\sigma \times X^\sigma$
+(Proposition~\ref{hodge-structures:proposition-hodge-classes-morphisms}), and $\sigma_*\lambda$ is a Hodge cycle.
+\end{proof}
+
+\begin{remark}\label{absolute-hodge:remark-lefschetz-standard}
+Grothendieck's Lefschetz standard conjecture asks for $\lambda$ to be algebraic (Chapter~\ref{standard-conjectures}). Corollary~\ref{absolute-hodge:corollary-lambda} proves the weaker statement that $\lambda$ is absolute
+Hodge, and the Hodge conjecture would bridge the gap. This is typical: statements whose algebraic form is open are often theorems in the absolute Hodge setting.
+\end{remark}
+
+\section{Galois action and fields of definition}\label{absolute-hodge:section-galois}
+
+Every $X$ is defined over a subfield of $\CC$ finitely generated over $\QQ$, since it is cut out by finitely many polynomials: $X = X_0 \times_k\CC$ with $k \subseteq \CC$ finitely generated over $\QQ$ and $X_0$ a
+nonsingular projective $k$-variety. Let $\bar k$ be the algebraic closure of $k$ in $\CC$ and $G_k = \mathrm{Gal}(\bar k/k)$. For $\tau \in \mathrm{Aut}(\CC/k)$ we have $X^\tau = X$ canonically, so $\tau_*$ acts on
+$H^{2p}_{\mathbb{A}}(X)(p)$. On $H^{2p}_\ell(X)(p) \cong H^{2p}_{\mathrm{et}}(X_0 \times_k\bar k, \QQ_\ell(p))$, where the isomorphism is invariance of \'etale cohomology of proper varieties under extension of
+algebraically closed fields \cite[Chapter VI]{milne-etale}, the action of $\tau$ is the Galois action of $\tau|_{\bar k} \in G_k$.
+
+\begin{proposition}\label{absolute-hodge:proposition-galois-finite}
+In this situation, $\mathrm{Aut}(\CC/k)$ maps $C^p_{\mathrm{AH}}(X)$ to itself, and it acts on it through a finite quotient of $G_k$. Consequently there is a finite extension $k' \subseteq \bar k$ of $k$ such that
+for every absolute Hodge cycle $t$, the $\ell$-adic components $t_\ell \in H^{2p}_{\mathrm{et}}(X_0 \times_k\bar k, \QQ_\ell(p))$ are fixed by $G_{k'}$.
+\end{proposition}
+
+\begin{proof}
+If $t$ is absolute Hodge and $\tau \in \mathrm{Aut}(\CC/k)$, then $\tau_*t$ is a Hodge cycle on $X^\tau = X$, and $\sigma_*(\tau_*t) = (\sigma\tau)_*t$ is a Hodge cycle on $X^{\sigma\tau}$ for every $\sigma$; so $\tau_*t$ is
+absolute Hodge. The space $V = C^p_{\mathrm{AH}}(X)$ is finite-dimensional over $\QQ$, since $t \mapsto t_B$ embeds it in $H^{2p}_B(X)(p)$. Fix a prime $\ell$. The map $V \otimes \QQ_\ell \to H^{2p}_\ell(X)(p)$,
+$t \otimes a \mapsto at_\ell$, is injective, because it is the restriction of the comparison isomorphism $c_\ell$ to $V_B \otimes \QQ_\ell$, where $V_B = \{t_B : t \in V\}$. It is equivariant, and the action of
+$\tau$ on the right depends only on $\tau|_{\bar k}$. So the action on $V$ is given by a homomorphism $\rho \colon G_k \to \mathrm{GL}(V)$, and $\rho$ is continuous for the $\ell$-adic topology on
+$\mathrm{GL}(V \otimes \QQ_\ell)$, because the Galois action on $\ell$-adic cohomology is continuous. The image $\rho(G_k)$ is therefore a compact subgroup of $\mathrm{GL}(V \otimes \QQ_\ell)$, and it is contained in
+the countable group $\mathrm{GL}(V)$. A countable compact Hausdorff group is finite: by the Baire category theorem one of its points is not nowhere dense, hence is open, so by homogeneity every
+point is open, and a discrete compact space is finite. Hence $\ker\rho$ is an open subgroup of $G_k$, of the form $G_{k'}$ with $k'/k$ finite, and it fixes every $t$, hence every $t_\ell$.
+\end{proof}
+
+\begin{corollary}\label{absolute-hodge:corollary-tate-classes}
+If $X = X_0 \times_k\CC$ as above, the $\ell$-adic components of absolute Hodge classes are \emph{Tate classes}: classes in $H^{2p}_{\mathrm{et}}(X_0 \times_k\bar k, \QQ_\ell(p))$ fixed by an open subgroup
+of $G_k$. If the absolute Hodge conjecture holds for $X$, then every Hodge class of $X$ gives, through $c_\ell$, a Tate class.
+\end{corollary}
+
+\begin{proof}
+The first statement is Proposition~\ref{absolute-hodge:proposition-galois-finite}. For the second, a Hodge class $\alpha$ determines the Hodge cycle of Lemma~\ref{absolute-hodge:lemma-hodge-cycles}, which is
+absolute Hodge by hypothesis, and its $\ell$-adic component is $c_\ell((2\pi i)^p\alpha)$.
+\end{proof}
+
+\begin{remark}\label{absolute-hodge:remark-hodge-to-tate}
+Corollary~\ref{absolute-hodge:corollary-tate-classes} is the bridge from Hodge theory to arithmetic. Algebraic classes of cycles defined over $k'$ are Tate classes for $G_{k'}$
+(Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(4)), and the Tate conjecture predicts the converse (Chapter~\ref{tate-conjecture}). Absolute Hodge classes give Tate classes without
+producing cycles.
+\end{remark}
+
+\section{Principle B}\label{absolute-hodge:section-principle-b}
+
+\begin{theorem}[Deligne's Principle B]\label{absolute-hodge:theorem-principle-b}
+Let $f \colon \mathcal{X} \to S$ be a smooth projective morphism of nonsingular complex varieties with $S$ connected, and let $t$ be a global section of the local system $R^{2p}f_*\QQ(p)$ such that
+$t_s \in H^{2p}_B(X_s)(p)$ is (the Betti component of) a Hodge cycle for every $s \in S$. If $t_{s_0}$ is absolute Hodge for one point $s_0 \in S$, then $t_s$ is absolute Hodge for every $s \in S$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Fix $\sigma \in \mathrm{Aut}(\CC)$. The relative de Rham cohomology $\mathcal{H}^{2p}_{\mathrm{dR}}(\mathcal{X}/S)$ is an algebraic vector bundle on $S$ with an algebraic flat connection, the Gauss--Manin connection
+(Definition~\ref{vhs:definition-gauss-manin}), which is defined algebraically by Katz and Oda \cite{katz-oda-1968}; hence conjugation by $\sigma$ carries it to the Gauss--Manin connection of
+$f^\sigma \colon \mathcal{X}^\sigma \to S^\sigma$. We use three facts. First, the de Rham components $t_{\mathrm{dR},s}$ form a flat section of $\mathcal{H}^{2p}_{\mathrm{dR}}$, and flat sections of the Gauss--Manin
+connection are algebraic, by its regularity; so $\sigma_*t_{\mathrm{dR}}$ is a flat algebraic section over $S^\sigma$. Second, the $\ell$-adic components form a global section of the \'etale local system
+$R^{2p}f_*\QQ_\ell(p)$, and $\sigma_*$ carries it to a global section over $S^\sigma$. We omit the proofs of these two facts \cite{deligne-abelian}. Third, by hypothesis, $u = \sigma_*t$ is a Hodge cycle at the point
+$\sigma(s_0) \in S^\sigma$, with Betti component $u_B$.
+
+Since $u_\ell$ is a global section, it is invariant under the monodromy of $S^\sigma$; as $c_\ell$ is compatible with monodromy, so is $u_B \otimes 1$, and hence $u_B$ is the value at $\sigma(s_0)$ of a global section
+of $R^{2p}f^\sigma_*\QQ(p)$. Its de Rham and $\ell$-adic incarnations are flat and agree with $u_{\mathrm{dR}}$ and $u_\ell$ at $\sigma(s_0)$, hence everywhere, because flat sections of a local system on a
+connected space are determined by one value. So $u$ is rational at every point of $S^\sigma$. By the global invariant cycle theorem (Theorem~\ref{mixed-hodge-structures:theorem-global-invariant}), the global sections
+of $R^{2p}f^\sigma_*\QQ(p)$ form a Hodge structure $V$ that maps to each fibre by an injective morphism of Hodge structures: $V$ is the quotient of $H^{2p}$ of a nonsingular projective compactification of
+$\mathcal{X}^\sigma$ by the kernel of the restriction map to global sections, which does not depend on the fibre. The element $u_B \in V$ is of type $(0,0)$ in the fibre at $\sigma(s_0)$, hence in $V$, hence in
+every fibre. Thus $u = \sigma_*t$ is a Hodge cycle at every point of $S^\sigma$. As $\sigma$ was arbitrary, $t_s$ is absolute Hodge for every $s$.
+\end{proof}
+
+\begin{remark}\label{absolute-hodge:remark-variational}
+Principle B is the absolute Hodge analogue of the variational Hodge conjecture (Conjecture~\ref{failures:conjecture-variational}), which is open for algebraic classes. The difference is that absolute Hodge
+cycles are defined by conditions on cohomology, which propagate along flat sections, while algebraic cycles are geometric objects whose existence on one fibre does not obviously imply existence on the
+others.
+\end{remark}
+
+\section{Deligne's theorem for abelian varieties}\label{absolute-hodge:section-deligne}
+
+\begin{theorem}[Deligne]\label{absolute-hodge:theorem-deligne}
+Let $A$ be a complex abelian variety. Every Hodge class on $A$ is absolute Hodge: $\mathrm{Hdg}^p_{\mathrm{AH}}(A) = \mathrm{Hdg}^p(A)$ for all $p$. The same holds for Hodge classes in all tensor spaces
+$T^{m,m'}(H^1(A; \QQ))(r)$ of weight $0$, defined analogously.
+\end{theorem}
+
+\begin{proof}[Outline of proof]
+The proof is \cite{deligne-abelian}; see also \cite{charles-schnell}. It combines four ingredients.
+\begin{enumerate}
+\item \emph{Principle B} (Theorem~\ref{absolute-hodge:theorem-principle-b}).
+\item \emph{Principle A.} If $t_1, \ldots, t_r$ are absolute Hodge tensors on $A$, and $G \subseteq \mathrm{GL}(H^1(A; \QQ))$ is the subgroup fixing them, then every tensor fixed by $G$ is absolute Hodge. Applied
+when $G$ is the Hodge group, this reduces the theorem to finding absolute Hodge tensors whose stabiliser is $\mathrm{Hg}(A)$ (Theorem~\ref{mumford-tate:theorem-hodge-classes-invariants}).
+\item \emph{Weil classes are absolute Hodge.} Let $K$ be an imaginary quadratic field and consider abelian varieties of Weil type for $K$ (Proposition~\ref{known-cases:proposition-weil-classes} treats
+dimension $4$; the construction is the same in every even dimension), with a fixed type of polarisation. They form a connected family over which the Weil classes form a flat family of Hodge classes. For
+the \emph{split} type, the family contains abelian varieties of the form $B \otimes_\QQ K$, on which the Weil classes are algebraic. By Principle B the Weil classes are absolute Hodge on every member.
+\item \emph{Reduction to CM type, and the CM case.} A Hodge class $t$ on $A$ is fixed by $\mathrm{Hg}(A)$, hence remains Hodge on every abelian variety in the connected family parametrised by the
+Mumford--Tate domain of $A$, and this family contains abelian varieties of CM type. By Principle B it suffices to treat $A$ of CM type. For those, the Hodge group is a torus
+(Proposition~\ref{mumford-tate:proposition-cm}), and one shows that it is the stabiliser of the pullbacks of split Weil classes along homomorphisms from $A$ to abelian varieties of Weil type, together with
+divisor classes. Principle A and (3) conclude.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}\label{absolute-hodge:remark-force-and-limits}
+Theorem~\ref{absolute-hodge:theorem-deligne} says that a Hodge class on an abelian variety, however transcendentally it was produced, behaves under all automorphisms of $\CC$ as if it were algebraic. Its
+limit is equally clear: the Weil classes on a general abelian fourfold of Weil type are absolute Hodge but, apart from the cases listed in Chapter~\ref{known-cases}, not known to be algebraic. Deligne used
+the theorem, with Milne, to build an unconditional Tannakian category of motives for absolute Hodge cycles containing the motives of abelian varieties \cite{deligne-milne}. A deformation argument of the
+same kind, combined with the Kuga--Satake construction, had earlier given Deligne's proof of the Weil conjectures for K3 surfaces \cite{deligne-k3}.
+\end{remark}
+
+\section{Fields of definition of Hodge loci}\label{absolute-hodge:section-hodge-loci}
+
+\begin{lemma}\label{absolute-hodge:lemma-countable-conjugates}
+Let $Z \subseteq \PP^N_\CC$ be a closed subvariety. If the set $\{\sigma(Z) : \sigma \in \mathrm{Aut}(\CC/\bar{\QQ})\}$ is countable, then $Z$ is defined over $\bar{\QQ}$.
+\end{lemma}
+
+\begin{proof}
+Fix a monomial order. The homogeneous ideal of $Z$ has a unique reduced Gr\"obner basis, and the field $k_0 \subseteq \CC$ generated by its coefficients is the smallest field of definition of $Z$; for
+$\sigma \in \mathrm{Aut}(\CC)$ the reduced Gr\"obner basis of $\sigma(Z)$ is obtained by applying $\sigma$ to the coefficients, so $\sigma(Z) = \tau(Z)$ if and only if $\sigma|_{k_0} = \tau|_{k_0}$. If $k_0 \not\subseteq \bar{\QQ}$,
+it contains a transcendental element $c$, and for each transcendental $c' \in \CC$ there is $\sigma \in \mathrm{Aut}(\CC/\bar{\QQ})$ with $\sigma(c) = c'$ (extend $c \mapsto c'$ from $\bar{\QQ}(c)$ to $\CC$, using transcendence
+bases and algebraic closures). The values $\sigma(c)$, and hence the restrictions $\sigma|_{k_0}$ and the conjugates $\sigma(Z)$, are then uncountable, a contradiction. So $k_0 \subseteq \bar{\QQ}$.
+\end{proof}
+
+\begin{proposition}[Voisin]\label{absolute-hodge:proposition-voisin}
+Let $f \colon \mathcal{X} \to S$ be a smooth projective morphism of nonsingular quasi-projective varieties defined over $\bar{\QQ}$. Let $Z \subseteq S$ be an irreducible closed subvariety, $s \in Z$ and
+$\alpha \in \mathrm{Hdg}^p(X_s)$ such that the parallel transport of $\alpha$ along every path in $Z$ is a Hodge class, and suppose $Z$ is maximal with this property, that is, an irreducible component of the Hodge
+locus (Definition~\ref{vhs:definition-hodge-locus}). If $\alpha$ is absolute Hodge, then $Z$ is defined over $\bar{\QQ}$, and its conjugates are components of Hodge loci.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+$Z$ is algebraic by the Cattani--Deligne--Kaplan theorem (Theorem~\ref{vhs:theorem-cdk}). By Principle B, applied over the nonsingular locus of $Z$, the class is absolute Hodge at every point of $Z$. Let
+$\sigma \in \mathrm{Aut}(\CC/\bar{\QQ})$; then $\mathcal{X}^\sigma = \mathcal{X}$ and $S^\sigma = S$. As in the proof of Theorem~\ref{absolute-hodge:theorem-principle-b}, $\sigma$ transports the flat family of absolute
+Hodge cycles over $Z$ to a flat family of Hodge cycles over $\sigma(Z)$. So $\sigma(Z)$ is contained in a component $Z'$ of the Hodge locus of a class, and applying the same argument to $\sigma^{-1}$ and $Z'$
+shows $\sigma^{-1}(Z') \subseteq Z$, so $Z' = \sigma(Z)$. The Hodge loci of all rational classes have only countably many components in total, since there are countably many rational classes at a base point
+and each Hodge locus is an analytic subset with countably many components. So $Z$ has countably many conjugates, and Lemma~\ref{absolute-hodge:lemma-countable-conjugates} (after embedding $S$ in a
+projective space over $\bar{\QQ}$ and taking closures) shows that $Z$ is defined over $\bar{\QQ}$ \cite{voisin-2007}.
+\end{proof}
+
+\begin{corollary}\label{absolute-hodge:corollary-abelian-loci}
+In a family of abelian varieties defined over $\bar{\QQ}$, every component of the Hodge locus is defined over $\bar{\QQ}$.
+\end{corollary}
+
+\begin{proof}
+Combine Theorem~\ref{absolute-hodge:theorem-deligne} with Proposition~\ref{absolute-hodge:proposition-voisin}.
+\end{proof}
+
+\begin{remark}\label{absolute-hodge:remark-hodge-loci}
+Voisin also showed a partial converse: if a component of a Hodge locus is defined over $\bar{\QQ}$ and its conjugates are components of Hodge loci, then the Hodge classes over it are absolute Hodge,
+under a mild condition on the variation of Hodge structure \cite{voisin-2007}. So the absolute Hodge conjecture is, to a large extent, a statement about the arithmetic of Hodge loci. For families of
+abelian varieties Corollary~\ref{absolute-hodge:corollary-abelian-loci} reflects the fact that special subvarieties of Shimura varieties are defined over $\bar{\QQ}$.
+\end{remark}
+
+\section{Exercises}\label{absolute-hodge:section-exercises}
+
+\begin{exercise}\label{absolute-hodge:exercise-picard}
+Let $X$ be a nonsingular projective surface and $\sigma \in \mathrm{Aut}(\CC)$. Show that $\sigma_*$ maps $\mathrm{Hdg}^1(X)$, viewed through Lemma~\ref{absolute-hodge:lemma-hodge-cycles}, isomorphically onto
+$\mathrm{Hdg}^1(X^\sigma)$, and that $\mathrm{Hdg}^2(X) = H^4(X; \QQ)$ also consists of absolute Hodge classes. Conclude that the absolute Hodge conjecture holds for surfaces.
+\end{exercise}
+
+\begin{solution}
+By the Lefschetz $(1,1)$-theorem, $\mathrm{Hdg}^1(X)$ is spanned by divisor classes, which are absolute Hodge (Proposition~\ref{absolute-hodge:proposition-algebraic}), and $\sigma_*\mathrm{cl}(D) = \mathrm{cl}(D^\sigma)$.
+The same applies to $\sigma^{-1}$ on $X^\sigma$, so the map is bijective. $H^4(X; \QQ)$ is spanned by the class of a point, which is algebraic. $\mathrm{Hdg}^0 = H^0$ is spanned by the class of $X$. So all Hodge
+classes on $X$ are algebraic, hence absolute Hodge.
+\end{solution}
+
+\begin{exercise}\label{absolute-hodge:exercise-two-pi-i}
+On $\PP^1$ with coordinate $z$, the line bundle $\mathcal{O}(1)$ has transition function $z$ on $U_0 \cap U_1$, and its de Rham Chern class is represented in \v{C}ech--de Rham cohomology by the closed
+form $dz/z$ on $U_0 \cap U_1$. Using a partition of unity, show that the corresponding smooth $2$-form $\eta$ satisfies $\int_{\PP^1}\eta = \pm 2\pi i$. Deduce that the de Rham class of a point is $\pm 2\pi i$ times the
+Betti class, so that it lies in $H^2_B(\PP^1)(1)$.
+\end{exercise}
+
+\begin{solution}
+Let $\rho_0$ be a smooth function on $\PP^1$ equal to $1$ for $|z| \leq 1$ and to $0$ for $|z| \geq 2$, and $\rho_1 = 1 - \rho_0$. The \v{C}ech cocycle $dz/z$ is the difference of the $1$-forms $\rho_0\,dz/z$ on $U_1$ and
+$-\rho_1\,dz/z$ on $U_0$ (each extended by zero), and the corresponding global $2$-form is $\eta = d(\rho_0\,dz/z)$, which equals $-d(\rho_1\,dz/z)$ where both are defined, since $d(dz/z) = 0$. It vanishes for $|z| \leq 1$
+and for $|z| \geq 2$. By Stokes' theorem on the annulus $\frac12 \leq |z| \leq 3$, $\int\eta = \int_{|z|=3}\rho_0\,dz/z - \int_{|z|=1/2}\rho_0\,dz/z = 0 - 2\pi i$. The sign depends on the conventions for the
+\v{C}ech--de Rham isomorphism. As $\int_{\PP^1}$ of the Betti class of a point is $1$, the de Rham class is $\pm 2\pi i$ times the Betti class.
+\end{solution}
+
+\begin{exercise}\label{absolute-hodge:exercise-correspondence}
+Let $X$ and $Y$ be nonsingular projective varieties and $\gamma \in \mathrm{Hdg}^q(X \times Y)$ an absolute Hodge class such that $\gamma_* \colon H^{2p}(X; \QQ) \to H^{2p+2q-2\dim X}(Y; \QQ)$ is surjective.
+Show that if the absolute Hodge conjecture holds for $X$ in codimension $p$, then it holds for $Y$ in codimension $p + q - \dim X$.
+\end{exercise}
+
+\begin{solution}
+$\gamma_*$ is a surjective morphism of polarisable Hodge structures (up to a Tate twist), so by semisimplicity (Theorem~\ref{hodge-structures:theorem-semisimple}) every Hodge class on $Y$ in that degree is
+$\gamma_*$ of a Hodge class on $X$, as in the proof of Proposition~\ref{mixed-hodge-structures:proposition-localisation}. By hypothesis that class is absolute Hodge, and $\gamma_*$ preserves absolute Hodge classes
+(Proposition~\ref{absolute-hodge:proposition-operations}(4)).
+\end{solution}
+
+\begin{exercise}\label{absolute-hodge:exercise-product-abelian}
+Let $C$ be a nonsingular projective curve and $J$ its Jacobian. Using the Abel--Jacobi map $C^g \to J$ and Theorem~\ref{absolute-hodge:theorem-deligne}, show that every Hodge class on $C^m$, for every
+$m \geq 1$, is absolute Hodge.
+\end{exercise}
+
+\begin{solution}
+Fix a base point and let $u \colon C \to J$ be the Abel--Jacobi map; $u^* \colon H^1(J; \QQ) \to H^1(C; \QQ)$ is an isomorphism of Hodge structures. By the K\"unneth formula, $H^\bullet(C^m)$ is the direct sum of the
+sub-Hodge structures $H^{a_1}(C) \otimes \cdots \otimes H^{a_m}(C)$, $a_i \in \{0, 1, 2\}$, and a Hodge class on $C^m$ is a sum of Hodge classes in these summands, which are absolute Hodge if the summands are,
+by Proposition~\ref{absolute-hodge:proposition-operations}(3). Fix a summand, let $S = \{i : a_i = 1\}$ and $T = \{i : a_i = 2\}$. Since $H^0(C)$ is spanned by $1$ and $H^2(C)$ by the class of a point, a Hodge class in
+the summand has the form $\mathrm{pr}_S^*(\gamma) \cup \prod_{i \in T}\mathrm{pr}_i^*[\mathrm{pt}]$ with $\gamma$ a Hodge class in the summand $H^1(C)^{\otimes S}$ of $H^{|S|}(C^S)$. The pullback $(u^S)^*$ maps the
+corresponding K\"unneth summand $H^1(J)^{\otimes S}$ of $H^{|S|}(J^S)$ isomorphically onto $H^1(C)^{\otimes S}$, as a morphism of Hodge structures, so $\gamma = (u^S)^*\delta$ with $\delta$ a Hodge class on the abelian
+variety $J^S$. By Theorem~\ref{absolute-hodge:theorem-deligne} $\delta$ is absolute Hodge, and so is $\gamma$ by Proposition~\ref{absolute-hodge:proposition-operations}(1). The classes $\mathrm{pr}_i^*[\mathrm{pt}]$ are
+algebraic, and cup products and pullbacks preserve absolute Hodge classes.
+\end{solution}

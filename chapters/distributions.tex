@@ -1,0 +1,233 @@
+\chapter{Distributions and Sobolev Spaces}\label{distributions}
+\chapterstatus{complete}
+
+\section{Introduction}\label{distributions:section-introduction}
+
+To solve $\Delta u = f$ one first finds a weak solution in a space of distributions and then proves that it is smooth. This chapter
+sets up the two tools that make this work: the Fourier transform, which turns differentiation into multiplication, and the Sobolev
+spaces $H^s$, in which the elliptic estimate (Theorem~\ref{distributions:theorem-elliptic-estimate}) and Rellich's compactness
+theorem (Theorem~\ref{distributions:theorem-rellich}) hold. On a compact manifold these local statements are patched together with
+partitions of unity to prove the Hodge theorem (Chapter~\ref{hodge-theorem}). References: \cite{hormander-pdo1},
+\cite[Chapters 6--7]{rudin-fa}, \cite{brezis-functional}, \cite[Chapter 6]{warner-foundations}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{functional-analysis} (Functional Analysis).
+
+Multi-index notation is as in Theorem~\ref{real-analysis:theorem-taylor-several}; we write $D^\alpha = \partial^\alpha$ and $\langle \xi \rangle = (1 + |\xi|^2)^{1/2}$.
+
+\section{Distributions}\label{distributions:section-distributions}
+
+\begin{definition}\label{distributions:definition-distribution}
+Let $U \subseteq \RR^n$ be open and $\mathcal{D}(U) = C_c^\infty(U)$. A sequence $\varphi_k \to \varphi$ in $\mathcal{D}(U)$ means: all $\varphi_k$ have support in a fixed compact subset of $U$, and
+$D^\alpha\varphi_k \to D^\alpha\varphi$ uniformly for every $\alpha$. A \emph{distribution} is a linear map $T \colon \mathcal{D}(U) \to \CC$ such that $T(\varphi_k) \to T(\varphi)$ whenever
+$\varphi_k \to \varphi$; equivalently, for every compact $K \subseteq U$ there are $C$ and $N$ with $|T(\varphi)| \leq C\sum_{|\alpha| \leq N}\sup|D^\alpha\varphi|$ for all $\varphi$ supported in $K$. The space of
+distributions is $\mathcal{D}'(U)$, and $T_k \to T$ means $T_k(\varphi) \to T(\varphi)$ for every $\varphi$.
+\end{definition}
+
+\begin{example}\label{distributions:example-distributions}
+\begin{enumerate}
+\item Every $f \in L^1_{\mathrm{loc}}(U)$ defines $T_f(\varphi) = \int f\varphi$, and $T_f = T_g$ if and only if $f = g$ a.e.; so $\mathcal{D}'(U)$ contains the locally integrable functions.
+\item The \emph{Dirac distribution} $\delta_a(\varphi) = \varphi(a)$ is not of this form: if $\delta_0 = T_f$, then $\int f\varphi = 0$ for all $\varphi$ supported away from $0$, so $f = 0$ a.e., while
+$\delta_0 \neq 0$.
+\item $\operatorname{pv}\frac1x(\varphi) = \lim_{\varepsilon \to 0}\int_{|x| > \varepsilon}\frac{\varphi(x)}{x}\,dx$ is a distribution on $\RR$ of order $1$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{distributions:definition-derivative}
+For $T \in \mathcal{D}'(U)$, $\alpha$ a multi-index and $g \in C^\infty(U)$, set $(D^\alpha T)(\varphi) = (-1)^{|\alpha|}T(D^\alpha\varphi)$ and $(gT)(\varphi) = T(g\varphi)$. The \emph{support} of $T$ is the
+complement of the largest open set on which $T$ vanishes.
+\end{definition}
+
+\begin{proposition}\label{distributions:proposition-derivative}
+These are distributions; $D^\alpha D^\beta T = D^{\alpha+\beta}T$; for $f \in C^k(U)$ the distributional derivatives of order $\leq k$ are the classical ones; and differentiation is continuous: $T_k \to T$
+implies $D^\alpha T_k \to D^\alpha T$.
+\end{proposition}
+
+\begin{proof}
+Continuity is clear from the definition, and the formula for $D^\alpha T$ is forced by integration by parts, which for $f \in C^k$ and $\varphi \in C_c^\infty$ gives
+$\int (D^\alpha f)\varphi = (-1)^{|\alpha|}\int f D^\alpha\varphi$ (Fubini's theorem and the fundamental theorem of calculus in one variable at a time,
+Proposition~\ref{real-analysis:proposition-parameter-integrals}). The other statements are immediate.
+\end{proof}
+
+\begin{example}\label{distributions:example-heaviside}
+The Heaviside function $H = \mathbf{1}_{[0,\infty)}$ on $\RR$ has $H' = \delta_0$, since $-\int_0^\infty\varphi' = \varphi(0)$. Hence $\delta_0' (\varphi) = -\varphi'(0)$, and the function $\log|x|$ has
+distributional derivative $\operatorname{pv}\frac1x$.
+\end{example}
+
+\begin{proposition}\label{distributions:proposition-zero-derivative}
+Let $I \subseteq \RR$ be an open interval. A distribution $T$ on $I$ with $T' = 0$ is a constant function: $T = T_c$ for some $c \in \CC$.
+\end{proposition}
+
+\begin{proof}
+Fix $\psi \in \mathcal{D}(I)$ with $\int\psi = 1$ and put $c = T(\psi)$. For $\varphi \in \mathcal{D}(I)$, the function $\varphi - (\int\varphi)\psi$ has integral $0$ and compact support in $I$, so it is the derivative of
+$\chi(x) = \int_{-\infty}^x(\varphi - (\int\varphi)\psi)$, which also has compact support in $I$ (it vanishes to the left of both supports, and to the right because the total integral is $0$). Hence
+$T(\varphi) - (\int\varphi)c = T(\chi') = -T'(\chi) = 0$, that is, $T(\varphi) = \int c\varphi$.
+\end{proof}
+
+\begin{proposition}\label{distributions:proposition-approximate-identity}
+Let $\rho \in L^1(\RR^n)$ with $\int\rho = 1$ and $\rho_\varepsilon(x) = \varepsilon^{-n}\rho(x/\varepsilon)$. Then $T_{\rho_\varepsilon} \to \delta_0$ in $\mathcal{D}'(\RR^n)$ as $\varepsilon \to 0$.
+\end{proposition}
+
+\begin{proof}
+For $\varphi \in \mathcal{D}(\RR^n)$, the substitution $x = \varepsilon y$ gives $\int\rho_\varepsilon\varphi - \varphi(0) = \int\rho(y)(\varphi(\varepsilon y) - \varphi(0))\,dy$. The integrand tends to $0$ pointwise and is bounded by
+$2\sup|\varphi|\,|\rho|$, so the integral tends to $0$ by dominated convergence (Theorem~\ref{measure-theory:theorem-dominated-convergence}).
+\end{proof}
+
+\section{The Fourier transform}\label{distributions:section-fourier}
+
+\begin{definition}\label{distributions:definition-schwartz}
+The \emph{Schwartz space} $\mathcal{S}(\RR^n)$ consists of the $f \in C^\infty(\RR^n)$ with $p_{\alpha\beta}(f) = \sup_x|x^\alpha D^\beta f(x)| < \infty$ for all $\alpha, \beta$; convergence in $\mathcal{S}$ means
+convergence in all these seminorms. Its continuous dual $\mathcal{S}'(\RR^n)$ is the space of \emph{tempered distributions}. For $f \in \mathcal{S}$,
+\[
+\hat f(\xi) = \mathcal{F}f(\xi) = \int_{\RR^n}f(x)e^{-2\pi i x \cdot \xi}\,dx .
+\]
+\end{definition}
+
+\begin{theorem}\label{distributions:theorem-fourier-schwartz}
+$\mathcal{F}$ maps $\mathcal{S}$ continuously to $\mathcal{S}$, with $\mathcal{F}(D^\alpha f)(\xi) = (2\pi i\xi)^\alpha\hat f(\xi)$ and $\mathcal{F}(x^\alpha f)(\xi) = (-2\pi i)^{-|\alpha|}D^\alpha\hat f(\xi)$.
+Moreover:
+\begin{enumerate}
+\item $\mathcal{F}(e^{-\pi|x|^2}) = e^{-\pi|\xi|^2}$;
+\item (Inversion) $f(x) = \int\hat f(\xi)e^{2\pi ix\cdot\xi}\,d\xi$, so $\mathcal{F}$ is a bijection of $\mathcal{S}$ with inverse $\mathcal{F}^{-1}g(x) = \hat g(-x)$;
+\item (Plancherel) $\int f\bar g = \int\hat f\overline{\hat g}$; in particular $\|\hat f\|_2 = \|f\|_2$, and $\mathcal{F}$ extends to a unitary operator on $L^2(\RR^n)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Differentiation under the integral sign and integration by parts give the two formulas, and they imply that $\mathcal{F}f$ is smooth and rapidly decreasing, with continuity of $\mathcal{F}$ in the seminorms.
+
+(1) For $n = 1$ let $g(\xi) = \int e^{-\pi x^2}e^{-2\pi ix\xi}dx$. Differentiating under the integral and integrating by parts, $g'(\xi) = -2\pi\xi g(\xi)$, so $g(\xi) = g(0)e^{-\pi\xi^2}$, and $g(0) = 1$ by
+Example~\ref{measure-theory:example-gaussian}. The general case follows by Fubini's theorem, since $e^{-\pi|x|^2} = \prod_je^{-\pi x_j^2}$.
+
+(2) For $f, g \in \mathcal{S}$, Fubini's theorem gives the multiplication formula $\int\hat fg = \int f\hat g$. Apply it with $g(\xi) = e^{2\pi ix\cdot\xi}e^{-\pi\varepsilon^2|\xi|^2}$, whose Fourier transform is
+$\varepsilon^{-n}e^{-\pi|x - y|^2/\varepsilon^2}$ by (1) and the scaling and translation rules. The right-hand side is a convolution of $f$ with an approximate identity, which converges to $f(x)$ as
+$\varepsilon \to 0$ by uniform continuity, and the left-hand side converges to $\int\hat f(\xi)e^{2\pi ix\cdot\xi}d\xi$ by dominated convergence.
+
+(3) Let $h = \overline{\hat g}$; then $\hat h = \bar g$ by (2) and $\overline{\mathcal{F}\bar u} = \mathcal{F}^{-1}u$. The multiplication formula with $f$ and $h$ gives $\int\hat f\overline{\hat g} = \int f\bar g$.
+The space $\mathcal{S}$ is dense in $L^2$: it contains $C_c^\infty$, and every continuous function with compact support is a uniform limit of its convolutions with a smooth approximate identity
+(Exercise~\ref{measure-theory:exercise-convolution}), which lie in $C_c^\infty$, while such functions are dense in $L^2$ by Proposition~\ref{measure-theory:proposition-density}. Hence $\mathcal{F}$ extends
+uniquely to an isometry of $L^2$,
+which is surjective because its image contains the dense subspace $\mathcal{S}$.
+\end{proof}
+
+\begin{definition}\label{distributions:definition-fourier-tempered}
+For $T \in \mathcal{S}'$, $\hat T(\varphi) = T(\hat\varphi)$. By Theorem~\ref{distributions:theorem-fourier-schwartz} this defines a linear bijection of $\mathcal{S}'$ extending the transform on $\mathcal{S}$
+and on $L^2$, with $\mathcal{F}(D^\alpha T) = (2\pi i\xi)^\alpha\hat T$.
+\end{definition}
+
+\begin{example}\label{distributions:example-fourier-delta}
+$\hat\delta_0 = 1$ and $\hat 1 = \delta_0$; the Fourier transform of a polynomial is a combination of derivatives of $\delta_0$. Compactly supported distributions are tempered, and so are the functions in
+$L^p(\RR^n)$ for $1 \leq p \leq \infty$.
+\end{example}
+
+\section{Sobolev spaces}\label{distributions:section-sobolev}
+
+\begin{definition}\label{distributions:definition-sobolev}
+For $s \in \RR$, $H^s(\RR^n) = \{u \in \mathcal{S}' : \hat u \in L^1_{\mathrm{loc}} \text{ and } \|u\|_s^2 = \int\langle\xi\rangle^{2s}|\hat u(\xi)|^2\,d\xi < \infty\}$, a Hilbert space with the evident inner
+product. On the torus $T^n = \RR^n/\ZZ^n$, a distribution $u$ has Fourier coefficients $\hat u(k) = u(e^{-2\pi ik\cdot x})$, $k \in \ZZ^n$, and
+$H^s(T^n) = \{u : \|u\|_s^2 = \sum_{k \in \ZZ^n}\langle k \rangle^{2s}|\hat u(k)|^2 < \infty\}$.
+\end{definition}
+
+\begin{proposition}\label{distributions:proposition-sobolev-basic}
+$H^0 = L^2$, and for a non-negative integer $m$, $H^m$ is the space of $u \in L^2$ whose distributional derivatives of order $\leq m$ lie in $L^2$, with an equivalent norm
+$(\sum_{|\alpha| \leq m}\|D^\alpha u\|_2^2)^{1/2}$. The spaces $H^s$ decrease in $s$, $C^\infty$ functions (with compact support, respectively on the torus) are dense in each, and the pairing
+$(u, v) \mapsto \int u\bar v$ identifies $H^{-s}$ with the dual of $H^s$.
+\end{proposition}
+
+\begin{proof}
+$H^0 = L^2$ is Plancherel's theorem (Theorem~\ref{distributions:theorem-fourier-schwartz}), or Parseval's identity on the torus (Example~\ref{functional-analysis:example-fourier}). For integer $m$,
+$\mathcal{F}(D^\alpha u) = (2\pi i\xi)^\alpha\hat u$, and $\sum_{|\alpha| \leq m}|(2\pi\xi)^\alpha|^2$ is bounded above and below by multiples of $\langle\xi\rangle^{2m}$. Density follows by truncating and
+smoothing the Fourier transform, and duality from the Riesz representation theorem applied to the weighted $L^2$ spaces.
+\end{proof}
+
+\begin{theorem}[Sobolev embedding]\label{distributions:theorem-sobolev-embedding}
+If $s > k + n/2$, then every $u \in H^s$ (on $\RR^n$ or on $T^n$) has a representative of class $C^k$, and $\|u\|_{C^k} \leq C\|u\|_s$. Hence $\bigcap_sH^s$ consists of the smooth functions.
+\end{theorem}
+
+\begin{proof}
+On the torus, for $|\alpha| \leq k$,
+$\sum_k|(2\pi ik)^\alpha\hat u(k)| \leq \left(\sum_k\langle k\rangle^{2s}|\hat u(k)|^2\right)^{1/2}\left(\sum_k\langle k\rangle^{2(|\alpha| - s)}\right)^{1/2}$ by Cauchy--Schwarz, and the second factor is
+finite because $2(s - |\alpha|) > n$ (compare with $\int\langle\xi\rangle^{2(|\alpha|-s)}d\xi$, which converges by polar coordinates). So the Fourier series of $D^\alpha u$ converges absolutely and
+uniformly, and $u$ is $C^k$ with the stated bound. On $\RR^n$ the same computation with integrals shows that $\widehat{D^\alpha u} \in L^1$, so $D^\alpha u$ is continuous and bounded by Fourier inversion.
+\end{proof}
+
+\begin{theorem}[Rellich]\label{distributions:theorem-rellich}
+For $s > t$ the inclusion $H^s(T^n) \to H^t(T^n)$ is a compact operator.
+\end{theorem}
+
+\begin{proof}
+Let $P_N$ be the truncation $\widehat{P_Nu}(k) = \hat u(k)$ for $|k| \leq N$ and $0$ otherwise, a finite rank operator. For $u \in H^s$,
+\[
+\|u - P_Nu\|_t^2 = \sum_{|k| > N}\langle k\rangle^{2t}|\hat u(k)|^2 \leq \langle N\rangle^{2(t-s)}\sum_{|k| > N}\langle k\rangle^{2s}|\hat u(k)|^2 \leq \langle N\rangle^{2(t-s)}\|u\|_s^2,
+\]
+so the inclusion is the norm limit of finite rank operators, hence compact (Proposition~\ref{functional-analysis:proposition-compact-operators}).
+\end{proof}
+
+\begin{counterexample}\label{distributions:counterexample-rellich-rn}
+Rellich's theorem fails on $\RR^n$: translates $u_j(x) = u(x - j)$ of a fixed nonzero $u \in C_c^\infty$ have constant $H^s$ norms and no subsequence converging in $H^t$, since they are eventually supported
+in disjoint sets. Compactness holds for the inclusions $H^s_K \to H^t$ of the subspaces of distributions supported in a fixed compact $K$, which is the form used on manifolds.
+\end{counterexample}
+
+\section{Elliptic estimates}\label{distributions:section-elliptic}
+
+\begin{definition}\label{distributions:definition-elliptic-constant}
+Let $P(D) = \sum_{|\alpha| \leq m}a_\alpha D^\alpha$ with constant coefficients $a_\alpha \in \CC$. Its \emph{principal symbol} is $\sigma(\xi) = \sum_{|\alpha| = m}a_\alpha(2\pi i\xi)^\alpha$, and $P$ is
+\emph{elliptic} if $\sigma(\xi) \neq 0$ for $\xi \neq 0$.
+\end{definition}
+
+\begin{example}\label{distributions:example-laplacian}
+The Laplacian $\Delta = -\sum_j\partial_j^2$ has symbol $4\pi^2|\xi|^2$ and is elliptic; the heat operator $\partial_t - \Delta$ and the wave operator are not.
+\end{example}
+
+\begin{theorem}[Elliptic estimate and regularity]\label{distributions:theorem-elliptic-estimate}
+Let $P(D)$ be elliptic of order $m$ with constant coefficients, on the torus $T^n$. For every $s$ there is $C$ with
+\[
+\|u\|_{s+m} \leq C\left(\|P(D)u\|_s + \|u\|_s\right) \qquad \text{for all } u \in H^{s+m}(T^n).
+\]
+Moreover, if $u \in H^t(T^n)$ for some $t$ and $P(D)u \in H^s(T^n)$, then $u \in H^{s+m}(T^n)$; in particular $P(D)u \in C^\infty$ implies $u \in C^\infty$.
+\end{theorem}
+
+\begin{proof}
+On the Fourier side $P(D)$ is multiplication by $p(k) = \sum_{|\alpha| \leq m}a_\alpha(2\pi ik)^\alpha$. By homogeneity and compactness of the unit sphere, $|\sigma(\xi)| \geq c|\xi|^m$ for some $c > 0$, and the
+lower-order terms are $O(|\xi|^{m-1})$, so there are $c' > 0$ and $R$ with $|p(k)| \geq c'\langle k\rangle^m$ for $|k| \geq R$. Hence
+\[
+\sum_{|k| \geq R}\langle k\rangle^{2(s+m)}|\hat u(k)|^2 \leq c'^{-2}\sum_{|k| \geq R}\langle k\rangle^{2s}|p(k)\hat u(k)|^2 \leq c'^{-2}\|P(D)u\|_s^2,
+\]
+while the finitely many terms with $|k| < R$ are bounded by $\langle R\rangle^{2m}\|u\|_s^2$. This gives the estimate. For regularity, the same computation shows that
+$\sum_k\langle k\rangle^{2(s+m)}|\hat u(k)|^2$ is finite whenever $\sum_k\langle k\rangle^{2s}|p(k)\hat u(k)|^2$ is; smoothness follows from
+Theorem~\ref{distributions:theorem-sobolev-embedding}, since then $u \in H^s$ for all $s$.
+\end{proof}
+
+\begin{remark}\label{distributions:remark-variable-coefficients}
+For operators with variable coefficients the estimate is proved by freezing the coefficients at a point, using the constant-coefficient case and absorbing the error terms; on a compact manifold one patches
+the local estimates with a partition of unity. The result is that an elliptic operator $P$ of order $m$ between sections of vector bundles over a compact manifold satisfies
+$\|u\|_{s+m} \leq C(\|Pu\|_s + \|u\|_s)$, is Fredholm as an operator $H^{s+m} \to H^s$ by Rellich's theorem, and has smooth kernel; this is proved in Chapter~\ref{elliptic-operators} and applied to the
+Laplacian in Chapter~\ref{hodge-theorem}. The general theory is in \cite[Chapters 7--10]{hormander-pdo1} and \cite[Chapter 6]{warner-foundations}.
+\end{remark}
+
+\section{Exercises}\label{distributions:section-exercises}
+
+\begin{exercise}\label{distributions:exercise-delta-limit}
+Show that $\varepsilon^{-n}\rho(x/\varepsilon) \to \delta_0$ in $\mathcal{D}'(\RR^n)$ as $\varepsilon \to 0$, for any $\rho \in C_c^\infty$ with $\int\rho = 1$.
+\end{exercise}
+
+\begin{solution}
+$\int\varepsilon^{-n}\rho(x/\varepsilon)\varphi(x)\,dx = \int\rho(y)\varphi(\varepsilon y)\,dy \to \varphi(0)\int\rho$ by dominated convergence.
+\end{solution}
+
+\begin{exercise}\label{distributions:exercise-fundamental-solution}
+Show that $E(x) = \frac{1}{2}|x|$ satisfies $-E'' = -\delta_0$ on $\RR$, and that on $\RR^n$ with $n \geq 3$ the function $c_n|x|^{2-n}$ is a fundamental solution of the Laplacian for a suitable constant
+$c_n$.
+\end{exercise}
+
+\begin{exercise}\label{distributions:exercise-sobolev-sharp}
+Show that $H^{n/2}(T^n)$ is not contained in $C^0(T^n)$, so the condition $s > n/2$ in Theorem~\ref{distributions:theorem-sobolev-embedding} is sharp.
+\end{exercise}
+
+\begin{exercise}\label{distributions:exercise-heat-kernel}
+Using the Fourier transform, solve the heat equation $\partial_tu = -\Delta u$ on $T^n$ with initial datum $u_0 \in H^s$, and show that $u(t) \in C^\infty$ for every $t > 0$.
+\end{exercise}
+
+\begin{solution}
+$\hat u(k, t) = e^{-4\pi^2|k|^2t}\hat u_0(k)$ solves the equation coefficientwise, and for $t > 0$ the factors decay faster than any power of $\langle k\rangle$, so $u(t) \in H^r$ for all $r$ and
+Theorem~\ref{distributions:theorem-sobolev-embedding} applies.
+\end{solution}

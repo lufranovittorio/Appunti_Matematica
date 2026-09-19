@@ -1,0 +1,785 @@
+\chapter{Number Systems}\label{number-systems}
+\chapterstatus{complete}
+
+\section{Introduction}\label{number-systems:section-introduction}
+
+Starting from the natural numbers of Chapter~\ref{sets}, we construct the
+integers, the rational numbers, the real numbers and the complex numbers, and
+establish the properties used everywhere else: the laws of arithmetic, unique
+factorisation of integers, the least upper bound property of $\RR$ and its
+uniqueness, and the basic properties of $\CC$. Along the way we introduce the
+vocabulary of commutative rings, fields and ordered fields; general rings are
+studied in Chapter~\ref{rings}.
+
+Classical references are \cite{landau-grundlagen}, which carries out these
+constructions in full detail, \cite{dedekind-1872} for the real numbers, and
+\cite[Chapter 1]{rudin-principles}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{sets} (Set Theory).
+
+\section{Arithmetic of the natural numbers}\label{number-systems:section-natural-numbers}
+
+Recall from Example~\ref{sets:example-arithmetic} that addition and
+multiplication on $\NN = \omega$ are defined by $m + 0 = m$,
+$m + S(n) = S(m + n)$, $m \cdot 0 = 0$ and $m \cdot S(n) = m \cdot n + m$. We have
+$m + 1 = S(m)$, since $m + S(0) = S(m + 0)$. All inductions below are instances of
+Theorem~\ref{sets:theorem-induction}.
+
+\begin{proposition}\label{number-systems:proposition-addition}
+For all $m, n, k \in \NN$:
+\begin{enumerate}
+\item $(m + n) + k = m + (n + k)$;
+\item $m + n = n + m$;
+\item if $m + k = n + k$, then $m = n$;
+\item if $m + n = 0$, then $m = n = 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By induction on $k$: for $k = 0$ both sides are $m + n$, and
+$(m + n) + S(k) = S((m + n) + k) = S(m + (n + k)) = m + S(n + k) = m + (n + S(k))$.
+
+(2) First, $0 + n = n$ by induction on $n$. Next, $S(m) + n = S(m + n)$ by
+induction on $n$: $S(m) + 0 = S(m) = S(m + 0)$ and
+$S(m) + S(n) = S(S(m) + n) = S(S(m + n)) = S(m + S(n))$. Now induct on $n$:
+$m + 0 = m = 0 + m$, and $m + S(n) = S(m + n) = S(n + m) = S(n) + m$.
+
+(3) By induction on $k$, using that $S$ is injective
+(Proposition~\ref{sets:proposition-peano}):
+$m + S(k) = n + S(k)$ means $S(m + k) = S(n + k)$.
+
+(4) If $n = S(n')$ then $m + n = S(m + n') \neq 0$. So $n = 0$, and then $m = 0$.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-multiplication}
+For all $m, n, k \in \NN$:
+\begin{enumerate}
+\item $m \cdot (n + k) = m \cdot n + m \cdot k$;
+\item $(m \cdot n) \cdot k = m \cdot (n \cdot k)$;
+\item $m \cdot n = n \cdot m$ and $1 \cdot n = n$;
+\item if $m \cdot n = 0$, then $m = 0$ or $n = 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By induction on $k$: $m(n + 0) = mn = mn + 0$, and
+$m(n + S(k)) = m \cdot S(n + k) = m(n + k) + m = (mn + mk) + m = mn + m \cdot S(k)$.
+
+(2) By induction on $k$: $(mn) \cdot 0 = 0 = m(n \cdot 0)$, and, using (1),
+$(mn) \cdot S(k) = (mn)k + mn = m(nk) + mn = m(nk + n) = m(n \cdot S(k))$.
+
+(3) By induction, $0 \cdot n = 0$ and $S(m) \cdot n = mn + n$; for the second,
+$S(m) \cdot S(n) = S(m) n + S(m) = (mn + n) + S(m)$ and
+$m \cdot S(n) + S(n) = (mn + m) + S(n)$, and both equal $S(mn + m + n)$ by
+Proposition~\ref{number-systems:proposition-addition}. Then $mn = nm$ follows by
+induction on $n$, and $1 \cdot n = 0 \cdot n + n = n$.
+
+(4) If $m = S(m')$ and $n = S(n')$, then $mn = mn' + m = S(mn' + m')$, which is
+not $0$.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-order-naturals}
+For $m, n \in \NN$, the following are equivalent: $m \leq n$ in the order of
+ordinals (Proposition~\ref{sets:proposition-omega-ordinal}); there is
+$k \in \NN$ with $m + k = n$. This $k$ is unique. Moreover, for all
+$m, n, k \in \NN$: if $m \leq n$ then $m + k \leq n + k$ and $mk \leq nk$; and if
+$mk = nk$ with $k \neq 0$ then $m = n$.
+\end{proposition}
+
+\begin{proof}
+By induction on $k$, $m \leq m + k$: indeed $m + S(k) = S(m + k)$ contains
+$m + k$. Conversely we show by induction on $n$ that $m \leq n$ implies
+$m + k = n$ for some $k$. For $n = 0$, $m = 0$ and $k = 0$. If $m \leq S(n)$,
+then $m = S(n)$ (take $k = 0$) or $m \leq n$, in which case $m + k = n$ for
+some $k$ and $m + S(k) = S(n)$. Uniqueness of $k$ is
+Proposition~\ref{number-systems:proposition-addition}(3).
+
+If $m + j = n$, then $(m + k) + j = n + k$ and $mk + jk = nk$, which gives the
+monotonicity statements. If $mk = nk$ with $k \neq 0$ and, say, $m < n$, write
+$n = m + j$ with $j \neq 0$; then $mk + jk = mk + 0$, so $jk = 0$, contradicting
+Proposition~\ref{number-systems:proposition-multiplication}(4).
+\end{proof}
+
+\begin{proposition}[Division with remainder]\label{number-systems:proposition-division-naturals}
+Let $m, n \in \NN$ with $n \geq 1$. There are unique $q, r \in \NN$ with
+$m = qn + r$ and $r < n$.
+\end{proposition}
+
+\begin{proof}
+Existence, by induction on $m$: for $m = 0$ take $q = r = 0$. If $m = qn + r$ with
+$r < n$, then $m + 1 = qn + (r + 1)$, and either $r + 1 < n$, or $r + 1 = n$ and
+$m + 1 = (q + 1)n + 0$. Uniqueness: if $qn + r = q'n + r'$ with $r, r' < n$ and
+$q < q'$, then $q'n + r' \geq (q + 1)n = qn + n > qn + r$, a contradiction; so
+$q = q'$, and $r = r'$ by cancellation.
+\end{proof}
+
+\section{Commutative rings and fields}\label{number-systems:section-rings-fields}
+
+\begin{definition}\label{number-systems:definition-commutative-ring}
+A \emph{commutative ring} is a set $R$ with elements $0, 1 \in R$ and maps
+$+, \cdot \colon R \times R \to R$, the \emph{addition} $(a, b) \mapsto a + b$ and the
+\emph{multiplication} $(a, b) \mapsto a \cdot b$, usually written $ab$, such that for all
+$a, b, c \in R$:
+$(a + b) + c = a + (b + c)$; $a + b = b + a$; $a + 0 = a$; there is $a' \in R$
+with $a + a' = 0$; $(ab)c = a(bc)$; $ab = ba$; $1 \cdot a = a$; and
+$a(b + c) = ab + ac$. A \emph{homomorphism} of commutative rings is a map
+$f$ with $f(a + b) = f(a) + f(b)$, $f(ab) = f(a) f(b)$ and $f(1) = 1$. A
+commutative ring is an \emph{integral domain} if $1 \neq 0$ and $ab = 0$ implies
+$a = 0$ or $b = 0$; it is a \emph{field} if $1 \neq 0$ and every $a \neq 0$ has an
+element $a^{-1}$ with $a a^{-1} = 1$.
+\end{definition}
+
+\begin{lemma}\label{number-systems:lemma-ring-identities}
+In a commutative ring $R$: the element $a'$ with $a + a' = 0$ is unique, and we
+write it $-a$; $0 \cdot a = 0$; $(-a) b = -(ab)$; $(-a)(-b) = ab$. A field is an
+integral domain, and in a field $a^{-1}$ is unique.
+\end{lemma}
+
+\begin{proof}
+If $a + a' = 0 = a + a''$, then $a' = a' + (a + a'') = (a' + a) + a'' = a''$. Next
+$0 \cdot a = (0 + 0) a = 0 \cdot a + 0 \cdot a$, and adding $-(0 \cdot a)$ gives
+$0 \cdot a = 0$. Then $ab + (-a)b = (a + (-a))b = 0$, so $(-a)b = -(ab)$, and
+$(-a)(-b) = -(a(-b)) = -(-(ab)) = ab$. In a field, if $ab = 0$ and $a \neq 0$ then
+$b = a^{-1}ab = 0$. Uniqueness of inverses is proved like uniqueness of $-a$.
+\end{proof}
+
+\begin{definition}\label{number-systems:definition-ordered-field}
+An \emph{ordered ring} is a commutative ring $R$ with a total order $\leq$
+such that $a \leq b$ implies $a + c \leq b + c$, and $0 \leq a$, $0 \leq b$ imply
+$0 \leq ab$. An \emph{ordered field} is an ordered ring that is a field. An
+element $a$ is \emph{positive} if $a > 0$. The \emph{absolute value} is
+$|a| = a$ if $a \geq 0$ and $|a| = -a$ otherwise.
+\end{definition}
+
+\begin{lemma}\label{number-systems:lemma-ordered-field}
+Let $R$ be an ordered ring with $1 \neq 0$ and $a, b, c \in R$.
+\begin{enumerate}
+\item $a < b$ if and only if $-b < -a$; and $a^2 \geq 0$, so $1 > 0$.
+\item If $a \leq b$ and $c \geq 0$, then $ac \leq bc$.
+\item $|ab| = |a||b|$ and $|a + b| \leq |a| + |b|$.
+\item The elements $n \cdot 1 = 1 + \cdots + 1$ ($n$ summands) are positive for
+$n \geq 1$; in particular they are pairwise distinct.
+\item If $R$ is a field and $0 < a < b$, then $0 < b^{-1} < a^{-1}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Add $-a - b$ to $a < b$. If $a \geq 0$ then $a^2 \geq 0$; if $a < 0$ then
+$-a > 0$ and $a^2 = (-a)(-a) \geq 0$. Then $1 = 1^2 \geq 0$ and $1 \neq 0$.
+(2) $b - a \geq 0$, so $(b - a)c \geq 0$.
+(3) Both sides of the first equation are $\pm ab$ with the sign making them
+non-negative. For the second, $-|a| \leq a \leq |a|$ and similarly for $b$, so
+$-(|a| + |b|) \leq a + b \leq |a| + |b|$.
+(4) By induction, $(n + 1) \cdot 1 = n \cdot 1 + 1 > n \cdot 1$.
+(5) $a^{-1} = a (a^{-1})^2 \geq 0$ and $a^{-1} \neq 0$; similarly $b^{-1} > 0$.
+Multiplying $a < b$ by $a^{-1} b^{-1} > 0$ gives $b^{-1} < a^{-1}$.
+\end{proof}
+
+\section{The integers}\label{number-systems:section-integers}
+
+\begin{definition}\label{number-systems:definition-integers}
+On $\NN \times \NN$ let $(a, b) \sim (c, d)$ if $a + d = b + c$. This is an
+equivalence relation (transitivity: from $a + d = b + c$ and $c + f = d + e$ we
+get $a + f + (c + d) = b + e + (c + d)$, and we cancel). The set of
+\emph{integers} is $\ZZ = (\NN \times \NN)/{\sim}$; we write $[a, b]$ for the
+class of $(a, b)$. Define
+\[
+[a, b] + [c, d] = [a + c, b + d], \qquad
+[a, b] \cdot [c, d] = [ac + bd, ad + bc],
+\]
+$0 = [0, 0]$, $1 = [1, 0]$, and $[a, b] \leq [c, d]$ if $a + d \leq b + c$.
+\end{definition}
+
+\begin{theorem}\label{number-systems:theorem-integers}
+The operations and the order on $\ZZ$ are well defined, and make $\ZZ$ an
+ordered integral domain. The map $\iota \colon \NN \to \ZZ$, $n \mapsto [n, 0]$, is
+injective and preserves $0$, $1$, addition, multiplication and order. Every
+integer is of the form $\iota(n)$ or $-\iota(n)$ with $n \in \NN$. Every nonempty
+set of integers that is bounded below has a least element.
+\end{theorem}
+
+\begin{proof}
+If $(a, b) \sim (a', b')$, that is, $a + b' = b + a'$, then
+$(a + c) + (b' + d) = (b + d) + (a' + c)$, so addition is well defined. For
+multiplication, multiplying $a + b' = b + a'$ by $c$ and $b + a' = a + b'$ by $d$
+and adding gives $ac + bd + a'd + b'c = ad + bc + a'c + b'd$, which says
+$(ac + bd, ad + bc) \sim (a'c + b'd, a'd + b'c)$; by symmetry of the formula the
+same holds in the second argument. For the order, $a + d \leq b + c$ and
+$a + b' = b + a'$ give $a' + d + (a + b') \leq b' + c + (a + b')$, and we cancel.
+
+The ring axioms reduce to identities in $\NN$. For instance, $[b, a]$ is an
+additive inverse of $[a, b]$, and distributivity follows from
+$[a, b]([c, d] + [e, f]) = [a(c + e) + b(d + f), a(d + f) + b(c + e)]$, whose
+entries are those of $[ac + bd, ad + bc] + [ae + bf, af + be]$ by
+Propositions~\ref{number-systems:proposition-addition}
+and~\ref{number-systems:proposition-multiplication}. The other axioms are
+verified in the same way.
+
+If $a \geq b$, write $a = b + n$; then $[a, b] = [n, 0]$. If $a < b$, then
+$[a, b] = [0, n] = -[n, 0]$ with $b = a + n$. So every integer is $\iota(n)$ or
+$-\iota(n)$. The map $\iota$ preserves the operations, and $[m, 0] \leq [n, 0]$ if
+and only if $m \leq n$, so it is injective. The relation $\leq$ is a total order
+because $\leq$ is one on $\NN$. It is compatible with addition, and if
+$x, y \geq 0$ then $x = \iota(m)$, $y = \iota(n)$ and $xy = \iota(mn) \geq 0$. If
+$xy = 0$ with $x = \pm\iota(m)$, $y = \pm\iota(n)$, then $\iota(mn) = 0$, so
+$m = 0$ or $n = 0$.
+
+Finally, if $X \subseteq \ZZ$ is nonempty and bounded below by $c$, then
+$\{x - c : x \in X\}$ is a nonempty subset of $\iota(\NN)$, which has a least
+element by Proposition~\ref{sets:proposition-omega-ordinal}.
+\end{proof}
+
+\begin{notation}\label{number-systems:notation-integers}
+We identify $n \in \NN$ with $\iota(n) \in \ZZ$, so that $\NN \subseteq \ZZ$. For a
+commutative ring $R$, $n \in \NN$ and $a \in R$, we write $na$ for
+$a + \cdots + a$ ($n$ summands) and $(-n)a = -(na)$.
+\end{notation}
+
+\section{Divisibility and prime numbers}\label{number-systems:section-divisibility}
+
+\begin{definition}\label{number-systems:definition-divisibility}
+Let $a, b \in \ZZ$. We say $a$ \emph{divides} $b$, written $a \mid b$, if $b = ac$
+for some $c \in \ZZ$. An integer $p \geq 2$ is \emph{prime} if its only positive
+divisors are $1$ and $p$. A \emph{greatest common divisor} of $a$ and $b$, not
+both zero, is a positive common divisor $d$ divisible by every common divisor.
+\end{definition}
+
+\begin{theorem}[Division with remainder]\label{number-systems:theorem-division}
+Let $a, b \in \ZZ$ with $b \neq 0$. There are unique $q, r \in \ZZ$ with
+$a = qb + r$ and $0 \leq r < |b|$.
+\end{theorem}
+
+\begin{proof}
+Uniqueness: if $qb + r = q'b + r'$ then $(q - q')b = r' - r$ and
+$|r' - r| < |b|$, so $q = q'$ and $r = r'$. Existence: the set
+$\{a - kb : k \in \ZZ\} \cap \NN$ is nonempty (take $k = -|a|$ if $b > 0$ and
+$k = |a|$ if $b < 0$, for which $a - kb = a + |a||b| \geq 0$), so it has a least
+element $r = a - qb$. If
+$r \geq |b|$, then $r - |b| = a - (q \pm 1)b$ is a smaller element.
+\end{proof}
+
+\begin{theorem}[B\'ezout]\label{number-systems:theorem-bezout}
+Let $a, b \in \ZZ$ be not both zero, and let $d$ be the least positive element of
+$\{ax + by : x, y \in \ZZ\}$. Then $d$ is a greatest common divisor of $a$ and
+$b$, and it is the only one. We write $d = \gcd(a, b)$.
+\end{theorem}
+
+\begin{proof}
+The set contains $a^2 + b^2 > 0$, so $d$ exists; write $d = ax_0 + by_0$. Divide:
+$a = qd + r$ with $0 \leq r < d$. Then $r = a(1 - qx_0) + b(-qy_0)$ lies in the set,
+so $r = 0$ by minimality, and $d \mid a$; similarly $d \mid b$. Every common
+divisor of $a$ and $b$ divides $ax_0 + by_0 = d$. If $d'$ is another greatest
+common divisor, then $d \mid d'$ and $d' \mid d$, and both are positive, so
+$d = d'$.
+\end{proof}
+
+\begin{lemma}[Euclid]\label{number-systems:lemma-euclid}
+Let $p$ be prime and $a, b \in \ZZ$. If $p \mid ab$, then $p \mid a$ or $p \mid b$.
+\end{lemma}
+
+\begin{proof}
+If $p \nmid a$, then $\gcd(p, a) = 1$, since it is a positive divisor of $p$
+different from $p$. By Theorem~\ref{number-systems:theorem-bezout},
+$1 = px + ay$, so $b = pbx + aby$ is divisible by $p$.
+\end{proof}
+
+\begin{theorem}[Fundamental theorem of arithmetic]\label{number-systems:theorem-fundamental-arithmetic}
+Every integer $n \geq 2$ is a product $n = p_1 p_2 \cdots p_k$ of primes, and if
+$n = q_1 \cdots q_l$ is another such product, then $k = l$ and the $q_j$ are a
+permutation of the $p_i$.
+\end{theorem}
+
+\begin{proof}
+Existence: if some $n \geq 2$ is not a product of primes, take the least such
+$n$. It is not prime, so $n = ab$ with $2 \leq a, b < n$, and $a$, $b$ are products
+of primes, hence so is $n$. Uniqueness, by induction on $k$: $p_k$ divides
+$q_1 \cdots q_l$, so by Lemma~\ref{number-systems:lemma-euclid} (and induction on
+$l$) it divides some $q_j$, and then $p_k = q_j$ since $q_j$ is prime. Cancelling
+gives two factorisations of $n/p_k$ and the induction hypothesis applies (if
+$k = 1$, then $n = p_1$ is prime and $l = 1$).
+\end{proof}
+
+\begin{theorem}[Euclid]\label{number-systems:theorem-infinitely-many-primes}
+There are infinitely many prime numbers.
+\end{theorem}
+
+\begin{proof}
+Let $p_1, \ldots, p_k$ be primes and $N = p_1 \cdots p_k + 1 \geq 2$. By
+Theorem~\ref{number-systems:theorem-fundamental-arithmetic}, some prime $p$
+divides $N$. If $p = p_i$, then $p$ divides $N - p_1 \cdots p_k = 1$, which is
+impossible. So no finite set of primes contains all primes.
+\end{proof}
+
+\begin{example}\label{number-systems:example-euclidean-algorithm}
+Repeated division with remainder computes greatest common divisors, since
+$\gcd(a, b) = \gcd(b, r)$ when $a = qb + r$. For $a = 252$, $b = 198$:
+$252 = 1 \cdot 198 + 54$, $198 = 3 \cdot 54 + 36$, $54 = 1 \cdot 36 + 18$,
+$36 = 2 \cdot 18$. So $\gcd(252, 198) = 18$, and going backwards,
+$18 = 54 - 36 = 4 \cdot 54 - 198 = 4 \cdot 252 - 5 \cdot 198$.
+\end{example}
+
+\begin{remark}\label{number-systems:remark-unique-factorisation-fails}
+Unique factorisation is a special property of $\ZZ$. In the ring
+$\ZZ[\sqrt{-5}] = \{a + b\sqrt{-5} : a, b \in \ZZ\}$ one has
+$6 = 2 \cdot 3 = (1 + \sqrt{-5})(1 - \sqrt{-5})$, and none of these four factors
+can be written as a product of two non-units. Such phenomena are studied in
+Chapters~\ref{rings} and~\ref{commutative-algebra}.
+\end{remark}
+
+\section{The rational numbers}\label{number-systems:section-rationals}
+
+\begin{definition}\label{number-systems:definition-rationals}
+Let $P = \{(a, b) \in \ZZ \times \ZZ : b > 0\}$ and $(a, b) \sim (c, d)$ if
+$ad = bc$. This is an equivalence relation (for transitivity, $ad = bc$ and
+$cf = de$ give $adf = bcf = bde$, and we cancel $d \neq 0$ in the integral domain
+$\ZZ$). The set of \emph{rational numbers} is $\QQ = P/{\sim}$, and $a/b$ denotes
+the class of $(a, b)$. Define
+\[
+\frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd}, \qquad
+\frac{a}{b} \cdot \frac{c}{d} = \frac{ac}{bd}, \qquad
+\frac{a}{b} \leq \frac{c}{d} \iff ad \leq bc.
+\]
+\end{definition}
+
+\begin{theorem}\label{number-systems:theorem-rationals}
+The operations and the order on $\QQ$ are well defined and make $\QQ$ an ordered
+field. The map $\ZZ \to \QQ$, $a \mapsto a/1$, is an injective ring homomorphism
+preserving the order, and $\QQ$ is \emph{Archimedean}: for every $x \in \QQ$
+there is $n \in \NN$ with $x < n$.
+\end{theorem}
+
+\begin{proof}
+Well-definedness: if $ab' = a'b$, then
+$(ad + bc)(b'd) = (a'd + b'c)(bd)$ and $(ac)(b'd) = (a'c)(bd)$, and $ad \leq bc$
+is equivalent to $ab'd \leq bb'c$ (multiply by $b' > 0$), that is to
+$a'bd \leq bb'c$, that is to $a'd \leq b'c$ (cancel $b > 0$). The field axioms
+are identities in $\ZZ$ as in Theorem~\ref{number-systems:theorem-integers};
+the zero is $0/1$, the unit $1/1$, $-(a/b) = (-a)/b$, and for $a \neq 0$ the
+inverse of $a/b$ is $b/a$ if $a > 0$ and $(-b)/(-a)$ if $a < 0$. The order is
+total, and compatible with the operations: $a/b \geq 0$ means $a \geq 0$, and a
+product or sum of such fractions again has non-negative numerator. The map
+$a \mapsto a/1$ is clearly an injective order-preserving homomorphism. Finally,
+for $x = a/b$ we have $x \leq |a| < |a| + 1$ because $b \geq 1$.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-rationals-initial}
+Let $K$ be an ordered field. There is a unique ring homomorphism
+$\QQ \to K$; it is injective and order-preserving. We use it to regard $\QQ$ as a
+subfield of $K$.
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{number-systems:lemma-ordered-field}(4) the map $\NN \to K$,
+$n \mapsto n \cdot 1$, is injective, and it preserves sums and products (by
+induction). Extend it to $\ZZ$ by $-n \mapsto -(n \cdot 1)$; this is an
+injective order-preserving ring homomorphism $j$. Define
+$f(a/b) = j(a) j(b)^{-1}$; this is well defined since $ad = bc$ gives
+$j(a)j(d) = j(b)j(c)$, and it is a ring homomorphism by the formulas of
+Definition~\ref{number-systems:definition-rationals}. It preserves order: for
+$b, d > 0$, $a/b \leq c/d$ iff $ad \leq bc$ iff $j(a)j(d) \leq j(b)j(c)$ iff
+$j(a)j(b)^{-1} \leq j(c)j(d)^{-1}$, by Lemma~\ref{number-systems:lemma-ordered-field}(5).
+Hence it is injective. Uniqueness: a ring homomorphism $g$ satisfies
+$g(1) = 1$, hence $g(n) = n \cdot 1$ and $g(-n) = -g(n)$, and
+$g(b) g(a/b) = g(a)$, so $g(a/b) = j(a) j(b)^{-1}$.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-sqrt-two}
+There is no $x \in \QQ$ with $x^2 = 2$.
+\end{proposition}
+
+\begin{proof}
+Suppose $(a/b)^2 = 2$ with $a, b > 0$, so $a^2 = 2b^2$. In the factorisations of
+Theorem~\ref{number-systems:theorem-fundamental-arithmetic}, the prime $2$
+occurs an even number of times in $a^2$ and an odd number of times in $2b^2$,
+contradicting uniqueness.
+\end{proof}
+
+\begin{counterexample}\label{number-systems:counterexample-rationals-incomplete}
+The set $A = \{x \in \QQ : x \leq 0 \text{ or } x^2 < 2\}$ is nonempty and
+bounded above (by $2$), but has no least upper bound in $\QQ$. Indeed, for
+$p \in \QQ$ with $p > 0$ put $q = p - \frac{p^2 - 2}{p + 2} = \frac{2p + 2}{p + 2}$;
+then $q^2 - 2 = \frac{2(p^2 - 2)}{(p + 2)^2}$. If $p \in A$ and $p > 0$, then
+$p^2 < 2$, so $q > p$ and $q^2 < 2$: $A$ has no largest element. If $p > 0$ is an
+upper bound of $A$, then $p^2 > 2$ by
+Proposition~\ref{number-systems:proposition-sqrt-two} (and $p^2 < 2$ is
+impossible since then $p \in A$ is largest), so $q < p$ and $q^2 > 2$, and $q$ is
+a smaller upper bound. Hence no upper bound is least.
+\end{counterexample}
+
+\section{Complete ordered fields}\label{number-systems:section-complete-ordered-fields}
+
+\begin{definition}\label{number-systems:definition-complete}
+An ordered field $K$ is \emph{complete} if every nonempty subset of $K$ that is
+bounded above has a least upper bound (supremum) in $K$. It is
+\emph{Archimedean} if for every $x \in K$ there is $n \in \NN$ with $x < n$.
+\end{definition}
+
+\begin{lemma}\label{number-systems:lemma-sup-inf}
+In a complete ordered field every nonempty subset bounded below has a greatest
+lower bound (infimum), namely $\inf A = -\sup(-A)$. If $A, B$ are nonempty and
+bounded above, then $\sup(A + B) = \sup A + \sup B$, where
+$A + B = \{a + b : a \in A, b \in B\}$; if moreover $A$ and $B$ consist of positive
+elements, then $\sup(AB) = \sup A \cdot \sup B$.
+\end{lemma}
+
+\begin{proof}
+The first claim is clear since $x \mapsto -x$ reverses the order. Let
+$s = \sup A$, $t = \sup B$. Clearly $s + t$ is an upper bound of $A + B$. If
+$u < s + t$, then $u - t < s$, so there is $a \in A$ with $a > u - t$; then
+$u - a < t$ and there is $b \in B$ with $b > u - a$, so $a + b > u$. For products,
+$st$ is an upper bound of $AB$ by Lemma~\ref{number-systems:lemma-ordered-field}(2).
+If $0 < u < st$, then $u/t < s$, so some $a \in A$ has $a > u/t$, and then
+$u/a < t$ and some $b \in B$ has $b > u/a$, so $ab > u$. Upper bounds $u \leq 0$
+are not smaller than $st > 0$.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-complete-archimedean}
+A complete ordered field is Archimedean. In an Archimedean ordered field,
+$\QQ$ is \emph{dense}: for all $x < y$ there is $q \in \QQ$ with $x < q < y$.
+\end{proposition}
+
+\begin{proof}
+If $\NN \subseteq K$ were bounded above, let $s = \sup \NN$. Then $s - 1$ is not an
+upper bound, so $n > s - 1$ for some $n \in \NN$, and $n + 1 > s$; contradiction.
+
+Let $K$ be Archimedean and $x < y$. Choose $n \in \NN$ with $n > (y - x)^{-1}$, so
+$ny > nx + 1$. The set of integers $m$ with $m > nx$ is nonempty and bounded below
+(both by the Archimedean property applied to $\pm nx$), so it has a least
+element $m$ by Theorem~\ref{number-systems:theorem-integers}. Then
+$m - 1 \leq nx$, so $nx < m \leq nx + 1 < ny$, and $q = m/n$ works.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-roots}
+Let $K$ be a complete ordered field, $x \in K$ with $x \geq 0$, and $n \geq 1$. There
+is a unique $y \in K$ with $y \geq 0$ and $y^n = x$. We write $y = \sqrt[n]{x}$, or
+$\sqrt{x}$ if $n = 2$. In particular the non-negative elements of $K$ are exactly
+the squares.
+\end{proposition}
+
+\begin{proof}
+Uniqueness: if $0 \leq y_1 < y_2$ then $y_1^n < y_2^n$. For existence we may assume
+$x > 0$ and $n \geq 2$ (for $n = 1$ take $y = x$). For $0 < a < b$ we have
+$b^n - a^n = (b - a)(b^{n-1} + b^{n-2}a + \cdots + a^{n-1}) < (b - a) n b^{n-1}$.
+Let $E = \{t \in K : t \geq 0, t^n < x\}$. It contains $0$, and is bounded above
+by $1 + x$ (if $t > 1 + x$ then $t^n \geq t > x$). Let $y = \sup E$; then $y > 0$,
+since $t = x/(1 + x)$ lies in $E$.
+
+Suppose $y^n < x$. Choose $h$ with $0 < h < 1$ and
+$h < (x - y^n)/(n (y + 1)^{n-1})$. Then
+$(y + h)^n - y^n < h n (y + h)^{n-1} < h n (y+1)^{n-1} < x - y^n$, so
+$y + h \in E$, contradicting that $y$ is an upper bound.
+
+Suppose $y^n > x$. Let $k = (y^n - x)/(n y^{n-1})$; then $0 < k < y$. For
+$t \geq y - k$ we have $y^n - t^n \leq y^n - (y - k)^n < k n y^{n-1} = y^n - x$, so
+$t^n > x$ and $t \notin E$. Hence $y - k$ is an upper bound of $E$, contradicting
+that $y$ is least. So $y^n = x$.
+\end{proof}
+
+\begin{definition}\label{number-systems:definition-cauchy}
+Let $K$ be an ordered field. A sequence $(x_n)_{n \in \NN}$ in $K$
+\emph{converges} to $x \in K$ if for every $\varepsilon > 0$ in $K$ there is $N$
+with $|x_n - x| < \varepsilon$ for all $n \geq N$. It is a \emph{Cauchy sequence}
+if for every $\varepsilon > 0$ there is $N$ with $|x_n - x_m| < \varepsilon$ for
+all $m, n \geq N$.
+\end{definition}
+
+\begin{proposition}\label{number-systems:proposition-cauchy-complete}
+In a complete ordered field every Cauchy sequence converges.
+\end{proposition}
+
+\begin{proof}
+Let $(x_n)$ be Cauchy. Choosing $N$ for $\varepsilon = 1$, all terms lie between
+$\min(x_0, \ldots, x_N) - 1$ and $\max(x_0, \ldots, x_N) + 1$, so the sequence is
+bounded. Let $s_n = \sup\{x_k : k \geq n\}$; this sequence is decreasing and
+bounded below, and we let $x = \inf_n s_n$. Given $\varepsilon > 0$, choose $N$
+with $|x_n - x_m| < \varepsilon$ for $m, n \geq N$. For $n \geq N$, every
+$x_k$ with $k \geq n$ lies in $(x_n - \varepsilon, x_n + \varepsilon)$, so
+$x_n - \varepsilon \leq s_m \leq x_n + \varepsilon$ for all $m \geq n$; since the
+$s_m$ decrease, $x = \inf_{m \geq n} s_m$ lies in
+$[x_n - \varepsilon, x_n + \varepsilon]$. Hence $|x_n - x| \leq \varepsilon$ for
+$n \geq N$.
+\end{proof}
+
+\begin{theorem}\label{number-systems:theorem-uniqueness-reals}
+Let $K$ and $L$ be complete ordered fields. There is exactly one ring
+homomorphism $K \to L$, and it is an order-preserving isomorphism of fields.
+\end{theorem}
+
+\begin{proof}
+Regard $\QQ \subseteq K$ and $\QQ \subseteq L$ by
+Proposition~\ref{number-systems:proposition-rationals-initial}. For $x \in K$ let
+$D(x) = \{q \in \QQ : q < x\}$, which is nonempty and bounded above in $\QQ$ by
+Proposition~\ref{number-systems:proposition-complete-archimedean}. Define
+$\varphi(x) = \sup_L D(x)$.
+
+By density, $x = \sup_K D(x)$, and $x < y$ implies that $D(x) \subsetneq D(y)$
+contains two rationals between $x$ and $y$, so $\varphi(x) < \varphi(y)$. For
+$q \in \QQ$, $\varphi(q) = q$. Every $y \in L$ is in the image: with
+$D_L(y) = \{q : q < y\}$ and $x = \sup_K D_L(y)$ we get $D(x) = D_L(y)$ by density
+in both fields, so $\varphi(x) = y$. So $\varphi$ is an order-preserving bijection.
+
+By density, $D(x + y) = D(x) + D(y)$, so
+Lemma~\ref{number-systems:lemma-sup-inf} gives $\varphi(x + y) = \varphi(x) + \varphi(y)$.
+For $x, y > 0$, the positive elements of $D(xy)$ are the products of positive
+elements of $D(x)$ and $D(y)$, so $\varphi(xy) = \varphi(x)\varphi(y)$. Since
+$\varphi(-x) = -\varphi(x)$ (from additivity) and $\varphi(0) = 0$, multiplicativity
+follows for all signs. Hence $\varphi$ is an isomorphism.
+
+Let $\psi \colon K \to L$ be any ring homomorphism. By
+Proposition~\ref{number-systems:proposition-roots}, $x \geq 0$ implies
+$x = y^2$ and so $\psi(x) = \psi(y)^2 \geq 0$; hence $\psi$ is order-preserving.
+Also $\psi$ is the identity on $\QQ$ by
+Proposition~\ref{number-systems:proposition-rationals-initial}. For $q \in D(x)$ we
+get $q = \psi(q) \leq \psi(x)$, so $\varphi(x) \leq \psi(x)$; applying this to $-x$
+gives $\varphi(x) \geq \psi(x)$. So $\psi = \varphi$.
+\end{proof}
+
+\section{The real numbers}\label{number-systems:section-reals}
+
+\begin{definition}\label{number-systems:definition-reals}
+Let $\mathcal{C}$ be the set of Cauchy sequences in $\QQ$ and
+$\mathcal{N} \subseteq \mathcal{C}$ the set of sequences converging to $0$. For
+$x, y \in \mathcal{C}$ write $x \sim y$ if $x - y \in \mathcal{N}$. The set of
+\emph{real numbers} is $\RR = \mathcal{C}/{\sim}$. Operations are defined
+termwise: $[x] + [y] = [(x_n + y_n)_n]$ and $[x] \cdot [y] = [(x_n y_n)_n]$. A real
+number $[x]$ is \emph{positive} if there are $\varepsilon \in \QQ$, $\varepsilon > 0$,
+and $N$ with $x_n > \varepsilon$ for all $n \geq N$, and $[x] < [y]$ means that
+$[y] - [x]$ is positive. A rational number $q$ is identified with the class of
+the constant sequence $(q)_n$.
+\end{definition}
+
+\begin{lemma}\label{number-systems:lemma-cauchy-rationals}
+\begin{enumerate}
+\item Every $x \in \mathcal{C}$ is bounded, and $\mathcal{C}$ is closed under
+termwise sums and products.
+\item $\mathcal{N}$ is closed under sums, and $xz \in \mathcal{N}$ for
+$x \in \mathcal{C}$ and $z \in \mathcal{N}$. In particular $\sim$ is an equivalence
+relation compatible with sums and products.
+\item If $x \in \mathcal{C} \setminus \mathcal{N}$, there are a rational
+$\varepsilon > 0$ and $N$ such that either $x_n > \varepsilon$ for all $n \geq N$,
+or $x_n < -\varepsilon$ for all $n \geq N$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Boundedness is proved as in
+Proposition~\ref{number-systems:proposition-cauchy-complete}. If $|x_n|, |y_n| \leq M$,
+then $|x_ny_n - x_my_m| \leq M|y_n - y_m| + M|x_n - x_m|$, and similarly for sums.
+(2) If $|x_n| \leq M$ and $z \to 0$, then $|x_n z_n| \leq M|z_n| \to 0$. Sums are
+similar. If $x \sim x'$ and $y \sim y'$, then
+$xy - x'y' = x(y - y') + y'(x - x') \in \mathcal{N}$.
+(3) Since $x \notin \mathcal{N}$, there is a rational $\delta > 0$ such that
+$|x_n| \geq \delta$ for infinitely many $n$. Choose $N$ with
+$|x_n - x_m| < \delta/2$ for $m, n \geq N$, and $m \geq N$ with $|x_m| \geq \delta$.
+If $x_m \geq \delta$ then $x_n > \delta/2$ for all $n \geq N$; if $x_m \leq -\delta$
+then $x_n < -\delta/2$ for all $n \geq N$. Take $\varepsilon = \delta/2$.
+\end{proof}
+
+\begin{theorem}\label{number-systems:theorem-reals}
+$\RR$ is a complete ordered field, and $\QQ \to \RR$ is an injective
+order-preserving ring homomorphism. By
+Theorem~\ref{number-systems:theorem-uniqueness-reals}, $\RR$ is the unique complete
+ordered field up to unique isomorphism.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{number-systems:lemma-cauchy-rationals}, the operations are well
+defined, and the ring axioms hold termwise. If $[x] \neq 0$, then by part (3)
+of the lemma there is $N$ with $|x_n| > \varepsilon$ for $n \geq N$. Let
+$y_n = x_n^{-1}$ for $n \geq N$ and $y_n = 0$ otherwise; since
+$|y_n - y_m| = |x_m - x_n|/|x_n x_m| \leq \varepsilon^{-2}|x_m - x_n|$ for
+$m, n \geq N$, $y$ is Cauchy, and $xy - 1$ is eventually $0$. So $\RR$ is a field.
+
+Positivity is well defined: if $x_n > \varepsilon$ for $n \geq N$ and
+$z \in \mathcal{N}$, then $x_n + z_n > \varepsilon/2$ for large $n$. By part (3),
+every nonzero real number is either positive or its negative is positive, and
+not both; sums and products of positive numbers are positive. It follows that
+$<$ is a strict total order compatible with the ring operations, so $\RR$ is an
+ordered field. The embedding of $\QQ$ is clearly an injective order-preserving
+homomorphism. $\RR$ is Archimedean: if $|x_n| \leq M \in \NN$ for all $n$, then
+$[x] < M + 1$.
+
+\emph{Convergence of rational approximations.} Let $x \in \mathcal{C}$. For
+rational $\varepsilon > 0$ choose $N$ with $|x_n - x_m| < \varepsilon/2$ for
+$m, n \geq N$; then for $n \geq N$ the sequence $(\varepsilon - |x_n - x_m|)_m$ is
+eventually $> \varepsilon/2$, so $|[x] - x_n| < \varepsilon$ in $\RR$. Thus the
+rational sequence $(x_n)$ converges to $[x]$ in $\RR$; by density of $\QQ$ this
+holds for every real $\varepsilon > 0$.
+
+\emph{Completeness.} Let $A \subseteq \RR$ be nonempty and bounded above. Let
+$u_0$ be the least integer that is an upper bound of $A$, and $a_0$ an integer
+smaller than some element of $A$; both exist by the Archimedean property and
+Theorem~\ref{number-systems:theorem-integers}, and $a_0 < u_0$. Define rationals $a_n < u_n$ by
+recursion: let $m = (a_n + u_n)/2$; if $m$ is an upper bound of $A$, put
+$(a_{n+1}, u_{n+1}) = (a_n, m)$, and otherwise $(a_{n+1}, u_{n+1}) = (m, u_n)$.
+Then every $u_n$ is an upper bound, no $a_n$ is, the sequences are monotone, and
+$u_n - a_n = (u_0 - a_0)/2^n \leq (u_0 - a_0)/n$ for $n \geq 1$. Hence $(u_n)$ and
+$(a_n)$ are Cauchy sequences in $\QQ$ with the same class $s \in \RR$, and both
+converge to $s$ in $\RR$. If $a \in A$, then $a \leq u_n$ for all $n$, hence
+$a \leq s$. If $t < s$, then $a_n > t$ for some $n$, and since $a_n$ is not an upper
+bound, neither is $t$. So $s = \sup A$.
+\end{proof}
+
+\begin{remark}\label{number-systems:remark-dedekind-cuts}
+Dedekind's construction \cite{dedekind-1872} defines a real number as a
+\emph{cut}: a nonempty proper subset $\alpha \subsetneq \QQ$ which is downward
+closed and has no largest element. The order is inclusion and the supremum of
+a bounded set of cuts is their union. It also produces a complete ordered
+field (Exercise~\ref{number-systems:exercise-dedekind}), which by
+Theorem~\ref{number-systems:theorem-uniqueness-reals} is canonically isomorphic
+to the one constructed above. See \cite[Appendix to Chapter 1]{rudin-principles}.
+\end{remark}
+
+\begin{notation}\label{number-systems:notation-intervals}
+For $a \leq b$ in $\RR$ we write $[a, b] = \{x : a \leq x \leq b\}$,
+$(a, b) = \{x : a < x < b\}$, and similarly $[a, b)$, $(a, b]$, $[a, \infty)$ and so
+on. We use the \emph{extended real line} $[-\infty, \infty]$, obtained by adding a
+least and a greatest element, where convenient.
+\end{notation}
+
+\begin{proposition}\label{number-systems:proposition-reals-cardinality}
+$|\RR| = 2^{\aleph_0}$. In particular $\RR$ is uncountable.
+\end{proposition}
+
+\begin{proof}
+The map $x \mapsto \{q \in \QQ : q < x\}$ is injective by density of $\QQ$, so
+$\RR \preceq \mathcal{P}(\QQ)$. Since $\QQ$ is countable (it injects into
+$\ZZ \times \ZZ$, which injects into $\NN \times \NN$, which is countable by
+Corollary~\ref{sets:corollary-omega-squared}), $\mathcal{P}(\QQ) \preceq \mathcal{P}(\NN)$.
+
+Conversely, for $S \subseteq \NN$ let
+$f(S) = \sup\{\sum_{n \in S, n < N} 2 \cdot 3^{-(n+1)} : N \in \NN\}$; the partial sums
+are at most $\sum_{n < N} 2 \cdot 3^{-(n+1)} = 1 - 3^{-N} < 1$. Let $S \neq T$ and let
+$n$ be the least element of the symmetric difference, say $n \in S \setminus T$.
+The sums over $S$ and $T$ agree below $n$, the term $2 \cdot 3^{-(n+1)}$ occurs
+only for $S$, and the terms of $T$ above $n$ add up to at most
+$\sum_{k = n+1}^{M} 2 \cdot 3^{-(k+1)} < 3^{-(n+1)}$. Hence
+$f(S) - f(T) \geq 2 \cdot 3^{-(n+1)} - 3^{-(n+1)} > 0$, so $f$ is injective. By
+Theorem~\ref{sets:theorem-schroder-bernstein}, $\RR \approx \mathcal{P}(\NN)$, and
+$\RR$ is uncountable by Theorem~\ref{sets:theorem-cantor}.
+\end{proof}
+
+\section{The complex numbers}\label{number-systems:section-complex}
+
+\begin{definition}\label{number-systems:definition-complex}
+The set of \emph{complex numbers} is $\CC = \RR \times \RR$ with
+\[
+(a, b) + (c, d) = (a + c, b + d), \qquad (a, b)(c, d) = (ac - bd, ad + bc).
+\]
+We identify $a \in \RR$ with $(a, 0)$ and write $i = (0, 1)$, so that
+$(a, b) = a + bi$. For $z = a + bi$, the \emph{real part} is $\operatorname{Re} z = a$,
+the \emph{imaginary part} is $\operatorname{Im} z = b$, the \emph{conjugate} is
+$\bar z = a - bi$, and the \emph{absolute value} is $|z| = \sqrt{a^2 + b^2}$.
+\end{definition}
+
+\begin{theorem}\label{number-systems:theorem-complex}
+$\CC$ is a field containing $\RR$ as a subfield, and $i^2 = -1$. Every
+$z \in \CC$ can be written uniquely as $a + bi$ with $a, b \in \RR$. Complex
+conjugation is a field automorphism of $\CC$ that is the identity exactly on
+$\RR$, and for all $z, w \in \CC$:
+$z \bar z = |z|^2$, $|zw| = |z||w|$, $|\operatorname{Re} z| \leq |z|$ and
+$|z + w| \leq |z| + |w|$.
+\end{theorem}
+
+\begin{proof}
+The ring axioms are direct computations; for instance the product is
+associative because both $((a,b)(c,d))(e,f)$ and $(a,b)((c,d)(e,f))$ equal
+$(ace - bde - adf - bcf,\ acf - bdf + ade + bce)$. The unit is $(1, 0)$, and
+$(0,1)(0,1) = (-1, 0)$. If $z = a + bi \neq 0$, then $a^2 + b^2 > 0$ and
+$z \cdot (a - bi)/(a^2 + b^2) = 1$. The map $a \mapsto (a, 0)$ is an injective ring
+homomorphism. Conjugation preserves sums, and
+$\overline{(a + bi)(c + di)} = (ac - bd) - (ad + bc)i = (a - bi)(c - di)$; it is
+its own inverse and fixes $a + bi$ iff $b = 0$.
+
+$z \bar z = a^2 + b^2 = |z|^2$. Then $|zw|^2 = zw\bar z\bar w = |z|^2|w|^2$, and
+both $|zw|$ and $|z||w|$ are non-negative, so they are equal by the uniqueness
+in Proposition~\ref{number-systems:proposition-roots}. Clearly
+$|\operatorname{Re} z| = |a| \leq \sqrt{a^2 + b^2}$. Finally
+$|z + w|^2 = |z|^2 + 2\operatorname{Re}(z \bar w) + |w|^2 \leq |z|^2 + 2|z||w| + |w|^2 = (|z| + |w|)^2$.
+\end{proof}
+
+\begin{proposition}\label{number-systems:proposition-complex-square-roots}
+Every complex number has a square root: for $z = a + bi$, the number
+\[
+w = \sqrt{\tfrac{|z| + a}{2}} + \sigma \sqrt{\tfrac{|z| - a}{2}}\, i,
+\qquad \sigma = 1 \text{ if } b \geq 0, \ \sigma = -1 \text{ if } b < 0,
+\]
+satisfies $w^2 = z$. Consequently every polynomial equation $z^2 + pz + q = 0$ with
+$p, q \in \CC$ has a solution in $\CC$.
+\end{proposition}
+
+\begin{proof}
+Both radicands are non-negative since $|a| \leq |z|$. We have
+$w^2 = \frac{|z| + a}{2} - \frac{|z| - a}{2} + 2\sigma\sqrt{\frac{|z|^2 - a^2}{4}}\, i
+= a + \sigma |b| i = a + bi$. For the equation, take
+$z = (-p + w)/2$ where $w^2 = p^2 - 4q$.
+\end{proof}
+
+\begin{counterexample}\label{number-systems:counterexample-complex-not-ordered}
+There is no order on $\CC$ making it an ordered field. Indeed, in an ordered
+field squares are non-negative and $-1 < 0$
+(Lemma~\ref{number-systems:lemma-ordered-field}), but $-1 = i^2$.
+\end{counterexample}
+
+\begin{remark}\label{number-systems:remark-complex-later}
+The fundamental theorem of algebra, which says that every nonconstant complex
+polynomial has a root, is proved algebraically in Chapter~\ref{fields} and again
+analytically in Chapter~\ref{complex-analysis}. The polar form
+$z = |z| e^{i\theta}$ requires the exponential function, which is defined in
+Chapter~\ref{real-analysis}.
+\end{remark}
+
+\section{Exercises}\label{number-systems:section-exercises}
+
+\begin{exercise}\label{number-systems:exercise-dedekind}
+Carry out Dedekind's construction of Remark~\ref{number-systems:remark-dedekind-cuts}:
+define the sum of cuts $\alpha$, $\beta$ as $\{a + b : a \in \alpha, b \in \beta\}$,
+define products first for cuts containing positive rationals, and show that the
+cuts form a complete ordered field.
+\end{exercise}
+
+\begin{exercise}\label{number-systems:exercise-ring-endomorphisms-reals}
+Show that the only ring homomorphism $\RR \to \RR$ is the identity.
+\end{exercise}
+
+\begin{solution}
+This is the uniqueness statement of
+Theorem~\ref{number-systems:theorem-uniqueness-reals} with $K = L = \RR$.
+\end{solution}
+
+\begin{exercise}\label{number-systems:exercise-automorphisms-complex}
+Show that the only ring homomorphisms $\CC \to \CC$ that are the identity on
+$\RR$ are the identity and complex conjugation. (It is a much deeper fact,
+relevant to Chapter~\ref{absolute-hodge}, that $\CC$ has many other field
+automorphisms, which are not the identity on $\RR$.)
+\end{exercise}
+
+\begin{solution}
+Such a homomorphism $\sigma$ is determined by $\sigma(i)$, because
+$\sigma(a + bi) = a + b\sigma(i)$. Since $\sigma(i)^2 = \sigma(-1) = -1$, and the
+only solutions of $w^2 = -1$ are $\pm i$ (if $w^2 = i^2$ then $(w - i)(w + i) = 0$),
+we get $\sigma(i) = \pm i$.
+\end{solution}
+
+\begin{exercise}\label{number-systems:exercise-rational-roots}
+Let $n \geq 1$ and $m \geq 0$ be integers. Show that $\sqrt[n]{m}$ is rational if
+and only if $m$ is the $n$-th power of an integer.
+\end{exercise}
+
+\begin{exercise}\label{number-systems:exercise-integers-initial}
+Let $R$ be a commutative ring. Show that there is exactly one ring
+homomorphism $\ZZ \to R$.
+\end{exercise}
+
+\begin{exercise}\label{number-systems:exercise-algebraic-numbers}
+A complex number is \emph{algebraic} if it is a root of a nonzero polynomial
+with integer coefficients. Show that the set of algebraic numbers is
+countable, and deduce that there are complex (even real) numbers that are not
+algebraic.
+\end{exercise}
+
+\begin{exercise}\label{number-systems:exercise-decimal-expansions}
+Show that for every $x \in [0, 1)$ there is a unique sequence
+$(d_n)_{n \geq 1}$ with $d_n \in \{0, 1, \ldots, 9\}$, not eventually equal to $9$,
+such that $x = \sup_N \sum_{n=1}^{N} d_n 10^{-n}$.
+\end{exercise}

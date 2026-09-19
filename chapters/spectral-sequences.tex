@@ -1,0 +1,300 @@
+\chapter{Spectral Sequences}\label{spectral-sequences}
+\chapterstatus{complete}
+
+\section{Introduction}\label{spectral-sequences:section-introduction}
+
+A spectral sequence is a bookkeeping device for computing the cohomology of a filtered complex from the
+cohomology of its graded pieces, in a sequence of successive approximations. This chapter constructs the
+spectral sequence of a filtered complex with complete proofs, derives the two spectral sequences of a double
+complex, and proves the Grothendieck spectral sequence of a composition of functors. Later chapters use the
+Leray spectral sequence (Chapter~\ref{sheaf-cohomology}), the Fr\"olicher spectral sequence
+(Chapter~\ref{dolbeault}) and the weight and Hodge spectral sequences of mixed Hodge theory
+(Chapter~\ref{mixed-hodge-structures}).
+
+References are \cite[Chapter 5]{weibel-homological} and \cite{mccleary-users-guide}. As in
+Chapter~\ref{homological-algebra}, we argue with elements; by
+Remark~\ref{homological-algebra:remark-freyd-mitchell} the results hold in every abelian category.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{homological-algebra} (Homological Algebra).
+
+\section{Spectral sequences}\label{spectral-sequences:section-definitions}
+
+\begin{definition}\label{spectral-sequences:definition-spectral-sequence}
+A (cohomological) \emph{spectral sequence} starting at page $r_0$ consists of objects $E_r^{p,q}$ for $p, q \in \ZZ$
+and $r \geq r_0$, morphisms $d_r \colon E_r^{p,q} \to E_r^{p+r, q-r+1}$ with $d_r \circ d_r = 0$, and isomorphisms
+$E_{r+1}^{p,q} \cong \ker(d_r)/\im(d_r)$ at $E_r^{p,q}$. The object $E_r = \bigoplus_{p,q}E_r^{p,q}$ is the $r$-th \emph{page}, and
+$p + q$ is the \emph{total degree}. It is a \emph{first-quadrant} spectral sequence if $E_{r_0}^{p,q} = 0$ unless $p, q \geq 0$.
+\end{definition}
+
+\begin{lemma}\label{spectral-sequences:lemma-first-quadrant-stable}
+In a first-quadrant spectral sequence $E_r^{p,q} = 0$ unless $p, q \geq 0$, for all $r$, and $E_r^{p,q} = E_{r+1}^{p,q}$ whenever
+$r > \max(p, q + 1)$. The common value is denoted $E_\infty^{p,q}$.
+\end{lemma}
+
+\begin{proof}
+The first claim holds because $E_{r+1}^{p,q}$ is a subquotient of $E_r^{p,q}$. For $r > p$ the source $E_r^{p-r, q+r-1}$ of the incoming
+differential has negative first index, and for $r > q + 1$ the target $E_r^{p+r, q-r+1}$ of the outgoing differential has negative
+second index; so both differentials vanish.
+\end{proof}
+
+\begin{definition}\label{spectral-sequences:definition-convergence}
+A first-quadrant spectral sequence \emph{converges} to objects $H^n$, written $E_{r_0}^{p,q} \Rightarrow H^{p+q}$, if each $H^n$ has a
+finite decreasing filtration $H^n = F^0H^n \supseteq F^1H^n \supseteq \cdots \supseteq F^{n+1}H^n = 0$ with isomorphisms
+$E_\infty^{p,q} \cong F^pH^{p+q}/F^{p+1}H^{p+q}$. The spectral sequence \emph{degenerates} at page $r$ if $d_s = 0$ for all
+$s \geq r$, so that $E_r = E_\infty$.
+\end{definition}
+
+\begin{proposition}\label{spectral-sequences:proposition-edge-maps}
+Let $E_2^{p,q} \Rightarrow H^{p+q}$ be a convergent first-quadrant spectral sequence.
+\begin{enumerate}
+\item There are \emph{edge maps} $E_2^{n,0} \to H^n$ and $H^n \to E_2^{0,n}$: the first is the composite
+$E_2^{n,0} \twoheadrightarrow E_\infty^{n,0} = F^nH^n \hookrightarrow H^n$, the second $H^n \twoheadrightarrow H^n/F^1H^n = E_\infty^{0,n} \hookrightarrow E_2^{0,n}$.
+\item (Five-term exact sequence) The sequence
+$0 \to E_2^{1,0} \to H^1 \to E_2^{0,1} \xrightarrow{d_2} E_2^{2,0} \to H^2$ is exact.
+\item If $E_2^{p,q} = 0$ for $q \neq 0$, then $H^n \cong E_2^{n,0}$. If $E_2^{p,q} = 0$ for $p \neq 0$, then $H^n \cong E_2^{0,n}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Since nothing is in negative degrees, $E_{r+1}^{n,0}$ is a quotient of $E_r^{n,0}$ (no outgoing differential lands in $q < 0$) and
+$E_{r+1}^{0,n}$ a subobject of $E_r^{0,n}$ (no incoming differential starts at $p < 0$). Also $F^{n+1}H^n = 0$, so
+$E_\infty^{n,0} = F^nH^n$, and $F^0H^n = H^n$, so $E_\infty^{0,n} = H^n/F^1H^n$.
+(2) In total degree $1$, $H^1$ has the filtration $0 \subseteq F^1H^1 \subseteq H^1$ with $F^1H^1 = E_\infty^{1,0} = E_2^{1,0}$ (no differential
+reaches or leaves $E_r^{1,0}$ nontrivially: incoming would start at $p = 1 - r < 0$, outgoing lands at $q = 1 - r < 0$) and
+$H^1/F^1H^1 = E_\infty^{0,1} = \ker(d_2 \colon E_2^{0,1} \to E_2^{2,0})$ (for $r \geq 3$ all differentials at $(0,1)$ vanish). This gives
+exactness at $E_2^{1,0}$, $H^1$ and $E_2^{0,1}$. Next $E_\infty^{2,0} = E_3^{2,0} = E_2^{2,0}/\im(d_2)$, and it injects into $H^2$ as
+$F^2H^2$; so the kernel of $E_2^{2,0} \to H^2$ is $\im(d_2)$.
+(3) All but one of the graded pieces $E_\infty^{p, n-p}$ of $H^n$ vanish, and all differentials vanish because either the source or the
+target is zero.
+\end{proof}
+
+\begin{proposition}\label{spectral-sequences:proposition-two-rows}
+Let $E_2^{p,q} \Rightarrow H^{p+q}$ be a convergent first-quadrant spectral sequence with $E_2^{p,q} = 0$ unless $q \in \{0, s\}$, for some
+$s \geq 1$. Then there is a long exact sequence
+\[
+\cdots \to E_2^{n,0} \to H^n \to E_2^{n-s,s} \xrightarrow{d_{s+1}} E_2^{n+1,0} \to H^{n+1} \to \cdots.
+\]
+\end{proposition}
+
+\begin{proof}
+The only possibly nonzero differentials are $d_{s+1} \colon E_{s+1}^{p,s} \to E_{s+1}^{p+s+1,0}$, and $E_{s+1} = E_2$. So
+$E_\infty^{n,0} = \operatorname{coker}(d_{s+1} \colon E_2^{n-s-1,s} \to E_2^{n,0})$ and $E_\infty^{n-s,s} = \ker(d_{s+1} \colon E_2^{n-s,s} \to E_2^{n+1,0})$, and $H^n$ is
+an extension $0 \to E_\infty^{n,0} \to H^n \to E_\infty^{n-s,s} \to 0$. Splicing these sequences gives the claim.
+\end{proof}
+
+\begin{proposition}\label{spectral-sequences:proposition-euler-characteristic}
+Let $E$ be a spectral sequence of finite-dimensional vector spaces over a field, with only finitely many nonzero $E_{r_0}^{p,q}$. Then $\chi(E_r) = \sum_{p,q}(-1)^{p+q}\dim E_r^{p,q}$ does not depend on $r$, and if
+$E_{r_0}^{p,q} \Rightarrow H^{p+q}$ converges, then $\chi(E_{r_0}) = \sum_n(-1)^n\dim H^n$. In particular $\dim H^n \leq \sum_{p+q=n}\dim E_r^{p,q}$ for every $r$.
+\end{proposition}
+
+\begin{proof}
+Grading $E_r$ by total degree $n = p + q$, the differential $d_r$ raises $n$ by one, so $(E_r, d_r)$ is a finite complex of finite-dimensional spaces with cohomology $E_{r+1}$. For such a complex
+$C^\bullet$, rank--nullity gives $\dim C^n = \dim Z^n + \dim B^{n+1}$ and $\dim H^n = \dim Z^n - \dim B^n$, so $\sum_n(-1)^n\dim C^n = \sum_n(-1)^n\dim H^n$. Hence $\chi(E_{r+1}) = \chi(E_r)$. Only finitely many
+positions are nonzero, so the pages stabilise, and convergence gives $\dim H^n = \sum_p\dim E_\infty^{p,n-p}$. The inequality holds because each $E_\infty^{p,q}$ is a subquotient of $E_r^{p,q}$.
+\end{proof}
+
+\begin{counterexample}\label{spectral-sequences:counterexample-extension}
+The limit of a spectral sequence determines the abutment only up to extensions. Let $K$ and $K'$ be the complexes concentrated in degree $0$, with zero differential, given by $K^0 = \ZZ/4$ with the filtration
+$F^0 = \ZZ/4 \supseteq F^1 = 2\ZZ/4 \supseteq F^2 = 0$, and $K'^0 = \ZZ/2 \oplus \ZZ/2$ with $F^0 = K'^0 \supseteq F^1 = 0 \oplus \ZZ/2 \supseteq F^2 = 0$. In both cases all differentials vanish and the spectral
+sequence of the filtered complex (Section~\ref{spectral-sequences:section-filtered-complex}) has $E_0^{0,0} = \ZZ/2$ and $E_0^{1,-1} = \ZZ/2$ on every page. The spectral sequences are isomorphic, but the abutments
+$\ZZ/4$ and $\ZZ/2 \oplus \ZZ/2$ are not. Over a field this cannot happen, since every extension of vector spaces splits and $H^n \cong \bigoplus_pE_\infty^{p,n-p}$.
+\end{counterexample}
+
+\section{The spectral sequence of a filtered complex}\label{spectral-sequences:section-filtered-complex}
+
+\begin{definition}\label{spectral-sequences:definition-filtered-complex}
+A \emph{filtered complex} is a complex $K^\bullet$ with subcomplexes $\cdots \supseteq F^pK \supseteq F^{p+1}K \supseteq \cdots$. The
+filtration is \emph{finite in each degree} if for every $n$ there are $a \leq b$ with $F^aK^n = K^n$ and $F^bK^n = 0$. The
+\emph{associated graded} complexes are $\mathrm{gr}^pK = F^pK/F^{p+1}K$, and the induced filtration on cohomology is
+$F^pH^n(K) = \im(H^n(F^pK) \to H^n(K))$.
+\end{definition}
+
+\begin{definition}\label{spectral-sequences:definition-z-b}
+For a filtered complex $K$ we abbreviate $F^p = F^pK$ and, for $r \geq 0$,
+\[
+Z_r^p = F^p \cap d^{-1}(F^{p+r}), \qquad B_r^p = F^p \cap d(F^{p-r+1}), \qquad
+E_r^p = Z_r^p/(B_r^p + Z_{r-1}^{p+1}),
+\]
+with the convention $Z_{-1}^{p+1} = F^{p+1}$. These are graded by the degree of $K$, and we write $E_r^{p,q}$ for the part of $E_r^p$ in
+degree $p + q$. Let $d_r \colon E_r^p \to E_r^{p+r}$ be induced by $d$.
+\end{definition}
+
+\begin{lemma}\label{spectral-sequences:lemma-well-defined}
+The inclusions $B_r^p \subseteq Z_r^p$ and $Z_{r-1}^{p+1} \subseteq Z_r^p$ hold, so $E_r^p$ is defined, and $d_r$ is a well-defined
+morphism with $d_r^2 = 0$, of bidegree $(r, 1 - r)$. Moreover $E_0^p = \mathrm{gr}^pK$ with $d_0$ induced by $d$, and
+$E_1^{p,q} = H^{p+q}(\mathrm{gr}^pK)$.
+\end{lemma}
+
+\begin{proof}
+Elements of $B_r^p$ are boundaries, hence cycles; and $x \in F^{p+1}$ with $dx \in F^{p+r}$ lies in $Z_r^p$. If $x \in Z_r^p$ then
+$dx \in F^{p+r}$ and $d(dx) = 0$, so $dx \in Z_r^{p+r}$. We must check that $d$ maps $B_r^p + Z_{r-1}^{p+1}$ into
+$B_r^{p+r} + Z_{r-1}^{p+r+1}$: $d(B_r^p) = 0$, and for $x \in Z_{r-1}^{p+1}$ we have $dx \in F^{p+r} \cap d(F^{p+1}) = B_r^{p+r}$.
+Clearly $d_r^2 = 0$. For $r = 0$: $Z_0^p = F^p$ and $B_0^p = d(F^{p+1}) \subseteq F^{p+1}$, so $E_0^p = F^p/F^{p+1}$. For $r = 1$:
+$Z_1^p$ consists of the elements of $F^p$ whose image in $\mathrm{gr}^p$ is a cocycle, $Z_0^{p+1} = F^{p+1}$ and $B_1^p = d(F^p)$, so
+$E_1^p = Z_1^p/(d(F^p) + F^{p+1})$ is the cohomology of $\mathrm{gr}^pK$.
+\end{proof}
+
+\begin{theorem}\label{spectral-sequences:theorem-filtered-complex}
+For every filtered complex, the objects $E_r^{p,q}$ and differentials $d_r$, $r \geq 0$, form a spectral sequence:
+$H(E_r, d_r) \cong E_{r+1}$. If the filtration is finite in each degree, then for fixed $(p, q)$ and all sufficiently large $r$,
+$E_r^{p,q} = E_\infty^{p,q}$ with
+\[
+E_\infty^{p,q} \cong F^pH^{p+q}(K)/F^{p+1}H^{p+q}(K).
+\]
+In particular, if $F^0K = K$ and $F^{n+1}K^n = 0$ for all $n$, the spectral sequence is first-quadrant (from $E_1$ on, since
+$E_1^{p,q}$ vanishes for $p < 0$ or $q < 0$) and $E_1^{p,q} = H^{p+q}(\mathrm{gr}^pK) \Rightarrow H^{p+q}(K)$.
+\end{theorem}
+
+\begin{proof}
+\emph{Kernel of $d_r$ at $E_r^p$.} Let $x \in Z_r^p$ with $dx \in B_r^{p+r} + Z_{r-1}^{p+r+1}$, say $dx = dy + z$ with $y \in F^{p+1}$,
+$dy \in F^{p+r}$ and $z \in F^{p+r+1}$. Then $y \in Z_{r-1}^{p+1}$, and $x - y \in F^p$ with $d(x - y) = z \in F^{p+r+1}$, so
+$x - y \in Z_{r+1}^p$. Conversely, $Z_{r+1}^p$ maps into the kernel, since $dx \in F^{p+r+1}$ and $d(dx) = 0$ give
+$dx \in Z_{r-1}^{p+r+1}$. Hence the kernel is $(Z_{r+1}^p + Z_{r-1}^{p+1})/(B_r^p + Z_{r-1}^{p+1})$.
+
+\emph{Image of $d_r$ in $E_r^p$.} It consists of the classes of $dx$ with $x \in Z_r^{p-r}$, that is of the elements of
+$F^p \cap d(F^{p-r}) = B_{r+1}^p$. Since $B_r^p \subseteq B_{r+1}^p$, the image is $(B_{r+1}^p + Z_{r-1}^{p+1})/(B_r^p + Z_{r-1}^{p+1})$.
+
+\emph{Cohomology.} Therefore
+$H(E_r)^p = (Z_{r+1}^p + Z_{r-1}^{p+1})/(B_{r+1}^p + Z_{r-1}^{p+1})$. The map $Z_{r+1}^p \to H(E_r)^p$ is surjective, with kernel
+$Z_{r+1}^p \cap (B_{r+1}^p + Z_{r-1}^{p+1}) = B_{r+1}^p + (Z_{r+1}^p \cap Z_{r-1}^{p+1})$ (as $B_{r+1}^p \subseteq Z_{r+1}^p$). Now
+$Z_{r+1}^p \cap Z_{r-1}^{p+1} = F^{p+1} \cap d^{-1}(F^{p+r+1}) = Z_r^{p+1}$. So $H(E_r)^p \cong Z_{r+1}^p/(B_{r+1}^p + Z_r^{p+1}) = E_{r+1}^p$.
+
+\emph{Convergence.} Fix $n$ and $p$ and let $Z$, $B$ denote the cocycles and coboundaries of $K$. If the filtration is finite in degrees
+$n - 1$, $n$ and $n + 1$, then for large $r$ we have $F^{p+r}K^{n+1} = 0$ and $F^{p-r+1}K^{n-1} = K^{n-1}$, so in degree $n$:
+$Z_r^p = F^p \cap Z$, $Z_{r-1}^{p+1} = F^{p+1} \cap Z$ and $B_r^p = F^p \cap B$. Hence
+$E_\infty^p = (F^p \cap Z)/((F^p \cap B) + (F^{p+1} \cap Z))$. On the other hand $F^pH^n = (F^p \cap Z + B)/B$, and
+\[
+\frac{F^pH^n}{F^{p+1}H^n} \cong \frac{F^p \cap Z}{(F^p \cap Z) \cap (F^{p+1} \cap Z + B)} = \frac{F^p \cap Z}{F^{p+1} \cap Z + F^p \cap B},
+\]
+using the modular law. For the last statement, $\mathrm{gr}^pK = 0$ for $p < 0$ and $\mathrm{gr}^pK^n = 0$ for $p > n$, so $E_1^{p,q} = 0$ unless
+$p \geq 0$ and $q \geq 0$, and $F^pH^n$ runs from $H^n$ to $0$.
+\end{proof}
+
+\section{Double complexes}\label{spectral-sequences:section-double-complexes}
+
+\begin{theorem}\label{spectral-sequences:theorem-double-complex}
+Let $C$ be a first-quadrant double complex (Definition~\ref{homological-algebra:definition-double-complex}) and $T = \mathrm{Tot}(C)$.
+There are two convergent first-quadrant spectral sequences
+\[
+{}^{I}E_2^{p,q} = H^p_h(H^q_v(C)) \Rightarrow H^{p+q}(T), \qquad {}^{II}E_2^{p,q} = H^p_v(H^q_h(C)) \Rightarrow H^{p+q}(T),
+\]
+where $H_v^q(C)$ is the cohomology of the columns (a complex in $p$ via $d_h$), and $H_h^q(C)$ that of the rows (a complex in the
+other index via $d_v$).
+\end{theorem}
+
+\begin{proof}
+Filter $T$ by columns: ${}^IF^pT^n = \bigoplus_{i \geq p}C^{i, n-i}$. These are subcomplexes, $F^0T = T$ and $F^{n+1}T^n = 0$. The graded
+piece $\mathrm{gr}^pT$ is the column $C^{p,\bullet}$ (shifted by $p$) with differential $\pm d_v$, so
+${}^IE_1^{p,q} = H^q_v(C^{p,\bullet})$ by Theorem~\ref{spectral-sequences:theorem-filtered-complex}. The differential $d_1$ is the
+connecting map of $0 \to \mathrm{gr}^{p+1} \to F^p/F^{p+2} \to \mathrm{gr}^p \to 0$; a cocycle $x \in C^{p,q}$ of $d_v$ lifts to itself, and its total
+differential is $d_hx \in C^{p+1,q}$, so $d_1 = H^q_v(d_h)$ and ${}^IE_2^{p,q} = H^p_h(H^q_v(C))$. Convergence follows from
+Theorem~\ref{spectral-sequences:theorem-filtered-complex}. Filtering by rows, ${}^{II}F^pT^n = \bigoplus_{j \geq p}C^{n-j, j}$, gives the other
+spectral sequence in the same way.
+\end{proof}
+
+\begin{example}\label{spectral-sequences:example-acyclic-assembly}
+If the rows of $C$ are exact in positive degrees, with kernel complex $K^\bullet$ in column $0$, then ${}^{II}E_1^{p,q} = H^q_h(C^{\bullet,p})$
+vanishes for $q > 0$ and equals $K^p$ for $q = 0$. So ${}^{II}E_2^{p,0} = H^p(K)$, all other terms vanish, and
+$H^n(T) \cong H^n(K)$ by Proposition~\ref{spectral-sequences:proposition-edge-maps}(3). This recovers
+Lemma~\ref{homological-algebra:lemma-acyclic-assembly}.
+\end{example}
+
+\section{Exact couples}\label{spectral-sequences:section-exact-couples}
+
+\begin{definition}\label{spectral-sequences:definition-exact-couple}
+An \emph{exact couple} consists of objects $D$, $E$ and morphisms $i \colon D \to D$, $j \colon D \to E$, $k \colon E \to D$ such that the triangle
+$D \xrightarrow{i} D \xrightarrow{j} E \xrightarrow{k} D$ is exact at each vertex. Put $d = jk \colon E \to E$; then $d^2 = j(kj)k = 0$.
+\end{definition}
+
+\begin{proposition}\label{spectral-sequences:proposition-derived-couple}
+Given an exact couple, let $D' = i(D)$, $E' = \ker d/\im d$, $i' = i|_{D'}$, $j'(i(x)) = [j(x)]$ and $k'([e]) = k(e)$. Then $(D', E', i', j', k')$
+is an exact couple, the \emph{derived couple}. Iterating gives a spectral sequence $E^{(r)}$ with differentials $d^{(r)} = j^{(r)}k^{(r)}$.
+\end{proposition}
+
+\begin{proof}
+$j'$ is well defined: if $i(x) = i(x')$ then $x - x' = k(e)$ and $j(x - x') = jk(e) = d(e)$; and $j(x)$ is a $d$-cocycle since
+$dj(x) = jkj(x) = 0$. $k'$ is well defined: if $e \in \ker d$ then $jk(e) = 0$ so $k(e) \in \ker j = \im i = D'$, and $k(d(e')) = kjk(e') = 0$.
+Exactness at $D'$ (between $i'$ and $j'$): $j'(i(x)) = 0$ iff $j(x) = jk(e)$ iff $x - k(e) \in \ker j = \im i$, iff $i(x) \in i(\im i) + ik(E) = i(D')$
+since $ik = 0$. Exactness at $E'$: $k'[e] = 0$ iff $k(e) = 0$ iff $e = j(x)$, iff $[e] = j'(i(x))$. Exactness at the other $D'$
+(between $k'$ and $i'$): $i'(i(x)) = 0$ iff $i(x) \in \ker i = \im k$, iff $i(x) = k(e)$ for some $e$, which is then a $d$-cocycle since
+$jk(e) = ji(x) = 0$; that is, iff $i(x) \in \im k'$.
+\end{proof}
+
+\begin{remark}\label{spectral-sequences:remark-exact-couple-filtered}
+A filtered complex gives an exact couple with $D = \bigoplus_{p,n}H^n(F^pK)$, $E = \bigoplus_{p,n}H^n(\mathrm{gr}^pK)$, $i$ induced by the inclusions
+$F^{p+1} \subseteq F^p$, and $j$, $k$ from the long exact sequences of $0 \to F^{p+1} \to F^p \to \mathrm{gr}^p \to 0$. The resulting spectral sequence is
+the one of Theorem~\ref{spectral-sequences:theorem-filtered-complex}, from $E_1$ on \cite[Section 5.9]{weibel-homological}.
+\end{remark}
+
+\section{The Grothendieck spectral sequence}\label{spectral-sequences:section-grothendieck}
+
+\begin{definition}\label{spectral-sequences:definition-cartan-eilenberg}
+Let $A^\bullet$ be a complex with $A^n = 0$ for $n < 0$ in an abelian category with enough injectives. A \emph{Cartan--Eilenberg resolution}
+of $A$ is a first-quadrant double complex $I^{\bullet,\bullet}$ of injectives with a morphism $A^p \to I^{p,0}$ for each $p$, such that for every $p$ the
+columns give injective resolutions $A^p \to I^{p,\bullet}$, $Z^p(A) \to Z^p_h(I)^\bullet$, $B^p(A) \to B^p_h(I)^\bullet$ and $H^p(A) \to H^p_h(I)^\bullet$, where
+$Z_h$, $B_h$, $H_h$ denote horizontal cocycles, coboundaries and cohomology.
+\end{definition}
+
+\begin{lemma}\label{spectral-sequences:lemma-cartan-eilenberg-exists}
+Every such complex $A$ has a Cartan--Eilenberg resolution.
+\end{lemma}
+
+\begin{proof}
+For each $p$ choose injective resolutions $B^p(A) \to J_B^{p,\bullet}$ and $H^p(A) \to J_H^{p,\bullet}$. The horseshoe lemma
+(Lemma~\ref{homological-algebra:lemma-horseshoe}) applied to $0 \to B^p \to Z^p \to H^p \to 0$ gives a resolution $J_Z^{p,\bullet}$ of $Z^p$ with
+$J_Z^{p,q} = J_B^{p,q} \oplus J_H^{p,q}$, and applied to $0 \to Z^p \to A^p \to B^{p+1} \to 0$ gives a resolution $I^{p,\bullet}$ of $A^p$ with
+$I^{p,q} = J_Z^{p,q} \oplus J_B^{p+1,q}$. Define $d_h \colon I^{p,q} \to I^{p+1,q}$ as the composite
+$I^{p,q} \to J_B^{p+1,q} \to J_Z^{p+1,q} \to I^{p+1,q}$ of the projection and inclusions provided by the horseshoe lemma. Then $d_h^2 = 0$ (the
+projection $I^{p+1, q} \to J_B^{p+2,q}$ kills $J_Z^{p+1,q}$), $d_h$ commutes with the vertical differentials since all maps involved are morphisms
+of complexes, and it covers $d \colon A^p \to A^{p+1}$. By construction the horizontal cocycles, coboundaries and cohomology in column $p$ are
+$J_Z^{p,\bullet}$, $J_B^{p,\bullet}$ and $J_H^{p,\bullet}$.
+\end{proof}
+
+\begin{theorem}[Grothendieck spectral sequence]\label{spectral-sequences:theorem-grothendieck}
+Let $\mathcal{A}, \mathcal{B}, \mathcal{C}$ be abelian categories, $\mathcal{A}$ and $\mathcal{B}$ with enough injectives, and $F \colon \mathcal{A} \to \mathcal{B}$,
+$G \colon \mathcal{B} \to \mathcal{C}$ left exact functors such that $F$ maps injective objects to $G$-acyclic objects. For every $X \in \mathcal{A}$ there is a
+convergent first-quadrant spectral sequence
+\[
+E_2^{p,q} = R^pG(R^qF(X)) \Rightarrow R^{p+q}(G \circ F)(X).
+\]
+\end{theorem}
+
+\begin{proof}
+Let $X \to A^\bullet$ be an injective resolution in $\mathcal{A}$, and let $I^{\bullet,\bullet}$ be a Cartan--Eilenberg resolution of the complex $F(A^\bullet)$ in
+$\mathcal{B}$. Consider the double complex $G(I)$ and its total complex $T$.
+
+\emph{First filtration (by columns).} For each $p$, the column $I^{p,\bullet}$ is an injective resolution of the $G$-acyclic object $F(A^p)$, so
+$H^q_v(G(I^{p,\bullet})) = R^qG(F(A^p))$ is $G(F(A^p))$ for $q = 0$ and $0$ for $q > 0$. So ${}^IE_2^{p,q} = 0$ for $q > 0$ and
+${}^IE_2^{p,0} = H^p(GF(A^\bullet)) = R^p(GF)(X)$, and $H^n(T) \cong R^n(GF)(X)$ by Proposition~\ref{spectral-sequences:proposition-edge-maps}(3).
+
+\emph{Second filtration (by rows).} Fix a row index $j$. In the row $I^{\bullet,j}$ the sequences
+$0 \to B^{q,j}_h \to Z^{q,j}_h \to H^{q,j}_h \to 0$ and $0 \to Z^{q,j}_h \to I^{q,j} \to B^{q+1,j}_h \to 0$ consist of injective objects (they are terms of
+injective resolutions), hence split; so $G$ commutes with taking horizontal cocycles, coboundaries and cohomology of this row, and
+$H^q_h(G(I^{\bullet,j})) = G(H^{q,j}_h(I))$. For fixed $q$, the column $H^{q,\bullet}_h(I)$ is an injective resolution of
+$H^q(F(A^\bullet)) = R^qF(X)$. By Theorem~\ref{spectral-sequences:theorem-double-complex},
+${}^{II}E_2^{p,q} = H^p_v(H^q_h(G(I))) = H^p(G(H^{q,\bullet}_h(I))) = R^pG(R^qF(X))$, and it converges to
+$H^{p+q}(T) \cong R^{p+q}(GF)(X)$.
+\end{proof}
+
+\section{Exercises}\label{spectral-sequences:section-exercises}
+
+\begin{exercise}\label{spectral-sequences:exercise-two-columns}
+State and prove the analogue of Proposition~\ref{spectral-sequences:proposition-two-rows} for a spectral sequence concentrated in two
+columns $p \in \{0, s\}$.
+\end{exercise}
+
+\begin{exercise}\label{spectral-sequences:exercise-two-out-of-three}
+Let $0 \to A^\bullet \to B^\bullet \to C^\bullet \to 0$ be a short exact sequence of bounded below complexes, viewed as a double complex with three
+columns. Using both spectral sequences of Theorem~\ref{spectral-sequences:theorem-double-complex} (after shifting so that the double complex is
+first-quadrant), show that if two of $A$, $B$, $C$ are acyclic, then so is the third.
+\end{exercise}
+
+\begin{exercise}\label{spectral-sequences:exercise-balance-ss}
+Use Theorem~\ref{spectral-sequences:theorem-double-complex} to give a second proof of
+Theorem~\ref{homological-algebra:theorem-balance}.
+\end{exercise}
+
+\begin{exercise}\label{spectral-sequences:exercise-base-change-tor}
+Let $R \to S$ be a homomorphism of commutative rings, $M$ an $S$-module and $N$ an $R$-module. Construct a spectral sequence
+$\Tor_p^S(M, \Tor_q^R(S, N)) \Rightarrow \Tor_{p+q}^R(M, N)$ (homological indexing).
+\end{exercise}

@@ -1,0 +1,214 @@
+\chapter{Mumford--Tate Groups}\label{mumford-tate}
+\chapterstatus{complete}
+
+\section{Introduction}\label{mumford-tate:section-introduction}
+
+The Mumford--Tate group of a rational Hodge structure $H$ is the smallest algebraic group over $\QQ$ whose real points contain the image of the Deligne torus.
+It is the symmetry group of $H$: a rational subspace of any tensor space built from $H$ is a sub-Hodge structure exactly when it is stable under the
+Mumford--Tate group, and Hodge classes are exactly the invariants of the special Mumford--Tate group (Theorem~\ref{mumford-tate:theorem-hodge-classes-invariants}). So
+determining all Hodge classes on a variety, the first step in any attack on the Hodge conjecture, amounts to computing a group and its invariants. For abelian varieties this is
+a problem in the representation theory of reductive groups, and it is how the known cases, and the exceptional Weil classes, are found (Chapter~\ref{known-cases}). References:
+\cite{deligne-abelian}, \cite{birkenhake-lange}, \cite{ggk-mumford-tate}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-structures} (Hodge Structures) and Chapter~\ref{abelian-varieties} (Abelian Varieties).
+
+Throughout, $H$ is a $\QQ$-Hodge structure with representation $h \colon \mathbb{S} \to \mathrm{GL}(H_\RR)$ (Proposition~\ref{hodge-structures:proposition-deligne-torus}), and
+$T^{m,n}(H) = H^{\otimes m} \otimes (H^\vee)^{\otimes n}$ are the tensor spaces, which are Hodge structures (Theorem~\ref{hodge-structures:theorem-abelian}).
+
+\section{Definition and first properties}\label{mumford-tate:section-definition}
+
+\begin{definition}\label{mumford-tate:definition-mumford-tate}
+The \emph{Mumford--Tate group} $\mathrm{MT}(H)$ is the smallest algebraic subgroup $G \subseteq \mathrm{GL}(H_\QQ)$, defined over $\QQ$, such that $h(\mathbb{S}(\RR)) \subseteq G(\RR)$. The
+\emph{Hodge group}, or special Mumford--Tate group, $\mathrm{Hg}(H)$ is the smallest algebraic subgroup defined over $\QQ$ with $h(\mathbb{U}(1)(\RR)) \subseteq \mathrm{Hg}(H)(\RR)$, where
+$\mathbb{U}(1) \subseteq \mathbb{S}$ is the circle group (Example~\ref{algebraic-groups:example-weil-restriction}).
+\end{definition}
+
+\begin{proposition}\label{mumford-tate:proposition-basic}
+\begin{enumerate}
+\item $\mathrm{MT}(H)$ and $\mathrm{Hg}(H)$ exist and are connected, and $\mathrm{Hg}(H) \subseteq \mathrm{MT}(H)$.
+\item If $H$ is pure of weight $k \neq 0$, then $\mathrm{MT}(H) = \mathbb{G}_m \cdot \mathrm{Hg}(H)$, where $\mathbb{G}_m$ is the group of scalars; if $k = 0$, $\mathrm{MT}(H) = \mathrm{Hg}(H)$.
+\item $\mathrm{MT}(H)$ acts on each $T^{m,n}(H)$, and $\mathrm{MT}(H \oplus H') \subseteq \mathrm{MT}(H) \times \mathrm{MT}(H')$ projects onto each factor.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Intersections of algebraic subgroups defined over $\QQ$ are algebraic subgroups defined over $\QQ$, and the Noetherian property of $\mathrm{GL}(H_\QQ)$ makes the intersection of all
+subgroups with the property a finite intersection, which still has it. The identity component of $\mathrm{MT}(H)$ is defined over $\QQ$ and contains the image of the connected group
+$\mathbb{S}(\RR) = \CC^*$, so it equals $\mathrm{MT}(H)$; likewise for $\mathrm{Hg}(H)$. (2) $\mathbb{S}(\RR) = \RR_{>0} \cdot \mathbb{U}(1)(\RR)$, and $h(r) = r^{-k}$ for $r \in \RR_{>0}$ by the
+weight condition. So $h(\mathbb{S}(\RR)) \subseteq (\mathbb{G}_m \cdot \mathrm{Hg}(H))(\RR)$, which gives $\subseteq$. Conversely $\mathrm{MT}(H)$ contains the scalars $h(\RR_{>0})$ if $k \neq 0$,
+hence the $\QQ$-group $\mathbb{G}_m$, and it contains $\mathrm{Hg}(H)$. If $k = 0$, $h$ is trivial on $\RR_{>0}$. (3) The action on tensors is functorial. For the direct sum, the image of
+$\mathrm{MT}(H \oplus H')$ in $\mathrm{GL}(H_\QQ)$ is a $\QQ$-subgroup containing $h(\mathbb{S})$, so it contains $\mathrm{MT}(H)$, and it is contained in it because
+$\mathrm{MT}(H) \times \mathrm{MT}(H')$ contains the image of $h \oplus h'$.
+\end{proof}
+
+\begin{theorem}\label{mumford-tate:theorem-sub-hodge}
+A $\QQ$-subspace $W \subseteq T^{m,n}(H)$ is a sub-Hodge structure if and only if it is stable under $\mathrm{MT}(H)$. A vector $t \in T^{m,n}(H)_\QQ$ spans a sub-Hodge structure if and only if
+$\mathrm{MT}(H)$ stabilises the line $\QQ t$.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{hodge-structures:proposition-deligne-torus}, $W_\CC = \bigoplus(W_\CC \cap T^{p,q})$ if and only if $W_\RR$ is stable under $h(\mathbb{S}(\RR))$, since the $T^{p,q}$ are the
+eigenspaces of the torus. The stabiliser of $W$ in $\mathrm{GL}(T^{m,n}(H)_\QQ)$, pulled back to $\mathrm{GL}(H_\QQ)$, is an algebraic subgroup defined over $\QQ$
+(Proposition~\ref{algebraic-groups:proposition-subgroup-fixing}). It contains $h(\mathbb{S}(\RR))$ if and only if it contains $\mathrm{MT}(H)$, by minimality. The second statement is the case
+$W = \QQ t$.
+\end{proof}
+
+\begin{corollary}\label{mumford-tate:corollary-endomorphisms}
+$\End_{\mathrm{HS}}(H) = \End(H_\QQ)^{\mathrm{MT}(H)}$, the endomorphisms commuting with the Mumford--Tate group. In particular $H$ is irreducible as a Hodge structure if and only if $H_\QQ$ is
+irreducible as a representation of $\mathrm{MT}(H)$.
+\end{corollary}
+
+\begin{proof}
+An endomorphism is a morphism of Hodge structures if and only if its graph, a subspace of $H \oplus H$, is a sub-Hodge structure. By Theorem~\ref{mumford-tate:theorem-sub-hodge} applied to $H \oplus H$
+(whose Mumford--Tate group is the diagonal copy of $\mathrm{MT}(H)$), this means that the graph is $\mathrm{MT}(H)$-stable, that is, the endomorphism commutes with $\mathrm{MT}(H)$. Sub-Hodge
+structures are the $\mathrm{MT}(H)$-stable subspaces.
+\end{proof}
+
+\section{Reductivity and Hodge classes}\label{mumford-tate:section-reductive}
+
+\begin{theorem}\label{mumford-tate:theorem-reductive}
+If $H$ is polarisable, then $\mathrm{MT}(H)$ and $\mathrm{Hg}(H)$ are reductive.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{mumford-tate:theorem-sub-hodge}, the $\mathrm{MT}(H)$-stable subspaces of $H_\QQ$ are the sub-Hodge structures. Since $H$ is polarisable, every sub-Hodge structure has a complement
+(Theorem~\ref{hodge-structures:theorem-semisimple}), so $H_\QQ$ is a semisimple representation of $\mathrm{MT}(H)$. It remains semisimple after extension of scalars to $\bar{\QQ}$, as we are in
+characteristic $0$ \cite{milne-algebraic-groups}. Let $U = R_u(\mathrm{MT}(H)_{\bar{\QQ}})$. On each irreducible summand $W$ of $H_{\bar{\QQ}}$, the unipotent normal subgroup $U$ has a nonzero fixed
+vector (Kolchin's theorem \cite{borel-lag}), and the fixed space $W^U$ is stable under $\mathrm{MT}(H)$ because $U$ is normal, so $W^U = W$. Hence $U$ acts trivially on the faithful
+representation $H_{\bar{\QQ}}$, so $U = 1$ and $\mathrm{MT}(H)$ is reductive. The same argument applies to $\mathrm{Hg}(H)$, a normal subgroup of the reductive group $\mathrm{MT}(H)$ (it is normalised by
+$\mathrm{MT}(H)$ because $h(\mathbb{S})$ is commutative), whose representation $H_{\bar{\QQ}}$ remains semisimple.
+\end{proof}
+
+\begin{theorem}\label{mumford-tate:theorem-hodge-classes-invariants}
+Let $H$ be a $\QQ$-Hodge structure, pure of weight $k$.
+\begin{enumerate}
+\item A rational tensor $t \in T^{m,n}(H)_\QQ$ is a Hodge class, that is, of type $(p, p)$ with $2p = k(m - n)$, if and only if it is fixed by $\mathrm{Hg}(H)$.
+\item If $H$ is polarisable, $\mathrm{Hg}(H)$ is the subgroup of $\mathrm{GL}(H_\QQ)$ fixing all Hodge classes in all tensor spaces $T^{m,n}(H)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) The circle $z \in \mathbb{U}(1)(\RR)$, $|z| = 1$, acts on $T^{p,q}$ by $z^{-p}\bar z^{-q} = z^{q-p}$. So a rational $t$ is fixed by $h(\mathbb{U}(1)(\RR))$ if and only if all its components have
+$p = q$, that is, $t$ is a Hodge class. The stabiliser of $t$ is an algebraic subgroup defined over $\QQ$ (Proposition~\ref{algebraic-groups:proposition-subgroup-fixing}), and it contains
+$h(\mathbb{U}(1)(\RR))$ if and only if it contains $\mathrm{Hg}(H)$. (2) By (1), $\mathrm{Hg}(H)$ is contained in the subgroup fixing all Hodge classes. By Theorem~\ref{mumford-tate:theorem-reductive}
+$\mathrm{Hg}(H)$ is reductive, so by Theorem~\ref{algebraic-groups:theorem-tannakian}(3) it is the subgroup fixing all tensors fixed by $\mathrm{Hg}(H)$, which by (1) are the Hodge classes.
+\end{proof}
+
+\begin{corollary}\label{mumford-tate:corollary-hodge-ring-abelian}
+Let $A$ be a complex abelian variety and $H = H^1(A; \QQ)$. Then $H^\bullet(A; \QQ) \cong \Lambda^\bullet H$ as Hodge structures, and the Hodge classes on $A$ are
+$\bigoplus_p\mathrm{Hdg}^p(A) = (\Lambda^\bullet H)^{\mathrm{Hg}(H)}$. The same holds for all powers $A^r$, with $H^1(A^r) = H^{\oplus r}$ and the same Hodge group.
+\end{corollary}
+
+\begin{proof}
+$H^\bullet(A; \QQ) = \Lambda^\bullet H^1(A; \QQ)$ by Proposition~\ref{abelian-varieties:proposition-torus-cohomology}, compatibly with Hodge decompositions (cup product is a morphism of Hodge
+structures), and $\Lambda^\bullet H$ is a direct summand of the tensor algebra. Apply Theorem~\ref{mumford-tate:theorem-hodge-classes-invariants}(1). For $A^r$, the Hodge group of $H^{\oplus r}$ is the
+diagonal image of $\mathrm{Hg}(H)$ by Proposition~\ref{mumford-tate:proposition-basic}(3).
+\end{proof}
+
+\begin{proposition}\label{mumford-tate:proposition-polarisation}
+Let $H$ be pure of weight $k$ with a polarisation $Q$. Then $\mathrm{Hg}(H)$ is contained in the automorphism group $\mathrm{Aut}(H_\QQ, Q)$ of the form, which is the symplectic group $\mathrm{Sp}(H_\QQ, Q)$ for $k$ odd and
+the orthogonal group $\mathrm{O}(H_\QQ, Q)$ for $k$ even. Consequently $\mathrm{MT}(H)$ is contained in the group of similitudes $\{g : Q(gx, gy) = \lambda(g)Q(x, y)\}$.
+\end{proposition}
+
+\begin{proof}
+Viewed as an element of $T^{0,2}(H) = (H^\vee)^{\otimes 2}$, a Hodge structure of weight $-2k$, the form $Q$ is rational and lies in $\bigoplus_{p+q=k}(H^{p,q})^\vee \otimes (H^{q,p})^\vee$ by condition (2) of
+Definition~\ref{hodge-structures:definition-polarisation}. By Theorem~\ref{hodge-structures:theorem-abelian} the dual $(H^{p,q})^\vee$ has type $(-p,-q)$, so $Q$ has type $(-k, -k)$ and is a Hodge class. By
+Theorem~\ref{mumford-tate:theorem-hodge-classes-invariants}(1) it is fixed by $\mathrm{Hg}(H)$, that is, $Q(gx, gy) = Q(x, y)$ for $g \in \mathrm{Hg}(H)$. The form is alternating for $k$ odd and symmetric for $k$ even. The
+last statement follows from Proposition~\ref{mumford-tate:proposition-basic}(2), since scalars are similitudes.
+\end{proof}
+
+\begin{proposition}\label{mumford-tate:proposition-tate-type}
+For a $\QQ$-Hodge structure $H$ pure of weight $k$, the following are equivalent: $\mathrm{Hg}(H) = 1$; every element of $H_\QQ$ is a Hodge class; $H$ is of Tate type, that is, $k = 2p$ is even and
+$H \cong \QQ(-p)^{\oplus r}$. In that case $\mathrm{MT}(H) = \mathbb{G}_m$ (scalars) if $p \neq 0$, and $\mathrm{MT}(H) = 1$ if $p = 0$.
+\end{proposition}
+
+\begin{proof}
+If $\mathrm{Hg}(H) = 1$, every rational vector is fixed, hence a Hodge class by Theorem~\ref{mumford-tate:theorem-hodge-classes-invariants}(1). If every rational vector is a Hodge class, then $H_\CC$,
+spanned by $H_\QQ$, equals $H^{p,p}$, and a basis of $H_\QQ$ gives $H \cong \QQ(-p)^{\oplus r}$. If $H$ is of Tate type, $\mathbb{U}(1)(\RR)$ acts on $H^{p,p}$ by $z^{-p}\bar z^{-p} = |z|^{-2p} = 1$, so the smallest
+$\QQ$-group containing its image is trivial. The last statement follows from Proposition~\ref{mumford-tate:proposition-basic}(2): $\mathrm{MT}(H) = \mathbb{G}_m \cdot \mathrm{Hg}(H) = \mathbb{G}_m$ if the weight
+$2p$ is nonzero, and $\mathrm{MT}(H) = \mathrm{Hg}(H) = 1$ if $p = 0$.
+\end{proof}
+
+\begin{example}\label{mumford-tate:example-weight-two}
+Let $S$ be a nonsingular projective surface and $H = H^2(S; \QQ)$. By Proposition~\ref{mumford-tate:proposition-tate-type}, $\mathrm{Hg}(H)$ is trivial exactly when $h^{2,0}(S) = 0$, and then every class in
+$H^2(S; \QQ)$ is a Hodge class; by the Lefschetz $(1,1)$-theorem (Chapter~\ref{lefschetz-11}) all of them are then classes of divisors. When $h^{2,0} \neq 0$, the Hodge group fixes every Hodge class, in particular the class of a hyperplane section and all of
+$\mathrm{NS}(S) \otimes \QQ$, and it preserves the polarisation of Theorem~\ref{hodge-structures:theorem-cohomology-polarised} (Proposition~\ref{mumford-tate:proposition-polarisation}); so it acts on the orthogonal
+complement of $\mathrm{NS}(S) \otimes \QQ$ for the intersection form, the \emph{transcendental part}, preserving the intersection form, and it is nontrivial there.
+\end{example}
+
+\section{Examples}\label{mumford-tate:section-examples}
+
+\begin{proposition}\label{mumford-tate:proposition-elliptic-curves}
+Let $E$ be a complex elliptic curve and $H = H^1(E; \QQ)$. If $E$ has complex multiplication by the imaginary quadratic field $K$, then $\mathrm{MT}(H) = \mathrm{Res}_{K/\QQ}\mathbb{G}_m$, a torus of
+dimension $2$, and $\mathrm{Hg}(H)$ is the norm-one subtorus. If $E$ has no complex multiplication, then $\mathrm{MT}(H) = \mathrm{GL}_2$ and $\mathrm{Hg}(H) = \mathrm{SL}_2$.
+\end{proposition}
+
+\begin{proof}
+By Corollary~\ref{mumford-tate:corollary-endomorphisms} and Theorem~\ref{hodge-structures:theorem-weight-one}, the commutant of $\mathrm{MT}(H)$ in $\End(H_\QQ)$ is $\End(E) \otimes \QQ$. In the CM case, $K$
+acts on the $2$-dimensional space $H_\QQ$, making it a $1$-dimensional $K$-vector space, so the commutant of $K$ in $\mathrm{GL}(H_\QQ)$ is the torus $T_K = \mathrm{Res}_{K/\QQ}\mathbb{G}_m$, and
+$\mathrm{MT}(H) \subseteq T_K$. It contains the scalars (weight $1 \neq 0$) and the Weil operator $C = h(i)^{-1}$, which acts as $i$ on $H^{1,0}$ and $-i$ on $H^{0,1}$ and is not a scalar. So
+$\dim\mathrm{MT}(H) = 2$ and $\mathrm{MT}(H) = T_K$. Without CM, the commutant is $\QQ$. The group $\mathrm{MT}(H)$ is connected and reductive (Theorem~\ref{mumford-tate:theorem-reductive}). A
+connected reductive subgroup of $\mathrm{GL}_2$ is a torus or contains $\mathrm{SL}_2$. A torus of $\mathrm{GL}_2$ containing a non-scalar element has as commutant a $2$-dimensional commutative
+algebra, not $\QQ$. So $\mathrm{MT}(H) \supseteq \mathrm{SL}_2$, and with the scalars, $\mathrm{MT}(H) = \mathrm{GL}_2$. The Hodge groups follow from Proposition~\ref{mumford-tate:proposition-basic}(2)
+and the fact that $\mathrm{Hg}$ preserves the polarisation (it fixes the Hodge class $Q$), so lies in $\mathrm{SL}_2 = \mathrm{Sp}_2$.
+\end{proof}
+
+\begin{proposition}\label{mumford-tate:proposition-cm}
+If $A$ is an abelian variety with complex multiplication by a CM field $F$ of degree $2g$, then $\mathrm{MT}(H^1(A; \QQ))$ is a torus, contained in $\mathrm{Res}_{F/\QQ}\mathbb{G}_m$. Conversely, a
+polarisable weight-one Hodge structure whose Mumford--Tate group is a torus is of CM type.
+\end{proposition}
+
+\begin{proof}
+$F$ acts on $H_\QQ$ by Hodge endomorphisms, and $\dim_\QQ H_\QQ = 2g = [F : \QQ]$, so $H_\QQ$ is a $1$-dimensional $F$-vector space. Its commutant in $\mathrm{GL}(H_\QQ)$ is $\mathrm{Res}_{F/\QQ}\mathbb{G}_m$, a
+torus, which contains $\mathrm{MT}$ by Corollary~\ref{mumford-tate:corollary-endomorphisms}; subgroups of tori that are connected are tori. Conversely, if $\mathrm{MT}$ is a torus $T$, its commutant
+contains the $\QQ$-algebra generated by $T(\QQ)$, which is commutative semisimple; one shows that it contains a maximal commutative subalgebra of dimension $2g$ \cite{birkenhake-lange}.
+\end{proof}
+
+\begin{theorem}\label{mumford-tate:theorem-very-general}
+For a very general principally polarised abelian variety $A$ of dimension $g$ (outside a countable union of proper analytic subsets of the moduli space), $\mathrm{MT}(H^1(A)) = \mathrm{GSp}_{2g}$ and
+$\mathrm{Hg}(H^1(A)) = \mathrm{Sp}_{2g}$. Consequently $\mathrm{Hdg}^\bullet(A^r)$ is generated by divisor classes for every $r$, and the Hodge conjecture holds for all powers of $A$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+For each of the countably many $\QQ$-subgroups $G \subsetneq \mathrm{GSp}_{2g}$, the set of points of the Siegel space $\mathfrak{H}_g$ (Proposition~\ref{abelian-varieties:proposition-period-matrix})
+where $h$ factors through $G(\RR)$ is a proper analytic subset, since $\mathrm{GSp}_{2g}(\RR)$ acts transitively on $\mathfrak{H}_g$ and the $h$ of a general point generates. Outside these
+subsets $\mathrm{MT} = \mathrm{GSp}_{2g}$. By classical invariant theory for $\mathrm{Sp}_{2g}$, the invariants in $\Lambda^\bullet(H^{\oplus r})$ are generated by the symplectic forms pairing the
+various copies, which are the classes of divisors \cite{birkenhake-lange}. By Corollary~\ref{mumford-tate:corollary-hodge-ring-abelian} these are all the Hodge classes. Rational Hodge classes of
+degree $2$ are classes of divisors: a multiple lifts to an integral class of type $(1,1)$, which is $c_1$ of a line bundle (Lemma~\ref{kodaira:lemma-integral-11}), algebraic by GAGA
+(Theorem~\ref{gaga:theorem-gaga}), whose class is that of a divisor (Example~\ref{cycle-class:example-classes}(2)).
+\end{proof}
+
+\begin{remark}\label{mumford-tate:remark-mumford-example}
+The Mumford--Tate group is not determined by the endomorphism algebra. Mumford constructed abelian fourfolds with $\End(A) = \ZZ$ whose Mumford--Tate group is much smaller than
+$\mathrm{GSp}_8$: a form of $\mathbb{G}_m \cdot (\mathrm{SL}_2)^3$ acting through the tensor product of three standard representations \cite{mumford-1969}. For such $A$ the ring of Hodge
+classes is not detected by endomorphisms.
+\end{remark}
+
+\begin{remark}\label{mumford-tate:remark-mumford-tate-conjecture}
+For $A$ defined over a number field $k$, the \emph{Mumford--Tate conjecture} predicts that the identity component of the Zariski closure of the image of $G_k$ in $\mathrm{GL}(H^1(\bar A, \QQ_\ell))$
+equals $\mathrm{MT}(H^1(A; \QQ)) \otimes \QQ_\ell$, under Artin's comparison isomorphism (Theorem~\ref{etale-cohomology:theorem-comparison}). It relates the Hodge conjecture to the Tate conjecture
+(Chapter~\ref{tate-conjecture}), and it is known for elliptic curves (Serre) and in many cases for abelian varieties.
+\end{remark}
+
+\section{Exercises}\label{mumford-tate:section-exercises}
+
+\begin{exercise}\label{mumford-tate:exercise-tate}
+Show that $\mathrm{MT}(\QQ(n)) = \mathbb{G}_m$ for $n \neq 0$ and $\mathrm{MT}(\QQ(0)) = 1$.
+\end{exercise}
+
+\begin{solution}
+$h(z)$ acts on $\QQ(n)$, of type $(-n, -n)$, by $z^n\bar z^n = |z|^{2n}$. For $n \neq 0$ the image of $\mathbb{S}(\RR)$ is $\RR_{>0}$, whose $\QQ$-Zariski closure in $\mathrm{GL}_1$ is $\mathbb{G}_m$. For $n = 0$
+the action is trivial.
+\end{solution}
+
+\begin{exercise}\label{mumford-tate:exercise-product-elliptic}
+Let $E_1$, $E_2$ be non-isogenous elliptic curves without complex multiplication. Show that $\mathrm{Hg}(H^1(E_1) \oplus H^1(E_2)) = \mathrm{SL}_2 \times \mathrm{SL}_2$, and deduce that
+$\mathrm{Hdg}^1(E_1 \times E_2)$ has dimension $2$.
+\end{exercise}
+
+\begin{solution}
+By Proposition~\ref{mumford-tate:proposition-basic}(3) the Hodge group is a connected reductive subgroup of $\mathrm{SL}_2 \times \mathrm{SL}_2$ projecting onto both factors. By Goursat's lemma for the
+simple groups $\mathrm{SL}_2$, it is either the product or the graph of an isomorphism $\mathrm{SL}_2 \to \mathrm{SL}_2$. In the second case the two representations would be isomorphic as Hodge
+group representations, giving a nonzero Hodge class in $\Hom(H^1(E_1), H^1(E_2))$, hence an isogeny (Theorem~\ref{hodge-structures:theorem-weight-one}), which is excluded. The invariants of
+$\mathrm{SL}_2 \times \mathrm{SL}_2$ in $\Lambda^2(H_1 \oplus H_2) = \Lambda^2H_1 \oplus (H_1 \otimes H_2) \oplus \Lambda^2H_2$ are $\Lambda^2H_1 \oplus \Lambda^2H_2$, of dimension $2$.
+\end{solution}

@@ -1,0 +1,280 @@
+\chapter{Hodge Structures}\label{hodge-structures}
+\chapterstatus{complete}
+
+\section{Introduction}\label{hodge-structures:section-introduction}
+
+The cohomology $H^k(X; \ZZ)$ of a compact K\"ahler manifold comes with the Hodge decomposition of $H^k(X; \CC)$. The abstract structure that remembers
+exactly this, a lattice together with a decomposition of its complexification compatible with complex conjugation, is a \emph{Hodge structure}. Hodge
+structures form an abelian category with tensor products (Theorem~\ref{hodge-structures:theorem-abelian}). Polarisable ones form a semisimple category
+(Theorem~\ref{hodge-structures:theorem-semisimple}), and the cohomology of projective manifolds is polarisable. In this language the Hodge conjecture is a statement
+about the Hodge classes of the Hodge structures $H^{2p}(X; \QQ)$ (Chapter~\ref{hodge-conjecture}). References: \cite[Chapter 7]{voisin-hodge-1}, \cite{deligne-hodge-2},
+\cite[Chapter 2]{peters-steenbrink}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{lefschetz-theorems} (Hard Lefschetz and the Hodge--Riemann Relations) and Chapter~\ref{algebraic-groups} (Linear Algebraic
+Groups).
+
+Throughout, $A$ denotes one of the rings $\ZZ$, $\QQ$ or $\RR$, and for an $A$-module $H_A$ we write $H_\CC = H_A \otimes_A\CC$, with complex conjugation acting on the second
+factor.
+
+\section{Pure Hodge structures}\label{hodge-structures:section-definition}
+
+\begin{definition}\label{hodge-structures:definition-hodge-structure}
+An \emph{$A$-Hodge structure of weight $k \in \ZZ$} is a finitely generated $A$-module $H_A$ with a decomposition
+\[
+H_\CC = \bigoplus_{p+q=k}H^{p,q}, \qquad \overline{H^{p,q}} = H^{q,p}.
+\]
+The \emph{Hodge numbers} are $h^{p,q} = \dim_\CC H^{p,q}$, and the \emph{Hodge filtration} is the decreasing filtration $F^pH_\CC = \bigoplus_{r \geq p}H^{r,k-r}$. For $A = \ZZ$ only the
+torsion-free quotient matters for the decomposition, since $H_\CC = H_\ZZ \otimes \CC$ kills torsion.
+\end{definition}
+
+\begin{proposition}\label{hodge-structures:proposition-filtration}
+Decompositions as in Definition~\ref{hodge-structures:definition-hodge-structure} correspond bijectively to finite decreasing filtrations $F^\bullet$ of $H_\CC$ such that
+$H_\CC = F^p \oplus \overline{F^{k-p+1}}$ for all $p$. The inverse bijection is $H^{p,q} = F^p \cap \overline{F^q}$.
+\end{proposition}
+
+\begin{proof}
+Given the decomposition, $\overline{F^{k-p+1}} = \bigoplus_{r \geq k-p+1}H^{k-r,r} = \bigoplus_{s \leq p-1}H^{s,k-s}$, which is a complement of $F^p$; and $F^p \cap \overline{F^q}$ with $p + q = k$ is
+$\bigoplus_{r \geq p}H^{r,k-r} \cap \bigoplus_{s \leq p}H^{s,k-s} = H^{p,q}$. Conversely, given the filtration, put $H^{p,q} = F^p \cap \overline{F^q}$. Then
+$\overline{H^{p,q}} = H^{q,p}$. The sum of the $H^{p,q}$ is direct: $H^{p,q} \subseteq F^p$ and $H^{p',q'} \subseteq \overline{F^{q'}} \subseteq \overline{F^{k-p+1}}$ for $p' < p$. To see
+that it is all of $H_\CC$, show $F^p = H^{p,k-p} \oplus F^{p+1}$ by descending induction. Intersecting $H_\CC = F^{p+1} \oplus \overline{F^{k-p}}$ with $F^p \supseteq F^{p+1}$ gives
+$F^p = F^{p+1} \oplus (F^p \cap \overline{F^{k-p}}) = F^{p+1} \oplus H^{p,k-p}$.
+\end{proof}
+
+\begin{example}\label{hodge-structures:example-hodge-structures}
+\begin{enumerate}
+\item The \emph{Tate structure} $\ZZ(n)$ is the rank-one lattice $(2\pi i)^n\ZZ \subseteq \CC$, of weight $-2n$ and type $(-n, -n)$. We write $H(n) = H \otimes \ZZ(n)$ for the
+\emph{Tate twist}, of weight $k - 2n$.
+\item For a compact K\"ahler manifold $X$, $H^k(X; \ZZ)$ is a $\ZZ$-Hodge structure of weight $k$ by Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}.
+\item For a compact Riemann surface of genus $g$, $H^1$ has $h^{1,0} = h^{0,1} = g$. For a K3 surface, $H^2$ has Hodge numbers $(1, 20, 1)$.
+\item A Hodge structure of weight $k$ with $H^{p,q} = 0$ unless $p = q$ is of \emph{Tate type}; for instance $H^{2p}(\CC\PP^n; \ZZ) \cong \ZZ(-p)$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{hodge-structures:remark-tate-normalisation}
+The factor $(2\pi i)^n$ in $\ZZ(n)$ is not decoration. Integration of a closed $1$-form over the circle $S^1 \subseteq \CC^*$, or the connecting map of the exponential sequence
+$0 \to \ZZ \to \mathcal{O} \xrightarrow{\exp(2\pi i\cdot)} \mathcal{O}^* \to 0$, produce periods in $2\pi i\ZZ$, and the cycle class of a codimension-$p$ cycle naturally lies in
+$H^{2p}(X; \ZZ(p))$. Over $\QQ$ the twist only changes the weight, but it matters for the comparison with de Rham and $\ell$-adic cohomology (Chapter~\ref{absolute-hodge}).
+\end{remark}
+
+\section{Morphisms and the category of Hodge structures}\label{hodge-structures:section-category}
+
+\begin{definition}\label{hodge-structures:definition-morphism}
+A \emph{morphism} of $A$-Hodge structures $H \to H'$ of weights $k$ and $k + 2r$ (a morphism \emph{of type $(r, r)$}) is an $A$-linear map $\varphi$ with
+$\varphi_\CC(H^{p,q}) \subseteq H'^{p+r,q+r}$. Morphisms of type $(0,0)$ between structures of the same weight are simply called morphisms.
+\end{definition}
+
+\begin{proposition}\label{hodge-structures:proposition-strict}
+A morphism $\varphi \colon H \to H'$ of Hodge structures of the same weight is \emph{strict} for the Hodge filtrations: $\varphi(F^pH_\CC) = F^pH'_\CC \cap \varphi(H_\CC)$.
+\end{proposition}
+
+\begin{proof}
+$\varphi$ preserves the decompositions. So for $x \in H_\CC$ with $\varphi(x) \in F^p$, decompose $x = \sum_rx^{r,k-r}$. Then $\varphi(x) = \sum_r\varphi(x^{r,k-r})$ with $\varphi(x^{r,k-r}) \in H'^{r,k-r}$, and
+$\varphi(x) \in F^p$ forces $\varphi(x^{r,k-r}) = 0$ for $r < p$. So $\varphi(x) = \varphi(\sum_{r \geq p}x^{r,k-r}) \in \varphi(F^p)$.
+\end{proof}
+
+\begin{theorem}\label{hodge-structures:theorem-abelian}
+For $A = \QQ$ or $\RR$, the Hodge structures of weight $k$ form an abelian category: kernels, cokernels and images of morphisms carry induced Hodge structures of weight $k$. The
+category of all $A$-Hodge structures (direct sums of pure ones of various weights) has tensor products, duals and internal $\Hom$:
+\[
+(H \otimes H')^{p,q} = \bigoplus_{a+a'=p,\,b+b'=q}H^{a,b} \otimes H'^{a',b'}, \qquad (H^\vee)^{p,q} = (H^{-p,-q})^\vee, \qquad \Hom(H, H') = H^\vee \otimes H',
+\]
+of weights $k + k'$, $-k$ and $k' - k$. Morphisms of type $(0,0)$ between $H$ and $H'$ of the same weight are exactly the elements of $\Hom(H, H')_A \cap \Hom(H, H')^{0,0}$.
+\end{theorem}
+
+\begin{proof}
+Let $\varphi \colon H \to H'$ be a morphism. Then $\ker\varphi_\CC = \bigoplus_{p,q}(\ker\varphi_\CC \cap H^{p,q})$, because $\varphi$ preserves the decomposition, and this decomposition is
+stable under conjugation since $\varphi$ is defined over $A$. So $\ker\varphi_A$ is a Hodge structure. Similarly $\varphi_\CC(H_\CC) = \bigoplus\varphi(H^{p,q})$ and
+$H'_\CC/\varphi(H_\CC) = \bigoplus H'^{p,q}/\varphi(H^{p,q})$. The coimage and image coincide because the underlying category of vector spaces is abelian and the Hodge structures on both
+are induced from $H^{p,q}$. The formulas for tensor products and duals define Hodge structures because conjugation acts factorwise, and a linear map is of type $(0,0)$ exactly when it
+maps each $H^{p,q}$ into $H'^{p,q}$, that is, when it lies in $\Hom(H, H')^{0,0}$.
+\end{proof}
+
+\begin{counterexample}\label{hodge-structures:counterexample-filtered}
+Strictness is special. The category of filtered vector spaces is not abelian: the identity of a vector space $V$, from the trivial filtration $F^0 = V$, $F^1 = 0$ to the filtration
+$F^0 = F^1 = V$, $F^2 = 0$, is a bijective morphism of filtered spaces that is not an isomorphism, since its kernel and cokernel vanish but it is not strict. Proposition~\ref{hodge-structures:proposition-strict}
+excludes this for Hodge structures, because the complex conjugate filtration is also respected.
+\end{counterexample}
+
+\section{Hodge structures as representations}\label{hodge-structures:section-representations}
+
+\begin{proposition}\label{hodge-structures:proposition-deligne-torus}
+A real Hodge structure on $H_\RR$, that is, a direct sum of real Hodge structures of various weights, is the same as a representation $h \colon \mathbb{S} \to \mathrm{GL}(H_\RR)$ of the
+Deligne torus, via $h(z)v = z^{-p}\bar z^{-q}v$ for $v \in H^{p,q}$. It is pure of weight $k$ if and only if $h \circ w \colon \mathbb{G}_m \to \mathrm{GL}(H_\RR)$ is $r \mapsto r^{-k}$. A $\QQ$-structure
+$H_\QQ$ gives a $\QQ$-Hodge structure if and only if the weight cocharacter $h \circ w$ is defined over $\QQ$. The \emph{Weil operator} $C = h(i)^{-1}$ acts on $H^{p,q}$ as $i^{p-q}$; it is a real
+operator with $C^2 = (-1)^k$ on a structure of weight $k$.
+\end{proposition}
+
+\begin{proof}
+The first statement is Proposition~\ref{algebraic-groups:proposition-deligne-torus}, which also gives $h(w(r)) = r^{-(p+q)}$. The weight decomposition $H_\RR = \bigoplus_kH_k$ is the eigenspace
+decomposition of $h \circ w$, and it is defined over $\QQ$ exactly when $h \circ w$ is. Finally $h(i)$ acts on $H^{p,q}$ by $i^{-p}\bar i^{-q} = i^{-p}(-i)^{-q} = i^{q-p}$, so
+$C = h(i)^{-1}$ acts as $i^{p-q}$, and $C^2 = (-1)^{p-q} = (-1)^{p+q}$.
+\end{proof}
+
+\section{Polarisations}\label{hodge-structures:section-polarisations}
+
+\begin{definition}\label{hodge-structures:definition-polarisation}
+A \emph{polarisation} of a $\QQ$-Hodge structure $H$ of weight $k$ is a bilinear form $Q \colon H_\QQ \times H_\QQ \to \QQ$ such that
+\begin{enumerate}
+\item $Q(y, x) = (-1)^kQ(x, y)$;
+\item $Q(H^{p,q}, H^{p',q'}) = 0$ unless $p' = q$ and $q' = p$ (for the $\CC$-bilinear extension);
+\item $i^{p-q}Q(x, \bar x) > 0$ for every nonzero $x \in H^{p,q}$; equivalently $Q(Cx, \bar x) > 0$ for all nonzero $x \in H_\CC$.
+\end{enumerate}
+Equivalently, $Q \colon H \otimes H \to \QQ(-k)$ is a morphism of Hodge structures satisfying (3). $H$ is \emph{polarisable} if it admits a polarisation.
+\end{definition}
+
+\begin{theorem}\label{hodge-structures:theorem-cohomology-polarised}
+Let $X$ be a compact K\"ahler manifold of dimension $n$ with a K\"ahler class $[\omega]$ in the image of $H^2(X; \QQ)$ (for instance $X$ projective). Then for $k \leq n$ the primitive
+cohomology $P^k(X; \QQ)$ is a $\QQ$-Hodge structure polarised by $Q_k(a, b) = (-1)^{k(k-1)/2}\int_Xa \cup b \cup [\omega]^{n-k}$. The whole $H^k(X; \QQ)$ is polarisable: in terms
+of the Lefschetz decomposition, a polarisation is
+\[
+\tilde Q\Big(\sum_jL^ja_j, \sum_jL^jb_j\Big) = \sum_jQ_{k-2j}(a_j, b_j), \qquad a_j, b_j \in P^{k-2j}(X; \QQ).
+\]
+\end{theorem}
+
+\begin{proof}
+$P^k$ is a sub-Hodge structure, as the kernel of the morphism $L^{n-k+1}$ of type $(n-k+1, n-k+1)$ (Theorem~\ref{hodge-structures:theorem-abelian}), and it is defined over $\QQ$ because $[\omega]$
+is rational. Conditions (1)--(3) for $Q_k$ on $P^k$ are Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}. For $H^k$, the summands $L^jP^{k-2j}$ of the Lefschetz decomposition
+(Theorem~\ref{lefschetz-theorems:theorem-hard-lefschetz}) are sub-Hodge structures defined over $\QQ$, since $L^j$ is a morphism of type $(j,j)$, and $L^j \colon P^{k-2j} \to H^k$ is injective. So
+$\tilde Q$ is well defined, $(-1)^k$-symmetric, and pairs $H^{p,q}$ only with $H^{q,p}$. For $a \in P^{p',q'}$ with $p' + q' = k - 2j$, the element $x = L^ja$ lies in $H^{p'+j,q'+j}$, and
+$i^{(p'+j)-(q'+j)}\tilde Q(x, \bar x) = i^{p'-q'}Q_{k-2j}(a, \bar a) > 0$ by the primitive case. As the summands are $\tilde Q$-orthogonal and the $H^{p,q}$-components of different summands
+pair to zero, (3) holds on all of $H^k$. For comparison, $Q_k(L^ja, L^jb) = (-1)^jQ_{k-2j}(a, b)$, because both are $\pm\int a \cup b \cup [\omega]^{n-k+2j}$ and
+$\frac{k(k-1)}{2} - \frac{(k-2j)(k-2j-1)}{2} = 2jk - 2j^2 - j \equiv j \pmod 2$. So $\tilde Q$ is $Q_k$ with the sign changed on the summands with $j$ odd; $Q_k$ itself is not a polarisation of $H^k$ in
+general (Counterexample~\ref{lefschetz-theorems:counterexample-non-primitive-sign}).
+\end{proof}
+
+\begin{theorem}\label{hodge-structures:theorem-semisimple}
+The category of polarisable $\QQ$-Hodge structures of weight $k$ is semisimple: every sub-Hodge structure of a polarisable Hodge structure has a complement, and every polarisable Hodge structure is a
+finite direct sum of irreducible ones. Sub-Hodge structures and quotients of polarisable Hodge structures are polarisable.
+\end{theorem}
+
+\begin{proof}
+Let $Q$ polarise $H$ and let $W \subseteq H$ be a sub-Hodge structure. Then $W_\CC = \bigoplus(W_\CC \cap H^{p,q})$, and the restriction of $Q$ to $W$ satisfies (1)--(3), since (3) is a positivity
+condition that restricts to subspaces. So $Q|_W$ is a polarisation, in particular nondegenerate: if $Q(x, W) = 0$ for $x \in W^{p,q}$, then $Q(Cx, \bar x) = 0$ forces $x = 0$. The orthogonal
+$W^\perp = \{y \in H_\QQ : Q(y, W) = 0\}$ is a sub-Hodge structure: if $y \in W^\perp_\CC$ has components $y^{p,q}$, then for $w \in W^{p',q'}$, $Q(y^{p,q}, w)$ is the only possibly nonzero term of
+$Q(y, w) = 0$ when $(p, q) = (q', p')$, so each $y^{p,q} \in W^\perp_\CC$. As $W \cap W^\perp = 0$ by nondegeneracy and dimensions add up, $H = W \oplus W^\perp$. The quotient $H/W \cong W^\perp$ is
+polarised by $Q|_{W^\perp}$. Semisimplicity follows by induction on the dimension.
+\end{proof}
+
+\begin{counterexample}\label{hodge-structures:counterexample-not-polarisable}
+Not every Hodge structure is polarisable. In dimension $2$ every weight-one $\QQ$-Hodge structure is polarisable: $V_\CC = V^{1,0} \oplus V^{0,1}$ with $V^{1,0}$ spanned by $(1, \tau)$,
+$\tau \notin \RR$, is polarised by $\pm\det$, and it is the Hodge structure of an elliptic curve. But a weight-one Hodge structure of dimension $4$ whose $H^{1,0}$ is a general $2$-dimensional
+subspace of $\CC^4$ with $H^{1,0} \cap \overline{H^{1,0}} = 0$ admits no polarisation: it is the Hodge structure of a non-algebraic complex torus
+(Counterexample~\ref{abelian-varieties:counterexample-non-algebraic-torus} and Theorem~\ref{hodge-structures:theorem-weight-one}).
+\end{counterexample}
+
+\begin{proposition}\label{hodge-structures:proposition-automorphisms-finite}
+Let $H$ be a torsion-free $\ZZ$-Hodge structure of weight $k$ and $Q$ a polarisation of $H_\QQ$. The group of automorphisms of $H$ (automorphisms of $H_\ZZ$ whose complexification preserves every
+$H^{p,q}$) that preserve $Q$ is finite.
+\end{proposition}
+
+\begin{proof}
+Put $h(x, y) = Q(Cx, \bar y)$ on $H_\CC$, with $C$ the Weil operator (Proposition~\ref{hodge-structures:proposition-deligne-torus}). By conditions (1)--(3) of
+Definition~\ref{hodge-structures:definition-polarisation}, $h$ is a positive definite Hermitian form: condition (3) is $h(x, x) > 0$ for $x \neq 0$, and Hermitian symmetry follows from (1) and
+$Q(Cx, Cy) = Q(x, y)$, which holds by (2) because $C$ acts on $H^{p,q} \times H^{q,p}$ by $i^{p-q}i^{q-p} = 1$. An automorphism $g$ preserving the decomposition commutes with $C$, which is a scalar on each
+$H^{p,q}$; if it also preserves $Q$ it preserves $h$. So the matrices of such $g$ in a $\ZZ$-basis of $H_\ZZ$ lie in the unitary group of $h$, which is a bounded subset of the real matrices (all $g$ in it have
+operator norm $1$ for the norm of $h$), and they have integer entries. A bounded set of integer matrices is finite.
+\end{proof}
+
+\section{Hodge classes}\label{hodge-structures:section-hodge-classes}
+
+\begin{definition}\label{hodge-structures:definition-hodge-classes}
+A \emph{Hodge class} in a $\QQ$-Hodge structure $H$ of even weight $2p$ is an element of $\mathrm{Hdg}(H) = H_\QQ \cap H^{p,p}$. Equivalently, $\mathrm{Hdg}(H) = \Hom_{\mathrm{HS}}(\QQ(-p), H)$.
+\end{definition}
+
+\begin{proposition}\label{hodge-structures:proposition-hodge-classes-morphisms}
+Morphisms of Hodge structures $H \to H'$ of the same weight are exactly the Hodge classes in $\Hom(H, H')$, and $\mathrm{End}_{\mathrm{HS}}(H) = \mathrm{Hdg}(\End H)$. Morphisms of Hodge structures
+map Hodge classes to Hodge classes. For a compact K\"ahler manifold $X$, $\mathrm{Hdg}^p(X) = \mathrm{Hdg}(H^{2p}(X; \QQ))$ (Definition~\ref{cycle-class:definition-hodge-classes}) is a
+$\QQ$-subalgebra of $\bigoplus_pH^{2p}(X; \QQ)$ under cup product.
+\end{proposition}
+
+\begin{proof}
+The first statement is the last part of Theorem~\ref{hodge-structures:theorem-abelian}. A morphism of type $(r,r)$ maps $H_\QQ \cap H^{p,p}$ into $H'_\QQ \cap H'^{p+r,p+r}$. Cup product
+$H^{2p} \otimes H^{2q} \to H^{2p+2q}$ is a morphism of Hodge structures, as the wedge product of forms of types $(p,p)$ and $(q,q)$ has type $(p+q,p+q)$, and it preserves rational classes.
+\end{proof}
+
+\begin{example}\label{hodge-structures:example-hodge-classes}
+\begin{enumerate}
+\item In $H^2(X; \QQ)$ of a compact K\"ahler manifold, the Hodge classes are the rational classes of type $(1,1)$; for a complex torus they form $\mathrm{NS}(T) \otimes \QQ$
+(Exercise~\ref{abelian-varieties:exercise-hodge-classes-torus}).
+\item Hodge classes can be scarce even when $H^{p,p}$ is large: for a very general projective K3 surface of given degree, the rational classes of type $(1,1)$ in $H^2$ are only the
+multiples of the polarisation, although $h^{1,1} = 20$.
+\item The polarisation $Q$ of a Hodge structure $H$ of weight $k$ is a Hodge class in $(H^\vee)^{\otimes 2}(-k)$, a Hodge structure of weight $0$.
+\end{enumerate}
+\end{example}
+
+\section{Weight one and complex tori}\label{hodge-structures:section-weight-one}
+
+\begin{theorem}\label{hodge-structures:theorem-weight-one}
+The functor $T = V/\Lambda \mapsto H_1(T; \ZZ) = \Lambda$, with the decomposition $\Lambda_\CC = V \oplus \bar V$ into the $(-1,0)$- and $(0,-1)$-parts, is an equivalence between the category
+of complex tori and the category of torsion-free $\ZZ$-Hodge structures of type $\{(-1,0), (0,-1)\}$. Its inverse is $H \mapsto H_\CC/(F^0H_\CC + H_\ZZ)$. Under it, abelian varieties
+correspond exactly to the polarisable Hodge structures, and a polarisation of the Hodge structure is (up to sign) a Riemann form.
+\end{theorem}
+
+\begin{proof}
+$\Lambda \otimes_\ZZ\RR = V$ as real vector spaces, so $\Lambda_\CC = V \otimes_\RR\CC = V^{1,0} \oplus V^{0,1}$, the $\pm i$-eigenspaces of the complex structure, and the projection to $V^{1,0} \cong V$
+restricts to the identity of $V$ on $\Lambda_\RR = V$. So $V \cong \Lambda_\CC/V^{0,1} = \Lambda_\CC/F^0$, and $T = \Lambda_\CC/(F^0 + \Lambda)$. Conversely, for a Hodge structure $H$ of this type,
+$H_\RR \to H_\CC/F^0 = H^{-1,0}$ is an isomorphism of real vector spaces, since $H_\RR \cap F^0 = H_\RR \cap H^{0,-1} = 0$ (a real vector in $H^{0,-1}$ lies in $H^{-1,0} \cap H^{0,-1} = 0$). So $H_\ZZ$
+is a lattice in the complex vector space $H^{-1,0}$. Homomorphisms of tori are $\CC$-linear maps preserving lattices (Lemma~\ref{abelian-varieties:lemma-homomorphisms}), which are exactly
+the morphisms of Hodge structures. A polarisation $Q$ of weight $-1$ is an alternating integral (after scaling) form on $\Lambda$ with $Q(V, V) = 0$ and $iQ(x, \bar x) > 0$ on $V^{1,0}$, up to the
+sign conventions; this is Riemann's condition in the form of Theorem~\ref{abelian-varieties:theorem-riemann-conditions}.
+\end{proof}
+
+\begin{remark}\label{hodge-structures:remark-weight-one-cohomology}
+Dually, $H^1(T; \ZZ) = \Hom(\Lambda, \ZZ)$ is of weight one with $H^{1,0} = V^\vee$. For a curve $C$, $H^1(C; \ZZ)$ is polarised by the cup product, and the corresponding torus is the Jacobian
+(Theorem~\ref{abelian-varieties:theorem-jacobian}). In higher weight there is no such dictionary: a Hodge structure of weight $3$ does not in general come from a complex torus in a way compatible
+with polarisations, which is the origin of the difference between Griffiths' intermediate Jacobians and Weil's (Chapter~\ref{intermediate-jacobians}).
+\end{remark}
+
+\begin{corollary}\label{hodge-structures:corollary-torus-automorphisms}
+A complex torus with a polarisation has only finitely many group automorphisms preserving the polarisation.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{hodge-structures:theorem-weight-one}, group automorphisms of the torus are the automorphisms of the Hodge structure $H_1$, and a polarisation of the torus is a polarisation of
+this Hodge structure. Apply Proposition~\ref{hodge-structures:proposition-automorphisms-finite}.
+\end{proof}
+
+\begin{counterexample}\label{hodge-structures:counterexample-infinite-automorphisms}
+The polarisation is needed in Proposition~\ref{hodge-structures:proposition-automorphisms-finite}. Let $E = \CC/\Lambda$ be an elliptic curve and $T = E \times E = \CC^2/\Lambda^2$. Every matrix in
+$\mathrm{GL}_2(\ZZ)$ acts $\CC$-linearly on $\CC^2$ and preserves $\Lambda^2$, so it is an automorphism of the Hodge structure $H_1(T; \ZZ)$ (Theorem~\ref{hodge-structures:theorem-weight-one}), and
+$\mathrm{GL}_2(\ZZ)$ is infinite. Consequently no single polarisation of $H_1(T)$ is preserved by all of these automorphisms; each polarisation is preserved only by a finite subgroup.
+\end{counterexample}
+
+\begin{example}\label{hodge-structures:example-complex-multiplication}
+Let $E_\tau = \CC/(\ZZ + \ZZ\tau)$ with $\operatorname{Im}\tau > 0$, and $H = H_1(E_\tau; \QQ) = \QQ + \QQ\tau \subseteq \CC$, of type $\{(-1,0), (0,-1)\}$. An $\RR$-linear endomorphism of $H_\RR = \CC$ preserves the
+decomposition $H_\CC = H^{-1,0} \oplus H^{0,-1}$ exactly when it commutes with the complex structure, that is, when it is multiplication by some $\alpha \in \CC$ (as in the proof of
+Theorem~\ref{hodge-structures:theorem-weight-one}). So $\End_{\mathrm{HS}}(H) = \{\alpha \in \CC : \alpha(\QQ + \QQ\tau) \subseteq \QQ + \QQ\tau\}$, which is $\End(E_\tau) \otimes \QQ$: clearing denominators,
+$\alpha$ preserves $\QQ + \QQ\tau$ if and only if $n\alpha$ preserves $\ZZ + \ZZ\tau$ for some integer $n \geq 1$. By Proposition~\ref{abelian-varieties:proposition-elliptic-endomorphisms},
+\[
+\End_{\mathrm{HS}}(H) = \begin{cases}\QQ(\tau) & \text{if } [\QQ(\tau) : \QQ] = 2 \quad (\text{$E_\tau$ has \emph{complex multiplication}}),\\ \QQ & \text{otherwise.}\end{cases}
+\]
+For instance $\tau = i$ gives $\QQ(i)$. Elliptic curves with complex multiplication are thus exactly those whose Hodge structure has extra symmetry; they are countably many up to isomorphism.
+\end{example}
+
+\section{Exercises}\label{hodge-structures:section-exercises}
+
+\begin{exercise}\label{hodge-structures:exercise-tate-tensor}
+Show that $\ZZ(m) \otimes \ZZ(n) \cong \ZZ(m + n)$ and $\ZZ(n)^\vee \cong \ZZ(-n)$, and that a rank-one $\QQ$-Hodge structure is isomorphic to $\QQ(n)$ for a unique $n$.
+\end{exercise}
+
+\begin{solution}
+The lattices multiply, $(2\pi i)^m\ZZ \otimes (2\pi i)^n\ZZ \to (2\pi i)^{m+n}\ZZ$, and the types add. A rank-one structure $H$ has $H_\CC$ one-dimensional, so it is a single $H^{p,q}$ with
+$\overline{H^{p,q}} = H^{q,p}$ forcing $p = q$; the weight is $2p$, and any nonzero rational vector gives an isomorphism with $\QQ(-p)$.
+\end{solution}
+
+\begin{exercise}\label{hodge-structures:exercise-hodge-numbers-tensor}
+Compute the Hodge numbers of $\Lambda^2H$ for the weight-one Hodge structure $H = H^1(E)$ of an elliptic curve, and of $H^1(E)^{\otimes 2}$.
+\end{exercise}
+
+\begin{solution}
+$H^{1,0}$ and $H^{0,1}$ are one-dimensional. $\Lambda^2H$ is one-dimensional of type $(1,1)$, isomorphic to $\QQ(-1)$ (it is $H^2(E)$). $H^{\otimes 2}$ has Hodge numbers
+$h^{2,0} = 1$, $h^{1,1} = 2$, $h^{0,2} = 1$, and $\mathrm{Sym}^2H$ has $(1, 1, 1)$.
+\end{solution}
+
+\begin{exercise}\label{hodge-structures:exercise-polarisation-elliptic}
+Let $H = H^1(E_\tau; \QQ)$ with basis dual to $1, \tau$ and $Q$ the cup product pairing. Verify condition (3) of Definition~\ref{hodge-structures:definition-polarisation} directly.
+\end{exercise}
+
+\begin{solution}
+$H^{1,0}$ is spanned by $[dz]$, and $iQ([dz], \overline{[dz]}) = i\int_{E_\tau}dz \wedge d\bar z = 2\operatorname{Im}\tau > 0$, as in Example~\ref{lefschetz-theorems:example-curves-riemann}.
+\end{solution}

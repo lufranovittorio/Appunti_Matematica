@@ -1,0 +1,266 @@
+\chapter{Analytic Spaces and GAGA}\label{gaga}
+\chapterstatus{complete}
+
+\section{Introduction}\label{gaga:section-introduction}
+
+A complex algebraic variety $X$ has an underlying complex analytic space $X^{\mathrm{an}}$: the set $X(\CC)$ with the Euclidean topology and the sheaf of
+holomorphic functions. For projective varieties the two worlds agree. Chow's theorem says that closed analytic subsets of $\PP^n$ are algebraic, and
+Serre's GAGA theorems say that coherent algebraic and analytic sheaves, and their cohomology, correspond. Consequently the Hodge theory of compact
+K\"ahler manifolds (Part~\ref{part-complex-geometry}) applies to smooth projective varieties, and the Hodge filtration can be defined algebraically through
+the algebraic de Rham complex, whose hypercohomology computes $H^\bullet(X^{\mathrm{an}}; \CC)$ by Grothendieck's comparison theorem. This algebraicity is
+the starting point of the theory of absolute Hodge classes (Chapter~\ref{absolute-hodge}). References: \cite{serre-gaga}, \cite[Appendix B]{hartshorne-ag},
+\cite[Chapter 1]{griffiths-harris}, \cite{grothendieck-de-rham}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{divisors} (Divisors and Line Bundles), Chapter~\ref{kodaira} (Vanishing and Embedding Theorems) and
+Chapter~\ref{complex-manifolds} (Complex Manifolds).
+
+\section{Complex analytic spaces}\label{gaga:section-analytic-spaces}
+
+\begin{definition}\label{gaga:definition-analytic-space}
+A \emph{local model} is a closed subset $V = \{f_1 = \cdots = f_k = 0\}$ of an open set $U \subseteq \CC^n$, with $f_i$ holomorphic on $U$, together with the sheaf
+of rings $\mathcal{O}_V = (\mathcal{O}_U/(f_1, \ldots, f_k))|_V$. A \emph{complex analytic space} is a Hausdorff locally ringed space over $\CC$ that is locally isomorphic to a
+local model. Morphisms are morphisms of locally ringed spaces over $\CC$. A sheaf of $\mathcal{O}$-modules is \emph{coherent} if it is locally the cokernel of a map
+$\mathcal{O}^p \to \mathcal{O}^q$.
+\end{definition}
+
+\begin{theorem}[Oka and Cartan]\label{gaga:theorem-oka-cartan}
+The structure sheaf of a complex analytic space is coherent, and the ideal sheaf of holomorphic functions vanishing on a closed analytic subset is coherent.
+Kernels, cokernels and images of morphisms of coherent sheaves are coherent.
+\end{theorem}
+
+This is \cite[Chapters 2 and 4]{grauert-remmert}. The proof is based on the Weierstrass division theorem
+(Theorem~\ref{several-complex-variables:theorem-weierstrass}). Complex manifolds are complex analytic spaces, and conversely an analytic space whose local
+rings are regular is a complex manifold.
+
+\section{The analytification functor}\label{gaga:section-analytification}
+
+\begin{proposition}\label{gaga:proposition-analytification}
+Let $X$ be a scheme locally of finite type over $\CC$. There is a complex analytic space $X^{\mathrm{an}}$ with a morphism of locally ringed spaces
+$\varphi \colon X^{\mathrm{an}} \to X$, such that every morphism from a complex analytic space to $X$ (as locally ringed spaces over $\CC$) factors uniquely through
+$\varphi$. The underlying set of $X^{\mathrm{an}}$ is $X(\CC)$, the set of closed points. $X \mapsto X^{\mathrm{an}}$ is a functor, and for $X$ affine,
+$X = \Spec\CC[x_1, \ldots, x_n]/(f_1, \ldots, f_k)$, $X^{\mathrm{an}}$ is the local model $\{f = 0\} \subseteq \CC^n$.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+For affine $X$ take the local model. Its universal property follows from that of the polynomial ring: a morphism from an analytic space $Z$ to $\Aa^n_\CC$ is an
+$n$-tuple of holomorphic functions on $Z$ (Theorem~\ref{schemes:theorem-morphisms-to-affine}), and it factors through $X$ exactly when the $f_i$ vanish on them. By the
+universal property the affine constructions glue (Proposition~\ref{schemes:proposition-gluing}). The underlying set is $X(\CC)$ because points of an analytic space
+have residue field $\CC$, and these are the closed points (Proposition~\ref{schemes:proposition-points-over-field}). The omitted verification is the gluing,
+which is formal; see \cite[Appendix B]{hartshorne-ag} and \cite[Expos\'e XII]{sga1}.
+\end{proof}
+
+\begin{proposition}\label{gaga:proposition-analytification-properties}
+Let $X$ be of finite type over $\CC$.
+\begin{enumerate}
+\item $X$ is smooth over $\CC$ if and only if $X^{\mathrm{an}}$ is a complex manifold, and then $\dim_\CC X^{\mathrm{an}} = \dim X$ at each point.
+\item $X$ is separated if and only if $X^{\mathrm{an}}$ is Hausdorff, and proper if and only if $X^{\mathrm{an}}$ is compact.
+\item $X$ is connected if and only if $X^{\mathrm{an}}$ is connected.
+\item For a coherent sheaf $\mathcal{F}$ on $X$, $\mathcal{F}^{\mathrm{an}} = \varphi^*\mathcal{F}$ is coherent, and $\mathcal{F} \mapsto \mathcal{F}^{\mathrm{an}}$ is exact, because
+$\mathcal{O}_{X^{\mathrm{an}}, x}$ is flat over $\mathcal{O}_{X,x}$. Moreover $(\Omega_{X/\CC})^{\mathrm{an}} = \Omega_{X^{\mathrm{an}}}$, the sheaf of holomorphic $1$-forms.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $X$ is smooth, locally $X = \Spec\CC[x_1, \ldots, x_{n+r}]/(g_1, \ldots, g_r)$ with the Jacobian minor with respect to $x_{n+1}, \ldots, x_{n+r}$ invertible
+(Definition~\ref{schemes:definition-smooth}). By the holomorphic implicit function theorem (a consequence of Theorem~\ref{real-analysis:theorem-inverse-function}
+and the Cauchy--Riemann equations), $X^{\mathrm{an}}$ is locally the graph of a holomorphic map from an open set of $\CC^n$, so it is a complex manifold of dimension
+$n$. Conversely, if $X^{\mathrm{an}}$ is a manifold of dimension $n$ at $x$, the completions of $\mathcal{O}_{X,x}$ and $\mathcal{O}_{X^{\mathrm{an}},x}$ agree (both are
+$\CC[[x_1, \ldots, x_N]]/(f)$), so $\mathcal{O}_{X,x}$ is regular, and $X$ is smooth at $x$ by Proposition~\ref{schemes:proposition-smooth-nonsingular}. Statements (2)--(4)
+are in \cite[Expos\'e XII]{sga1} and \cite[Section 2]{serre-gaga}.
+\end{proof}
+
+\section{Chow's theorem and GAGA}\label{gaga:section-gaga}
+
+\begin{theorem}[Serre's GAGA]\label{gaga:theorem-gaga}
+Let $X$ be a projective scheme over $\CC$.
+\begin{enumerate}
+\item For every coherent sheaf $\mathcal{F}$ on $X$ the natural maps $H^i(X, \mathcal{F}) \to H^i(X^{\mathrm{an}}, \mathcal{F}^{\mathrm{an}})$ are isomorphisms.
+\item $\mathcal{F} \mapsto \mathcal{F}^{\mathrm{an}}$ is an equivalence between coherent sheaves on $X$ and coherent analytic sheaves on $X^{\mathrm{an}}$.
+\end{enumerate}
+\end{theorem}
+
+This is \cite[Th\'eor\`emes 1--3]{serre-gaga}. The proof reduces to $X = \PP^n$ by pushing forward, verifies (1) for the sheaves $\mathcal{O}(q)$ by comparing the two
+computations of their cohomology, and deduces (1) in general by induction on $n$ and exact sequences. For (2), the analytic version of Serre's generation theorem
+(Theorem~\ref{coherent-sheaves:theorem-serre-generation}) presents every coherent analytic sheaf as a cokernel of a map between sums of sheaves $\mathcal{O}(q)^{\mathrm{an}}$,
+and (1) applied to $\mathcal{H}om$ sheaves shows that such maps are algebraic.
+
+\begin{corollary}[Chow's theorem]\label{gaga:corollary-chow}
+Every closed analytic subset of $\PP^n_\CC$ is the zero set of finitely many homogeneous polynomials.
+\end{corollary}
+
+\begin{proof}
+Let $Z \subseteq \PP^{n,\mathrm{an}}$ be closed analytic. Its ideal sheaf $\mathcal{I} \subseteq \mathcal{O}^{\mathrm{an}}$ is coherent (Theorem~\ref{gaga:theorem-oka-cartan}). By
+Theorem~\ref{gaga:theorem-gaga}(2), the inclusion $\mathcal{I} \to \mathcal{O}^{\mathrm{an}}$ is the analytification of a morphism $\mathcal{J} \to \mathcal{O}_{\PP^n}$ of coherent sheaves,
+which is injective because analytification is exact and faithful. So $\mathcal{J}$ is an ideal sheaf, defining a closed subscheme $Y$
+(Proposition~\ref{coherent-sheaves:proposition-closed-subschemes}), and $Y^{\mathrm{an}}$ has ideal sheaf $\mathcal{J}^{\mathrm{an}} = \mathcal{I}$, so its underlying set is $Z$. The
+closed subscheme $Y$ is cut out by homogeneous polynomials (Proposition~\ref{schemes:proposition-proj} and Theorem~\ref{coherent-sheaves:theorem-serre-generation}).
+\end{proof}
+
+\begin{corollary}\label{gaga:corollary-consequences}
+Let $X$ and $Y$ be projective varieties over $\CC$.
+\begin{enumerate}
+\item Every holomorphic map $X^{\mathrm{an}} \to Y^{\mathrm{an}}$ is the analytification of a unique morphism $X \to Y$.
+\item $\Pic(X) \to \Pic(X^{\mathrm{an}})$ is an isomorphism, and every meromorphic function on $X^{\mathrm{an}}$ is rational.
+\item A compact complex manifold that admits a holomorphic embedding into some $\CC\PP^N$ is $X^{\mathrm{an}}$ for a nonsingular projective variety $X$, unique up to
+isomorphism.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) The graph of $f$ is a closed analytic subset of $(X \times Y)^{\mathrm{an}} \subseteq \PP^{N,\mathrm{an}}$ (Segre), hence algebraic by Chow's theorem, and it is a
+closed subvariety $\Gamma$ whose projection to $X$ is bijective and an analytic isomorphism. By Theorem~\ref{gaga:theorem-gaga}(2) applied to
+$\mathcal{O}_X \to p_*\mathcal{O}_\Gamma$, whose analytification is an isomorphism, the projection is an algebraic isomorphism, and $f$ is the composite with the second
+projection. Uniqueness holds because $X(\CC)$ is dense in $X$. (2) Invertible sheaves correspond under Theorem~\ref{gaga:theorem-gaga}(2), since the equivalence is
+compatible with $\otimes$. A meromorphic function $f$ with polar divisor $D$ is the quotient $fs_D/s_D$ of two holomorphic sections of the analytic line bundle
+$\mathcal{O}(D)$. This bundle and its sections are algebraic by Theorem~\ref{gaga:theorem-gaga}, so $f$ is rational. (3) The image is a closed analytic
+subset, hence algebraic by Chow's theorem, and it is nonsingular by Proposition~\ref{gaga:proposition-analytification-properties}(1). Uniqueness is (1).
+\end{proof}
+
+\begin{corollary}\label{gaga:corollary-maps-projective-spaces}
+Every holomorphic map $f \colon \CC\PP^n \to \CC\PP^m$ is of the form $[x] \mapsto [F_0(x) : \cdots : F_m(x)]$ for homogeneous polynomials $F_0, \ldots, F_m$ of a common degree $d \geq 0$ with no common zero in
+$\CC^{n+1} \setminus \{0\}$. If $m < n$, every such map is constant.
+\end{corollary}
+
+\begin{proof}
+By Corollary~\ref{gaga:corollary-consequences}(1), $f$ is a morphism $\PP^n \to \PP^m$. By Proposition~\ref{divisors:proposition-morphisms-projective} it is given by the invertible sheaf $\mathcal{L} = f^*\mathcal{O}(1)$ and the
+generating sections $s_i = f^*x_i$. By Example~\ref{divisors:example-picard-projective}, $\mathcal{L} \cong \mathcal{O}(d)$ for some $d \in \ZZ$, and by Theorem~\ref{coherent-cohomology:theorem-projective-space} its global
+sections are the homogeneous polynomials of degree $d$ if $d \geq 0$ and $0$ if $d < 0$; since the $s_i$ generate, $d \geq 0$, and generating means having no common zero. If $d = 0$ the $F_i$ are constants and $f$ is constant.
+Suppose $d \geq 1$ and $m < n$. Put $Y_{-1} = \PP^n$ and $Y_j = Y_{j-1} \cap Z(F_j)$. By induction every irreducible component of $Y_j$ has dimension at least $n - j - 1$ and $Y_j \neq \emptyset$ for $j \leq m$: a component $Y$ of
+$Y_{j-1}$ has dimension $\geq n - j \geq n - m \geq 1$, and $Y \cap Z(F_j)$ is either $Y$ (if $F_j \in I(Y)$) or nonempty with components of dimension $\dim Y - 1$ (Theorem~\ref{varieties:theorem-projective-dimension}).
+So $Y_m \neq \emptyset$, and the $F_i$ have a common zero, a contradiction.
+\end{proof}
+
+\begin{counterexample}\label{gaga:counterexample-non-proper}
+GAGA fails without properness. The exponential is a holomorphic function on $\Aa^{1,\mathrm{an}} = \CC$ that is not a polynomial, so
+$\Gamma(\Aa^1, \mathcal{O}) \neq \Gamma(\CC, \mathcal{O}^{\mathrm{an}})$. The holomorphic map $\exp \colon \CC \to \CC^*$ is not algebraic, since an algebraic map $\Aa^1 \to \Aa^1 \setminus 0$
+is constant: it corresponds to a unit of $\CC[t]$. Chow's theorem also fails in $\CC^n$: the graph of $\exp$ is a closed analytic subset of $\CC^2$ that is not algebraic,
+since it meets the line $y = 1$ in infinitely many points.
+\end{counterexample}
+
+\begin{counterexample}\label{gaga:counterexample-non-algebraic}
+Not every compact complex manifold is algebraic, even when it is K\"ahler: a general complex torus of dimension $\geq 2$ is not of the form $X^{\mathrm{an}}$ for any
+variety (Example~\ref{kahler:example-kahler}), and the Hopf surface is not even K\"ahler. There are also nonsingular complete varieties that are not projective,
+such as Hironaka's example \cite[Appendix B, Example 3.4.1]{hartshorne-ag}; their analytifications are compact complex manifolds that are algebraic but not
+projective.
+\end{counterexample}
+
+\section{Algebraic de Rham cohomology}\label{gaga:section-de-rham}
+
+\begin{definition}\label{gaga:definition-algebraic-de-rham}
+Let $X$ be a smooth scheme over a field $k$. The \emph{algebraic de Rham complex} is $\Omega^\bullet_{X/k} = (\mathcal{O}_X \xrightarrow{d} \Omega^1_{X/k} \xrightarrow{d} \Omega^2_{X/k} \to \cdots)$, with
+$\Omega^p = \Lambda^p\Omega^1$ and $d$ the $k$-linear exterior derivative. The \emph{algebraic de Rham cohomology} is the hypercohomology
+$H^n_{\mathrm{dR}}(X/k) = \mathbb{H}^n(X, \Omega^\bullet_{X/k})$ in the Zariski topology, and the \emph{Hodge filtration} is
+$F^pH^n_{\mathrm{dR}}(X/k) = \operatorname{im}\left(\mathbb{H}^n(X, \Omega^{\geq p}_{X/k}) \to H^n_{\mathrm{dR}}(X/k)\right)$. The spectral sequence of the filtration by the
+truncations $\Omega^{\geq p}$ is the \emph{Hodge-to-de Rham spectral sequence} $E_1^{p,q} = H^q(X, \Omega^p_{X/k}) \Rightarrow H^{p+q}_{\mathrm{dR}}(X/k)$
+(Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}).
+\end{definition}
+
+\begin{theorem}[Grothendieck]\label{gaga:theorem-grothendieck-comparison}
+For a smooth scheme $X$ of finite type over $\CC$ there are natural isomorphisms $H^n_{\mathrm{dR}}(X/\CC) \cong H^n(X^{\mathrm{an}}; \CC)$.
+\end{theorem}
+
+\begin{proof}
+We prove it for $X$ projective; the general case is in \cite{grothendieck-de-rham}, proved with resolution of singularities. The morphism
+$\varphi \colon X^{\mathrm{an}} \to X$ gives maps $\Omega^p_{X/\CC} \to \varphi_*\Omega^p_{X^{\mathrm{an}}}$ compatible with $d$, hence a map of hypercohomologies
+$\mathbb{H}^n(X, \Omega^\bullet_{X/\CC}) \to \mathbb{H}^n(X^{\mathrm{an}}, \Omega^\bullet_{X^{\mathrm{an}}})$ compatible with the filtrations by the truncations. On $E_1$ it is
+$H^q(X, \Omega^p_{X/\CC}) \to H^q(X^{\mathrm{an}}, \Omega^p_{X^{\mathrm{an}}})$, an isomorphism by Theorem~\ref{gaga:theorem-gaga}(1) and
+Proposition~\ref{gaga:proposition-analytification-properties}(4). A morphism of first-quadrant spectral sequences that is an isomorphism on $E_1$ is an isomorphism on
+all pages. As the filtrations are finite, the five lemma gives an isomorphism on the abutments. Finally
+$\mathbb{H}^n(X^{\mathrm{an}}, \Omega^\bullet_{X^{\mathrm{an}}}) \cong H^n(X^{\mathrm{an}}; \CC)$ by the holomorphic Poincar\'e lemma
+(Theorem~\ref{dolbeault:theorem-holomorphic-de-rham}).
+\end{proof}
+
+\begin{corollary}\label{gaga:corollary-algebraic-hodge}
+Let $X$ be a smooth projective variety over $\CC$. Then $X^{\mathrm{an}}$ is a compact K\"ahler manifold, the Hodge-to-de Rham spectral sequence of $X$ degenerates at $E_1$,
+and under Theorem~\ref{gaga:theorem-grothendieck-comparison}
+\[
+F^pH^n(X^{\mathrm{an}}; \CC) = \bigoplus_{r \geq p}H^{r,n-r}(X^{\mathrm{an}}) \quad\text{corresponds to}\quad F^pH^n_{\mathrm{dR}}(X/\CC), \qquad H^{p,q}(X^{\mathrm{an}}) \cong H^q(X, \Omega^p_{X/\CC}).
+\]
+If $X = X_0 \times_k\CC$ for a subfield $k \subseteq \CC$ and a smooth projective $X_0$ over $k$, then $H^n_{\mathrm{dR}}(X/\CC) = H^n_{\mathrm{dR}}(X_0/k) \otimes_k\CC$, compatibly
+with the Hodge filtrations. So the Hodge filtration is defined over $k$.
+\end{corollary}
+
+\begin{proof}
+$X^{\mathrm{an}}$ is a compact complex submanifold of $\CC\PP^N$ (Proposition~\ref{gaga:proposition-analytification-properties}), hence K\"ahler
+(Corollary~\ref{kahler:corollary-projective-kahler}). The $E_1$ terms have total dimension $\sum_{p+q=n}h^{p,q} = b_n$ by
+Corollary~\ref{hodge-decomposition:corollary-hodge-numbers}, so all differentials vanish. The statement on filtrations is Remark~\ref{hodge-decomposition:remark-hodge-filtration}
+transported by the comparison, which respects the filtrations by construction. For base change, $\Omega^p_{X/\CC} = \Omega^p_{X_0/k} \otimes_k\CC$
+(Proposition~\ref{coherent-sheaves:proposition-differentials}(3)), and hypercohomology can be computed by \v{C}ech complexes of a finite affine cover
+(Corollary~\ref{coherent-cohomology:corollary-cech-computes}), which commute with the flat base change $- \otimes_k\CC$.
+\end{proof}
+
+\begin{corollary}\label{gaga:corollary-conjugates}
+Let $X$ be a smooth projective variety over $\CC$ and $\sigma \in \mathrm{Aut}(\CC)$. The conjugate variety $X^\sigma$ (Remark~\ref{schemes:remark-spreading-out}) has the same
+Betti numbers and Hodge numbers as $X$. The map $\sigma$ induces a $\sigma$-linear isomorphism $H^n_{\mathrm{dR}}(X/\CC) \to H^n_{\mathrm{dR}}(X^\sigma/\CC)$ that preserves the
+Hodge filtrations.
+\end{corollary}
+
+\begin{proof}
+The scheme $X^\sigma$ is obtained from $X$ by the base change $\sigma \colon \Spec\CC \to \Spec\CC$. It is again smooth and projective, and $\Omega^p_{X^\sigma} = \sigma^*\Omega^p_X$. So
+$H^q(X^\sigma, \Omega^p) = H^q(X, \Omega^p) \otimes_{\CC,\sigma}\CC$ by flat base change of \v{C}ech complexes, and the same holds for de Rham cohomology and its Hodge
+filtration. Now apply Theorem~\ref{gaga:theorem-grothendieck-comparison} and Corollary~\ref{gaga:corollary-algebraic-hodge}.
+\end{proof}
+
+\begin{remark}\label{gaga:remark-conjugates-not-homeomorphic}
+The spaces $X^{\mathrm{an}}$ and $(X^\sigma)^{\mathrm{an}}$ need not be homeomorphic, and can have different fundamental groups \cite{serre-1964}. The isomorphism of
+Corollary~\ref{gaga:corollary-conjugates} does not preserve the rational structures $H^n(X^{\mathrm{an}}; \QQ)$. Whether it maps Hodge classes to Hodge classes is the question of
+\emph{absolute Hodge classes} (Chapter~\ref{absolute-hodge}); Deligne proved it for abelian varieties \cite{deligne-abelian}. Deligne and Illusie gave an algebraic proof of the degeneration of the
+Hodge-to-de Rham spectral sequence in characteristic $0$ \cite{deligne-illusie}.
+\end{remark}
+
+\section{Smooth projective varieties as K\"ahler manifolds}\label{gaga:section-kahler}
+
+\begin{theorem}\label{gaga:theorem-projective-kahler}
+The functor $X \mapsto X^{\mathrm{an}}$ is an equivalence between the category of nonsingular projective varieties over $\CC$ and the category of compact complex manifolds that
+admit a positive line bundle (equivalently, a Hodge metric, Corollary~\ref{kodaira:corollary-positive-iff-hodge}), with holomorphic maps. A line bundle $\mathcal{L}$ on a
+nonsingular projective variety is ample if and only if $\mathcal{L}^{\mathrm{an}}$ is positive.
+\end{theorem}
+
+\begin{proof}
+Full faithfulness is Corollary~\ref{gaga:corollary-consequences}(1). A compact complex manifold with a positive line bundle embeds into some $\CC\PP^N$
+(Theorem~\ref{kodaira:theorem-embedding}), so it is $X^{\mathrm{an}}$ by Corollary~\ref{gaga:corollary-consequences}(3). Conversely $\mathcal{O}(1)$ restricted to
+$X^{\mathrm{an}} \subseteq \CC\PP^N$ is positive (Proposition~\ref{kodaira:proposition-positivity-properties}(1)). If $\mathcal{L}$ is ample, $\mathcal{L}^m$ is very ample
+(Theorem~\ref{divisors:theorem-ample-very-ample}), so $\mathcal{L}^{m,\mathrm{an}}$ is positive, and so is $\mathcal{L}^{\mathrm{an}}$, by dividing the curvature by $m$. If
+$\mathcal{L}^{\mathrm{an}}$ is positive, then $\mathcal{L}^{k,\mathrm{an}}$ is very ample for large $k$ by Theorem~\ref{kodaira:theorem-embedding}. The sections involved are
+algebraic by Theorem~\ref{gaga:theorem-gaga}(1), and the embedding is algebraic by Corollary~\ref{gaga:corollary-consequences}(1). So $\mathcal{L}^k$ is very ample and
+$\mathcal{L}$ is ample.
+\end{proof}
+
+\begin{remark}\label{gaga:remark-algebraic-invariants}
+Consequently the Hodge numbers $h^{p,q} = \dim H^q(X, \Omega^p)$ of a smooth projective variety are algebraic invariants, computable by coherent cohomology. The cohomology
+classes of algebraic cycles (Chapter~\ref{cycle-class}) are Hodge classes (Proposition~\ref{hodge-decomposition:proposition-cycle-classes-type}), and by Chow's theorem
+the analytic subvarieties of $X^{\mathrm{an}}$ are exactly the algebraic ones. So on a projective manifold the Hodge conjecture may equivalently be stated with analytic
+cycles. For compact K\"ahler manifolds the analogous statement with analytic cycles is false (Chapter~\ref{failures}).
+\end{remark}
+
+\section{Exercises}\label{gaga:section-exercises}
+
+\begin{exercise}\label{gaga:exercise-riemann-surfaces-algebraic}
+Show that every compact Riemann surface is $C^{\mathrm{an}}$ for a unique nonsingular projective curve $C$, and that its field of meromorphic functions is a finitely
+generated extension of $\CC$ of transcendence degree $1$.
+\end{exercise}
+
+\begin{solution}
+A compact Riemann surface is K\"ahler with $H^{2,0} = 0$, hence projective by Corollary~\ref{kodaira:corollary-h20-zero}, that is, it embeds into some $\CC\PP^N$.
+Apply Corollary~\ref{gaga:corollary-consequences}(3). Meromorphic functions are rational by Corollary~\ref{gaga:corollary-consequences}(2), so the field is $K(C)$, of
+transcendence degree $\dim C = 1$ (Theorem~\ref{varieties:theorem-dimension}).
+\end{solution}
+
+\begin{exercise}\label{gaga:exercise-genus-plane-curve}
+Let $C \subseteq \PP^2_\CC$ be a nonsingular curve of degree $d$. Show that $C^{\mathrm{an}}$ is a Riemann surface of topological genus $(d-1)(d-2)/2$.
+\end{exercise}
+
+\begin{solution}
+By Exercise~\ref{coherent-cohomology:exercise-plane-curve-cohomology}, $h^1(C, \mathcal{O}_C) = (d-1)(d-2)/2$. By GAGA this is $h^{0,1}(C^{\mathrm{an}})$, and by the Hodge
+decomposition $b_1 = 2h^{0,1}$ (Example~\ref{hodge-decomposition:example-curves}), so the genus $b_1/2$ equals $(d-1)(d-2)/2$.
+\end{solution}
+
+\begin{exercise}\label{gaga:exercise-hodge-numbers-hypersurface}
+Let $X \subseteq \PP^3_\CC$ be a nonsingular quartic surface. Compute $h^{0,1}$, $h^{0,2}$ and $h^{2,0}$ algebraically.
+\end{exercise}
+
+\begin{solution}
+$h^{0,q} = h^q(X, \mathcal{O}_X)$ by Corollary~\ref{gaga:corollary-algebraic-hodge}. The sequence $0 \to \mathcal{O}(-4) \to \mathcal{O} \to \mathcal{O}_X \to 0$ on $\PP^3$ and
+Theorem~\ref{coherent-cohomology:theorem-projective-space} give $h^0(\mathcal{O}_X) = 1$, $h^1(\mathcal{O}_X) = 0$ and $h^2(\mathcal{O}_X) = h^3(\PP^3, \mathcal{O}(-4)) = 1$. By
+Serre duality, or directly from $\omega_X \cong \mathcal{O}_X$ (Proposition~\ref{coherent-sheaves:proposition-adjunction}), $h^{2,0} = h^0(\omega_X) = 1$.
+\end{solution}

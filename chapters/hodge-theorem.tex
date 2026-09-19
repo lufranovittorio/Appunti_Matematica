@@ -1,0 +1,199 @@
+\chapter{Harmonic Forms and the Hodge Theorem}\label{hodge-theorem}
+\chapterstatus{complete}
+
+\section{Introduction}\label{hodge-theorem:section-introduction}
+
+On a compact oriented Riemannian manifold every de Rham cohomology class contains exactly one harmonic form
+(Theorem~\ref{hodge-theorem:theorem-hodge}). This is the theorem that makes Hodge theory possible: it turns a topological object,
+the cohomology of a manifold, into the solution space of an elliptic equation, on which the metric and, in the complex case, the
+complex structure act. The consequences drawn here are the Hodge decomposition of the space of forms, Poincar\'e duality via the
+Hodge star, and Bochner's vanishing theorem; the complex analogue is in Chapter~\ref{hodge-decomposition}. References:
+\cite[Chapter 6]{warner-foundations}, \cite[Chapter 4]{wells-differential-analysis}, \cite[Chapter 0]{griffiths-harris},
+\cite[Chapter 5]{voisin-hodge-1}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{elliptic-operators} (Elliptic Operators on Compact Manifolds) and
+Chapter~\ref{de-rham} (de Rham Cohomology).
+
+Throughout, $(M, g)$ is a compact oriented Riemannian $n$-manifold, with the $L^2$ inner product, the codifferential $\delta$ and the
+Laplacian $\Delta = d\delta + \delta d$ of Definition~\ref{riemannian-geometry:definition-laplacian}, and
+$\mathcal{H}^k = \mathcal{H}^k(M, g) = \{\alpha \in \Omega^k(M) : \Delta\alpha = 0\}$.
+
+\section{The Hodge decomposition}\label{hodge-theorem:section-decomposition}
+
+\begin{theorem}\label{hodge-theorem:theorem-decomposition}
+For each $k$ the space $\mathcal{H}^k$ is finite-dimensional and consists of the forms with $d\alpha = 0$ and $\delta\alpha = 0$, and there is an orthogonal direct sum decomposition
+\[
+\Omega^k(M) = \mathcal{H}^k \oplus d\Omega^{k-1}(M) \oplus \delta\Omega^{k+1}(M),
+\]
+with $\ker d = \mathcal{H}^k \oplus d\Omega^{k-1}$ and $\ker\delta = \mathcal{H}^k \oplus \delta\Omega^{k+1}$. Moreover there is a unique operator $G \colon \Omega^k(M) \to \Omega^k(M)$, the \emph{Green operator},
+that vanishes on $\mathcal{H}^k$, maps $(\mathcal{H}^k)^\perp$ into itself, and satisfies $\alpha = H\alpha + \Delta G\alpha$, where $H$ is the orthogonal projection onto $\mathcal{H}^k$; it commutes with $d$,
+$\delta$ and $\Delta$.
+\end{theorem}
+
+\begin{proof}
+$\Delta$ is elliptic, formally self-adjoint and non-negative (Example~\ref{elliptic-operators:example-elliptic} and
+Proposition~\ref{riemannian-geometry:proposition-adjoint}), so by Theorem~\ref{elliptic-operators:theorem-fredholm} its kernel $\mathcal{H}^k$ is finite-dimensional and consists of smooth forms, and
+\[
+\Omega^k(M) = \mathcal{H}^k \oplus \Delta\Omega^k(M)
+\]
+orthogonally: indeed $L^2 = \operatorname{im}\Delta \oplus \ker\Delta$ by Theorem~\ref{elliptic-operators:theorem-fredholm}(3), and a smooth form orthogonal to $\mathcal{H}^k$ is $\Delta\beta$ for a smooth $\beta$
+by elliptic regularity. The description of $\mathcal{H}^k$ as $\ker d \cap \ker\delta$ is
+Proposition~\ref{riemannian-geometry:proposition-adjoint}(3).
+
+Since $\Delta\beta = d(\delta\beta) + \delta(d\beta)$, the second summand is contained in $d\Omega^{k-1} + \delta\Omega^{k+1}$, so the three spaces span $\Omega^k$. They are pairwise orthogonal: harmonic forms are
+orthogonal to $d\Omega^{k-1}$ because $(\alpha, d\beta) = (\delta\alpha, \beta) = 0$, and similarly to $\delta\Omega^{k+1}$; and $(d\beta, \delta\gamma) = (dd\beta, \gamma) = 0$. Hence the sum is direct and
+orthogonal. If $d\alpha = 0$ and $\alpha = \eta + d\beta + \delta\gamma$, then $0 = (d\alpha, \gamma) = (d\delta\gamma, \gamma) = \|\delta\gamma\|^2$, so $\alpha \in \mathcal{H}^k \oplus d\Omega^{k-1}$; the statement for
+$\ker\delta$ is symmetric.
+
+For the Green operator, define $G\alpha = 0$ on $\mathcal{H}^k$ and, on the orthogonal complement, $G\alpha = \beta$ where $\beta$ is the unique solution of $\Delta\beta = \alpha$ orthogonal to $\mathcal{H}^k$
+(Theorem~\ref{elliptic-operators:theorem-fredholm}(3) gives existence and smoothness, and uniqueness holds because two solutions differ by a harmonic form). Then $\alpha = H\alpha + \Delta G\alpha$ by
+construction. Since $\Delta$ commutes with $d$, $\delta$ and $\Delta$, and these operators preserve $\mathcal{H}^\bullet$ and its orthogonal complement (for instance $d\mathcal{H}^k = 0$ and
+$(d\alpha, \eta) = (\alpha, \delta\eta) = 0$ for $\eta$ harmonic), the uniqueness of $G$ forces $Gd = dG$, $G\delta = \delta G$ and $G\Delta = \Delta G$.
+\end{proof}
+
+\begin{theorem}[Hodge]\label{hodge-theorem:theorem-hodge}
+The map $\mathcal{H}^k \to H^k_{\mathrm{dR}}(M)$, $\alpha \mapsto [\alpha]$, is an isomorphism: every de Rham class contains a unique harmonic representative, namely the one of smallest $L^2$ norm. In
+particular $H^k_{\mathrm{dR}}(M)$ is finite-dimensional, and $\dim\mathcal{H}^k = b_k(M)$.
+\end{theorem}
+
+\begin{proof}
+Harmonic forms are closed, so the map is defined. It is injective: if $\alpha \in \mathcal{H}^k$ is exact, $\alpha = d\beta$, then $\|\alpha\|^2 = (\alpha, d\beta) = (\delta\alpha, \beta) = 0$. It is surjective: a closed
+$\alpha$ decomposes as $\alpha = \eta + d\beta + \delta\gamma$ with $\eta$ harmonic, and $\delta\gamma = 0$ as in the proof of Theorem~\ref{hodge-theorem:theorem-decomposition}, so $\alpha = \eta + d\beta$ is
+cohomologous to $\eta$. If $\alpha = \eta + d\beta$ is any representative, then $\|\alpha\|^2 = \|\eta\|^2 + \|d\beta\|^2 \geq \|\eta\|^2$ with equality only for $\alpha = \eta$, which is the statement about the
+norm. Finite-dimensionality and the identification with the Betti numbers follow from Theorem~\ref{de-rham:theorem-de-rham}.
+\end{proof}
+
+\begin{corollary}\label{hodge-theorem:corollary-poincare-duality}
+The Hodge star induces an isomorphism $* \colon \mathcal{H}^k \to \mathcal{H}^{n-k}$, hence $b_k(M) = b_{n-k}(M)$, and the pairing
+\[
+H^k_{\mathrm{dR}}(M) \times H^{n-k}_{\mathrm{dR}}(M) \to \RR, \qquad ([\alpha], [\beta]) \mapsto \int_M\alpha \wedge \beta,
+\]
+is nondegenerate; for $[\beta] = [*\alpha]$ with $\alpha$ harmonic and nonzero it takes the value $\|\alpha\|^2 > 0$.
+\end{corollary}
+
+\begin{proof}
+$*$ commutes with $\Delta$ (Proposition~\ref{riemannian-geometry:proposition-adjoint}(4)) and is an isomorphism of $\Omega^k$ onto $\Omega^{n-k}$, hence restricts to an isomorphism on harmonic forms; combine
+with Theorem~\ref{hodge-theorem:theorem-hodge}. For a nonzero harmonic $\alpha$, $\int_M\alpha \wedge *\alpha = \|\alpha\|^2 > 0$, so the pairing is nondegenerate on the harmonic representatives, which represent
+all classes.
+\end{proof}
+
+\begin{remark}\label{hodge-theorem:remark-dependence-on-metric}
+The space $\mathcal{H}^k$ depends on the metric, but its dimension does not, and the isomorphism of Theorem~\ref{hodge-theorem:theorem-hodge} identifies all of them with $H^k_{\mathrm{dR}}(M)$. This is the
+mechanism that produces the Hodge structures of Chapter~\ref{hodge-decomposition}: on a compact K\"ahler manifold the harmonic forms decompose by type, and the resulting decomposition of cohomology is
+independent of the metric, although the harmonic representatives are not.
+\end{remark}
+
+\begin{proposition}\label{hodge-theorem:proposition-lie-group-harmonic}
+Let $G$ be a compact connected Lie group with a bi-invariant Riemannian metric (Example~\ref{riemannian-geometry:example-metrics}) and an orientation. Then the harmonic forms on $G$ are exactly the bi-invariant forms.
+\end{proposition}
+
+\begin{proof}
+Left and right translations are isometries, and they preserve the orientation, being connected to the identity through diffeomorphisms; so they commute with the Hodge star, and $*$ maps bi-invariant forms to bi-invariant forms. A bi-invariant
+form $\omega$ is closed (Theorem~\ref{de-rham:theorem-lie-group-cohomology}), and so is $*\omega$; hence $\delta\omega = \pm{*}d{*}\omega = 0$ and $\omega$ is harmonic (Proposition~\ref{riemannian-geometry:proposition-adjoint}(3)). The
+bi-invariant $k$-forms and the harmonic $k$-forms both map isomorphically onto $H^k_{\mathrm{dR}}(G)$ (Theorems~\ref{de-rham:theorem-lie-group-cohomology} and~\ref{hodge-theorem:theorem-hodge}), so the inclusion of the first
+space into the second is an equality.
+\end{proof}
+
+\begin{counterexample}\label{hodge-theorem:counterexample-compactness}
+Compactness is essential in the Hodge theorem. On $\RR$ with the Euclidean metric, the harmonic functions are the affine functions $ax + b$, a two-dimensional space, while $H^0_{\mathrm{dR}}(\RR) = \RR$; and the harmonic $1$-forms $(ax + b)\,dx$
+form a two-dimensional space although $H^1_{\mathrm{dR}}(\RR) = 0$. Without compactness harmonic forms need not be closed or coclosed: the function $x$ is harmonic with $dx \neq 0$, and $x\,dx$ is harmonic with $\delta(x\,dx) = -1 \neq 0$, since $\delta = -{*}d{*}$ on $1$-forms on $\RR$. The
+integration by parts behind Proposition~\ref{riemannian-geometry:proposition-adjoint}(3) fails for forms without compact support.
+\end{counterexample}
+
+\section{Applications}\label{hodge-theorem:section-applications}
+
+\begin{corollary}\label{hodge-theorem:corollary-euler-characteristic}
+For a compact oriented manifold, $\sum_k(-1)^k\dim\mathcal{H}^k = \chi(M)$, which is the index of the elliptic operator
+$d + \delta \colon \Omega^{\mathrm{even}}(M) \to \Omega^{\mathrm{odd}}(M)$.
+\end{corollary}
+
+\begin{proof}
+The first equality is Theorem~\ref{hodge-theorem:theorem-hodge} together with the definition of $\chi$ as the alternating sum of Betti numbers
+(Corollary~\ref{poincare-duality:corollary-euler-odd}). For the second, $(d + \delta)^* = d + \delta$ exchanges even and odd forms, its kernel on even forms is $\bigoplus_{k \text{ even}}\mathcal{H}^k$ and on odd
+forms $\bigoplus_{k \text{ odd}}\mathcal{H}^k$, because $(d + \delta)\alpha = 0$ implies $\Delta\alpha = (d+\delta)^2\alpha = 0$; so the index is $\sum_k(-1)^k\dim\mathcal{H}^k$.
+\end{proof}
+
+\begin{corollary}[Poincar\'e inequality]\label{hodge-theorem:corollary-poincare-inequality}
+Let $M$ be compact and connected, and let $\lambda_1 > 0$ be the smallest nonzero eigenvalue of the Laplacian $\Delta = \delta d$ on functions. Then for every smooth function $f$ with $\int_Mf\,\mathrm{vol} = 0$,
+\[
+\int_Mf^2\,\mathrm{vol} \leq \frac{1}{\lambda_1}\int_M|df|^2\,\mathrm{vol},
+\]
+with equality exactly for the eigenfunctions of eigenvalue $\lambda_1$.
+\end{corollary}
+
+\begin{proof}
+A function $u$ with $\Delta u = 0$ satisfies $\|du\|^2 = (\delta du, u) = 0$, so it is locally constant, hence constant as $M$ is connected: $\mathcal{H}^0 = \RR$. By Theorem~\ref{elliptic-operators:theorem-spectral} there is an
+orthonormal basis $u_0, u_1, \ldots$ of $L^2(M)$ of smooth eigenfunctions with eigenvalues $0 = \lambda^{(0)} < \lambda_1 = \lambda^{(1)} \leq \lambda^{(2)} \leq \cdots$, where $u_0$ is constant. Write
+$f = \sum_kc_ku_k$; then $c_0 = (f, u_0) = 0$ by hypothesis. Since $\Delta f = \sum_k\lambda^{(k)}c_ku_k$ in $L^2$,
+\[
+\|df\|^2 = (\Delta f, f) = \sum_{k \geq 1}\lambda^{(k)}c_k^2 \geq \lambda_1\sum_{k \geq 1}c_k^2 = \lambda_1\|f\|^2,
+\]
+with equality if and only if $c_k = 0$ whenever $\lambda^{(k)} > \lambda_1$, that is, $f$ lies in the $\lambda_1$-eigenspace.
+\end{proof}
+
+\begin{example}\label{hodge-theorem:example-wirtinger}
+On the circle $M = \RR/2\pi\ZZ$ with its standard metric, $\Delta f = -f''$. The real solutions of $f'' = -\lambda f$ with $\lambda > 0$ are $a\cos(\sqrt\lambda\,\theta) + b\sin(\sqrt\lambda\,\theta)$, which are
+$2\pi$-periodic only for $\sqrt\lambda \in \ZZ$; so the eigenvalues are the $k^2$, with eigenfunctions $\cos k\theta$, $\sin k\theta$ (and $1$ for $k = 0$). Hence $\lambda_1 = 1$, and
+Corollary~\ref{hodge-theorem:corollary-poincare-inequality} is \emph{Wirtinger's inequality}: $\int_0^{2\pi}f^2 \leq \int_0^{2\pi}f'^2$ for $2\pi$-periodic smooth $f$ with $\int_0^{2\pi}f = 0$, with equality exactly for
+$f = a\cos\theta + b\sin\theta$. Theorem~\ref{elliptic-operators:theorem-spectral} also shows that the functions $1$, $\cos k\theta$, $\sin k\theta$ span a dense subspace of $L^2$, which is the completeness of Fourier series.
+\end{example}
+
+\begin{theorem}[Bochner]\label{hodge-theorem:theorem-bochner}
+Let $(M, g)$ be a compact oriented Riemannian manifold with $\mathrm{Ric} \geq 0$. Then every harmonic $1$-form is parallel, and $b_1(M) \leq n$. If moreover $\mathrm{Ric} > 0$ at some point, then
+$b_1(M) = 0$.
+\end{theorem}
+
+\begin{proof}
+By the Weitzenb\"ock formula (Remark~\ref{riemannian-geometry:remark-weitzenbock}), on $1$-forms $\Delta = \nabla^*\nabla + \mathrm{Ric}$. For $\alpha$ harmonic,
+\[
+0 = (\Delta\alpha, \alpha) = \|\nabla\alpha\|^2 + \int_M\mathrm{Ric}(\alpha^\sharp, \alpha^\sharp)\,\mathrm{vol},
+\]
+where $\alpha^\sharp$ is the vector field dual to $\alpha$. Both terms are non-negative, hence both vanish: $\nabla\alpha = 0$, so $\alpha$ is parallel and determined by its value at one point, giving
+$\dim\mathcal{H}^1 \leq n$; and $\mathrm{Ric}(\alpha^\sharp, \alpha^\sharp) = 0$ everywhere. If $\mathrm{Ric} > 0$ at $p$ and $\alpha \neq 0$, then $\alpha$ is nowhere zero (being parallel and nonzero somewhere), so
+$\mathrm{Ric}(\alpha^\sharp, \alpha^\sharp)(p) > 0$, a contradiction; hence $\mathcal{H}^1 = 0$ and $b_1(M) = 0$ by Theorem~\ref{hodge-theorem:theorem-hodge}.
+\end{proof}
+
+\begin{example}\label{hodge-theorem:example-applications}
+\begin{enumerate}
+\item On the round sphere $S^n$ with $n \geq 2$, $\mathrm{Ric} > 0$, so $b_1 = 0$, which agrees with Example~\ref{de-rham:example-spheres}.
+\item On a flat torus the harmonic forms are those with constant coefficients (Example~\ref{riemannian-geometry:example-harmonic-forms}), so Theorem~\ref{hodge-theorem:theorem-hodge} recovers
+$b_k(T^n) = \binom{n}{k}$.
+\item A compact oriented manifold with a metric of positive Ricci curvature has $b_1 = 0$; by Bochner's argument applied to the other Laplacians, positivity assumptions on curvature produce vanishing
+theorems in all degrees. In the complex setting the same mechanism gives the Kodaira vanishing theorem (Chapter~\ref{kodaira}).
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{hodge-theorem:remark-elliptic-complexes}
+The proof of Theorem~\ref{hodge-theorem:theorem-decomposition} used only that $(\Omega^\bullet, d)$ is a complex of sections of vector bundles whose Laplacian is elliptic: an \emph{elliptic complex}. The same
+argument applies verbatim to any elliptic complex, in particular to the Dolbeault complex $(\Omega^{p,\bullet}, \bar\partial)$ on a compact complex manifold, giving the isomorphism between Dolbeault
+cohomology and $\bar\partial$-harmonic forms (Chapter~\ref{dolbeault}), which is how the Hodge decomposition of Chapter~\ref{hodge-decomposition} is proved. There is also a proof of the Hodge theorem by the
+heat equation, which constructs the harmonic projection as $\lim_{t \to \infty}e^{-t\Delta}$ and yields the local index formula \cite{lawson-michelsohn}.
+\end{remark}
+
+\section{Exercises}\label{hodge-theorem:section-exercises}
+
+\begin{exercise}\label{hodge-theorem:exercise-harmonic-top}
+Show that on a compact connected oriented Riemannian $n$-manifold, $\mathcal{H}^0 = \RR$ and $\mathcal{H}^n = \RR\,\mathrm{vol}_g$, and deduce $b_0 = b_n = 1$.
+\end{exercise}
+
+\begin{solution}
+A harmonic function has $df = 0$, hence is constant; apply $*$ for the top degree (Corollary~\ref{hodge-theorem:corollary-poincare-duality}).
+\end{solution}
+
+\begin{exercise}\label{hodge-theorem:exercise-green-properties}
+Show that the Green operator is self-adjoint, that it is compact as an operator on $L^2$, and that $\alpha \mapsto H\alpha$ is the orthogonal projection onto $\mathcal{H}^k$ with $H = I - \Delta G$.
+\end{exercise}
+
+\begin{exercise}\label{hodge-theorem:exercise-harmonic-not-metric-independent}
+Give an example of a compact manifold and two metrics for which the harmonic representatives of a fixed cohomology class differ.
+\end{exercise}
+
+\begin{solution}
+On a torus $\RR^2/\ZZ^2$ with the flat metric, the harmonic representative of the class of $dx$ is $dx$; after a conformal change $g' = e^{2f}g$ with non-constant $f$, the codifferential changes and the
+harmonic representative of the same class is a different $1$-form, since $\delta'$ differs from $\delta$.
+\end{solution}
+
+\begin{exercise}\label{hodge-theorem:exercise-hodge-riemann-surface}
+Let $M$ be a compact orientable surface of genus $g$. Using Theorem~\ref{hodge-theorem:theorem-hodge} and
+Corollary~\ref{hodge-theorem:corollary-poincare-duality}, show that $\dim\mathcal{H}^1 = 2g$ and that the intersection pairing on $\mathcal{H}^1$ is a nondegenerate alternating form.
+\end{exercise}

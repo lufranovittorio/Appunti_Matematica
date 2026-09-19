@@ -1,0 +1,248 @@
+\chapter{Lie Groups}\label{lie-groups}
+\chapterstatus{complete}
+
+\section{Introduction}\label{lie-groups:section-introduction}
+
+A Lie group is a group that is also a smooth manifold, with smooth group operations. Its local structure is captured by a finite-dimensional Lie algebra, and many of the spaces
+of Hodge theory are homogeneous spaces of Lie groups: projective spaces, Grassmannians, flag manifolds, and the period domains that classify Hodge structures
+(Chapter~\ref{vhs}). This chapter proves the correspondence between one-parameter subgroups and the Lie algebra, Cartan's closed subgroup theorem
+(Theorem~\ref{lie-groups:theorem-closed-subgroup}) and the construction of homogeneous spaces (Theorem~\ref{lie-groups:theorem-homogeneous}). References:
+\cite{knapp-lie}, \cite{brocker-tomdieck}, \cite{warner-foundations}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{smooth-manifolds} (Smooth Manifolds) and Chapter~\ref{representation-theory} (Representations of Groups and Lie Algebras).
+
+\section{Lie groups and their Lie algebras}\label{lie-groups:section-lie-algebras}
+
+\begin{definition}\label{lie-groups:definition-lie-group}
+A \emph{Lie group} is a group $G$ with a smooth structure for which multiplication $G \times G \to G$ and inversion $G \to G$ are smooth. A \emph{homomorphism of Lie groups} is a smooth group
+homomorphism. For $g \in G$, left and right translation are the diffeomorphisms $L_g(x) = gx$ and $R_g(x) = xg$.
+\end{definition}
+
+\begin{example}\label{lie-groups:example-lie-groups}
+$(\RR^n, +)$; the torus $\RR^n/\ZZ^n$; $\GL_n(\RR)$ and $\GL_n(\CC)$, open subsets of matrix spaces, with polynomial multiplication and rational inversion; the \emph{classical groups}
+$\SL_n$, $O(n) = \{A : A^TA = I\}$, $\mathrm{SO}(n)$, $U(n) = \{A : A^*A = I\}$ and $\mathrm{SU}(n)$, which are submanifolds by Example~\ref{smooth-manifolds:example-regular-value} and subgroups, hence Lie
+groups. Products of Lie groups are Lie groups, and the identity component $G^0$ is an open normal subgroup.
+\end{example}
+
+\begin{definition}\label{lie-groups:definition-lie-algebra-of-g}
+A vector field $X$ on $G$ is \emph{left-invariant} if $d(L_g)X = X \circ L_g$ for all $g$. The \emph{Lie algebra} of $G$ is $\mathfrak{g} = T_eG$, with the bracket transported from the left-invariant vector
+fields.
+\end{definition}
+
+\begin{proposition}\label{lie-groups:proposition-left-invariant}
+The map $X \mapsto X_e$ is a bijection from left-invariant vector fields to $T_eG$, its inverse sending $v$ to the field $g \mapsto d(L_g)_ev$; left-invariant fields are smooth and closed under the Lie
+bracket. Hence $\mathfrak{g}$ is a Lie algebra of dimension $\dim G$ (Definition~\ref{representation-theory:definition-lie-algebra}), and a homomorphism $\varphi \colon G \to H$ induces a homomorphism of Lie
+algebras $d_e\varphi \colon \mathfrak{g} \to \mathfrak{h}$.
+\end{proposition}
+
+\begin{proof}
+Left-invariance determines the field from its value at $e$, and $g \mapsto d(L_g)_ev$ is smooth because it is the image of $(g, v)$ under the smooth map $G \times \mathfrak{g} \to TG$ induced by
+multiplication. If $X$, $Y$ are left-invariant, so is $[X, Y]$, since $d(L_g)$ preserves brackets: for a diffeomorphism $F$, $[F_*X, F_*Y] = F_*[X, Y]$, as both sides act on functions by
+$f \mapsto (X(Y(f \circ F)) - Y(X(f \circ F))) \circ F^{-1}$. For the last statement, $\varphi \circ L_g = L_{\varphi(g)} \circ \varphi$ shows that $d_e\varphi$ intertwines the corresponding left-invariant fields,
+which are therefore $\varphi$-related; and brackets of $\varphi$-related fields are $\varphi$-related.
+\end{proof}
+
+\begin{example}\label{lie-groups:example-matrix-lie-algebras}
+For $G \subseteq \GL_n$ a matrix group, $\mathfrak{g} \subseteq M_n$ and the bracket is the commutator $XY - YX$: indeed for $G = \GL_n$ the left-invariant field with value $X$ at $I$ is $A \mapsto AX$, and a
+computation in the coordinates of $M_n$ gives $[X, Y] = XY - YX$. Thus $\mathfrak{gl}_n = M_n$, $\mathfrak{sl}_n = \{X : \operatorname{tr}X = 0\}$, $\mathfrak{o}(n) = \{X : X^T = -X\}$,
+$\mathfrak{u}(n) = \{X : X^* = -X\}$ and $\mathfrak{su}(n) = \mathfrak{u}(n) \cap \mathfrak{sl}_n(\CC)$, by differentiating the defining equations at $I$.
+\end{example}
+
+\section{The exponential map}\label{lie-groups:section-exponential}
+
+\begin{theorem}\label{lie-groups:theorem-exponential}
+For $X \in \mathfrak{g}$ the left-invariant field $X$ is complete, and its flow through $e$ is a homomorphism $\gamma_X \colon \RR \to G$; conversely every homomorphism $\RR \to G$ arises this way. Setting
+$\exp(X) = \gamma_X(1)$ defines a smooth map $\exp \colon \mathfrak{g} \to G$ with $d_0\exp = \id$, so $\exp$ is a diffeomorphism from a neighbourhood of $0$ onto a neighbourhood of $e$. It satisfies
+$\exp((s + t)X) = \exp(sX)\exp(tX)$, $\exp(-X) = \exp(X)^{-1}$, and $\varphi(\exp X) = \exp(d_e\varphi(X))$ for every homomorphism $\varphi$. For matrix groups, $\exp(X) = \sum_kX^k/k!$.
+\end{theorem}
+
+\begin{proof}
+Let $\gamma$ be the integral curve of $X$ with $\gamma(0) = e$, defined on $(-\varepsilon, \varepsilon)$. For fixed $s$, both $t \mapsto \gamma(s)\gamma(t)$ and $t \mapsto \gamma(s + t)$ are integral curves through
+$\gamma(s)$ (left-invariance), so they agree where defined; this extends $\gamma$ to all of $\RR$ and gives the homomorphism property. Conversely, a homomorphism $\gamma \colon \RR \to G$ is the integral curve of
+the left-invariant field with value $\gamma'(0)$, by the same computation. Smoothness of $(t, X) \mapsto \gamma_X(t)$ follows from smooth dependence of solutions of differential equations on parameters
+(Theorem~\ref{real-analysis:theorem-smooth-dependence}), applied to the field on $G \times \mathfrak{g}$ whose value at $(g, X)$ is $(d(L_g)X, 0)$. Since $\gamma_{sX}(t) = \gamma_X(st)$ we get
+$\exp(sX) = \gamma_X(s)$, hence $d_0\exp(X) = \frac{d}{dt}\big|_0\exp(tX) = X$ and the group laws; the inverse function theorem gives the local diffeomorphism. Naturality holds because
+$t \mapsto \varphi(\exp tX)$ is a homomorphism $\RR \to H$ with derivative $d_e\varphi(X)$ at $0$. For matrix groups, $t \mapsto \sum_kt^kX^k/k!$ converges (Proposition~\ref{real-analysis:proposition-series}),
+is a homomorphism by the Cauchy product, and has derivative $X$ at $t = 0$.
+\end{proof}
+
+\begin{definition}\label{lie-groups:definition-adjoint}
+The \emph{adjoint representation} is $\Ad \colon G \to \GL(\mathfrak{g})$, $\Ad(g) = d_e(c_g)$ where $c_g(x) = gxg^{-1}$; its differential is $\ad = d_e\Ad \colon \mathfrak{g} \to \mathfrak{gl}(\mathfrak{g})$.
+\end{definition}
+
+\begin{proposition}\label{lie-groups:proposition-adjoint}
+$\Ad$ is a homomorphism of Lie groups, $\ad(X)(Y) = [X, Y]$, and $\Ad(\exp X) = e^{\ad X}$. Moreover $\exp(X)\exp(Y) = \exp(X + Y + \frac12[X, Y] + \cdots)$ for $X$, $Y$ small, where the omitted terms are
+iterated brackets (the Baker--Campbell--Hausdorff formula \cite[Chapter 1]{knapp-lie}).
+\end{proposition}
+
+\begin{proof}
+$\Ad$ is smooth because $(g, x) \mapsto gxg^{-1}$ is, and it is a homomorphism since $c_{gh} = c_g \circ c_h$. For the bracket, note that $c_g$ is a Lie group automorphism, so $\Ad(g)$ preserves brackets; and
+$\frac{d}{dt}\big|_0\Ad(\exp tX)Y$ is by definition the Lie derivative of $Y$ along $X$, which is $[X, Y]$ (Proposition~\ref{smooth-manifolds:proposition-bracket}), since the flow of the left-invariant field
+$X$ is right translation by $\exp(tX)$ and $\Ad(\exp tX)$ is the induced map on left-invariant fields. Finally $t \mapsto \Ad(\exp tX)$ is a homomorphism $\RR \to \GL(\mathfrak{g})$ with derivative $\ad X$, hence
+equals $e^{t\,\ad X}$ by Theorem~\ref{lie-groups:theorem-exponential}.
+\end{proof}
+
+\begin{proposition}\label{lie-groups:proposition-connected-generated}
+Let $G$ be a connected Lie group.
+\begin{enumerate}
+\item $G$ is generated by $\exp(\mathfrak{g})$, indeed by $\exp(U)$ for any neighbourhood $U$ of $0$.
+\item A homomorphism of Lie groups $\varphi \colon G \to H$ is determined by $d_e\varphi$.
+\item If $G$ is abelian, then $\exp \colon \mathfrak{g} \to G$ is a surjective homomorphism of groups, and $\mathfrak{g}$ is abelian.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Theorem~\ref{lie-groups:theorem-exponential}, $\exp(U)$ contains a neighbourhood $V$ of $e$, and we may take $V = V^{-1}$. By Proposition~\ref{topological-manifolds:proposition-topological-groups}(3), $V$ generates $G$.
+(2) $\varphi(\exp X) = \exp(d_e\varphi(X))$, so $\varphi$ is determined on a generating set. (3) If $G$ is abelian, conjugation is trivial, so $\Ad = 1$ and $\ad = 0$, and $\mathfrak{g}$ is abelian by
+Proposition~\ref{lie-groups:proposition-adjoint}. For commuting $X$, $Y$, the curve $t \mapsto \exp(tX)\exp(tY)$ is a homomorphism $\RR \to G$ (as $G$ is abelian) with derivative $X + Y$ at $0$, so it equals $\exp(t(X + Y))$ by
+Theorem~\ref{lie-groups:theorem-exponential}; hence $\exp$ is a homomorphism, whose image is a subgroup containing a neighbourhood of $e$, hence all of $G$ by (1).
+\end{proof}
+
+\begin{lemma}\label{lie-groups:lemma-discrete-subgroups}
+A discrete subgroup $\Gamma$ of $\RR^n$ is of the form $\ZZ v_1 \oplus \cdots \oplus \ZZ v_b$ for linearly independent vectors $v_1, \ldots, v_b$.
+\end{lemma}
+
+\begin{proof}
+Induction on the dimension of the span $V$ of $\Gamma$; the case $V = 0$ is trivial. As $\Gamma$ is discrete, it meets every bounded set in a finite set (a bounded infinite set would have an accumulation point, and differences of
+nearby points of $\Gamma$ are small nonzero elements of $\Gamma$, while discreteness gives a ball around $0$ containing no other element of $\Gamma$). Choose a basis $w_1, \ldots, w_b$ of $V$ contained in $\Gamma$, let $W$ be the span of
+$w_1, \ldots, w_{b-1}$, and $\Gamma' = \Gamma \cap W$, which by induction is $\ZZ v_1 \oplus \cdots \oplus \ZZ v_{b-1}$ with $v_i$ spanning $W$. The elements of $\Gamma$ of the form $\sum_{i<b}s_iv_i + sw_b$ with $s_i \in [0, 1]$ and
+$s \in (0, 1]$ form a finite nonempty set (it contains $w_b$); choose one, $v_b$, with the smallest $s$, say $s_0$. For $\gamma \in \Gamma$, write $\gamma = \sum_{i<b}c_iv_i + cw_b$ and let $k = \lfloor c/s_0\rfloor$. Then $\gamma - kv_b$ has
+$w_b$-coefficient in $[0, s_0)$, and subtracting a suitable element of $\Gamma'$ moves its other coefficients into $[0, 1)$; by minimality of $s_0$ the $w_b$-coefficient is $0$, so $\gamma - kv_b \in \Gamma'$. Hence
+$\Gamma = \Gamma' \oplus \ZZ v_b$.
+\end{proof}
+
+\begin{theorem}\label{lie-groups:theorem-abelian}
+Every connected abelian Lie group is isomorphic to $\RR^a \times T^b$ for some $a$, $b$; in particular every compact connected abelian Lie group is a torus.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{lie-groups:proposition-connected-generated}(3), $\exp \colon \mathfrak{g} \cong \RR^n \to G$ is a surjective homomorphism, and it is a local diffeomorphism at $0$, hence everywhere (translate). Its kernel $\Gamma$ is a discrete
+subgroup, since $\exp$ is injective near $0$. By Lemma~\ref{lie-groups:lemma-discrete-subgroups}, $\Gamma = \ZZ v_1 \oplus \cdots \oplus \ZZ v_b$; completing to a basis $v_1, \ldots, v_n$ of $\RR^n$ identifies $\RR^n/\Gamma$ with
+$T^b \times \RR^{n-b}$. The induced bijective homomorphism $\RR^n/\Gamma \to G$ is a local diffeomorphism, hence an isomorphism of Lie groups. If $G$ is compact, $n - b = 0$.
+\end{proof}
+
+\begin{counterexample}\label{lie-groups:counterexample-abelian-algebra}
+Connectedness is needed: $\mathrm{O}(2)$ has the abelian Lie algebra $\mathfrak{o}(2) \cong \RR$, but it is not abelian, as a reflection does not commute with a rotation by an angle other than $0$ or $\pi$.
+\end{counterexample}
+
+\section{Subgroups and homogeneous spaces}\label{lie-groups:section-homogeneous}
+
+\begin{theorem}[Cartan]\label{lie-groups:theorem-closed-subgroup}
+A closed subgroup $H$ of a Lie group $G$ is an embedded submanifold, hence a Lie group, with Lie algebra
+$\mathfrak{h} = \{X \in \mathfrak{g} : \exp(tX) \in H \text{ for all } t \in \RR\}$.
+\end{theorem}
+
+\begin{proof}
+Let $\mathfrak{h}$ be as stated. It is closed under scalars by definition. It is closed under addition and brackets: by the product formulas
+$\exp(t(X + Y)) = \lim_k(\exp(tX/k)\exp(tY/k))^k$ and $\exp(t^2[X, Y]) = \lim_k(\exp(tX/k)\exp(tY/k)\exp(-tX/k)\exp(-tY/k))^{k^2}$, which follow from the Baker--Campbell--Hausdorff formula or from a direct
+Taylor expansion, and $H$ is closed. So $\mathfrak{h}$ is a Lie subalgebra.
+
+Choose a complement $\mathfrak{m}$ with $\mathfrak{g} = \mathfrak{h} \oplus \mathfrak{m}$. We claim that $\exp(\mathfrak{m})$ meets $H$ only at $e$ near $0$: otherwise there are $Y_k \in \mathfrak{m} \setminus \{0\}$
+with $Y_k \to 0$ and $\exp Y_k \in H$; passing to a subsequence, $Y_k/\|Y_k\| \to Y \in \mathfrak{m}$ with $\|Y\| = 1$. For $t \in \RR$ let $m_k = \lfloor t/\|Y_k\|\rfloor$; then
+$m_k Y_k \to tY$ and $\exp(m_kY_k) = (\exp Y_k)^{m_k} \in H$, so $\exp(tY) \in H$ by closedness, giving $Y \in \mathfrak{h} \cap \mathfrak{m} = 0$, a contradiction.
+
+The map $\mathfrak{h} \times \mathfrak{m} \to G$, $(X, Y) \mapsto \exp X\exp Y$, has invertible differential at $(0,0)$, hence is a diffeomorphism near $0$; by the claim, in a small enough neighbourhood it
+carries $\mathfrak{h} \times \{0\}$ onto $H$. Translating by elements of $H$ gives charts of $G$ in which $H$ is a slice, so $H$ is an embedded submanifold; the group operations are smooth as restrictions,
+and $T_eH = \mathfrak{h}$.
+\end{proof}
+
+\begin{theorem}\label{lie-groups:theorem-homogeneous}
+Let $H \subseteq G$ be a closed subgroup. The quotient $G/H$ has a unique smooth structure such that the projection $\pi \colon G \to G/H$ is a submersion; it is a manifold of dimension $\dim G - \dim H$ on
+which $G$ acts smoothly and transitively. If a Lie group $G$ acts smoothly and transitively on a manifold $M$ and $H$ is the stabiliser of $p \in M$, then $G/H \to M$, $gH \mapsto gp$, is a
+$G$-equivariant diffeomorphism.
+\end{theorem}
+
+\begin{proof}
+With $\mathfrak{m}$ as in the previous proof, the map $\mathfrak{m} \to G/H$, $Y \mapsto \pi(\exp Y)$, is injective near $0$ and its image is open; these maps, translated by $G$, are the charts. The transition
+maps are smooth because multiplication in $G$ is, and $\pi$ becomes the projection $(X, Y) \mapsto Y$ in the corresponding charts, so it is a submersion; uniqueness follows because a submersion determines the
+smooth structure on its image via local sections. The action $G \times G/H \to G/H$ is smooth because it is so after composing with the submersion $\id \times \pi$. For the last statement, consider the orbit map $f \colon G \to M$, $g \mapsto gp$, which is smooth and surjective. If $df$ were nowhere surjective, every point of $M$ would be a
+critical value, and $M$ would have measure zero in itself by Sard's theorem (Theorem~\ref{smooth-manifolds:theorem-sard}), which is false. So $df$ is surjective at some $g_0$, hence everywhere, because
+$f \circ L_g = g \cdot f$ and the action of $g$ is a diffeomorphism of $M$. Thus $f$ is a submersion, and so is the induced smooth bijection $G/H \to M$ (as $\pi$ is a surjective submersion); a bijective
+submersion is a diffeomorphism, by the inverse function theorem and equality of dimensions.
+\end{proof}
+
+\begin{example}\label{lie-groups:example-homogeneous}
+\begin{enumerate}
+\item $S^{n} = O(n+1)/O(n) = \mathrm{SO}(n+1)/\mathrm{SO}(n)$ and $S^{2n+1} = U(n+1)/U(n)$.
+\item $\RR\PP^n = O(n+1)/(O(n) \times O(1))$ and $\CC\PP^n = U(n+1)/(U(n) \times U(1))$; more generally the Grassmannian $\mathrm{Gr}(k, n)$ of $k$-planes in $\RR^n$ is $O(n)/(O(k) \times O(n-k))$, a compact
+manifold of dimension $k(n - k)$, and similarly over $\CC$.
+\item Flag manifolds $U(n)/(U(n_1) \times \cdots \times U(n_r))$; these and their open subsets are the period domains parametrising Hodge structures (Chapter~\ref{vhs}).
+\item $\GL_n(\RR)/O(n)$ is the space of positive definite symmetric matrices, and the upper half plane is $\SL_2(\RR)/\mathrm{SO}(2)$, the period domain for Hodge structures of weight one and rank two
+(Chapter~\ref{hodge-structures}).
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{lie-groups:proposition-connectedness}
+Let $H$ be a closed subgroup of a Lie group $G$. If $H$ and $G/H$ are connected, so is $G$. Consequently $\mathrm{SO}(n)$, $\mathrm{U}(n)$, $\mathrm{SU}(n)$ and $\GL_n(\CC)$ are connected, while $\mathrm{O}(n)$ and $\GL_n(\RR)$ have
+exactly two components.
+\end{proposition}
+
+\begin{proof}
+If $G = A \sqcup B$ with $A$, $B$ open, each coset $gH$, homeomorphic to $H$, is connected and so lies in $A$ or in $B$. Hence $A$ and $B$ are unions of cosets, and $\pi(A)$, $\pi(B)$ are disjoint open sets covering $G/H$ (the projection is open,
+Proposition~\ref{topological-manifolds:proposition-orbit-space}(1)); as $G/H$ is connected, one of them is empty. For the examples, $\mathrm{SO}(1)$ and $\mathrm{U}(1) = S^1$ are connected, and
+$\mathrm{SO}(n)/\mathrm{SO}(n-1) \cong S^{n-1}$ and $\mathrm{U}(n)/\mathrm{U}(n-1) \cong S^{2n-1}$ (Example~\ref{lie-groups:example-homogeneous}) are connected for $n \geq 2$, so induction applies; similarly for $\mathrm{SU}(n)$, using
+$\mathrm{SU}(1) = \{1\}$. For $\GL_n(\CC)$, given $A$ invertible, $t \mapsto \det((1 - t)I + tA)$ is a nonzero polynomial with finitely many roots in $\CC$, so a path from $0$ to $1$ in $\CC$ avoiding them gives a path in $\GL_n(\CC)$ from $I$ to $A$.
+The sign of the determinant separates $\mathrm{O}(n)$ and $\GL_n(\RR)$ into two open sets, and each is connected: $\mathrm{O}(n)^- = r\,\mathrm{SO}(n)$ for a reflection $r$, and $\GL^+_n(\RR)$ retracts onto $\mathrm{SO}(n)$ by the Gram--Schmidt process,
+which is continuous.
+\end{proof}
+
+\section{Compact Lie groups}\label{lie-groups:section-compact}
+
+\begin{theorem}[Haar measure]\label{lie-groups:theorem-haar}
+On a compact Lie group $G$ there is a unique regular Borel probability measure $\mu$ that is invariant under all left translations; it is also right invariant and invariant under inversion. Consequently
+$\int_Gf(gx)\,d\mu(x) = \int_Gf(x)\,d\mu(x)$ for all $g$ and all continuous $f$.
+\end{theorem}
+
+This is \cite[Chapter I]{brocker-tomdieck}; the measure can be constructed by integrating a left-invariant volume form (Chapter~\ref{differential-forms}), which exists because
+$\Lambda^{\dim G}\mathfrak{g}^*$ is one-dimensional, and normalising. Uniqueness follows by convolving two invariant measures.
+
+\begin{corollary}\label{lie-groups:corollary-averaging}
+Every finite-dimensional representation of a compact Lie group $G$ on a complex vector space admits a $G$-invariant Hermitian inner product, and is a direct sum of irreducible subrepresentations.
+\end{corollary}
+
+\begin{proof}
+Average any Hermitian inner product: $\langle v, w \rangle_G = \int_G\langle gv, gw \rangle\,d\mu(g)$, which is Hermitian, positive definite and invariant. The orthogonal complement of a subrepresentation is
+then a subrepresentation, and induction on the dimension gives the decomposition, exactly as in Maschke's theorem (Theorem~\ref{representation-theory:theorem-maschke}).
+\end{proof}
+
+\begin{proposition}\label{lie-groups:proposition-compact-invariant-product}
+If $G$ is compact, $\mathfrak{g}$ has an inner product for which every $\Ad(g)$ is orthogonal and every $\ad(X)$ is skew-symmetric. Consequently the Killing form $B(X, Y) = \operatorname{tr}(\ad X\,\ad Y)$ is negative semidefinite.
+\end{proposition}
+
+\begin{proof}
+Averaging an inner product over Haar measure (Theorem~\ref{lie-groups:theorem-haar}) as in Corollary~\ref{lie-groups:corollary-averaging} gives an $\Ad$-invariant inner product; differentiating
+$\langle\Ad(\exp tX)Y, \Ad(\exp tX)Z\rangle = \langle Y, Z\rangle$ at $t = 0$ gives skew-symmetry of $\ad X$ (Proposition~\ref{lie-groups:proposition-adjoint}). For a skew-symmetric $A$, $\operatorname{tr}(A^2) = -\operatorname{tr}(A^TA) \leq 0$.
+\end{proof}
+
+\begin{remark}\label{lie-groups:remark-structure}
+Deeper structure theory, which we quote when needed: a connected Lie group has a unique simply connected covering group, and Lie algebra homomorphisms integrate to group homomorphisms from the simply
+connected group (Lie's second theorem); Lie subalgebras correspond to connected Lie subgroups; every compact connected Lie group is a quotient of a product of a torus and simply connected compact simple
+groups, which are classified by their Dynkin diagrams; and every connected compact Lie group is the maximal compact subgroup of a unique complex reductive group, its \emph{complexification} (for instance
+$U(n) \subseteq \GL_n(\CC)$). See \cite{knapp-lie} and \cite{brocker-tomdieck}. The unitary trick, which deduces complete reducibility of representations of complex reductive groups from
+Corollary~\ref{lie-groups:corollary-averaging}, is used in Chapter~\ref{mumford-tate}.
+\end{remark}
+
+\section{Exercises}\label{lie-groups:section-exercises}
+
+\begin{exercise}\label{lie-groups:exercise-exp-not-surjective}
+Show that $\exp \colon \mathfrak{sl}_2(\RR) \to \SL_2(\RR)$ is not surjective, although $\exp$ is surjective for compact connected Lie groups and for $\GL_n(\CC)$.
+\end{exercise}
+
+\begin{solution}
+An element of the image with distinct real eigenvalues has positive eigenvalues, and $\operatorname{diag}(-2, -1/2) \in \SL_2(\RR)$ has negative ones; it is not $\exp$ of a real matrix, since the
+eigenvalues of $\exp X$ are exponentials of those of $X$ and complex eigenvalues of a real matrix come in conjugate pairs.
+\end{solution}
+
+\begin{exercise}\label{lie-groups:exercise-su2}
+Show that $\mathrm{SU}(2)$ is diffeomorphic to $S^3$, that its Lie algebra is $\mathfrak{su}(2) \cong \RR^3$ with the cross product, and that the adjoint representation gives a double covering
+$\mathrm{SU}(2) \to \mathrm{SO}(3)$.
+\end{exercise}
+
+\begin{exercise}\label{lie-groups:exercise-closed-subgroup-needed}
+Show that the image of the homomorphism $\RR \to T^2$, $t \mapsto (t, \alpha t) \bmod \ZZ^2$, with $\alpha$ irrational, is a dense subgroup that is not closed and not an embedded submanifold; so
+``closed'' cannot be dropped in Theorem~\ref{lie-groups:theorem-closed-subgroup}.
+\end{exercise}
+
+\begin{exercise}\label{lie-groups:exercise-grassmannian-dimension}
+Verify that $\mathrm{Gr}(k, n) = O(n)/(O(k) \times O(n-k))$ has dimension $k(n-k)$ and is connected, and identify $\mathrm{Gr}(1, n)$ with $\RR\PP^{n-1}$.
+\end{exercise}

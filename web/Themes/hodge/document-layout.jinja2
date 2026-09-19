@@ -1,0 +1,86 @@
+{% set links = obj.links %}
+{% set doc = obj.ownerDocument.getElementsByTagName('document')[0] %}
+{% set toc = doc.tableofcontents %}
+{% set rendererdata = obj.ownerDocument.rendererdata['html5'] %}
+{% macro chapterLink(chapter) %}<a href="{{ chapter.url }}" data-label="{{ chapter.id }}"><span class="toc_ref">{{ chapter.ref.textContent }}</span> <span class="toc_entry">{{ chapter.tocEntry }}</span></a>{% endmacro %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="{{ config.files['output-encoding'] }}" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>{{ links.document.title | striptags }}</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="{{ config.html5['mathjax-url'] }}"></script>
+{% for css in rendererdata.get('css', []) %}
+<link rel="stylesheet" href="styles/{{ css }}" />
+{% endfor %}
+</head>
+
+<body class="home-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="site-title" href="index.html">{{ links.document.title | striptags }}</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<main class="content home" id="main">
+<section class="hero">
+  <h1>{{ links.document.title | striptags }}</h1>
+  <p class="lede">A cumulative reference that develops, with complete proofs, the mathematics
+  needed to state, understand and work with the Hodge conjecture, together with the theory
+  around it: from logic and set theory to Hodge structures, algebraic cycles and motives.</p>
+  <p class="hero-links">
+    {% if toc %}<a class="button" href="{{ toc[0].url }}">Read the introduction</a>{% endif %}
+    <a href="book.pdf">Download the PDF</a>
+    <a href="search.html">Search</a>
+    <a href="tags.html">Browse tags</a>
+  </p>
+</section>
+
+<nav class="book-toc" aria-label="Table of contents">
+{% for section in toc %}
+{% if section.level < 0 %}
+<section class="book-part">
+  <h2><a href="{{ section.url }}" data-label="{{ section.id }}"><span class="part-number">Part {{ section.ref.textContent }}</span> {{ section.tocEntry }}</a></h2>
+  <ol class="chapter-list">
+  {% for chapter in section.tableofcontents %}
+    <li>{{ chapterLink(chapter) }}</li>
+  {% endfor %}
+  </ol>
+</section>
+{% else %}
+<section class="book-part">
+  <ol class="chapter-list">
+    <li>{{ chapterLink(section) }}</li>
+  </ol>
+</section>
+{% endif %}
+{% endfor %}
+</nav>
+</main>
+
+{% for js in rendererdata.get('js', []) %}
+<script src="js/{{ js }}"></script>
+{% endfor %}
+</body>
+</html>

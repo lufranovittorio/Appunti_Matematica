@@ -1,0 +1,223 @@
+\chapter{Variations of Hodge Structure}\label{vhs}
+\chapterstatus{complete}
+
+\section{Introduction}\label{vhs:section-introduction}
+
+In a smooth projective family $f \colon \mathcal{X} \to S$, the fibres are diffeomorphic (Ehresmann), so their cohomology groups form a local system with a flat
+connection, the Gauss--Manin connection. The Hodge filtrations of the fibres vary holomorphically, and their derivatives move each $F^p$ at most into $F^{p-1}$
+(Griffiths transversality). The resulting object, a \emph{variation of Hodge structure}, is recorded by the \emph{period map} to a period domain. Variations
+are the natural setting for asking how Hodge classes behave in families. The locus where a class stays of type $(p,p)$ is an analytic subvariety, and by the theorem
+of Cattani, Deligne and Kaplan it is algebraic, as the Hodge conjecture predicts. References: \cite[Chapters 9 and 10]{voisin-hodge-1}, \cite{voisin-hodge-2},
+\cite{carlson-muller-stach-peters}, \cite{griffiths-periods}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-structures} (Hodge Structures), Chapter~\ref{connections} (Connections and Curvature) and Chapter~\ref{gaga}
+(Analytic Spaces and GAGA).
+
+Throughout, $f \colon \mathcal{X} \to S$ is a \emph{smooth projective family}: a proper holomorphic submersion of complex manifolds with connected base $S$, whose fibres
+$X_t = f^{-1}(t)$ are projective (for instance the analytification of a smooth projective morphism of varieties).
+
+\section{Ehresmann's theorem and the Gauss--Manin connection}\label{vhs:section-gauss-manin}
+
+\begin{theorem}[Ehresmann]\label{vhs:theorem-ehresmann}
+A proper surjective submersion $f \colon M \to B$ of smooth manifolds is a locally trivial fibre bundle: every $b \in B$ has a neighbourhood $U$ with a diffeomorphism
+$f^{-1}(U) \cong U \times f^{-1}(b)$ over $U$.
+\end{theorem}
+
+\begin{proof}
+Take $U$ a coordinate ball centred at $b$ with coordinates $x^1, \ldots, x^m$. Since $df$ is surjective, the coordinate vector fields $\partial/\partial x^i$ lift locally to vector fields on
+$f^{-1}(U)$, and a partition of unity (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}) glues local lifts to vector fields $v_i$ on $f^{-1}(U)$ with $df(v_i) = \partial/\partial x^i$,
+since the condition is affine. As $f$ is proper, the flows of the $v_i$ exist as long as the flows of $\partial/\partial x^i$ stay in $U$
+(Theorem~\ref{smooth-manifolds:theorem-flow}: an integral curve cannot leave a compact set in finite time, and $f^{-1}$ of a compact subset of $U$ is compact). The map
+$U \times f^{-1}(b) \to f^{-1}(U)$, $(x, y) \mapsto \phi^1_{x^1} \circ \cdots \circ \phi^m_{x^m}(y)$, composing the flows for the times $x^i$, is then a diffeomorphism over $U$, with inverse obtained by
+flowing back.
+\end{proof}
+
+\begin{definition}\label{vhs:definition-gauss-manin}
+By Ehresmann's theorem, $\mathcal{H}^k_\ZZ = R^kf_*\ZZ$ is a local system on $S$ with fibres $H^k(X_t; \ZZ)$. The holomorphic vector bundle $\mathcal{H}^k = \mathcal{H}^k_\ZZ \otimes_\ZZ\mathcal{O}_S$ carries the
+flat connection $\nabla$ whose flat sections are the local sections of $\mathcal{H}^k_\CC$ (Theorem~\ref{connections:theorem-flat-local-systems}), the \emph{Gauss--Manin connection}. Transport
+along a loop gives the \emph{monodromy representation} $\pi_1(S, t) \to \mathrm{GL}(H^k(X_t; \ZZ))$.
+\end{definition}
+
+\begin{theorem}\label{vhs:theorem-hodge-bundles}
+In a smooth projective family:
+\begin{enumerate}
+\item the Hodge numbers $h^{p,q}(X_t)$ are independent of $t$;
+\item the Hodge filtrations $F^pH^k(X_t; \CC)$ form holomorphic subbundles $\mathcal{F}^p \subseteq \mathcal{H}^k$ (the \emph{Hodge bundles});
+\item (\emph{Griffiths transversality}) $\nabla\mathcal{F}^p \subseteq \mathcal{F}^{p-1} \otimes \Omega^1_S$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+(1) The numbers $h^{p,q}(X_t) = \dim H^q(X_t, \Omega^p_{X_t})$ are upper semicontinuous in $t$: this is Theorem~\ref{coherent-cohomology:theorem-semicontinuity} for an algebraic family, and
+Kodaira--Spencer's semicontinuity theorem in the analytic case \cite[Chapter 9]{voisin-hodge-1}. Their sum over $p + q = k$ is the Betti number $b_k$, constant by Ehresmann's theorem. A sum of
+upper semicontinuous integer functions that is constant forces each to be locally constant, hence constant as $S$ is connected. (2) With constant Hodge numbers, the Hodge
+filtration of $X_t$ can be computed from harmonic forms for a family of K\"ahler metrics, and depends smoothly on $t$. Holomorphicity follows from (3) applied in the $(0,1)$-direction:
+differentiating a family of classes of type $\geq p$ in an antiholomorphic direction does not leave $F^p$ \cite[Chapter 10]{voisin-hodge-1}. (3) Trivialise the family smoothly
+(Theorem~\ref{vhs:theorem-ehresmann}) and represent a local section of $\mathcal{F}^p$ by closed forms $\alpha_t$ on the fixed manifold $X_0$ that are of type $\geq p$ for the complex structure
+$J_t$. Differentiating in a holomorphic direction $v$ at $t = 0$, $\nabla_v[\alpha] = [\partial_v\alpha_t|_{t=0}]$. A form of type $\geq p$ for $J_t$ is, in terms of $J_0$, a form of type $\geq p$ plus terms
+of order $t$ of type $\geq p - 1$, because the $(1,0)$-forms for $J_t$ differ from those for $J_0$ by first-order terms of type $(0,1)$. So $\partial_v\alpha_t|_{t=0}$ has type $\geq p - 1$.
+\end{proof}
+
+\begin{definition}\label{vhs:definition-vhs}
+A \emph{polarised variation of Hodge structure} of weight $k$ on a complex manifold $S$ is a local system $\mathcal{H}_\ZZ$ of finitely generated abelian groups, a flat bilinear form $Q$, and a
+filtration of $\mathcal{H} = \mathcal{H}_\ZZ \otimes \mathcal{O}_S$ by holomorphic subbundles $\mathcal{F}^p$ such that each fibre is a Hodge structure of weight $k$ polarised by $Q$, and
+$\nabla\mathcal{F}^p \subseteq \mathcal{F}^{p-1} \otimes \Omega^1_S$. By Theorem~\ref{vhs:theorem-hodge-bundles} and Theorem~\ref{hodge-structures:theorem-cohomology-polarised}, the primitive
+cohomology of a smooth projective family, with the polarisation given by a relatively ample class, is one.
+\end{definition}
+
+\section{Period domains and period maps}\label{vhs:section-period-domains}
+
+\begin{definition}\label{vhs:definition-period-domain}
+Fix a lattice $H_\ZZ$, a bilinear form $Q$ with $Q(y, x) = (-1)^kQ(x, y)$, and Hodge numbers $h^{p,q}$. The \emph{period domain} $D$ is the set of filtrations $F^\bullet$ of $H_\CC$ with
+$\dim F^p = \sum_{r \geq p}h^{r,k-r}$ that define Hodge structures of weight $k$ polarised by $Q$. It is an open subset, in the analytic topology, of the \emph{compact dual}
+$\check D = \{F^\bullet : Q(F^p, F^{k-p+1}) = 0\}$, a closed subvariety of a flag variety. The real group $G = \mathrm{Aut}(H_\RR, Q)$ acts transitively on $D$ with compact isotropy groups.
+\end{definition}
+
+\begin{example}\label{vhs:example-period-domains}
+\begin{enumerate}
+\item Weight $1$, $h^{1,0} = h^{0,1} = g$, $Q$ symplectic: $D$ is the Siegel upper half space $\mathfrak{H}_g$ (Proposition~\ref{abelian-varieties:proposition-period-matrix}), with
+$G = \mathrm{Sp}_{2g}(\RR)$, a Hermitian symmetric domain. For $g = 1$ it is the upper half plane.
+\item Weight $2$ with $h^{2,0} = 1$, the case of K3 surfaces ($h^{1,1} = 20$): a Hodge structure is determined by the line $F^2 = H^{2,0} = \CC\omega$, and $D = \{[\omega] \in \PP(H_\CC) : Q(\omega, \omega) = 0,\ Q(\omega, \bar\omega) > 0\}$,
+an open subset of a quadric, with $G = \mathrm{SO}(3, 19)$. This is a Hermitian symmetric domain of type IV.
+\item For weight $\geq 2$ with $h^{2,0} \geq 2$, or weight $3$ with $h^{3,0} \neq 0$ and $h^{2,1} \neq 0$ (the quintic threefold), $D$ is not Hermitian symmetric, and Griffiths transversality is a
+genuine restriction: period maps are tangent to a distribution that is not integrable.
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{vhs:example-upper-half-plane}
+Over the upper half plane $\mathfrak{H}_1 = \{\tau : \operatorname{Im}\tau > 0\}$ consider the family of elliptic curves $E_\tau = \CC/(\ZZ + \ZZ\tau)$, the quotient of $\CC \times \mathfrak{H}_1$ by the action of $\ZZ^2$
+given by $(m, n) \cdot (z, \tau) = (z + m + n\tau, \tau)$. The loops $a$, $b$ given by the segments from $0$ to $1$ and from $0$ to $\tau$ form a basis of $H_1(E_\tau; \ZZ)$ that is flat, since the family is
+trivialised smoothly by $(x + y\tau, \tau) \mapsto (x, y)$, $x, y \in \RR/\ZZ$. The holomorphic form $dz$ has periods $\int_adz = 1$ and $\int_bdz = \tau$. So in the flat coordinates given by the dual basis of
+$H^1$, the line $F^1 = H^{1,0}(E_\tau)$ is spanned by $(1, \tau)$, and the period map $\mathfrak{H}_1 \to \mathfrak{H}_1$ of Example~\ref{vhs:example-period-domains}(1) is the identity. This is the
+\emph{tautological} variation: every polarised variation of weight one and rank two is locally the pullback of it by its period map.
+\end{example}
+
+\begin{definition}\label{vhs:definition-period-map}
+Given a polarised variation on $S$ and a base point, the \emph{period map} $\mathcal{P} \colon \tilde S \to D$ from the universal cover sends $\tilde t$ to the Hodge filtration of the fibre, transported to
+$H_\CC = \mathcal{H}_{t_0}$ by the flat connection. It descends to $S \to \Gamma\backslash D$, where $\Gamma$ is the image of the monodromy representation.
+\end{definition}
+
+\begin{proposition}\label{vhs:proposition-period-map}
+The period map is holomorphic and horizontal: its differential maps $T_tS$ into $\bigoplus_p\Hom(F^p/F^{p+1}, F^{p-1}/F^p) \subseteq T_{\mathcal{P}(t)}\check D$. For a family of projective
+manifolds its differential at $t$ is the composite of the Kodaira--Spencer map $T_tS \to H^1(X_t, T_{X_t})$ with the contraction and cup product
+$H^1(X_t, T) \to \bigoplus_p\Hom(H^q(\Omega^p), H^{q+1}(\Omega^{p-1}))$.
+\end{proposition}
+
+This is Theorem~\ref{vhs:theorem-hodge-bundles}(2), (3) restated, together with Griffiths' computation of the differential \cite[Chapter 10]{voisin-hodge-1}. The second description is
+the \emph{infinitesimal variation of Hodge structure}, the main tool in the proof of the Noether--Lefschetz theorem (Theorem~\ref{lefschetz-11:theorem-noether-lefschetz}).
+
+\begin{example}\label{vhs:example-legendre}
+The \emph{Legendre family} $E_\lambda \colon y^2 = x(x - 1)(x - \lambda)$, $\lambda \in \CC \setminus \{0, 1\}$, is a family of elliptic curves. With the holomorphic form $\omega_\lambda = dx/y$
+and a symplectic basis $a$, $b$ of $H_1(E_\lambda; \ZZ)$ transported along paths, the period map is $\lambda \mapsto \tau(\lambda) = \int_b\omega_\lambda/\int_a\omega_\lambda \in \mathfrak{H}_1$. The periods
+$\int_\gamma\omega_\lambda$ satisfy the Picard--Fuchs equation $\lambda(1 - \lambda)\varpi'' + (1 - 2\lambda)\varpi' - \frac14\varpi = 0$, a differential equation expressing the Gauss--Manin connection.
+The monodromy is a subgroup of finite index of $\mathrm{SL}_2(\ZZ)$, the congruence subgroup $\Gamma(2)$.
+\end{example}
+
+\begin{proposition}\label{vhs:proposition-k3-transversality}
+Let $H_\ZZ$, $Q$ be as in Definition~\ref{vhs:definition-period-domain}, of weight $2$ with $h^{2,0} = 1$. Then for a polarised Hodge structure the filtration is determined by $F^2$, namely
+$F^1 = (F^2)^\perp$, and every holomorphic family of such polarised Hodge structures over a complex manifold, with $\mathcal{F}^p$ holomorphic subbundles of a flat bundle $\mathcal{H}$ preserving $Q$ and
+$H_\ZZ$, satisfies Griffiths transversality automatically.
+\end{proposition}
+
+\begin{proof}
+By condition (2) of Definition~\ref{hodge-structures:definition-polarisation}, $Q(H^{2,0}, H^{2,0} \oplus H^{1,1}) = 0$, so $F^1 = H^{2,0} \oplus H^{1,1} \subseteq (F^2)^\perp$; both have dimension
+$\dim H - 1$ ($Q$ is nondegenerate), so they are equal. Transversality asks $\nabla\mathcal{F}^2 \subseteq \mathcal{F}^1 \otimes \Omega^1$ and $\nabla\mathcal{F}^1 \subseteq \mathcal{F}^0 \otimes \Omega^1$; the second
+is empty since $\mathcal{F}^0 = \mathcal{H}$. For the first, let $\omega$ be a local holomorphic generator of $\mathcal{F}^2$. Then $Q(\omega, \omega) = 0$, and since $Q$ is flat, differentiating along a
+vector field $v$ gives $2Q(\nabla_v\omega, \omega) = 0$, so $\nabla_v\omega \in \omega^\perp = \mathcal{F}^1$.
+\end{proof}
+
+\begin{counterexample}\label{vhs:counterexample-not-horizontal}
+Without such a special shape, transversality is a genuine condition, and holomorphic families of Hodge structures need not be variations of Hodge structure. Let $H_\ZZ = \ZZ^2$ and consider
+Hodge structures of weight $2$ with $h^{2,0} = h^{0,2} = 1$ and $h^{1,1} = 0$ (not polarised). Such a structure is a line $F^2 = H^{2,0} = \CC\omega \subseteq \CC^2$ with $\omega$ and $\bar\omega$
+independent, so the Hodge structures form $D' = \PP^1(\CC) \setminus \PP^1(\RR)$, two copies of the upper half plane. The tautological family over $D'$, with $\mathcal{F}^2 = \mathcal{F}^1$ the tautological
+line in the trivial flat bundle $D' \times \CC^2$, is a holomorphic family of Hodge structures. Transversality would require $\nabla\mathcal{F}^2 \subseteq \mathcal{F}^1 = \mathcal{F}^2$, so that $\mathcal{F}^2$
+would be a flat, hence locally constant, subbundle; but the tautological line varies. So this family satisfies all the axioms except polarisation and transversality, and by
+Theorem~\ref{vhs:theorem-hodge-bundles}(3) it is not the variation of Hodge structure of any smooth projective family.
+\end{counterexample}
+
+\begin{corollary}\label{vhs:corollary-constant-period-map}
+If the period map of a polarised variation of Hodge structure is constant, its monodromy group $\Gamma$ is finite. For instance, in the Legendre family (Example~\ref{vhs:example-legendre}) the monodromy is infinite,
+so the period map is not constant and the curves $E_\lambda$ are not all isomorphic.
+\end{corollary}
+
+\begin{proof}
+Transport by the flat connection identifies the fibres over the universal cover with a fixed $(H_\ZZ, Q)$, and the period map is equivariant: for $\gamma \in \pi_1(S, t)$ with monodromy $\rho(\gamma)$,
+$\mathcal{P}(\gamma\tilde t) = \rho(\gamma)\mathcal{P}(\tilde t)$ (Definition~\ref{vhs:definition-period-map}). If $\mathcal{P}$ is constant with value $F^\bullet$, then every $\rho(\gamma)$ preserves $F^\bullet$, $H_\ZZ$
+and $Q$, so $\Gamma$ lies in the finite group of Proposition~\ref{hodge-structures:proposition-automorphisms-finite}. For the Legendre family $\Gamma = \Gamma(2)$ is infinite (it contains
+$\begin{pmatrix}1 & 2\\ 0 & 1\end{pmatrix}$, of infinite order). If all $E_\lambda$ were isomorphic, the $\tau(\lambda)$ would all lie in one orbit of $\mathrm{SL}_2(\ZZ)$ (Chapter~\ref{abelian-varieties}),
+a countable set; a continuous map from the connected space $\tilde S$ to $\mathfrak{H}_1$ with countable image is constant.
+\end{proof}
+
+\section{Global invariants and the theorem of the fixed part}\label{vhs:section-fixed-part}
+
+\begin{theorem}[Theorem of the fixed part]\label{vhs:theorem-fixed-part}
+Let $f \colon \mathcal{X} \to S$ be a smooth projective morphism of complex varieties, $\bar{\mathcal{X}}$ a smooth compactification of $\mathcal{X}$, and $t \in S$. Then
+$H^0(S, R^kf_*\QQ) = H^k(X_t; \QQ)^{\pi_1(S, t)}$ is a sub-Hodge structure of $H^k(X_t; \QQ)$, and it is the image of the restriction map $H^k(\bar{\mathcal{X}}; \QQ) \to H^k(X_t; \QQ)$
+(the \emph{global invariant cycle theorem}).
+\end{theorem}
+
+This is \cite[Th\'eor\`eme 4.1.1 and Corollaire 4.1.2]{deligne-hodge-2}; the proof uses mixed Hodge theory (Chapter~\ref{mixed-hodge-structures}). A consequence: a Hodge class on one fibre that
+is invariant under monodromy is the restriction of a Hodge class on the total space, and so remains a Hodge class on every fibre. Deligne also proved that the monodromy representation
+on $H^k(X_t; \QQ)$ is semisimple.
+
+\section{Hodge loci}\label{vhs:section-hodge-loci}
+
+\begin{definition}\label{vhs:definition-hodge-locus}
+Let $\mathcal{H}$ be a variation of Hodge structure of weight $2p$ on $S$. For a flat section $\lambda$ of $\mathcal{H}_\ZZ$ over a simply connected open $U \subseteq S$, the \emph{Hodge locus} of $\lambda$
+is $\{t \in U : \lambda_t \in F^p\mathcal{H}_t\}$, the set where $\lambda$ is a Hodge class. The \emph{Hodge locus} of the variation is the union, over all local flat sections, of these sets, a subset of
+$S$.
+\end{definition}
+
+\begin{proposition}\label{vhs:proposition-hodge-locus-analytic}
+The Hodge locus of a flat integral section $\lambda$ over $U$ is a closed analytic subset of $U$, locally defined by $\operatorname{rank}\mathcal{H} - \operatorname{rank}\mathcal{F}^p$ holomorphic equations, so each
+component has codimension at most $\dim\mathcal{H}/\mathcal{F}^p = h^{p-1,p+1} + h^{p-2,p+2} + \cdots + h^{0,2p}$. For a real class of weight $2p$, lying in $F^p$ is the same as being of type $(p,p)$.
+\end{proposition}
+
+\begin{proof}
+The composite $U \to \mathcal{H}|_U \to \mathcal{H}/\mathcal{F}^p$, $t \mapsto$ the image of $\lambda_t$, is a holomorphic section of the holomorphic bundle $\mathcal{H}/\mathcal{F}^p$ of rank
+$\sum_{r < p}h^{r,2p-r} = \sum_{j \geq 1}h^{p-j,p+j}$. Its zero set is the Hodge locus, cut out locally by as many holomorphic functions as the rank. For real $\lambda$, $\lambda \in F^p$ implies
+$\lambda = \bar\lambda \in \overline{F^p}$, so $\lambda \in F^p \cap \overline{F^p} = H^{p,p}$.
+\end{proof}
+
+\begin{theorem}[Cattani--Deligne--Kaplan]\label{vhs:theorem-cdk}
+Let $\mathcal{H}$ be a polarised variation of Hodge structure of weight $2p$ over a nonsingular complex algebraic variety $S$ (for instance from a smooth projective family). Then the Hodge locus of $\mathcal{H}$,
+restricted to integral classes $\lambda$ with $Q(\lambda, \lambda)$ bounded, is a finite union of algebraic subvarieties of $S$, and the whole Hodge locus is a countable union of algebraic subvarieties.
+\end{theorem}
+
+This is \cite{cattani-deligne-kaplan}. The Hodge conjecture would imply it: on the Hodge locus of $\lambda$, the class is algebraic on each fibre, and the locus where a given family of cycles exists is
+constructible by the theory of Hilbert schemes, with countably many Hilbert schemes involved. The theorem is proved unconditionally with the several-variable $\mathrm{SL}_2$-orbit theorem describing
+the asymptotics of the period map near the boundary of $S$. Recent work of Bakker, Klingler and Tsimerman uses o-minimal geometry to reprove and extend it \cite{bakker-klingler-tsimerman}.
+
+\begin{remark}\label{vhs:remark-variational}
+Grothendieck's \emph{variational Hodge conjecture} predicts that if a Hodge class $\lambda$ stays of type $(p,p)$ on all fibres of a family, and is algebraic on one fibre $X_0$, then it is algebraic on all fibres.
+By Theorem~\ref{vhs:theorem-fixed-part} it would follow from the Hodge conjecture applied to the total space. It is known for $p = 1$ and in some other cases, and it remains open in general
+(Chapter~\ref{failures}).
+\end{remark}
+
+\section{Exercises}\label{vhs:section-exercises}
+
+\begin{exercise}\label{vhs:exercise-constant-hodge-numbers}
+Show that in a smooth projective family of curves the genus is constant, and in a smooth family of K3 surfaces the Hodge numbers of $H^2$ are $(1, 20, 1)$ on every fibre.
+\end{exercise}
+
+\begin{solution}
+Both follow from Theorem~\ref{vhs:theorem-hodge-bundles}(1): the genus is $h^{1,0}$. For K3 surfaces it suffices that one fibre is a K3 surface with these numbers, for instance a quartic
+(Exercise~\ref{calabi-yau:exercise-k3-hodge}).
+\end{solution}
+
+\begin{exercise}\label{vhs:exercise-transversality-weight-one}
+Show that Griffiths transversality is automatic for variations of weight one: every holomorphic family of Hodge filtrations $F^1 \subseteq H_\CC$ is horizontal.
+\end{exercise}
+
+\begin{solution}
+For weight one the filtration is $0 = F^2 \subseteq F^1 \subseteq F^0 = H_\CC$, and transversality asks $\nabla F^1 \subseteq F^0 \otimes \Omega^1$, which holds trivially.
+\end{solution}
+
+\begin{exercise}\label{vhs:exercise-hodge-locus-codimension}
+In a family of K3 surfaces with a nonconstant period map, show that the Hodge locus of an integral class $\lambda \in H^2$ that is not generically of type $(1,1)$ has codimension at most $1$.
+\end{exercise}
+
+\begin{solution}
+By Proposition~\ref{vhs:proposition-hodge-locus-analytic}, the codimension is at most $\dim\mathcal{H}/\mathcal{F}^1 = h^{0,2} = 1$. Concretely, the locus is where $Q(\lambda, \omega_t) = 0$ for a local
+holomorphic generator $\omega_t$ of $F^2$, one holomorphic equation.
+\end{solution}

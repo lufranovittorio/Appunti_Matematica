@@ -1,0 +1,436 @@
+\chapter{Complex Analysis}\label{complex-analysis}
+\chapterstatus{complete}
+
+\section{Introduction}\label{complex-analysis:section-introduction}
+
+A function of one complex variable that is differentiable once is analytic, and is determined by its values on any set with a limit
+point. This rigidity, which has no analogue in real analysis, is the source of the special features of complex geometry: on a compact
+complex manifold there are few holomorphic functions, and the interplay between holomorphic and topological invariants leads to Hodge
+theory. This chapter proves Cauchy's theorem in homotopy form (Theorem~\ref{complex-analysis:theorem-cauchy-homotopy}), the Cauchy
+integral formula and its consequences, the residue theorem, and the Riemann mapping theorem
+(Theorem~\ref{complex-analysis:theorem-riemann-mapping}). References: \cite{ahlfors-complex}, \cite{stein-shakarchi-complex},
+\cite{conway-complex} and \cite[Chapters 10--16]{rudin-rca}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{real-analysis} (Real Analysis) and Chapter~\ref{homotopy} (Homotopy and Covering Spaces).
+
+We write $D(a, r) = \{z : |z - a| < r\}$, $\overline{D}(a, r)$ for its closure, and $\mathbb{D} = D(0, 1)$. All domains ($=$ nonempty connected
+open subsets of $\CC$) are denoted $U$, $V$.
+
+\section{Holomorphic functions}\label{complex-analysis:section-holomorphic}
+
+\begin{definition}\label{complex-analysis:definition-holomorphic}
+Let $U \subseteq \CC$ be open. A function $f \colon U \to \CC$ is \emph{holomorphic} if the limit $f'(a) = \lim_{h \to 0}(f(a + h) - f(a))/h$, $h \in \CC^\times$, exists for every $a \in U$. An
+\emph{entire} function is one holomorphic on $\CC$.
+\end{definition}
+
+\begin{proposition}[Cauchy--Riemann]\label{complex-analysis:proposition-cauchy-riemann}
+Identify $\CC$ with $\RR^2$ and write $f = u + iv$. Then $f$ is holomorphic at $a$ if and only if $f$ is differentiable at $a$ as a map of real variables
+(Definition~\ref{real-analysis:definition-differentiable}) and its derivative is complex linear, which holds if and only if
+\[
+\partial_xu = \partial_yv, \qquad \partial_yu = -\partial_xv \quad \text{at } a.
+\]
+Then $f'(a) = \partial_xu + i\partial_xv$. Sums, products, quotients and composites of holomorphic functions are holomorphic, with the usual rules.
+\end{proposition}
+
+\begin{proof}
+Complex differentiability at $a$ says $f(a + h) = f(a) + ch + o(|h|)$ with $c = f'(a) \in \CC$, which is real differentiability with $Df(a)$ the real linear map $h \mapsto ch$, that is, with matrix
+$\left(\begin{smallmatrix} \alpha & -\beta \\ \beta & \alpha \end{smallmatrix}\right)$ for $c = \alpha + i\beta$. Comparing with the Jacobian matrix
+$\left(\begin{smallmatrix} \partial_xu & \partial_yu \\ \partial_xv & \partial_yv \end{smallmatrix}\right)$ gives the equations. The rules follow as in
+Proposition~\ref{real-analysis:proposition-derivative-rules}, whose proofs are valid over $\CC$.
+\end{proof}
+
+\begin{example}\label{complex-analysis:example-holomorphic}
+Polynomials are entire; $1/z$ is holomorphic on $\CC^\times$; power series are holomorphic in their disc of convergence, with the termwise derivative
+(Theorem~\ref{real-analysis:theorem-power-series-derivative}); $\exp$ is entire with $\exp' = \exp$. The function $\bar z$ is nowhere holomorphic, since $\partial_xu = 1 \neq -1 = \partial_yv$.
+\end{example}
+
+\begin{definition}\label{complex-analysis:definition-path-integral}
+A \emph{path} is a piecewise continuously differentiable map $\gamma \colon [a, b] \to \CC$; it is \emph{closed} if $\gamma(a) = \gamma(b)$. Its image is $\gamma^*$ and its length is
+$L(\gamma) = \int_a^b|\gamma'(t)|\,dt$. For continuous $f$ on $\gamma^*$,
+\[
+\int_\gamma f(z)\,dz = \int_a^bf(\gamma(t))\gamma'(t)\,dt.
+\]
+\end{definition}
+
+\begin{lemma}\label{complex-analysis:lemma-path-integral}
+The integral is unchanged by increasing $C^1$ reparametrisations, changes sign under reversal, and $|\int_\gamma f| \leq L(\gamma)\sup_{\gamma^*}|f|$. If $f = F'$ for a holomorphic $F$ on an open set
+containing $\gamma^*$, then $\int_\gamma f = F(\gamma(b)) - F(\gamma(a))$; in particular $\int_\gamma f = 0$ for closed $\gamma$. For the circle $\gamma(t) = a + re^{2\pi it}$, $t \in [0, 1]$, one has
+$\int_\gamma(z - a)^n\,dz = 0$ for $n \neq -1$ and $= 2\pi i$ for $n = -1$.
+\end{lemma}
+
+\begin{proof}
+Reparametrisation and reversal follow from the substitution rule (Corollary~\ref{real-analysis:corollary-integration-rules}), the estimate from
+Proposition~\ref{real-analysis:proposition-riemann}. If $f = F'$, then $(F \circ \gamma)' = f(\gamma)\gamma'$ on each $C^1$ piece, so the integral telescopes by the fundamental theorem of calculus. For the
+circle and $n \neq -1$, $(z - a)^n$ has the primitive $(z - a)^{n+1}/(n + 1)$; for $n = -1$ the integral is $\int_0^12\pi i\,dt$.
+\end{proof}
+
+\section{Cauchy's theorem}\label{complex-analysis:section-cauchy}
+
+\begin{theorem}[Goursat]\label{complex-analysis:theorem-goursat}
+Let $U$ be open, $p \in U$, and $f \colon U \to \CC$ continuous on $U$ and holomorphic on $U \setminus \{p\}$. Then $\int_{\partial T}f = 0$ for every closed triangle $T \subseteq U$, where $\partial T$ is its
+boundary traversed once.
+\end{theorem}
+
+\begin{proof}
+First assume $f$ is holomorphic on all of $U$. Let $I = \int_{\partial T}f$. Joining the midpoints of the sides divides $T$ into four triangles whose boundary integrals add up to $I$ (the inner edges cancel),
+so one of them, $T_1$, has $|\int_{\partial T_1}f| \geq |I|/4$. Iterating gives nested triangles $T_n$ with $\operatorname{diam}T_n = 2^{-n}\operatorname{diam}T$, $L(\partial T_n) = 2^{-n}L(\partial T)$ and
+$|\int_{\partial T_n}f| \geq 4^{-n}|I|$. Their intersection is a point $z_0$. Given $\varepsilon > 0$, holomorphy at $z_0$ gives $\delta$ with $|f(z) - f(z_0) - f'(z_0)(z - z_0)| \leq \varepsilon|z - z_0|$ for
+$|z - z_0| < \delta$. The affine function $f(z_0) + f'(z_0)(z - z_0)$ has a primitive, so its integral over $\partial T_n$ vanishes, and for large $n$,
+$|\int_{\partial T_n}f| \leq \varepsilon\operatorname{diam}(T_n)L(\partial T_n) = \varepsilon4^{-n}\operatorname{diam}(T)L(\partial T)$. Hence $|I| \leq \varepsilon\operatorname{diam}(T)L(\partial T)$ for all
+$\varepsilon$.
+
+If $f$ is only continuous at $p$: if $p \notin T$ we are done. If $p$ is a vertex of $T$, write $T$ as the union of a small triangle $T'$ with vertex $p$ and two triangles not containing $p$; then
+$|\int_{\partial T}f| = |\int_{\partial T'}f| \leq L(\partial T')\sup_T|f| \to 0$ as $T'$ shrinks. For general $p \in T$, join $p$ to the vertices.
+\end{proof}
+
+\begin{corollary}\label{complex-analysis:corollary-primitive-convex}
+Let $U$ be convex, $p \in U$, and $f$ continuous on $U$ and holomorphic on $U \setminus \{p\}$. Then $f$ has a primitive on $U$, and $\int_\gamma f = 0$ for every closed path $\gamma$ in $U$.
+\end{corollary}
+
+\begin{proof}
+Fix $z_0 \in U$ and set $F(z) = \int_{[z_0, z]}f$, the integral over the segment. For $z, z + h \in U$, the triangle with vertices $z_0, z, z + h$ lies in $U$, so $F(z + h) - F(z) = \int_{[z, z+h]}f$ by
+Theorem~\ref{complex-analysis:theorem-goursat}. Hence $|F(z + h) - F(z) - f(z)h| \leq |h|\sup_{[z, z+h]}|f - f(z)| = o(|h|)$ by continuity, so $F' = f$. Apply Lemma~\ref{complex-analysis:lemma-path-integral}.
+\end{proof}
+
+\begin{theorem}[Cauchy's theorem, homotopy form]\label{complex-analysis:theorem-cauchy-homotopy}
+Let $f$ be holomorphic on an open $U \subseteq \CC$ and let $\gamma_0, \gamma_1$ be paths in $U$ that are homotopic in $U$, either as closed paths or with fixed endpoints. Then
+$\int_{\gamma_0}f = \int_{\gamma_1}f$. In particular $\int_\gamma f = 0$ for every closed path that is null-homotopic in $U$, and every holomorphic function on a simply connected open set has a primitive.
+\end{theorem}
+
+\begin{proof}
+Let $H \colon [0, 1]^2 \to U$ be the homotopy, $H(s, 0) = \gamma_0(s)$, $H(s, 1) = \gamma_1(s)$. Its image is compact, so there is $\rho > 0$ with $D(H(s, t), \rho) \subseteq U$ for all $(s, t)$, and by uniform
+continuity there is $N$ with $|H(s, t) - H(s', t')| < \rho$ whenever $|s - s'|, |t - t'| \leq 1/N$. Put $z_{jk} = H(j/N, k/N)$ and let $D_{jk} = D(z_{jk}, \rho)$, so that $H$ maps the square
+$[j/N, (j+1)/N] \times [k/N, (k+1)/N]$ into $D_{jk}$. Let $P_k$ be the closed polygonal path through $z_{0k}, z_{1k}, \ldots, z_{Nk}$.
+
+Each segment $[z_{jk}, z_{j+1,k}]$ and the corresponding piece of $H(-, k/N)$ lie in the convex set $D_{jk}$, where $f$ has a primitive by Corollary~\ref{complex-analysis:corollary-primitive-convex}; so the
+integrals of $f$ over them agree, and $\int_{\gamma_0}f = \int_{P_0}f$, $\int_{\gamma_1}f = \int_{P_N}f$ (for $\gamma_0$, $\gamma_1$ piecewise $C^1$; the intermediate paths are only continuous, and the
+polygonal paths replace them). The closed polygon with vertices $z_{jk}, z_{j+1,k}, z_{j+1,k+1}, z_{j,k+1}$ lies in the convex set $D_{jk}$, so the integral of $f$ over it vanishes. Summing over $j$, the
+contributions of the segments $[z_{jk}, z_{j,k+1}]$ cancel in pairs (for closed homotopies because $z_{0k} = z_{Nk}$; for fixed endpoints because those segments are constant), so
+$\int_{P_k}f = \int_{P_{k+1}}f$. Hence $\int_{P_0}f = \int_{P_N}f$. The last statement follows by fixing $z_0 \in U$ and setting $F(z) = \int_\gamma f$ for any path from $z_0$ to $z$, which is independent
+of the path since $U$ is simply connected; then $F' = f$ as in Corollary~\ref{complex-analysis:corollary-primitive-convex}.
+\end{proof}
+
+\begin{definition}\label{complex-analysis:definition-winding-number}
+For a closed path $\gamma$ and $a \notin \gamma^*$, the \emph{winding number} is $n(\gamma, a) = \frac{1}{2\pi i}\int_\gamma\frac{dz}{z - a}$.
+\end{definition}
+
+\begin{proposition}\label{complex-analysis:proposition-winding-number}
+$n(\gamma, a)$ is an integer; it is constant on connected components of $\CC \setminus \gamma^*$ and zero on the unbounded component. Homotopic closed paths in $\CC \setminus \{a\}$ have the same winding
+number about $a$, and for the circle $\gamma(t) = a + re^{2\pi it}$ one has $n(\gamma, a) = 1$.
+\end{proposition}
+
+\begin{proof}
+Let $\gamma \colon [0, 1] \to \CC$ and $\varphi(t) = \int_0^t\frac{\gamma'(s)}{\gamma(s) - a}\,ds$. Then $(e^{-\varphi}(\gamma - a))' = 0$ on each $C^1$ piece, so $e^{\varphi(1)} = (\gamma(1) - a)/(\gamma(0) - a) = 1$ and
+$\varphi(1) \in 2\pi i\ZZ$ by Theorem~\ref{real-analysis:theorem-pi}. The function $a \mapsto n(\gamma, a)$ is continuous on $\CC \setminus \gamma^*$ and integer valued, hence locally constant, and it tends
+to $0$ as $|a| \to \infty$. Homotopy invariance is Theorem~\ref{complex-analysis:theorem-cauchy-homotopy} applied to $z \mapsto 1/(z - a)$ on $\CC \setminus \{a\}$, and the circle was computed in
+Lemma~\ref{complex-analysis:lemma-path-integral}.
+\end{proof}
+
+\section{The Cauchy integral formula}\label{complex-analysis:section-cauchy-formula}
+
+\begin{theorem}\label{complex-analysis:theorem-cauchy-formula}
+Let $U$ be convex, $f$ holomorphic on $U$, $\gamma$ a closed path in $U$ and $a \in U \setminus \gamma^*$. Then
+\[
+n(\gamma, a)f(a) = \frac{1}{2\pi i}\int_\gamma\frac{f(z)}{z - a}\,dz.
+\]
+In particular, if $\overline{D}(a, r) \subseteq U$ and $\gamma$ is the circle $\partial D(a, r)$ traversed once, then $f(w) = \frac{1}{2\pi i}\int_\gamma\frac{f(z)}{z - w}dz$ for $w \in D(a, r)$.
+\end{theorem}
+
+\begin{proof}
+Define $g(z) = (f(z) - f(a))/(z - a)$ for $z \neq a$ and $g(a) = f'(a)$. Then $g$ is continuous on $U$ and holomorphic on $U \setminus \{a\}$, so $\int_\gamma g = 0$ by
+Corollary~\ref{complex-analysis:corollary-primitive-convex}. For the second statement, note that $n(\gamma, w) = n(\gamma, a) = 1$ for $w \in D(a, r)$ by
+Proposition~\ref{complex-analysis:proposition-winding-number}, and apply the formula in the convex set $D(a, r')$ for $r < r' $ with $\overline{D}(a, r') \subseteq U$.
+\end{proof}
+
+\begin{theorem}\label{complex-analysis:theorem-analytic}
+Let $f$ be holomorphic on an open $U$ and $D(a, R) \subseteq U$. Then $f(w) = \sum_{n \geq 0}c_n(w - a)^n$ on $D(a, R)$, with
+$c_n = \frac{1}{2\pi i}\int_{\partial D(a, r)}\frac{f(z)}{(z - a)^{n+1}}dz = \frac{f^{(n)}(a)}{n!}$ for any $0 < r < R$. In particular holomorphic functions have holomorphic derivatives of all orders, and
+$|f^{(n)}(a)| \leq n!\,r^{-n}\sup_{|z - a| = r}|f|$ (\emph{Cauchy estimates}).
+\end{theorem}
+
+\begin{proof}
+Fix $|w - a| < r < R$. For $|z - a| = r$, $\frac{1}{z - w} = \sum_{n \geq 0}\frac{(w - a)^n}{(z - a)^{n+1}}$, converging uniformly in $z$ since $|w - a|/r < 1$. Multiplying by $f(z)/2\pi i$ and integrating term by
+term (uniform convergence, Proposition~\ref{real-analysis:proposition-riemann}) gives the expansion with the stated $c_n$, by Theorem~\ref{complex-analysis:theorem-cauchy-formula}. A power series is
+infinitely complex differentiable with $c_n = f^{(n)}(a)/n!$ (Theorem~\ref{real-analysis:theorem-power-series-derivative}), and the estimate follows from
+Lemma~\ref{complex-analysis:lemma-path-integral}.
+\end{proof}
+
+\begin{corollary}\label{complex-analysis:corollary-liouville}
+\begin{enumerate}
+\item (Liouville) A bounded entire function is constant; more generally, if $|f(z)| \leq C(1 + |z|)^m$ for an entire $f$, then $f$ is a polynomial of degree at most $m$.
+\item (Fundamental theorem of algebra) Every nonconstant polynomial over $\CC$ has a root (cf. Chapter~\ref{fields}).
+\item (Morera) A continuous function on an open set whose integral over the boundary of every closed triangle contained in the set vanishes is holomorphic.
+\item (Weierstrass) If holomorphic functions $f_n$ on $U$ converge uniformly on compact subsets to $f$, then $f$ is holomorphic and $f_n^{(k)} \to f^{(k)}$ uniformly on compact subsets.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) By the Cauchy estimates with $r \to \infty$, $f^{(n)}(a) = 0$ for $n > m$ and all $a$. (2) If $p$ has no root, $1/p$ is entire and tends to $0$ at infinity, hence is bounded and constant. (3) Locally on
+a disc the hypothesis gives a primitive $F$ as in Corollary~\ref{complex-analysis:corollary-primitive-convex}, and $F$ is holomorphic, hence so is $F' = f$ by
+Theorem~\ref{complex-analysis:theorem-analytic}. (4) The uniform limit is continuous and satisfies Morera's condition by Theorem~\ref{complex-analysis:theorem-goursat} and uniform convergence; convergence
+of derivatives follows from the Cauchy integral formula for $f^{(k)}$ on circles inside $U$.
+\end{proof}
+
+\begin{theorem}[Identity theorem]\label{complex-analysis:theorem-identity}
+Let $f$ be holomorphic on a domain $U$. If the zero set of $f$ has a limit point in $U$, then $f \equiv 0$. Consequently two holomorphic functions agreeing on a set with a limit point in $U$ are equal, and
+the zeros of a nonzero $f$ are isolated, each of finite order $m$ with $f(z) = (z - a)^mg(z)$, $g$ holomorphic and $g(a) \neq 0$.
+\end{theorem}
+
+\begin{proof}
+Let $A$ be the set of $a \in U$ with $f^{(n)}(a) = 0$ for all $n$; it is closed in $U$, and open because $f$ vanishes identically near such a point by
+Theorem~\ref{complex-analysis:theorem-analytic}. If $z_k \to a$ with $z_k \neq a$ and $f(z_k) = 0$, and if some derivative at $a$ were nonzero, then with $m$ minimal, $f(z) = (z - a)^mg(z)$ with $g(a) \neq 0$
+by the power series expansion, so $f$ would have no zeros near $a$ other than $a$. Hence $a \in A$, and $A = U$ by connectedness.
+\end{proof}
+
+\begin{theorem}[Maximum modulus principle]\label{complex-analysis:theorem-maximum-modulus}
+Let $f$ be holomorphic on a domain $U$. If $|f|$ has a local maximum in $U$, then $f$ is constant. If moreover $U$ is bounded and $f$ extends continuously to $\overline{U}$, then $|f|$ attains its maximum on
+$\partial U$.
+\end{theorem}
+
+\begin{proof}
+Theorem~\ref{complex-analysis:theorem-cauchy-formula} on circles gives the mean value property $f(a) = \int_0^1f(a + re^{2\pi it})\,dt$. If $|f| \leq |f(a)|$ on $D(a, R)$, then for $r < R$,
+$|f(a)| \leq \int_0^1|f(a + re^{2\pi it})|\,dt \leq |f(a)|$, so $|f| = |f(a)|$ on every such circle by continuity, and $|f|$ is constant on $D(a, R)$. Then $f\bar f$ is constant; if $f(a) \neq 0$ this makes
+$\bar f = c/f$ holomorphic, so both $f$ and $\bar f$ satisfy the Cauchy--Riemann equations and $f' = 0$ on the disc. In either case $f$ is constant on $D(a, R)$, hence on $U$ by
+Theorem~\ref{complex-analysis:theorem-identity}. The last statement follows from compactness of $\overline{U}$.
+\end{proof}
+
+\section{Singularities, Laurent series and residues}\label{complex-analysis:section-residues}
+
+\begin{theorem}[Laurent expansion]\label{complex-analysis:theorem-laurent}
+Let $f$ be holomorphic on the annulus $A = \{r < |z - a| < R\}$, $0 \leq r < R \leq \infty$. There are unique $c_n \in \CC$, $n \in \ZZ$, with $f(z) = \sum_{n \in \ZZ}c_n(z - a)^n$, converging absolutely and
+uniformly on compact subsets of $A$, and $c_n = \frac{1}{2\pi i}\int_{\partial D(a, \rho)}\frac{f(z)}{(z - a)^{n+1}}dz$ for any $r < \rho < R$.
+\end{theorem}
+
+\begin{proof}
+Fix $w$ with $r < r_1 < |w - a| < r_2 < R$. The function $g(z) = (f(z) - f(w))/(z - w)$, extended by $f'(w)$ at $w$, is continuous on $A$ and holomorphic off $w$, hence holomorphic by
+Corollary~\ref{complex-analysis:corollary-liouville}(3) and Theorem~\ref{complex-analysis:theorem-goursat}. The circles $\partial D(a, r_1)$ and $\partial D(a, r_2)$ are homotopic as closed paths in $A$ (move
+radially), so $\int_{\partial D(a, r_2)}g = \int_{\partial D(a, r_1)}g$ by Theorem~\ref{complex-analysis:theorem-cauchy-homotopy}. Since $n(\partial D(a, r_2), w) = 1$ and $n(\partial D(a, r_1), w) = 0$, this
+gives
+\[
+f(w) = \frac{1}{2\pi i}\int_{\partial D(a, r_2)}\frac{f(z)}{z - w}dz - \frac{1}{2\pi i}\int_{\partial D(a, r_1)}\frac{f(z)}{z - w}dz.
+\]
+In the first integral expand $\frac{1}{z - w} = \sum_{n \geq 0}\frac{(w - a)^n}{(z - a)^{n+1}}$, in the second $\frac{-1}{z - w} = \sum_{n \geq 1}\frac{(z - a)^{n-1}}{(w - a)^n}$, both uniformly convergent on the
+respective circles, and integrate term by term. The resulting coefficients are independent of the radius, again by homotopy invariance. Uniqueness follows by integrating the series against
+$(z - a)^{-n-1}$ term by term.
+\end{proof}
+
+\begin{definition}\label{complex-analysis:definition-singularity}
+Let $f$ be holomorphic on a punctured disc $D(a, R) \setminus \{a\}$, with Laurent coefficients $c_n$. The singularity at $a$ is \emph{removable} if $c_n = 0$ for all $n < 0$, a \emph{pole of order $m$} if
+$c_{-m} \neq 0$ and $c_n = 0$ for $n < -m$, and \emph{essential} otherwise. The \emph{residue} is $\operatorname{Res}_af = c_{-1}$. A function holomorphic on $U$ except for poles at a discrete closed subset
+is \emph{meromorphic}; the \emph{order} $\operatorname{ord}_af$ is $m$ at a zero of order $m$ and $-m$ at a pole of order $m$.
+\end{definition}
+
+\begin{proposition}\label{complex-analysis:proposition-singularities}
+Let $f$ be holomorphic on $D(a, R) \setminus \{a\}$.
+\begin{enumerate}
+\item (Riemann) If $f$ is bounded near $a$, the singularity is removable.
+\item The singularity is a pole if and only if $|f(z)| \to \infty$ as $z \to a$.
+\item (Casorati--Weierstrass) If the singularity is essential, $f(D(a, \varepsilon) \setminus \{a\})$ is dense in $\CC$ for every $\varepsilon > 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $|f| \leq M$ near $a$, then $|c_{-n}| \leq M\rho^{n}$ for small $\rho$ by Theorem~\ref{complex-analysis:theorem-laurent}, so $c_{-n} = 0$ for $n \geq 1$. (2) If $f$ has a pole of order $m$, then
+$(z - a)^mf(z)$ extends holomorphically with nonzero value at $a$, so $|f| \to \infty$. Conversely, if $|f| \to \infty$, then $1/f$ is holomorphic and nonvanishing near $a$ with limit $0$, so by (1) it extends
+with a zero of some order $m$ at $a$, and $f = 1/(1/f)$ has a pole of order $m$. (3) If the image of some punctured disc misses $D(w, \delta)$, then $g = 1/(f - w)$ is bounded there, hence extends
+holomorphically by (1); then $f = w + 1/g$ has a removable singularity or a pole by (2).
+\end{proof}
+
+\begin{example}\label{complex-analysis:example-essential}
+The function $f(z) = e^{1/z}$ on $\CC \setminus \{0\}$ has Laurent series $\sum_{n \geq 0}z^{-n}/n!$, so $0$ is an essential singularity. More than Casorati--Weierstrass holds here: every $w \neq 0$ is taken
+infinitely often in every punctured disc around $0$. Indeed, if $w = e^c$, the points $z_k = 1/(c + 2\pi ik)$, $k \in \ZZ$, satisfy $f(z_k) = w$ and tend to $0$. The value $0$ is never taken. On the real axis,
+$e^{1/x} \to \infty$ as $x \to 0^+$ and $\to 0$ as $x \to 0^-$, while along the imaginary axis $|e^{1/(iy)}| = 1$: the behaviour near an essential singularity depends on the direction of approach.
+\end{example}
+
+\begin{counterexample}\label{complex-analysis:counterexample-real-radius}
+Real analysis does not see the radius of convergence. The function $g(x) = 1/(1 + x^2)$ is real-analytic on all of $\RR$, but its Taylor series $\sum_n(-1)^nx^{2n}$ at $0$ has radius of convergence $1$. The reason
+is complex: $g$ extends to the meromorphic function $1/(1 + z^2)$ with poles at $\pm i$, at distance $1$ from $0$. By Theorem~\ref{complex-analysis:theorem-analytic} the series converges on $D(0, 1)$, and it cannot converge on a
+larger disc: its sum would be holomorphic there, equal to $1/(1 + z^2)$ on $D(0, 1)$ by the identity theorem, hence bounded near $i$, whereas $|1/(1 + z^2)| \to \infty$ as $z \to i$. Similarly $x \mapsto e^{-1/x^2}$ (extended by $0$) is smooth on $\RR$ with all derivatives zero at $0$, so it is not real-analytic there; as a complex function,
+$e^{-1/z^2}$ has an essential singularity at $0$, and it is unbounded along the imaginary axis.
+\end{counterexample}
+
+\begin{lemma}\label{complex-analysis:lemma-difference-quotient}
+Let $h$ be holomorphic on an open $U$ and define $g \colon U \times U \to \CC$ by $g(z, w) = (h(z) - h(w))/(z - w)$ for $z \neq w$ and $g(z, z) = h'(z)$. Then $g$ is continuous, and holomorphic in each
+variable separately.
+\end{lemma}
+
+\begin{proof}
+Holomorphy in each variable off the diagonal is clear, and at $z = w$ the singularity is removable by Proposition~\ref{complex-analysis:proposition-singularities}(1), since $g$ is bounded near it by the
+estimate below. For continuity at $(a, a)$, take $\overline{D}(a, r) \subseteq U$; for $z, w \in D(a, r)$ the segment $[w, z]$ lies in the disc and
+$g(z, w) = \int_0^1h'(w + t(z - w))\,dt$ (by the fundamental theorem of calculus applied to $t \mapsto h(w + t(z - w))$, also valid when $z = w$). Since $h'$ is continuous, hence uniformly continuous on
+$\overline{D}(a, r/2)$, this expression is continuous in $(z, w)$ there.
+\end{proof}
+
+\begin{theorem}[Cauchy's theorem, homology form]\label{complex-analysis:theorem-cauchy-homology}
+Let $h$ be holomorphic on an open $U \subseteq \CC$ and let $\gamma$ be a closed path in $U$ with $n(\gamma, z) = 0$ for every $z \in \CC \setminus U$. Then $\int_\gamma h = 0$, and
+$n(\gamma, w)h(w) = \frac{1}{2\pi i}\int_\gamma\frac{h(z)}{z - w}\,dz$ for every $w \in U \setminus \gamma^*$.
+\end{theorem}
+
+\begin{proof}
+(Dixon.) With $g$ as in Lemma~\ref{complex-analysis:lemma-difference-quotient}, let $\varphi(w) = \frac{1}{2\pi i}\int_\gamma g(z, w)\,dz$ for $w \in U$. It is continuous, since $g$ is uniformly continuous on
+$\gamma^* \times K$ for compact $K \subseteq U$, and holomorphic: for a closed triangle $T \subseteq U$, Fubini's theorem for continuous functions
+(Proposition~\ref{real-analysis:proposition-parameter-integrals}) and Theorem~\ref{complex-analysis:theorem-goursat} give
+$\int_{\partial T}\varphi(w)\,dw = \frac{1}{2\pi i}\int_\gamma\left(\int_{\partial T}g(z, w)\,dw\right)dz = 0$, so Morera's theorem applies. Let $V = \{w \in \CC \setminus \gamma^* : n(\gamma, w) = 0\}$, an open set,
+and $\psi(w) = \frac{1}{2\pi i}\int_\gamma\frac{h(z)}{z - w}\,dz$ on $V$, which is holomorphic (same argument). For $w \in U \cap V$,
+$\varphi(w) = \psi(w) - n(\gamma, w)h(w) = \psi(w)$. By hypothesis $U \cup V = \CC$, so $\varphi$ and $\psi$ define an entire function $F$. The unbounded component of $\CC \setminus \gamma^*$ lies in $V$, and
+$\psi(w) \to 0$ as $|w| \to \infty$; so $F$ is bounded, hence constant equal to $0$ by Liouville's theorem (Corollary~\ref{complex-analysis:corollary-liouville}). Thus $\varphi \equiv 0$, which is the integral
+formula. Applying it to $z \mapsto (z - w)h(z)$ at the point $w$ gives $0 = \frac{1}{2\pi i}\int_\gamma h$.
+\end{proof}
+
+\begin{theorem}[Residue theorem]\label{complex-analysis:theorem-residues}
+Let $U$ be simply connected and open, $S \subseteq U$ discrete and closed in $U$, and $f$ holomorphic on $U \setminus S$. For every closed path $\gamma$ in $U \setminus S$,
+\[
+\frac{1}{2\pi i}\int_\gamma f = \sum_{a \in S}n(\gamma, a)\operatorname{Res}_af,
+\]
+a finite sum.
+\end{theorem}
+
+\begin{proof}
+Let $W = \{z \in \CC \setminus \gamma^* : n(\gamma, z) \neq 0\}$, a union of bounded components of $\CC \setminus \gamma^*$, so $K = \overline{W} \subseteq W \cup \gamma^*$ is compact. If $z \notin U$, then $1/(w - z)$ is
+holomorphic on the simply connected $U$, hence has a primitive, so $n(\gamma, z) = 0$; therefore $K \subseteq U$, and $S \cap K$ is finite, say $\{a_1, \ldots, a_k\}$, because $S$ is discrete and closed in $U$.
+Let $P_j(z) = \sum_{n \geq 1}c^{(j)}_{-n}(z - a_j)^{-n}$ be the principal part of $f$ at $a_j$. It converges locally uniformly on $\CC \setminus \{a_j\}$, because the Laurent series of $f$ converges on the
+punctured disc and the principal part, as a power series in $1/(z - a_j)$, then has infinite radius of convergence; so $P_j$ is holomorphic there. The function $h = f - \sum_jP_j$ has removable
+singularities at $a_1, \ldots, a_k$, hence extends holomorphically to $U' = U \setminus (S \setminus \{a_1, \ldots, a_k\})$. For $z \notin U'$ we have $n(\gamma, z) = 0$: either $z \notin U$, or
+$z \in S \setminus \{a_1, \ldots, a_k\}$, which was excluded from $K$. So $\int_\gamma h = 0$ by Theorem~\ref{complex-analysis:theorem-cauchy-homology}. Finally
+$\int_\gamma P_j = 2\pi i\,n(\gamma, a_j)c^{(j)}_{-1}$, since the terms with $n \geq 2$ have primitives, and $n(\gamma, a) = 0$ for the remaining $a \in S$.
+\end{proof}
+
+\begin{example}\label{complex-analysis:example-residue-computation}
+$\int_{-\infty}^{\infty}\frac{dx}{1 + x^2} = \pi$. Integrate $f(z) = 1/(1 + z^2)$ over the boundary of the half-disc $\{|z| \leq R, \operatorname{Im}z \geq 0\}$: the only singularity inside is the simple pole
+at $i$ with residue $\lim_{z \to i}(z - i)f(z) = 1/(2i)$, so the integral is $\pi$. The contribution of the semicircle is at most $\pi R/(R^2 - 1) \to 0$, and the integral over $[-R, R]$ tends to the
+improper integral.
+\end{example}
+
+\begin{theorem}[Argument principle and Rouch\'e]\label{complex-analysis:theorem-argument-principle}
+Let $U$ be simply connected, $f$ meromorphic on $U$ and $\gamma$ a closed path in $U$ avoiding the zeros and poles of $f$. Then
+$\frac{1}{2\pi i}\int_\gamma\frac{f'}{f} = \sum_a n(\gamma, a)\operatorname{ord}_af$. If $g$ is holomorphic on $U$ and $|f - g| < |f|$ on $\gamma^*$, with $f$ holomorphic, then $f$ and $g$ have the same number of
+zeros counted with multiplicity and weighted by $n(\gamma, -)$.
+\end{theorem}
+
+\begin{proof}
+Near a zero or pole, $f(z) = (z - a)^{m}h(z)$ with $h(a) \neq 0$ and $m = \operatorname{ord}_af$, so $f'/f = m/(z - a) + h'/h$ has residue $m$ at $a$; apply
+Theorem~\ref{complex-analysis:theorem-residues}. For Rouch\'e's theorem, the functions $f_t = f + t(g - f)$, $t \in [0, 1]$, have no zeros on $\gamma^*$ because $|f_t| \geq |f| - |g - f| > 0$; the integer
+$N(t) = \frac{1}{2\pi i}\int_\gamma f_t'/f_t$ depends continuously on $t$ (the integrand is continuous in $(t, z)$ and $\gamma^*$ is compact), hence is constant.
+\end{proof}
+
+\begin{theorem}[Open mapping theorem]\label{complex-analysis:theorem-open-mapping}
+A nonconstant holomorphic function on a domain is an open map. If it is injective, its derivative has no zeros and its inverse is holomorphic.
+\end{theorem}
+
+\begin{proof}
+Let $w_0 = f(z_0)$. By Theorem~\ref{complex-analysis:theorem-identity} the zero of $f - w_0$ at $z_0$ has finite order $m \geq 1$ and is isolated, so there is $r$ with $|f - w_0| \geq \delta > 0$ on
+$|z - z_0| = r$ and no other zero in $\overline{D}(z_0, r)$. For $|w - w_0| < \delta$, Rouch\'e's theorem applied to $f - w_0$ and $f - w$ on the circle shows that $f - w$ has $m$ zeros in $D(z_0, r)$; so
+$D(w_0, \delta) \subseteq f(D(z_0, r))$. If $f$ is injective, then $m = 1$ at every point, that is, $f' \neq 0$; and $f^{-1}$ is continuous because $f$ is open, and differentiable with derivative $1/f'(f^{-1})$ by
+the computation of Proposition~\ref{real-analysis:proposition-inverse-one}, valid over $\CC$.
+\end{proof}
+
+\section{Conformal maps and the Riemann mapping theorem}\label{complex-analysis:section-riemann-mapping}
+
+\begin{lemma}[Schwarz]\label{complex-analysis:lemma-schwarz}
+Let $f \colon \mathbb{D} \to \mathbb{D}$ be holomorphic with $f(0) = 0$. Then $|f(z)| \leq |z|$ and $|f'(0)| \leq 1$, with equality for some $z \neq 0$ or in the second inequality only if $f(z) = \lambda z$ with
+$|\lambda| = 1$.
+\end{lemma}
+
+\begin{proof}
+The function $g(z) = f(z)/z$, extended by $f'(0)$ at $0$, is holomorphic on $\mathbb{D}$ (Proposition~\ref{complex-analysis:proposition-singularities}(1)). On $|z| = r$, $|g| \leq 1/r$, so by the maximum
+principle $|g| \leq 1/r$ on $D(0, r)$; letting $r \to 1$ gives $|g| \leq 1$. Equality at an interior point forces $g$ to be a constant of modulus $1$.
+\end{proof}
+
+\begin{proposition}\label{complex-analysis:proposition-disc-automorphisms}
+For $a \in \mathbb{D}$ the M\"obius map $\phi_a(z) = \frac{z - a}{1 - \bar az}$ is a biholomorphic self-map of $\mathbb{D}$ with $\phi_a(a) = 0$ and inverse $\phi_{-a}$. Every biholomorphic self-map of
+$\mathbb{D}$ is $z \mapsto \lambda\phi_a(z)$ with $|\lambda| = 1$.
+\end{proposition}
+
+\begin{proof}
+For $|z| < 1$ and $|a| < 1$, $|1 - \bar az|^2 - |z - a|^2 = (1 - |a|^2)(1 - |z|^2) > 0$, so $\phi_a$ maps $\mathbb{D}$ into $\mathbb{D}$, and a computation gives $\phi_{-a}\phi_a = \id$. If $F$ is a biholomorphic
+self-map with $F(a) = 0$, then $g = F \circ \phi_{-a}$ fixes $0$, and Lemma~\ref{complex-analysis:lemma-schwarz} applied to $g$ and $g^{-1}$ gives $|g'(0)| = 1$, hence $g(z) = \lambda z$.
+\end{proof}
+
+\begin{theorem}[Montel]\label{complex-analysis:theorem-montel}
+Let $\mathcal{F}$ be a family of holomorphic functions on an open $U$ that is uniformly bounded on every compact subset. Then every sequence in $\mathcal{F}$ has a subsequence converging uniformly on compact
+subsets to a holomorphic function.
+\end{theorem}
+
+\begin{proof}
+Let $K \subseteq U$ be compact and $2\rho$ the distance from $K$ to $\CC \setminus U$ (or $1$ if $U = \CC$), and let $K'$ be the set of points at distance $\leq \rho$ from $K$, a compact subset of $U$. By the
+Cauchy estimates, $|f'| \leq \rho^{-1}\sup_{K'}|f|$ on $K$ for all $f \in \mathcal{F}$, so $\mathcal{F}$ is equicontinuous on $K$ (mean value inequality). By the Arzel\`a--Ascoli theorem
+(Theorem~\ref{real-analysis:theorem-arzela-ascoli}) a sequence has a subsequence converging uniformly on $K$. Exhausting $U$ by compact sets $K_1 \subseteq K_2 \subseteq \cdots$ and taking a diagonal
+subsequence gives uniform convergence on all compact subsets; the limit is holomorphic by Corollary~\ref{complex-analysis:corollary-liouville}(4).
+\end{proof}
+
+\begin{theorem}[Hurwitz]\label{complex-analysis:theorem-hurwitz}
+Let $f_n \to f$ uniformly on compact subsets of a domain $U$, with $f_n$ holomorphic and $f$ nonconstant. If every $f_n$ is nowhere zero, so is $f$; if every $f_n$ is injective, so is $f$.
+\end{theorem}
+
+\begin{proof}
+Suppose $f(z_0) = 0$. Since $f \not\equiv 0$, there is $r$ with $\overline{D}(z_0, r) \subseteq U$ and $f \neq 0$ on the circle $|z - z_0| = r$, so $|f| \geq \delta > 0$ there. Then $f_n \to f$ and $f_n' \to f'$
+uniformly on the circle, so $\frac{1}{2\pi i}\int f_n'/f_n \to \frac{1}{2\pi i}\int f'/f \geq 1$, and by Theorem~\ref{complex-analysis:theorem-argument-principle} $f_n$ has a zero inside for large $n$. For
+injectivity, if $f(z_1) = f(z_2)$ with $z_1 \neq z_2$, apply the first part on a punctured neighbourhood of $z_2$ to the functions $f_n - f_n(z_1)$, which are nowhere zero there.
+\end{proof}
+
+\begin{theorem}[Riemann mapping theorem]\label{complex-analysis:theorem-riemann-mapping}
+Every simply connected domain $U \subsetneq \CC$ is biholomorphic to $\mathbb{D}$. More precisely, for $z_0 \in U$ there is a unique biholomorphic $\psi \colon U \to \mathbb{D}$ with $\psi(z_0) = 0$ and
+$\psi'(z_0) > 0$.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{F}$ be the set of injective holomorphic maps $U \to \mathbb{D}$ sending $z_0$ to $0$.
+
+\emph{$\mathcal{F} \neq \emptyset$.} Choose $b \notin U$. Since $z - b$ is nowhere zero on the simply connected $U$, the function $(z - b)'/(z - b)$ has a primitive $h$
+(Theorem~\ref{complex-analysis:theorem-cauchy-homotopy}); adjusting by a constant, $e^{h} = z - b$. Let $\phi = e^{h/2}$, so $\phi^2 = z - b$. Then $\phi$ is injective, and $\phi(z_1) = -\phi(z_2)$ implies
+$z_1 = z_2$ and $\phi(z_1) = 0$, which is impossible; so $\phi(U)$ and $-\phi(U)$ are disjoint. By Theorem~\ref{complex-analysis:theorem-open-mapping}, $\phi(U)$ contains a disc $D(w_0, \varrho)$, hence
+$|\phi(z) + w_0| \geq \varrho$ on $U$, and $z \mapsto \varrho/(\phi(z) + w_0)$ maps $U$ injectively into $\mathbb{D}$. Composing with a suitable $\phi_a$
+(Proposition~\ref{complex-analysis:proposition-disc-automorphisms}) gives an element of $\mathcal{F}$.
+
+\emph{An extremal element.} Injective holomorphic maps have nonvanishing derivative, so $\eta = \sup_{\psi \in \mathcal{F}}|\psi'(z_0)| > 0$. Take $\psi_n \in \mathcal{F}$ with $|\psi_n'(z_0)| \to \eta$; by
+Theorem~\ref{complex-analysis:theorem-montel} a subsequence converges uniformly on compact subsets to a holomorphic $\psi$ with $|\psi'(z_0)| = \eta > 0$, so $\psi$ is nonconstant, hence injective by
+Theorem~\ref{complex-analysis:theorem-hurwitz}, with $\psi(z_0) = 0$ and $|\psi| \leq 1$; by the open mapping theorem $\psi(U) \subseteq \mathbb{D}$. So $\psi \in \mathcal{F}$ and $|\psi'(z_0)| = \eta$.
+
+\emph{Surjectivity.} Suppose $\alpha \in \mathbb{D} \setminus \psi(U)$. Then $\phi_\alpha \circ \psi$ is nowhere zero on $U$, so as above it has a holomorphic square root $g$, which is injective because
+$g^2$ is. Let $F = \phi_{g(z_0)} \circ g \in \mathcal{F}$. Writing $s(w) = w^2$, we have $\psi = \phi_{-\alpha} \circ s \circ \phi_{-g(z_0)} \circ F = \Phi \circ F$ with $\Phi \colon \mathbb{D} \to \mathbb{D}$
+holomorphic and $\Phi(0) = 0$. As $s$ is not injective, $\Phi$ is not injective, so $\Phi$ is not a rotation and $|\Phi'(0)| < 1$ by Lemma~\ref{complex-analysis:lemma-schwarz}. Then
+$\eta = |\psi'(z_0)| = |\Phi'(0)|\,|F'(z_0)| < |F'(z_0)| \leq \eta$, a contradiction. So $\psi$ is a biholomorphism onto $\mathbb{D}$, and multiplying by a unimodular constant makes $\psi'(z_0) > 0$.
+
+\emph{Uniqueness.} If $\psi_1, \psi_2$ both work, $\psi_2 \circ \psi_1^{-1}$ is an automorphism of $\mathbb{D}$ fixing $0$ with positive derivative there, hence the identity by
+Proposition~\ref{complex-analysis:proposition-disc-automorphisms}.
+\end{proof}
+
+\begin{remark}\label{complex-analysis:remark-harmonic}
+A real function $u$ on an open $U \subseteq \CC$ is \emph{harmonic} if it is $C^2$ with $\partial_x^2u + \partial_y^2u = 0$. Real and imaginary parts of holomorphic functions are harmonic, by the
+Cauchy--Riemann equations and Theorem~\ref{real-analysis:theorem-schwarz}. Conversely, on a simply connected $U$ every harmonic $u$ is the real part of a holomorphic function: the function
+$\partial_xu - i\partial_yu$ is holomorphic (its Cauchy--Riemann equations are the harmonicity of $u$ and the symmetry of second derivatives), so it has a primitive $f$, and $\operatorname{Re}f$ differs from
+$u$ by a constant. Harmonic functions therefore satisfy the mean value property and the maximum principle; this is the one-variable case of the Hodge theory of Chapter~\ref{hodge-theorem}.
+\end{remark}
+
+\section{Exercises}\label{complex-analysis:section-exercises}
+
+\begin{exercise}\label{complex-analysis:exercise-disc-not-plane}
+Show that $\mathbb{D}$ and $\CC$ are not biholomorphic, although they are homeomorphic.
+\end{exercise}
+
+\begin{solution}
+A biholomorphism $\CC \to \mathbb{D}$ would be a bounded entire function, hence constant (Corollary~\ref{complex-analysis:corollary-liouville}). They are homeomorphic by
+$z \mapsto z/(1 + |z|)$ (Counterexample~\ref{general-topology:counterexample-completeness-not-topological}).
+\end{solution}
+
+\begin{exercise}\label{complex-analysis:exercise-automorphisms-plane}
+Show that every biholomorphic map $\CC \to \CC$ is $z \mapsto az + b$ with $a \neq 0$.
+\end{exercise}
+
+\begin{solution}
+Let $f$ be such a map and consider $g(z) = f(1/z)$ on $\CC^\times$. If $0$ were an essential singularity of $g$, then by Casorati--Weierstrass the image $f(\{|z| > 1\})$ would be dense, while $f(\mathbb{D})$
+is open and disjoint from it, a contradiction. So $g$ has a pole or removable singularity at $0$, which means $|f(z)| \leq C|z|^m$ for large $|z|$; by Liouville's theorem $f$ is a polynomial, and it is
+injective only if $\deg f = 1$.
+\end{solution}
+
+\begin{exercise}\label{complex-analysis:exercise-rouche-roots}
+Use Rouch\'e's theorem to show that $z^5 + 3z + 1$ has exactly one root in $\mathbb{D}$ and all five roots in $D(0, 2)$.
+\end{exercise}
+
+\begin{exercise}\label{complex-analysis:exercise-residue-trigonometric}
+Compute $\int_0^{2\pi}\frac{dt}{a + \cos t}$ for $a > 1$ by writing $z = e^{it}$ and using the residue theorem.
+\end{exercise}
+
+\begin{exercise}\label{complex-analysis:exercise-cauchy-not-converse}
+Give an example of a domain $U$ and a nowhere vanishing holomorphic $f$ on $U$ with no holomorphic logarithm, and relate this to $\pi_1(U)$.
+\end{exercise}

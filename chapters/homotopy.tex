@@ -1,0 +1,613 @@
+\chapter{Homotopy and Covering Spaces}\label{homotopy}
+\chapterstatus{complete}
+
+\section{Introduction}\label{homotopy:section-introduction}
+
+Homotopy theory studies spaces up to continuous deformation. Its first invariant is the fundamental group, which we
+compute for the circle using covering spaces (Theorem~\ref{homotopy:theorem-circle}) and for spaces glued from simpler
+pieces using the Seifert--van Kampen theorem (Theorem~\ref{homotopy:theorem-van-kampen}). Covering spaces of a
+reasonable space are classified by subgroups of its fundamental group (Theorem~\ref{homotopy:theorem-classification}),
+in close analogy with Galois theory. We then introduce CW complexes and the higher homotopy groups. Our main references
+are \cite{hatcher-at} and \cite{spanier-at}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology) and Chapter~\ref{groups} (Groups).
+
+Throughout, $I = [0, 1]$, $D^n = \{x \in \RR^n : \|x\|_2 \leq 1\}$ is the closed unit ball and $S^{n-1} = \partial D^n$ the unit sphere.
+A \emph{map} of spaces means a continuous map.
+
+\section{Homotopy}\label{homotopy:section-homotopy}
+
+\begin{definition}\label{homotopy:definition-homotopy}
+A \emph{homotopy} between maps $f, g \colon X \to Y$ is a map $H \colon X \times I \to Y$ with $H(x, 0) = f(x)$ and $H(x, 1) = g(x)$; we write
+$f \simeq g$ and $H_t = H(-, t)$. It is a homotopy \emph{relative to} $A \subseteq X$ if $H_t(a) = f(a)$ for all $a \in A$ and $t \in I$. A map
+$f \colon X \to Y$ is a \emph{homotopy equivalence} if there is $g \colon Y \to X$ with $gf \simeq \id_X$ and $fg \simeq \id_Y$; then $X$ and $Y$ are
+\emph{homotopy equivalent}, $X \simeq Y$. A space is \emph{contractible} if it is homotopy equivalent to a point. A subspace $A \subseteq X$ is a
+\emph{retract} if there is a map $r \colon X \to A$ with $r|_A = \id_A$, and a \emph{deformation retract} if moreover $ir \simeq \id_X$ relative to $A$,
+where $i \colon A \to X$ is the inclusion.
+\end{definition}
+
+\begin{lemma}\label{homotopy:lemma-homotopy-relation}
+Homotopy (relative to $A$) is an equivalence relation on maps $X \to Y$, compatible with composition: if $f \simeq f'$ and $g \simeq g'$, then
+$gf \simeq g'f'$. Hence spaces and homotopy classes of maps form a category $\mathrm{h}\cat{Top}$, and homotopy equivalences are its isomorphisms.
+\end{lemma}
+
+\begin{proof}
+Reflexivity: $H(x, t) = f(x)$. Symmetry: $H(x, 1 - t)$. Transitivity: if $H$ goes from $f$ to $g$ and $K$ from $g$ to $h$, the map equal to $H(x, 2t)$ for
+$t \leq 1/2$ and $K(x, 2t - 1)$ for $t \geq 1/2$ is continuous by the pasting lemma (Lemma~\ref{general-topology:lemma-pasting}). If $H$ goes from $f$ to
+$f'$ and $K$ from $g$ to $g'$, then $(x, t) \mapsto K(H(x, t), t)$ goes from $gf$ to $g'f'$; it is continuous as the composite of
+$(x, t) \mapsto (H(x, t), t)$ and $K$. Relative homotopies are preserved by these constructions.
+\end{proof}
+
+\begin{example}\label{homotopy:example-contractible}
+\begin{enumerate}
+\item A convex subset $C \subseteq \RR^n$ is contractible: for $c \in C$, the \emph{straight-line homotopy} $H(x, t) = (1 - t)x + tc$ goes from $\id_C$ to the
+constant map, and it is continuous by Proposition~\ref{general-topology:proposition-product}(5). More generally, any two maps $f, g \colon X \to C$ are
+homotopic via $(1 - t)f + tg$, relative to the set where they agree.
+\item $S^{n-1}$ is a deformation retract of $\RR^n \setminus \{0\}$ and of $D^n \setminus \{0\}$, via $H(x, t) = (1 - t)x + tx/\|x\|$, which never vanishes.
+\end{enumerate}
+\end{example}
+
+\begin{lemma}\label{homotopy:lemma-quotient-times-interval}
+If $q \colon X \to Y$ is a quotient map and $K$ is a compact Hausdorff space, then $q \times \id_K \colon X \times K \to Y \times K$ is a quotient map. If
+$U \subseteq Y$ is open, then $q^{-1}(U) \to U$ is a quotient map.
+\end{lemma}
+
+\begin{proof}
+Let $W \subseteq Y \times K$ with $W' = (q \times \id)^{-1}(W)$ open, and let $(y_0, k_0) \in W$ with $y_0 = q(x_0)$. The set
+$\{k : (x_0, k) \in W'\}$ is open and contains $k_0$; since $K$ is regular (Proposition~\ref{general-topology:proposition-normal-examples}), there is an open
+$N \ni k_0$ whose closure $\overline{N}$ lies in it. Let $U' = \{x \in X : \{x\} \times \overline{N} \subseteq W'\}$, so $x_0 \in U'$. The set $U'$ is open: for
+$x \in U'$, each $(x, k)$ with $k \in \overline{N}$ has a basic neighbourhood $M_k \times O_k \subseteq W'$, finitely many $O_k$ cover the compact set
+$\overline{N}$, and the intersection $M$ of the corresponding $M_k$ satisfies $M \times \overline{N} \subseteq W'$. It is saturated: if $q(x) = q(x')$ and
+$x \in U'$, then $(x', k)$ and $(x, k)$ have the same image, and $W'$ is a union of fibres of $q \times \id$. So $q(U')$ is open, and
+$(y_0, k_0) \in q(U') \times N \subseteq W$. Hence $W$ is open. For the second statement, if $V \subseteq U$ and $q^{-1}(V)$ is open in $q^{-1}(U)$, then it is
+open in $X$, so $V$ is open in $Y$.
+\end{proof}
+
+\section{The fundamental group}\label{homotopy:section-fundamental-group}
+
+\begin{definition}\label{homotopy:definition-paths}
+For paths $\gamma, \delta \colon I \to X$ with $\gamma(1) = \delta(0)$, the \emph{concatenation} $\gamma * \delta$ is $\gamma(2s)$ for $s \leq 1/2$ and
+$\delta(2s - 1)$ for $s \geq 1/2$ (first $\gamma$, then $\delta$), and the \emph{reverse} of $\gamma$ is $\bar{\gamma}(s) = \gamma(1 - s)$. We write
+$\gamma \simeq \delta$ for homotopy relative to $\{0, 1\}$ and $[\gamma]$ for the class. A \emph{loop} at $x_0$ is a path with $\gamma(0) = \gamma(1) = x_0$,
+and $c_{x_0}$ denotes the constant loop.
+\end{definition}
+
+\begin{lemma}\label{homotopy:lemma-groupoid}
+Concatenation is compatible with $\simeq$, and for composable paths:
+\begin{enumerate}
+\item $\gamma \circ \varphi \simeq \gamma$ for every map $\varphi \colon I \to I$ with $\varphi(0) = 0$ and $\varphi(1) = 1$;
+\item $(\gamma * \delta) * \epsilon \simeq \gamma * (\delta * \epsilon)$, and $c_{\gamma(0)} * \gamma \simeq \gamma \simeq \gamma * c_{\gamma(1)}$;
+\item $\gamma * \bar{\gamma} \simeq c_{\gamma(0)}$ and $\bar\gamma * \gamma \simeq c_{\gamma(1)}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If $H$ and $K$ are homotopies $\gamma \simeq \gamma'$ and $\delta \simeq \delta'$, then $H(-, t) * K(-, t)$ is a homotopy $\gamma * \delta \simeq \gamma' * \delta'$.
+(1) $H(s, t) = \gamma((1 - t)\varphi(s) + ts)$. (2) Each side is the other composed with a piecewise affine $\varphi$ as in (1): for instance
+$(\gamma * \delta) * \epsilon = (\gamma * (\delta * \epsilon)) \circ \varphi$ with $\varphi$ affine on $[0, \frac14]$, $[\frac14, \frac12]$, $[\frac12, 1]$
+mapping them to $[0, \frac12]$, $[\frac12, \frac34]$, $[\frac34, 1]$. (3) $H(s, t) = \gamma(2s(1 - t))$ for $s \leq 1/2$ and
+$H(s, t) = \gamma((2 - 2s)(1 - t))$ for $s \geq 1/2$ is a homotopy from $\gamma * \bar\gamma$ to $c_{\gamma(0)}$; apply this to $\bar\gamma$ for the second
+statement.
+\end{proof}
+
+\begin{definition}\label{homotopy:definition-fundamental-group}
+The \emph{fundamental group} $\pi_1(X, x_0)$ is the set of classes of loops at $x_0$ with the multiplication $[\gamma][\delta] = [\gamma * \delta]$, which is a
+group by Lemma~\ref{homotopy:lemma-groupoid}, with identity $[c_{x_0}]$ and inverse $[\gamma]^{-1} = [\bar\gamma]$. (The group is written multiplicatively;
+note that $[\gamma][\delta]$ means ``first $\gamma$''.) A map $f \colon (X, x_0) \to (Y, y_0)$ of pointed spaces induces a homomorphism
+$f_*[\gamma] = [f \circ \gamma]$, and $(gf)_* = g_*f_*$, $\id_* = \id$. A path-connected space $X$ is \emph{simply connected} if $\pi_1(X, x_0)$ is trivial.
+\end{definition}
+
+\begin{lemma}\label{homotopy:lemma-change-basepoint}
+A path $h$ from $x_0$ to $x_1$ induces an isomorphism $\beta_h \colon \pi_1(X, x_0) \to \pi_1(X, x_1)$, $[\gamma] \mapsto [\bar h * \gamma * h]$. If $H$ is a homotopy
+from $f$ to $g \colon X \to Y$ and $h(t) = H(x_0, t)$, then $g_* = \beta_h \circ f_* \colon \pi_1(X, x_0) \to \pi_1(Y, g(x_0))$. Consequently a homotopy
+equivalence induces isomorphisms on fundamental groups, and contractible spaces are simply connected.
+\end{lemma}
+
+\begin{proof}
+$\beta_h$ is a homomorphism by Lemma~\ref{homotopy:lemma-groupoid}, with inverse $\beta_{\bar h}$. For the second statement let $\gamma$ be a loop at $x_0$ and
+$F(s, t) = H(\gamma(s), t)$ on the square $I^2$. In the convex set $I^2$, the path along the bottom and then the right side and the path along the left side and
+then the top have the same endpoints, so they are homotopic relative to the endpoints (Example~\ref{homotopy:example-contractible}(1)). Composing with
+$F$ gives $(f \circ \gamma) * h \simeq h * (g \circ \gamma)$, that is, $g_*[\gamma] = [\bar h * (f \circ \gamma) * h]$.
+
+Let $f$ be a homotopy equivalence with inverse $g$. Since $gf \simeq \id_X$, the composite
+$\pi_1(X, x_0) \xrightarrow{f_*} \pi_1(Y, f(x_0)) \xrightarrow{g_*} \pi_1(X, gf(x_0))$ is $\beta_h$, a bijection. Since $fg \simeq \id_Y$, the composite
+$\pi_1(Y, f(x_0)) \xrightarrow{g_*} \pi_1(X, gf(x_0)) \xrightarrow{f_*} \pi_1(Y, fgf(x_0))$ is also a bijection. So this $g_*$ is injective and surjective, hence
+bijective, and then $f_* = g_*^{-1}(g_*f_*)$ is bijective.
+\end{proof}
+
+\begin{proposition}\label{homotopy:proposition-product}
+$\pi_1(X \times Y, (x_0, y_0)) \cong \pi_1(X, x_0) \times \pi_1(Y, y_0)$ via the projections.
+\end{proposition}
+
+\begin{proof}
+Loops and homotopies in $X \times Y$ are pairs of loops and homotopies in $X$ and $Y$ (Proposition~\ref{general-topology:proposition-product}(2)).
+\end{proof}
+
+\section{Covering spaces and the circle}\label{homotopy:section-coverings}
+
+\begin{definition}\label{homotopy:definition-covering}
+A \emph{covering map} is a surjective map $p \colon E \to B$ such that every $b \in B$ has an open neighbourhood $U$ that is \emph{evenly covered}: $p^{-1}(U)$ is a
+disjoint union of open sets (the \emph{sheets} over $U$), each mapped homeomorphically onto $U$ by $p$. A \emph{lift} of a map $f \colon Y \to B$ is a map
+$\tilde{f} \colon Y \to E$ with $p\tilde{f} = f$.
+\end{definition}
+
+\begin{lemma}[Unique lifting]\label{homotopy:lemma-unique-lifting}
+Let $p \colon E \to B$ be a covering map and $Y$ connected. Two lifts of $f \colon Y \to B$ that agree at one point are equal.
+\end{lemma}
+
+\begin{proof}
+Let $\tilde{f}_1, \tilde{f}_2$ be lifts, $y \in Y$, $U$ an evenly covered neighbourhood of $f(y)$, and $\tilde{U}_1, \tilde{U}_2$ the sheets containing
+$\tilde{f}_1(y), \tilde{f}_2(y)$. On the open neighbourhood $N = \tilde{f}_1^{-1}(\tilde{U}_1) \cap \tilde{f}_2^{-1}(\tilde{U}_2)$ of $y$: if
+$\tilde{f}_1(y) = \tilde{f}_2(y)$, then $\tilde{U}_1 = \tilde{U}_2$ and, $p$ being injective on it, $\tilde{f}_1 = \tilde{f}_2$ on $N$; if
+$\tilde{f}_1(y) \neq \tilde{f}_2(y)$, then $\tilde{U}_1 \neq \tilde{U}_2$ (as $p$ is injective on sheets), the sheets are disjoint and $\tilde{f}_1 \neq \tilde{f}_2$
+on $N$. So the set where the lifts agree is open and closed, and nonempty, hence all of $Y$.
+\end{proof}
+
+\begin{proposition}[Homotopy lifting]\label{homotopy:proposition-homotopy-lifting}
+Let $p \colon E \to B$ be a covering map, $F \colon Y \times I \to B$ a homotopy and $\tilde{F}_0 \colon Y \to E$ a lift of $F(-, 0)$. There is a unique lift
+$\tilde{F} \colon Y \times I \to E$ of $F$ with $\tilde{F}(-, 0) = \tilde{F}_0$. In particular (for $Y$ a point) every path in $B$ has a unique lift with a
+given initial point.
+\end{proposition}
+
+\begin{proof}
+Fix $y_0 \in Y$. Each $(y_0, t)$ has a neighbourhood $N_t \times J_t$ mapped by $F$ into an evenly covered set. By compactness of $I$ there are an open
+$N \ni y_0$ and a partition $0 = t_0 < t_1 < \cdots < t_m = 1$ with $F(N \times [t_i, t_{i+1}]) \subseteq U_i$, $U_i$ evenly covered (intersect finitely many
+$N_t$, and take a partition subordinate to a Lebesgue number of the cover $(J_t)$, Lemma~\ref{general-topology:lemma-lebesgue-number}). Suppose a lift
+$\tilde{F}$ has been constructed on $N \times [0, t_i]$ (for $i = 0$ this is $\tilde{F}_0$ on $N \times \{0\}$). Let $\tilde{U}_i$ be the sheet over $U_i$
+containing $\tilde{F}(y_0, t_i)$; replacing $N$ by the open set $\{y \in N : \tilde{F}(y, t_i) \in \tilde{U}_i\}$, define
+$\tilde{F} = (p|_{\tilde{U}_i})^{-1} \circ F$ on $N \times [t_i, t_{i+1}]$; this agrees on $N \times \{t_i\}$ with the previous definition, and the pasting lemma
+gives a lift on $N \times [0, t_{i+1}]$. After $m$ steps we have a lift on $N_{y_0} \times I$ for an open $N_{y_0} \ni y_0$.
+
+For each $y$, the restrictions to $\{y\} \times I$ of two lifts agreeing at $(y, 0)$ coincide, by Lemma~\ref{homotopy:lemma-unique-lifting}. Hence the lifts on
+the sets $N_{y_0} \times I$ agree on overlaps, glue to a continuous lift on $Y \times I$ (pasting lemma for the open cover), and this lift is unique.
+\end{proof}
+
+\begin{corollary}\label{homotopy:corollary-lifting-consequences}
+Let $p \colon E \to B$ be a covering map, $e_0 \in E$ and $b_0 = p(e_0)$.
+\begin{enumerate}
+\item If $\gamma \simeq \gamma'$ are paths starting at $b_0$, their lifts starting at $e_0$ have the same endpoint and are homotopic.
+\item $p_* \colon \pi_1(E, e_0) \to \pi_1(B, b_0)$ is injective, and its image consists of the classes of loops whose lift starting at $e_0$ is a loop.
+\item The \emph{monodromy} $e \cdot [\gamma] = \tilde\gamma_e(1)$, where $\tilde\gamma_e$ is the lift of $\gamma$ starting at $e$, is a right action of
+$\pi_1(B, b_0)$ on the fibre $p^{-1}(b_0)$. If $E$ is path-connected, the action is transitive and the stabiliser of $e_0$ is $p_*\pi_1(E, e_0)$; so the
+fibre is in bijection with the set of right cosets of $p_*\pi_1(E, e_0)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Lift a homotopy $F$ from $\gamma$ to $\gamma'$ with $\tilde{F}(-, 0) = \tilde\gamma$. The paths $t \mapsto \tilde{F}(0, t)$ and $t \mapsto \tilde{F}(1, t)$ lift
+constant paths, so they are constant by uniqueness; hence $\tilde{F}(-, 1)$ is the lift of $\gamma'$ starting at $e_0$ and has the same endpoint as $\tilde\gamma$.
+(2) If $p \circ \tilde\gamma \simeq c_{b_0}$ for a loop $\tilde\gamma$, lifting the homotopy gives $\tilde\gamma \simeq c_{e_0}$ by (1). If the lift of $\gamma$ is a
+loop $\tilde\gamma$, then $[\gamma] = p_*[\tilde\gamma]$; conversely the lift of $p \circ \tilde\gamma$ is $\tilde\gamma$, and (1) handles homotopic loops.
+(3) The action is well defined by (1), and the lift of $\gamma * \delta$ starting at $e$ is $\tilde\gamma_e * \tilde\delta_{e \cdot [\gamma]}$, so
+$e \cdot ([\gamma][\delta]) = (e \cdot [\gamma]) \cdot [\delta]$. If $\eta$ is a path from $e_0$ to $e$, then $e_0 \cdot [p \circ \eta] = e$. The stabiliser
+statement is (2).
+\end{proof}
+
+\begin{proposition}\label{homotopy:proposition-circle-covering}
+Let $Q = \{x \in \RR^2 : \|x\|_\infty = 1\}$ and let $P \colon \RR \to Q$ be the map of period $4$ that on $[0, 4]$ runs affinely through the vertices
+$(1, -1)$, $(1, 1)$, $(-1, 1)$, $(-1, -1)$, $(1, -1)$ at the times $0, 1, 2, 3, 4$. Let $r \colon Q \to S^1$, $x \mapsto x/\|x\|_2$, and $p = r \circ P$. Then $p$ is a
+covering map, $p(t) = p(t')$ if and only if $t - t' \in 4\ZZ$, and $p(t + 4) = p(t)$.
+\end{proposition}
+
+\begin{proof}
+$P$ is continuous by the pasting lemma (applied to the closed intervals $[k, k+1]$ inside each bounded open interval), and $r$ is a homeomorphism with
+inverse $x \mapsto x/\|x\|_\infty$ (Example~\ref{general-topology:example-circle}). By construction $P$ is injective on $[a, a + 4)$ for every $a$ and has
+period $4$, which gives the second statement. For $a \in \RR$, the restriction $P|_{[a, a+4]}$ is a closed map (Proposition~\ref{general-topology:proposition-compact-basic}(4)).
+If $V \subseteq (a, a + 4)$ is open, then $P(V) = Q \setminus P([a, a+4] \setminus V)$, because $P$ is surjective, injective on $(a, a+4)$ and identifies only
+$a$ and $a + 4$; so $P(V)$ is open, and $P$ maps $(a, a+4)$ homeomorphically onto $Q \setminus \{P(a)\}$. Given $q \in Q$, choose $a$ with $P(a) \neq q$; then
+$U = Q \setminus \{P(a)\}$ is an open neighbourhood of $q$ with $P^{-1}(U) = \bigsqcup_{k \in \ZZ} (a + 4k, a + 4k + 4)$, each interval mapped homeomorphically onto $U$.
+Composing with $r$ proves that $p$ is a covering map.
+\end{proof}
+
+\begin{theorem}\label{homotopy:theorem-circle}
+Let $b_0 = p(0)$ and $\omega(s) = p(4s)$. Then $\pi_1(S^1, b_0) \cong \ZZ$, with $[\omega]$ corresponding to $1$. Hence $\pi_1(S^1, x) \cong \ZZ$ for every
+$x \in S^1$.
+\end{theorem}
+
+\begin{proof}
+The space $\RR$ is contractible, hence simply connected (Lemma~\ref{homotopy:lemma-change-basepoint}), and path-connected. By
+Corollary~\ref{homotopy:corollary-lifting-consequences}(3), $[\gamma] \mapsto 0 \cdot [\gamma]$ is a bijection from $\pi_1(S^1, b_0)$ onto $p^{-1}(b_0) = 4\ZZ$. If
+the lifts of $\gamma$ and $\delta$ starting at $0$ end at $4m$ and $4n$, then $t \mapsto \tilde\delta_0(t) + 4m$ lifts $\delta$ (as $p$ has period $4$) and starts at $4m$, so the
+lift of $\gamma * \delta$ ends at $4(m + n)$. So $[\gamma] \mapsto \tilde\gamma_0(1)/4$ is an isomorphism onto $\ZZ$, and $\tilde\omega_0(s) = 4s$ ends at $4$. The last
+statement follows from Lemma~\ref{homotopy:lemma-change-basepoint}.
+\end{proof}
+
+\begin{remark}\label{homotopy:remark-exponential}
+With the exponential function of Chapter~\ref{real-analysis}, the usual covering is $\RR \to S^1$, $t \mapsto (\cos 2\pi t, \sin 2\pi t)$. We used a
+piecewise affine model so as not to depend on analysis. A map $f \colon S^1 \to S^1$ induces multiplication by an integer $\deg f$ on
+$\pi_1(S^1) \cong \ZZ$ (after identifying basepoints by a path, which does not matter since $\ZZ$ is abelian), its \emph{degree}.
+\end{remark}
+
+\begin{corollary}[Brouwer fixed point theorem in dimension $2$]\label{homotopy:corollary-brouwer}
+There is no retraction $D^2 \to S^1$, and every map $f \colon D^2 \to D^2$ has a fixed point.
+\end{corollary}
+
+\begin{proof}
+If $r \colon D^2 \to S^1$ were a retraction with inclusion $i$, then $r_*i_* = \id$ on $\pi_1(S^1) \cong \ZZ$ would factor through $\pi_1(D^2) = 0$. If $f$ had no fixed
+point, let $u(x) = x - f(x) \neq 0$ and $r(x) = x + \lambda(x)u(x)$, where
+\[
+\lambda(x) = \frac{-\langle x, u \rangle + \sqrt{\langle x, u \rangle^2 + \|u\|^2(1 - \|x\|^2)}}{\|u\|^2}
+\]
+is the non-negative solution of $\|x + \lambda u\|^2 = 1$. The square root is continuous on $[0, \infty)$ since $|\sqrt{a} - \sqrt{b}| \leq \sqrt{|a - b|}$, so $r$
+is continuous, and $r(x) \in S^1$. If $\|x\| = 1$, then $\langle x, u \rangle = 1 - \langle x, f(x) \rangle \geq 0$ by Cauchy--Schwarz, so $\lambda(x) = 0$ and
+$r(x) = x$. This contradicts the first statement.
+\end{proof}
+
+\begin{example}\label{homotopy:example-coverings}
+\begin{enumerate}
+\item For $n \geq 1$ the map $S^1 \to S^1$, $p(t) \mapsto p(nt)$, is well defined and is a covering map with $n$ sheets; it corresponds to the subgroup
+$n\ZZ \subseteq \ZZ$ in Theorem~\ref{homotopy:theorem-classification}.
+\item The projection $q \colon S^n \to \RR\PP^n$ is a two-sheeted covering: for $x \in S^n$ the open hemisphere $W = \{y \in S^n : \langle x, y \rangle > 0\}$ is
+mapped injectively by $q$, $q^{-1}(q(W)) = W \sqcup (-W)$ is open, so $q(W)$ is open and $q|_W$, $q|_{-W}$ are homeomorphisms onto it ($q$ is open, since
+$q^{-1}(q(V)) = V \cup (-V)$). For $n \geq 2$, $S^n$ is simply connected (Corollary~\ref{homotopy:corollary-spheres}), so
+$\pi_1(\RR\PP^n) \cong \ZZ/2\ZZ$ by Corollary~\ref{homotopy:corollary-lifting-consequences}(3).
+\end{enumerate}
+\end{example}
+
+\section{The Seifert--van Kampen theorem}\label{homotopy:section-van-kampen}
+
+\begin{theorem}[Seifert--van Kampen]\label{homotopy:theorem-van-kampen}
+Let $X = U \cup V$ with $U$, $V$ open and $U$, $V$, $U \cap V$ path-connected, and $x_0 \in U \cap V$. The homomorphism
+\[
+\Phi \colon \pi_1(U, x_0) *_{\pi_1(U \cap V, x_0)} \pi_1(V, x_0) \to \pi_1(X, x_0)
+\]
+induced by the inclusions (Proposition~\ref{groups:proposition-amalgam-pushout}) is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+Write $G$ for the amalgamated product and $\iota_U, \iota_V$ for the maps from $\pi_1(U)$, $\pi_1(V)$ to $G$; by Definition~\ref{groups:definition-amalgam}, $G$ is
+generated by their images. For loops $\gamma_1, \ldots, \gamma_k$ at $x_0$ let $\gamma_1 \cdots \gamma_k$ denote the loop running through $\gamma_i$ on
+$[(i-1)/k, i/k]$; it is homotopic to the iterated concatenation by Lemma~\ref{homotopy:lemma-groupoid}(1).
+
+\emph{Surjectivity.} Let $\gamma$ be a loop at $x_0$. By the Lebesgue number lemma there is a partition $0 = s_0 < \cdots < s_m = 1$ such that each
+$\gamma([s_{i-1}, s_i])$ lies in a set $A_i \in \{U, V\}$; merging adjacent intervals with the same label, we may assume $A_i \neq A_{i+1}$, so
+$\gamma(s_i) \in U \cap V$ for $0 < i < m$. Choose paths $g_i$ in $U \cap V$ from $x_0$ to $\gamma(s_i)$, with $g_0, g_m$ constant. Then
+$\gamma \simeq \prod_i (g_{i-1} * \gamma|_{[s_{i-1}, s_i]} * \bar g_i)$ (with the restriction reparametrised to $I$), a product of loops in $U$ or $V$.
+
+\emph{Injectivity.} Let $\gamma_1, \ldots, \gamma_k$ and $\gamma'_1, \ldots, \gamma'_l$ be loops at $x_0$, each in $U$ or $V$ (label them $A_i$ and $A'_j$), with
+$F \colon I \times I \to X$ a homotopy from $\gamma_1 \cdots \gamma_k$ to $\gamma'_1 \cdots \gamma'_l$ relative to $\{0, 1\}$. We show
+$\prod_i \iota_{A_i}[\gamma_i] = \prod_j \iota_{A'_j}[\gamma'_j]$ in $G$. This proves that $\ker \Phi$ is trivial: an element of the kernel can be written as
+$\prod_i \iota_{A_i}[\gamma_i]$, and $\gamma_1 \cdots \gamma_k$ is then homotopic to the constant loop, which we take as $\gamma'_1$ with $l = 1$.
+
+Choose $N$ divisible by $k$ and $l$ such that each small square $R$ of the grid of mesh $1/N$ is mapped by $F$ into $U$ or $V$ (Lebesgue number lemma), and fix
+a label $A_R \in \{U, V\}$ with $F(R) \subseteq A_R$. For each grid vertex $v$ let $S_v$ be the intersection of the labels of the squares containing $v$ and, for
+$v$ on the bottom (top) edge in the domain of $\gamma_i$ ($\gamma'_j$), also of $A_i$ ($A'_j$). Then $S_v$ is $U$, $V$ or $U \cap V$, so it is path-connected, and
+it contains $F(v)$. Choose a path $g_v$ in $S_v$ from $x_0$ to $F(v)$, constant if $F(v) = x_0$ and $v$ lies on the boundary of the square. For an edge $e$
+from $v$ to $w$ let $\ell_e = g_v * F|_e * \bar g_w$, a loop in the intersection of the labels of the (one or two) squares containing $e$. Put
+$\phi(e) = \iota_{A_R}[\ell_e]$ for a square $R$ containing $e$; this does not depend on $R$, because if two squares with different labels contain $e$, then
+$\ell_e$ lies in $U \cap V$ and the two images agree in $G$ by the amalgamation relations. For an edge path $P$ let $\phi(P)$ be the product of the $\phi(e)$ along $P$.
+
+For a square $R$ with lower left vertex $a$, lower right $b$, upper left $c$ and upper right $d$, all four loops $\ell_e$ of its edges lie in $A_R$, and
+$F|_R$ gives, in the convex set $R$, a homotopy relative to endpoints in $A_R$ between $F|_{[a,b]} * F|_{[b,d]}$ and $F|_{[a,c]} * F|_{[c,d]}$. Hence
+$[\ell_{ab}][\ell_{bd}] = [g_a * F|_{[a,b]} * F|_{[b,d]} * \bar g_d] = [\ell_{ac}][\ell_{cd}]$ in $\pi_1(A_R)$. So replacing the two lower-right edges of a square
+by its two upper-left edges does not change $\phi(P)$, and moving square by square the path $P_0$ along the bottom and right sides of $I^2$ to the path $P_1$ along
+the left and top sides gives $\phi(P_0) = \phi(P_1)$. On the vertical sides $F$ is constant at $x_0$ and all $g_v$ are constant, so those edges contribute
+$1$. The bottom edges in the domain of $\gamma_i$ have loops $\ell_e$ in $A_i$, and their product in $\pi_1(A_i)$ is $[\gamma_i]$ (the paths $g_v$ cancel, and
+$g_v$ is constant at the ends of the domain); since each $\ell_e$ also lies in $A_R$, $\iota_{A_R}[\ell_e] = \iota_{A_i}[\ell_e]$. Hence
+$\phi(P_0) = \prod_i \iota_{A_i}[\gamma_i]$, and likewise $\phi(P_1) = \prod_j \iota_{A'_j}[\gamma'_j]$.
+\end{proof}
+
+\begin{corollary}\label{homotopy:corollary-spheres}
+For $n \geq 2$ the sphere $S^n$ is simply connected. If $X = U \cup V$ as in Theorem~\ref{homotopy:theorem-van-kampen} with $U \cap V$ simply connected, then
+$\pi_1(X) \cong \pi_1(U) * \pi_1(V)$; if $V$ is simply connected, then $\pi_1(U) \to \pi_1(X)$ is surjective with kernel the normal subgroup generated by the
+image of $\pi_1(U \cap V)$.
+\end{corollary}
+
+\begin{proof}
+Let $U = S^n \setminus \{N\}$ and $V = S^n \setminus \{-N\}$. By stereographic projection (Example~\ref{general-topology:example-stereographic}), $U$ and $V$ are
+homeomorphic to $\RR^n$, hence contractible, and $U \cap V$ is homeomorphic to $\RR^n \setminus \{0\}$, which is path-connected for $n \geq 2$. So
+$\pi_1(S^n) \cong 1 *_{\pi_1(U \cap V)} 1 = 1$. The other statements follow from the presentation of the amalgamated product
+(Definition~\ref{groups:definition-amalgam}): the relations from $\pi_1(U \cap V)$ are trivial in the first case, and in the second they identify the image of
+each $h \in \pi_1(U \cap V)$ in $\pi_1(U)$ with $1$.
+\end{proof}
+
+\begin{example}\label{homotopy:example-wedge}
+Let $X = S^1 \vee S^1$ be the wedge of two circles, the quotient of $S^1 \sqcup S^1$ identifying the two basepoints $b_0$ to a point $x_0$. Let $U$ ($V$) be
+the union of the first (second) circle with the second (first) circle minus the point $-b_0$. The open arc $S^1 \setminus \{-b_0\}$ deformation retracts onto
+$b_0$ (it is homeomorphic to an open interval by Proposition~\ref{homotopy:proposition-circle-covering}), so $U$ and $V$ deformation retract onto the
+circles (Lemma~\ref{homotopy:lemma-quotient-times-interval} ensures continuity of the homotopies on the quotient), and $U \cap V$ is contractible. By
+Corollary~\ref{homotopy:corollary-spheres}, $\pi_1(S^1 \vee S^1) \cong \ZZ * \ZZ$, the free group on two generators. It is not abelian, although
+$\pi_1(S^1 \times S^1) \cong \ZZ^2$ by Proposition~\ref{homotopy:proposition-product}.
+\end{example}
+
+\begin{proposition}[Attaching cells]\label{homotopy:proposition-attaching-cells}
+Let $X$ be path-connected, $n \geq 2$, $\varphi \colon S^{n-1} \to X$ a map, and $Y = X \cup_\varphi D^n$ the space obtained by attaching an $n$-cell
+(Example~\ref{general-topology:example-quotients}). Let $z_0 \in S^{n-1}$ and $x_0 = \varphi(z_0)$. The inclusion induces a surjection
+$\pi_1(X, x_0) \to \pi_1(Y, x_0)$. For $n = 2$ its kernel is the normal subgroup generated by $[\varphi \circ \omega]$, where $\omega$ is the loop of
+Theorem~\ref{homotopy:theorem-circle} based at $z_0$; for $n \geq 3$ it is an isomorphism.
+\end{proposition}
+
+\begin{proof}
+Let $q \colon X \sqcup D^n \to Y$ be the quotient map. For $C \subseteq X$ closed, $q^{-1}(q(C)) = C \sqcup \varphi^{-1}(C)$ is closed, so $q|_X$ is an embedding onto a
+closed subspace, which we identify with $X$; similarly $q$ maps the open ball $\operatorname{int} D^n$ homeomorphically onto an open subset. Let
+$V = q(\operatorname{int} D^n)$, which is contractible, and $U = Y \setminus \{q(0)\}$. On $q^{-1}(U) \times I = (X \times I) \sqcup ((D^n \setminus \{0\}) \times I)$ define
+$H$ as the projection on $X \times I$ and as $q((1 - t)z + tz/\|z\|)$ on the second part; it respects the identifications, so by
+Lemma~\ref{homotopy:lemma-quotient-times-interval} it induces a homotopy on $U \times I$, which is a deformation retraction of $U$ onto $X$. The set
+$U \cap V$ is homeomorphic to $\operatorname{int} D^n \setminus \{0\}$, which is path-connected and deformation retracts onto the sphere of radius $1/2$; so
+$\pi_1(U \cap V)$ is $\ZZ$ for $n = 2$ (generated by $c(s) = q(\omega(s)/2)$) and trivial for $n \geq 3$ (Corollary~\ref{homotopy:corollary-spheres}).
+
+Work at the basepoint $y_1 = q(z_0/2) \in U \cap V$. By Corollary~\ref{homotopy:corollary-spheres}, $\pi_1(U, y_1) \to \pi_1(Y, y_1)$ is surjective with kernel the
+normal subgroup generated by the image of $\pi_1(U \cap V, y_1)$. Transport to $x_0$ along the path $\delta(t) = H(y_1, t)$ from $y_1$ to $x_0$: the inclusion
+$X \to U$ is a homotopy equivalence, and by Lemma~\ref{homotopy:lemma-change-basepoint} applied to the homotopy $H$, the class $[c]$ corresponds to
+$[\bar\delta * c * \delta] = [H_1 \circ c] = [\varphi \circ \omega]$ in $\pi_1(X, x_0)$. Since the change-of-basepoint isomorphisms $\beta_\delta$ in $U$ and $Y$ are
+compatible with the inclusion, the statement follows.
+\end{proof}
+
+\section{Classification of covering spaces}\label{homotopy:section-classification}
+
+In this section $B$ is path-connected and locally path-connected. Then a covering space $E$ is locally path-connected, being locally homeomorphic to $B$,
+and if $E$ is connected it is path-connected (Proposition~\ref{general-topology:proposition-components}).
+
+\begin{proposition}[Lifting criterion]\label{homotopy:proposition-lifting-criterion}
+Let $p \colon (E, e_0) \to (B, b_0)$ be a covering map, $Y$ path-connected and locally path-connected, and $f \colon (Y, y_0) \to (B, b_0)$ a map. A lift
+$\tilde{f} \colon (Y, y_0) \to (E, e_0)$ exists if and only if $f_*\pi_1(Y, y_0) \subseteq p_*\pi_1(E, e_0)$, and it is then unique.
+\end{proposition}
+
+\begin{proof}
+Necessity follows from $f_* = p_*\tilde{f}_*$, and uniqueness from Lemma~\ref{homotopy:lemma-unique-lifting}. Conversely, for $y \in Y$ choose a path $\eta$ from
+$y_0$ to $y$ and let $\tilde{f}(y)$ be the endpoint of the lift of $f \circ \eta$ starting at $e_0$. If $\eta'$ is another such path, the loop
+$h = (f \circ \eta') * (f \circ \bar\eta)$ represents an element of $f_*\pi_1(Y) \subseteq p_*\pi_1(E)$, so its lift starting at $e_0$ is a loop
+(Corollary~\ref{homotopy:corollary-lifting-consequences}(2)). This lift is the lift of $f \circ \eta'$, ending at some $e'$, followed by the lift of $f \circ \bar\eta$
+starting at $e'$, which therefore ends at $e_0$; reversing it gives the lift of $f \circ \eta$ starting at $e_0$, which ends at $e'$. So $\tilde{f}$ is well defined,
+and $p\tilde{f} = f$.
+
+Continuity: let $y \in Y$, $U$ an evenly covered neighbourhood of $f(y)$ and $\tilde U$ the sheet containing $\tilde f(y)$. Choose a path-connected open
+$W \ni y$ with $f(W) \subseteq U$. For $y' \in W$, using $\eta * \sigma$ with $\sigma$ a path in $W$ from $y$ to $y'$, the lift of $f \circ \sigma$ starting at
+$\tilde{f}(y)$ is $(p|_{\tilde U})^{-1} \circ f \circ \sigma$. So $\tilde{f} = (p|_{\tilde U})^{-1} \circ f$ on $W$.
+\end{proof}
+
+\begin{definition}\label{homotopy:definition-deck}
+Two coverings $p \colon E \to B$ and $p' \colon E' \to B$ are \emph{isomorphic} if there is a homeomorphism $\tau \colon E \to E'$ with $p'\tau = p$. The
+automorphisms of a covering form the group $\mathrm{Deck}(p)$ of \emph{deck transformations}. A covering with $E$ path-connected is \emph{normal} (or
+Galois) if $\mathrm{Deck}(p)$ acts transitively on the fibres, and \emph{universal} if $E$ is simply connected.
+\end{definition}
+
+\begin{proposition}\label{homotopy:proposition-deck}
+Let $p \colon E \to B$ be a covering with $E$ path-connected, $e_0 \in p^{-1}(b_0)$ and $H = p_*\pi_1(E, e_0)$.
+\begin{enumerate}
+\item For $e \in p^{-1}(b_0)$ there is a deck transformation $\tau$ with $\tau(e_0) = e$ if and only if $p_*\pi_1(E, e) = H$. For $e = e_0 \cdot [\gamma]$ one has
+$p_*\pi_1(E, e) = [\gamma]^{-1}H[\gamma]$.
+\item The covering is normal if and only if $H$ is a normal subgroup, and then $\mathrm{Deck}(p) \cong \pi_1(B, b_0)/H$. In particular, for a universal covering,
+$\mathrm{Deck}(p) \cong \pi_1(B, b_0)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $p_*\pi_1(E, e) = H$, the lifting criterion gives maps $\tau, \tau' \colon E \to E$ over $B$ with $\tau(e_0) = e$ and $\tau'(e) = e_0$; then $\tau'\tau$ and
+$\tau\tau'$ are lifts of $p$ fixing a point, hence identities. The converse is clear. If $\tilde\gamma$ is the lift of $\gamma$ from $e_0$ to $e$, then
+$[\tilde\alpha] \mapsto [\bar{\tilde\gamma} * \tilde\alpha * \tilde\gamma]$ is an isomorphism $\pi_1(E, e_0) \to \pi_1(E, e)$, whence the formula.
+
+(2) The first statement follows from (1) and transitivity of monodromy (Corollary~\ref{homotopy:corollary-lifting-consequences}). A deck transformation commutes
+with monodromy, $\tau(e \cdot [\gamma]) = \tau(e) \cdot [\gamma]$, since $\tau \circ \tilde\gamma_e$ lifts $\gamma$ from $\tau(e)$. For $H$ normal let $\Psi[\gamma]$ be
+the deck transformation with $\Psi[\gamma](e_0) = e_0 \cdot [\gamma]$. Then
+$\Psi([\gamma][\delta])(e_0) = (e_0 \cdot [\gamma]) \cdot [\delta] = \Psi[\gamma](e_0 \cdot [\delta]) = \Psi[\gamma]\Psi[\delta](e_0)$, so $\Psi$ is a
+homomorphism (deck transformations agreeing at a point are equal). It is surjective by (1), and its kernel is the stabiliser $H$ of $e_0$.
+\end{proof}
+
+\begin{definition}\label{homotopy:definition-slsc}
+$B$ is \emph{semilocally simply connected} if every point $b$ has a neighbourhood $U$ such that $\pi_1(U, b) \to \pi_1(B, b)$ is trivial.
+\end{definition}
+
+\begin{theorem}\label{homotopy:theorem-universal-cover}
+If $B$ is path-connected, locally path-connected and semilocally simply connected, then $B$ has a universal covering.
+\end{theorem}
+
+\begin{proof}
+Let $\tilde{B}$ be the set of classes $[\gamma]$ of paths starting at $b_0$ (up to homotopy relative to endpoints), and $p[\gamma] = \gamma(1)$. Let $\mathcal{U}$
+be the set of path-connected open $U \subseteq B$ with $\pi_1(U) \to \pi_1(B)$ trivial (at any, hence every, basepoint in $U$). Every path-connected open subset of a
+member of $\mathcal{U}$ is in $\mathcal{U}$, so by the hypotheses $\mathcal{U}$ is a basis of $B$. For $U \in \mathcal{U}$ and $\gamma(1) \in U$ let
+$U_{[\gamma]} = \{[\gamma * \eta] : \eta \text{ a path in } U \text{ starting at } \gamma(1)\}$. Then $p \colon U_{[\gamma]} \to U$ is bijective: surjective as $U$ is
+path-connected, and injective since for two paths $\eta, \eta'$ in $U$ with the same endpoints, $\eta * \bar\eta'$ is null-homotopic in $B$. If
+$[\gamma'] \in U_{[\gamma]}$ then $U_{[\gamma']} = U_{[\gamma]}$. Hence if $[\gamma''] \in U_{[\gamma]} \cap V_{[\gamma']}$, choosing $W \in \mathcal{U}$ with
+$\gamma''(1) \in W \subseteq U \cap V$ gives $[\gamma''] \in W_{[\gamma'']} \subseteq U_{[\gamma]} \cap V_{[\gamma']}$; so the sets $U_{[\gamma]}$ form a basis of a
+topology on $\tilde{B}$ (Lemma~\ref{general-topology:lemma-basis}).
+
+For $V \subseteq U$ in $\mathcal{U}$, $p$ maps the basic open sets $V_{[\gamma']} \subseteq U_{[\gamma]}$ onto $V$, and $p^{-1}(V) \cap U_{[\gamma]} = V_{[\gamma']}$ for
+$[\gamma'] \in U_{[\gamma]}$ with $\gamma'(1) \in V$. So $p|_{U_{[\gamma]}}$ is a homeomorphism onto $U$. The set $p^{-1}(U)$ is the union of the sets $U_{[\gamma]}$ with
+$\gamma(1) \in U$, and two of them are equal or disjoint. So $p$ is a covering map.
+
+For $[\gamma] \in \tilde{B}$, let $\gamma_t(s) = \gamma(ts)$. The path $t \mapsto [\gamma_t]$ is continuous: near $t_0$, with $\gamma([t_0, t]) \subseteq U \in \mathcal{U}$,
+it equals $(p|_{U_{[\gamma_{t_0}]}})^{-1} \circ \gamma$. It is the lift of $\gamma$ starting at $\tilde{b}_0 = [c_{b_0}]$ and ends at $[\gamma]$. So $\tilde{B}$ is
+path-connected, and a loop $\gamma$ whose lift is a loop satisfies $[\gamma] = [c_{b_0}]$. By Corollary~\ref{homotopy:corollary-lifting-consequences}(2),
+$p_*\pi_1(\tilde{B}) = 1$, and as $p_*$ is injective, $\tilde{B}$ is simply connected.
+\end{proof}
+
+\begin{theorem}[Classification of coverings]\label{homotopy:theorem-classification}
+Let $B$ be path-connected, locally path-connected and semilocally simply connected, and $b_0 \in B$. Sending $p \colon (E, e_0) \to (B, b_0)$ to
+$p_*\pi_1(E, e_0)$ is a bijection between isomorphism classes of pointed coverings with $E$ path-connected and subgroups of $\pi_1(B, b_0)$. Forgetting basepoints,
+isomorphism classes of coverings with $E$ path-connected correspond to conjugacy classes of subgroups.
+\end{theorem}
+
+\begin{proof}
+Injectivity: if $p_*\pi_1(E, e_0) = p'_*\pi_1(E', e'_0)$, the lifting criterion gives pointed maps $E \to E'$ and $E' \to E$ over $B$, whose composites are identities by
+uniqueness of lifts.
+
+Surjectivity: let $H \subseteq \pi_1(B, b_0)$ and $\tilde{B}$ be as in the proof of Theorem~\ref{homotopy:theorem-universal-cover}. Put $[\gamma] \sim [\gamma']$ if
+$\gamma(1) = \gamma'(1)$ and $[\gamma * \bar\gamma'] \in H$, an equivalence relation, and let $E_H = \tilde{B}/{\sim}$. If $[\gamma] \sim [\gamma']$ then
+$[\gamma * \eta] \sim [\gamma' * \eta]$, so the saturation of a basic set $U_{[\gamma]}$ is the union of the sets $U_{[\gamma']}$ with $[\gamma'] \sim [\gamma]$; hence the
+projection $\tilde{B} \to E_H$ is open, and the images of the sets $U_{[\gamma]}$ are open, pairwise equal or disjoint, and mapped bijectively (as distinct points of
+$U_{[\gamma]}$ have distinct endpoints), continuously and openly onto $U$. So $E_H \to B$ is a covering, and $E_H$ is path-connected. The lift of a loop $\gamma$ at $b_0$
+starting at the class of $[c_{b_0}]$ is $t \mapsto$ class of $[\gamma_t]$, which is a loop if and only if $[\gamma] \in H$; by
+Corollary~\ref{homotopy:corollary-lifting-consequences}(2) the subgroup of $E_H$ is $H$.
+
+Changing the basepoint within the fibre replaces the subgroup by a conjugate, and every conjugate arises (Proposition~\ref{homotopy:proposition-deck}); an
+isomorphism of unpointed coverings carries $e_0$ to some point of the fibre, which gives the last statement.
+\end{proof}
+
+\begin{counterexample}\label{homotopy:counterexample-hawaiian-earring}
+Semilocal simple connectivity is necessary: a space with a simply connected covering $p \colon E \to B$ is semilocally simply connected, because a loop in an evenly
+covered $U$ lifts to a loop in a sheet, which is null-homotopic in $E$. The \emph{Hawaiian earring}, the union of the circles of radius $1/n$ centred at $(1/n, 0)$ in
+$\RR^2$, is path-connected and locally path-connected but not semilocally simply connected (every neighbourhood of the origin contains a whole circle, which is a
+retract of the earring and hence not null-homotopic in it), so it has no universal covering \cite{hatcher-at}.
+\end{counterexample}
+
+\section{CW complexes}\label{homotopy:section-cw}
+
+\begin{definition}\label{homotopy:definition-cw}
+A \emph{CW complex} is a space $X$ with an increasing sequence of subspaces $X^0 \subseteq X^1 \subseteq \cdots$, its \emph{skeleta}, such that $X^0$ is discrete,
+$X^n$ is obtained from $X^{n-1}$ by attaching a family of $n$-cells, $X^n = (X^{n-1} \sqcup \coprod_\alpha D^n_\alpha)/(z \sim \varphi_\alpha(z))$ for maps
+$\varphi_\alpha \colon S^{n-1} \to X^{n-1}$, and $X = \bigcup_n X^n$ carries the final topology for the inclusions of the $X^n$ (a set is open if and only if its
+intersection with every $X^n$ is open). The images $e^n_\alpha$ of the open balls are the \emph{open cells}, the maps $\Phi_\alpha \colon D^n_\alpha \to X$ are the
+\emph{characteristic maps}, and $X$ is \emph{finite} if there are finitely many cells and \emph{finite-dimensional} if $X = X^n$ for some $n$. A \emph{subcomplex}
+is a closed union of cells containing, with each cell, the image of its characteristic map; $(X, A)$ is then a \emph{CW pair}.
+\end{definition}
+
+\begin{example}\label{homotopy:example-cw}
+\begin{enumerate}
+\item $S^n$ has a CW structure with one $0$-cell and one $n$-cell attached by the constant map, since $D^n/S^{n-1} \cong S^n$. It also has a structure with two
+cells in each dimension $0, \ldots, n$ (the hemispheres), compatible with the antipodal map.
+\item Passing to the quotient by the antipodal map in the second structure gives $\RR\PP^n$ one cell in each dimension $0, \ldots, n$, with
+$\RR\PP^n = \RR\PP^{n-1} \cup e^n$ attached along the double covering $S^{n-1} \to \RR\PP^{n-1}$. Similarly $\CC\PP^n = \CC\PP^{n-1} \cup e^{2n}$ has one cell in each
+even dimension (Chapter~\ref{complex-manifolds}).
+\item A graph is a $1$-dimensional CW complex. The torus is obtained from $S^1 \vee S^1$ by attaching a $2$-cell along the loop $aba^{-1}b^{-1}$, and the closed
+orientable surface of genus $g$ from a wedge of $2g$ circles along $a_1b_1a_1^{-1}b_1^{-1} \cdots a_gb_ga_g^{-1}b_g^{-1}$. By
+Proposition~\ref{homotopy:proposition-attaching-cells} and Example~\ref{homotopy:example-wedge} (extended to $2g$ circles), its fundamental group is
+$\langle a_1, b_1, \ldots, a_g, b_g \mid \prod_i a_ib_ia_i^{-1}b_i^{-1} \rangle$.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}\label{homotopy:theorem-cw-properties}
+Let $X$ be a CW complex.
+\begin{enumerate}
+\item $X$ is Hausdorff, and in fact paracompact, and it is locally contractible.
+\item Every compact subset of $X$ lies in a finite subcomplex.
+\item (Homotopy extension property) If $(X, A)$ is a CW pair, then $X \times \{0\} \cup A \times I$ is a deformation retract of $X \times I$; so every map
+$X \times \{0\} \cup A \times I \to Y$ extends to $X \times I$.
+\item The inclusion $X^2 \to X$ induces an isomorphism on fundamental groups (at a $0$-cell).
+\end{enumerate}
+\end{theorem}
+
+These are \cite[Appendix, and Propositions 0.16 and 1.26]{hatcher-at}. Part (4) follows from Proposition~\ref{homotopy:proposition-attaching-cells}
+applied to the finite subcomplexes containing a given loop or homotopy, using (2).
+
+\begin{theorem}[Cellular approximation]\label{homotopy:theorem-cellular-approximation}
+Every map $f \colon X \to Y$ of CW complexes is homotopic to a \emph{cellular} map ($f(X^n) \subseteq Y^n$ for all $n$), by a homotopy relative to any subcomplex on which
+$f$ is already cellular.
+\end{theorem}
+
+This is \cite[Theorem 4.8]{hatcher-at}.
+
+\section{Higher homotopy groups and fibrations}\label{homotopy:section-higher}
+
+\begin{definition}\label{homotopy:definition-higher-homotopy}
+For $n \geq 1$, $\pi_n(X, x_0)$ is the set of homotopy classes, relative to $\partial I^n$, of maps $f \colon (I^n, \partial I^n) \to (X, x_0)$, with
+$[f] + [g] = [f *_1 g]$, where $(f *_1 g)(s) = f(2s_1, s_2, \ldots, s_n)$ for $s_1 \leq 1/2$ and $g(2s_1 - 1, s_2, \ldots, s_n)$ for $s_1 \geq 1/2$. We write the
+operation additively for $n \geq 2$ and multiplicatively for $n = 1$, where it is the fundamental group. Also $\pi_0(X, x_0)$ is the pointed set of path components.
+\end{definition}
+
+\begin{proposition}\label{homotopy:proposition-higher-abelian}
+$\pi_n(X, x_0)$ is a group, abelian for $n \geq 2$. A pointed map induces homomorphisms $f_*$, pointed homotopic maps induce the same homomorphisms, and
+$\pi_n(X \times Y) \cong \pi_n(X) \times \pi_n(Y)$.
+\end{proposition}
+
+\begin{proof}
+The proofs of Lemma~\ref{homotopy:lemma-groupoid} apply verbatim in the first coordinate, the other coordinates being carried along. For $n \geq 2$ define $*_2$ in the
+same way using the second coordinate; it also induces a well-defined operation on $\pi_n$ with the same identity $e$, the class of the constant map. For maps,
+$(a *_1 b) *_2 (c *_1 d) = (a *_2 c) *_1 (b *_2 d)$ holds exactly (both sides are $a, b, c, d$ on the four quarters of $I^2 \times I^{n-2}$, rescaled). Hence on
+classes
+\[
+a *_2 b = (a *_1 e) *_2 (e *_1 b) = (a *_2 e) *_1 (e *_2 b) = a *_1 b, \quad
+a *_1 b = (e *_1 a) *_2 (b *_1 e) = (e *_2 b) *_1 (a *_2 e) = b *_1 a
+\]
+(the Eckmann--Hilton argument). The remaining statements are clear.
+\end{proof}
+
+\begin{proposition}\label{homotopy:proposition-covering-higher}
+A covering map $p \colon E \to B$ induces isomorphisms $\pi_n(E, e_0) \to \pi_n(B, b_0)$ for $n \geq 2$. In particular $\pi_n(S^1) = 0$ and
+$\pi_n(\RR\PP^m) \cong \pi_n(S^m)$ for $n \geq 2$.
+\end{proposition}
+
+\begin{proof}
+For $n \geq 2$, $\partial I^n$ is homeomorphic to $S^{n-1}$ (by $x \mapsto x/\|x\|_2$ after centring, as in Example~\ref{general-topology:example-circle}), hence
+path-connected. Let $f \colon (I^n, \partial I^n) \to (B, b_0)$. The cube is simply connected and locally path-connected, so $f$ has a lift $\tilde{f}$ with
+$\tilde{f}(0) = e_0$ (Proposition~\ref{homotopy:proposition-lifting-criterion}); $\tilde{f}(\partial I^n)$ is a connected subset of the fibre $p^{-1}(b_0)$, which
+is discrete, so $\tilde{f}(\partial I^n) = e_0$. So $p_*$ is surjective. If $p \circ \tilde{f}$ is null-homotopic relative to $\partial I^n$, lift the homotopy
+(Proposition~\ref{homotopy:proposition-homotopy-lifting}); the image of the connected set $\partial I^n \times I$ lies in the fibre, hence is $e_0$, and at time $1$ the
+lift of the constant map is constant. So $p_*$ is injective. Apply this to $\RR \to S^1$ ($\RR$ is contractible) and $S^m \to \RR\PP^m$.
+\end{proof}
+
+\begin{definition}\label{homotopy:definition-fibration}
+A map $p \colon E \to B$ has the \emph{homotopy lifting property} with respect to $Y$ if for every homotopy $F \colon Y \times I \to B$ and lift $\tilde{F}_0$ of $F_0$ there
+is a lift $\tilde{F}$ of $F$ with $\tilde{F}(-, 0) = \tilde{F}_0$ (not necessarily unique). It is a \emph{Hurewicz fibration} if this holds for all $Y$, and a
+\emph{Serre fibration} if it holds for all cubes $Y = I^k$. The fibre over $b_0$ is $F = p^{-1}(b_0)$. For a pair $(X, A)$ with $x_0 \in A$ and $n \geq 1$, the
+\emph{relative homotopy group} $\pi_n(X, A, x_0)$ is the set of homotopy classes of maps $(I^n, \partial I^n, J^{n-1}) \to (X, A, x_0)$, where
+$J^{n-1} = \overline{\partial I^n \setminus I^{n-1} \times \{0\}}$; it is a group for $n \geq 2$.
+\end{definition}
+
+\begin{theorem}[Long exact sequences]\label{homotopy:theorem-long-exact-sequences}
+\begin{enumerate}
+\item For a pair $(X, A)$ there is a long exact sequence
+$\cdots \to \pi_n(A) \to \pi_n(X) \to \pi_n(X, A) \xrightarrow{\partial} \pi_{n-1}(A) \to \cdots \to \pi_0(X)$, with $\partial[f] = [f|_{I^{n-1} \times \{0\}}]$.
+\item For a Serre fibration $p \colon E \to B$ with $B$ path-connected, fibre $F$ and $x_0 \in F$, the map $p_* \colon \pi_n(E, F, x_0) \to \pi_n(B, b_0)$ is an
+isomorphism for $n \geq 1$, which gives a long exact sequence
+\[
+\cdots \to \pi_n(F) \to \pi_n(E) \to \pi_n(B) \to \pi_{n-1}(F) \to \cdots \to \pi_0(E) \to 0.
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+(1) Exactness at each term is a direct manipulation of maps of cubes, based on the \emph{compression criterion}: a map $f \colon (I^n, \partial I^n, J^{n-1}) \to (X, A, x_0)$
+represents $0$ if and only if it is homotopic relative to $\partial I^n$ to a map into $A$. (2) Surjectivity of $p_*$ lifts a map $(I^n, \partial I^n) \to (B, b_0)$,
+viewed as a homotopy of maps $I^{n-1} \to B$, starting from the constant lift; injectivity lifts a homotopy in the same way, using the homotopy lifting property for
+$I^{n-1} \times I$ relative to $J^{n-1}$ (which holds for Serre fibrations because $(I^n, J^{n-1}) \cong (I^n, I^{n-1} \times \{0\})$). Substituting into (1) for the pair
+$(E, F)$ gives the sequence. The omitted verifications are in \cite[Theorems 4.3 and 4.41]{hatcher-at}.
+\end{proof}
+
+\begin{theorem}[Whitehead]\label{homotopy:theorem-whitehead}
+A map between connected CW complexes that induces isomorphisms on all homotopy groups $\pi_n$, $n \geq 1$, is a homotopy equivalence.
+\end{theorem}
+
+This is \cite[Theorem 4.5]{hatcher-at}.
+
+\begin{remark}\label{homotopy:remark-higher-computations}
+Higher homotopy groups are hard to compute. By cellular approximation, $\pi_k(S^n) = 0$ for $k < n$ (a map $S^k \to S^n$ is homotopic to a cellular map, which misses the
+open $n$-cell and so factors through a point). The \emph{Hopf fibration} $S^3 \to S^2 = \CC\PP^1$, $(z_1, z_2) \mapsto [z_1 : z_2]$, has fibre $S^1$, and its long exact
+sequence gives $\pi_3(S^2) \cong \pi_3(S^3) \cong \ZZ$, although $H_3(S^2) = 0$. Homology (Chapter~\ref{singular-homology}) is much more computable, and the
+Hurewicz theorem relates the two.
+\end{remark}
+
+\section{Exercises}\label{homotopy:section-exercises}
+
+\begin{exercise}\label{homotopy:exercise-retract-injective}
+Show that if $A \subseteq X$ is a retract, then $i_* \colon \pi_1(A, a) \to \pi_1(X, a)$ is injective, and if $A$ is a deformation retract it is an isomorphism.
+\end{exercise}
+
+\begin{solution}
+$r_*i_* = (ri)_* = \id$, so $i_*$ is injective. For a deformation retract, $ir \simeq \id_X$ relative to $A$, so $i$ is a homotopy equivalence and
+Lemma~\ref{homotopy:lemma-change-basepoint} applies (the path $h$ is constant since $a \in A$ is fixed).
+\end{solution}
+
+\begin{exercise}\label{homotopy:exercise-topological-group}
+Let $G$ be a topological group (a group with continuous multiplication and inversion) with identity $1$. Show that $\pi_1(G, 1)$ is abelian, and that the group
+law of $\pi_1$ coincides with $[\gamma][\delta] = [s \mapsto \gamma(s)\delta(s)]$.
+\end{exercise}
+
+\begin{solution}
+Let $\gamma \cdot \delta$ denote the pointwise product. For loops, $(\gamma * \delta) \cdot (\gamma' * \delta') = (\gamma \cdot \gamma') * (\delta \cdot \delta')$ exactly, and
+the constant loop is a two-sided unit for both operations on classes. The Eckmann--Hilton argument of Proposition~\ref{homotopy:proposition-higher-abelian} shows
+that the two operations coincide and are commutative.
+\end{solution}
+
+\begin{exercise}\label{homotopy:exercise-sphere-to-circle}
+Show that every map $S^n \to S^1$ with $n \geq 2$ is null-homotopic, and that every map $S^1 \to S^1$ of degree $0$ is null-homotopic.
+\end{exercise}
+
+\begin{solution}
+In both cases $f_*\pi_1 = 0$ ($S^n$ is simply connected for $n \geq 2$; for degree $0$ by definition), so $f$ lifts to $\tilde{f} \colon S^n \to \RR$ by the lifting
+criterion. Then $f = p \circ \tilde{f} \simeq p \circ c$ via $p \circ ((1 - t)\tilde f + tc)$, where $c$ is a constant.
+\end{solution}
+
+\begin{exercise}\label{homotopy:exercise-deck-circle}
+Show that the deck transformation group of $p \colon \RR \to S^1$ consists of the translations $t \mapsto t + 4k$, $k \in \ZZ$, and deduce again
+$\pi_1(S^1) \cong \ZZ$ from Proposition~\ref{homotopy:proposition-deck}.
+\end{exercise}
+
+\begin{exercise}\label{homotopy:exercise-borsuk-ulam}
+(Borsuk--Ulam in dimension $2$.) Show that for every map $f \colon S^2 \to \RR^2$ there is $x$ with $f(x) = f(-x)$. (Hint: otherwise
+$g(x) = (f(x) - f(-x))/\|f(x) - f(-x)\|$ is an odd map $S^2 \to S^1$; restrict to the equator and compare lifts to $\RR$ along a half circle.)
+\end{exercise}
+
+\begin{exercise}\label{homotopy:exercise-free-group-covering}
+Find all connected two-sheeted coverings of $S^1 \vee S^1$, and describe the covering corresponding to the kernel of $\ZZ * \ZZ \to \ZZ/2\ZZ \times \ZZ/2\ZZ$.
+\end{exercise}

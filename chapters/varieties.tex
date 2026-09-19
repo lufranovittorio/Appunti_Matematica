@@ -1,0 +1,614 @@
+\chapter{Algebraic Varieties}\label{varieties}
+\chapterstatus{complete}
+
+\section{Introduction}\label{varieties:section-introduction}
+
+This chapter develops classical algebraic geometry over an algebraically closed field: affine and projective varieties, their regular
+functions and morphisms, dimension, tangent spaces and smoothness, rational maps, and blow-ups. The Nullstellensatz of
+Chapter~\ref{commutative-algebra} translates geometry into commutative algebra. Closed subsets correspond to radical ideals, varieties to
+prime ideals, points to maximal ideals, and affine varieties to finitely generated domains. Chapter~\ref{schemes} generalises everything to
+schemes, which are needed for non-closed fields, for families, and for nilpotents. The classical language is enough for most statements
+about complex projective manifolds, and it is the one in which the Hodge conjecture is usually stated. References:
+\cite[Chapter I]{hartshorne-ag}, \cite[Chapter 1]{griffiths-harris}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{commutative-algebra} (Commutative Algebra), Chapter~\ref{general-topology} (General Topology)
+and Chapter~\ref{sheaves} (Sheaves on Topological Spaces).
+
+Throughout, $k$ is an algebraically closed field, of any characteristic. Rings are commutative with $1$, and $k[x_1, \ldots, x_n]$ is the
+polynomial ring, with its usual addition and multiplication.
+
+\section{Affine algebraic sets and the Zariski topology}\label{varieties:section-affine}
+
+\begin{definition}\label{varieties:definition-zariski}
+\emph{Affine $n$-space} is $\Aa^n = k^n$. For a subset $T \subseteq A = k[x_1, \ldots, x_n]$ put $Z(T) = \{a \in \Aa^n : f(a) = 0 \text{ for all } f \in T\}$,
+and for $Y \subseteq \Aa^n$ put $I(Y) = \{f \in A : f(a) = 0 \text{ for all } a \in Y\}$. The sets $Z(T)$ are the \emph{algebraic sets}.
+\end{definition}
+
+\begin{proposition}\label{varieties:proposition-zariski-topology}
+\begin{enumerate}
+\item $Z(0) = \Aa^n$, $Z(1) = \emptyset$, $Z(T) = Z((T))$, and $Z(I) \cup Z(J) = Z(IJ) = Z(I \cap J)$ and $\bigcap_\alpha Z(I_\alpha) = Z(\sum_\alpha I_\alpha)$ for ideals.
+So the algebraic sets are the closed sets of a topology on $\Aa^n$, the \emph{Zariski topology}.
+\item $I(Y)$ is a radical ideal, $Z(I(Y)) = \overline Y$, and $I(Z(J)) = \sqrt J$ for every ideal $J$.
+\item $Y \mapsto I(Y)$ and $J \mapsto Z(J)$ are mutually inverse inclusion-reversing bijections between closed subsets of $\Aa^n$ and radical
+ideals of $A$. Under them, points correspond to maximal ideals.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $a \notin Z(I) \cup Z(J)$, pick $f \in I$, $g \in J$ with $f(a) \neq 0 \neq g(a)$; then $fg \in IJ$ does not vanish at $a$. So
+$Z(IJ) \subseteq Z(I) \cup Z(J) \subseteq Z(I \cap J) \subseteq Z(IJ)$. The rest is immediate. (2) If $f^m$ vanishes on $Y$, so does $f$, so $I(Y)$ is
+radical. $Z(I(Y))$ is a closed set containing $Y$, and if $Z(J) \supseteq Y$ then $J \subseteq I(Y)$, so $Z(J) \supseteq Z(I(Y))$; hence
+$Z(I(Y)) = \overline Y$. The equality $I(Z(J)) = \sqrt J$ is the Nullstellensatz (Theorem~\ref{commutative-algebra:theorem-nullstellensatz}(3)),
+the inclusion $\supseteq$ being clear. (3) follows from (2), and points correspond to maximal ideals by
+Theorem~\ref{commutative-algebra:theorem-nullstellensatz}(1).
+\end{proof}
+
+\begin{definition}\label{varieties:definition-irreducible}
+A topological space $Y$ is \emph{irreducible} if it is nonempty and not the union of two proper closed subsets; equivalently, every
+nonempty open subset is dense. It is \emph{Noetherian} if every descending chain of closed subsets is eventually constant.
+\end{definition}
+
+\begin{proposition}\label{varieties:proposition-irreducible-components}
+\begin{enumerate}
+\item A closed set $Y \subseteq \Aa^n$ is irreducible if and only if $I(Y)$ is prime.
+\item $\Aa^n$, and every subspace of it, is Noetherian.
+\item Every Noetherian space $Y$ is a finite union $Y = Y_1 \cup \cdots \cup Y_r$ of irreducible closed subsets, unique up to order if
+$Y_i \not\subseteq Y_j$ for $i \neq j$; the $Y_i$ are the \emph{irreducible components}.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $Y = Y_1 \cup Y_2$ with $Y_i$ proper closed, pick $f_i \in I(Y_i) \setminus I(Y)$ by Proposition~\ref{varieties:proposition-zariski-topology}(3).
+Then $f_1f_2 \in I(Y)$, so $I(Y)$ is not prime. Conversely, if $fg \in I(Y)$, then $Y = (Y \cap Z(f)) \cup (Y \cap Z(g))$, so $Y \subseteq Z(f)$ or
+$Y \subseteq Z(g)$ by irreducibility. (Also $Y \neq \emptyset$ if and only if $I(Y) \neq A$.) (2) A descending chain of closed sets gives an
+ascending chain of ideals, which stabilises because $A$ is Noetherian (Theorem~\ref{commutative-algebra:theorem-hilbert-basis}). For a subspace,
+its closed sets are traces of closed sets of $\Aa^n$. (3) If some closed subset is not such a finite union, choose a minimal one $Y'$, which
+exists by the Noetherian property. It is not irreducible, so $Y' = Y'_1 \cup Y'_2$ with smaller closed sets, which are finite unions, a
+contradiction. For uniqueness, if $Y_1 \cup \cdots \cup Y_r = Y'_1 \cup \cdots \cup Y'_s$ are irredundant, then
+$Y'_1 = \bigcup_i(Y'_1 \cap Y_i)$ forces $Y'_1 \subseteq Y_i$ for some $i$, and similarly $Y_i \subseteq Y'_j$, so $j = 1$ and $Y'_1 = Y_i$; induct.
+\end{proof}
+
+\begin{definition}\label{varieties:definition-affine-variety}
+An \emph{affine variety} is an irreducible closed subset $Y \subseteq \Aa^n$ with the induced topology. Its \emph{coordinate ring} is
+$A(Y) = k[x_1, \ldots, x_n]/I(Y)$, a finitely generated $k$-algebra that is a domain. A \emph{quasi-affine variety} is a nonempty open subset
+of an affine variety.
+\end{definition}
+
+\begin{example}\label{varieties:example-affine}
+\begin{enumerate}
+\item $\Aa^n$ is an affine variety, since $I(\Aa^n) = 0$ is prime ($k$ is infinite, so a polynomial vanishing everywhere is $0$).
+\item If $f$ is irreducible, then $(f)$ is prime because $k[x_1, \ldots, x_n]$ is a unique factorisation domain
+(Theorem~\ref{rings:theorem-polynomial-ufd}), so the \emph{hypersurface} $Z(f)$ is an affine variety with $I(Z(f)) = (f)$.
+\item The closed subsets of $\Aa^1$ are $\Aa^1$ and the finite sets, since $k[x]$ is a principal ideal domain. So the Zariski topology is not
+Hausdorff: any two nonempty open sets meet.
+\item The Zariski topology on $\Aa^2$ is not the product topology on $\Aa^1 \times \Aa^1$. The closed sets of the product topology are the finite
+unions of points, horizontal and vertical lines and $\Aa^2$, whereas the parabola $Z(y - x^2)$ is also Zariski closed.
+\item The \emph{twisted cubic} $Y = \{(t, t^2, t^3)\} = Z(y - x^2, z - x^3) \subseteq \Aa^3$ is an affine variety with
+$A(Y) \cong k[x, y, z]/(y - x^2, z - x^3) \cong k[t]$, a domain.
+\end{enumerate}
+\end{example}
+
+\section{Regular functions and morphisms}\label{varieties:section-regular}
+
+\begin{definition}\label{varieties:definition-regular-affine}
+Let $Y$ be a quasi-affine variety in $\Aa^n$. A function $f \colon Y \to k$ is \emph{regular at} $P \in Y$ if there are an open neighbourhood
+$U \ni P$ and polynomials $g, h$ with $h$ nowhere zero on $U$ and $f = g/h$ on $U$. It is \emph{regular} on an open set if it is regular at
+each of its points. The regular functions on open subsets form a sheaf of $k$-algebras $\mathcal{O}_Y$. The \emph{local ring} at $P$ is the stalk
+$\mathcal{O}_{Y,P}$, and the \emph{function field} $K(Y)$ is the set of regular functions on nonempty open subsets modulo agreement on a
+nonempty open subset.
+\end{definition}
+
+\begin{lemma}\label{varieties:lemma-regular-continuous}
+A regular function $f \colon Y \to k = \Aa^1$ is continuous for the Zariski topologies. If two regular functions on an irreducible $Y$ agree on
+a nonempty open subset, they are equal.
+\end{lemma}
+
+\begin{proof}
+The closed subsets of $\Aa^1$ are finite sets, so it suffices that $f^{-1}(a)$ is closed. Locally $f = g/h$, and
+$f^{-1}(a) \cap U = Z(g - ah) \cap U$ is closed in $U$; being closed is a local property. For the second statement, $\{f = f'\} = (f - f')^{-1}(0)$
+is closed and contains a dense open subset.
+\end{proof}
+
+\begin{theorem}\label{varieties:theorem-regular-functions-affine}
+Let $Y$ be an affine variety with coordinate ring $A = A(Y)$. For $P \in Y$ let $\mathfrak{m}_P \subseteq A$ be the maximal ideal of functions
+vanishing at $P$. Then:
+\begin{enumerate}
+\item $\mathcal{O}_{Y,P} \cong A_{\mathfrak{m}_P}$;
+\item for $f \in A$, the \emph{basic open set} $D(f) = Y \setminus Z(f)$ satisfies $\mathcal{O}(D(f)) \cong A_f$; in particular
+$\mathcal{O}(Y) \cong A$;
+\item $K(Y) \cong \mathrm{Frac}(A)$, and the basic open sets form a basis of the topology.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The basic open sets form a basis because $Y \setminus Z(J) = \bigcup_{f \in J}D(f)$. A polynomial vanishing on $Y$ lies in $I(Y)$, so $A$ is a ring of
+functions on $Y$. (1) Send $g/h \in A_{\mathfrak{m}_P}$, $h(P) \neq 0$, to the germ of the function $g/h$ on $D(h)$. This is surjective by definition. It
+is injective: if $g/h$ vanishes near $P$, then $g$ vanishes on a nonempty open subset of $Y$, hence on $Y$ by
+Lemma~\ref{varieties:lemma-regular-continuous}, so $g = 0$. So all local rings embed compatibly in $\mathrm{Frac}(A)$, and a regular function on
+an open set $U$ is determined by its germs, so $\mathcal{O}(U) \subseteq \bigcap_{P \in U}A_{\mathfrak{m}_P} \subseteq \mathrm{Frac}(A)$, with
+equality by the definition of regularity.
+
+(2) The points of $D(f)$ correspond to the maximal ideals of $A$ not containing $f$, which are the maximal ideals of $A_f$
+(Proposition~\ref{commutative-algebra:proposition-localisation}). So we must show $\bigcap_{\mathfrak{m} \not\ni f}A_\mathfrak{m} = A_f$ inside
+$\mathrm{Frac}(A)$. The inclusion $\supseteq$ is clear. Let $\varphi$ lie in the intersection, and let $J = \{a \in A_f : a\varphi \in A_f\}$, an
+ideal of $A_f$. For each maximal ideal $\mathfrak{n}$ of $A_f$ we have $\varphi = g/h$ with $h \notin \mathfrak{n}$, so $h \in J \setminus \mathfrak{n}$. Thus
+$J$ lies in no maximal ideal, $1 \in J$, and $\varphi \in A_f$. Taking $f = 1$ gives $\mathcal{O}(Y) = A$.
+
+(3) Every nonempty open set contains a nonempty basic open set, and $\mathcal{O}(D(f)) = A_f$ with restriction maps the inclusions of
+subrings of $\mathrm{Frac}(A)$. So $K(Y) = \bigcup_{f \neq 0}A_f = \mathrm{Frac}(A)$.
+\end{proof}
+
+\begin{definition}\label{varieties:definition-morphism}
+Let $X$, $Y$ be varieties, meaning for now quasi-affine varieties (Definition~\ref{varieties:definition-quasi-projective} below extends
+this to quasi-projective ones). A \emph{morphism} $\varphi \colon X \to Y$ is a continuous map such that for every open $V \subseteq Y$ and every
+regular $f$ on $V$, the function $f \circ \varphi$ is regular on $\varphi^{-1}(V)$. Varieties and morphisms form a category, and an isomorphism is
+a morphism with an inverse morphism. Equivalently, a morphism is a morphism of ringed spaces $(X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ whose
+map of sheaves is composition of functions (Definition~\ref{sheaves:definition-ringed-space}).
+\end{definition}
+
+\begin{proposition}\label{varieties:proposition-morphisms-to-affine}
+Let $X$ be a variety and $Y \subseteq \Aa^n$ an affine variety. Then $\varphi \mapsto \varphi^*$, $\varphi^*(f) = f \circ \varphi$, is a bijection
+\[
+\Hom(X, Y) \to \Hom_{k\text{-alg}}(A(Y), \mathcal{O}(X)).
+\]
+Consequently $Y \mapsto A(Y)$ is an anti-equivalence between the category of affine varieties and that of finitely generated
+$k$-algebras that are domains.
+\end{proposition}
+
+\begin{proof}
+Given a $k$-algebra map $\theta \colon A(Y) \to \mathcal{O}(X)$, let $\xi_i = \theta(\bar x_i)$ and define $\psi(P) = (\xi_1(P), \ldots, \xi_n(P))$.
+For $f \in I(Y)$, $f(\psi(P)) = \theta(\bar f)(P) = 0$, so $\psi$ maps into $Y$, and $f \circ \psi = \theta(\bar f)$ for all polynomials $f$. Then
+$\psi^{-1}(Y \cap Z(f)) = \theta(\bar f)^{-1}(0)$ is closed (Lemma~\ref{varieties:lemma-regular-continuous}), so $\psi$ is continuous. A function
+that is locally $g/h$ pulls back to $(g \circ \psi)/(h \circ \psi)$, a quotient of regular functions, hence regular, so $\psi$ is a morphism with
+$\psi^* = \theta$. Conversely, a morphism $\varphi$ is determined by the functions $x_i \circ \varphi = \varphi^*(\bar x_i)$. For the
+anti-equivalence, use $\mathcal{O}(X) = A(X)$ for affine $X$ (Theorem~\ref{varieties:theorem-regular-functions-affine}). Every finitely generated
+domain $B = k[x_1, \ldots, x_n]/\mathfrak{p}$ is $A(Z(\mathfrak{p}))$, since $I(Z(\mathfrak{p})) = \sqrt{\mathfrak{p}} = \mathfrak{p}$.
+\end{proof}
+
+\begin{example}\label{varieties:example-morphisms}
+\begin{enumerate}
+\item $\Aa^1 \setminus \{0\}$ is isomorphic to the affine variety $Z(xy - 1) \subseteq \Aa^2$, with coordinate ring $k[x, x^{-1}]$. More generally
+$D(f) \subseteq Y$ is isomorphic to the affine variety with coordinate ring $A(Y)_f \cong A(Y)[t]/(tf - 1)$.
+\item $\Aa^2 \setminus \{0\}$ is not isomorphic to an affine variety. Its regular functions are
+$\mathcal{O}(D(x)) \cap \mathcal{O}(D(y)) = k[x, y]_x \cap k[x, y]_y = k[x, y]$ by Theorem~\ref{varieties:theorem-regular-functions-affine}. So if it were
+affine, the inclusion into $\Aa^2$ would induce an isomorphism of coordinate rings and would therefore be an isomorphism by
+Proposition~\ref{varieties:proposition-morphisms-to-affine}, which it is not.
+\item The morphism $\Aa^1 \to Z(y^2 - x^3)$, $t \mapsto (t^2, t^3)$, is a bijective morphism that is not an isomorphism: it corresponds to the
+inclusion $k[t^2, t^3] \subseteq k[t]$, which is not surjective.
+\end{enumerate}
+\end{example}
+
+\section{Projective varieties}\label{varieties:section-projective}
+
+\begin{definition}\label{varieties:definition-projective-space}
+\emph{Projective $n$-space} is $\PP^n = (k^{n+1} \setminus \{0\})/k^\times$, with points written $[a_0 : \cdots : a_n]$. Let $S = k[x_0, \ldots, x_n]$
+with its grading by degree, and $S_+ = (x_0, \ldots, x_n)$. For a set $T$ of homogeneous polynomials, $Z(T) \subseteq \PP^n$ is the set of points at
+which all $f \in T$ vanish (this is well defined since $f(\lambda a) = \lambda^{\deg f}f(a)$). For $Y \subseteq \PP^n$, $I(Y)$ is the ideal generated
+by the homogeneous polynomials vanishing on $Y$, a homogeneous ideal. The sets $Z(\mathfrak{a})$, $\mathfrak{a}$ a homogeneous ideal, are the closed
+sets of the \emph{Zariski topology} on $\PP^n$, as in Proposition~\ref{varieties:proposition-zariski-topology}(1).
+\end{definition}
+
+\begin{proposition}[Projective Nullstellensatz]\label{varieties:proposition-projective-nullstellensatz}
+Let $\mathfrak{a} \subseteq S$ be a homogeneous ideal. Then $Z(\mathfrak{a}) = \emptyset$ if and only if $\sqrt{\mathfrak{a}} \supseteq S_+$, and
+otherwise $I(Z(\mathfrak{a})) = \sqrt{\mathfrak{a}}$. Hence closed subsets of $\PP^n$ correspond bijectively to homogeneous radical ideals not
+containing $S_+$, and irreducible closed subsets to homogeneous primes not containing $S_+$.
+\end{proposition}
+
+\begin{proof}
+Let $C \subseteq \Aa^{n+1}$ be the affine zero set of $\mathfrak{a}$. Since $\mathfrak{a}$ is homogeneous, $C$ is a union of lines through $0$ (or
+empty), and $Z(\mathfrak{a}) = (C \setminus \{0\})/k^\times$. So $Z(\mathfrak{a}) = \emptyset$ if and only if $C \subseteq \{0\}$, if and only if
+$\sqrt{\mathfrak{a}} \supseteq I(\{0\}) = S_+$ by the affine Nullstellensatz. Otherwise $C \neq \{0\}$ contains $0$ if $\mathfrak{a} \neq S$, and a
+homogeneous $f$ of positive degree vanishes on $Z(\mathfrak{a})$ if and only if it vanishes on $C$, if and only if $f \in \sqrt{\mathfrak{a}}$. The
+radical of a homogeneous ideal is homogeneous: if $f^m \in \mathfrak{a}$ and $f_d$ is the top component of $f$, then $f_d^m$ is the top component of
+$f^m$, so it lies in $\mathfrak{a}$ (Lemma~\ref{rings:lemma-homogeneous-ideal}), and $f_d \in \sqrt{\mathfrak{a}}$; now induct on the number of
+components of $f - f_d$. Hence $I(Z(\mathfrak{a})) = \sqrt{\mathfrak{a}}$.
+
+For irreducibility, argue as in Proposition~\ref{varieties:proposition-irreducible-components}(1) with homogeneous $f$, $g$. This suffices
+because a homogeneous ideal $\mathfrak{p}$ such that $fg \in \mathfrak{p}$ implies $f \in \mathfrak{p}$ or $g \in \mathfrak{p}$ for homogeneous $f$, $g$
+is prime. Indeed, let $fg \in \mathfrak{p}$ with $f, g \notin \mathfrak{p}$. Subtracting from $f$ and $g$ their homogeneous components of high
+degree that lie in $\mathfrak{p}$ does not change the hypotheses, so we may assume that the top components $f_d$ and $g_e$ are not in
+$\mathfrak{p}$. But $f_dg_e$ is the top component of $fg$, so it lies in $\mathfrak{p}$, a contradiction.
+\end{proof}
+
+\begin{proposition}\label{varieties:proposition-standard-cover}
+Let $U_i = \PP^n \setminus Z(x_i)$. The map $\varphi_i \colon U_i \to \Aa^n$, $[a] \mapsto (a_j/a_i)_{j \neq i}$, is a homeomorphism for the Zariski
+topologies. Under it, closed subsets of $U_i$ correspond to closed subsets of $\Aa^n$ through dehomogenisation
+$f \mapsto f(x_0, \ldots, 1, \ldots, x_n)$ and homogenisation.
+\end{proposition}
+
+\begin{proof}
+$\varphi_i$ is bijective with inverse $(b_j) \mapsto [b_0 : \cdots : 1 : \cdots : b_n]$. For homogeneous $f$ of degree $d$, $\varphi_i(Z(f) \cap U_i)$ is
+the zero set of the dehomogenisation $f(x_0, \ldots, 1, \ldots, x_n)$. Conversely, for $g \in k[y_j : j \neq i]$ of degree $d$, the homogenisation
+$x_i^dg(x_0/x_i, \ldots)$ is a homogeneous polynomial whose zero set in $U_i$ is $\varphi_i^{-1}(Z(g))$. So $\varphi_i$ and its inverse are closed maps.
+\end{proof}
+
+\begin{definition}\label{varieties:definition-quasi-projective}
+A \emph{projective variety} is an irreducible closed subset $Y \subseteq \PP^n$, and its \emph{homogeneous coordinate ring} is
+$S(Y) = S/I(Y)$, a graded domain. A \emph{quasi-projective variety} is a nonempty open subset of a projective variety. A function
+$f \colon Y \to k$ on a quasi-projective variety is \emph{regular at} $P$ if near $P$ it is $g/h$ with $g$, $h$ homogeneous of the same degree and $h$
+nowhere zero. This gives the sheaf $\mathcal{O}_Y$, the local rings $\mathcal{O}_{Y,P}$ and the function field $K(Y)$ as before. From now on a
+\emph{variety} is a quasi-projective variety, and morphisms are defined as in Definition~\ref{varieties:definition-morphism}.
+\end{definition}
+
+\begin{proposition}\label{varieties:proposition-affine-cover}
+Let $Y \subseteq \PP^n$ be a quasi-projective variety. Then $\varphi_i$ restricts to an isomorphism of $Y \cap U_i$ (if nonempty) onto a
+quasi-affine variety, and onto an affine variety if $Y$ is projective, with coordinate ring the degree-zero part $S(Y)_{(x_i)}$ of $S(Y)_{x_i}$.
+In particular, every quasi-affine variety is quasi-projective (via $\Aa^n \cong U_0$), every variety has an open cover by affine varieties, and
+$K(Y) \cong K(Y \cap U_i)$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{varieties:proposition-standard-cover}, $\varphi_i$ is a homeomorphism onto its image, which is locally closed, and irreducible
+since $Y \cap U_i$ is a nonempty open subset of an irreducible space. A quotient $g/h$ of homogeneous polynomials of degree $d$ equals the
+quotient of the dehomogenisations of $g$ and $h$ on $U_i$, and conversely a quotient of polynomials in the affine coordinates can be homogenised
+to a quotient of homogeneous polynomials of the same degree. So regular functions correspond. If $Y$ is projective, $\varphi_i(Y \cap U_i)$ is
+closed, and dehomogenisation identifies its ideal with the degree-zero part of the localised ideal. A quasi-affine variety is covered by basic
+open sets $D(f)$ of its closure, which are affine (Example~\ref{varieties:example-morphisms}(1)). Finally, every nonempty open subset of $Y$ meets
+$U_i$ in a dense open subset, so the function fields agree.
+\end{proof}
+
+\begin{theorem}\label{varieties:theorem-projective-constant}
+If $Y$ is a projective variety, then $\mathcal{O}(Y) = k$. Consequently every morphism from a projective variety to an affine variety is
+constant.
+\end{theorem}
+
+\begin{proof}
+Let $f \in \mathcal{O}(Y)$ and $L = \mathrm{Frac}(S(Y))$. We view $K(Y)$ as the degree-zero part of $L$, by $g/h \mapsto g/h$. Let $\Sigma$ be the set of $i$ with $x_i \notin I(Y)$;
+the other $x_i$ are zero in $S(Y)$. For $i \in \Sigma$, $f$ restricted to $Y \cap U_i$ lies in $S(Y)_{(x_i)}$ by
+Proposition~\ref{varieties:proposition-affine-cover} and Theorem~\ref{varieties:theorem-regular-functions-affine}, so $x_i^{N_i}f \in S(Y)_{N_i}$ for
+some $N_i$, as elements of $L$. Let $N = \sum_{i \in \Sigma}N_i$. The space $S(Y)_N$ is spanned by the monomials of degree $N$ in the $x_i$, $i \in \Sigma$,
+and each of them is divisible by $x_i^{N_i}$ for some $i \in \Sigma$. So $S(Y)_N \cdot f \subseteq S(Y)_N$, and by induction
+$S(Y)_N \cdot f^q \subseteq S(Y)_N$ for all $q \geq 1$. Choose $i \in \Sigma$. Then
+$x_i^Nf^q \in S(Y)$ for all $q$, so $S(Y)[f] \subseteq x_i^{-N}S(Y)$, a finitely generated $S(Y)$-module. As $S(Y)$ is Noetherian, $S(Y)[f]$ is
+a finitely generated $S(Y)$-module, and $f$ is integral over $S(Y)$ (Proposition~\ref{commutative-algebra:proposition-integral}(1)). Taking the
+degree-zero parts of the coefficients of an integral equation shows that $f$ is integral over $S(Y)_0 = k$. As $k$ is algebraically closed and
+$f$ lies in a field, $f \in k$. For the second statement, compose with the coordinate functions of the target.
+\end{proof}
+
+\begin{example}\label{varieties:example-projective}
+\begin{enumerate}
+\item A \emph{projective hypersurface} is $Z(f) \subseteq \PP^n$ with $f$ irreducible and homogeneous. Plane curves are the case $n = 2$.
+\item The \emph{$d$-uple (Veronese) embedding} $v_d \colon \PP^n \to \PP^N$, $N = \binom{n+d}{n} - 1$, sends $a$ to the vector of all monomials of degree
+$d$ in $a$. Its image is closed, cut out by the quadratic relations $z_Mz_{M'} = z_{M''}z_{M'''}$ whenever $MM' = M''M'''$, and $v_d$ is an isomorphism
+onto it \cite[Chapter I, Exercises 2.12 and 3.4]{hartshorne-ag}. On the image, the inverse is given on $\{z_{x_i^d} \neq 0\}$ by
+$z \mapsto [z_{x_i^{d-1}x_0} : \cdots : z_{x_i^{d-1}x_n}]$. For $n = 1$, $d = 3$ the image is the \emph{twisted cubic} in $\PP^3$, the closure of the affine twisted cubic.
+\item The \emph{Segre embedding} $\PP^m \times \PP^n \to \PP^{mn+m+n}$, $(a, b) \mapsto (a_ib_j)$, has closed image $Z(z_{ij}z_{kl} - z_{il}z_{kj})$. This image
+is used to give $\PP^m \times \PP^n$ the structure of a projective variety. For $m = n = 1$ it is the smooth quadric surface $Z(z_{00}z_{11} - z_{01}z_{10})$
+in $\PP^3$.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{varieties:proposition-products-affine}
+Let $X \subseteq \Aa^m$ and $Y \subseteq \Aa^n$ be affine varieties. Then $X \times Y \subseteq \Aa^{m+n}$ is an affine variety with coordinate ring
+$A(X) \otimes_k A(Y)$, and it is the product of $X$ and $Y$ in the category of varieties.
+\end{proposition}
+
+\begin{proof}
+$X \times Y = Z(I(X) + I(Y))$ is closed. It is irreducible: if $X \times Y = Z_1 \cup Z_2$ with $Z_i$ closed, each fibre $\{x\} \times Y \cong Y$ is
+irreducible, so it lies in $Z_1$ or in $Z_2$. The set $X_i = \{x : \{x\} \times Y \subseteq Z_i\} = \bigcap_{y \in Y}\{x : (x, y) \in Z_i\}$ is closed,
+and $X = X_1 \cup X_2$, so $X = X_1$ or $X = X_2$. The natural map $A(X) \otimes_k A(Y) \to \{\text{functions on } X \times Y\}$ is injective:
+write an element as $\sum_ia_i \otimes b_i$ with the $b_i$ linearly independent over $k$; if it vanishes, then for each $x$ the function
+$\sum_ia_i(x)b_i$ vanishes on $Y$, so all $a_i(x) = 0$, so all $a_i = 0$. Its image is the ring of polynomial functions on $X \times Y$, which is
+$A(X \times Y)$. The universal property follows from Proposition~\ref{varieties:proposition-morphisms-to-affine} and the universal property of
+$\otimes_k$ for $k$-algebras (Proposition~\ref{rings:proposition-tensor-algebras}).
+\end{proof}
+
+\section{Dimension}\label{varieties:section-dimension}
+
+\begin{definition}\label{varieties:definition-dimension}
+The \emph{dimension} of a topological space is the supremum of the lengths $r$ of chains $Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_r$ of
+irreducible closed subsets. For an irreducible closed subset $Z \subseteq Y$, the \emph{codimension} of $Z$ in $Y$ is the supremum of the lengths of
+such chains with $Z_0 = Z$. Varieties of dimension $1$ and $2$ are \emph{curves} and \emph{surfaces}.
+\end{definition}
+
+\begin{lemma}\label{varieties:lemma-catenary}
+Let $A$ be a finitely generated $k$-algebra that is a domain, of dimension $d$. Then every maximal chain of primes of $A$ has length $d$.
+Consequently $\operatorname{ht}\mathfrak{p} + \dim A/\mathfrak{p} = d$ for every prime $\mathfrak{p}$, and every maximal ideal has height $d$.
+\end{lemma}
+
+\begin{proof}
+Induction on $d = \operatorname{trdeg}_k\mathrm{Frac}(A)$ (Theorem~\ref{commutative-algebra:theorem-dimension-finitely-generated}). If $d = 0$,
+$A$ is a domain algebraic over $k$, hence a field (Proposition~\ref{commutative-algebra:proposition-integral}(3)), and the only chain is $0$. Let
+$d > 0$ and let $0 = \mathfrak{p}_0 \subsetneq \mathfrak{p}_1 \subsetneq \cdots \subsetneq \mathfrak{p}_m$ be a maximal chain. Then $m \geq 1$, and no prime
+lies strictly between $0$ and $\mathfrak{p}_1$. By Noether normalisation (Theorem~\ref{commutative-algebra:theorem-noether-normalisation}), $A$ is
+finite over a polynomial ring $B = k[y_1, \ldots, y_d]$. Let $\mathfrak{q} = \mathfrak{p}_1 \cap B$.
+
+The prime $\mathfrak{q}$ is nonzero. Indeed, take $a \in \mathfrak{p}_1 \setminus 0$ and an equation $a^r + b_1a^{r-1} + \cdots + b_r = 0$ over $B$ with $r$
+minimal. Then $b_r \neq 0$, since otherwise we could divide by $a$, and $b_r \in aA \cap B \subseteq \mathfrak{q}$. If there were a prime
+$0 \subsetneq \mathfrak{q}' \subsetneq \mathfrak{q}$, then going down for the integral extension $B \subseteq A$ of domains with $B$ normal
+(Remark~\ref{commutative-algebra:remark-going-down}; $B$ is a unique factorisation domain, hence normal by
+Proposition~\ref{commutative-algebra:proposition-integral}(4)) would give a prime $\mathfrak{p}' \subsetneq \mathfrak{p}_1$ lying over $\mathfrak{q}'$, so
+$\mathfrak{p}' \neq 0$, which is a contradiction. So $\mathfrak{q}$ is a minimal nonzero prime of the unique factorisation domain $B$. It contains an
+irreducible factor $f$ of any of its nonzero elements, and $(f)$ is a nonzero prime, so $\mathfrak{q} = (f)$. If $f$ involves $y_i$, the images of the
+other $y_j$ in $B/(f)$ are algebraically independent, since a relation $g(y_j : j \neq i) \in (f)$ is impossible for $g \neq 0$, and $y_i$ is
+algebraic over them. So $\operatorname{trdeg}\mathrm{Frac}(B/\mathfrak{q}) = d - 1$. As $A/\mathfrak{p}_1$ is integral over $B/\mathfrak{q}$, it also has
+transcendence degree $d - 1$, and by induction the maximal chain $\mathfrak{p}_1/\mathfrak{p}_1 \subsetneq \cdots \subsetneq \mathfrak{p}_m/\mathfrak{p}_1$ of
+$A/\mathfrak{p}_1$ has length $d - 1$. Hence $m = d$.
+
+For a prime $\mathfrak{p}$, a chain of length $\operatorname{ht}\mathfrak{p}$ ending at $\mathfrak{p}$ and a chain of length $\dim A/\mathfrak{p}$ starting at
+$\mathfrak{p}$ cannot be refined, since they have maximal length. Their concatenation is therefore a maximal chain of $A$, of length $d$.
+\end{proof}
+
+\begin{theorem}\label{varieties:theorem-dimension}
+Let $Y$ be a variety.
+\begin{enumerate}
+\item $\dim Y = \operatorname{trdeg}_kK(Y)$; if $Y$ is affine, $\dim Y = \dim A(Y)$.
+\item $\dim U = \dim Y$ for every nonempty open $U \subseteq Y$, and $\dim\mathcal{O}_{Y,P} = \dim Y$ for every $P \in Y$.
+\item If $Z \subsetneq Y$ is closed and irreducible, then $\dim Z < \dim Y$, and $\dim Z + \operatorname{codim}(Z, Y) = \dim Y$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+First let $Y$ be affine with $A = A(Y)$. Irreducible closed subsets of $Y$ correspond to primes of $A$, reversing inclusions
+(Propositions~\ref{varieties:proposition-zariski-topology} and~\ref{varieties:proposition-irreducible-components}), so
+$\dim Y = \dim A = \operatorname{trdeg}\mathrm{Frac}(A) = \operatorname{trdeg}K(Y)$ by
+Theorem~\ref{commutative-algebra:theorem-dimension-finitely-generated} and Theorem~\ref{varieties:theorem-regular-functions-affine}. Also
+$\dim\mathcal{O}_{Y,P} = \dim A_{\mathfrak{m}_P} = \operatorname{ht}\mathfrak{m}_P = \dim Y$ by Lemma~\ref{varieties:lemma-catenary}. For $U$ open,
+$Z \mapsto \overline Z$ maps chains of irreducible closed subsets of $U$ injectively to chains in $Y$, so $\dim U \leq \dim Y$. Conversely, let
+$P \in U$ and take a chain of primes of length $\dim Y$ contained in $\mathfrak{m}_P$. It gives a chain of irreducible closed subsets of $Y$ all
+containing $P$, and their intersections with $U$ form a chain of the same length in $U$, since a nonempty open subset of an irreducible space is
+dense. Statement (3) for affine $Y$ is Lemma~\ref{varieties:lemma-catenary}, since $\operatorname{codim}(Z, Y) = \operatorname{ht}I(Z)/I(Y)$ and
+$\operatorname{ht} \geq 1$ for a nonzero prime.
+
+In general, cover $Y$ by affine open subsets $Y_i$ (Proposition~\ref{varieties:proposition-affine-cover}); they have
+$K(Y_i) = K(Y)$, so $\dim Y_i = \operatorname{trdeg}K(Y)$. Given a chain $Z_0 \subsetneq \cdots \subsetneq Z_r$ in $Y$, choose $Y_i$ meeting $Z_0$; the
+sets $Z_j \cap Y_i$ form a chain in $Y_i$ (their closures are the $Z_j$). So $\dim Y = \max_i\dim Y_i = \operatorname{trdeg}K(Y)$, and the other
+statements reduce to the affine case in the same way: a proper closed irreducible $Z$ meets some $Y_i$ in a proper subset, since otherwise $Z$
+would contain the dense set $Y_i$.
+\end{proof}
+
+\begin{theorem}[Krull's theorem for varieties]\label{varieties:theorem-hypersurface-sections}
+Let $Y$ be an affine variety of dimension $r$ and $f \in A(Y)$ neither zero nor a unit. Then every irreducible component of $Y \cap Z(f)$ has
+dimension $r - 1$. A variety $Y \subseteq \Aa^n$ has dimension $n - 1$ if and only if $Y = Z(f)$ for an irreducible polynomial $f$.
+\end{theorem}
+
+\begin{proof}
+The components of $Z(f)$ correspond to the minimal primes over $(f)$ in $A(Y)$. They have height $\leq 1$ by Krull's principal ideal theorem
+(Theorem~\ref{commutative-algebra:theorem-krull-hauptidealsatz}), hence height $1$ as they are nonzero, hence dimension $r - 1$ by
+Lemma~\ref{varieties:lemma-catenary}. For the second statement, $Z(f)$ has dimension $n - 1$ by the first. Conversely, if $\dim Y = n - 1$, then
+$I(Y)$ has height $1$. It contains an irreducible factor $f$ of any of its nonzero elements, and $0 \subsetneq (f) \subseteq I(Y)$ with $(f)$ prime,
+so $I(Y) = (f)$.
+\end{proof}
+
+\begin{theorem}[Projective dimension theorem]\label{varieties:theorem-projective-dimension}
+Let $Y \subseteq \PP^n$ be a projective variety of dimension $r \geq 1$ and $f$ a homogeneous polynomial of positive degree with $f \notin I(Y)$.
+Then $Y \cap Z(f)$ is nonempty and all its irreducible components have dimension $r - 1$.
+\end{theorem}
+
+\begin{proof}
+Let $C(Y) \subseteq \Aa^{n+1}$ be the affine cone, the affine variety with coordinate ring $S(Y)$. The fraction field of $S(Y)$ is $K(Y)(x_i)$
+for any $x_i \notin I(Y)$, with $x_i$ transcendental over $K(Y)$ (elements of $K(Y)$ have degree zero), so $\dim C(Y) = r + 1$ by
+Theorem~\ref{varieties:theorem-dimension}. The same holds for every projective variety, in particular for the components of $Y \cap Z(f)$, whose
+cones are the components of $C(Y) \cap Z(f)$ other than $\{0\}$. The set $C(Y) \cap Z(f)$ contains $0$, and $f$ is not a unit in $S(Y)$, so by
+Theorem~\ref{varieties:theorem-hypersurface-sections} all its components have dimension $r \geq 1$. In particular they are not $\{0\}$, so they are
+cones over components of $Y \cap Z(f)$ of dimension $r - 1$.
+\end{proof}
+
+\begin{corollary}\label{varieties:corollary-intersections-nonempty}
+Any $r \leq \dim Y$ hypersurfaces in $\PP^n$ meet a projective variety $Y$. In particular two curves in $\PP^2$ always meet, and $\PP^2$ is not
+isomorphic to $\PP^1 \times \PP^1$, which contains disjoint curves.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{varieties:theorem-projective-dimension} repeatedly to a component of dimension $\geq \dim Y - j$ after $j$ steps. (If some $f$
+vanishes on the current component, the dimension does not drop.) The curves $\PP^1 \times \{0\}$ and $\PP^1 \times \{\infty\}$ are disjoint.
+\end{proof}
+
+\section{Tangent spaces and smoothness}\label{varieties:section-smoothness}
+
+\begin{definition}\label{varieties:definition-tangent-space}
+Let $P$ be a point of a variety $Y$, with local ring $(\mathcal{O}_{Y,P}, \mathfrak{m}_P)$ and residue field $k$. The \emph{Zariski tangent space}
+is $T_PY = (\mathfrak{m}_P/\mathfrak{m}_P^2)^\vee$. The variety is \emph{nonsingular} (or \emph{smooth}) at $P$ if $\mathcal{O}_{Y,P}$ is a regular
+local ring (Definition~\ref{commutative-algebra:definition-regular}), that is, if $\dim_kT_PY = \dim Y$, and \emph{singular} at $P$ otherwise.
+$Y$ is nonsingular if it is nonsingular at every point.
+\end{definition}
+
+\begin{lemma}\label{varieties:lemma-tangent-dimension}
+For every Noetherian local ring $(R, \mathfrak{m}, k)$, $\dim R \leq \dim_k\mathfrak{m}/\mathfrak{m}^2$. Hence $\dim T_PY \geq \dim Y$.
+\end{lemma}
+
+\begin{proof}
+By Nakayama's lemma (Corollary~\ref{commutative-algebra:corollary-nakayama-generators}), $\mathfrak{m}$ is generated by
+$e = \dim\mathfrak{m}/\mathfrak{m}^2$ elements, and $\mathfrak{m}$ is minimal over them, so $\dim R = \operatorname{ht}\mathfrak{m} \leq e$ by
+Theorem~\ref{commutative-algebra:theorem-krull-hauptidealsatz}. The second statement uses $\dim\mathcal{O}_{Y,P} = \dim Y$.
+\end{proof}
+
+\begin{theorem}[Jacobian criterion]\label{varieties:theorem-jacobian}
+Let $Y \subseteq \Aa^n$ be an affine variety of dimension $r$ with $I(Y) = (f_1, \ldots, f_t)$, and $P \in Y$. Then
+$\dim T_PY = n - \operatorname{rank}J(P)$, where $J = (\partial f_i/\partial x_j)$ is the Jacobian matrix. So $Y$ is nonsingular at $P$ if and only
+if $\operatorname{rank}J(P) = n - r$.
+\end{theorem}
+
+\begin{proof}
+Let $M = (x_1 - P_1, \ldots, x_n - P_n) \subseteq k[x]$. The linear map $\theta \colon M \to k^n$, $g \mapsto (\partial g/\partial x_j(P))_j$, is onto with
+kernel $M^2$ (expand $g$ in powers of $x - P$), so $M/M^2 \cong k^n$. The maximal ideal $\mathfrak{m}$ of $A(Y)$ at $P$ satisfies
+$\mathfrak{m}/\mathfrak{m}^2 \cong M/(M^2 + I(Y))$, and localising at $\mathfrak{m}$ does not change $\mathfrak{m}/\mathfrak{m}^2$. The image of $I(Y)$ in
+$M/M^2 \cong k^n$ is spanned by the $\theta(f_i)$, the rows of $J(P)$, because $\theta(gf_i) = g(P)\theta(f_i)$ as $f_i(P) = 0$. So
+$\dim\mathfrak{m}/\mathfrak{m}^2 = n - \operatorname{rank}J(P)$.
+\end{proof}
+
+\begin{example}\label{varieties:example-singular}
+\begin{enumerate}
+\item The cusp $Z(y^2 - x^3)$ and the node $Z(y^2 - x^2(x + 1))$ (characteristic $\neq 2$) are singular exactly at the origin, where the
+Jacobian $(\partial f/\partial x, \partial f/\partial y)$ vanishes.
+\item A hypersurface $Z(f) \subseteq \Aa^n$ is singular exactly at the common zeros of $f$ and all $\partial f/\partial x_j$.
+\item $\Aa^n$, $\PP^n$ and the smooth quadric $Z(xw - yz) \subseteq \PP^3$ are nonsingular.
+\end{enumerate}
+\end{example}
+
+\section{Rational maps and birational equivalence}\label{varieties:section-rational-maps}
+
+\begin{lemma}\label{varieties:lemma-morphisms-agree}
+Two morphisms $\varphi, \psi \colon X \to Y$ of varieties that agree on a nonempty open subset are equal.
+\end{lemma}
+
+\begin{proof}
+Embed $Y$ in some $\PP^n$. The set $E = \{x : \varphi(x) = \psi(x)\}$ is closed. Indeed, near a point of $X$, $\varphi$ and $\psi$ map into standard open
+sets $U_a$ and $U_b$, so on a neighbourhood $V$ they are given by regular functions $\varphi = [f_0 : \cdots : f_n]$ with $f_a = 1$ and
+$\psi = [g_0 : \cdots : g_n]$ with $g_b = 1$. On $V$, $E$ is the common zero set of the regular functions $f_ig_j - f_jg_i$. The closed set $E$
+contains a dense open subset of the irreducible $X$, so $E = X$.
+\end{proof}
+
+\begin{definition}\label{varieties:definition-rational-map}
+A \emph{rational map} $\varphi \colon X \dashrightarrow Y$ is an equivalence class of pairs $(U, \varphi_U)$, where $U \subseteq X$ is nonempty open and
+$\varphi_U \colon U \to Y$ is a morphism, two pairs being equivalent if the morphisms agree on the intersection (which is possible by
+Lemma~\ref{varieties:lemma-morphisms-agree}). It is \emph{dominant} if $\varphi_U(U)$ is dense. A \emph{birational map} is a dominant rational map
+with a dominant rational inverse, and $X$, $Y$ are \emph{birational} if there is one. A variety birational to $\PP^n$ is \emph{rational}.
+\end{definition}
+
+\begin{theorem}\label{varieties:theorem-birational-fields}
+The functor $X \mapsto K(X)$ is an anti-equivalence between the category of varieties with dominant rational maps and the category of
+finitely generated field extensions of $k$. In particular $X$ and $Y$ are birational if and only if $K(X) \cong K(Y)$ over $k$, if and only
+if they have isomorphic nonempty open subsets.
+\end{theorem}
+
+\begin{proof}
+A dominant $\varphi$ defined on $U$ pulls back regular functions on nonempty open subsets of $Y$ to regular functions on nonempty open
+subsets of $U$, since preimages of dense open sets under a dominant map are nonempty. This gives $\varphi^* \colon K(Y) \to K(X)$. Conversely, let
+$\theta \colon K(Y) \to K(X)$ be a $k$-embedding. Choose an affine open $V \subseteq Y$ with $A(V) = k[y_1, \ldots, y_n]$. The elements $\theta(y_i)$
+are regular on some nonempty open $U \subseteq X$, and $\theta$ restricts to $A(V) \to \mathcal{O}(U)$. By
+Proposition~\ref{varieties:proposition-morphisms-to-affine} this is $\varphi^*$ for a morphism $\varphi \colon U \to V$. It is dominant: if its
+image lay in a proper closed subset $Z(g)$ with $0 \neq g \in A(V)$, then $\theta(g) = 0$, contradicting injectivity. These constructions are
+inverse to each other by Lemma~\ref{varieties:lemma-morphisms-agree} and Theorem~\ref{varieties:theorem-regular-functions-affine}. Every finitely
+generated extension $K = k(y_1, \ldots, y_n)$ is $K(V)$ for the affine variety with coordinate ring $k[y_1, \ldots, y_n] \subseteq K$
+(Proposition~\ref{varieties:proposition-morphisms-to-affine}).
+
+If $\varphi \colon X \dashrightarrow Y$ and $\psi \colon Y \dashrightarrow X$ are inverse birational maps, defined on $U$ and $V$, then
+$\psi \circ \varphi = \mathrm{id}$ on $\varphi^{-1}(V)$ and $\varphi \circ \psi = \mathrm{id}$ on $\psi^{-1}(U)$. So $\varphi$ restricts to an
+isomorphism $\varphi^{-1}(\psi^{-1}(U)) \to \psi^{-1}(U)$. The converse is clear.
+\end{proof}
+
+\begin{proposition}\label{varieties:proposition-birational-hypersurface}
+Every variety of dimension $r$ is birational to a hypersurface in $\Aa^{r+1}$.
+\end{proposition}
+
+\begin{proof}
+The finitely generated extension $K(Y)/k$ of transcendence degree $r$ is separably generated: there are $x_1, \ldots, x_r$, algebraically
+independent, such that $K(Y)$ is a finite separable extension of $k(x_1, \ldots, x_r)$. In characteristic $0$ this holds for every transcendence
+basis. In characteristic $p$ it holds because $k$ is perfect \cite[Section 26]{matsumura-crt}. By the primitive element theorem
+(Theorem~\ref{fields:theorem-primitive-element}), $K(Y) = k(x_1, \ldots, x_r, y)$ with $y$ separable algebraic over $k(x)$. Clearing
+denominators in the minimal polynomial of $y$ gives an irreducible $f \in k[x_1, \ldots, x_r, t]$ with $f(x, y) = 0$, and $K(Z(f)) \cong K(Y)$.
+Apply Theorem~\ref{varieties:theorem-birational-fields}.
+\end{proof}
+
+\begin{theorem}\label{varieties:theorem-singular-locus}
+The singular points of a variety $Y$ form a proper closed subset.
+\end{theorem}
+
+\begin{proof}
+Closedness is local, so let $Y \subseteq \Aa^n$ be affine of dimension $r$ with $I(Y) = (f_1, \ldots, f_t)$. By
+Lemma~\ref{varieties:lemma-tangent-dimension} and Theorem~\ref{varieties:theorem-jacobian}, $\operatorname{rank}J(P) \leq n - r$ everywhere, and the
+singular set is the common zero set of the $(n - r)$-minors of $J$, which is closed. It is proper: by
+Proposition~\ref{varieties:proposition-birational-hypersurface} and Theorem~\ref{varieties:theorem-birational-fields}, $Y$ has an open subset
+isomorphic to an open subset of a hypersurface $Z(f) \subseteq \Aa^{r+1}$ with $f$ irreducible, so it suffices to find a nonsingular point on $Z(f)$.
+The singular points are $Z(f, \partial f/\partial x_1, \ldots)$ (Example~\ref{varieties:example-singular}). If they were all of $Z(f)$, then each
+$\partial f/\partial x_j$ would lie in $I(Z(f)) = (f)$, hence vanish, by degree. In characteristic $0$ this makes $f$ constant. In
+characteristic $p$ it makes $f$ a polynomial in $x_1^p, \ldots, x_{r+1}^p$, hence a $p$-th power since $k$ is perfect, contradicting
+irreducibility. So the nonsingular points of $Z(f)$ form a nonempty open set, which meets the open subset isomorphic to an open subset of $Y$,
+because $Z(f)$ is irreducible. Isomorphic open subsets have isomorphic local rings.
+\end{proof}
+
+\begin{example}\label{varieties:example-birational}
+\begin{enumerate}
+\item $\PP^n$ and $\Aa^n$ are birational, and so are $\PP^1 \times \PP^1$ and $\PP^2$: all three have function field $k(x_1, x_2)$ for $n = 2$. By
+Corollary~\ref{varieties:corollary-intersections-nonempty}, $\PP^1 \times \PP^1$ and $\PP^2$ are not isomorphic.
+\item The cuspidal cubic $Z(y^2 - x^3)$ is rational: $t = y/x$ gives $K = k(t)$. It is singular, so it is not isomorphic to $\PP^1$ or $\Aa^1$.
+\item The \emph{Cremona transformation} $\PP^2 \dashrightarrow \PP^2$, $[x : y : z] \mapsto [yz : xz : xy]$, is birational and equal to its own
+inverse, but it is not defined at the three coordinate points.
+\item A nonsingular plane cubic is not rational. This follows from the genus (Chapter~\ref{curves}): rational nonsingular projective curves are
+isomorphic to $\PP^1$, which has genus $0$, while plane cubics have genus $1$.
+\end{enumerate}
+\end{example}
+
+\section{Blow-ups}\label{varieties:section-blowups}
+
+\begin{definition}\label{varieties:definition-blowup}
+The \emph{blow-up} of $\Aa^n$ at $0$ is the closed subset $\mathrm{Bl}_0\Aa^n = \{(x, y) \in \Aa^n \times \PP^{n-1} : x_iy_j = x_jy_i \text{ for all } i, j\}$
+with the projection $\pi \colon \mathrm{Bl}_0\Aa^n \to \Aa^n$. For a closed subvariety $Y \subseteq \Aa^n$ through $0$, the \emph{blow-up} (or
+\emph{strict transform}) $\tilde Y$ is the closure of $\pi^{-1}(Y \setminus \{0\})$ in $\mathrm{Bl}_0\Aa^n$.
+\end{definition}
+
+\begin{proposition}\label{varieties:proposition-blowup}
+$\mathrm{Bl}_0\Aa^n$ is a nonsingular variety of dimension $n$. The map $\pi$ is an isomorphism over $\Aa^n \setminus \{0\}$, and
+$E = \pi^{-1}(0) = \{0\} \times \PP^{n-1}$ parametrises the lines through $0$. For $Y$ as above, $\tilde Y \to Y$ is birational, and
+$\tilde Y \cap E$ consists of limits of secant directions of $Y$ at $0$.
+\end{proposition}
+
+\begin{proof}
+On $\{y_i \neq 0\}$ put $y_i = 1$. The equations become $x_j = x_iy_j$, so this open set is the graph of a morphism $\Aa^n \to \Aa^{n-1}$, which is
+isomorphic to $\Aa^n$ with coordinates $(x_i, y_j)_{j \neq i}$. These charts are irreducible of dimension $n$ and nonsingular, and pairwise they
+meet in nonempty open sets, so $\mathrm{Bl}_0\Aa^n$ is irreducible, of dimension $n$ and nonsingular. Over $x \neq 0$, the equations force
+$y = [x]$, so $x \mapsto (x, [x])$ is an inverse of $\pi$ there. Over $0$ the equations are empty, so $E = \{0\} \times \PP^{n-1}$. For $Y$, the map
+$\tilde Y \to Y$ is an isomorphism over $Y \setminus \{0\}$, which is dense in $\tilde Y$ by definition, and a point $(0, [v]) \in \tilde Y$ is a limit
+of points $(x, [x])$ with $x \in Y \setminus \{0\}$.
+\end{proof}
+
+\begin{example}\label{varieties:example-blowup-curves}
+Let $\mathrm{char}\,k \neq 2$. For the node $Y = Z(y^2 - x^2(x + 1))$, in the chart $y = xt$ the preimage is $Z(x^2(t^2 - x - 1))$, the union of $E = Z(x)$
+(with multiplicity $2$) and the strict transform $\tilde Y = Z(t^2 - x - 1)$. The latter is nonsingular and meets $E$ at the two points $t = \pm 1$,
+the two tangent directions of the branches: blowing up separates the branches. For the cusp $Z(y^2 - x^3)$, the strict transform is
+$Z(t^2 - x)$, nonsingular and meeting $E$ at one point. In both cases one blow-up \emph{resolves} the singularity.
+\end{example}
+
+\begin{remark}\label{varieties:remark-resolution}
+Blow-ups at points glue to blow-ups of any variety at a nonsingular point, and more generally along closed subvarieties. For $k = \CC$ this
+is the construction of Definition~\ref{complex-manifolds:definition-blowup}. Hironaka proved that in characteristic $0$ every variety is
+birational to a nonsingular projective variety, and in fact that singularities can be resolved by a sequence of blow-ups along nonsingular
+centres \cite{hironaka-1964}. In positive characteristic this is known only in low dimension.
+\end{remark}
+
+\section{Exercises}\label{varieties:section-exercises}
+
+\begin{exercise}\label{varieties:exercise-affine-line-punctured}
+Show that $\Aa^1$ minus finitely many points is affine, and determine its coordinate ring.
+\end{exercise}
+
+\begin{solution}
+If the points are $a_1, \ldots, a_m$, the set is $D(f)$ for $f = \prod_i(x - a_i)$, which is affine with coordinate ring $k[x]_f$ by
+Example~\ref{varieties:example-morphisms}(1).
+\end{solution}
+
+\begin{exercise}\label{varieties:exercise-conics}
+Let $\mathrm{char}\,k \neq 2$. Show that every irreducible conic $Z(q) \subseteq \PP^2$ ($q$ a quadratic form) is isomorphic to $\PP^1$.
+\end{exercise}
+
+\begin{solution}
+Diagonalise $q$ by a linear change of coordinates. It has rank $3$, since a quadratic form of rank $\leq 2$ over an algebraically closed field
+factors into linear forms. Over $k$ it is then equivalent to $xz - y^2$. The morphism $\PP^1 \to Z(xz - y^2)$, $[s : t] \mapsto [s^2 : st : t^2]$, is
+the Veronese map $v_2$, an isomorphism onto its image (Example~\ref{varieties:example-projective}). Its inverse is given by $[x : y] $ on
+$\{x \neq 0\}$ and by $[y : z]$ on $\{z \neq 0\}$.
+\end{solution}
+
+\begin{exercise}\label{varieties:exercise-cone-singular}
+Let $\mathrm{char}\,k \neq 2$. Show that the cone $Z(x^2 + y^2 - z^2) \subseteq \Aa^3$ is singular only at the origin, and compute its tangent space
+there.
+\end{exercise}
+
+\begin{solution}
+The Jacobian is $(2x, 2y, -2z)$, which vanishes only at $0$, and $\dim = 2$, so the cone is nonsingular away from $0$
+(Theorem~\ref{varieties:theorem-jacobian}). At $0$ the Jacobian is zero, so $T_0Y = k^3$ has dimension $3 > 2$.
+\end{solution}
+
+\begin{exercise}\label{varieties:exercise-hypersurfaces-meet}
+Show that $n$ hypersurfaces in $\PP^n$ have a common point, and that the Segre quadric $Z(xw - yz) \subseteq \PP^3$ contains two families of lines
+such that two lines of the same family are disjoint and two lines of different families meet in one point.
+\end{exercise}
+
+\begin{solution}
+The first statement is Corollary~\ref{varieties:corollary-intersections-nonempty} with $Y = \PP^n$. The quadric is the image of the Segre map
+$\PP^1 \times \PP^1 \to \PP^3$, $([a_0 : a_1], [b_0 : b_1]) \mapsto [a_0b_0 : a_0b_1 : a_1b_0 : a_1b_1]$, which is a bijection onto it. The images of
+$\{a\} \times \PP^1$ and $\PP^1 \times \{b\}$ are lines. Two lines of the same family are images of disjoint sets, and $\{a\} \times \PP^1$ meets
+$\PP^1 \times \{b\}$ exactly in $(a, b)$.
+\end{solution}
+
+\begin{exercise}\label{varieties:exercise-twisted-cubic-ideal}
+Show that the projective twisted cubic $C = v_3(\PP^1) \subseteq \PP^3$ is cut out by the three quadrics $xz - y^2$, $yw - z^2$, $xw - yz$, but not by
+any two of them.
+\end{exercise}
+
+\begin{solution}
+The three quadrics say that the matrix $\left(\begin{smallmatrix}x & y & z \\ y & z & w\end{smallmatrix}\right)$ has rank $\leq 1$. Such a point with
+$x \neq 0$ is $[1 : t : t^2 : t^3]$ with $t = y/x$, and with $x = 0$ it is $[0 : 0 : 0 : 1]$, so the common zeros are exactly $C$. The quadrics
+$xz - y^2$ and $yw - z^2$ also vanish on the line $y = z = 0$, which is not contained in $C$. For the other pairs, $\{xz = y^2, xw = yz\}$ contains the
+line $x = y = 0$, and $\{yw = z^2, xw = yz\}$ contains the line $z = w = 0$.
+\end{solution}

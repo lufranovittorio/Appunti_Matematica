@@ -1,0 +1,236 @@
+\chapter{Connections and Curvature}\label{connections}
+\chapterstatus{complete}
+
+\section{Introduction}\label{connections:section-introduction}
+
+A connection is a way of differentiating sections of a vector bundle; its curvature measures the failure of second derivatives to
+commute, and is the source of characteristic classes (Chapter~\ref{characteristic-classes}). Flat connections are the same as local
+systems (Theorem~\ref{connections:theorem-flat-local-systems}), which is the differential-geometric form of the monodromy
+correspondence of Chapter~\ref{sheaves} and the starting point of the theory of variations of Hodge structure
+(Chapter~\ref{vhs}), where the Gauss--Manin connection appears. References: \cite{kobayashi-nomizu}, \cite{milnor-stasheff},
+\cite[Chapter 0]{griffiths-harris}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{vector-bundles} (Vector Bundles), Chapter~\ref{differential-forms} (Differential Forms
+and Integration) and Chapter~\ref{lie-groups} (Lie Groups).
+
+For a vector bundle $E \to M$ we write $\Omega^k(M, E) = \Gamma(M, \Lambda^kT^*M \otimes E)$ for the $E$-valued $k$-forms, so that
+$\Omega^0(M, E) = \Gamma(M, E)$.
+
+\section{Connections}\label{connections:section-connections}
+
+\begin{definition}\label{connections:definition-connection}
+A \emph{connection} on a vector bundle $E \to M$ is a map $\nabla \colon \Gamma(M, E) \to \Omega^1(M, E)$ that is $\RR$-linear and satisfies the Leibniz rule
+\[
+\nabla(fs) = df \otimes s + f\nabla s, \qquad f \in C^\infty(M),\ s \in \Gamma(M, E).
+\]
+For a vector field $X$ we write $\nabla_Xs = (\nabla s)(X)$, so $\nabla_{fX}s = f\nabla_Xs$ and $\nabla_X(fs) = (Xf)s + f\nabla_Xs$.
+\end{definition}
+
+\begin{proposition}\label{connections:proposition-connections-exist}
+Connections are local operators, and in a local frame $(e_1, \ldots, e_r)$ over $U$ a connection is given by
+$\nabla e_j = \sum_i\theta^i_j \otimes e_i$ for a matrix $\theta = (\theta^i_j)$ of $1$-forms, the \emph{connection form}; then $\nabla(\sum_js^je_j) = \sum_i(ds^i + \sum_j\theta^i_js^j)e_i$. Under a change of
+frame $e' = eg$ with $g \colon U \to \GL_r$, the connection form transforms as $\theta' = g^{-1}\theta g + g^{-1}dg$. Every vector bundle over a manifold admits a connection, and the set of connections is an
+affine space over $\Omega^1(M, \End E)$.
+\end{proposition}
+
+\begin{proof}
+Locality follows from the Leibniz rule with a bump function, as in Theorem~\ref{differential-forms:theorem-exterior-derivative}. The formulas in a frame are immediate from the Leibniz rule, and the
+transformation rule follows by expanding $\nabla(e_kg^k_j)$. The trivial bundle $U \times \RR^r$ has the connection $d$; patching the pullbacks of such connections with a partition of unity
+(Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}) gives a connection, because the Leibniz rule is preserved by convex combinations: if $\nabla = \sum_i\psi_i\nabla^i$ with $\sum\psi_i = 1$, then
+$\nabla(fs) = \sum_i\psi_i(df \otimes s + f\nabla^is) = df \otimes s + f\nabla s$. The difference of two connections is $C^\infty$-linear, hence a bundle map $E \to T^*M \otimes E$.
+\end{proof}
+
+\begin{definition}\label{connections:definition-curvature}
+The \emph{exterior covariant derivative} $d_\nabla \colon \Omega^k(M, E) \to \Omega^{k+1}(M, E)$ is determined by $d_\nabla(\alpha \otimes s) = d\alpha \otimes s + (-1)^k\alpha \wedge \nabla s$, and the
+\emph{curvature} is $F_\nabla = d_\nabla \circ \nabla \colon \Gamma(M, E) \to \Omega^2(M, E)$.
+\end{definition}
+
+\begin{proposition}\label{connections:proposition-curvature}
+$F_\nabla$ is $C^\infty(M)$-linear, hence an element of $\Omega^2(M, \End E)$, and
+\[
+F_\nabla(X, Y)s = \nabla_X\nabla_Ys - \nabla_Y\nabla_Xs - \nabla_{[X, Y]}s .
+\]
+In a frame with connection form $\theta$ one has $F = d\theta + \theta \wedge \theta$, and under a change of frame $F' = g^{-1}Fg$. Moreover $d_\nabla F = 0$ in the sense that
+$dF + \theta \wedge F - F \wedge \theta = 0$ (the \emph{Bianchi identity}), and $d_\nabla \circ d_\nabla = F_\nabla \wedge -$ on $\Omega^\bullet(M, E)$.
+\end{proposition}
+
+\begin{proof}
+For $f \in C^\infty(M)$, $F_\nabla(fs) = d_\nabla(df \otimes s + f\nabla s) = -df \wedge \nabla s + df \wedge \nabla s + fd_\nabla\nabla s = fF_\nabla(s)$, so $F_\nabla$ is tensorial. The formula in terms of vector
+fields follows by evaluating on $X, Y$ and using $d\alpha(X, Y) = X\alpha(Y) - Y\alpha(X) - \alpha([X, Y])$ (Theorem~\ref{differential-forms:theorem-exterior-derivative}). In a frame,
+$F(e_j) = d_\nabla(\sum_i\theta^i_j \otimes e_i) = \sum_i(d\theta^i_j)e_i - \sum_i\theta^i_j \wedge \nabla e_i = \sum_i(d\theta^i_j + \sum_k\theta^i_k \wedge \theta^k_j)e_i$. The transformation rule follows
+from that of $\theta$ by a computation, and differentiating $F = d\theta + \theta \wedge \theta$ gives $dF = d\theta \wedge \theta - \theta \wedge d\theta = F \wedge \theta - \theta \wedge F$. The last identity is
+checked on $\alpha \otimes s$.
+\end{proof}
+
+\begin{example}\label{connections:example-connections}
+On the trivial bundle, $\nabla = d + \theta$ for a matrix of $1$-forms $\theta$, with curvature $d\theta + \theta \wedge \theta$; for a line bundle $\theta$ is a single $1$-form and $F = d\theta$ is closed. A
+connection on $E$ induces connections on $E^\vee$, $E \otimes F$, $\Lambda^kE$ and $\End E$ by the Leibniz rule, with the corresponding curvatures; for instance $\nabla^{\End}(A) = \nabla \circ A - A \circ \nabla$.
+\end{example}
+
+\begin{proposition}\label{connections:proposition-pullback-tensor}
+Let $\nabla$ be a connection on $E \to M$ with curvature $F$, and $\nabla'$ a connection on $E' \to M$ with curvature $F'$.
+\begin{enumerate}
+\item For smooth $f \colon N \to M$ there is a unique connection $f^*\nabla$ on $f^*E$ with $(f^*\nabla)(f^*s) = f^*(\nabla s)$ for sections $s$ of $E$; its curvature is $f^*F$.
+\item The connection $\nabla \otimes 1 + 1 \otimes \nabla'$ on $E \otimes E'$ has curvature $F \otimes 1 + 1 \otimes F'$, and the dual connection on $E^\vee$, $(\nabla^\vee\phi)(s) = d(\phi(s)) - \phi(\nabla s)$, has curvature $-F^T$.
+\item For a line bundle, $\nabla$ and $\nabla + \alpha$, with $\alpha$ a $1$-form, have curvatures differing by $d\alpha$; so the curvature of a line bundle is a closed $2$-form whose class does not depend on the connection.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) In a local frame $(e_j)$ of $E$ with connection form $\theta$, the pullback frame $(f^*e_j)$ of $f^*E$ and the form $f^*\theta$ define a connection, and the transformation rule of
+Proposition~\ref{connections:proposition-connections-exist} is preserved by pullback, so these local connections glue. The condition determines $f^*\nabla$ on the pulled back frames, hence everywhere by the Leibniz rule. The curvature is
+$d(f^*\theta) + f^*\theta \wedge f^*\theta = f^*(d\theta + \theta \wedge \theta)$ (Proposition~\ref{connections:proposition-curvature}). (2) In frames $(e_j)$, $(e'_k)$ with connection forms $\theta$, $\theta'$, the frame $(e_j \otimes e'_k)$ has
+connection form $\theta \otimes 1 + 1 \otimes \theta'$, and as the two summands commute (they act on different factors), $d$ of it plus its square is $(d\theta + \theta \wedge \theta) \otimes 1 + 1 \otimes (d\theta' + \theta' \wedge \theta')$, the cross
+terms cancelling by graded commutativity. The dual frame has connection form $-\theta^T$, and $d(-\theta^T) + \theta^T \wedge \theta^T = -(d\theta + \theta \wedge \theta)^T$, as $(\theta \wedge \theta)^T = -\theta^T \wedge \theta^T$ for matrices of
+$1$-forms. (3) For rank one, $\theta$ is a $1$-form and $\theta \wedge \theta = 0$, so $F = d\theta$, and replacing $\theta$ by $\theta + \alpha$ adds $d\alpha$. Closedness is the Bianchi identity.
+\end{proof}
+
+\section{Parallel transport, holonomy and flatness}\label{connections:section-parallel-transport}
+
+\begin{definition}\label{connections:definition-parallel}
+A section $s$ along a smooth curve $\gamma \colon [0, 1] \to M$ is \emph{parallel} if $\nabla_{\dot\gamma}s = 0$. \emph{Parallel transport} along $\gamma$ is the map $P_\gamma \colon E_{\gamma(0)} \to E_{\gamma(1)}$
+sending $v$ to $s(1)$, where $s$ is the parallel section with $s(0) = v$.
+\end{definition}
+
+\begin{proposition}\label{connections:proposition-parallel-transport}
+Parallel sections along $\gamma$ exist and are unique for each initial value, so $P_\gamma$ is a well-defined linear isomorphism, depending smoothly on the data and satisfying
+$P_{\gamma \ast \delta} = P_\delta \circ P_\gamma$ and $P_{\bar\gamma} = P_\gamma^{-1}$.
+\end{proposition}
+
+\begin{proof}
+In a local frame the equation $\nabla_{\dot\gamma}s = 0$ reads $\dot s^i + \sum_j\theta^i_j(\dot\gamma)s^j = 0$, a linear system of ordinary differential equations with smooth coefficients; by
+Proposition~\ref{real-analysis:proposition-ode-dependence}(2) its solutions exist on the whole interval, are unique, and depend linearly on the initial value, smoothly on parameters
+(Theorem~\ref{real-analysis:theorem-smooth-dependence}). Linearity gives invertibility, with inverse the transport along the reversed curve, and the composition rule follows from uniqueness.
+\end{proof}
+
+\begin{proposition}[Homotopy invariance of pullbacks]\label{connections:proposition-homotopy-invariance}
+Let $E \to N$ be a vector bundle and $F \colon M \times \RR \to N$ a smooth map, and put $f = F(-, 0)$ and $g = F(-, 1)$. Then $f^*E \cong g^*E$ as vector bundles on $M$. In particular every vector bundle on a star-shaped open
+subset of $\RR^n$, for instance on $\RR^n$ or on a ball, is trivial.
+\end{proposition}
+
+\begin{proof}
+Choose a connection on $E' = F^*E$ (Proposition~\ref{connections:proposition-connections-exist}). For $x \in M$ let $\gamma_x(t) = (x, t)$, $0 \leq t \leq 1$, and let $P_x \colon E'_{(x,0)} \to E'_{(x,1)}$ be parallel
+transport along $\gamma_x$. Since $E'_{(x,0)} = E_{f(x)} = (f^*E)_x$ and $E'_{(x,1)} = (g^*E)_x$, the $P_x$ are linear isomorphisms $(f^*E)_x \to (g^*E)_x$, and they depend smoothly on $x$
+(Proposition~\ref{connections:proposition-parallel-transport}), so they form an isomorphism of vector bundles $f^*E \to g^*E$. For a star-shaped $U$, with centre $p$, apply this to $F(x, t) = p + t(x - p)$ and
+$N = U$: then $g = \id$ and $f$ is constant, so $E = \id^*E \cong f^*E = U \times E_p$ is trivial.
+\end{proof}
+
+\begin{definition}\label{connections:definition-holonomy}
+The \emph{holonomy group} of $\nabla$ at $p$ is $\mathrm{Hol}_p(\nabla) = \{P_\gamma : \gamma \text{ a loop at } p\} \subseteq \GL(E_p)$, a subgroup. A connection is \emph{flat} if $F_\nabla = 0$.
+\end{definition}
+
+\begin{theorem}\label{connections:theorem-flat-local-systems}
+For a connection $\nabla$ on $E \to M$ the following are equivalent:
+\begin{enumerate}
+\item $F_\nabla = 0$;
+\item every point has a neighbourhood with a frame of parallel sections (a \emph{flat frame}), in which $\nabla = d$;
+\item parallel transport along a path depends only on its homotopy class with fixed endpoints.
+\end{enumerate}
+In that case the sheaf $\mathcal{E}^\nabla$ of parallel sections is a local system of rank $r$ with $\mathcal{E}^\nabla \otimes_{\RR_M} C^\infty_M \cong \mathcal{E}$, and on a connected $M$ this gives an
+equivalence between flat bundles and representations of $\pi_1(M, p)$, the representation being the holonomy
+\[
+\pi_1(M, p) \to \GL(E_p), \qquad [\gamma] \mapsto P_\gamma^{-1}.
+\]
+\end{theorem}
+
+\begin{proof}
+(2)$\Rightarrow$(1) is clear, since $d$ has zero curvature, and curvature is local.
+
+(1)$\Rightarrow$(2). Work over a coordinate ball $U$ with a frame, so that $E|_U = U \times \RR^r$ and $\nabla = d + \theta$ with $\theta = \sum_i\theta_i\,dx^i$, a matrix of $1$-forms. On $U \times \RR^r$ consider
+the rank $n$ distribution spanned by the vector fields $X_i = \partial/\partial x^i - \sum_{j,k}(\theta_i)^k_jv^j\,\partial/\partial v^k$. A computation gives
+$[X_i, X_j] = -\sum_{k,l}(F_{ij})^k_lv^l\,\partial/\partial v^k$, where $F = \sum_{i<j}F_{ij}\,dx^i \wedge dx^j$; so the distribution is involutive if and only if $F = 0$. If $F = 0$, the Frobenius theorem
+(Theorem~\ref{smooth-manifolds:theorem-frobenius}) gives integral manifolds; each is transverse to the fibres $\{x\} \times \RR^r$, hence locally the graph of a map $s \colon U' \to \RR^r$, and the condition
+that the graph is an integral manifold is exactly $\partial_is + \theta_is = 0$, that is, $\nabla s = 0$. Taking the integral manifolds through $(p, v_1), \ldots, (p, v_r)$ for a basis $(v_i)$ gives $r$ parallel
+sections near $p$, which form a frame because they are linearly independent at $p$, hence nearby.
+
+(2)$\Rightarrow$(3). Let $H \colon [0,1]^2 \to M$ be a homotopy with fixed endpoints from $\gamma_0$ to $\gamma_1$. Cover the square by finitely many small squares each mapped by $H$ into a neighbourhood
+carrying a flat frame, as in the proof of Theorem~\ref{complex-analysis:theorem-cauchy-homotopy}. In a flat frame parallel transport along any path is the identity matrix, so the transport along the two
+edge paths of each small square agree; moving across the squares one at a time shows that the transports along $\gamma_0$ and $\gamma_1$ coincide.
+
+(3)$\Rightarrow$(2). On a simply connected neighbourhood $U$ of a point $p$, define $s_i(q) = P_\gamma(v_i)$ for a path $\gamma$ from $p$ to $q$ in $U$ and a basis $(v_i)$ of $E_p$; this is well defined by (3),
+smooth by smooth dependence of solutions of differential equations, and gives a frame of parallel sections, in which the connection form vanishes.
+
+For the last statement, parallel sections form a sheaf that is locally constant by (2), hence a local system, and a local frame of parallel sections is a frame of $E$, which gives the isomorphism with
+$\mathcal{E}$. Conversely a local system $\mathcal{L}$ determines the bundle $E = \mathcal{L} \otimes_{\RR_M} C^\infty_M$ with the connection $d$ in any flat frame; these constructions are inverse to each
+other. The correspondence with representations of $\pi_1$ is Theorem~\ref{sheaves:theorem-local-systems-representations}, and the monodromy of the local system of parallel sections is given by parallel
+transport; the inverse appears because monodromy was defined as a right action.
+\end{proof}
+
+\begin{example}\label{connections:example-flat-circle}
+Flat connections on the trivial line bundle over $S^1 = \RR/2\pi\ZZ$: every connection is $d + a(\theta)\,d\theta$, it is flat, and parallel transport around the circle is multiplication by $\exp(-\int_0^{2\pi}a)$. Two such connections are
+isomorphic (by a gauge transformation $g \colon S^1 \to \CC^\times$, which changes $a\,d\theta$ by $g^{-1}dg$) if and only if their holonomies agree, because the $1$-forms $g^{-1}dg$ are exactly those with $\int_{S^1}g^{-1}dg \in 2\pi i\ZZ$
+(a nonvanishing function has a continuous logarithm along the circle whose increase is $2\pi i$ times its winding number). So flat line bundles with connection on $S^1$ are classified by the holonomy in $\CC^\times$, in accordance with
+Theorem~\ref{connections:theorem-flat-local-systems}, since $\pi_1(S^1) = \ZZ$.
+\end{example}
+
+\section{Metric connections}\label{connections:section-metric}
+
+\begin{definition}\label{connections:definition-metric-connection}
+Let $E$ carry a Euclidean metric $\langle -, - \rangle$ (or a Hermitian metric in the complex case). A connection is \emph{metric} if
+$d\langle s, t \rangle = \langle \nabla s, t \rangle + \langle s, \nabla t \rangle$.
+\end{definition}
+
+\begin{proposition}\label{connections:proposition-metric-connections}
+Metric connections exist, and $\nabla$ is metric if and only if parallel transport is an isometry, if and only if in every orthonormal local frame the connection form is skew-symmetric (skew-Hermitian in
+the complex case); then the curvature takes values in the skew-symmetric (skew-Hermitian) endomorphisms, that is, in the Lie algebra of the structure group.
+\end{proposition}
+
+\begin{proof}
+Existence: patch the standard connections of orthonormal local frames with a partition of unity, as in Proposition~\ref{connections:proposition-connections-exist}; the metric condition is preserved by convex
+combinations. If $\nabla$ is metric and $s$, $t$ are parallel along $\gamma$, then $\frac{d}{dt}\langle s, t \rangle = 0$, so transport is an isometry; conversely differentiate. In an orthonormal frame the
+metric condition reads $0 = \theta^i_j + \theta^j_i$ (respectively $\theta^i_j + \overline{\theta^j_i}$), and the statement about curvature follows from $F = d\theta + \theta \wedge \theta$.
+\end{proof}
+
+\begin{example}\label{connections:example-chern-connection}
+On a complex vector bundle with a Hermitian metric over a complex manifold, there is a unique connection that is metric and compatible with the holomorphic structure ($\nabla^{0,1} = \bar\partial$): the
+\emph{Chern connection} (Chapter~\ref{holomorphic-bundles}). Its curvature is a $(1,1)$-form, and for line bundles $\frac{i}{2\pi}F$ represents the first Chern class in de Rham cohomology, which is the
+differential-geometric form of Theorem~\ref{vector-bundles:theorem-line-bundles}.
+\end{example}
+
+\section{Principal bundles}\label{connections:section-principal}
+
+\begin{definition}\label{connections:definition-principal-bundle}
+Let $G$ be a Lie group. A \emph{principal $G$-bundle} is a smooth surjection $\pi \colon P \to M$ with a free right action of $G$ preserving the fibres and acting simply transitively on them, which is locally
+trivial: every point of $M$ has a neighbourhood $U$ with a $G$-equivariant diffeomorphism $\pi^{-1}(U) \cong U \times G$ over $U$. As for vector bundles, principal bundles are classified by cocycles
+$g_{ij} \colon U_i \cap U_j \to G$, that is, by $\check{H}^1(M, \underline{G})$.
+\end{definition}
+
+\begin{example}\label{connections:example-principal}
+The frame bundle $\mathrm{Fr}(E)$ of a rank $r$ real vector bundle, whose fibre over $p$ is the set of bases of $E_p$, is a principal $\GL_r(\RR)$-bundle, and $E$ is recovered as the associated bundle
+$\mathrm{Fr}(E) \times_{\GL_r}\RR^r$; a metric reduces the structure group to $O(r)$, an orientation to $\GL_r^+$, and a complex structure to $\GL_{r/2}(\CC)$. Covering spaces are principal bundles with
+discrete structure group.
+\end{example}
+
+\begin{remark}\label{connections:remark-principal-connections}
+A connection on a principal bundle is a $G$-equivariant splitting of $0 \to \ker d\pi \to TP \to \pi^*TM \to 0$, equivalently a $\mathfrak{g}$-valued $1$-form $\omega$ on $P$ restricting to the
+Maurer--Cartan form on fibres and satisfying $R_g^*\omega = \Ad(g^{-1})\omega$. Its curvature is $\Omega = d\omega + \frac12[\omega, \omega]$, and connections on $P$ correspond to connections on all
+associated vector bundles, compatible with the structure group. This is the framework of gauge theory and of Chern--Weil theory, which we use in Chapter~\ref{characteristic-classes}; see
+\cite[Chapters I--II]{kobayashi-nomizu}.
+\end{remark}
+
+\section{Exercises}\label{connections:section-exercises}
+
+\begin{exercise}\label{connections:exercise-curvature-sphere}
+Compute the connection and curvature forms of the Levi-Civita connection of the round sphere $S^2$ in a local orthonormal frame, and verify that the curvature is $F = \mathrm{vol}$ times a skew-symmetric
+matrix, of total integral $4\pi$ (compare the Gauss--Bonnet theorem, Chapter~\ref{characteristic-classes}).
+\end{exercise}
+
+\begin{exercise}\label{connections:exercise-flat-not-trivial}
+Give an example of a flat bundle that is not trivial, and of a bundle admitting no flat connection.
+\end{exercise}
+
+\begin{solution}
+The M\"obius bundle over $S^1$ is flat (its transition function is locally constant) but not trivial
+(Exercise~\ref{vector-bundles:exercise-mobius}). The tautological bundle $\mathcal{O}(-1)$ on $\CC\PP^1$ admits no flat connection: by Theorem~\ref{connections:theorem-flat-local-systems} a flat bundle on a
+simply connected manifold is determined by a representation of the trivial group, hence is trivial, while $\mathcal{O}(-1)$ is not trivial because $c_1(\mathcal{O}(-1)) \neq 0$
+(Example~\ref{vector-bundles:example-line-bundles}).
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-holonomy-abelian}
+Show that for a line bundle with connection, the holonomy is given by $\exp(-\int_\Sigma F)$ for a loop bounding a surface $\Sigma$, and deduce that flat line bundles on a simply connected manifold are
+trivial.
+\end{exercise}
+
+\begin{exercise}\label{connections:exercise-induced-connections}
+Verify that a connection on $E$ induces connections on $E^\vee$ and $E \otimes F$, and that the curvature of $E \otimes F$ is $F_E \otimes 1 + 1 \otimes F_F$.
+\end{exercise}

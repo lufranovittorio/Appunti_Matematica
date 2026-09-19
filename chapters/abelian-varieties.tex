@@ -1,0 +1,273 @@
+\chapter{Abelian Varieties}\label{abelian-varieties}
+\chapterstatus{complete}
+
+\section{Introduction}\label{abelian-varieties:section-introduction}
+
+A complex abelian variety is a complex torus $\CC^g/\Lambda$ that embeds in projective space. Tori are the simplest compact K\"ahler manifolds, and their
+cohomology is completely explicit: exterior powers of $H^1$. For this reason abelian varieties are the main testing ground of the Hodge conjecture. They
+include the known cases (divisors, Lefschetz classes), the first instances of exceptional Hodge classes (Weil classes), and Deligne's theorem that Hodge classes
+on abelian varieties are absolutely Hodge (Part~\ref{part-hodge-theory}). This chapter proves Riemann's criterion for a torus to be algebraic, describes line
+bundles, polarisations, the dual and the Jacobian, and discusses endomorphisms and complex multiplication. References: \cite{birkenhake-lange},
+\cite{mumford-abelian}, \cite[Chapter 2, Section 6]{griffiths-harris}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{curves} (Algebraic Curves and Riemann Surfaces), Chapter~\ref{divisors} (Divisors and Line Bundles),
+Chapter~\ref{hodge-decomposition} (The Hodge Decomposition) and Chapter~\ref{algebraic-groups} (Linear Algebraic Groups).
+
+Throughout, $V$ is a complex vector space of dimension $g$, $\Lambda \subseteq V$ a lattice (a discrete subgroup of rank $2g$ spanning $V$ over $\RR$), and $T = V/\Lambda$ the complex
+torus, with its structure of compact complex Lie group (group law written additively). $\bar V^\vee$ denotes the space of conjugate-linear forms $V \to \CC$.
+
+\section{Complex tori and their cohomology}\label{abelian-varieties:section-tori}
+
+\begin{proposition}\label{abelian-varieties:proposition-torus-cohomology}
+\begin{enumerate}
+\item $H_1(T; \ZZ) = \Lambda$, and cup product gives ring isomorphisms $H^k(T; \ZZ) \cong \Lambda^k\Hom(\Lambda, \ZZ)$, the alternating $k$-forms on $\Lambda$.
+\item The Hodge decomposition is $H^1(T; \CC) = \Hom_\RR(\Lambda \otimes \RR, \CC) = V^\vee \oplus \bar V^\vee$, with $H^{1,0} = V^\vee$ (spanned by the $dz_j$) and
+$H^{0,1} = \bar V^\vee$ (spanned by the $d\bar z_j$), and $H^{p,q}(T) = \Lambda^pV^\vee \otimes \Lambda^q\bar V^\vee$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $T$ is diffeomorphic to $(S^1)^{2g}$ via a $\ZZ$-basis of $\Lambda$, and $\RR^{2g} \to T$ is the universal covering, so $\pi_1(T) = H_1(T; \ZZ) = \Lambda$. The ring structure follows from
+the K\"unneth formula (Theorem~\ref{singular-cohomology:theorem-kunneth}) and $H^\bullet(S^1) = \Lambda^\bullet\ZZ$. (2) With a flat metric the harmonic forms are the constant-coefficient
+forms (Example~\ref{dolbeault:example-hodge-numbers}); a constant $1$-form is a real-linear form on $V$, and it splits uniquely into complex-linear and conjugate-linear parts.
+\end{proof}
+
+\begin{definition}\label{abelian-varieties:definition-abelian-variety}
+A complex torus is an \emph{abelian variety} if it is projective. A homomorphism of tori is a holomorphic group homomorphism, and an \emph{isogeny} is a surjective homomorphism
+with finite kernel. More generally, over any field an \emph{abelian variety} is a complete connected group variety; such a group is automatically commutative and projective
+\cite[Chapter II]{mumford-abelian}.
+\end{definition}
+
+\begin{lemma}\label{abelian-varieties:lemma-homomorphisms}
+Every holomorphic map $f \colon T \to T'$ of complex tori with $f(0) = 0$ is a homomorphism, induced by a complex-linear map $F \colon V \to V'$ with $F(\Lambda) \subseteq \Lambda'$.
+\end{lemma}
+
+\begin{proof}
+Lift $f$ to $F \colon V \to V'$ with $F(0) = 0$. For $\lambda \in \Lambda$, $F(v + \lambda) - F(v) \in \Lambda'$ depends continuously on $v$, hence is constant. So the partial derivatives
+of $F$ are $\Lambda$-periodic holomorphic functions, so they descend to holomorphic functions on the compact connected manifold $T$, which are constant by the maximum principle
+(Proposition~\ref{several-complex-variables:proposition-identity-maximum}). So $F$ is linear, and $F(\Lambda) \subseteq \Lambda'$ because $F(\lambda) = F(0 + \lambda) - F(0) \in \Lambda'$.
+\end{proof}
+
+\begin{proposition}\label{abelian-varieties:proposition-torsion}
+Let $T = V/\Lambda$ be a complex torus of dimension $g$ and $n \geq 1$.
+\begin{enumerate}
+\item Multiplication by $n$, $[n] \colon T \to T$, is a surjective homomorphism with kernel $T[n] = \frac1n\Lambda/\Lambda \cong (\ZZ/n\ZZ)^{2g}$. The torsion subgroup of $T$ is $(\Lambda \otimes \QQ)/\Lambda \cong (\QQ/\ZZ)^{2g}$, and it is
+dense in $T$.
+\item A homomorphism $f \colon T \to T'$ of tori of the same dimension is an isogeny if and only if its linear lift $F \colon V \to V'$ is an isomorphism; then $|\ker f| = [\Lambda' : F(\Lambda)]$.
+\item If $f \colon T \to T'$ is an isogeny with $|\ker f| = d$, there is an isogeny $h \colon T' \to T$ with $h \circ f = [d]_T$ and $f \circ h = [d]_{T'}$. In particular being isogenous is an equivalence relation.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $[n]$ is induced by $v \mapsto nv$, which is bijective on $V$; so $[n]$ is surjective, and $x = v + \Lambda$ lies in the kernel if and only if $nv \in \Lambda$. A $\ZZ$-basis of $\Lambda$ identifies
+$\frac1n\Lambda/\Lambda$ with $(\frac1n\ZZ/\ZZ)^{2g} \cong (\ZZ/n\ZZ)^{2g}$, and the union over $n$ is $(\Lambda \otimes \QQ)/\Lambda$. The rational points $\Lambda \otimes \QQ$ are dense in $\Lambda \otimes \RR = V$, so
+their image is dense in $T$.
+
+(2) By Lemma~\ref{abelian-varieties:lemma-homomorphisms}, $f$ is induced by a $\CC$-linear $F$ with $F(\Lambda) \subseteq \Lambda'$. If $F$ is an isomorphism, $F(\Lambda)$ is a lattice in $V'$ contained in $\Lambda'$, hence of
+finite index, $f$ is surjective, and $\ker f = F^{-1}(\Lambda')/\Lambda \cong \Lambda'/F(\Lambda)$ is finite. Conversely, if $f$ has finite kernel, then $\ker F$ is a complex subspace whose image in $T$ is contained in the
+finite group $\ker f$; a connected subspace mapping into a finite set maps to a point, so $\ker F \subseteq \Lambda$, which forces $\ker F = 0$; equal dimensions make $F$ an isomorphism.
+
+(3) The group $\Lambda'/F(\Lambda)$ has order $d$, so $d\Lambda' \subseteq F(\Lambda)$. Hence $H = dF^{-1} \colon V' \to V$ maps $\Lambda'$ into $\Lambda$ and induces a homomorphism $h \colon T' \to T$ with
+$HF = d$ and $FH = d$, which is an isogeny by (2). Reflexivity and transitivity of isogeny are clear, and (3) gives symmetry.
+\end{proof}
+
+\section{Line bundles and the Riemann conditions}\label{abelian-varieties:section-riemann}
+
+\begin{proposition}\label{abelian-varieties:proposition-neron-severi}
+Identify $H^2(T; \ZZ)$ with the alternating forms $E \colon \Lambda \times \Lambda \to \ZZ$ (Proposition~\ref{abelian-varieties:proposition-torus-cohomology}). A class $E$ lies in
+$H^{1,1}(T)$ if and only if $E(iu, iv) = E(u, v)$ for all $u, v \in V$ (extending $E$ $\RR$-bilinearly), if and only if $E = \operatorname{Im}H$ for a (unique) Hermitian form $H$ on $V$,
+namely $H(u, v) = E(iu, v) + iE(u, v)$. Every such $E$ is $c_1(L)$ for a holomorphic line bundle $L$, so
+\[
+\mathrm{NS}(T) := \operatorname{im}(c_1) = \{H \text{ Hermitian on } V : \operatorname{Im}H(\Lambda, \Lambda) \subseteq \ZZ\}.
+\]
+\end{proposition}
+
+\begin{proof}
+A real alternating form $E$ on $V$ is a constant real $2$-form. Its $(2,0)$ and $(0,2)$ components vanish exactly when $E$ is of type $(1,1)$ for the complex structure $i$,
+that is, $E(iu, iv) = E(u, v)$: the $(2,0) + (0,2)$ part is $\frac12(E - E(i\cdot, i\cdot))$. Given this, $H(u, v) = E(iu, v) + iE(u, v)$ is Hermitian:
+$H(iu, v) = E(-u, v) + iE(iu, v) = i(E(iu, v) + iE(u, v)) = iH(u, v)$, and $\overline{H(v, u)} = E(iv, u) - iE(v, u) = E(iu, v) + iE(u, v)$, using $E(iv, u) = -E(u, iv) = -E(iu, i^2v) = E(iu, v)$.
+Conversely $\operatorname{Im}$ of a Hermitian form satisfies the condition. The last statement is Lemma~\ref{kodaira:lemma-integral-11}.
+\end{proof}
+
+\begin{theorem}[Riemann]\label{abelian-varieties:theorem-riemann-conditions}
+A complex torus $T = V/\Lambda$ is an abelian variety if and only if there is a positive definite Hermitian form $H$ on $V$ with $\operatorname{Im}H(\Lambda, \Lambda) \subseteq \ZZ$.
+Such an $H$ (or its alternating form $E = \operatorname{Im}H$) is a \emph{polarisation}; it is the first Chern class of an ample line bundle.
+\end{theorem}
+
+\begin{proof}
+For a constant real $2$-form $\omega$ put $E_\omega = -\omega$ and $H_\omega(u, v) = E_\omega(iu, v) + iE_\omega(u, v)$. If $\omega$ is of type $(1,1)$, then $H_\omega$ is Hermitian
+(Proposition~\ref{abelian-varieties:proposition-neron-severi}) with $\operatorname{Re}H_\omega(u, u) = -\omega(iu, u) = \omega(u, iu)$. So $\omega$ is a positive $(1,1)$-form, that is, the
+fundamental form of a Hermitian metric (Proposition~\ref{kahler:proposition-fundamental-form-coordinates}), if and only if $H_\omega$ is positive definite. Conversely every Hermitian $H$ is
+$H_\omega$ for $\omega = -\operatorname{Im}H$.
+
+Suppose $H$ is positive definite with $\operatorname{Im}H$ integral on $\Lambda$. Then $\omega = -\operatorname{Im}H$ is a positive constant $(1,1)$-form, closed because its coefficients
+are constant, and its class is integral. So $T$ is a Hodge manifold (Definition~\ref{kodaira:definition-hodge-manifold}) and projective by
+Corollary~\ref{kodaira:corollary-projective-criterion}.
+
+Conversely, let $T$ be projective, with an ample line bundle $L$ and a metric of positive curvature form $\omega_h$ (Theorem~\ref{gaga:theorem-projective-kahler}). Average over translations:
+$\bar\omega = \int_Tt_x^*\omega_h\,dx$ for the normalised Haar measure (Theorem~\ref{lie-groups:theorem-haar}). Each $t_x^*\omega_h$ is positive and cohomologous to $\omega_h$, because
+translations are homotopic to the identity, so $\bar\omega$ is a positive translation-invariant closed $(1,1)$-form in the integral class $c_1(L)$. A translation-invariant form has constant
+coefficients. So $H_{\bar\omega}$ is positive definite, and $\operatorname{Im}H_{\bar\omega} = -\bar\omega$ is integral on $\Lambda$, being (up to sign) the integral class $c_1(L)$ in
+$H^2(T; \ZZ) = \Lambda^2\Hom(\Lambda, \ZZ)$.
+\end{proof}
+
+\begin{remark}\label{abelian-varieties:remark-sign-convention}
+The proof shows that ample line bundles correspond to positive definite $H$ once a constant form $\omega$ is matched with the alternating form $-\omega$; this is the convention of
+\cite{birkenhake-lange}, where $c_1(L) = \operatorname{Im}H$. With the opposite matching one gets negative definite forms instead; Riemann's condition is insensitive to this, since
+$-H$ is positive definite if $H$ is negative definite.
+\end{remark}
+
+\begin{proposition}\label{abelian-varieties:proposition-period-matrix}
+Let $E$ be a polarisation. There is a basis $\lambda_1, \ldots, \lambda_g, \mu_1, \ldots, \mu_g$ of $\Lambda$ with
+$E(\lambda_j, \mu_k) = d_j\delta_{jk}$ and $E(\lambda_j, \lambda_k) = E(\mu_j, \mu_k) = 0$, where $d_1 \mid d_2 \mid \cdots \mid d_g$ are positive integers, the \emph{type} of the polarisation.
+It is \emph{principal} if all $d_j = 1$. Then $\frac{1}{d_1}\mu_1, \ldots, \frac{1}{d_g}\mu_g$ is a $\CC$-basis of $V$, and in it $\Lambda = Z\ZZ^g + D\ZZ^g$ with $D = \mathrm{diag}(d_j)$
+and $Z$ a symmetric complex $g \times g$ matrix with $\operatorname{Im}Z$ positive definite. Conversely every such $Z$ in the \emph{Siegel upper half space} $\mathfrak{H}_g$ defines a
+polarised abelian variety of type $D$.
+\end{proposition}
+
+\begin{proof}
+The symplectic basis is the elementary divisor theorem for alternating forms over $\ZZ$ (Frobenius), proved like the Smith normal form (Theorem~\ref{rings:theorem-smith}); see
+\cite{birkenhake-lange}. Since $H$ is positive definite, the real span of the $\mu_j$ is $E$-isotropic, and $H$ is real and positive on it, so the $\mu_j$ are $\CC$-linearly
+independent: a complex relation $\sum c_j\mu_j = 0$ with $c = a + ib$ gives $\sum a_j\mu_j = -i\sum b_j\mu_j$, and pairing with $H$ forces $a = b = 0$. Writing
+$\lambda_j = \sum_kZ_{kj}\mu_k/d_k$, the conditions that the $\lambda$'s span an isotropic subspace and that $H$ is positive definite translate into $Z = Z^T$ and
+$\operatorname{Im}Z > 0$ by a direct computation \cite{birkenhake-lange}. The converse is the same computation read backwards together with
+Theorem~\ref{abelian-varieties:theorem-riemann-conditions}.
+\end{proof}
+
+\begin{example}\label{abelian-varieties:example-dimension-one}
+For $g = 1$, $\mathfrak{H}_1$ is the upper half plane, and $\Lambda = \ZZ\tau + \ZZ$ with $\operatorname{Im}\tau > 0$. Every one-dimensional torus is an abelian variety, as Riemann's
+condition only asks $\operatorname{Im}\tau > 0$ (compare Example~\ref{lefschetz-theorems:example-curves-riemann}). The alternating form $E(\tau, 1) = 1$ gives
+$H(u, v) = u\bar v/\operatorname{Im}\tau$.
+\end{example}
+
+\begin{counterexample}\label{abelian-varieties:counterexample-non-algebraic-torus}
+For $g \geq 2$ the general complex torus is not algebraic. Fix a real basis identifying $V$ with $\RR^{2g}$ and $\Lambda$ with $\ZZ^{2g}$, so that complex tori correspond to complex
+structures $J$ on $\RR^{2g}$. For each of the countably many nonzero integral alternating forms $E$, the condition $E(Ju, Jv) = E(u, v)$ defines a proper closed real-analytic subset of the
+space of complex structures when $g \geq 2$ \cite{birkenhake-lange}. Outside the countable union of these subsets,
+$\mathrm{NS}(T) = 0$ by Proposition~\ref{abelian-varieties:proposition-neron-severi}, so there is no ample line bundle and $T$ is not projective. For such tori the Hodge conjecture
+in degree $2$ has no analytic cycles to work with; more generally the analytic version of the conjecture fails for some complex tori (Chapter~\ref{failures}).
+\end{counterexample}
+
+\begin{theorem}[Appell--Humbert]\label{abelian-varieties:theorem-appell-humbert}
+Holomorphic line bundles on $T$ correspond bijectively to pairs $(H, \alpha)$ with $H$ Hermitian, $E = \operatorname{Im}H$ integral on $\Lambda$, and $\alpha \colon \Lambda \to U(1)$ a
+\emph{semicharacter}: $\alpha(\lambda + \mu) = \alpha(\lambda)\alpha(\mu)e^{i\pi E(\lambda, \mu)}$. The bundle $L(H, \alpha)$ is the quotient of $V \times \CC$ by
+$\lambda \cdot (v, t) = (v + \lambda, \alpha(\lambda)e^{\pi H(v, \lambda) + \frac{\pi}{2}H(\lambda, \lambda)}t)$, and $c_1(L(H, \alpha)) = E$. Its sections are the
+\emph{theta functions}, and if $H$ is positive definite of type $(d_1, \ldots, d_g)$, then $h^0(L) = d_1 \cdots d_g$. Moreover $L^2$ is globally generated and $L^3$ is very ample
+(Lefschetz).
+\end{theorem}
+
+This is \cite{birkenhake-lange}; see also \cite{mumford-abelian}.
+
+\section{The dual abelian variety}\label{abelian-varieties:section-dual}
+
+\begin{proposition}\label{abelian-varieties:proposition-dual}
+$\Pic^0(T) \cong \hat T = \bar V^\vee/\hat\Lambda$, where $\hat\Lambda = \{l \in \bar V^\vee : \operatorname{Im}l(\Lambda) \subseteq \ZZ\}$, a complex torus of dimension $g$, the
+\emph{dual torus}. A polarisation $H$ defines a homomorphism $\varphi_H \colon T \to \hat T$, $v \mapsto H(v, \cdot)$, which is an isogeny of degree $(d_1 \cdots d_g)^2$, and an
+isomorphism if the polarisation is principal. If $T$ is an abelian variety, so is $\hat T$.
+\end{proposition}
+
+\begin{proof}
+By the exponential sequence, $\Pic^0(T) = H^1(T, \mathcal{O})/H^1(T; \ZZ)$ (Theorem~\ref{holomorphic-bundles:theorem-exponential}), and $H^1(T, \mathcal{O}) = H^{0,1} = \bar V^\vee$
+(Proposition~\ref{abelian-varieties:proposition-torus-cohomology}). The map $H^1(T; \RR) = \Hom_\RR(V, \RR) \to \bar V^\vee$ sends a real linear form $a$ to its conjugate-linear part
+$l_a$, and $a = 2\operatorname{Re}l_a$. So the image of $H^1(T; \ZZ) = \Hom(\Lambda, \ZZ)$ is $\{l : 2\operatorname{Re}l(\Lambda) \subseteq \ZZ\}$, which the $\CC$-linear automorphism
+$l \mapsto 2il$ of $\bar V^\vee$ carries onto $\hat\Lambda$, since $\operatorname{Im}(2il) = 2\operatorname{Re}l$. The map
+$v \mapsto H(v, \cdot)$ is complex-linear from $V$ to $\bar V^\vee$ and maps $\Lambda$ into $\hat\Lambda$ because $\operatorname{Im}H(\Lambda, \Lambda) \subseteq \ZZ$. It is injective since
+$H$ is nondegenerate, so its kernel on $T$ is $\hat\Lambda'/\Lambda$ with $\hat\Lambda' = \{v : \operatorname{Im}H(v, \Lambda) \subseteq \ZZ\}$, of order $\det E = (d_1 \cdots d_g)^2$ in
+a symplectic basis. The inverse of $H$ gives a polarisation on $\hat T$ \cite{birkenhake-lange}.
+\end{proof}
+
+\section{Jacobians}\label{abelian-varieties:section-jacobians}
+
+\begin{theorem}\label{abelian-varieties:theorem-jacobian}
+Let $C$ be a compact Riemann surface of genus $g$. The Jacobian $J(C) = H^0(C, \Omega^1)^\vee/H_1(C; \ZZ)$ (Definition~\ref{curves:definition-jacobian}) is a principally
+polarised abelian variety, the polarisation being the intersection form on $H_1(C; \ZZ)$.
+\end{theorem}
+
+\begin{proof}
+$J(C)$ is a complex torus of dimension $g$ (Proposition~\ref{curves:proposition-jacobian-torus}). The intersection form $E$ on $H_1(C; \ZZ)$ is unimodular (Poincar\'e duality,
+Corollary~\ref{poincare-duality:corollary-cup-pairing}), so a symplectic basis $a_1, \ldots, a_g, b_1, \ldots, b_g$ exists with $E(a_j, b_k) = \delta_{jk}$. Extend $E$ $\RR$-linearly to
+$V = H^0(\Omega^1)^\vee \cong H_1(C; \RR)$. Under Poincar\'e duality $H_1(C; \RR) \cong H^1(C; \RR)$ and the real isomorphism $H^1(C; \RR) \to H^{1,0}$, $\alpha \mapsto \alpha^{1,0}$,
+the form $E$ becomes $\pm\int_C\alpha \wedge \beta = \pm 2\operatorname{Re}\int_C\alpha^{1,0} \wedge \overline{\beta^{1,0}}$, and the complex structure of $V$ becomes that of $H^{1,0}$ (up to
+conjugation). So $E(iu, iv) = E(u, v)$, and the Hermitian form $H(u, v) = E(iu, v) + iE(u, v)$ is, up to sign and a positive factor, $i\int_C\alpha^{1,0} \wedge \overline{\beta^{1,0}}$, which
+is definite by the Hodge--Riemann relations (Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}, Example~\ref{lefschetz-theorems:example-curves-riemann}). Replacing $E$ by $-E$ if
+necessary, $H$ is positive definite, and $J(C)$ is an abelian variety by Theorem~\ref{abelian-varieties:theorem-riemann-conditions}. The polarisation is principal as $E$ is unimodular.
+\end{proof}
+
+\begin{remark}\label{abelian-varieties:remark-torelli-schottky}
+By Torelli's theorem the principally polarised Jacobian determines $C$. The Jacobians form a subvariety of dimension $3g - 3$ of the moduli space $\mathfrak{H}_g/\mathrm{Sp}_{2g}(\ZZ)$ of
+principally polarised abelian varieties, which has dimension $g(g + 1)/2$. For $g \leq 3$ the dimensions agree and the general principally polarised abelian variety is a Jacobian;
+for $g \geq 4$ it is not, and characterising Jacobians is the \emph{Schottky problem} \cite{birkenhake-lange}.
+\end{remark}
+
+\section{Endomorphisms and complex multiplication}\label{abelian-varieties:section-endomorphisms}
+
+\begin{proposition}\label{abelian-varieties:proposition-elliptic-endomorphisms}
+Let $E = \CC/(\ZZ\tau + \ZZ)$. Then $\End(E)$ is $\ZZ$, or an order in the imaginary quadratic field $\QQ(\tau)$; the latter happens if and only if $\tau$ is quadratic over $\QQ$.
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{abelian-varieties:lemma-homomorphisms} an endomorphism is multiplication by some $\alpha \in \CC$ with $\alpha\Lambda \subseteq \Lambda$. Then $\alpha = a + b\tau$ and
+$\alpha\tau = c + d\tau$ with integers $a, b, c, d$. If $b \neq 0$, eliminating $\alpha$ gives $b\tau^2 + (a - d)\tau - c = 0$, so $\tau$ is quadratic, imaginary as $\operatorname{Im}\tau > 0$,
+and $\alpha \in \QQ(\tau)$ is integral (it is an eigenvalue of an integer matrix). If $b = 0$ then $\alpha = a \in \ZZ$. Conversely, if $a\tau^2 + b\tau + c = 0$ with integers $a \neq 0$,
+$b$, $c$, then $\alpha = a\tau$ satisfies $\alpha \cdot 1 = a\tau \in \Lambda$ and $\alpha\tau = -b\tau - c \in \Lambda$, so multiplication by $\alpha \notin \ZZ$ is an endomorphism.
+\end{proof}
+
+\begin{definition}\label{abelian-varieties:definition-cm}
+An abelian variety $A$ of dimension $g$ has \emph{complex multiplication} (CM) if $\End(A) \otimes \QQ$ contains a commutative semisimple subalgebra of dimension $2g$ over $\QQ$,
+for instance a CM field $F$ (a totally imaginary quadratic extension of a totally real field) with $[F : \QQ] = 2g$.
+\end{definition}
+
+\begin{theorem}\label{abelian-varieties:theorem-endomorphism-algebra}
+Let $A$ be an abelian variety over $\CC$.
+\begin{enumerate}
+\item (Poincar\'e reducibility) $A$ is isogenous to a product $A_1^{n_1} \times \cdots \times A_r^{n_r}$ with the $A_i$ simple and pairwise non-isogenous, and
+$\End(A) \otimes \QQ \cong \prod_iM_{n_i}(D_i)$ with $D_i = \End(A_i) \otimes \QQ$ division algebras.
+\item A polarisation defines the \emph{Rosati involution} $f \mapsto f^\dagger$ on $\End(A) \otimes \QQ$, and $\operatorname{tr}(ff^\dagger) > 0$ for $f \neq 0$.
+\item (Shimura--Taniyama) If $A$ has CM by a CM field $F$ of degree $2g$, then $A \cong \CC^g/\Phi(\mathfrak{a})$ for a fractional ideal $\mathfrak{a}$ of $F$ and a \emph{CM type}
+$\Phi = \{\phi_1, \ldots, \phi_g\}$, a set of embeddings $F \to \CC$ containing exactly one of each pair of complex conjugate embeddings.
+\end{enumerate}
+\end{theorem}
+
+This is \cite{birkenhake-lange} and \cite{mumford-abelian}. The endomorphism algebras $D_i$ are classified by
+Albert into four types. For the Hodge conjecture, CM abelian varieties are the case where the Mumford--Tate group is a torus (Chapter~\ref{mumford-tate}), and where exceptional
+Hodge classes first appear (Chapter~\ref{known-cases}).
+
+\begin{example}\label{abelian-varieties:example-cm}
+\begin{enumerate}
+\item $E_i = \CC/\ZZ[i]$ has $\End(E_i) = \ZZ[i]$ and $E_\rho = \CC/\ZZ[\rho]$, $\rho = e^{2\pi i/3}$, has $\End(E_\rho) = \ZZ[\rho]$.
+\item For $E$ without CM, $\End(E \times E) \otimes \QQ = M_2(\QQ)$, and $\mathrm{NS}(E \times E) \otimes \QQ$ has rank $3$; for $E$ with CM it has rank $4$. This is
+Example~\ref{divisors:example-picard-numbers}(3).
+\item The Jacobian of the curve $y^2 = x^5 - 1$ has CM by $\QQ(\zeta_5)$, a CM field of degree $4 = 2g$.
+\end{enumerate}
+\end{example}
+
+\section{Exercises}\label{abelian-varieties:section-exercises}
+
+\begin{exercise}\label{abelian-varieties:exercise-ns-product}
+Let $E_1$, $E_2$ be elliptic curves. Show that $\mathrm{NS}(E_1 \times E_2) \cong \ZZ^2 \oplus \Hom(E_1, E_2)$, and deduce that its rank is $2$, $3$ or $4$.
+\end{exercise}
+
+\begin{solution}
+Write $\Lambda = \Lambda_1 \oplus \Lambda_2$. An integral alternating form of type $(1,1)$ on $\Lambda$ restricts to such forms on $\Lambda_1$ and $\Lambda_2$, each a multiple of the generator
+($\ZZ^2$), and its mixed part $E(\lambda_1, \lambda_2)$ is a pairing of type $(1,1)$ between $\Lambda_1$ and $\Lambda_2$, which via $E_1$'s principal polarisation is the same as a
+$\ZZ$-linear map $\Lambda_1 \to \Lambda_2$ commuting with $i$ after identification, that is, a homomorphism $E_1 \to E_2$ (Lemma~\ref{abelian-varieties:lemma-homomorphisms}). By
+Proposition~\ref{abelian-varieties:proposition-elliptic-endomorphisms} and its analogue for homomorphisms, $\Hom(E_1, E_2)$ has rank $0$, $1$ or $2$.
+\end{solution}
+
+\begin{exercise}\label{abelian-varieties:exercise-hodge-classes-torus}
+Show that the Hodge classes in $H^2(T; \QQ)$ of a complex torus form the space $\mathrm{NS}(T) \otimes \QQ$, and that for $T = E^g$, $E$ without CM, this space has dimension
+$g(g + 1)/2$.
+\end{exercise}
+
+\begin{solution}
+The first statement is Proposition~\ref{abelian-varieties:proposition-neron-severi}. For $E^g$, $\mathrm{NS} \otimes \QQ$ is the space of $g \times g$ Hermitian matrices with entries in
+$\End(E) \otimes \QQ = \QQ$ that are Hermitian for the Rosati involution, that is, symmetric rational matrices, of dimension $g(g + 1)/2$ \cite{birkenhake-lange}.
+\end{solution}
+
+\begin{exercise}\label{abelian-varieties:exercise-isogeny-dual}
+Show that multiplication by $n$ on $T$ is an isogeny of degree $n^{2g}$ with kernel $\frac1n\Lambda/\Lambda \cong (\ZZ/n)^{2g}$.
+\end{exercise}
+
+\begin{solution}
+The map is induced by $v \mapsto nv$ on $V$, surjective, with kernel $\{v : nv \in \Lambda\}/\Lambda = \frac1n\Lambda/\Lambda$, which has $n^{2g}$ elements since $\Lambda \cong \ZZ^{2g}$.
+\end{solution}

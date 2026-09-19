@@ -1,0 +1,1370 @@
+\chapter{Real Analysis}\label{real-analysis}
+\chapterstatus{complete}
+
+\section{Introduction}\label{real-analysis:section-introduction}
+
+This chapter develops calculus in one and several real variables with complete proofs, starting slowly from limits of sequences and of functions: the sequential characterisation of limits,
+continuous functions and the theorems of Bolzano, Weierstrass and Heine--Cantor, the mean value theorems, de l'H\^opital's rule, Taylor's formula and convexity;
+then series and power series, the exponential
+and trigonometric functions (including a definition of $\pi$), the Riemann integral, uniform convergence of sequences of functions (with a continuous nowhere differentiable function), derivatives of maps between Euclidean spaces,
+the inverse and implicit function theorems, ordinary differential equations, and the approximation and compactness theorems of
+Stone--Weierstrass and Arzel\`a--Ascoli. The topological background (metric spaces, compactness, completeness, uniform convergence,
+the Banach fixed point theorem) is in Chapter~\ref{general-topology}. References: \cite{rudin-principles}, \cite{dieudonne-foundations},
+\cite{spivak-calculus-manifolds}, \cite{lang-real-functional} and \cite{hartman-ode}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{number-systems} (Number Systems) and
+Chapter~\ref{linear-algebra} (Linear Algebra); Theorem~\ref{real-analysis:theorem-pi} also uses Chapter~\ref{homotopy} (Homotopy and Covering Spaces).
+
+Throughout, $\mathbb{K}$ is $\RR$ or $\CC$, and $\RR^n$ and $\CC^n$ carry the Euclidean norm unless otherwise stated.
+
+\section{Limits of sequences}\label{real-analysis:section-sequences}
+
+We recall that a real sequence $(a_n)_{n \in \NN}$ \emph{converges} to $a \in \RR$ if for every $\varepsilon > 0$ there is $N$ with $|a_n - a| < \varepsilon$ for all $n \geq N$
+(Definition~\ref{number-systems:definition-cauchy}). This is convergence in the metric space $\RR$ (Chapter~\ref{general-topology}). In this section we develop the theory of limits of sequences directly
+from this definition.
+
+\begin{definition}\label{real-analysis:definition-sequence-terms}
+Let $(a_n)$ be a real sequence.
+\begin{enumerate}
+\item If $(a_n)$ converges to $a$ we write $a_n \to a$ or $\lim_na_n = a$, and call $a$ the \emph{limit}.
+\item $(a_n)$ \emph{diverges to $+\infty$}, written $a_n \to +\infty$, if for every $M \in \RR$ there is $N$ with $a_n > M$ for all $n \geq N$; similarly $a_n \to -\infty$ if for every $M$ eventually $a_n < M$.
+\item $(a_n)$ is \emph{regular} if it converges or diverges to $\pm\infty$, and \emph{oscillating} otherwise.
+\item $(a_n)$ is \emph{bounded} if there is $C$ with $|a_n| \leq C$ for all $n$; \emph{bounded above} or \emph{below} are defined similarly.
+\item $(a_n)$ is \emph{increasing} if $a_n \leq a_{n+1}$ for all $n$, \emph{strictly increasing} if $a_n < a_{n+1}$, and similarly \emph{decreasing}; it is \emph{monotone} if it is increasing or decreasing.
+\item A \emph{subsequence} of $(a_n)$ is a sequence $(a_{n_k})_{k \in \NN}$ with $n_0 < n_1 < n_2 < \cdots$.
+\end{enumerate}
+A property holds \emph{eventually}, or \emph{for large $n$}, if there is $N$ such that it holds for all $n \geq N$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-sequence-basic}
+Let $(a_n)$ be a real sequence.
+\begin{enumerate}
+\item A sequence has at most one limit.
+\item A convergent sequence is bounded.
+\item (Permanence of sign) If $a_n \to a$ and $a > 0$, then $a_n > a/2 > 0$ for large $n$.
+\item Changing, adding or removing finitely many terms does not affect convergence or the limit.
+\item If $a_n \to a$, every subsequence converges to $a$; the same holds for divergence to $\pm\infty$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Suppose $a_n \to a$ and $a_n \to b$ with $a \neq b$, and let $\varepsilon = |a - b|/2$. For $n$ larger than both thresholds, $|a - b| \leq |a - a_n| + |a_n - b| < 2\varepsilon = |a - b|$, a contradiction.
+(2) Take $\varepsilon = 1$: for $n \geq N$, $|a_n| \leq |a_n - a| + |a| < |a| + 1$, so $|a_n| \leq \max(|a_0|, \ldots, |a_{N-1}|, |a| + 1)$ for all $n$. (3) Take $\varepsilon = a/2$: then
+$a_n > a - a/2 = a/2$ for large $n$. (4) The definitions only involve the terms with $n \geq N$, and $N$ may be enlarged. (5) By induction $n_k \geq k$, so $k \geq N$ implies $n_k \geq N$.
+\end{proof}
+
+\begin{lemma}[Bernoulli's inequality]\label{real-analysis:lemma-bernoulli}
+For $h \geq -1$ and $n \in \NN$, $(1 + h)^n \geq 1 + nh$.
+\end{lemma}
+
+\begin{proof}
+For $n = 0$ both sides are $1$. If $(1 + h)^n \geq 1 + nh$, then, as $1 + h \geq 0$, $(1 + h)^{n+1} \geq (1 + nh)(1 + h) = 1 + (n + 1)h + nh^2 \geq 1 + (n + 1)h$.
+\end{proof}
+
+\begin{proposition}[Algebra of limits]\label{real-analysis:proposition-algebra-limits}
+Let $a_n \to a$ and $b_n \to b$ be real sequences and $c \in \RR$. Then $a_n + b_n \to a + b$, $ca_n \to ca$, $a_nb_n \to ab$ and $|a_n| \to |a|$. If $b \neq 0$, then $b_n \neq 0$ for large $n$ and
+$a_n/b_n \to a/b$.
+\end{proposition}
+
+\begin{proof}
+Given $\varepsilon > 0$, for large $n$ we have $|a_n - a| < \varepsilon/2$ and $|b_n - b| < \varepsilon/2$, so $|(a_n + b_n) - (a + b)| < \varepsilon$. The reverse triangle inequality
+$||a_n| - |a|| \leq |a_n - a|$ gives $|a_n| \to |a|$, and $|ca_n - ca| = |c|\,|a_n - a|$ gives $ca_n \to ca$. For the product, let $C$ bound $|a_n|$
+(Proposition~\ref{real-analysis:proposition-sequence-basic}(2)); then
+\[
+|a_nb_n - ab| \leq |a_n|\,|b_n - b| + |b|\,|a_n - a| \leq C|b_n - b| + |b|\,|a_n - a|,
+\]
+which is less than $\varepsilon$ for large $n$. For the quotient it suffices to show $1/b_n \to 1/b$. As $|b_n| \to |b| > 0$, permanence of sign gives $|b_n| > |b|/2$ for large $n$, and then
+$|1/b_n - 1/b| = |b - b_n|/(|b_n|\,|b|) \leq 2|b_n - b|/|b|^2$, which tends to $0$.
+\end{proof}
+
+\begin{proposition}[Comparison and squeeze]\label{real-analysis:proposition-squeeze}
+Let $(a_n)$, $(b_n)$, $(c_n)$ be real sequences.
+\begin{enumerate}
+\item If $a_n \leq b_n$ for large $n$, $a_n \to a$ and $b_n \to b$, then $a \leq b$.
+\item (Squeeze theorem) If $a_n \leq c_n \leq b_n$ for large $n$ and $a_n \to L$, $b_n \to L$, then $c_n \to L$.
+\item If $a_n \leq b_n$ for large $n$ and $a_n \to +\infty$, then $b_n \to +\infty$.
+\item If $|a_n| \leq b_n$ for large $n$ and $b_n \to 0$, then $a_n \to 0$. In particular, if $(a_n)$ is bounded and $b_n \to 0$, then $a_nb_n \to 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $a > b$, then $a_n - b_n \to a - b > 0$ by Proposition~\ref{real-analysis:proposition-algebra-limits}, so $a_n - b_n > 0$ for large $n$ by permanence of sign, a contradiction.
+(2) Given $\varepsilon > 0$, for large $n$ we have $L - \varepsilon < a_n \leq c_n \leq b_n < L + \varepsilon$. (3) Eventually $b_n \geq a_n > M$. (4) Apply (2) to $-b_n \leq a_n \leq b_n$; for the last
+statement, $|a_nb_n| \leq C|b_n|$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-strict-inequality}
+Strict inequalities do not pass to the limit: $1/(n + 1) > 0$ for all $n$, but the limit is $0$. The convergence $|a_n| \to |a|$ does not imply $a_n \to a$ unless $a = 0$: the sequence $a_n = (-1)^n$
+oscillates although $|a_n| \to 1$.
+\end{counterexample}
+
+\begin{proposition}[Infinite limits]\label{real-analysis:proposition-infinite-limits}
+Let $a_n \to +\infty$.
+\begin{enumerate}
+\item If $(b_n)$ is bounded below, then $a_n + b_n \to +\infty$.
+\item If $b_n \geq c$ for large $n$, for some $c > 0$, then $a_nb_n \to +\infty$.
+\item $a_n > 0$ for large $n$, and $1/a_n \to 0$. Conversely, if $b_n > 0$ and $b_n \to 0$, then $1/b_n \to +\infty$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $b_n \geq -C$, then for any $M$, eventually $a_n > M + C$, so $a_n + b_n > M$. (2) Eventually $a_n > M/c$ with $M > 0$, so $a_nb_n > M$. (3) Eventually $a_n > 1/\varepsilon > 0$, so
+$0 < 1/a_n < \varepsilon$. Conversely, eventually $0 < b_n < 1/M$ for $M > 0$, so $1/b_n > M$.
+\end{proof}
+
+\begin{counterexample}[Indeterminate forms]\label{real-analysis:counterexample-indeterminate}
+If $a_n \to +\infty$ and $b_n \to -\infty$, the limits alone do not determine the behaviour of $a_n + b_n$: with $a_n = n$, the choices $b_n = -n + c$, $b_n = -n/2$, $b_n = -2n$ and $b_n = -n + (-1)^n$ give
+the limit $c$, the limit $+\infty$, the limit $-\infty$, and an oscillating sequence. Similarly, if $a_n \to 0$ and $b_n \to +\infty$, then with $a_n = 1/(n+1)$ the choices $b_n = c(n + 1)$, $(n + 1)^2$ and
+$(-1)^n(n + 1)$ show that $a_nb_n$ can converge to any $c$, diverge, or oscillate. The same happens for the forms $\infty/\infty$ and $0/0$.
+\end{counterexample}
+
+\begin{proposition}[Fundamental limits]\label{real-analysis:proposition-fundamental-limits}
+\begin{enumerate}
+\item For $q \in \RR$: $q^n \to 0$ if $|q| < 1$, $q^n \to 1$ if $q = 1$, $q^n \to +\infty$ if $q > 1$, and $(q^n)$ oscillates if $q \leq -1$.
+\item For $a > 0$, $a^{1/n} \to 1$, and $n^{1/n} \to 1$.
+\item For $k \in \NN$ and $a > 1$, $n^k/a^n \to 0$: exponentials beat powers.
+\item For every $a \in \RR$, $a^n/n! \to 0$, and $n!/n^n \to 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $q > 1$, write $q = 1 + h$ with $h > 0$; by Lemma~\ref{real-analysis:lemma-bernoulli}, $q^n \geq 1 + nh \to +\infty$. If $0 < |q| < 1$, then $|q|^{-n} \to +\infty$, so $|q^n| \to 0$ by
+Proposition~\ref{real-analysis:proposition-infinite-limits}(3), and $q^n \to 0$ by Proposition~\ref{real-analysis:proposition-squeeze}(4). If $q = -1$ the terms alternate between $\pm1$; if $q < -1$, $|q^n| \to +\infty$
+and the signs alternate, so the sequence is unbounded above and below and has no limit.
+(2) Let $a \geq 1$ and $a^{1/n} = 1 + h_n$ with $h_n \geq 0$ (the $n$-th root exists by Proposition~\ref{number-systems:proposition-roots}). By Bernoulli, $a \geq 1 + nh_n$, so $0 \leq h_n \leq (a - 1)/n \to 0$. For
+$a < 1$ apply this to $1/a$ and use Proposition~\ref{real-analysis:proposition-algebra-limits}. For $n^{1/n} = 1 + h_n$ with $n \geq 2$, the binomial formula gives $n \geq \binom{n}{2}h_n^2$, so
+$0 \leq h_n \leq \sqrt{2/(n - 1)} \to 0$.
+(3) Write $a = 1 + h$. For $n \geq 2k + 2$ the binomial formula gives $a^n \geq \binom{n}{k+1}h^{k+1} \geq \frac{(n/2)^{k+1}}{(k+1)!}h^{k+1}$, since each of the $k + 1$ factors $n, n - 1, \ldots, n - k$ is at least $n/2$.
+Hence $0 \leq n^k/a^n \leq 2^{k+1}(k + 1)!/(h^{k+1}n) \to 0$.
+(4) Choose an integer $N > 2|a|$. For $n \geq N$, $|a|^n/n! \leq \frac{|a|^N}{N!}2^{N-n}$, which tends to $0$ by (1). Finally $n!/n^n = \frac1n\cdot\frac2n\cdots\frac nn \leq \frac1n$.
+\end{proof}
+
+\begin{proposition}\label{real-analysis:proposition-monotone-regular}
+Every monotone sequence is regular. An increasing sequence converges to its supremum if it is bounded above, and diverges to $+\infty$ otherwise; a decreasing sequence converges to its infimum if it is
+bounded below, and diverges to $-\infty$ otherwise.
+\end{proposition}
+
+\begin{proof}
+Let $(a_n)$ be increasing. If it is bounded above, let $s = \sup_na_n$ (Definition~\ref{number-systems:definition-complete}). For $\varepsilon > 0$, $s - \varepsilon$ is not an upper bound, so $a_N > s - \varepsilon$ for
+some $N$, and then $s - \varepsilon < a_N \leq a_n \leq s$ for $n \geq N$. If it is not bounded above, for every $M$ some $a_N > M$, and then $a_n \geq a_N > M$ for $n \geq N$. The decreasing case follows by
+passing to $(-a_n)$.
+\end{proof}
+
+\begin{lemma}\label{real-analysis:lemma-monotone-subsequence}
+Every real sequence has a monotone subsequence.
+\end{lemma}
+
+\begin{proof}
+Call $n$ a \emph{peak} if $a_n \geq a_m$ for all $m > n$. If there are infinitely many peaks $n_0 < n_1 < \cdots$, then $a_{n_0} \geq a_{n_1} \geq \cdots$ is a decreasing subsequence. Otherwise let $n_0$ be larger than
+all peaks. As $n_0$ is not a peak, there is $n_1 > n_0$ with $a_{n_1} > a_{n_0}$; as $n_1$ is not a peak, there is $n_2 > n_1$ with $a_{n_2} > a_{n_1}$; continuing (by recursion), we obtain a strictly increasing
+subsequence.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass]\label{real-analysis:theorem-bolzano-weierstrass-real}
+Every bounded real sequence has a convergent subsequence. Every real sequence has a regular subsequence: a sequence that is unbounded above has a subsequence diverging to $+\infty$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{real-analysis:lemma-monotone-subsequence} there is a monotone subsequence, which is regular by Proposition~\ref{real-analysis:proposition-monotone-regular}, and convergent if the sequence is
+bounded. If $(a_n)$ is unbounded above, choose recursively $n_{k+1} > n_k$ with $a_{n_{k+1}} > k + 1$, which is possible because only finitely many terms have index $\leq n_k$.
+\end{proof}
+
+\begin{theorem}[Cauchy criterion]\label{real-analysis:theorem-cauchy-criterion}
+A real sequence converges if and only if it is a Cauchy sequence.
+\end{theorem}
+
+\begin{proof}
+If $a_n \to a$, then $|a_n - a_m| \leq |a_n - a| + |a - a_m| < \varepsilon$ when both are within $\varepsilon/2$ of $a$. Conversely, let $(a_n)$ be Cauchy. Taking $\varepsilon = 1$ shows that $(a_n)$ is bounded,
+so by Theorem~\ref{real-analysis:theorem-bolzano-weierstrass-real} a subsequence converges to some $a$. Given $\varepsilon > 0$, choose $N$ with $|a_n - a_m| < \varepsilon/2$ for $m, n \geq N$, and $k$ with $n_k \geq N$
+and $|a_{n_k} - a| < \varepsilon/2$. Then $|a_n - a| \leq |a_n - a_{n_k}| + |a_{n_k} - a| < \varepsilon$ for $n \geq N$. (This is a second proof of
+Proposition~\ref{number-systems:proposition-cauchy-complete} for $\RR$.)
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-consecutive-differences}
+It is not enough that consecutive terms get close. The partial sums $H_n = \sum_{k=1}^n1/k$ of the harmonic series satisfy $H_{n+1} - H_n = 1/(n + 1) \to 0$, but
+$H_{2n} - H_n = \sum_{k=n+1}^{2n}1/k \geq n \cdot \frac{1}{2n} = \frac12$, so $(H_n)$ is not Cauchy; being increasing, it diverges to $+\infty$. Likewise $\sqrt{n + 1} - \sqrt n = 1/(\sqrt{n + 1} + \sqrt n) \to 0$
+while $\sqrt n \to +\infty$.
+\end{counterexample}
+
+\begin{proposition}[Subsequence criterion]\label{real-analysis:proposition-subsequence-criterion}
+\begin{enumerate}
+\item $a_n \to a$ if and only if every subsequence of $(a_n)$ has a further subsequence converging to $a$.
+\item A bounded sequence all of whose convergent subsequences have the same limit $a$ converges to $a$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) One direction is Proposition~\ref{real-analysis:proposition-sequence-basic}(5). Conversely, if $a_n \not\to a$, there is $\varepsilon > 0$ such that $|a_n - a| \geq \varepsilon$ for infinitely many $n$; these terms form a
+subsequence none of whose subsequences converges to $a$. (2) By Theorem~\ref{real-analysis:theorem-bolzano-weierstrass-real}, every subsequence is bounded and has a convergent subsequence, whose limit is $a$ by
+hypothesis; apply (1).
+\end{proof}
+
+\begin{proposition}[Stolz--Ces\`aro]\label{real-analysis:proposition-stolz-cesaro}
+Let $(b_n)$ be strictly increasing with $b_n \to +\infty$, and let $(a_n)$ be a real sequence with $\frac{a_{n+1} - a_n}{b_{n+1} - b_n} \to L \in \RR$. Then $a_n/b_n \to L$. In particular (Ces\`aro), if $a_n \to L$, then
+the averages $\frac{1}{n}(a_1 + \cdots + a_n) \to L$.
+\end{proposition}
+
+\begin{proof}
+Let $\varepsilon > 0$ and choose $N$ such that $b_N > 0$ and $|(a_{k+1} - a_k) - L(b_{k+1} - b_k)| \leq \varepsilon(b_{k+1} - b_k)$ for $k \geq N$. Summing over $N \leq k < n$ gives
+$|a_n - a_N - L(b_n - b_N)| \leq \varepsilon(b_n - b_N) \leq \varepsilon b_n$. Dividing by $b_n > 0$,
+\[
+\Big|\frac{a_n}{b_n} - L\Big| \leq \varepsilon + \frac{|a_N - Lb_N|}{b_n},
+\]
+and the last term is less than $\varepsilon$ for large $n$, as $b_n \to +\infty$. For Ces\`aro, apply this to $a'_n = a_1 + \cdots + a_n$ and $b_n = n$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-cesaro-converse}
+The converse of Ces\`aro's theorem fails: $a_n = (-1)^n$ does not converge, but its averages tend to $0$, since the partial sums are $0$ or $-1$.
+\end{counterexample}
+
+\section{Limits of functions}\label{real-analysis:section-limits-functions}
+
+To treat finite and infinite limits at once we use the \emph{extended real line} $\bar{\RR} = \RR \cup \{-\infty, +\infty\}$, ordered so that $-\infty < x < +\infty$ for $x \in \RR$.
+
+\begin{definition}\label{real-analysis:definition-neighbourhoods}
+For $a \in \bar{\RR}$ and $\delta > 0$, the \emph{basic neighbourhood} $U_\delta(a)$ is $(a - \delta, a + \delta)$ if $a \in \RR$, $(1/\delta, +\infty)$ if $a = +\infty$, and $(-\infty, -1/\delta)$ if $a = -\infty$. Let
+$D \subseteq \RR$. A point $a \in \bar{\RR}$ is an \emph{accumulation point} of $D$ if every $U_\delta(a)$ contains a point of $D \setminus \{a\}$. A point of $D$ that is not an accumulation point is \emph{isolated}.
+\end{definition}
+
+A sequence $(x_n)$ tends to $a \in \bar{\RR}$ if and only if for every $\delta > 0$, eventually $x_n \in U_\delta(a)$: for $a \in \RR$ this is convergence, and for $a = \pm\infty$ divergence to $\pm\infty$. Every $a \in \bar{\RR}$
+that is an accumulation point of $D$ is the limit of a sequence in $D \setminus \{a\}$: choose $x_n \in U_{1/(n+1)}(a) \cap D \setminus \{a\}$.
+
+\begin{definition}\label{real-analysis:definition-function-limit}
+Let $f \colon D \to \RR$, let $a \in \bar{\RR}$ be an accumulation point of $D$, and $L \in \bar{\RR}$. We write $\lim_{x \to a}f(x) = L$, or $f(x) \to L$ as $x \to a$, if for every $\varepsilon > 0$ there is $\delta > 0$ such that
+$f(x) \in U_\varepsilon(L)$ for all $x \in D \cap U_\delta(a)$ with $x \neq a$. For $a, L \in \RR$ this reads: for every $\varepsilon > 0$ there is $\delta > 0$ with $|f(x) - L| < \varepsilon$ whenever $x \in D$ and
+$0 < |x - a| < \delta$. The \emph{right limit} $\lim_{x \to a^+}f(x)$ is the limit of the restriction of $f$ to $D \cap (a, +\infty)$, when $a$ is an accumulation point of that set, and the \emph{left limit}
+$\lim_{x \to a^-}f(x)$ is defined similarly. The same definitions apply to $\CC$- or $\RR^m$-valued functions and finite limits, with $|\cdot|$ the modulus or the Euclidean norm.
+\end{definition}
+
+The value of $f$ at $a$, if $a \in D$, plays no role in the definition.
+
+\begin{proposition}\label{real-analysis:proposition-function-limit-basic}
+Let $f \colon D \to \RR$ and let $a \in \bar{\RR}$ be an accumulation point of $D$.
+\begin{enumerate}
+\item The limit of $f$ at $a$, if it exists, is unique.
+\item If $\lim_{x \to a}f(x) = L \in \RR$, then $f$ is bounded on $D \cap U_\delta(a) \setminus \{a\}$ for some $\delta > 0$; if $L > 0$, then $f(x) > L/2$ for $x \in D \cap U_\delta(a) \setminus \{a\}$ for some $\delta > 0$.
+\item If $a \in \RR$ is an accumulation point of both $D \cap (a, +\infty)$ and $D \cap (-\infty, a)$, then $\lim_{x \to a}f(x) = L$ if and only if both one-sided limits exist and equal $L$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $L \neq L'$ are both limits, choose $\varepsilon$ with $U_\varepsilon(L) \cap U_\varepsilon(L') = \emptyset$, and $\delta$ working for both; since $a$ is an accumulation point, some $x \in D \cap U_\delta(a) \setminus \{a\}$
+exists, and $f(x)$ lies in both neighbourhoods. (2) Take $\varepsilon = 1$, respectively $\varepsilon = L/2$. (3) If both one-sided limits equal $L$, take the smaller of the two $\delta$; the converse is clear.
+\end{proof}
+
+\begin{theorem}[Sequential characterisation of limits]\label{real-analysis:theorem-sequential-limits}
+Let $f \colon D \to \RR$, let $a \in \bar{\RR}$ be an accumulation point of $D$, and $L \in \bar{\RR}$. The following are equivalent:
+\begin{enumerate}
+\item $\lim_{x \to a}f(x) = L$;
+\item for every sequence $(x_n)$ in $D \setminus \{a\}$ with $x_n \to a$, we have $f(x_n) \to L$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) $\Rightarrow$ (2). Let $\varepsilon > 0$ and choose $\delta$ as in Definition~\ref{real-analysis:definition-function-limit}. Eventually $x_n \in U_\delta(a)$, and $x_n \in D \setminus \{a\}$, so eventually
+$f(x_n) \in U_\varepsilon(L)$.
+
+(2) $\Rightarrow$ (1). Suppose (1) fails. Then there is $\varepsilon > 0$ such that for every $\delta > 0$ some $x \in D \cap U_\delta(a) \setminus \{a\}$ has $f(x) \notin U_\varepsilon(L)$. Choosing such a point $x_n$ for
+$\delta = 1/(n + 1)$, for each $n$ (this uses the axiom of countable choice), we obtain a sequence in $D \setminus \{a\}$ with $x_n \to a$ and $f(x_n) \notin U_\varepsilon(L)$ for all $n$, so $f(x_n) \not\to L$,
+contradicting (2).
+\end{proof}
+
+Theorem~\ref{real-analysis:theorem-sequential-limits}, sometimes called the \emph{bridge theorem}, transfers every result about limits of sequences to limits of functions, and it is the standard way to
+show that a limit does \emph{not} exist: exhibit two sequences tending to $a$ along which $f$ has different limits.
+
+\begin{corollary}[Rules for limits of functions]\label{real-analysis:corollary-limit-rules}
+Let $f, g, h \colon D \to \RR$ and let $a \in \bar{\RR}$ be an accumulation point of $D$.
+\begin{enumerate}
+\item If $f(x) \to L$ and $g(x) \to M$ with $L, M \in \RR$, then $f + g \to L + M$, $fg \to LM$, and, if $M \neq 0$, $f/g \to L/M$ (where $f/g$ is defined near $a$).
+\item If $f \leq g$ near $a$ and $f \to L$, $g \to M$, then $L \leq M$.
+\item (Squeeze) If $f \leq h \leq g$ near $a$ and $f(x) \to L$, $g(x) \to L$, then $h(x) \to L$.
+\item The rules for infinite limits of Proposition~\ref{real-analysis:proposition-infinite-limits} hold for functions.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{real-analysis:theorem-sequential-limits} and Propositions~\ref{real-analysis:proposition-algebra-limits}, \ref{real-analysis:proposition-squeeze} and
+\ref{real-analysis:proposition-infinite-limits} to $f(x_n)$, $g(x_n)$, $h(x_n)$ for sequences $x_n \to a$ in $D \setminus \{a\}$. For the quotient, $g(x) \neq 0$ near $a$ by
+Proposition~\ref{real-analysis:proposition-function-limit-basic}(2) applied to $|g|$.
+\end{proof}
+
+\begin{proposition}[Limits of composite functions]\label{real-analysis:proposition-composite-limit}
+Let $f \colon D \to \RR$ and $g \colon E \to \RR$ with $f(D) \subseteq E$. Suppose $\lim_{x \to a}f(x) = b$ and $\lim_{y \to b}g(y) = L$, and that one of the following holds:
+\begin{enumerate}
+\item $f(x) \neq b$ for all $x \in D \setminus \{a\}$ near $a$;
+\item $b \in E$ and $g(b) = L$.
+\end{enumerate}
+Then $\lim_{x \to a}g(f(x)) = L$.
+\end{proposition}
+
+\begin{proof}
+Let $x_n \to a$ in $D \setminus \{a\}$. Then $f(x_n) \to b$ by Theorem~\ref{real-analysis:theorem-sequential-limits}. In case (1), eventually $f(x_n) \in E \setminus \{b\}$, so $g(f(x_n)) \to L$ by the same theorem. In
+case (2), given $\varepsilon > 0$ choose $\eta$ with $g(y) \in U_\varepsilon(L)$ for $y \in E \cap U_\eta(b)$, including $y = b$; eventually $f(x_n) \in U_\eta(b)$, so $g(f(x_n)) \in U_\varepsilon(L)$. Apply the theorem again.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-composite}
+Neither hypothesis can be dropped. Let $f(x) = 0$ for all $x$, and $g(y) = 0$ for $y \neq 0$, $g(0) = 1$. Then $\lim_{x \to 0}f(x) = 0$ and $\lim_{y \to 0}g(y) = 0$, but $g(f(x)) = 1$ for all $x$.
+\end{counterexample}
+
+\begin{proposition}[Cauchy criterion for functions]\label{real-analysis:proposition-cauchy-functions}
+Let $f \colon D \to \RR$ and let $a \in \bar{\RR}$ be an accumulation point of $D$. Then $\lim_{x \to a}f(x)$ exists in $\RR$ if and only if for every $\varepsilon > 0$ there is $\delta > 0$ with
+$|f(x) - f(y)| < \varepsilon$ for all $x, y \in D \cap U_\delta(a) \setminus \{a\}$.
+\end{proposition}
+
+\begin{proof}
+If $f(x) \to L$, take $\delta$ for $\varepsilon/2$ and use the triangle inequality. Conversely, for every sequence $x_n \to a$ in $D \setminus \{a\}$, the sequence $(f(x_n))$ is Cauchy, hence converges
+(Theorem~\ref{real-analysis:theorem-cauchy-criterion}). If $x_n \to a$ and $y_n \to a$ are two such sequences, the interleaved sequence $x_0, y_0, x_1, y_1, \ldots$ also tends to $a$, so $(f(x_n))$ and $(f(y_n))$ have the
+same limit, being subsequences of a convergent sequence. So all these limits equal a common $L$, and $f(x) \to L$ by Theorem~\ref{real-analysis:theorem-sequential-limits}.
+\end{proof}
+
+\begin{proposition}[Monotone functions]\label{real-analysis:proposition-monotone-limits}
+Let $f \colon (a, b) \to \RR$ be increasing, with $-\infty \leq a < b \leq +\infty$. For every $c \in (a, b)$ the one-sided limits exist and
+\[
+\lim_{x \to c^-}f(x) = \sup_{a < x < c}f(x) \leq f(c) \leq \inf_{c < x < b}f(x) = \lim_{x \to c^+}f(x),
+\]
+and $\lim_{x \to b^-}f(x) = \sup f \in \RR \cup \{+\infty\}$, $\lim_{x \to a^+}f(x) = \inf f \in \RR \cup \{-\infty\}$. The analogous statements hold for decreasing functions.
+\end{proposition}
+
+\begin{proof}
+The set $\{f(x) : a < x < c\}$ is bounded above by $f(c)$; let $s$ be its supremum, so $s \leq f(c)$. Given $\varepsilon > 0$ there is $x_0 < c$ with $f(x_0) > s - \varepsilon$, and for $x_0 < x < c$,
+$s - \varepsilon < f(x_0) \leq f(x) \leq s$. So $\lim_{x \to c^-}f(x) = s$. The other statements are proved in the same way (for $b = +\infty$ or an unbounded supremum, use neighbourhoods of $+\infty$), and the decreasing
+case follows by passing to $-f$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-no-limit}
+\begin{enumerate}
+\item The sign function $\operatorname{sgn}(x) = x/|x|$ on $\RR \setminus \{0\}$ has one-sided limits $\pm1$ at $0$, and no limit there.
+\item $1/x$ has no limit at $0$: its one-sided limits are $+\infty$ and $-\infty$.
+\item The \emph{Dirichlet function} $\mathbf{1}_\QQ$, equal to $1$ on $\QQ$ and $0$ on $\RR \setminus \QQ$, has no limit at any $a \in \RR$. Both $\QQ$ and $\RR \setminus \QQ$ are dense in $\RR$: $\QQ$ by
+Proposition~\ref{number-systems:proposition-complete-archimedean}, and $\RR \setminus \QQ$ because $q\sqrt2$ is irrational for rational $q \neq 0$ (Proposition~\ref{number-systems:proposition-sqrt-two}) and
+$x/\sqrt2 < q < y/\sqrt2$ is possible for $x < y$. So there are rational $x_n \to a$ and irrational $y_n \to a$, all $\neq a$, and $\mathbf{1}_\QQ(x_n) \to 1$, $\mathbf{1}_\QQ(y_n) \to 0$.
+\end{enumerate}
+\end{counterexample}
+
+\section{Continuous functions of a real variable}\label{real-analysis:section-continuity-real}
+
+\begin{definition}\label{real-analysis:definition-continuity-real}
+Let $D \subseteq \RR$ and $f \colon D \to \RR$. Then $f$ is \emph{continuous at} $a \in D$ if for every $\varepsilon > 0$ there is $\delta > 0$ with $|f(x) - f(a)| < \varepsilon$ for all $x \in D$ with
+$|x - a| < \delta$, and \emph{continuous} if it is continuous at every point of $D$.
+\end{definition}
+
+This is continuity for the metric of $\RR$ restricted to $D$ (Proposition~\ref{general-topology:proposition-metric-continuity}). If $a \in D$ is an accumulation point of $D$, then $f$ is continuous at $a$ if and
+only if $\lim_{x \to a}f(x) = f(a)$; if $a$ is isolated, every $f$ is continuous at $a$.
+
+\begin{proposition}\label{real-analysis:proposition-continuity-sequential}
+Let $f, g \colon D \to \RR$ and $a \in D$.
+\begin{enumerate}
+\item $f$ is continuous at $a$ if and only if $f(x_n) \to f(a)$ for every sequence $(x_n)$ in $D$ with $x_n \to a$.
+\item If $f$ and $g$ are continuous at $a$, so are $f + g$, $fg$, $|f|$, $\max(f, g)$, $\min(f, g)$, and $f/g$ if $g(a) \neq 0$.
+\item If $f$ is continuous at $a$ and $h \colon E \to \RR$, with $f(D) \subseteq E$, is continuous at $f(a)$, then $h \circ f$ is continuous at $a$.
+\item Polynomials are continuous on $\RR$, and rational functions are continuous where the denominator does not vanish.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The proof of Theorem~\ref{real-analysis:theorem-sequential-limits} applies verbatim, now allowing $x_n = a$. (2) follows from (1) and Proposition~\ref{real-analysis:proposition-algebra-limits}, since
+$\max(f, g) = \frac12(f + g + |f - g|)$ and $\min(f, g) = \frac12(f + g - |f - g|)$. (3) If $x_n \to a$, then $f(x_n) \to f(a)$ and so $h(f(x_n)) \to h(f(a))$. (4) Constants and the identity are continuous;
+apply (2).
+\end{proof}
+
+\begin{definition}\label{real-analysis:definition-discontinuities}
+Let $f$ be defined on an open interval containing $a$, and discontinuous at $a$. The discontinuity is \emph{removable} if $\lim_{x \to a}f(x)$ exists in $\RR$ (and differs from $f(a)$); it is a \emph{jump} if both
+one-sided limits exist in $\RR$ and differ; otherwise it is \emph{essential}.
+\end{definition}
+
+\begin{example}\label{real-analysis:example-discontinuities}
+The function equal to $1$ for $x \neq 0$ and $0$ at $0$ has a removable discontinuity at $0$. The function equal to $\operatorname{sgn}(x)$ for $x \neq 0$ and $0$ at $0$ has a jump. The function equal to $1/x$ for
+$x \neq 0$ and $0$ at $0$ has an essential discontinuity, and the Dirichlet function $\mathbf{1}_\QQ$ has an essential discontinuity at every point (Counterexample~\ref{real-analysis:counterexample-no-limit}).
+\end{example}
+
+\begin{theorem}\label{real-analysis:theorem-monotone-discontinuities}
+Let $f \colon I \to \RR$ be monotone on an interval $I$. Then every discontinuity of $f$ at an interior point of $I$ is a jump, and the set of points of discontinuity of $f$ is countable.
+\end{theorem}
+
+\begin{proof}
+We may assume $f$ increasing. At an interior point $c$ the one-sided limits $f(c^-) \leq f(c) \leq f(c^+)$ exist by Proposition~\ref{real-analysis:proposition-monotone-limits}, and $f$ is continuous at $c$ if and only if
+$f(c^-) = f(c^+)$. So every interior discontinuity is a jump, with nonempty open interval $J_c = (f(c^-), f(c^+))$. If $c < c'$ are interior discontinuity points and $c < x < c'$, then
+$f(c^+) \leq f(x) \leq f(c'^-)$, so $J_c \cap J_{c'} = \emptyset$. The set $\QQ$ is countable (see the proof of Proposition~\ref{number-systems:proposition-reals-cardinality}); fix an injection
+$\iota \colon \QQ \to \NN$ and send $c$ to the rational number $q \in J_c$ with the smallest $\iota(q)$, which exists as $J_c$ contains rational numbers. This map is injective, since the $J_c$ are disjoint, so
+the interior discontinuities form a countable set. Adding the at most two endpoints of $I$ keeps it countable.
+\end{proof}
+
+\begin{example}[Thomae's function]\label{real-analysis:example-thomae}
+Let $T(x) = 1/q$ if $x = p/q$ with $p \in \ZZ$, $q \geq 1$ coprime, and $T(x) = 0$ for irrational $x$. Then $T$ is continuous at every irrational number and discontinuous at every rational number.
+
+Indeed, at a rational $a$, $T(a) > 0$, but there are irrational $y_n \to a$ (Counterexample~\ref{real-analysis:counterexample-no-limit}) with $T(y_n) = 0$. At an irrational $a$, let $\varepsilon > 0$. The rationals
+$p/q$ in $(a - 1, a + 1)$ with $q \leq 1/\varepsilon$ are finitely many, and none equals $a$; let $\delta$ be smaller than $1$ and than their distances to $a$. For $|x - a| < \delta$, either $x$ is irrational and $T(x) = 0$,
+or $x = p/q$ with $q > 1/\varepsilon$, so $|T(x) - T(a)| = 1/q < \varepsilon$.
+\end{example}
+
+\begin{remark}\label{real-analysis:remark-continuity-set}
+There is no function $\RR \to \RR$ that is continuous exactly at the rational numbers: the set of points of continuity of any function is a countable intersection of open sets, and $\QQ$ is not, by the
+Baire category theorem (Theorem~\ref{general-topology:theorem-baire}). By contrast, $x\mathbf{1}_\QQ(x)$ is continuous exactly at $0$ (Exercise~\ref{real-analysis:exercise-continuous-one-point}).
+\end{remark}
+
+\begin{theorem}[Bolzano's theorem on zeros]\label{real-analysis:theorem-bolzano-zeros}
+Let $f \colon [a, b] \to \RR$ be continuous with $f(a) < 0 < f(b)$. Then $f(c) = 0$ for some $c \in (a, b)$.
+\end{theorem}
+
+\begin{proof}
+We construct intervals by bisection. Let $a_0 = a$, $b_0 = b$. Given $[a_n, b_n]$ with $f(a_n) < 0 \leq f(b_n)$, let $m = (a_n + b_n)/2$; if $f(m) < 0$ put $a_{n+1} = m$, $b_{n+1} = b_n$, and otherwise $a_{n+1} = a_n$,
+$b_{n+1} = m$. Then $f(a_{n+1}) < 0 \leq f(b_{n+1})$, $(a_n)$ is increasing, $(b_n)$ is decreasing, and $b_n - a_n = (b - a)/2^n \to 0$. By Proposition~\ref{real-analysis:proposition-monotone-regular} both converge,
+to the same limit $c \in [a, b]$. By continuity, $f(c) = \lim f(a_n) \leq 0$ and $f(c) = \lim f(b_n) \geq 0$ (Proposition~\ref{real-analysis:proposition-squeeze}(1)), so $f(c) = 0$, and $c \neq a, b$.
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-ivt-real}
+Let $I$ be an interval and $f \colon I \to \RR$ continuous.
+\begin{enumerate}
+\item (Intermediate value theorem) $f$ takes every value between any two of its values, so $f(I)$ is an interval.
+\item If $f$ is injective, it is strictly monotone.
+\item Every continuous map $f \colon [a, b] \to [a, b]$ has a fixed point.
+\item Every real polynomial of odd degree has a real root.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) If $f(x) < y < f(z)$, apply Theorem~\ref{real-analysis:theorem-bolzano-zeros} to $f - y$ on the interval between $x$ and $z$ (to $y - f$ if $x > z$). This is also the case $X = I$ of
+Corollary~\ref{general-topology:corollary-ivt}.
+(2) Let $a < b$ in $I$, and assume $f(a) < f(b)$ (otherwise replace $f$ by $-f$). Let $x < y$ in $I$ and put $h(t) = f((1 - t)b + ty) - f((1 - t)a + tx)$ for $t \in [0, 1]$. Since $(1 - t)a + tx < (1 - t)b + ty$ and $f$ is injective,
+$h(t) \neq 0$ for all $t$. As $h$ is continuous and $h(0) > 0$, (1) gives $h(1) = f(y) - f(x) > 0$. So $f$ is strictly increasing.
+(3) $g(x) = f(x) - x$ satisfies $g(a) \geq 0 \geq g(b)$; if neither is $0$, apply (1).
+(4) We may take $p(x) = x^{2k+1} + c_{2k}x^{2k} + \cdots + c_0$. For $|x| \geq 1 + \sum|c_i|$ we have $|c_{2k}x^{2k} + \cdots + c_0| \leq \sum|c_i|\,|x|^{2k} < |x|^{2k+1}$, so $p(x)$ has the sign of $x$ there. Apply (1).
+\end{proof}
+
+\begin{theorem}[Weierstrass]\label{real-analysis:theorem-weierstrass-extreme}
+A continuous function $f \colon [a, b] \to \RR$ is bounded and attains its maximum and its minimum.
+\end{theorem}
+
+\begin{proof}
+If $f$ were unbounded, there would be $x_n \in [a, b]$ with $|f(x_n)| > n$. By Theorem~\ref{real-analysis:theorem-bolzano-weierstrass-real} a subsequence converges to some $c$, and $c \in [a, b]$ by
+Proposition~\ref{real-analysis:proposition-squeeze}(1). Then $f(x_{n_k}) \to f(c)$, so $(f(x_{n_k}))$ is bounded, a contradiction. Let $s = \sup f$ and choose $x_n$ with $f(x_n) > s - 1/(n + 1)$; a subsequence converges to
+some $c \in [a, b]$, and $f(c) = \lim f(x_{n_k}) = s$ by the squeeze theorem. The minimum is the maximum of $-f$. (This is the case $X = [a, b]$ of Corollary~\ref{general-topology:corollary-extreme-value}.)
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-extreme-value}
+Each hypothesis of Theorem~\ref{real-analysis:theorem-weierstrass-extreme} is needed: $x$ on $(0, 1)$ attains neither its supremum nor its infimum; $1/x$ on $(0, 1]$ is unbounded; $x$ on $[0, +\infty)$ is
+unbounded; and the function on $[0, 1]$ equal to $x$ for $x < 1$ and to $0$ at $1$ has supremum $1$, which is not attained.
+\end{counterexample}
+
+\begin{definition}\label{real-analysis:definition-uniform-continuity-real}
+A function $f \colon D \to \RR$ is \emph{uniformly continuous} if for every $\varepsilon > 0$ there is $\delta > 0$ with $|f(x) - f(y)| < \varepsilon$ for all $x, y \in D$ with $|x - y| < \delta$. It is
+\emph{Lipschitz} with constant $K \geq 0$ if $|f(x) - f(y)| \leq K|x - y|$ for all $x, y \in D$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-uniform-continuity-real}
+Let $f \colon D \to \RR$.
+\begin{enumerate}
+\item Lipschitz functions are uniformly continuous, and uniformly continuous functions are continuous.
+\item $f$ is uniformly continuous if and only if $f(x_n) - f(y_n) \to 0$ for all sequences $(x_n)$, $(y_n)$ in $D$ with $x_n - y_n \to 0$.
+\item (Heine--Cantor) If $D = [a, b]$ and $f$ is continuous, then $f$ is uniformly continuous.
+\item A uniformly continuous function maps Cauchy sequences to Cauchy sequences. A uniformly continuous $f \colon (a, b) \to \RR$ on a bounded interval extends to a continuous function on $[a, b]$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Take $\delta = \varepsilon/K$ (any $\delta$ if $K = 0$); the second statement is clear. (2) If $f$ is uniformly continuous and $x_n - y_n \to 0$, eventually $|x_n - y_n| < \delta$ and so $|f(x_n) - f(y_n)| < \varepsilon$.
+If $f$ is not uniformly continuous, there is $\varepsilon > 0$ and, for each $n$, points $x_n, y_n$ with $|x_n - y_n| < 1/(n + 1)$ and $|f(x_n) - f(y_n)| \geq \varepsilon$. (3) If not, take $x_n$, $y_n$ as in the last
+sentence. By Theorem~\ref{real-analysis:theorem-bolzano-weierstrass-real}, $x_{n_k} \to c \in [a, b]$, and then $y_{n_k} \to c$. By continuity $f(x_{n_k}) - f(y_{n_k}) \to f(c) - f(c) = 0$, a contradiction. (4) If
+$(x_n)$ is Cauchy and $\delta$ corresponds to $\varepsilon$, eventually $|x_n - x_m| < \delta$, so $|f(x_n) - f(x_m)| < \varepsilon$. For the extension to $a$: for any sequence $x_n \to a$ in $(a, b)$, $(f(x_n))$ is Cauchy,
+hence converges; by (2), two such sequences give the same limit (as $x_n - y_n \to 0$), say $L$. By Theorem~\ref{real-analysis:theorem-sequential-limits}, $\lim_{x \to a^+}f(x) = L$, and setting $f(a) = L$ gives a function
+continuous at $a$; similarly at $b$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-uniform-continuity}
+\begin{enumerate}
+\item $f(x) = x^2$ on $\RR$ is continuous but not uniformly continuous: with $x_n = n + 1$ and $y_n = n + 1 + 1/(n+1)$, $x_n - y_n \to 0$ but $f(y_n) - f(x_n) \geq 2$.
+\item $f(x) = 1/x$ on $(0, 1)$ is continuous but not uniformly continuous: with $x_n = 1/(n + 2)$ and $y_n = 1/(n + 3)$, $f(y_n) - f(x_n) = 1$; it has no continuous extension to $[0, 1)$, in accordance with
+Proposition~\ref{real-analysis:proposition-uniform-continuity-real}(4).
+\item $f(x) = \sqrt x$ on $[0, +\infty)$ is uniformly continuous, since $|\sqrt x - \sqrt y| \leq \sqrt{|x - y|}$, but not Lipschitz, since $\sqrt x/x \to +\infty$ as $x \to 0^+$. So the implications in (1) are strict.
+\end{enumerate}
+\end{counterexample}
+
+\section{Upper and lower limits, and series}\label{real-analysis:section-series}
+
+\begin{definition}\label{real-analysis:definition-limsup}
+For a real sequence $(a_n)$ let $\limsup_n a_n = \inf_n\sup_{k \geq n}a_k$ and $\liminf_n a_n = \sup_n\inf_{k \geq n}a_k$, with values in the extended real line.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-monotone}
+\begin{enumerate}
+\item A bounded monotone real sequence converges, to its supremum or infimum.
+\item $(a_n)$ converges to $a \in \RR$ if and only if $\limsup a_n = \liminf a_n = a$.
+\item (Bolzano--Weierstrass) Every bounded sequence in $\RR^n$ has a convergent subsequence.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is Proposition~\ref{real-analysis:proposition-monotone-regular}. (2) The sequences $\sup_{k \geq n}a_k$ and $\inf_{k \geq n}a_k$ are monotone and bracket $a_n$. If both converge to $a$, so does
+$a_n$; conversely, if $|a_k - a| < \varepsilon$ for $k \geq N$, both lie within $\varepsilon$ of $a$ for $n \geq N$. (3) A bounded set lies in a closed cube, which is compact
+(Theorem~\ref{general-topology:theorem-heine-borel}) and hence sequentially compact (Theorem~\ref{general-topology:theorem-compact-metric}).
+\end{proof}
+
+\begin{definition}\label{real-analysis:definition-series}
+Let $V$ be a normed space. A series $\sum_n v_n$ \emph{converges} to $s$ if the partial sums $s_N = \sum_{n \leq N}v_n$ converge to $s$, and it \emph{converges absolutely}
+if $\sum_n\|v_n\| < \infty$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-series}
+Let $V$ be a Banach space.
+\begin{enumerate}
+\item An absolutely convergent series converges, and every rearrangement $\sum_n v_{\sigma(n)}$ ($\sigma$ a bijection of $\NN$) converges to the same sum.
+\item (Comparison) If $\|v_n\| \leq c_n$ and $\sum c_n < \infty$, then $\sum v_n$ converges absolutely.
+\item (Root and ratio tests) If $\limsup\|v_n\|^{1/n} < 1$, or $v_n \neq 0$ and $\limsup\|v_{n+1}\|/\|v_n\| < 1$, then $\sum v_n$ converges absolutely. If $\limsup\|v_n\|^{1/n} > 1$, it
+diverges.
+\item (Geometric series) For $z \in \CC$ with $|z| < 1$, $\sum_n z^n = 1/(1 - z)$.
+\item (Weierstrass $M$-test) If $f_n \colon X \to V$ satisfy $\sup_x\|f_n(x)\| \leq M_n$ with $\sum M_n < \infty$, then $\sum f_n$ converges uniformly.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\|s_M - s_N\| \leq \sum_{N < n \leq M}\|v_n\|$, so the partial sums are Cauchy. For a rearrangement, given $\varepsilon$ choose $N$ with $\sum_{n \geq N}\|v_n\| < \varepsilon$ and then $M$
+with $\{0, \ldots, N-1\} \subseteq \sigma(\{0, \ldots, M\})$; for $m \geq M$, $\|\sum_{k \leq m}v_{\sigma(k)} - s_{N-1}\| \leq \sum_{n \geq N}\|v_n\| < \varepsilon$, and $\|s_{N-1} - s\| \leq \varepsilon$.
+(2) follows from (1). (3) If $\limsup\|v_n\|^{1/n} < q < 1$, then $\|v_n\| \leq q^n$ for large $n$; compare with $\sum q^n$ using (4). If the ratio limsup is $< q < 1$, then
+$\|v_n\| \leq Cq^n$ for large $n$. If $\limsup\|v_n\|^{1/n} > 1$, then $\|v_n\| > 1$ infinitely often, so $v_n \not\to 0$ and the partial sums are not Cauchy. (4)
+$(1 - z)\sum_{n \leq N}z^n = 1 - z^{N+1}$, and $|z|^N \to 0$: if $0 < |z| < 1$ write $1/|z| = 1 + h$, so $|z|^{-N} \geq 1 + Nh$. (5) The partial sums are bounded and uniformly Cauchy, and the space
+$B(X, V)$ of bounded maps is complete (Proposition~\ref{general-topology:proposition-complete-examples}).
+\end{proof}
+
+\begin{lemma}[Alternating series]\label{real-analysis:lemma-alternating}
+If $t_0 \geq t_1 \geq \cdots \geq 0$ and $t_k \to 0$, then $S = \sum_k(-1)^kt_k$ converges and $S_{2m+1} \leq S \leq S_{2m}$ for all $m$, where $S_N$ are the partial sums.
+\end{lemma}
+
+\begin{proof}
+$S_{2m+2} - S_{2m} = -t_{2m+1} + t_{2m+2} \leq 0$ and $S_{2m+3} - S_{2m+1} = t_{2m+2} - t_{2m+3} \geq 0$, and $S_{2m+1} = S_{2m} - t_{2m+1} \leq S_{2m}$. So the even partial sums decrease, the odd ones
+increase, every odd one is below every even one, and their difference tends to $0$.
+\end{proof}
+
+\begin{proposition}[Cauchy product]\label{real-analysis:proposition-cauchy-product}
+If $\sum a_n$ and $\sum b_n$ are absolutely convergent series in $\CC$, then $c_n = \sum_{k=0}^na_kb_{n-k}$ defines an absolutely convergent series with
+$\sum c_n = (\sum a_n)(\sum b_n)$.
+\end{proposition}
+
+\begin{proof}
+Let $A = \sum|a_n|$ and $B = \sum|b_n|$. Then $\sum_{n \leq N}|c_n| \leq AB$, so $\sum c_n$ converges absolutely. The difference $\sum_{n \leq 2N}c_n - (\sum_{k \leq N}a_k)(\sum_{l \leq N}b_l)$ is the sum
+of $a_kb_l$ over $k + l \leq 2N$ with $k > N$ or $l > N$, bounded by $B\sum_{k > N}|a_k| + A\sum_{l > N}|b_l| \to 0$.
+\end{proof}
+
+\begin{theorem}\label{real-analysis:theorem-power-series}
+Let $a_n \in \CC$ and $R = 1/\limsup_n|a_n|^{1/n} \in [0, \infty]$, the \emph{radius of convergence}. The power series $\sum_n a_nz^n$ converges absolutely for $|z| < R$, uniformly on
+$|z| \leq r$ for every $r < R$, and diverges for $|z| > R$. The series $\sum_n na_nz^{n-1}$ and $\sum_n n^2a_nz^n$ have the same radius of convergence.
+\end{theorem}
+
+\begin{proof}
+For $|z| \leq r < R$ choose $r < q < R$; then $|a_n| \leq q^{-n}$ for large $n$, so $|a_nz^n| \leq (r/q)^n$, and the $M$-test applies. For $|z| > R$, $\limsup|a_nz^n|^{1/n} > 1$. Finally
+$n^{1/n} \to 1$: writing $n^{1/n} = 1 + h_n$, the binomial formula gives $n \geq \binom{n}{2}h_n^2$, so $h_n^2 \leq 2/(n-1)$. Hence $\limsup|n^ka_n|^{1/n} = \limsup|a_n|^{1/n}$.
+\end{proof}
+
+\section{Differentiation in one variable}\label{real-analysis:section-one-variable}
+
+\begin{definition}\label{real-analysis:definition-derivative-one}
+Let $I \subseteq \RR$ be an interval with more than one point and $f \colon I \to \mathbb{K}^m$. Then $f$ is \emph{differentiable} at $a \in I$ with derivative $f'(a)$ if
+$(f(x) - f(a))/(x - a) \to f'(a)$ as $x \to a$ in $I \setminus \{a\}$. Equivalently, there is a function $\phi \colon I \to \mathbb{K}^m$, continuous at $a$, with $f(x) - f(a) = \phi(x)(x - a)$;
+then $f'(a) = \phi(a)$. The same definition with $I$ replaced by an open subset of $\CC$ and $x$ complex defines the \emph{complex derivative}.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-derivative-rules}
+Differentiable functions are continuous. Sums, products and quotients (where the denominator does not vanish) of differentiable scalar functions are differentiable with the usual
+formulas, and if $f$ is differentiable at $a$ and $g$ at $f(a)$, then $(g \circ f)'(a) = g'(f(a))f'(a)$.
+\end{proposition}
+
+\begin{proof}
+Write $f(x) - f(a) = \phi(x)(x - a)$ and $g(y) - g(b) = \psi(y)(y - b)$ with $\phi$, $\psi$ continuous at $a$, $b = f(a)$. Continuity is clear. For products,
+$fg(x) - fg(a) = (\phi(x)g(x) + f(a)\chi(x))(x - a)$ if $g(x) - g(a) = \chi(x)(x - a)$. For $1/f$, $1/f(x) - 1/f(a) = -\phi(x)(x - a)/(f(x)f(a))$. For composites,
+$g(f(x)) - g(f(a)) = \psi(f(x))\phi(x)(x - a)$ and $\psi \circ f$ is continuous at $a$. Evaluate the continuous factors at $a$.
+\end{proof}
+
+\begin{definition}\label{real-analysis:definition-local-extremum}
+Let $f \colon I \to \RR$ on an interval $I$. Then $f$ has a \emph{local maximum} at $c \in I$ if there is $\delta > 0$ with $f(x) \leq f(c)$ for all $x \in I$ with $|x - c| < \delta$, a \emph{strict} local maximum if
+$f(x) < f(c)$ for these $x \neq c$, and similarly for (strict) local minima. A \emph{local extremum} is a local maximum or minimum.
+\end{definition}
+
+\begin{lemma}[Fermat]\label{real-analysis:lemma-fermat}
+If $f \colon I \to \RR$ has a local extremum at an interior point $c$ of $I$ and is differentiable at $c$, then $f'(c) = 0$.
+\end{lemma}
+
+\begin{proof}
+Say $c$ is a local maximum. For $x > c$ close to $c$, $(f(x) - f(c))/(x - c) \leq 0$, so $f'(c) \leq 0$ by Corollary~\ref{real-analysis:corollary-limit-rules}(2); for $x < c$ the quotient is $\geq 0$, so $f'(c) \geq 0$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-fermat}
+The converse fails: $f(x) = x^3$ has $f'(0) = 0$ and no extremum at $0$. The hypothesis that $c$ is interior is needed: $f(x) = x$ on $[0, 1]$ has a maximum at $1$ with $f'(1) = 1$. And $|x|$ has a minimum at $0$,
+where it is not differentiable.
+\end{counterexample}
+
+\begin{theorem}[Mean value theorem]\label{real-analysis:theorem-mean-value}
+Let $f, g \colon [a, b] \to \RR$ be continuous and differentiable on $(a, b)$.
+\begin{enumerate}
+\item (Rolle) If $f(a) = f(b)$, then $f'(\xi) = 0$ for some $\xi \in (a, b)$.
+\item There is $\xi \in (a, b)$ with $f(b) - f(a) = f'(\xi)(b - a)$, and (Cauchy) some $\eta$ with $(f(b) - f(a))g'(\eta) = (g(b) - g(a))f'(\eta)$.
+\item If $f' = 0$ on $(a, b)$, $f$ is constant; if $f' \geq 0$ ($> 0$), $f$ is increasing (strictly increasing).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By Corollary~\ref{general-topology:corollary-extreme-value}, $f$ attains a maximum and a minimum; if both are at endpoints, $f$ is constant. Otherwise one is at some
+$\xi \in (a, b)$, and $f'(\xi) = 0$ by Lemma~\ref{real-analysis:lemma-fermat}. (2) Apply (1) to $f(x) - \frac{f(b) - f(a)}{b - a}(x - a)$, and to
+$(f(b) - f(a))g(x) - (g(b) - g(a))f(x)$. (3) Apply (2) on subintervals.
+\end{proof}
+
+\begin{proposition}\label{real-analysis:proposition-inverse-one}
+Let $f \colon I \to \RR$ be continuous and strictly monotone. Then $J = f(I)$ is an interval, $f^{-1} \colon J \to I$ is continuous, and if $f$ is differentiable at $a$ with
+$f'(a) \neq 0$, then $f^{-1}$ is differentiable at $f(a)$ with derivative $1/f'(a)$.
+\end{proposition}
+
+\begin{proof}
+$J$ is an interval by Corollary~\ref{general-topology:corollary-ivt}. A strictly monotone bijection of intervals maps subintervals onto subintervals, so $f^{-1}$ maps open subintervals of $J$
+(relative to $J$) to open subintervals of $I$, and is continuous. Write $f(x) - f(a) = \phi(x)(x - a)$; strict monotonicity gives $\phi(x) \neq 0$ for $x \neq a$, and $\phi(a) = f'(a) \neq 0$. So
+$f^{-1}(y) - a = (y - f(a))/\phi(f^{-1}(y))$ with $1/(\phi \circ f^{-1})$ continuous at $f(a)$.
+\end{proof}
+
+\begin{proposition}[Limits of derivatives]\label{real-analysis:proposition-derivative-limit}
+Let $f \colon [a, b) \to \RR$ be continuous, differentiable on $(a, b)$, and suppose $\lim_{x \to a^+}f'(x) = L \in \RR$. Then $f$ is differentiable at $a$ (from the right) with $f'(a) = L$. Consequently, if $f$ is
+differentiable on an open interval containing $c$ and $f'$ has one-sided limits at $c$, both equal $f'(c)$: a derivative has neither removable nor jump discontinuities.
+\end{proposition}
+
+\begin{proof}
+For $a < x < b$, the mean value theorem gives $\xi_x \in (a, x)$ with $(f(x) - f(a))/(x - a) = f'(\xi_x)$. If $x_n \to a^+$, then $\xi_{x_n} \to a^+$ by the squeeze theorem, so $f'(\xi_{x_n}) \to L$; by
+Theorem~\ref{real-analysis:theorem-sequential-limits}, the difference quotient tends to $L$. For the second statement, apply this on each side of $c$.
+\end{proof}
+
+\begin{theorem}[de l'H\^opital]\label{real-analysis:theorem-lhopital}
+Let $f, g \colon (a, b) \to \RR$ be differentiable, with $-\infty \leq a < b \leq +\infty$, and $g'(x) \neq 0$ for all $x$. Suppose that $\lim_{x \to a^+}f'(x)/g'(x) = L \in \bar{\RR}$ and that either
+\begin{enumerate}
+\item $\lim_{x \to a^+}f(x) = \lim_{x \to a^+}g(x) = 0$, or
+\item $\lim_{x \to a^+}|g(x)| = +\infty$ and $L \in \RR$.
+\end{enumerate}
+Then $\lim_{x \to a^+}f(x)/g(x) = L$. The same holds for left limits at $b$, and hence for two-sided limits.
+\end{theorem}
+
+\begin{proof}
+Since $g' \neq 0$, $g$ is injective on $(a, b)$ by Rolle's theorem, so $g(x) \neq g(y)$ for $x \neq y$, and by the Cauchy mean value theorem (Theorem~\ref{real-analysis:theorem-mean-value}(2)), for $x < y$ in $(a, b)$ there is
+$\xi \in (x, y)$ with
+\[
+\frac{f(x) - f(y)}{g(x) - g(y)} = \frac{f'(\xi)}{g'(\xi)}. \tag{$*$}
+\]
+Case (1) with $a \in \RR$: extend $f$ and $g$ by $f(a) = g(a) = 0$; they become continuous on $[a, b)$, and $(*)$ holds for $x = a$ as well, with $g(y) \neq 0$ for $y > a$ by Rolle's theorem. Let $y_n \to a^+$ and choose
+$\xi_n \in (a, y_n)$ with $f(y_n)/g(y_n) = f'(\xi_n)/g'(\xi_n)$. Then $\xi_n \to a^+$, so $f(y_n)/g(y_n) \to L$, and Theorem~\ref{real-analysis:theorem-sequential-limits} gives the claim. If $a = -\infty$, apply the case just
+proved to $F(t) = f(-1/t)$ and $G(t) = g(-1/t)$ on an interval $(0, \eta)$, noting $F'(t)/G'(t) = f'(-1/t)/g'(-1/t)$ and using Proposition~\ref{real-analysis:proposition-composite-limit}.
+
+Case (2). Let $\varepsilon > 0$ and choose $c \in (a, b)$ with $|f'(\xi)/g'(\xi) - L| < \varepsilon$ for $a < \xi < c$. Fix $y \in (a, c)$. For $a < x < y$, $(*)$ gives $Q(x) = (f(x) - f(y))/(g(x) - g(y))$ with $|Q(x) - L| < \varepsilon$. Since
+$|g(x)| \to +\infty$, $g(x) \neq 0$ for $x$ close to $a$, and
+\[
+\frac{f(x)}{g(x)} - L = \big(Q(x) - L\big)\Big(1 - \frac{g(y)}{g(x)}\Big) - L\frac{g(y)}{g(x)} + \frac{f(y)}{g(x)}.
+\]
+As $x \to a^+$ with $y$ fixed, the last two terms tend to $0$ and $1 - g(y)/g(x) \to 1$, so $|f(x)/g(x) - L| < 2\varepsilon$ for $x$ close to $a$. Left limits at $b$ follow by applying the result to $x \mapsto f(-x)$, $g(-x)$.
+\end{proof}
+
+\begin{theorem}[Darboux]\label{real-analysis:theorem-darboux}
+Let $f \colon [a, b] \to \RR$ be differentiable, with one-sided derivatives at the endpoints. Then $f'$ takes every value between $f'(a)$ and $f'(b)$.
+\end{theorem}
+
+\begin{proof}
+Let $f'(a) < y < f'(b)$ (the other case follows by passing to $-f$) and $g(x) = f(x) - yx$. Then $g'(a) < 0 < g'(b)$. By Theorem~\ref{real-analysis:theorem-weierstrass-extreme}, $g$ attains a minimum at some
+$c \in [a, b]$. As $g'(a) < 0$, $(g(x) - g(a))/(x - a) < 0$ for $x > a$ close to $a$ (Proposition~\ref{real-analysis:proposition-function-limit-basic}(2)), so $g(x) < g(a)$ and $c \neq a$; similarly $c \neq b$. By
+Lemma~\ref{real-analysis:lemma-fermat}, $g'(c) = 0$, that is, $f'(c) = y$.
+\end{proof}
+
+\begin{theorem}[Taylor]\label{real-analysis:theorem-taylor-one}
+Let $f \colon [a, x] \to \RR$ (or $[x, a]$) have $n$ continuous derivatives, with $f^{(n+1)}$ existing on the open interval. Then there is $\xi$ strictly between $a$ and $x$ with
+\[
+f(x) = \sum_{k=0}^n\frac{f^{(k)}(a)}{k!}(x - a)^k + \frac{f^{(n+1)}(\xi)}{(n+1)!}(x - a)^{n+1}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $g(t) = f(x) - \sum_{k \leq n}f^{(k)}(t)(x - t)^k/k! - M(x - t)^{n+1}/(n+1)!$, with $M$ chosen so that $g(a) = 0$. Also $g(x) = 0$. In the derivative the sum telescopes:
+$g'(t) = -f^{(n+1)}(t)(x - t)^n/n! + M(x - t)^n/n!$. By Rolle's theorem $g'(\xi) = 0$ for some $\xi$ between $a$ and $x$, so $M = f^{(n+1)}(\xi)$.
+\end{proof}
+
+\begin{proposition}[Taylor's formula with Peano remainder]\label{real-analysis:proposition-taylor-peano}
+Let $n \geq 1$, let $f \colon I \to \RR$ be $n - 1$ times differentiable on an interval $I$, and suppose $f^{(n)}(a)$ exists at a point $a \in I$. Let $T_n(x) = \sum_{k=0}^nf^{(k)}(a)(x - a)^k/k!$. Then
+\[
+\lim_{x \to a}\frac{f(x) - T_n(x)}{(x - a)^n} = 0,
+\]
+that is, $f(x) = T_n(x) + o((x - a)^n)$ as $x \to a$.
+\end{proposition}
+
+\begin{proof}
+Let $R = f - T_n$. Then $R$ is $n - 1$ times differentiable, $R^{(k)}(a) = 0$ for $0 \leq k \leq n$, and each $R^{(k)}$ with $k \leq n - 1$ is continuous at $a$. For $n = 1$ the claim is
+$(R(x) - R(a))/(x - a) \to R'(a) = 0$. For $n \geq 2$, apply Theorem~\ref{real-analysis:theorem-lhopital}(1) $n - 1$ times, on each side of $a$, to the quotients $R^{(j)}(x)/(x - a)^{n-j}$, $0 \leq j \leq n - 2$, whose
+numerators and denominators tend to $0$ and whose denominators have nonvanishing derivatives for $x \neq a$. It remains to see that the last quotient tends to $0$:
+\[
+\frac{R^{(n-1)}(x)}{n!\,(x - a)} = \frac{1}{n!}\cdot\frac{R^{(n-1)}(x) - R^{(n-1)}(a)}{x - a} \longrightarrow \frac{R^{(n)}(a)}{n!} = 0.
+\]
+\end{proof}
+
+\begin{corollary}[Second derivative test]\label{real-analysis:corollary-second-derivative-test}
+Let $f$ be differentiable on an open interval containing $c$, with $f'(c) = 0$, and suppose $f''(c)$ exists. If $f''(c) > 0$, then $f$ has a strict local minimum at $c$; if $f''(c) < 0$, a strict local maximum.
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{real-analysis:proposition-taylor-peano} with $n = 2$, $(f(x) - f(c))/(x - c)^2 \to f''(c)/2 > 0$, so $f(x) - f(c) > 0$ for $x \neq c$ close to $c$ (Proposition~\ref{real-analysis:proposition-function-limit-basic}(2)).
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-second-derivative}
+If $f''(c) = 0$ the test says nothing: $x^4$, $-x^4$ and $x^3$ all have vanishing first and second derivatives at $0$, and have a minimum, a maximum and no extremum there.
+\end{counterexample}
+
+\begin{definition}\label{real-analysis:definition-convex}
+A function $f \colon I \to \RR$ on an interval is \emph{convex} if $f((1 - t)x + ty) \leq (1 - t)f(x) + tf(y)$ for all $x, y \in I$ and $t \in [0, 1]$, and \emph{strictly convex} if the inequality is strict whenever $x \neq y$ and
+$0 < t < 1$. It is \emph{(strictly) concave} if $-f$ is (strictly) convex.
+\end{definition}
+
+\begin{lemma}[Three slopes]\label{real-analysis:lemma-three-slopes}
+A function $f \colon I \to \RR$ is convex if and only if for all $x < y < z$ in $I$,
+\[
+\frac{f(y) - f(x)}{y - x} \leq \frac{f(z) - f(x)}{z - x} \leq \frac{f(z) - f(y)}{z - y}.
+\]
+\end{lemma}
+
+\begin{proof}
+Write $y = (1 - t)x + tz$ with $t = (y - x)/(z - x) \in (0, 1)$. Convexity at this triple says $(z - x)f(y) \leq (z - y)f(x) + (y - x)f(z)$. Multiplying out, each of the two displayed inequalities is equivalent to
+this one. Since every $t \in (0, 1)$ and $x < z$ arise, and the cases $t \in \{0, 1\}$ or $x = y$ are trivial, the lemma follows (for $x > y$ exchange the roles).
+\end{proof}
+
+\begin{proposition}\label{real-analysis:proposition-convex}
+Let $f \colon I \to \RR$ on an open interval $I$.
+\begin{enumerate}
+\item If $f$ is convex, it is continuous, it has one-sided derivatives $f'_-(x) \leq f'_+(x)$ at every point, and $f'_+(x) \leq \frac{f(y) - f(x)}{y - x} \leq f'_-(y)$ for $x < y$.
+\item If $f$ is differentiable, the following are equivalent: $f$ is convex; $f'$ is increasing; $f(y) \geq f(x) + f'(x)(y - x)$ for all $x, y \in I$.
+\item If $f$ is twice differentiable, $f$ is convex if and only if $f'' \geq 0$; if $f'' > 0$, $f$ is strictly convex.
+\item (Jensen) If $f$ is convex, $x_1, \ldots, x_k \in I$, $t_i \geq 0$ and $\sum t_i = 1$, then $f(\sum t_ix_i) \leq \sum t_if(x_i)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Lemma~\ref{real-analysis:lemma-three-slopes}, the slope $s(x, y) = (f(y) - f(x))/(y - x)$ is increasing in each variable. For fixed $x$, $s(x, y)$ decreases as $y \downarrow x$ and is bounded below by $s(w, x)$ for any
+$w < x$ in $I$ (which exists, $I$ being open); so $f'_+(x) = \lim_{y \to x^+}s(x, y)$ exists by Proposition~\ref{real-analysis:proposition-monotone-limits}, and $f'_+(x) \geq s(w, x)$. Letting $w \uparrow x$ gives $f'_-(x)$, with
+$f'_-(x) \leq f'_+(x)$. The inequality for $x < y$ follows from the monotonicity of slopes. The existence of one-sided derivatives implies continuity, as $f(y) - f(x) = s(x, y)(y - x) \to 0$.
+(2) If $f$ is convex and differentiable, (1) gives $f'(x) = f'_+(x) \leq f'_-(y) = f'(y)$ for $x < y$. If $f'$ is increasing and $y > x$, the mean value theorem gives $f(y) - f(x) = f'(\xi)(y - x) \geq f'(x)(y - x)$; for $y < x$,
+$f'(\xi) \leq f'(x)$ and $y - x < 0$ give the same inequality. Finally, if the tangent inequality holds, let $z = (1 - t)x + ty$; adding $(1 - t)$ times $f(x) \geq f(z) + f'(z)(x - z)$ and $t$ times $f(y) \geq f(z) + f'(z)(y - z)$ gives
+$(1 - t)f(x) + tf(y) \geq f(z)$.
+(3) $f'' \geq 0$ if and only if $f'$ is increasing (Theorem~\ref{real-analysis:theorem-mean-value}(3) and, conversely, $f'' = \lim$ of nonnegative quotients); apply (2). If $f'' > 0$, $f'$ is strictly increasing and the
+inequalities in the proof of (2) become strict for $y \neq x$, hence so does the final one for $x \neq y$, $0 < t < 1$.
+(4) Induction on $k$: for $t_k < 1$, $\sum t_ix_i = (1 - t_k)\sum_{i<k}\frac{t_i}{1 - t_k}x_i + t_kx_k$, and the inner point lies in $I$ because $I$ is an interval.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-convex}
+A convex function need not be differentiable: $|x|$ has $f'_-(0) = -1 < 1 = f'_+(0)$. On a closed interval a convex function need not be continuous at the endpoints: the function equal to $0$ on $[0, 1)$ and to $1$
+at $1$ is convex. The converse of the last statement of (3) fails: $x^4$ is strictly convex, but its second derivative vanishes at $0$.
+\end{counterexample}
+
+\begin{theorem}\label{real-analysis:theorem-power-series-derivative}
+Let $f(z) = \sum_na_nz^n$ have radius of convergence $R > 0$. Then $f$ is complex differentiable on $\{|z| < R\}$ with $f'(z) = \sum_nna_nz^{n-1}$. Hence $f$ has complex derivatives of all
+orders there, and $a_n = f^{(n)}(0)/n!$. The same holds for real $z$ in $(-R, R)$.
+\end{theorem}
+
+\begin{proof}
+Let $g(z) = \sum na_nz^{n-1}$, which has radius $R$ by Theorem~\ref{real-analysis:theorem-power-series}. Fix $|z| < \rho < R$ and $h \neq 0$ with $|z| + |h| \leq \rho$. By the binomial formula,
+$(z + h)^n - z^n - nz^{n-1}h = \sum_{k \geq 2}\binom{n}{k}z^{n-k}h^k$, and $\binom{n}{k} \leq \binom{n}{2}\binom{n-2}{k-2}$ for $k \geq 2$, so its absolute value is at most
+$\binom{n}{2}|h|^2(|z| + |h|)^{n-2} \leq n^2|h|^2\rho^{n-2}$. Hence
+$|(f(z + h) - f(z))/h - g(z)| \leq |h|\sum_n n^2|a_n|\rho^{n-2}$, and the last series converges. Iterating gives all derivatives, and evaluating at $0$ gives $a_n$.
+\end{proof}
+
+\section{The exponential and trigonometric functions}\label{real-analysis:section-exponential}
+
+\begin{definition}\label{real-analysis:definition-exponential}
+For $z \in \CC$ let $\exp(z) = e^z = \sum_{n \geq 0}z^n/n!$ (radius of convergence $\infty$, by the ratio test), and for $x \in \RR$ let $\cos x = \operatorname{Re} e^{ix}$ and
+$\sin x = \operatorname{Im} e^{ix}$, so that $\cos x = \sum_k(-1)^kx^{2k}/(2k)!$ and $\sin x = \sum_k(-1)^kx^{2k+1}/(2k+1)!$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-exponential}
+\begin{enumerate}
+\item $e^{z+w} = e^ze^w$, $e^z \neq 0$, $\overline{e^z} = e^{\bar z}$, and $\exp' = \exp$.
+\item $\exp$ restricts to a strictly increasing bijection $\RR \to (0, \infty)$, whose inverse $\log$ is differentiable with $\log'(x) = 1/x$ and $\log(xy) = \log x + \log y$.
+\item $\cos^2 x + \sin^2 x = 1$, $\cos' = -\sin$, $\sin' = \cos$, and $\cos(x + y) = \cos x\cos y - \sin x\sin y$, $\sin(x + y) = \sin x\cos y + \cos x\sin y$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Proposition~\ref{real-analysis:proposition-cauchy-product} and the binomial formula, $e^ze^w = \sum_n\sum_k\frac{z^kw^{n-k}}{k!(n-k)!} = \sum_n(z + w)^n/n!$. So $e^ze^{-z} = 1$. Conjugation is
+continuous and commutes with the partial sums. The derivative is Theorem~\ref{real-analysis:theorem-power-series-derivative}. (2) For real $x$, $e^x = (e^{x/2})^2 > 0$, so $\exp$ is strictly
+increasing by Theorem~\ref{real-analysis:theorem-mean-value}. For $x \geq 0$, $e^x \geq 1 + x$, and $e^{-x} = 1/e^x$; so $\exp$ is unbounded above and takes values arbitrarily close to $0$, and
+by the intermediate value theorem its image is $(0, \infty)$. Apply Proposition~\ref{real-analysis:proposition-inverse-one}. (3) $|e^{ix}|^2 = e^{ix}\overline{e^{ix}} = e^{ix}e^{-ix} = 1$;
+$(e^{ix})' = ie^{ix}$ by Theorem~\ref{real-analysis:theorem-power-series-derivative} applied to the real power series $\sum_n i^nx^n/n!$; the addition formulas are the real and imaginary parts of $e^{i(x+y)} = e^{ix}e^{iy}$.
+\end{proof}
+
+\begin{theorem}\label{real-analysis:theorem-pi}
+The function $\cos$ has a unique zero in $(0, 2)$; call it $\pi/2$. Then $e^{i\pi/2} = i$, the map $t \mapsto e^{it}$ is a surjective continuous homomorphism $\RR \to S^1 = \{|z| = 1\}$ with kernel
+$2\pi\ZZ$, and $p(t) = e^{2\pi it}$ is a covering map $\RR \to S^1$. Every $z \neq 0$ is $re^{i\theta}$ with $r = |z|$ and $\theta$ unique modulo $2\pi$.
+\end{theorem}
+
+\begin{proof}
+For $0 < x \leq 2$ the terms $x^{2k+1}/(2k+1)!$ decrease, since consecutive ratios are $x^2/((2k+2)(2k+3)) < 1$; by Lemma~\ref{real-analysis:lemma-alternating},
+$\sin x \geq x - x^3/6 > 0$. So $\cos$ is strictly decreasing on $[0, 2]$. The terms $4^k/(2k)!$ of $\cos 2$ decrease from $k = 1$ on, so $\cos 2 \leq 1 - 2 + 16/24 < 0$, while $\cos 0 = 1$; by
+the intermediate value theorem there is a unique zero $\pi/2 \in (0, 2)$. Then $\sin(\pi/2) = 1$, so $e^{i\pi/2} = i$ and $e^{2\pi i} = i^4 = 1$.
+
+Kernel: if $0 < t < 2\pi$, write $e^{it/4} = u + iv$ with $u, v > 0$ (as $0 < t/4 < \pi/2$). If $e^{it} = (u + iv)^4 = 1$, then $\operatorname{Im}(u + iv)^4 = 4uv(u^2 - v^2) = 0$ forces $u^2 = v^2 = 1/2$, and then
+$\operatorname{Re}(u + iv)^4 = u^4 - 6u^2v^2 + v^4 = -1$, a contradiction. With periodicity, the kernel is $2\pi\ZZ$.
+
+Surjectivity: for $a + ib \in S^1$ with $a, b \geq 0$, choose $t \in [0, \pi/2]$ with $\cos t = a$ (intermediate value theorem); then $\sin t = \sqrt{1 - a^2} = b$. The other quadrants are obtained by
+multiplying by powers of $i = e^{i\pi/2}$. For the covering property, $p$ is injective on $[a, a + 1)$ and identifies only $a$ and $a + 1$ in $[a, a + 1]$, so the argument of
+Proposition~\ref{homotopy:proposition-circle-covering} applies verbatim. The polar form follows by applying this to $z/|z|$.
+\end{proof}
+
+\begin{remark}\label{real-analysis:remark-exponential-covering}
+The proof of Theorem~\ref{homotopy:theorem-circle} uses only that $\RR$ is simply connected and that the covering map has period $4$ with fibres the translates of $4\ZZ$; it applies verbatim to
+$t \mapsto e^{2\pi it}$, with period $1$, so $\pi_1(S^1) \cong \ZZ$ is generated by the loop $t \mapsto e^{2\pi it}$. For $x > 0$ and $s \in \CC$ we define $x^s = e^{s\log x}$; then $\frac{d}{dx}x^s = sx^{s-1}$.
+\end{remark}
+
+\begin{proposition}[Notable limits]\label{real-analysis:proposition-notable-limits}
+\begin{enumerate}
+\item $\lim_{x \to 0}\frac{e^x - 1}{x} = 1$, $\lim_{x \to 0}\frac{\log(1 + x)}{x} = 1$, $\lim_{x \to 0}\frac{\sin x}{x} = 1$ and $\lim_{x \to 0}\frac{1 - \cos x}{x^2} = \frac12$.
+\item For every $x \in \RR$, $(1 + x/n)^n \to e^x$; in particular $(1 + 1/n)^n \to e = \exp(1)$.
+\item For $k \in \NN$ and $a > 0$: $x^ke^{-ax} \to 0$ and $(\log x)/x^a \to 0$ as $x \to +\infty$, and $x^a\log x \to 0$ as $x \to 0^+$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The first three are the derivatives of $\exp$ at $0$, of $\log$ at $1$ and of $\sin$ at $0$ (Proposition~\ref{real-analysis:proposition-exponential}), which are $e^0 = 1$, $1/1$ and $\cos 0 = 1$. For the last, apply
+Theorem~\ref{real-analysis:theorem-lhopital}(1): $\frac{1 - \cos x}{x^2}$ has the same limit as $\frac{\sin x}{2x} \to \frac12$.
+(2) For $x = 0$ this is clear. Otherwise, for $n > |x|$, $1 + x/n > 0$ and $(1 + x/n)^n = \exp(n\log(1 + x/n))$, with $n\log(1 + x/n) = x\cdot\frac{\log(1 + x/n)}{x/n} \to x$ by (1) and
+Theorem~\ref{real-analysis:theorem-sequential-limits} (as $x/n \to 0$ and $x/n \neq 0$). By continuity of $\exp$, $(1 + x/n)^n \to e^x$.
+(3) For $x > 0$, $e^{ax} \geq (ax)^{k+1}/(k+1)!$, one term of the exponential series, so $0 < x^ke^{-ax} \leq (k+1)!/(a^{k+1}x) \to 0$. For $x = e^t$, $(\log x)/x^a = te^{-at}$, which tends to $0$ as $t \to +\infty$ by the
+case $k = 1$; since $\log x \to +\infty$ as $x \to +\infty$, Proposition~\ref{real-analysis:proposition-composite-limit} applies. Similarly $x^a\log x = -te^{-at}$ for $x = e^{-t}$, and $t \to +\infty$ as $x \to 0^+$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-sin-one-over-x}
+\begin{enumerate}
+\item $\sin(1/x)$ has no limit at $0$: along $x_n = 1/(2\pi n + \pi/2)$ it is $1$, along $y_n = 1/(\pi n)$ it is $0$ ($n \geq 1$), and Theorem~\ref{real-analysis:theorem-sequential-limits} applies. Since
+$x_n - y_n \to 0$, $\sin(1/x)$ is continuous but not uniformly continuous on $(0, 1)$. On the other hand $x\sin(1/x) \to 0$ by the squeeze theorem, as $|x\sin(1/x)| \leq |x|$.
+\item A derivative need not be continuous. Let $f(x) = x^2\sin(1/x)$ for $x \neq 0$ and $f(0) = 0$. Then $f'(0) = \lim_{x \to 0}x\sin(1/x) = 0$, and $f'(x) = 2x\sin(1/x) - \cos(1/x)$ for $x \neq 0$, which has no limit at $0$.
+In accordance with Proposition~\ref{real-analysis:proposition-derivative-limit} and Theorem~\ref{real-analysis:theorem-darboux}, the discontinuity of $f'$ at $0$ is essential.
+\item The converse of de l'H\^opital's rule fails. With $f$ as in (2) and $g(x) = x$, $f(x)/g(x) = x\sin(1/x) \to 0$, while $f'(x)/g'(x) = 2x\sin(1/x) - \cos(1/x)$ has no limit as $x \to 0$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{corollary}[Inequality of arithmetic and geometric means]\label{real-analysis:corollary-am-gm}
+For $x_1, \ldots, x_k > 0$ and weights $t_i \geq 0$ with $\sum t_i = 1$, $\prod_ix_i^{t_i} \leq \sum_it_ix_i$. In particular $\sqrt[k]{x_1\cdots x_k} \leq \frac{1}{k}(x_1 + \cdots + x_k)$, with equality if and only if all $x_i$ are equal.
+\end{corollary}
+
+\begin{proof}
+$\log'' = -1/x^2 < 0$, so $\log$ is concave (Proposition~\ref{real-analysis:proposition-convex}(3)), and by Jensen's inequality $\sum t_i\log x_i \leq \log\sum t_ix_i$. Apply $\exp$, which is increasing. For
+the equality statement, let $m = \frac1k\sum x_i$. As $\log'$ is strictly decreasing, the mean value theorem gives $\log x < \log m + (x - m)/m$ for every $x > 0$ with $x \neq m$ (the tangent inequality of
+Proposition~\ref{real-analysis:proposition-convex}(2) for $-\log$, made strict). Averaging over $x = x_1, \ldots, x_k$ gives $\frac1k\sum\log x_i < \log m$ unless all $x_i = m$.
+\end{proof}
+
+\begin{lemma}\label{real-analysis:lemma-bump}
+The function $\beta(t) = e^{-1/t}$ for $t > 0$ and $\beta(t) = 0$ for $t \leq 0$ has derivatives of all orders on $\RR$, all vanishing at $0$. The function
+$\gamma(t) = \beta(t)/(\beta(t) + \beta(1 - t))$ has derivatives of all orders, takes values in $[0, 1]$, and equals $0$ for $t \leq 0$ and $1$ for $t \geq 1$.
+\end{lemma}
+
+\begin{proof}
+By induction, on $t > 0$, $\beta^{(k)}(t) = p_k(1/t)e^{-1/t}$ for a polynomial $p_k$. Since $e^{s} \geq s^{m}/m!$ for $s > 0$, $s^je^{-s} \to 0$ as $s \to \infty$; so $\beta^{(k)}(t) \to 0$ as $t \to 0^+$, and
+the difference quotients of $\beta^{(k)}$ at $0$ tend to $0$, which by induction shows $\beta^{(k+1)}(0) = 0$. The denominator of $\gamma$ never vanishes (one of $t$, $1 - t$ is positive), so $\gamma$ has derivatives of all orders by
+Proposition~\ref{real-analysis:proposition-derivative-rules}, and the other properties are clear.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-not-analytic}
+The function $\beta$ of Lemma~\ref{real-analysis:lemma-bump} has all derivatives zero at $0$, so its Taylor series at $0$ is zero, but $\beta(t) \neq 0$ for $t > 0$. Smooth functions need not be
+given by their Taylor series; complex differentiable functions are (Chapter~\ref{complex-analysis}).
+\end{counterexample}
+
+\section{The Riemann integral}\label{real-analysis:section-riemann}
+
+\begin{definition}\label{real-analysis:definition-riemann}
+Let $f \colon [a, b] \to \RR$ be bounded. For a partition $P \colon a = t_0 < \cdots < t_k = b$ let $U(f, P) = \sum_i(t_i - t_{i-1})\sup_{[t_{i-1}, t_i]}f$ and $L(f, P)$ the same with $\inf$. The function is
+\emph{Riemann integrable} if $\sup_PL(f, P) = \inf_PU(f, P)$, and this common value is $\int_a^bf = \int_a^bf(t)\,dt$. A $\CC^m$-valued function is integrable if its real and imaginary components are, with
+the integral taken componentwise. We set $\int_b^af = -\int_a^bf$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-riemann}
+\begin{enumerate}
+\item If $P'$ refines $P$, then $L(f, P) \leq L(f, P') \leq U(f, P') \leq U(f, P)$; and $L(f, P) \leq U(f, Q)$ for all $P, Q$. So $f$ is integrable if and only if for every $\varepsilon > 0$ there is $P$ with
+$U(f, P) - L(f, P) < \varepsilon$.
+\item Continuous functions are integrable, and $\sum_i(t_i - t_{i-1})f(s_i) \to \int_a^bf$ for any choice of $s_i \in [t_{i-1}, t_i]$ as $\max_i(t_i - t_{i-1}) \to 0$.
+\item For continuous $f, g$: the integral is linear, $f \leq g$ implies $\int f \leq \int g$, $\int_a^cf = \int_a^bf + \int_b^cf$, $|\int_a^bf| \leq \int_a^b|f|$ for $\CC^m$-valued $f$ with the Euclidean
+norm, and if $f_n \to f$ uniformly, $\int f_n \to \int f$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Adding a point to a partition can only increase infima and decrease suprema on the pieces; for $P, Q$ compare both with $P \cup Q$. (2) By uniform continuity
+(Corollary~\ref{general-topology:corollary-uniform-continuity}), for $\varepsilon > 0$ there is $\delta$ such that $f$ varies by less than $\varepsilon$ on intervals of length $< \delta$; for partitions of mesh
+$< \delta$, $U - L \leq \varepsilon(b - a)$, and Riemann sums lie between $L$ and $U$. (3) Linearity and additivity follow from (2), monotonicity from $L(f, P) \leq L(g, P)$, and uniform limits from
+$|\int(f_n - f)| \leq (b - a)\sup|f_n - f|$. For the norm inequality let $v = \int f \in \CC^m$; then
+$\|v\|^2 = \operatorname{Re}\langle \int f, v \rangle = \int\operatorname{Re}\langle f(t), v \rangle\,dt \leq \int\|f\|\,\|v\|$ by Cauchy--Schwarz (Proposition~\ref{linear-algebra:proposition-cauchy-schwarz}).
+\end{proof}
+
+\begin{theorem}[Fundamental theorem of calculus]\label{real-analysis:theorem-ftc}
+Let $f \colon [a, b] \to \CC^m$ be continuous. Then $F(x) = \int_a^xf$ is differentiable with $F' = f$. If $G \colon [a, b] \to \CC^m$ is continuously differentiable, then $\int_a^bG' = G(b) - G(a)$.
+\end{theorem}
+
+\begin{proof}
+$|(F(x + h) - F(x))/h - f(x)| = |\frac1h\int_x^{x+h}(f - f(x))| \leq \sup_{|t - x| \leq |h|}|f(t) - f(x)| \to 0$. For the second statement, $\int_a^xG' - G(x)$ has derivative $0$, hence is constant by
+Theorem~\ref{real-analysis:theorem-mean-value} applied to real and imaginary components.
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-integration-rules}
+For continuously differentiable $f, g$ and $\varphi \colon [c, d] \to [a, b]$: $\int_a^bf'g = [fg]_a^b - \int_a^bfg'$ and $\int_c^df(\varphi(s))\varphi'(s)\,ds = \int_{\varphi(c)}^{\varphi(d)}f$ for continuous $f$.
+Moreover $\|G(b) - G(a)\| \leq (b - a)\sup\|G'\|$ for $G$ continuously differentiable.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{real-analysis:theorem-ftc} to $fg$, to $F \circ \varphi$ with $F(x) = \int_a^xf$, and use the norm inequality of Proposition~\ref{real-analysis:proposition-riemann}.
+\end{proof}
+
+\begin{proposition}\label{real-analysis:proposition-parameter-integrals}
+Let $f \colon [c, d] \times [a, b] \to \CC$ be continuous.
+\begin{enumerate}
+\item $x \mapsto \int_a^bf(x, t)\,dt$ is continuous, and if $\partial_xf$ exists and is continuous on $[c, d] \times [a, b]$, it is differentiable with derivative $\int_a^b\partial_xf(x, t)\,dt$.
+\item (Fubini for continuous functions) $\int_c^d\int_a^bf(x, t)\,dt\,dx = \int_a^b\int_c^df(x, t)\,dx\,dt$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Continuity follows from uniform continuity of $f$. For the derivative, by the mean value theorem applied to real and imaginary parts, $(f(x + h, t) - f(x, t))/h - \partial_xf(x, t)$ is bounded by the
+oscillation of $\partial_xf$ over $|s - x| \leq |h|$, which tends to $0$ uniformly in $t$ by uniform continuity. (2) Let $\Phi(y) = \int_c^y\int_a^bf\,dt\,dx$ and $\Psi(y) = \int_a^b\int_c^yf\,dx\,dt$. By
+Theorem~\ref{real-analysis:theorem-ftc} and (1) (applied to $g(y, t) = \int_c^yf(x, t)\,dx$, with $\partial_yg = f$ continuous), $\Phi' = \Psi' = \int_a^bf(y, t)\,dt$, and $\Phi(c) = \Psi(c) = 0$.
+\end{proof}
+
+\section{Sequences of functions}\label{real-analysis:section-function-sequences}
+
+\begin{definition}\label{real-analysis:definition-uniform-convergence}
+Let $D$ be a set and $f_n, f \colon D \to \mathbb{K}^m$. Then $f_n \to f$ \emph{pointwise} if $f_n(x) \to f(x)$ for every $x \in D$, and \emph{uniformly} if $\|f_n - f\|_\infty = \sup_{x \in D}\|f_n(x) - f(x)\| \to 0$.
+\end{definition}
+
+The difference is the order of quantifiers: for pointwise convergence the threshold $N$ may depend on $x$, for uniform convergence it may not. Uniform convergence implies pointwise convergence.
+
+\begin{proposition}\label{real-analysis:proposition-uniform-cauchy}
+\begin{enumerate}
+\item (Cauchy criterion) $(f_n)$ converges uniformly on $D$ if and only if for every $\varepsilon > 0$ there is $N$ with $\|f_n - f_m\|_\infty < \varepsilon$ for $m, n \geq N$.
+\item If $D$ is a metric space, the $f_n$ are continuous and $f_n \to f$ uniformly, then $f$ is continuous.
+\item If $f_n \to f$ uniformly on $[a, b]$ and the $f_n$ are continuous, then $\int_a^bf_n \to \int_a^bf$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $f_n \to f$ uniformly, use the triangle inequality. Conversely, for each $x$ the sequence $(f_n(x))$ is Cauchy, hence converges to some $f(x)$ (Theorem~\ref{real-analysis:theorem-cauchy-criterion}, componentwise).
+Letting $m \to \infty$ in $\|f_n(x) - f_m(x)\| < \varepsilon$ gives $\|f_n(x) - f(x)\| \leq \varepsilon$ for $n \geq N$ and all $x$. (2) is Proposition~\ref{general-topology:proposition-uniform-limit}. (3) is
+Proposition~\ref{real-analysis:proposition-riemann}(3).
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-pointwise}
+\begin{enumerate}
+\item $f_n(x) = x^n$ on $[0, 1]$ converges pointwise to the function equal to $0$ on $[0, 1)$ and $1$ at $1$, which is discontinuous; so the convergence is not uniform. On $[0, 1)$ the limit $0$ is continuous, but
+$\sup_{[0,1)}x^n = 1$, so the convergence is still not uniform. On $[0, r]$ with $r < 1$ it is uniform, as $\sup = r^n \to 0$.
+\item Pointwise convergence does not commute with integration. Let $f_n(x) = nx(1 - x^2)^n$ on $[0, 1]$. For $0 < x \leq 1$, $f_n(x) \to 0$ by Proposition~\ref{real-analysis:proposition-fundamental-limits}(3) with $a = (1 - x^2)^{-1}$
+(or trivially if $x = 1$), and $f_n(0) = 0$. But, substituting $u = 1 - x^2$, $\int_0^1f_n = \frac n2\int_0^1u^n\,du = \frac{n}{2(n + 1)} \to \frac12 \neq 0$.
+\item Uniform convergence does not commute with differentiation. $f_n(x) = x^n/n$ converges uniformly to $0$ on $[0, 1]$, since $|f_n| \leq 1/n$, but $f_n'(1) = 1$ for all $n$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{theorem}\label{real-analysis:theorem-uniform-derivative}
+Let $f_n \colon [a, b] \to \RR$ be continuously differentiable. Suppose that $(f_n')$ converges uniformly to $g$ and that $(f_n(x_0))$ converges for some $x_0 \in [a, b]$. Then $(f_n)$ converges uniformly to a continuously
+differentiable $f$ with $f' = g$.
+\end{theorem}
+
+\begin{proof}
+The function $g$ is continuous by Proposition~\ref{real-analysis:proposition-uniform-cauchy}(2). Let $L = \lim f_n(x_0)$ and $f(x) = L + \int_{x_0}^xg$, which is continuously differentiable with $f' = g$ by
+Theorem~\ref{real-analysis:theorem-ftc}. By the same theorem $f_n(x) = f_n(x_0) + \int_{x_0}^xf_n'$, so
+$|f_n(x) - f(x)| \leq |f_n(x_0) - L| + (b - a)\|f_n' - g\|_\infty$, which tends to $0$ uniformly in $x$.
+\end{proof}
+
+\begin{theorem}[Dini]\label{real-analysis:theorem-dini}
+Let $K$ be a compact metric space and $f_n \colon K \to \RR$ continuous functions with $f_1 \leq f_2 \leq \cdots$, converging pointwise to a continuous function $f$. Then the convergence is uniform.
+\end{theorem}
+
+\begin{proof}
+Let $g_n = f - f_n$, continuous, $\geq 0$, decreasing in $n$ and tending to $0$ pointwise. For $\varepsilon > 0$ the sets $K_n = \{x : g_n(x) \geq \varepsilon\}$ are closed, decreasing, and have empty intersection. By
+compactness some $K_N$ is empty (the complements form an open cover with a finite subcover, and the $K_n$ decrease), and then $0 \leq g_n < \varepsilon$ on $K$ for $n \geq N$.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-dini}
+Each hypothesis of Dini's theorem is needed. On the noncompact $[0, 1)$, $f_n(x) = -x^n$ increases to the continuous function $0$, not uniformly. On $[0, 1]$, $f_n(x) = -x^n$ increases to a discontinuous limit, not
+uniformly. And without monotonicity, the continuous functions $f_n(x) = \max(0, 1 - |nx - 2|)$, bumps of height $1$ moving towards $0$, converge pointwise to $0$ on $[0, 1]$ but not uniformly.
+\end{counterexample}
+
+\begin{corollary}[Series of functions]\label{real-analysis:corollary-series-functions}
+Let $u_n \colon [a, b] \to \RR$ be continuous and suppose $\sum_n\|u_n\|_\infty < \infty$. Then $\sum_nu_n$ converges uniformly to a continuous function, and $\int_a^b\sum_nu_n = \sum_n\int_a^bu_n$. If moreover
+the $u_n$ are continuously differentiable and $\sum_n\|u_n'\|_\infty < \infty$, then $\sum_nu_n$ is continuously differentiable with derivative $\sum_nu_n'$.
+\end{corollary}
+
+\begin{proof}
+Apply the Weierstrass $M$-test (Proposition~\ref{real-analysis:proposition-series}(5)) and Propositions~\ref{real-analysis:proposition-uniform-cauchy}(2),(3) to the partial sums, and Theorem~\ref{real-analysis:theorem-uniform-derivative}
+to the partial sums and their derivatives.
+\end{proof}
+
+\begin{theorem}[A continuous nowhere differentiable function]\label{real-analysis:theorem-takagi}
+Let $d(x)$ be the distance from $x \in \RR$ to the nearest integer. The \emph{Takagi function} $T(x) = \sum_{m \geq 0}2^{-m}d(2^mx)$ is continuous on $\RR$ and differentiable at no point.
+\end{theorem}
+
+\begin{proof}
+Since $0 \leq d \leq \frac12$ and $d$ is continuous (it is $1$-Lipschitz), the series converges uniformly by the $M$-test, and $T$ is continuous.
+
+We first note: if $f$ is differentiable at $x$ and $u_n \leq x \leq v_n$ with $u_n < v_n$ and $v_n - u_n \to 0$, then $\frac{f(v_n) - f(u_n)}{v_n - u_n} \to f'(x)$. Indeed, with $\lambda_n = (v_n - x)/(v_n - u_n) \in [0, 1]$,
+\[
+\frac{f(v_n) - f(u_n)}{v_n - u_n} = \lambda_n\frac{f(v_n) - f(x)}{v_n - x} + (1 - \lambda_n)\frac{f(x) - f(u_n)}{x - u_n},
+\]
+where a term with weight $0$ (when $v_n = x$ or $u_n = x$) is omitted; both quotients tend to $f'(x)$, and so does their convex combination.
+
+Fix $x$, and for $n \geq 1$ let $u_n = k_n/2^n \leq x < v_n = (k_n + 1)/2^n$ with $k_n \in \ZZ$. For $m \geq n$, $2^mu_n$ and $2^mv_n$ are integers, so $d(2^mu_n) = d(2^mv_n) = 0$. For $m < n$, the numbers $2^mu_n$ and $2^mv_n$ are
+consecutive multiples of $2^{m-n} \leq \frac12$, so they lie in a common interval $[\frac j2, \frac{j+1}2]$, on which $d$ is affine with slope $\pm1$. Hence
+\[
+q_n = \frac{T(v_n) - T(u_n)}{v_n - u_n} = \sum_{m=0}^{n-1}2^{-m}\frac{d(2^mv_n) - d(2^mu_n)}{v_n - u_n} = \sum_{m=0}^{n-1}\varepsilon_{m,n}, \qquad \varepsilon_{m,n} \in \{1, -1\}.
+\]
+So $q_n$ is an integer of the same parity as $n$, and $(q_n)$ cannot converge: consecutive terms differ by an odd integer, so $|q_{n+1} - q_n| \geq 1$. By the preliminary remark, $T$ is not differentiable at $x$.
+\end{proof}
+
+\section{Derivatives in several variables}\label{real-analysis:section-several-variables}
+
+\begin{lemma}\label{real-analysis:lemma-norms}
+All norms on a finite-dimensional real or complex vector space are equivalent (they define the same topology), and every linear map $A \colon V \to W$ between finite-dimensional normed spaces is
+continuous, with finite \emph{operator norm} $\|A\| = \sup_{\|v\| \leq 1}\|Av\|$. Then $\|Av\| \leq \|A\|\,\|v\|$ and $\|AB\| \leq \|A\|\,\|B\|$.
+\end{lemma}
+
+\begin{proof}
+Identify $V$ with $\RR^n$ by a basis and let $\|\cdot\|$ be a norm. By the triangle inequality and Cauchy--Schwarz, $\|x\| \leq \sum|x_i|\,\|e_i\| \leq C\|x\|_2$, so $\|\cdot\|$ is continuous for the
+Euclidean topology. On the compact unit sphere of $\|\cdot\|_2$ it attains a minimum $c > 0$, so $c\|x\|_2 \leq \|x\| \leq C\|x\|_2$, and Lemma~\ref{general-topology:lemma-equivalent-metrics} applies. A linear map
+is Lipschitz for Euclidean norms, since $\|Ax\| \leq \sum|x_i|\,\|Ae_i\|$. The inequalities follow from the definition.
+\end{proof}
+
+\begin{definition}\label{real-analysis:definition-differentiable}
+Let $U \subseteq \RR^n$ be open and $f \colon U \to \RR^m$. Then $f$ is \emph{differentiable} at $a \in U$ if there is a linear map $Df(a) \colon \RR^n \to \RR^m$ with
+\[
+f(a + h) = f(a) + Df(a)h + r(h), \qquad \|r(h)\|/\|h\| \to 0 \text{ as } h \to 0.
+\]
+The \emph{partial derivatives} are $\partial_jf(a) = \frac{d}{dt}f(a + te_j)|_{t=0}$. The map $f$ is $C^1$ if it is differentiable everywhere and $Df \colon U \to \Hom(\RR^n, \RR^m)$ is continuous; $C^k$ if $Df$ is
+$C^{k-1}$; and \emph{smooth} ($C^\infty$) if it is $C^k$ for all $k$. A \emph{$C^k$-diffeomorphism} is a bijection between open sets which is $C^k$ with $C^k$ inverse.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-derivative-basic}
+\begin{enumerate}
+\item $Df(a)$ is unique, $f$ is continuous at $a$, and the matrix of $Df(a)$ is the \emph{Jacobian matrix} $(\partial_jf_i(a))$.
+\item (Chain rule) If $f$ is differentiable at $a$ and $g$ at $f(a)$, then $g \circ f$ is differentiable at $a$ and $D(g \circ f)(a) = Dg(f(a)) \circ Df(a)$.
+\item If all partial derivatives of $f$ exist near $a$ and are continuous at $a$, then $f$ is differentiable at $a$. So $f$ is $C^1$ if and only if its partial derivatives exist and are continuous, and
+$C^k$ if and only if all partial derivatives of order at most $k$ exist and are continuous.
+\item (Mean value inequality) If $f$ is $C^1$ and the segment $[x, y]$ lies in $U$, then $\|f(y) - f(x)\| \leq \sup_{z \in [x, y]}\|Df(z)\|\,\|y - x\|$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $A$ and $B$ both work, $\|(A - B)h\|/\|h\| \to 0$, so $A = B$ by linearity. Taking $h = te_j$ gives the partial derivatives. (2) Let $b = f(a)$, $k = f(a + h) - b = Df(a)h + r_f(h)$. Then
+$g(f(a + h)) - g(b) - Dg(b)Df(a)h = Dg(b)r_f(h) + r_g(k)$. For small $h$, $\|k\| \leq (\|Df(a)\| + 1)\|h\|$, so both terms are $o(\|h\|)$. (3) We may assume $m = 1$. Write
+$f(a + h) - f(a) = \sum_j[f(a + h_1e_1 + \cdots + h_je_j) - f(a + h_1e_1 + \cdots + h_{j-1}e_{j-1})]$. By the mean value theorem the $j$-th term is $h_j\partial_jf(\xi_j)$ with $\xi_j$ within $\|h\|$ of $a$, and
+$\partial_jf(\xi_j) \to \partial_jf(a)$. The statement about $C^k$ follows by induction. (4) Let $g(t) = f(x + t(y - x))$; by the chain rule $g'(t) = Df(x + t(y - x))(y - x)$, and
+Corollary~\ref{real-analysis:corollary-integration-rules} applies.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-partials}
+Let $f(x, y) = xy/(x^2 + y^2)$ for $(x, y) \neq 0$ and $f(0) = 0$. Both partial derivatives exist everywhere ($f$ vanishes on the axes), but $f(t, t) = 1/2$ for $t \neq 0$, so $f$ is not continuous at $0$, let
+alone differentiable.
+\end{counterexample}
+
+\begin{theorem}[Schwarz]\label{real-analysis:theorem-schwarz}
+If $f \colon U \to \RR$ is $C^2$, then $\partial_i\partial_jf = \partial_j\partial_if$.
+\end{theorem}
+
+\begin{proof}
+Restricting to the plane of the $i$-th and $j$-th coordinates, we may assume $n = 2$. For a rectangle $R = [x_0, x_1] \times [y_0, y_1] \subseteq U$, Theorem~\ref{real-analysis:theorem-ftc} applied twice gives
+$\int_{y_0}^{y_1}\int_{x_0}^{x_1}\partial_x\partial_yf\,dx\,dy = f(x_1, y_1) - f(x_0, y_1) - f(x_1, y_0) + f(x_0, y_0)$, and the same for $\int_{x_0}^{x_1}\int_{y_0}^{y_1}\partial_y\partial_xf\,dy\,dx$. By
+Proposition~\ref{real-analysis:proposition-parameter-integrals}(2), the continuous function $g = \partial_x\partial_yf - \partial_y\partial_xf$ has integral $0$ over every small rectangle. If $g(p) > 0$, then $g > g(p)/2$ on a small
+rectangle around $p$, and its integral is positive, a contradiction.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-schwarz}
+For $f(x, y) = xy(x^2 - y^2)/(x^2 + y^2)$, $f(0) = 0$, one computes $\partial_xf(0, y) = -y$ and $\partial_yf(x, 0) = x$, so $\partial_y\partial_xf(0) = -1 \neq 1 = \partial_x\partial_yf(0)$. The second partial derivatives
+exist but are not continuous at $0$.
+\end{counterexample}
+
+\begin{theorem}[Taylor's theorem in several variables]\label{real-analysis:theorem-taylor-several}
+Let $f \colon U \to \RR$ be $C^{k+1}$ and $[a, a + h] \subseteq U$. With multi-index notation $\partial^\alpha = \partial_1^{\alpha_1} \cdots \partial_n^{\alpha_n}$, $h^\alpha = h_1^{\alpha_1} \cdots h_n^{\alpha_n}$ and
+$\alpha! = \alpha_1! \cdots \alpha_n!$, there is $\xi \in (a, a + h)$ with
+\[
+f(a + h) = \sum_{|\alpha| \leq k}\frac{\partial^\alpha f(a)}{\alpha!}h^\alpha + \sum_{|\alpha| = k+1}\frac{\partial^\alpha f(\xi)}{\alpha!}h^\alpha.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply Theorem~\ref{real-analysis:theorem-taylor-one} to $g(t) = f(a + th)$ on $[0, 1]$. By the chain rule and Theorem~\ref{real-analysis:theorem-schwarz},
+$g^{(j)}(t) = \sum_{|\alpha| = j}\frac{j!}{\alpha!}\partial^\alpha f(a + th)h^\alpha$ (the multinomial formula).
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-bump-function}
+For $0 < r < R$ there is a smooth function $\RR^n \to [0, 1]$ equal to $1$ on the closed ball of radius $r$ and to $0$ outside the open ball of radius $R$.
+\end{corollary}
+
+\begin{proof}
+Take $x \mapsto 1 - \gamma((\|x\|^2 - r^2)/(R^2 - r^2))$ with $\gamma$ as in Lemma~\ref{real-analysis:lemma-bump}; it is smooth by the chain rule, since $\|x\|^2$ is a polynomial.
+\end{proof}
+
+\section{The inverse and implicit function theorems}\label{real-analysis:section-inverse-function}
+
+\begin{lemma}\label{real-analysis:lemma-neumann}
+If $A \in \operatorname{End}(\RR^n)$ has $\|A\| < 1$, then $1 - A$ is invertible with inverse $\sum_kA^k$ and $\|(1 - A)^{-1}\| \leq 1/(1 - \|A\|)$. The group $\GL_n(\RR)$ is open in $M_n(\RR)$, and
+inversion $\GL_n(\RR) \to \GL_n(\RR)$ is smooth.
+\end{lemma}
+
+\begin{proof}
+The series converges absolutely in the complete space $M_n(\RR)$ (Proposition~\ref{real-analysis:proposition-series}), and $(1 - A)\sum_{k \leq N}A^k = 1 - A^{N+1} \to 1$. The determinant is a polynomial in the
+entries, hence continuous, and $\GL_n(\RR) = \det^{-1}(\RR \setminus \{0\})$. By the adjugate formula (Proposition~\ref{linear-algebra:proposition-determinant-properties}), the entries of $A^{-1}$ are
+polynomials in the entries of $A$ divided by $\det A$, so inversion is smooth.
+\end{proof}
+
+\begin{theorem}[Inverse function theorem]\label{real-analysis:theorem-inverse-function}
+Let $U \subseteq \RR^n$ be open, $f \colon U \to \RR^n$ of class $C^k$ with $k \geq 1$, and $a \in U$ with $Df(a)$ invertible. There are open sets $V \ni a$ and $W \ni f(a)$ such that $f \colon V \to W$ is a
+$C^k$-diffeomorphism, and $D(f^{-1})(f(x)) = Df(x)^{-1}$.
+\end{theorem}
+
+\begin{proof}
+Replacing $f$ by $x \mapsto Df(a)^{-1}(f(a + x) - f(a))$, we may assume $a = 0$, $f(0) = 0$ and $Df(0) = 1$. Let $g(x) = x - f(x)$, so $Dg(0) = 0$; choose $r > 0$ with $\overline{B}(0, r) \subseteq U$ and
+$\|Dg(x)\| \leq 1/2$ there. By the mean value inequality, $\|g(x) - g(x')\| \leq \frac12\|x - x'\|$ on $\overline{B}(0, r)$, and $\|g(x)\| \leq r/2$.
+
+For $y \in W = B(0, r/2)$, the map $T_y(x) = y + g(x)$ sends $\overline{B}(0, r)$ into $B(0, r)$ and is a contraction with constant $1/2$. By the Banach fixed point theorem
+(Theorem~\ref{general-topology:theorem-banach-fixed-point}) there is a unique $x \in \overline{B}(0, r)$ with $x = y + g(x)$, that is, $f(x) = y$, and $x \in B(0, r)$. Let $V = B(0, r) \cap f^{-1}(W)$, open; then
+$f \colon V \to W$ is bijective. From $x - x' = f(x) - f(x') + g(x) - g(x')$ we get $\|x - x'\| \leq 2\|f(x) - f(x')\|$, so $f^{-1}$ is continuous. For $x \in V$, $Df(x) = 1 - Dg(x)$ is invertible
+with $\|Df(x)^{-1}\| \leq 2$ (Lemma~\ref{real-analysis:lemma-neumann}).
+
+Let $y = f(x)$ and $y + \kappa = f(x + h)$ with $x, x + h \in V$, so $\|h\| \leq 2\|\kappa\|$. Then $f^{-1}(y + \kappa) - f^{-1}(y) - Df(x)^{-1}\kappa = -Df(x)^{-1}(f(x + h) - f(x) - Df(x)h)$, whose norm is
+at most $2\|r(h)\| = o(\|\kappa\|)$. So $f^{-1}$ is differentiable with $D(f^{-1}) = \iota \circ Df \circ f^{-1}$, where $\iota$ is inversion. If $f^{-1}$ is $C^j$ with $j < k$, this composite is $C^j$, so
+$f^{-1}$ is $C^{j+1}$; by induction $f^{-1}$ is $C^k$ (composites of $C^j$ maps are $C^j$ by the chain rule and induction).
+\end{proof}
+
+\begin{theorem}[Implicit function theorem]\label{real-analysis:theorem-implicit-function}
+Let $U \subseteq \RR^n \times \RR^m$ be open, $F \colon U \to \RR^m$ of class $C^k$, $(a, b) \in U$ with $F(a, b) = 0$, and suppose the partial derivative $D_yF(a, b) \colon \RR^m \to \RR^m$ is invertible.
+There are open sets $A \ni a$ and $B \ni b$ and a $C^k$ map $g \colon A \to B$ such that for $(x, y) \in A \times B$: $F(x, y) = 0$ if and only if $y = g(x)$.
+\end{theorem}
+
+\begin{proof}
+The map $\Phi(x, y) = (x, F(x, y))$ has invertible derivative at $(a, b)$, so by Theorem~\ref{real-analysis:theorem-inverse-function} it restricts to a $C^k$-diffeomorphism of an open set, which we may
+shrink to $A' \times B$, onto an open set containing $(a, 0)$. Its inverse has the form $(x, z) \mapsto (x, \psi(x, z))$. Let $A = \{x : (x, 0) \in \Phi(A' \times B)\}$, open, and $g(x) = \psi(x, 0)$.
+\end{proof}
+
+\begin{theorem}[Local submersions and immersions]\label{real-analysis:theorem-submersion-immersion}
+Let $f \colon U \to \RR^m$ be $C^k$, $U \subseteq \RR^n$ open, $a \in U$.
+\begin{enumerate}
+\item If $Df(a)$ is surjective, there is a $C^k$-diffeomorphism $\psi$ from a neighbourhood of $a$ onto an open subset of $\RR^n$ with $f \circ \psi^{-1}(x_1, \ldots, x_n) = (x_1, \ldots, x_m)$.
+\item If $Df(a)$ is injective, there is a $C^k$-diffeomorphism $\phi$ from a neighbourhood of $f(a)$ onto an open subset of $\RR^m$ with $\phi \circ f(x) = (x_1, \ldots, x_n, 0, \ldots, 0)$ near $a$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We may assume $a = 0$ and $f(0) = 0$. (1) After permuting coordinates, the first $m$ columns of the Jacobian are linearly independent. Then $\psi(x) = (f(x), x_{m+1}, \ldots, x_n)$ has invertible
+derivative at $0$, and $f \circ \psi^{-1}$ is the projection. (2) After permuting target coordinates, the first $n$ rows of the Jacobian are independent. Let $\Theta(x, y) = f(x) + (0, y)$ for $x \in U$,
+$y \in \RR^{m-n}$; $D\Theta(0)$ is invertible, and $\phi = \Theta^{-1}$ satisfies $\phi(f(x)) = (x, 0)$.
+\end{proof}
+
+\begin{remark}\label{real-analysis:remark-constant-rank}
+More generally, if $Df$ has constant rank $r$ near $a$, there are local diffeomorphisms in source and target in which $f$ becomes $(x_1, \ldots, x_n) \mapsto (x_1, \ldots, x_r, 0, \ldots, 0)$ (the
+\emph{constant rank theorem} \cite[Theorem 4.12]{lee-smooth-manifolds}). All results of this section hold with the same proofs over $\CC$ for complex differentiable (holomorphic) maps, once
+holomorphic functions are known to be $C^\infty$ (Chapter~\ref{several-complex-variables}).
+\end{remark}
+
+\section{Ordinary differential equations}\label{real-analysis:section-ode}
+
+\begin{definition}\label{real-analysis:definition-ode}
+Let $D \subseteq \RR \times \RR^n$ be open and $F \colon D \to \RR^n$ continuous. $F$ is \emph{locally Lipschitz in $x$} if every point of $D$ has a neighbourhood $N$ and $L$ with
+$\|F(t, x) - F(t, y)\| \leq L\|x - y\|$ for $(t, x), (t, y) \in N$; by the mean value inequality this holds if $F$ is $C^1$. A \emph{solution} of $x' = F(t, x)$ is a differentiable map $\varphi \colon J \to \RR^n$
+on an interval with $(t, \varphi(t)) \in D$ and $\varphi'(t) = F(t, \varphi(t))$. By Theorem~\ref{real-analysis:theorem-ftc}, this is equivalent to continuity of $\varphi$ and
+$\varphi(t) = \varphi(t_0) + \int_{t_0}^tF(s, \varphi(s))\,ds$.
+\end{definition}
+
+\begin{lemma}[Gr\"onwall]\label{real-analysis:lemma-gronwall}
+If $u \colon [t_0, t_1] \to [0, \infty)$ is continuous and $u(t) \leq C + L\int_{t_0}^tu$ with $C, L \geq 0$, then $u(t) \leq Ce^{L(t - t_0)}$.
+\end{lemma}
+
+\begin{proof}
+Let $v(t) = C + L\int_{t_0}^tu$. Then $v' = Lu \leq Lv$, so $(e^{-L(t - t_0)}v)' \leq 0$, and $u \leq v \leq v(t_0)e^{L(t - t_0)} = Ce^{L(t - t_0)}$.
+\end{proof}
+
+\begin{theorem}[Picard--Lindel\"of]\label{real-analysis:theorem-picard-lindelof}
+Let $F$ be continuous and locally Lipschitz in $x$, and $(t_0, x_0) \in D$.
+\begin{enumerate}
+\item There is $\delta > 0$ and a solution on $[t_0 - \delta, t_0 + \delta]$ with $\varphi(t_0) = x_0$.
+\item Two solutions on intervals $J_1, J_2 \ni t_0$ with the same value at $t_0$ agree on $J_1 \cap J_2$.
+\item There is a unique \emph{maximal} solution, defined on an open interval $(\alpha, \beta)$; if $\beta < \infty$, then $(t, \varphi(t))$ leaves every compact subset of $D$ as $t \to \beta$, and similarly at $\alpha$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Choose $a, b > 0$ such that $R = [t_0 - a, t_0 + a] \times \overline{B}(x_0, b) \subseteq D$ and $F$ is $L$-Lipschitz in $x$ on $R$; let $M = \sup_R\|F\|$ (finite by compactness) and
+$\delta = \min(a, b/(M+1), 1/(2L+1))$. On the complete metric space $X$ of continuous maps $[t_0 - \delta, t_0 + \delta] \to \overline{B}(x_0, b)$ with the supremum metric
+(Proposition~\ref{general-topology:proposition-complete-examples}), $T\varphi(t) = x_0 + \int_{t_0}^tF(s, \varphi(s))\,ds$ satisfies $\|T\varphi(t) - x_0\| \leq M\delta \leq b$ and
+$\|T\varphi - T\psi\| \leq L\delta\|\varphi - \psi\| \leq \frac12\|\varphi - \psi\|$. Its fixed point is a solution.
+
+(2) The set of $t \in J_1 \cap J_2$ where the solutions agree is closed and contains $t_0$. If they agree at $t_1$, near $(t_1, \varphi(t_1))$ $F$ is $L$-Lipschitz, and $u = \|\varphi_1 - \varphi_2\|$ satisfies
+$u(t) \leq L|\int_{t_1}^tu|$ for $t$ near $t_1$, so $u = 0$ near $t_1$ by Lemma~\ref{real-analysis:lemma-gronwall} (with $C = 0$, on both sides). So the set is open, and equals the connected set
+$J_1 \cap J_2$.
+
+(3) By (2), the solutions with $\varphi(t_0) = x_0$ glue to a solution on the union of their intervals, which is maximal; the interval is open because a solution on a closed end could be continued by (1).
+Suppose $\beta < \infty$ and $(t_k, \varphi(t_k)) \in K$ for a compact $K \subseteq D$ and $t_k \to \beta$. By compactness there are $a, b, L, M$ as in (1) valid for all rectangles centred at points of $K$
+(cover $K$ by finitely many rectangles of half the size), hence a uniform $\delta$. For $t_k > \beta - \delta/2$, the solution through $(t_k, \varphi(t_k))$ exists up to $t_k + \delta > \beta$ and extends
+$\varphi$ by (2), a contradiction.
+\end{proof}
+
+\begin{counterexample}\label{real-analysis:counterexample-ode}
+\begin{enumerate}
+\item Without the Lipschitz condition uniqueness fails: $x' = 3x^{2/3}$, $x(0) = 0$ has the solutions $x = 0$ and $x = t^3$.
+\item Solutions need not exist for all time: $x' = x^2$, $x(0) = 1$ has maximal solution $x = 1/(1 - t)$ on $(-\infty, 1)$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{proposition}\label{real-analysis:proposition-ode-dependence}
+\begin{enumerate}
+\item If $\varphi, \psi$ are solutions on $[t_0, t_1]$ and $\|F(t, \varphi(t)) - F(t, \psi(t))\| \leq L\|\varphi(t) - \psi(t)\|$ for all $t$, then
+$\|\varphi(t) - \psi(t)\| \leq \|\varphi(t_0) - \psi(t_0)\|e^{L(t - t_0)}$.
+\item (Linear equations) If $A \colon I \to M_n(\RR)$ and $b \colon I \to \RR^n$ are continuous on an open interval $I$, the maximal solutions of $x' = A(t)x + b(t)$ are defined on all of $I$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $u = \|\varphi - \psi\|$ satisfies $u(t) \leq u(t_0) + L\int_{t_0}^tu$; apply Lemma~\ref{real-analysis:lemma-gronwall}. (2) On a compact subinterval $[c, d] \ni t_0$ with $\|A\| \leq L$ and $\|b\| \leq B$,
+$\|\varphi(t)\| \leq \|\varphi(t_0)\| + B(d - c) + L\int\|\varphi\|$, so $\varphi$ is bounded there by Gr\"onwall, its graph stays in a compact set, and by Theorem~\ref{real-analysis:theorem-picard-lindelof}(3)
+the maximal interval contains $[c, d]$.
+\end{proof}
+
+\begin{theorem}[Smooth dependence]\label{real-analysis:theorem-smooth-dependence}
+If $F$ is $C^k$ with $k \geq 1$, the \emph{flow} $\Phi(t, t_0, x_0)$, the value at $t$ of the maximal solution with $\varphi(t_0) = x_0$, is defined on an open subset of $\RR \times D$ and is $C^k$
+there. Its derivative in $x_0$ solves the linearised equation $Y' = D_xF(t, \varphi(t))Y$, $Y(t_0) = 1$.
+\end{theorem}
+
+This is \cite[Chapter V]{hartman-ode}; see also \cite{lang-real-functional}. Continuity of $\Phi$ follows from Proposition~\ref{real-analysis:proposition-ode-dependence}(1) and the uniform $\delta$ in
+the proof of Theorem~\ref{real-analysis:theorem-picard-lindelof}.
+
+\section{Stone--Weierstrass and Arzel\`a--Ascoli}\label{real-analysis:section-approximation}
+
+\begin{lemma}\label{real-analysis:lemma-absolute-value-polynomials}
+The polynomials $p_0 = 0$, $p_{k+1}(t) = p_k(t) + (t^2 - p_k(t)^2)/2$ converge uniformly to $|t|$ on $[-1, 1]$, and $p_k(0) = 0$.
+\end{lemma}
+
+\begin{proof}
+By induction $0 \leq p_k(t) \leq p_{k+1}(t) \leq |t|$: indeed $|t| - p_{k+1} = (|t| - p_k)(1 - (|t| + p_k)/2)$ with $0 \leq (|t| + p_k)/2 \leq |t| \leq 1$, and $p_{k+1} - p_k = (t^2 - p_k^2)/2 \geq 0$. Iterating,
+$0 \leq |t| - p_k(t) \leq |t|(1 - |t|/2)^k$, and the maximum of $s(1 - s/2)^k$ on $[0, 1]$ is at most $2/(k + 1)$ (it is attained at $s = 2/(k+1)$ when $k \geq 1$).
+\end{proof}
+
+\begin{theorem}[Stone--Weierstrass]\label{real-analysis:theorem-stone-weierstrass}
+Let $K$ be a compact Hausdorff space and $\mathcal{A} \subseteq C(K, \RR)$ a subalgebra containing the constants and separating points. Then $\mathcal{A}$ is dense for the supremum norm. The same holds
+for $\mathcal{A} \subseteq C(K, \CC)$ if $\mathcal{A}$ is also closed under complex conjugation.
+\end{theorem}
+
+\begin{proof}
+The closure $\bar{\mathcal{A}}$ is a closed subalgebra. If $f \in \bar{\mathcal{A}}$ with $\|f\| \leq c$, then $|f| = c\lim_kp_k(f/c) \in \bar{\mathcal{A}}$ by Lemma~\ref{real-analysis:lemma-absolute-value-polynomials};
+hence $\max(f, g) = (f + g + |f - g|)/2$ and $\min(f, g)$ lie in $\bar{\mathcal{A}}$. For $x \neq y$ and reals $\alpha, \beta$ there is $h \in \mathcal{A}$ with $h(x) = \alpha$, $h(y) = \beta$ (take
+$h = \alpha + (\beta - \alpha)(u - u(x))/(u(y) - u(x))$ with $u$ separating $x$ and $y$).
+
+Let $f \in C(K, \RR)$ and $\varepsilon > 0$. Fix $x$. For each $y$ choose $h_y \in \mathcal{A}$ with $h_y(x) = f(x)$ and $h_y(y) = f(y)$; the open sets $\{h_y < f + \varepsilon\}$ cover $K$, and the minimum $g_x$ of
+finitely many of these $h_y$ lies in $\bar{\mathcal{A}}$, with $g_x(x) = f(x)$ and $g_x < f + \varepsilon$. The open sets $\{g_x > f - \varepsilon\}$ cover $K$, and the maximum $g$ of finitely many $g_x$ lies in
+$\bar{\mathcal{A}}$ and satisfies $\|g - f\| < \varepsilon$. For the complex case, the real parts $(f + \bar f)/2$ of elements of $\mathcal{A}$ form a real subalgebra with the same properties, which is dense
+in $C(K, \RR)$; so $\mathcal{A}$ is dense in $C(K, \CC)$.
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-weierstrass}
+Polynomials are dense in $C(K, \RR)$ for every compact $K \subseteq \RR^n$, and trigonometric polynomials $\sum_{|k| \leq N}c_ke^{2\pi ikt}$ are dense in the space of continuous functions $\RR \to \CC$ of
+period $1$.
+\end{corollary}
+
+\begin{proof}
+The first statement is immediate. For the second, continuous functions of period $1$ are continuous functions on $S^1 = \RR/\ZZ$ (Theorem~\ref{real-analysis:theorem-pi}), and the polynomials in $z$ and $\bar z$ restricted to
+$S^1$ form a conjugation-closed separating algebra; on $S^1$, $z^k\bar z^l = z^{k-l}$ corresponds to $e^{2\pi i(k-l)t}$.
+\end{proof}
+
+\begin{theorem}[Arzel\`a--Ascoli]\label{real-analysis:theorem-arzela-ascoli}
+Let $K$ be a compact Hausdorff space and $\mathcal{F} \subseteq C(K, \RR^m)$ a family that is \emph{equicontinuous} (for every $x$ and $\varepsilon > 0$ there is a neighbourhood $U$ of $x$ with
+$\|f(x') - f(x)\| < \varepsilon$ for all $x' \in U$ and $f \in \mathcal{F}$) and pointwise bounded. Then $\mathcal{F}$ has compact closure in $C(K, \RR^m)$ with the supremum metric.
+\end{theorem}
+
+\begin{proof}
+$C(K, \RR^m)$ is complete, so by Theorem~\ref{general-topology:theorem-compact-metric} it suffices to show that $\mathcal{F}$ is totally bounded. Let $\varepsilon > 0$. Choose finitely many points $x_1, \ldots, x_k$
+with neighbourhoods $U_i$ as in the definition covering $K$. The set $\{(f(x_1), \ldots, f(x_k)) : f \in \mathcal{F}\}$ is bounded in $\RR^{mk}$, hence totally bounded, so there are $f_1, \ldots, f_N \in \mathcal{F}$
+such that every $f \in \mathcal{F}$ satisfies $\max_i\|f(x_i) - f_j(x_i)\| < \varepsilon$ for some $j$. For $x \in U_i$,
+$\|f(x) - f_j(x)\| \leq \|f(x) - f(x_i)\| + \|f(x_i) - f_j(x_i)\| + \|f_j(x_i) - f_j(x)\| < 3\varepsilon$.
+\end{proof}
+
+\section{Exercises}\label{real-analysis:section-exercises}
+
+\begin{exercise}\label{real-analysis:exercise-e-irrational}
+Show that $e = \exp(1)$ is irrational.
+\end{exercise}
+
+\begin{solution}
+If $e = p/q$, then $x = q!(e - \sum_{k \leq q}1/k!)$ is a positive integer, but $x = \sum_{k > q}q!/k! < \sum_{j \geq 1}(q + 1)^{-j} = 1/q \leq 1$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-harmonic}
+Show that $\sum 1/n$ diverges while $\sum(-1)^n/n$ converges, and that the latter series can be rearranged to converge to any given real number.
+\end{exercise}
+
+\begin{solution}
+$\sum_{2^j < n \leq 2^{j+1}}1/n \geq 1/2$, so the partial sums are unbounded; the alternating series converges by Lemma~\ref{real-analysis:lemma-alternating}. For a target $c$, add positive terms
+$1/(2k)$ until the partial sum exceeds $c$, then negative terms until it is below $c$, and so on; since both the positive and the negative parts diverge and the terms tend to $0$, the partial sums converge
+to $c$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-uniform-limit-derivative}
+Show that $f_n(x) = \sqrt{x^2 + 1/n}$ are smooth and converge uniformly on $\RR$ to $|x|$, which is not differentiable. Prove that if $f_n \to f$ pointwise and $f_n' \to g$ uniformly on an interval, with
+$f_n$ continuously differentiable, then $f$ is differentiable with $f' = g$.
+\end{exercise}
+
+\begin{solution}
+$0 \leq \sqrt{x^2 + 1/n} - |x| = \frac{1/n}{\sqrt{x^2 + 1/n} + |x|} \leq 1/\sqrt{n}$. For the second part, $f_n(x) = f_n(a) + \int_a^xf_n'$ converges to $f(a) + \int_a^xg$, so $f(x) = f(a) + \int_a^xg$ and
+Theorem~\ref{real-analysis:theorem-ftc} applies.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-polar}
+Show that $(r, \theta) \mapsto (r\cos\theta, r\sin\theta)$ is a local diffeomorphism $(0, \infty) \times \RR \to \RR^2 \setminus \{0\}$, but not injective, and compute its Jacobian determinant.
+\end{exercise}
+
+\begin{exercise}\label{real-analysis:exercise-peano}
+(Peano's theorem.) Show that if $F$ is only continuous, $x' = F(t, x)$ still has local solutions, by applying the Arzel\`a--Ascoli theorem to the Euler polygons $\varphi_k$ with
+step $1/k$.
+\end{exercise}
+
+\begin{exercise}\label{real-analysis:exercise-arzela-converse}
+Show that a compact subset of $C(K, \RR^m)$ is equicontinuous and pointwise bounded.
+\end{exercise}
+\begin{exercise}\label{real-analysis:exercise-sequence-limits}
+Compute $\lim_n\frac{n^2 + 1}{2n^2 - n}$, $\lim_n(\sqrt{n^2 + n} - n)$ and $\lim_n(2^n + 3^n)^{1/n}$.
+\end{exercise}
+
+\begin{solution}
+Dividing by $n^2$, the first is $\frac{1 + 1/n^2}{2 - 1/n} \to \frac12$. For the second, $\sqrt{n^2 + n} - n = \frac{n}{\sqrt{n^2 + n} + n} = \frac{1}{\sqrt{1 + 1/n} + 1} \to \frac12$. For the third,
+$3 \leq (2^n + 3^n)^{1/n} \leq (2 \cdot 3^n)^{1/n} = 3 \cdot 2^{1/n} \to 3$ (Proposition~\ref{real-analysis:proposition-fundamental-limits}(2)), so the limit is $3$ by the squeeze theorem.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-limsup-subsequences}
+Show that $\limsup_na_n$ is the largest element of $\bar{\RR}$ that is a limit of a subsequence of $(a_n)$, and $\liminf_na_n$ the smallest.
+\end{exercise}
+
+\begin{solution}
+Let $S_n = \sup_{k \geq n}a_k$, a decreasing sequence with limit $L = \limsup a_n$ (Proposition~\ref{real-analysis:proposition-monotone-regular}). If $a_{n_k} \to \ell$, then $a_{n_k} \leq S_n$ for $n_k \geq n$, so $\ell \leq S_n$ for
+all $n$, and $\ell \leq L$. Conversely, if $L \in \RR$, choose recursively $n_k > n_{k-1}$ with $S_{n_{k-1}+1} - \frac1k < a_{n_k} \leq S_{n_{k-1}+1}$; both bounds tend to $L$, so $a_{n_k} \to L$ by the squeeze theorem. If
+$L = +\infty$ the sequence is unbounded above and Theorem~\ref{real-analysis:theorem-bolzano-weierstrass-real} applies; if $L = -\infty$ then $a_n \leq S_n \to -\infty$. The statement for $\liminf$ follows by passing to
+$(-a_n)$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-continuous-one-point}
+Show that $f(x) = x\mathbf{1}_\QQ(x)$ is continuous at $0$ and discontinuous at every $a \neq 0$.
+\end{exercise}
+
+\begin{solution}
+$|f(x)| \leq |x|$, so $f(x) \to 0 = f(0)$ as $x \to 0$. For $a \neq 0$, choose rational $x_n \to a$ and irrational $y_n \to a$ (Counterexample~\ref{real-analysis:counterexample-no-limit}); then $f(x_n) = x_n \to a$ and
+$f(y_n) = 0$, so $f$ has no limit at $a$ (Theorem~\ref{real-analysis:theorem-sequential-limits}), in particular it is not continuous there.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-cauchy-functional}
+Let $f \colon \RR \to \RR$ be continuous with $f(x + y) = f(x) + f(y)$ for all $x, y$. Show that $f(x) = cx$ with $c = f(1)$.
+\end{exercise}
+
+\begin{solution}
+$f(0) = f(0) + f(0)$ gives $f(0) = 0$, then $f(-x) = -f(x)$, and by induction $f(nx) = nf(x)$ for $n \in \NN$, hence for $n \in \ZZ$. For $x = p/q$ with $q \geq 1$, $qf(p/q) = f(p) = pc$, so $f(x) = cx$ on $\QQ$. For
+real $x$, choose rational $x_n \to x$ (density of $\QQ$); by continuity $f(x) = \lim f(x_n) = \lim cx_n = cx$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-periodic-uniform}
+Show that a continuous periodic function $f \colon \RR \to \RR$ is bounded and uniformly continuous.
+\end{exercise}
+
+\begin{solution}
+Let $p > 0$ be a period. On $[0, 2p]$, $f$ is bounded and uniformly continuous (Theorem~\ref{real-analysis:theorem-weierstrass-extreme} and Proposition~\ref{real-analysis:proposition-uniform-continuity-real}(3)), and
+every value of $f$ is taken on $[0, p]$. Given $\varepsilon$, let $\delta < p$ work on $[0, 2p]$. If $|x - y| < \delta$, translating both by the same multiple of $p$ we may assume $0 \leq \min(x, y) < p$, and then
+$x, y \in [0, 2p]$, so $|f(x) - f(y)| < \varepsilon$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-log-limit}
+Show that $n(a^{1/n} - 1) \to \log a$ for every $a > 0$.
+\end{exercise}
+
+\begin{solution}
+Let $t = \log a$, so $a^{1/n} = e^{t/n}$. If $t = 0$ both sides vanish. Otherwise $n(e^{t/n} - 1) = t\cdot\frac{e^{t/n} - 1}{t/n} \to t$ by Proposition~\ref{real-analysis:proposition-notable-limits}(1) and
+Theorem~\ref{real-analysis:theorem-sequential-limits}, since $t/n \to 0$ and $t/n \neq 0$.
+\end{solution}

@@ -1,0 +1,405 @@
+\chapter{Smooth Manifolds}\label{smooth-manifolds}
+\chapterstatus{complete}
+
+\section{Introduction}\label{smooth-manifolds:section-introduction}
+
+A smooth manifold is a space that looks locally like $\RR^n$ in a way compatible with calculus. This chapter sets up manifolds,
+tangent spaces, submanifolds and vector fields, and proves the two facts that make global constructions possible: the regular value
+theorem (Theorem~\ref{smooth-manifolds:theorem-regular-value}) and quotients by group actions
+(Theorem~\ref{smooth-manifolds:theorem-smooth-quotient}), which produce manifolds, with counterexamples marking the limits of both, and the existence of smooth partitions of
+unity (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}), which glues local constructions into global ones. Complex
+manifolds are defined in the same way with holomorphic transition maps (Chapter~\ref{complex-manifolds}). References:
+\cite{lee-smooth-manifolds}, \cite{warner-foundations}, \cite{hirsch-differential-topology}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{real-analysis} (Real Analysis), Chapter~\ref{general-topology} (General Topology),
+Chapter~\ref{topological-manifolds} (Topological Manifolds and Group Actions) and
+Chapter~\ref{measure-theory} (Measure and Integration).
+
+``Smooth'' means $C^\infty$; everything below works for $C^k$ with the obvious changes.
+
+\section{Manifolds and smooth maps}\label{smooth-manifolds:section-manifolds}
+
+\begin{definition}\label{smooth-manifolds:definition-manifold}
+Let $M$ be a topological $n$-manifold (Definition~\ref{topological-manifolds:definition-manifold}). A \emph{chart} is a homeomorphism $\varphi \colon U \to \varphi(U) \subseteq \RR^n$ from an open $U \subseteq M$ onto an
+open subset. Two charts are \emph{compatible} if the \emph{transition map} $\psi \circ \varphi^{-1} \colon \varphi(U \cap V) \to \psi(U \cap V)$ is a diffeomorphism. A \emph{smooth atlas} is a set of pairwise
+compatible charts covering $M$, and a \emph{smooth structure} is a maximal smooth atlas; a \emph{smooth manifold} is a topological manifold with a smooth structure. A map $f \colon M \to N$ of smooth
+manifolds is \emph{smooth} if $\psi \circ f \circ \varphi^{-1}$ is smooth for all charts $\varphi$ of $M$ and $\psi$ of $N$ where the composite is defined; $f$ is a \emph{diffeomorphism} if it is bijective with
+smooth inverse. We write $C^\infty(M)$ for the smooth functions $M \to \RR$.
+\end{definition}
+
+\begin{lemma}\label{smooth-manifolds:lemma-maximal-atlas}
+Every smooth atlas $\mathcal{A}$ on a topological manifold is contained in a unique maximal smooth atlas, namely the set $\mathcal{A}^{\max}$ of all charts compatible with every chart of $\mathcal{A}$.
+\end{lemma}
+
+\begin{proof}
+Let $\varphi \colon U \to \RR^n$ and $\psi \colon V \to \RR^n$ be in $\mathcal{A}^{\max}$ and $p \in U \cap V$. Choose $\chi \in \mathcal{A}$ defined at $p$. Near $\varphi(p)$,
+$\psi \circ \varphi^{-1} = (\psi \circ \chi^{-1}) \circ (\chi \circ \varphi^{-1})$ is a composite of smooth maps, and so is its inverse; as $p$ was arbitrary, $\varphi$ and $\psi$ are compatible. So $\mathcal{A}^{\max}$ is a smooth atlas
+containing $\mathcal{A}$. A chart compatible with all of $\mathcal{A}^{\max}$ is compatible with $\mathcal{A}$, hence lies in $\mathcal{A}^{\max}$, so $\mathcal{A}^{\max}$ is maximal; and a maximal atlas containing $\mathcal{A}$ consists of
+charts compatible with $\mathcal{A}$, so it is contained in, hence equal to, $\mathcal{A}^{\max}$.
+\end{proof}
+
+\begin{lemma}[Smooth manifold chart lemma]\label{smooth-manifolds:lemma-chart-lemma}
+Let $M$ be a set and $(U_\alpha, \varphi_\alpha)_{\alpha \in A}$ a family of subsets $U_\alpha \subseteq M$ with injections $\varphi_\alpha \colon U_\alpha \to \RR^n$ such that
+\begin{enumerate}
+\item each $\varphi_\alpha(U_\alpha)$ and each $\varphi_\alpha(U_\alpha \cap U_\beta)$ is open in $\RR^n$;
+\item each $\varphi_\beta \circ \varphi_\alpha^{-1} \colon \varphi_\alpha(U_\alpha \cap U_\beta) \to \varphi_\beta(U_\alpha \cap U_\beta)$ is smooth;
+\item countably many of the $U_\alpha$ cover $M$;
+\item for $p \neq q$ in $M$, either some $U_\alpha$ contains both, or there are disjoint $U_\alpha \ni p$ and $U_\beta \ni q$.
+\end{enumerate}
+Then $M$ has a unique topology and smooth structure for which the $(U_\alpha, \varphi_\alpha)$ are smooth charts.
+\end{lemma}
+
+\begin{proof}
+Declare $W \subseteq M$ open if $\varphi_\alpha(W \cap U_\alpha)$ is open in $\RR^n$ for every $\alpha$. This is a topology. Each $U_\beta$ is open, since $\varphi_\alpha(U_\beta \cap U_\alpha)$ is open by (1), and $\varphi_\beta \colon U_\beta \to \varphi_\beta(U_\beta)$
+is a homeomorphism: a subset $V \subseteq U_\beta$ is open if and only if every $\varphi_\alpha(V \cap U_\alpha) = (\varphi_\alpha \circ \varphi_\beta^{-1})(\varphi_\beta(V) \cap \varphi_\beta(U_\alpha \cap U_\beta))$ is open, and by (2), with the transition maps
+being homeomorphisms between open sets (their inverses are also transition maps), this holds exactly when $\varphi_\beta(V)$ is open. So $M$ is locally Euclidean. Condition (4) gives Hausdorffness, since points in a common
+$U_\alpha$ are separated inside the Hausdorff space $U_\alpha$. Each $U_\alpha$ is second countable, so (3) gives second countability. The charts are pairwise compatible by (2), so they form a smooth atlas, which extends
+uniquely to a smooth structure (Lemma~\ref{smooth-manifolds:lemma-maximal-atlas}). The topology is forced, as the $\varphi_\alpha$ must be homeomorphisms from open sets.
+\end{proof}
+
+\begin{counterexample}\label{smooth-manifolds:counterexample-chart-lemma}
+Condition (4) is needed: the two charts of the line with two origins (Counterexample~\ref{topological-manifolds:counterexample-not-hausdorff}), each the identity on a copy of $\RR$, satisfy (1)--(3), with transition map the
+identity of $\RR \setminus \{0\}$, but the two origins lie in no common chart and in no disjoint charts, and the resulting space is not Hausdorff.
+\end{counterexample}
+
+\begin{example}\label{smooth-manifolds:example-manifolds}
+\begin{enumerate}
+\item $\RR^n$ and its open subsets; $\GL_n(\RR)$, an open subset of $M_n(\RR) \cong \RR^{n^2}$.
+\item $S^n$, with the two charts given by stereographic projection (Example~\ref{general-topology:example-stereographic}); the transition map is $y \mapsto y/\|y\|^2$ on $\RR^n \setminus \{0\}$, which is smooth.
+\item $\RR\PP^n = (\RR^{n+1} \setminus \{0\})/\RR^\times$ with the charts $U_i = \{x_i \neq 0\}$, $\varphi_i([x]) = (x_0/x_i, \ldots, \widehat{x_i/x_i}, \ldots, x_n/x_i)$; the transition maps are rational with
+nonvanishing denominators. Likewise $\CC\PP^n$ is a smooth $2n$-manifold, and its transition maps are holomorphic (Chapter~\ref{complex-manifolds}).
+\item Products $M \times N$, with products of charts. The torus $T^n = \RR^n/\ZZ^n$, with charts induced by the covering map.
+\item Every smooth manifold is a locally ringed space $(M, C^\infty_M)$ (Example~\ref{sheaves:example-ringed-spaces}), and a map is smooth if and only if it pulls back smooth functions to smooth
+functions.
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{smooth-manifolds:counterexample-exotic}
+The same topological manifold can carry non-diffeomorphic smooth structures: $\RR^4$ has uncountably many, and $S^7$ has $28$ up to orientation-preserving diffeomorphism (Milnor); in dimensions
+$\leq 3$ the smooth structure is unique. The map $t \mapsto t^3$ is a homeomorphism $\RR \to \RR$ that is not a diffeomorphism, but the two smooth structures it defines on $\RR$ are diffeomorphic (by
+$t \mapsto t^{1/3}$). See \cite{hirsch-differential-topology} and \cite{milnor-differential-viewpoint}.
+\end{counterexample}
+
+\section{Tangent vectors}\label{smooth-manifolds:section-tangent}
+
+\begin{definition}\label{smooth-manifolds:definition-tangent-space}
+Let $p \in M$. A \emph{derivation at $p$} is a linear map $v \colon C^\infty(M) \to \RR$ with $v(fg) = v(f)g(p) + f(p)v(g)$. The \emph{tangent space} $T_pM$ is the vector space of derivations at $p$. A smooth
+map $f \colon M \to N$ induces the \emph{differential} $d_pf \colon T_pM \to T_{f(p)}N$, $(d_pf(v))(g) = v(g \circ f)$.
+\end{definition}
+
+\begin{proposition}\label{smooth-manifolds:proposition-tangent-space}
+\begin{enumerate}
+\item Derivations are local: if $f = g$ near $p$ then $v(f) = v(g)$; so $T_pM$ may be computed in any chart.
+\item If $\varphi = (x^1, \ldots, x^n)$ is a chart at $p$, the derivations $\partial/\partial x^i|_p \colon f \mapsto \partial_i(f \circ \varphi^{-1})(\varphi(p))$ form a basis of $T_pM$; in particular $\dim T_pM = n$.
+\item $d_p(g \circ f) = d_{f(p)}g \circ d_pf$ and $d_p\id = \id$; in charts, $d_pf$ is the Jacobian matrix. A diffeomorphism has invertible differentials.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $f$ vanishes near $p$, choose a bump function $\chi$ (Corollary~\ref{real-analysis:corollary-bump-function} transported by a chart) with $\chi(p) = 1$ and support in the set where $f = 0$; then
+$\chi f = 0$, so $0 = v(\chi f) = v(\chi)f(p) + \chi(p)v(f) = v(f)$. Note also $v(1) = v(1 \cdot 1) = 2v(1)$, so $v$ kills constants.
+
+(2) We may assume $M = \RR^n$ (open subsets are handled by (1) and bump functions) and $p = 0$. By Taylor's theorem with integral remainder, $f(x) = f(0) + \sum_ix^ig_i(x)$ with $g_i$ smooth and
+$g_i(0) = \partial_if(0)$: indeed $f(x) - f(0) = \int_0^1\frac{d}{dt}f(tx)\,dt = \sum_ix^i\int_0^1\partial_if(tx)\,dt$. Applying $v$ and using $v(\text{const}) = 0$ gives
+$v(f) = \sum_iv(x^i)\partial_if(0)$, so $v = \sum_iv(x^i)\partial/\partial x^i|_0$. The $\partial/\partial x^i|_0$ are linearly independent because they take the value $\delta_{ij}$ on the coordinate functions
+$x^j$. (3) is immediate from the definitions and (2).
+\end{proof}
+
+\begin{proposition}\label{smooth-manifolds:proposition-velocity}
+For a smooth curve $\gamma \colon (-\varepsilon, \varepsilon) \to M$, the \emph{velocity} $\gamma'(0) \in T_{\gamma(0)}M$, $\gamma'(0)f = (f \circ \gamma)'(0)$, is a derivation at $\gamma(0)$. Every $v \in T_pM$ is the velocity of a smooth curve, and for
+smooth $f \colon M \to N$, $d_pf(\gamma'(0)) = (f \circ \gamma)'(0)$.
+\end{proposition}
+
+\begin{proof}
+The Leibniz rule for $\gamma'(0)$ is the product rule for $(fg) \circ \gamma$. Given $v = \sum_iv^i\partial/\partial x^i|_p$ in a chart $\varphi$ with $\varphi(p) = 0$, let $\gamma(t) = \varphi^{-1}(tv^1, \ldots, tv^n)$ for small $t$; then
+$\gamma'(0)f = \sum_iv^i\partial_i(f \circ \varphi^{-1})(0) = v(f)$ by Proposition~\ref{smooth-manifolds:proposition-tangent-space}(2). Finally $d_pf(\gamma'(0))(g) = \gamma'(0)(g \circ f) = (g \circ f \circ \gamma)'(0) = (f \circ \gamma)'(0)(g)$.
+\end{proof}
+
+\begin{definition}\label{smooth-manifolds:definition-tangent-bundle}
+The \emph{tangent bundle} is $TM = \bigsqcup_{p \in M}T_pM$ with the projection $\pi(v) = p$ for $v \in T_pM$. A chart $\varphi = (x^i)$ on $U$ gives a bijection $\pi^{-1}(U) \to \varphi(U) \times \RR^n$,
+$v \mapsto (\varphi(p), (v(x^1), \ldots, v(x^n)))$; these define a topology and a smooth structure making $TM$ a smooth $2n$-manifold and $\pi$ smooth, since the transition maps
+$(x, \xi) \mapsto (\tau(x), D\tau(x)\xi)$ are smooth. A \emph{vector field} is a smooth map $X \colon M \to TM$ with $\pi \circ X = \id$; the set of vector fields is $\mathfrak{X}(M)$. A vector field acts on
+functions by $(Xf)(p) = X_p(f)$, and $X \mapsto (f \mapsto Xf)$ identifies $\mathfrak{X}(M)$ with the derivations of the $\RR$-algebra $C^\infty(M)$.
+\end{definition}
+
+\section{Submanifolds}\label{smooth-manifolds:section-submanifolds}
+
+\begin{definition}\label{smooth-manifolds:definition-immersion}
+A smooth $f \colon M \to N$ is an \emph{immersion} if every $d_pf$ is injective, a \emph{submersion} if every $d_pf$ is surjective, and an \emph{embedding} if it is an immersion that is a homeomorphism onto
+its image. A subset $S \subseteq M$ is a \emph{submanifold} of dimension $k$ if every $p \in S$ has a chart $\varphi \colon U \to \RR^n$ of $M$ with $\varphi(U \cap S) = \varphi(U) \cap (\RR^k \times \{0\})$.
+\end{definition}
+
+\begin{proposition}\label{smooth-manifolds:proposition-local-forms}
+Let $f \colon M \to N$ be smooth and $p \in M$.
+\begin{enumerate}
+\item If $f$ is an immersion at $p$, there are charts around $p$ and $f(p)$ in which $f$ is $x \mapsto (x, 0)$; if $f$ is a submersion at $p$, there are charts in which $f$ is $(x, y) \mapsto x$.
+\item The image of an embedding is a submanifold, and a submanifold is a smooth manifold for which the inclusion is an embedding.
+\item An injective immersion of a compact manifold is an embedding.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is Theorem~\ref{real-analysis:theorem-submersion-immersion} read in charts. (2) For an embedding $f$, the local form in (1) shows that $f(M)$ is locally $\RR^k \times \{0\}$ in suitable charts; being a
+homeomorphism onto its image guarantees that the chart can be shrunk so that it meets $f(M)$ only in that slice. The converse is clear from the definition of submanifold. (3) A continuous injection from a
+compact space to a Hausdorff space is a homeomorphism onto its image (Proposition~\ref{general-topology:proposition-compact-basic}).
+\end{proof}
+
+\begin{theorem}[Regular value theorem]\label{smooth-manifolds:theorem-regular-value}
+Let $f \colon M^n \to N^m$ be smooth and $q \in N$ a \emph{regular value}: $d_pf$ is surjective for every $p \in f^{-1}(q)$. Then $f^{-1}(q)$ is a submanifold of dimension $n - m$, with
+$T_p(f^{-1}(q)) = \ker d_pf$.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{smooth-manifolds:proposition-local-forms}(1) there are charts in which $f$ is the projection $(x, y) \mapsto x$, in which $f^{-1}(q)$ is $\{0\} \times \RR^{n-m}$. Differentiating $f|_{f^{-1}(q)}$,
+which is constant, gives $T_p(f^{-1}(q)) \subseteq \ker d_pf$, and the dimensions agree.
+\end{proof}
+
+\begin{example}\label{smooth-manifolds:example-regular-value}
+$S^n = f^{-1}(1)$ for $f(x) = \|x\|^2$, with $d_xf(v) = 2\langle x, v\rangle \neq 0$ on $S^n$. The orthogonal group $O(n) = F^{-1}(I)$ for $F(A) = A^TA$, viewed as a map to symmetric matrices: $d_AF(X) = A^TX + X^TA$
+is surjective onto symmetric matrices for $A \in O(n)$ (take $X = AS/2$), so $O(n)$ is a submanifold of dimension $n^2 - n(n+1)/2 = n(n-1)/2$. Similarly $\SL_n(\RR) = \det^{-1}(1)$ has dimension $n^2 - 1$,
+since $d_A\det(X) = \det(A)\operatorname{tr}(A^{-1}X)$.
+\end{example}
+
+\begin{counterexample}\label{smooth-manifolds:counterexample-critical-level}
+At a critical value the level set can fail to be a submanifold, or not. For $f(x, y) = xy$ on $\RR^2$, $0$ is a critical value ($df = 0$ at the origin) and $f^{-1}(0)$ is the union of the coordinate axes, which is not even a
+topological manifold (Counterexample~\ref{topological-manifolds:counterexample-not-locally-euclidean}). For $f(x, y) = x^2$, $0$ is also a critical value, but $f^{-1}(0)$ is the $y$-axis, a submanifold. So the regular value
+theorem gives a sufficient condition only.
+\end{counterexample}
+
+\begin{lemma}\label{smooth-manifolds:lemma-curve-graph}
+Let $S \subseteq \RR^2$ be a $1$-dimensional submanifold and $p \in S$. Then near $p$, $S$ is the graph of a smooth function over one of the coordinate axes: there are $i \in \{1, 2\}$, an open interval $J$ and a smooth
+$g \colon J \to \RR$ such that near $p$, $S = \{(s, g(s)) : s \in J\}$ if $i = 1$, or $S = \{(g(s), s) : s \in J\}$ if $i = 2$.
+\end{lemma}
+
+\begin{proof}
+The inclusion $\iota \colon S \to \RR^2$ is an embedding (Proposition~\ref{smooth-manifolds:proposition-local-forms}(2)), so $d_p\iota(T_pS)$ is a line, and for some coordinate projection $\mathrm{pr}_i$ the composite
+$\mathrm{pr}_i \circ \iota \colon S \to \RR$ has nonzero differential at $p$. By the inverse function theorem (Theorem~\ref{real-analysis:theorem-inverse-function}, in charts) it restricts to a diffeomorphism from a
+neighbourhood of $p$ in $S$ onto an open interval $J$; composing its inverse with the other coordinate gives $g$.
+\end{proof}
+
+\begin{counterexample}\label{smooth-manifolds:counterexample-immersions}
+\begin{enumerate}
+\item \emph{An injective immersion that is not an embedding.} Let $\beta(t) = (\sin 2t, \sin t)$ for $t \in (-\pi, \pi)$. Then $\beta'(t) = (2\cos 2t, \cos t)$ never vanishes, since $\cos t = 0$ forces $\cos 2t = -1$. It is injective: if
+$\beta(s) = \beta(t)$ with $s \neq t$ in $(-\pi, \pi)$, then $\sin s = \sin t$ gives $s = \pm\pi - t$, so $\sin 2s = -\sin 2t$, and $\sin 2s = \sin 2t$ forces $\sin 2t = 0$, that is $t \in \{0, \pm\pi/2\}$; but then $s = \pm\pi - t$
+is either $\pm\pi \notin (-\pi, \pi)$ or equal to $t$, a contradiction. The image, a figure
+eight, equals $\beta([-\pi, \pi])$ because $\beta(\pm\pi) = \beta(0)$, so it is compact; since $(-\pi, \pi)$ is not compact, $\beta$ is not a homeomorphism onto its image.
+\item \emph{A dense immersed line.} Let $\alpha$ be irrational and $\beta \colon \RR \to T^2 = S^1 \times S^1$, $\beta(t) = (e^{2\pi it}, e^{2\pi i\alpha t})$. It is an immersion, and injective: $\beta(s) = \beta(t)$ forces $s - t \in \ZZ$ and
+$\alpha(s - t) \in \ZZ$, so $s = t$. The closure of $\beta(\RR)$ contains $\{1\} \times S^1$, since the points $\beta(n) = (1, e^{2\pi i\alpha n})$, $n \in \ZZ$, are dense there by Lemma~\ref{topological-manifolds:lemma-kronecker}; and it is
+invariant under multiplication by $\beta(t)$, since $\beta$ is a homomorphism and multiplication is a homeomorphism; so it contains $\{e^{2\pi it}\} \times S^1$ for all $t$, and $\beta(\RR)$ is dense. For $z = e^{2\pi it_0}$,
+$\beta(\RR) \cap (\{z\} \times S^1) = \beta(t_0 + \ZZ)$ is countable. If $\beta(\RR)$ were a submanifold, it would be locally closed, being locally a slice in a chart, and a dense locally closed set is open (it is open in its
+closure). But a nonempty open subset of $T^2$ meets some circle $\{z\} \times S^1$ in a nonempty open subset of that circle, which is uncountable. So $\beta(\RR)$ is not a submanifold.
+\item \emph{A smooth homeomorphism onto a non-submanifold.} The map $\gamma(t) = (t^2, t^3)$ is smooth and a homeomorphism of $\RR$ onto the cusp $C = \{y^2 = x^3\}$, with inverse $(x, y) \mapsto y^{1/3}$, but $\gamma'(0) = 0$. The cusp is
+not a submanifold near $0$: by Lemma~\ref{smooth-manifolds:lemma-curve-graph} it would be a graph over one axis near $0$, but over the $x$-axis it has two points $(x, \pm x^{3/2})$ for small $x > 0$, and over the $y$-axis it is
+$x = y^{2/3}$, which is not differentiable at $0$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{definition}\label{smooth-manifolds:definition-measure-zero}
+A subset $A$ of a smooth $n$-manifold has \emph{measure zero} if $\varphi(A \cap U)$ has Lebesgue measure zero for every chart; by the change of variables formula
+(Theorem~\ref{measure-theory:theorem-change-of-variables}) it suffices to check this for the charts of one atlas.
+\end{definition}
+
+\begin{theorem}[Sard]\label{smooth-manifolds:theorem-sard}
+Let $f \colon M \to N$ be smooth. The set of critical values of $f$ (the images of points where $d_pf$ is not surjective) has measure zero in $N$; in particular regular values are dense. If
+$\dim M < \dim N$, the image of $f$ has measure zero.
+\end{theorem}
+
+\begin{proof}
+The last statement follows from the first, since then every point is critical; alternatively, compose with the projection $\RR^{\dim N} \to \RR^{\dim M}$ and use that a smooth map is locally Lipschitz, so
+it maps sets of measure zero to sets of measure zero and $\RR^{\dim M} \times \{0\}$ has measure zero. The general case is \cite[Chapter 2]{milnor-differential-viewpoint} or
+\cite[Chapter 6]{lee-smooth-manifolds}; the proof is a careful induction on the order of vanishing of the derivatives, using Taylor's theorem and a covering argument in charts, together with the fact that a
+countable union of sets of measure zero has measure zero (Proposition~\ref{measure-theory:proposition-measure-properties}) and that manifolds are covered by countably many charts.
+\end{proof}
+
+\section{Constructions of smooth manifolds}\label{smooth-manifolds:section-constructions}
+
+Open subsets, products and regular level sets of smooth manifolds are smooth manifolds (Example~\ref{smooth-manifolds:example-manifolds} and Theorem~\ref{smooth-manifolds:theorem-regular-value}). Two further constructions are
+quotients by group actions and spaces of linear subspaces.
+
+\begin{theorem}\label{smooth-manifolds:theorem-smooth-quotient}
+Let a discrete group $G$ act freely and properly on a smooth manifold $M$ by diffeomorphisms. Then $M/G$ has a unique smooth structure for which $\pi \colon M \to M/G$ is a local diffeomorphism. A map $f \colon M/G \to N$ is smooth if
+and only if $f \circ \pi$ is smooth.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{topological-manifolds:proposition-constructions}(3), $M/G$ is a topological manifold and $\pi$ is a covering map. Every $x \in M$ has a neighbourhood $U$, which we may take inside the domain of a chart
+$\varphi$, with $gU \cap U = \emptyset$ for $g \neq e$ (Theorem~\ref{topological-manifolds:theorem-proper-free}); $\pi|_U$ is a homeomorphism onto the open set $\pi(U)$, and we use $\varphi \circ (\pi|_U)^{-1}$ as a chart. For two
+such charts, from $(U, \varphi)$ and $(V, \psi)$, and a point $\pi(u) = \pi(v)$ in $\pi(U) \cap \pi(V)$ with $u \in U$, $v \in V$, we have $v = gu$ for a unique $g$, and for $u'$ near $u$, the unique point of $V$ in the orbit of $u'$ is $gu'$
+(as $gu' \in V$ for $u'$ near $u$). So near $\varphi(u)$ the transition map is $\psi \circ g \circ \varphi^{-1}$, which is smooth, $g$ being a diffeomorphism. These charts form a smooth atlas, and in them $\pi$ is given by
+$\varphi \circ (\pi|_U)^{-1} \circ \pi \circ \varphi^{-1} = \mathrm{id}$, so $\pi$ is a local diffeomorphism. Uniqueness: if $\pi$ is a local diffeomorphism for some smooth structure, the maps $(\pi|_U)^{-1}$ are smooth, so the charts above
+belong to that structure. Finally, if $f \circ \pi$ is smooth then $f = (f \circ \pi) \circ (\pi|_U)^{-1}$ is smooth on each $\pi(U)$.
+\end{proof}
+
+\begin{example}\label{smooth-manifolds:example-smooth-quotients}
+The torus $T^n = \RR^n/\ZZ^n$, the projective space $\RR\PP^n = S^n/\{\pm1\}$, the lens spaces $S^3/(\ZZ/p)$ and the Klein bottle (Example~\ref{topological-manifolds:example-covering-actions}) are smooth manifolds, with smooth
+covering maps from $\RR^n$, $S^n$, $S^3$ and $\RR^2$. The smooth structure on $\RR\PP^n$ agrees with the one given by the charts of Example~\ref{smooth-manifolds:example-manifolds}(3): in the chart $x_i \neq 0$, the composite with
+$\pi$ is $x \mapsto (x_j/x_i)_{j \neq i}$, which is smooth, with a smooth local inverse. By the same argument, a covering space of a smooth manifold has a unique smooth structure making the covering map a local diffeomorphism.
+\end{example}
+
+\begin{lemma}\label{smooth-manifolds:lemma-common-complement}
+Two linear subspaces $W, W' \subseteq \RR^n$ of the same dimension $k$ have a common complement: a subspace $Q$ with $W \oplus Q = W' \oplus Q = \RR^n$.
+\end{lemma}
+
+\begin{proof}
+Induction on $n - k$. If $k = n$, take $Q = 0$. Otherwise $W$ and $W'$ are proper subspaces, and $\RR^n \neq W \cup W'$: if $w \in W \setminus W'$ and $w' \in W' \setminus W$ (if one contains the other they are equal, and any vector outside
+$W$ works), then $w + w'$ lies in neither. Choose $v \notin W \cup W'$. By induction $W \oplus \RR v$ and $W' \oplus \RR v$ have a common complement $Q'$, and $Q = Q' \oplus \RR v$ is a common complement of $W$ and $W'$, by counting
+dimensions.
+\end{proof}
+
+\begin{proposition}\label{smooth-manifolds:proposition-grassmannian}
+The set $\mathrm{Gr}_k(\RR^n)$ of $k$-dimensional linear subspaces of $\RR^n$ has a natural structure of smooth manifold of dimension $k(n - k)$, with charts defined as follows. For a decomposition $\RR^n = P \oplus Q$ with
+$\dim P = k$, let $U_Q = \{W : W \cap Q = 0\}$; every $W \in U_Q$ is the graph $\{x + Ax : x \in P\}$ of a unique linear map $A \colon P \to Q$, and $\varphi_{P,Q}(W) = A \in \Hom(P, Q) \cong \RR^{k(n-k)}$. Moreover
+$\mathrm{Gr}_1(\RR^{n+1}) = \RR\PP^n$.
+\end{proposition}
+
+\begin{proof}
+If $W \cap Q = 0$, then $W \oplus Q = \RR^n$ by dimensions, so the projection $W \to P$ along $Q$ is an isomorphism and $W$ is the graph of $A = \mathrm{pr}_Q \circ (\mathrm{pr}_P|_W)^{-1}$; conversely every graph lies in $U_Q$. So
+$\varphi_{P,Q} \colon U_Q \to \Hom(P, Q)$ is a bijection. We verify the conditions of Lemma~\ref{smooth-manifolds:lemma-chart-lemma}. For another decomposition $P' \oplus Q'$, the graph $W$ of $A$ lies in $U_{Q'}$ if and only if the
+linear map $\mathrm{pr}_{P'} \circ (\mathrm{id} + A) \colon P \to P'$ is invertible, an open condition on $A$ (nonvanishing of a determinant in bases); and then $W$ is the graph of
+$A' = \mathrm{pr}_{Q'} \circ (\mathrm{id} + A) \circ (\mathrm{pr}_{P'} \circ (\mathrm{id} + A))^{-1}$, whose entries are rational functions of those of $A$ with nonvanishing denominators, by Cramer's rule. This gives (1) and (2). The
+$\binom nk$ charts with $P$ and $Q$ spanned by standard basis vectors cover, since every $W$ has a complement spanned by standard basis vectors (extend a basis of $W$ by standard basis vectors); this gives (3). For (4), two
+subspaces $W$, $W'$ have a common complement $Q$ (Lemma~\ref{smooth-manifolds:lemma-common-complement}), so both lie in $U_Q$. For $k = 1$, a line is determined by a nonzero vector up to scaling, and the charts
+$\varphi_{\langle e_i\rangle, Q_i}$ with $Q_i$ spanned by the other basis vectors are the charts of $\RR\PP^n$.
+\end{proof}
+
+\begin{remark}\label{smooth-manifolds:remark-grassmannian}
+$\mathrm{Gr}_k(\RR^n)$ is compact: the map from the compact group $\mathrm{O}(n)$ sending a matrix to the span of its first $k$ columns is continuous (in the charts above it is given by rational functions) and surjective. It is the
+orbit space $\mathrm{O}(n)/(\mathrm{O}(k) \times \mathrm{O}(n - k))$ (Proposition~\ref{topological-manifolds:proposition-orbit-space}(4)). The complex Grassmannian $\mathrm{Gr}_k(\CC^n)$ is constructed in the same way, with
+holomorphic transition maps (Chapter~\ref{complex-manifolds}).
+\end{remark}
+
+\section{Partitions of unity}\label{smooth-manifolds:section-partitions}
+
+\begin{theorem}\label{smooth-manifolds:theorem-partitions-of-unity}
+Let $M$ be a smooth manifold and $(U_i)_{i \in I}$ an open cover. There is a smooth partition of unity subordinate to it: smooth functions $\psi_i \colon M \to [0, 1]$ with
+$\operatorname{supp}\psi_i \subseteq U_i$, locally finite supports, and $\sum_i\psi_i = 1$.
+\end{theorem}
+
+\begin{proof}
+$M$ is locally compact, Hausdorff and second countable, hence paracompact with an exhaustion by compact sets (Proposition~\ref{general-topology:proposition-exhaustion}). Refine the cover by charts: every
+point lies in a chart contained in some $U_i$, and inside it we may take a coordinate ball. As in the proof of Proposition~\ref{general-topology:proposition-exhaustion} we may choose a locally finite
+refinement by coordinate balls $B_k$, with smaller concentric balls $B'_k$ still covering $M$. By Corollary~\ref{real-analysis:corollary-bump-function}, transported by the charts and extended by zero, there
+are smooth $\chi_k \colon M \to [0, 1]$ equal to $1$ on $\overline{B'_k}$ with support in $B_k$. The sum $\chi = \sum_k\chi_k$ is smooth (locally finite) and $\geq 1$ everywhere, so $g_k = \chi_k/\chi$ are smooth,
+sum to $1$, and have supports in $B_k$. Choosing $\varphi(k)$ with $B_k \subseteq U_{\varphi(k)}$ and setting $\psi_i = \sum_{\varphi(k) = i}g_k$ gives the partition of unity, exactly as in the proof of
+Theorem~\ref{general-topology:theorem-partitions-of-unity}.
+\end{proof}
+
+\begin{corollary}\label{smooth-manifolds:corollary-partition-applications}
+\begin{enumerate}
+\item For a closed $A \subseteq M$ and an open $U \supseteq A$ there is a smooth $\chi \colon M \to [0, 1]$ equal to $1$ on $A$ with support in $U$.
+\item Every smooth function on a closed subset (that is, a function that is locally the restriction of a smooth function) extends to a smooth function on $M$.
+\item $M$ admits a proper smooth function $M \to \RR$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Take the partition of unity subordinate to $\{U, M \setminus A\}$ and let $\chi$ be the function corresponding to $U$. (2) Patch local extensions with a partition of unity. (3) With a partition of unity $\psi_k$ subordinate to a locally finite cover by relatively compact sets, $f = \sum_kk\psi_k$ is smooth, and $f \geq m$ outside the union of the first $m$ sets, so
+$f$ is proper.
+\end{proof}
+
+\begin{remark}\label{smooth-manifolds:remark-patching}
+The same argument produces global objects out of local ones whenever the objects in question can be averaged: Riemannian metrics (Chapter~\ref{riemannian-geometry}), connections
+(Chapter~\ref{connections}) and Hermitian metrics on bundles all exist on any smooth manifold for this reason, while there is no such argument for complex structures or for nowhere vanishing vector fields,
+which are subject to topological obstructions.
+\end{remark}
+
+\section{Vector fields and flows}\label{smooth-manifolds:section-flows}
+
+\begin{theorem}\label{smooth-manifolds:theorem-flow}
+Let $X \in \mathfrak{X}(M)$. For every $p \in M$ there is a unique maximal \emph{integral curve} $\gamma_p \colon (\alpha_p, \beta_p) \to M$ with $\gamma_p(0) = p$ and $\gamma_p'(t) = X_{\gamma_p(t)}$. The set
+$\mathcal{D} = \{(t, p) : \alpha_p < t < \beta_p\}$ is open in $\RR \times M$, the \emph{flow} $\Phi(t, p) = \gamma_p(t)$ is smooth, and $\Phi(t + s, p) = \Phi(t, \Phi(s, p))$ whenever both sides are defined. If
+$M$ is compact, or $X$ has compact support, then $\mathcal{D} = \RR \times M$ and $t \mapsto \Phi(t, -)$ is a homomorphism from $\RR$ to the diffeomorphism group.
+\end{theorem}
+
+\begin{proof}
+In a chart, $\gamma' = X(\gamma)$ is an ordinary differential equation with smooth right-hand side, so Theorem~\ref{real-analysis:theorem-picard-lindelof} gives local existence and uniqueness, and
+Theorem~\ref{real-analysis:theorem-smooth-dependence} gives smoothness of the flow and openness of its domain. Uniqueness lets local solutions be glued into a maximal one, and the group law follows from
+uniqueness, both sides being integral curves through $\Phi(s, p)$ at time $0$. If $X$ has compact support $K$, the curves through points outside $K$ are constant, and those through points of $K$ cannot leave
+the compact set $K$, so they are defined for all time by Theorem~\ref{real-analysis:theorem-picard-lindelof}(3).
+\end{proof}
+
+\begin{definition}\label{smooth-manifolds:definition-bracket}
+For $X, Y \in \mathfrak{X}(M)$, the \emph{Lie bracket} is the vector field with $[X, Y]f = X(Yf) - Y(Xf)$.
+\end{definition}
+
+\begin{proposition}\label{smooth-manifolds:proposition-bracket}
+$[X, Y]$ is a vector field; the bracket is bilinear, antisymmetric, satisfies the Jacobi identity and $[fX, gY] = fg[X, Y] + f(Xg)Y - g(Yf)X$, so $\mathfrak{X}(M)$ is a Lie algebra. In coordinates,
+$[X, Y] = \sum_{i,j}(X^j\partial_jY^i - Y^j\partial_jX^i)\partial_i$. Moreover $[X, Y] = \frac{d}{dt}\Big|_{t=0}(\Phi_{-t})_*Y$, the \emph{Lie derivative} $L_XY$, and $[X, Y] = 0$ if and only if the flows of $X$
+and $Y$ commute.
+\end{proposition}
+
+\begin{proof}
+The second-order terms cancel in $X(Yf) - Y(Xf)$, so $[X, Y]$ is a derivation of $C^\infty(M)$, hence a vector field; the algebraic identities are direct computations, as is the coordinate formula. For the
+Lie derivative, write in a chart $Y_{\Phi_t(p)} = D\Phi_t(p)\,Y_p + O(t^2)$ and expand $\Phi_t = \id + tX + O(t^2)$: the derivative at $t = 0$ of $(D\Phi_{-t})Y_{\Phi_t(p)}$ is $DY(p)X(p) - DX(p)Y(p)$, which is
+the coordinate expression of $[X, Y]$. If the flows commute then $(\Phi_{-t})_*Y = Y$ for all $t$, so $[X, Y] = 0$; conversely, if $[X, Y] = 0$ then $t \mapsto (\Phi_{-t})_*Y$ has vanishing derivative (by the
+group law, its derivative at $t_0$ is $(\Phi_{-t_0})_*[X, Y]$), so $(\Phi_t)$ preserves $Y$ and hence its flow, which is the statement that the flows commute.
+\end{proof}
+
+\begin{theorem}[Frobenius]\label{smooth-manifolds:theorem-frobenius}
+Let $D \subseteq TM$ be a smooth distribution of rank $k$ (a subbundle, Chapter~\ref{vector-bundles}) that is \emph{involutive}: $[X, Y]$ is a section of $D$ whenever $X$ and $Y$ are. Then every point has a
+chart in which $D$ is spanned by $\partial/\partial x^1, \ldots, \partial/\partial x^k$; the manifold is locally a union of $k$-dimensional \emph{integral manifolds}.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Choose local sections $X_1, \ldots, X_k$ spanning $D$ near $p$; after a linear change we may assume $X_i = \partial/\partial x^i + \sum_{j > k}a^j_i\partial/\partial x^j$, and involutivity forces $[X_i, X_j] = 0$ (the
+bracket lies in $D$ and has no $\partial/\partial x^i$ components for $i \leq k$). Commuting vector fields have commuting flows (Proposition~\ref{smooth-manifolds:proposition-bracket}), and
+$(t_1, \ldots, t_k, y) \mapsto \Phi^1_{t_1} \circ \cdots \circ \Phi^k_{t_k}(y)$ is a diffeomorphism onto a neighbourhood of $p$ taking the coordinate fields to the $X_i$. The omitted verification is that
+this map has invertible differential and defines a chart; see \cite[Chapter 19]{lee-smooth-manifolds} or \cite[Chapter 1]{warner-foundations}.
+\end{proof}
+
+\begin{theorem}[Whitney embedding, compact case]\label{smooth-manifolds:theorem-whitney}
+Every compact smooth $n$-manifold embeds in $\RR^N$ for some $N$. (In fact $N = 2n + 1$ suffices, and $2n$ for $n > 0$; see \cite[Chapter 1]{hirsch-differential-topology}.)
+\end{theorem}
+
+\begin{proof}
+Cover $M$ by finitely many charts $\varphi_i \colon U_i \to \RR^n$, $i = 1, \ldots, m$, with smaller open sets $V_i$ still covering and bump functions $\chi_i$ equal to $1$ on $\overline{V_i}$ with support in $U_i$
+(Corollary~\ref{smooth-manifolds:corollary-partition-applications}). The map $F = (\chi_1\varphi_1, \ldots, \chi_m\varphi_m, \chi_1, \ldots, \chi_m) \colon M \to \RR^{mn + m}$ is smooth; it is an immersion,
+since on $V_i$ the component $\chi_i\varphi_i = \varphi_i$ has injective differential, and it is injective: if $F(p) = F(q)$, choose $i$ with $p \in V_i$; then $\chi_i(q) = \chi_i(p) = 1$, so $q \in U_i$ and
+$\varphi_i(q) = \varphi_i(p)$, whence $p = q$. By Proposition~\ref{smooth-manifolds:proposition-local-forms}(3) it is an embedding.
+\end{proof}
+
+\section{Exercises}\label{smooth-manifolds:section-exercises}
+
+\begin{exercise}\label{smooth-manifolds:exercise-tangent-sphere}
+Show that $T_xS^n = x^\perp \subseteq \RR^{n+1}$ under the standard identification, and that $TS^1$ is diffeomorphic to $S^1 \times \RR$.
+\end{exercise}
+
+\begin{solution}
+The first statement is Theorem~\ref{smooth-manifolds:theorem-regular-value} applied to $\|x\|^2$. For $S^1$, the vector field $X_{(a,b)} = (-b, a)$ is nowhere zero, and $(p, t) \mapsto tX_p$ is a
+diffeomorphism $S^1 \times \RR \to TS^1$.
+\end{solution}
+
+\begin{exercise}\label{smooth-manifolds:exercise-no-retraction-smooth}
+Let $M$ be a compact manifold with a nowhere vanishing vector field $X$. Show that the flow of $X$ is defined for all time and gives a smooth action of $\RR$ on $M$, and that $M$ has Euler characteristic $0$
+(using the Poincar\'e--Hopf theorem, Chapter~\ref{characteristic-classes}).
+\end{exercise}
+
+\begin{exercise}\label{smooth-manifolds:exercise-immersion-not-embedding}
+Give an example of an injective immersion $\RR \to \RR^2$ that is not an embedding, and of an immersion of $S^1$ in $\RR^2$ that is not injective.
+\end{exercise}
+
+\begin{exercise}\label{smooth-manifolds:exercise-lie-bracket-computation}
+Compute $[X, Y]$ for $X = \partial_x$, $Y = x\partial_y$ on $\RR^2$, and verify that the corresponding flows do not commute.
+\end{exercise}
+
+\begin{solution}
+$[X, Y] = \partial_y$. The flow of $X$ translates in $x$ and that of $Y$ shears; applying them in the two orders to the origin gives points differing by a translation in $y$.
+\end{solution}
+\begin{exercise}\label{smooth-manifolds:exercise-grassmannian-duality}
+Show that $W \mapsto W^\perp$ is a diffeomorphism $\mathrm{Gr}_k(\RR^n) \to \mathrm{Gr}_{n-k}(\RR^n)$.
+\end{exercise}
+
+\begin{solution}
+It is a bijection, its own inverse up to exchanging $k$ and $n - k$. Use charts with $P$ and $Q$ spanned by complementary sets of standard basis vectors, so $Q = P^\perp$. If $W$ is the graph of $A \colon P \to Q$, then
+$y + By$ with $y \in Q$ and $B \colon Q \to P$ is orthogonal to all $x + Ax$ if and only if $\langle x, By\rangle + \langle Ax, y\rangle = 0$ for all $x$, that is, $B = -A^T$. So $W^\perp$ is the graph of $-A^T$, and in the charts
+$\varphi_{P,Q}$ and $\varphi_{Q,P}$ the map is the linear map $A \mapsto -A^T$.
+\end{solution}
+
+\begin{exercise}\label{smooth-manifolds:exercise-circle-quotient}
+Show that the smooth structure on $\RR/\ZZ$ given by Theorem~\ref{smooth-manifolds:theorem-smooth-quotient} makes $t \mapsto e^{2\pi it}$ a diffeomorphism $\RR/\ZZ \to S^1$, where $S^1 \subseteq \RR^2$ has the structure of a regular level set.
+\end{exercise}
+
+\begin{solution}
+The induced map $\RR/\ZZ \to S^1$ is a bijection, and smooth because its composite with $\pi$ is $t \mapsto (\cos 2\pi t, \sin 2\pi t)$. Its differential is nonzero, since the velocity $2\pi(-\sin 2\pi t, \cos 2\pi t) \neq 0$ and $\pi$ is a local
+diffeomorphism; so it is a bijective local diffeomorphism, hence a diffeomorphism.
+\end{solution}

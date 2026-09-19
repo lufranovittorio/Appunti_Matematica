@@ -1,0 +1,532 @@
+\chapter{Vanishing and Embedding Theorems}\label{kodaira}
+\chapterstatus{complete}
+
+\section{Introduction}\label{kodaira:section-introduction}
+
+This chapter answers the question: which compact K\"ahler manifolds are projective? The answer is Kodaira's embedding theorem
+(Theorem~\ref{kodaira:theorem-embedding}). A compact complex manifold embeds in projective space if and only if it carries a positive line
+bundle, if and only if it has a K\"ahler form with integral cohomology class. The analytic input is the Kodaira--Nakano vanishing theorem
+(Theorem~\ref{kodaira:theorem-kodaira-nakano}). It comes from the Bochner--Kodaira--Nakano identity, a version of the K\"ahler identities
+with coefficients in a Hermitian bundle, in which the curvature appears. Vanishing also gives a Hodge-theoretic proof of the Lefschetz
+hyperplane theorem (Theorem~\ref{kodaira:theorem-lefschetz-hyperplane}). Together these results form the bridge from K\"ahler geometry to
+algebraic geometry: by Chow's theorem (Chapter~\ref{gaga}) a projective manifold is algebraic, so the Hodge theory of the previous
+chapters applies to smooth projective varieties. References: \cite[Chapter 1, Sections 2--4]{griffiths-harris}, \cite[Chapter 5]{huybrechts-complex},
+\cite[Chapter 7]{voisin-hodge-1}, \cite{kodaira-1954}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{lefschetz-theorems} (Hard Lefschetz and the Hodge--Riemann Relations) and
+Chapter~\ref{holomorphic-bundles} (Holomorphic Vector Bundles).
+
+Throughout, $X$ is a compact complex manifold of dimension $n$. For a line bundle $L$ with a Hermitian metric $h$, we write $F_h$ for the
+curvature of its Chern connection and $\omega_h = \frac{i}{2\pi}F_h$ for its \emph{curvature form}, a closed real $(1,1)$-form representing
+$c_1(L)$ (Theorem~\ref{holomorphic-bundles:theorem-chern-connection}). We write $L^k = L^{\otimes k}$ and $L(-D) = L \otimes \mathcal{O}(-D)$.
+
+\section{Positive line bundles}\label{kodaira:section-positive}
+
+\begin{proposition}\label{kodaira:proposition-positivity-properties}
+Positivity (Definition~\ref{holomorphic-bundles:definition-positive}) has the following properties.
+\begin{enumerate}
+\item $\mathcal{O}(1)$ on $\CC\PP^N$ is positive, and if $f \colon Y \to X$ is a holomorphic immersion and $L$ is positive, then $f^*L$ is positive.
+\item Metrics multiply under tensor products and curvature forms add: $\omega_{h_1 \otimes h_2} = \omega_{h_1} + \omega_{h_2}$ and
+$\omega_{h^{-1}} = -\omega_h$ for the dual metric. Hence tensor products of positive bundles are positive.
+\item If $L$ is positive and $M$ is any line bundle, then $L^k \otimes M$ is positive for all $k \geq k_0$.
+\item If $(L, h)$ is positive, then $\omega_h$ is a K\"ahler form. So $X$ is K\"ahler and $c_1(L)_\RR$ is a K\"ahler class.
+\item Conversely, if a K\"ahler form $\omega$ represents $c_1(L)_\RR$, then $L$ has a Hermitian metric with $\omega_h = \omega$. In
+particular $L$ is positive.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The first statement is Example~\ref{holomorphic-bundles:example-fubini-study}. The Chern connection of $f^*h$ is the pullback, so
+$\omega_{f^*h} = f^*\omega_h$, and the pullback of a positive $(1,1)$-form by a holomorphic immersion is positive, since the restriction of a
+positive definite Hermitian form to a subspace is positive definite. (2) In local holomorphic frames the weights add:
+$h_1 \otimes h_2 = e^{-(\varphi_1 + \varphi_2)}$, and $h^{-1} = e^{\varphi}$. Apply the formula $F = \partial\bar\partial\varphi$. (3) Choose
+metrics. Since $X$ is compact and $\omega_{h_L}$ is positive, there is $C$ with $\omega_{h_M} \geq -C\omega_{h_L}$. Then
+$\omega_{h_L^k \otimes h_M} = k\omega_{h_L} + \omega_{h_M} \geq (k - C)\omega_{h_L}$, which is positive for $k > C$. (4) $\omega_h$ is a closed
+positive real $(1,1)$-form, hence a K\"ahler form (Proposition~\ref{kahler:proposition-fundamental-form-coordinates}). (5) $X$ is compact
+K\"ahler with K\"ahler form $\omega$. Let $h_0$ be any metric on $L$. Then $\omega_{h_0}$ and $\omega$ are cohomologous closed real
+$(1,1)$-forms, so $\omega = \omega_{h_0} + i\partial\bar\partial\psi$ for a smooth real function $\psi$
+(Corollary~\ref{hodge-decomposition:corollary-ddbar-real}). The metric $h = h_0e^{-2\pi\psi}$ has local weights $\varphi = \varphi_0 + 2\pi\psi$,
+so $\omega_h = \omega_{h_0} + i\partial\bar\partial\psi = \omega$.
+\end{proof}
+
+\begin{lemma}\label{kodaira:lemma-integral-11}
+Let $X$ be a compact K\"ahler manifold. The map $H^2(X; \ZZ) \to H^2(X, \mathcal{O}_X)$ induced by $\ZZ_X \subseteq \mathcal{O}_X$ is the
+composite of $H^2(X; \ZZ) \to H^2(X; \CC)$ with the map $[\alpha] \mapsto [\alpha^{0,2}]_{\bar\partial} \in H^{0,2}_{\bar\partial}(X) \cong H^2(X, \mathcal{O}_X)$.
+Consequently, every class $a \in H^2(X; \ZZ)$ whose image in $H^2(X; \CC)$ lies in $H^{1,1}(X)$ is $c_1(L)$ for a holomorphic line bundle $L$.
+\end{lemma}
+
+\begin{proof}
+The inclusion $\ZZ_X \to \mathcal{O}_X$ factors through $\CC_X$. The de Rham complex $\mathcal{A}^\bullet_\CC$ resolves $\CC_X$ and the
+Dolbeault complex $\mathcal{A}^{0,\bullet}$ resolves $\mathcal{O}_X$ (Theorems~\ref{de-rham:theorem-de-rham} and~\ref{dolbeault:theorem-dolbeault}),
+by fine, hence acyclic, sheaves. Projection onto the $(0,q)$-component commutes with the differentials: the $(0, q+1)$-part of $d\alpha$ is
+$\bar\partial$ applied to the $(0,q)$-part of $\alpha$, because $\partial$ raises the first degree and $\bar\partial$ of a form of type $(r, s)$
+with $r \geq 1$ has type $(r, s+1)$. So it is a morphism of resolutions over $\CC_X \to \mathcal{O}_X$, and it induces the map on cohomology
+(Proposition~\ref{homological-algebra:proposition-acyclic-resolutions}, which is natural). If the image of $a$ lies in $H^{1,1}(X)$, it is
+represented by a closed form of type $(1,1)$, whose $(0,2)$-part is zero. So $a$ maps to $0$ in $H^2(X, \mathcal{O}_X)$, and $a = c_1(L)$ for
+some $L$ by Theorem~\ref{holomorphic-bundles:theorem-exponential}(1).
+\end{proof}
+
+\begin{definition}\label{kodaira:definition-hodge-manifold}
+A \emph{Hodge manifold} is a compact complex manifold with a K\"ahler form $\omega$ whose class $[\omega] \in H^2(X; \RR)$ lies in the image
+of $H^2(X; \ZZ)$; such an $\omega$ is a \emph{Hodge metric}, and $[\omega]$ an \emph{integral K\"ahler class}.
+\end{definition}
+
+\begin{corollary}\label{kodaira:corollary-positive-iff-hodge}
+A compact complex manifold carries a positive line bundle if and only if it is a Hodge manifold.
+\end{corollary}
+
+\begin{proof}
+If $L$ is positive, then $\omega_h$ is a K\"ahler form representing the integral class $c_1(L)$
+(Proposition~\ref{kodaira:proposition-positivity-properties}(4)). Conversely, let $\omega$ be a Hodge metric and $a \in H^2(X; \ZZ)$ a class
+mapping to $[\omega]$. As $\omega$ has type $(1,1)$, Lemma~\ref{kodaira:lemma-integral-11} gives $L$ with $c_1(L) = a$, so $c_1(L)_\RR = [\omega]$,
+and $L$ is positive by Proposition~\ref{kodaira:proposition-positivity-properties}(5).
+\end{proof}
+
+\begin{proposition}\label{kodaira:proposition-positive-curves}
+On a compact Riemann surface $X$, a line bundle $L$ is positive if and only if $\deg L = \int_Xc_1(L) > 0$. Moreover
+$\deg K_X = 2g - 2$, where $g = b_1(X)/2$ is the genus.
+\end{proposition}
+
+\begin{proof}
+If $L$ is positive, $\deg L = \int_X\omega_h > 0$. Conversely, if $\deg L > 0$, choose any Hermitian metric on $X$ and rescale its
+fundamental form to a K\"ahler form $\omega$ with $\int_X\omega = \deg L$ (every Hermitian metric on a curve is K\"ahler,
+Example~\ref{kahler:example-kahler}). Since $H^2(X; \RR) \cong \RR$ via integration, $[\omega] = c_1(L)_\RR$, and
+Proposition~\ref{kodaira:proposition-positivity-properties}(5) applies. For the last statement, $K_X = T^*X$, so
+$\deg K_X = -\int_Xc_1(TX) = -\int_Xe(TX) = -\chi(X) = -(2 - 2g)$ by Theorem~\ref{characteristic-classes:theorem-euler} and
+Proposition~\ref{characteristic-classes:proposition-chern-properties}(4).
+\end{proof}
+
+\section{The Bochner--Kodaira--Nakano identity}\label{kodaira:section-nakano}
+
+\begin{notation}\label{kodaira:notation-bundle-valued}
+Let $X$ be a Hermitian manifold and $(E, h)$ a Hermitian holomorphic vector bundle, with Chern connection $D = D' + \bar\partial_E$, where
+$D'$ has type $(1,0)$. On $\mathcal{A}^{p,q}(X, E)$ we use the pointwise inner product induced by $g$ and $h$ and, for $X$ compact, the $L^2$
+product. The operators $L$ and $\Lambda$ act on the form part. Let $D'^*$ and $\bar\partial_E^*$ be the formal adjoints, and put
+\[
+\Delta' = D'D'^* + D'^*D', \qquad \Delta'' = \bar\partial_E\bar\partial_E^* + \bar\partial_E^*\bar\partial_E .
+\]
+The curvature $F = D^2$ is a $(1,1)$-form with values in $\End E$, and as operators $F = D'\bar\partial_E + \bar\partial_ED'$, since
+$D'^2 = 0$ and $\bar\partial_E^2 = 0$ (Theorem~\ref{holomorphic-bundles:theorem-chern-connection}).
+\end{notation}
+
+\begin{lemma}\label{kodaira:lemma-normal-frame}
+Let $(E, h)$ be a Hermitian holomorphic vector bundle and $p \in X$. There is a holomorphic frame $e_1, \ldots, e_r$ of $E$ near $p$ with
+$h(e_a, e_b) = \delta_{ab} + O(|z|^2)$ in holomorphic coordinates $z$ centred at $p$. In such a frame the connection form of $D$ vanishes at $p$.
+\end{lemma}
+
+\begin{proof}
+Start with a holomorphic frame that is orthonormal at $p$, and write $H_{ab} = h(e_a, e_b) = \delta_{ab} + \sum_l(\partial_lH_{ab}(0)z^l + \bar\partial_lH_{ab}(0)\bar z^l) + O(|z|^2)$.
+Put $e'_a = e_a - \sum_{b,l}\partial_lH_{ab}(0)\,z^le_b$, again a holomorphic frame near $p$. To first order,
+\[
+h(e'_a, e'_b) = H_{ab} - \sum_l\partial_lH_{ab}(0)z^l - \sum_l\overline{\partial_lH_{ba}(0)}\,\bar z^l + O(|z|^2),
+\]
+and $\overline{\partial_lH_{ba}} = \bar\partial_l\overline{H_{ba}} = \bar\partial_lH_{ab}$ because $H$ is Hermitian. So all first-order terms cancel. The connection
+form $\overline{H}^{-1}\partial\overline{H}$ of Theorem~\ref{holomorphic-bundles:theorem-chern-connection} involves only first derivatives of $H$,
+so it vanishes at $p$.
+\end{proof}
+
+\begin{theorem}[K\"ahler identities with coefficients]\label{kodaira:theorem-kahler-identities-bundle}
+Let $X$ be K\"ahler and $(E, h)$ a Hermitian holomorphic vector bundle. Then
+\[
+[\Lambda, \bar\partial_E] = -iD'^*, \qquad [\Lambda, D'] = i\bar\partial_E^* .
+\]
+\end{theorem}
+
+\begin{proof}
+Both identities are between first-order differential operators. In holomorphic coordinates and a holomorphic frame of $E$, the coefficients
+of these operators at a point are universal expressions in the metric coefficients $h_{j\bar k}$ of $X$, the matrix $H$ of $h$, and their
+first derivatives at that point. Indeed $\bar\partial_E$ acts componentwise, $D' = \partial + \theta$ where the connection form $\theta$ involves
+first derivatives of $H$, and the formal adjoints are obtained by integration by parts, which differentiates the pointwise inner products and
+the volume form once. Given $p$, choose coordinates osculating to order two (Proposition~\ref{kahler:proposition-kahler-equivalent}) and a frame
+as in Lemma~\ref{kodaira:lemma-normal-frame}. The data then agree to first order at $p$ with the flat metric on $\CC^n$ and the trivial bundle
+$\CC^r$ with the standard metric. For these, an $E$-valued form is an $r$-tuple of scalar forms, $\bar\partial_E = \bar\partial$ and $D' = \partial$
+act componentwise, and the identities are Theorem~\ref{hodge-decomposition:theorem-kahler-identities}. So both sides agree at $p$, as in
+Lemma~\ref{hodge-decomposition:lemma-osculation-principle}.
+\end{proof}
+
+\begin{theorem}[Bochner--Kodaira--Nakano identity]\label{kodaira:theorem-nakano-identity}
+Let $X$ be K\"ahler and $(E, h)$ a Hermitian holomorphic vector bundle with curvature $F$. Then on $\mathcal{A}^{p,q}(X, E)$
+\[
+\Delta'' = \Delta' + [iF, \Lambda],
+\]
+where $iF$ acts by wedge product combined with the action of $\End E$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{kodaira:theorem-kahler-identities-bundle}, $\bar\partial_E^* = -i[\Lambda, D']$ and $D'^* = i[\Lambda, \bar\partial_E]$. Writing
+$\bar\partial$ for $\bar\partial_E$,
+\[
+\begin{aligned}
+\Delta^{\prime\prime} &= -i\left(\bar\partial\Lambda D^{\prime} - \bar\partial D^{\prime}\Lambda + \Lambda D^{\prime}\bar\partial - D^{\prime}\Lambda\bar\partial\right), \\
+\Delta^{\prime} &= i\left(D^{\prime}\Lambda\bar\partial - D^{\prime}\bar\partial\Lambda + \Lambda\bar\partial D^{\prime} - \bar\partial\Lambda D^{\prime}\right).
+\end{aligned}
+\]
+Subtracting, the terms $\bar\partial\Lambda D'$ and $D'\Lambda\bar\partial$ cancel, and
+\[
+\Delta'' - \Delta' = i(\bar\partial D' + D'\bar\partial)\Lambda - i\Lambda(D'\bar\partial + \bar\partial D') = iF\Lambda - \Lambda iF = [iF, \Lambda] .
+\]
+\end{proof}
+
+\section{The Kodaira--Nakano vanishing theorem}\label{kodaira:section-vanishing}
+
+\begin{theorem}[Kodaira--Nakano vanishing]\label{kodaira:theorem-kodaira-nakano}
+Let $X$ be a compact complex manifold of dimension $n$ and $L$ a positive line bundle. Then
+\[
+H^q(X, \Omega^p_X \otimes L) = 0 \quad \text{for } p + q > n, \qquad H^q(X, \Omega^p_X \otimes L^{-1}) = 0 \quad \text{for } p + q < n .
+\]
+\end{theorem}
+
+\begin{proof}
+Choose a metric $h$ on $L$ with $\omega = \omega_h$ positive, and give $X$ the K\"ahler metric with fundamental form $\omega$. Then
+$iF_h = 2\pi\omega$, so $[iF_h, \Lambda] = 2\pi[L, \Lambda] = 2\pi H$, which is multiplication by $2\pi(p + q - n)$ on $\mathcal{A}^{p,q}(X, L)$
+(Theorem~\ref{kahler:theorem-sl2-forms}). By Theorem~\ref{dolbeault:theorem-dbar-hodge}, every class in $H^q(X, \Omega^p_X \otimes L)$ is
+represented by some $\alpha$ with $\Delta''\alpha = 0$. By Theorem~\ref{kodaira:theorem-nakano-identity},
+\[
+0 = (\Delta''\alpha, \alpha) = \|D'\alpha\|^2 + \|D'^*\alpha\|^2 + 2\pi(p + q - n)\|\alpha\|^2 .
+\]
+If $p + q > n$, all three terms are non-negative, so $\alpha = 0$. The second statement follows by Serre duality
+(Theorem~\ref{dolbeault:theorem-serre-duality}): $H^q(X, \Omega^p \otimes L^{-1})$ is dual to $H^{n-q}(X, K_X \otimes (\Omega^p)^\vee \otimes L)$, and
+$K_X \otimes (\Omega^p)^\vee \cong \Omega^{n-p}$ by the perfect pairing $\Omega^p \otimes \Omega^{n-p} \to K_X$. Here $(n - p) + (n - q) > n$.
+\end{proof}
+
+\begin{corollary}[Kodaira vanishing]\label{kodaira:corollary-kodaira-vanishing}
+If $L$ is positive, then $H^q(X, K_X \otimes L) = 0$ and $H^{n-q}(X, L^{-1}) = 0$ for $q > 0$. More generally, if $N \otimes K_X^{-1}$ is
+positive, then $H^q(X, N) = 0$ for $q > 0$.
+\end{corollary}
+
+\begin{proof}
+Take $p = n$ in Theorem~\ref{kodaira:theorem-kodaira-nakano}, and $p = 0$ in the second statement. For the last claim write
+$N = K_X \otimes (N \otimes K_X^{-1})$.
+\end{proof}
+
+\begin{example}\label{kodaira:example-projective-space}
+On $\CC\PP^n$, $K = \mathcal{O}(-n-1)$ (Proposition~\ref{holomorphic-bundles:proposition-adjunction}). Since $\mathcal{O}(k) \otimes K^{-1} = \mathcal{O}(k + n + 1)$
+is positive for $k > -n - 1$, we get $H^q(\CC\PP^n, \mathcal{O}(k)) = 0$ for $q > 0$ and $k > -n - 1$. By the second statement of
+Theorem~\ref{kodaira:theorem-kodaira-nakano} with $p = 0$, also $H^q(\CC\PP^n, \mathcal{O}(k)) = 0$ for $q < n$ and $k < 0$. Together,
+$H^q(\CC\PP^n, \mathcal{O}(k)) = 0$ for $0 < q < n$ and all $k$, which is part of Bott's formula (Remark~\ref{dolbeault:remark-vanishing}).
+\end{example}
+
+\begin{corollary}\label{kodaira:corollary-curves-vanishing}
+Let $X$ be a compact Riemann surface of genus $g$ and $L$ a line bundle with $\deg L > 2g - 2$. Then $H^1(X, L) = 0$.
+\end{corollary}
+
+\begin{proof}
+$\deg(L \otimes K_X^{-1}) = \deg L - (2g - 2) > 0$, so $L \otimes K_X^{-1}$ is positive (Proposition~\ref{kodaira:proposition-positive-curves}), and
+Corollary~\ref{kodaira:corollary-kodaira-vanishing} applies.
+\end{proof}
+
+\begin{counterexample}\label{kodaira:counterexample-trivial-bundle}
+Positivity cannot be dropped. For $L = \mathcal{O}_X$, $H^n(X, K_X) \cong H^0(X, \mathcal{O}_X)^\vee \cong \CC$ by Serre duality. On an
+elliptic curve $E$, where $K_E \cong \mathcal{O}_E$ (because $dz$ is a nowhere vanishing holomorphic $1$-form), every line bundle of degree $0$
+has degree $\leq 2g - 2 = 0$, and $H^1(E, \mathcal{O}_E) \cong \CC$ is nonzero, so Corollary~\ref{kodaira:corollary-curves-vanishing} is sharp.
+\end{counterexample}
+
+\begin{remark}\label{kodaira:remark-vanishing-generalisations}
+The Kodaira vanishing theorem has been generalised to nef and big line bundles (Kawamata--Viehweg) \cite[Chapter 4]{lazarsfeld-positivity-1},
+and it has an algebraic proof by reduction to positive characteristic \cite{deligne-illusie}. However, it fails in characteristic $p$ in
+general \cite{raynaud-1978}. Its dual form
+$H^q(X, L^{-1}) = 0$ for $q < n$ will be used for coherent cohomology in Chapter~\ref{coherent-cohomology}.
+\end{remark}
+
+\section{The Lefschetz hyperplane theorem}\label{kodaira:section-lefschetz-hyperplane}
+
+\begin{theorem}[Lefschetz hyperplane theorem]\label{kodaira:theorem-lefschetz-hyperplane}
+Let $X$ be a compact K\"ahler manifold of dimension $n$ and $Y \subseteq X$ a smooth hypersurface such that $\mathcal{O}(Y)$ is positive, for
+instance a smooth hyperplane section of a projective manifold. Then the restriction map
+\[
+H^k(X; \QQ) \to H^k(Y; \QQ)
+\]
+is an isomorphism for $k < n - 1$ and injective for $k = n - 1$. The same holds for $H^q(X, \Omega^p_X) \to H^q(Y, \Omega^p_Y)$ with
+$k = p + q$.
+\end{theorem}
+
+\begin{proof}
+Write $\mathcal{O}(-Y)$ for the ideal sheaf of $Y$. It is locally generated by a defining function, since in local coordinates with
+$Y = \{z_1 = 0\}$ a holomorphic function $g$ vanishing on $Y$ satisfies $g(z) = z_1\int_0^1\partial_1g(tz_1, z_2, \ldots, z_n)\,dt$. Holomorphic
+functions on $Y$ extend locally (constantly in $z_1$), so $\mathcal{O}_X \to i_*\mathcal{O}_Y$ is onto. Tensoring $0 \to \mathcal{O}_X(-Y) \to \mathcal{O}_X \to i_*\mathcal{O}_Y \to 0$ with $\Omega^p_X$ gives
+\[
+0 \to \Omega^p_X \otimes \mathcal{O}(-Y) \to \Omega^p_X \to i_*(\Omega^p_X|_Y) \to 0 .
+\]
+By Theorem~\ref{kodaira:theorem-kodaira-nakano}, $H^q(X, \Omega^p_X \otimes \mathcal{O}(-Y)) = 0$ for $p + q < n$. Since
+$H^q(X, i_*\mathcal{G}) = H^q(Y, \mathcal{G})$ (Example~\ref{sheaf-cohomology:example-leray}), the long exact sequence shows that
+$H^q(X, \Omega^p_X) \to H^q(Y, \Omega^p_X|_Y)$ is an isomorphism for $p + q < n - 1$ and injective for $p + q = n - 1$.
+
+Next, the conormal sequence $0 \to \mathcal{O}(-Y)|_Y \to \Omega^1_X|_Y \to \Omega^1_Y \to 0$
+(Proposition~\ref{holomorphic-bundles:proposition-adjunction}) gives, by taking exterior powers of a sequence of bundles whose first term is a
+line bundle, the exact sequence
+\[
+0 \to \Omega^{p-1}_Y \otimes \mathcal{O}(-Y)|_Y \to \Omega^p_X|_Y \to \Omega^p_Y \to 0 .
+\]
+Locally this is the decomposition $\Lambda^p(A \oplus C) = \Lambda^p C \oplus (A \otimes \Lambda^{p-1}C)$ for a line $A$. Now $\mathcal{O}(Y)|_Y$ is
+positive on $Y$ (Proposition~\ref{kodaira:proposition-positivity-properties}(1)) and $\dim Y = n - 1$. So
+$H^q(Y, \Omega^{p-1}_Y \otimes \mathcal{O}(-Y)|_Y) = 0$ for $(p - 1) + q < n - 1$, and hence
+$H^q(Y, \Omega^p_X|_Y) \to H^q(Y, \Omega^p_Y)$ is an isomorphism for $p + q < n - 1$ and injective for $p + q = n - 1$. Composing proves the
+statement for $H^q(\Omega^p)$.
+
+The composite $H^q(X, \Omega^p_X) \to H^q(Y, \Omega^p_Y)$ is induced by restriction of forms. Under the canonical isomorphisms
+$H^q(\Omega^p) \cong H^{p,q}$ of Corollary~\ref{hodge-decomposition:corollary-canonical-dolbeault} on $X$ and on $Y$ (which is K\"ahler by
+Corollary~\ref{kahler:corollary-projective-kahler}), it corresponds to the restriction $H^{p,q}(X) \to H^{p,q}(Y)$, since restriction of forms
+preserves types and commutes with $d$ and $\bar\partial$. By the Hodge decomposition, $H^k(X; \CC) \to H^k(Y; \CC)$ is therefore an isomorphism
+for $k < n - 1$ and injective for $k = n - 1$. This map is the complexification of the restriction on rational cohomology, and rank is
+unchanged by extension of scalars.
+\end{proof}
+
+\begin{remark}\label{kodaira:remark-lefschetz-integral}
+Lefschetz's theorem holds with integer coefficients and for homotopy groups: $\pi_k(X, Y) = 0$ for $k \leq n - 1$, so that
+$H_k(Y; \ZZ) \to H_k(X; \ZZ)$ is an isomorphism for $k < n - 1$ and surjective for $k = n - 1$. The proof uses Morse theory on the affine
+variety $X \setminus Y$, which has the homotopy type of a CW complex of dimension $\leq n$ (Andreotti--Frankel) \cite[Section 7]{milnor-morse}.
+\end{remark}
+
+\begin{example}\label{kodaira:example-hypersurfaces}
+Let $Y \subseteq \CC\PP^{n+1}$ be a smooth hypersurface of degree $d$, so $\dim Y = n$ and $\mathcal{O}(Y) = \mathcal{O}(d)$ is positive. Then
+$H^k(Y; \QQ) \cong H^k(\CC\PP^{n+1}; \QQ)$ for $k < n$, so $b_k(Y) = b_k(\CC\PP^n)$ for $k < n$, and by Poincar\'e duality also for $k > n$.
+Only the middle cohomology $H^n(Y)$ is interesting. For a surface in $\CC\PP^3$, $b_1 = 0$,
+which was used for the quartic surface in Example~\ref{hodge-decomposition:example-quartic}. Also $h^{0,q}(Y) = 0$ for $0 < q < n$, that is,
+$H^q(Y, \mathcal{O}_Y) = 0$ in that range.
+\end{example}
+
+\section{The Kodaira embedding theorem}\label{kodaira:section-embedding}
+
+\begin{definition}\label{kodaira:definition-very-ample}
+Let $L$ be a holomorphic line bundle on $X$. A point $x$ is a \emph{base point} of $L$ if every $s \in H^0(X, L)$ vanishes at $x$. If $L$ has no
+base points, the map $\varphi_L \colon X \to \PP(H^0(X, L)^\vee)$ sends $x$ to the hyperplane of sections vanishing at $x$. After choosing a
+basis $s_0, \ldots, s_N$ of $H^0(X, L)$, it is $x \mapsto [s_0(x) : \cdots : s_N(x)]$, computed in any local frame, so it is holomorphic. $L$ is
+\emph{very ample} if $\varphi_L$ is an embedding, and \emph{ample} if some power $L^k$ is very ample. A compact complex manifold is
+\emph{projective} if it admits a holomorphic embedding into some $\CC\PP^N$.
+\end{definition}
+
+\begin{lemma}\label{kodaira:lemma-embedding-criterion}
+Let $L$ have no base points. Then $\varphi_L$ is an embedding if and only if
+\begin{enumerate}
+\item for all $x \neq y$ there is $s \in H^0(X, L)$ with $s(x) = 0 \neq s(y)$ (\emph{sections separate points}), and
+\item for all $x$, the differentials at $x$ of the sections vanishing at $x$ span $L_x \otimes T^{*}_xX$ (\emph{sections separate tangents}),
+where $T^*_xX$ is the holomorphic cotangent space.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+$\varphi_L(x) = \varphi_L(y)$ exactly when the hyperplanes of sections vanishing at $x$ and at $y$ coincide, so (1) is injectivity. Near $x$, choose
+the basis with $s_0(x) \neq 0$. Then $\varphi_L$ is given in affine coordinates by the functions $s_j/s_0$. A section $s$ vanishing at $x$ satisfies
+$d_xs = d_x(s/s_0) \otimes s_0(x)$. Every $s$ is congruent modulo multiples of $s_0$ to a section vanishing at $x$, and $d_x(s_0/s_0) = 0$, so the
+differentials $d_x(s/s_0)$ of sections vanishing at $x$ span the same space as the $d_x(s_j/s_0)$. Thus (2) says that the differentials of the
+affine coordinates of $\varphi_L$ at $x$ span $T^*_xX$, that is, $\varphi_L$ is an immersion at $x$. An
+injective immersion of a compact manifold is an embedding (Proposition~\ref{smooth-manifolds:proposition-local-forms}), and the image of a
+holomorphic embedding is a complex submanifold by the holomorphic implicit function theorem.
+\end{proof}
+
+\begin{lemma}\label{kodaira:lemma-blowup-facts}
+Let $n \geq 2$, let $x_1, \ldots, x_s \in X$ be distinct points, and let $\sigma \colon \tilde X \to X$ be the blow-up at these points, with
+exceptional divisors $E_i = \sigma^{-1}(x_i) \cong \PP(T_{x_i}X)$ and $E = \sum_iE_i$ (Definition~\ref{complex-manifolds:definition-blowup}). Then:
+\begin{enumerate}
+\item $\mathcal{O}(E_i)|_{E_i} \cong \mathcal{O}_{E_i}(-1)$;
+\item $K_{\tilde X} \cong \sigma^*K_X \otimes \mathcal{O}((n-1)E)$;
+\item for every line bundle $M$ on $X$, $\sigma^* \colon H^0(X, M) \to H^0(\tilde X, \sigma^*M)$ is bijective, and it maps the sections vanishing
+at all $x_i$ onto $H^0(\tilde X, \sigma^*M(-E))$;
+\item if $s \in H^0(X, M)$ vanishes at $x_i$, the restriction of $\sigma^*s \in H^0(\tilde X, \sigma^*M(-E))$ to $E_i$ is the section of
+$M_{x_i} \otimes \mathcal{O}_{E_i}(1)$ given by the linear form $d_{x_i}s \in M_{x_i} \otimes T^*_{x_i}X$ on $T_{x_i}X$;
+\item over a coordinate ball $B$ around $x_i$, $\sigma^{-1}(B) = \{(z, \ell) \in B \times \CC\PP^{n-1} : z \in \ell\}$ (with $x_i$ at the origin),
+$\mathcal{O}(E_i)$ restricts to the tautological bundle $\mathrm{pr}_2^*\mathcal{O}(-1)$, and the canonical section $s_{E_i}$ of $\mathcal{O}(E_i)$
+corresponds to the tautological section $(z, \ell) \mapsto z$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(5) The tautological section vanishes exactly on $E_i$, to first order: in the chart $(u, w_2, \ldots, w_n) \mapsto (u, uw_2, \ldots, uw_n)$ it is $u$
+times the frame $(1, w_2, \ldots, w_n)$. So it is a section with divisor $E_i$, and the bundle is $\mathcal{O}(E_i)$ by
+Proposition~\ref{holomorphic-bundles:proposition-divisor-line-bundle}. (1) Restrict (5) to $E_i = \{0\} \times \CC\PP^{n-1}$; alternatively
+combine Proposition~\ref{complex-manifolds:proposition-blowup} with adjunction. (2) In the chart above,
+$\sigma^*(dz_1 \wedge \cdots \wedge dz_n) = u^{n-1}du \wedge dw_2 \wedge \cdots \wedge dw_n$. So the pullback of a local frame of $K_X$ is a section of
+$K_{\tilde X}$ vanishing to order $n - 1$ along $E$, which gives $\sigma^*K_X \cong K_{\tilde X} \otimes \mathcal{O}(-(n-1)E)$. (3) $\sigma^*$ is
+injective since $\sigma$ is surjective. Given $\tilde s \in H^0(\tilde X, \sigma^*M)$, its restriction to $\tilde X \setminus E \cong X \setminus \{x_i\}$ is
+a section of $M$ there. In a local frame near $x_i$ it is a holomorphic function on a punctured ball, which extends by Hartogs' theorem
+(Theorem~\ref{several-complex-variables:theorem-hartogs}), since $n \geq 2$. The extension $s$ satisfies $\sigma^*s = \tilde s$ off $E$, hence
+everywhere. A section $\sigma^*s$ vanishes on $E$ if and only if $s(x_i) = 0$ for all $i$, and a section vanishing on the smooth hypersurface $E$ is
+divisible by $s_E$. (4) Write $s = f\,e$ in a local frame with $f(0) = 0$, $f = \sum_ja_jz_j + O(|z|^2)$. In the chart,
+$f \circ \sigma = u(a_1 + \sum_{j \geq 2}a_jw_j) + O(u^2)$, and dividing by the local equation $u$ of $E$ and setting $u = 0$ gives
+$a_1 + \sum_{j \geq 2}a_jw_j$. This is the linear form $\sum_ja_jz_j$ written in the trivialisation of $\mathcal{O}_{\CC\PP^{n-1}}(1)$ over
+$\{z_1 \neq 0\}$ by $z_1$, and $\sum a_jz_j = d_0f$.
+\end{proof}
+
+\begin{lemma}\label{kodaira:lemma-positivity-blowup}
+Let $L$ be positive, $M$ any line bundle and $l \geq 1$ an integer. Let $s \in \{1, 2\}$ and $(x_1, \ldots, x_s)$ a tuple of distinct points. There
+are a neighbourhood $W$ of $(x_1, \ldots, x_s)$ in $X^s$ and $k_0$ such that, for every tuple $(x'_1, \ldots, x'_s) \in W$ of distinct points and
+every $k \geq k_0$, the line bundle $\sigma^*(L^k \otimes M) \otimes \mathcal{O}(-lE)$ on the blow-up $\tilde X$ at $x'_1, \ldots, x'_s$ is positive.
+For $n = 1$ the same holds with $\tilde X = X$ and $E = \sum_ix'_i$.
+\end{lemma}
+
+\begin{proof}
+Choose disjoint coordinate charts around the $x_i$ containing closed coordinate balls $\bar B(x_i, 3\varepsilon)$, and let $W$ be the set of tuples with
+$x'_i \in B(x_i, \varepsilon)$. Let $\omega_0$ be the Euclidean K\"ahler form of the chart. Fix metrics on $L$ and $M$. By compactness there are
+constants $c, C > 0$ with $\omega_{h_M} \geq -C\omega_{h_L}$ on $X$ and $\omega_{h_L} \geq c\,\omega_0$ on each $\bar B(x_i, 3\varepsilon)$.
+
+Fix $x'_i$ and write $w = z - z(x'_i)$. Put a metric on $\mathcal{O}(E_i)$ as follows. On $\sigma^{-1}(B(x'_i, \varepsilon))$ it is the metric $h_1$
+induced by (5) of Lemma~\ref{kodaira:lemma-blowup-facts} from the tautological bundle, so that $|s_{E_i}|_{h_1} = |w|$. On $\tilde X \setminus E_i$ it is
+the metric $h_2$ with $|s_{E_i}|_{h_2} = 1$. Glue them by $h = \rho(|w|)h_1 + (1 - \rho(|w|))h_2$, where $\rho$ is a smooth cut-off equal to $1$ on
+$[0, \varepsilon/2]$ and to $0$ on $[3\varepsilon/4, \infty)$. Let $\theta_i$ be the curvature form of the dual metric on $\mathcal{O}(-E_i)$. Then:
+\begin{itemize}
+\item on $\sigma^{-1}(B(x'_i, \varepsilon/2))$, $\theta_i = \mathrm{pr}_2^*\omega_{FS} \geq 0$, since $\mathcal{O}(-E_i) \cong \mathrm{pr}_2^*\mathcal{O}(1)$ with the
+Fubini--Study metric (Proposition~\ref{kahler:proposition-fubini-study});
+\item outside $\sigma^{-1}(B(x'_i, 3\varepsilon/4))$, $\theta_i = 0$, since $s_{E_i}$ is a holomorphic frame of constant norm;
+\item on the region $\varepsilon/2 \leq |w| \leq 3\varepsilon/4$, $\theta_i = \frac{i}{2\pi}\partial\bar\partial\log\left(\rho(|w|)|w|^2 + 1 - \rho(|w|)\right)$, a
+smooth form whose coefficients depend continuously on $(z, x'_i)$. So $\theta_i \geq -C_1\omega_0$ there, with $C_1$ independent of
+$x'_i \in B(x_i, \varepsilon)$.
+\end{itemize}
+The curvature form of $N_k = \sigma^*(L^k \otimes M) \otimes \mathcal{O}(-lE)$ with the product metric is
+$\Theta_k = \sigma^*(k\omega_{h_L} + \omega_{h_M}) + l\sum_i\theta_i \geq (k - C)\sigma^*\omega_{h_L} + l\sum_i\theta_i$. Let $k > C + lC_1/c$. Away from the
+balls $B(x'_i, 3\varepsilon/4)$, $\sigma$ is biholomorphic and $\Theta_k \geq (k - C)\sigma^*\omega_{h_L} > 0$. On the annuli,
+$\Theta_k \geq ((k - C)c - lC_1)\sigma^*\omega_0 > 0$. On $\sigma^{-1}(B(x'_i, \varepsilon/2))$,
+\[
+\Theta_k \geq (k - C)c\,\sigma^*\omega_0 + l\,\mathrm{pr}_2^*\omega_{FS} \geq \min((k - C)c, l)\left(\mathrm{pr}_1^*\omega_0 + \mathrm{pr}_2^*\omega_{FS}\right)\big|_{\sigma^{-1}(B)} ,
+\]
+which is positive, because $\sigma^{-1}(B)$ is a complex submanifold of $B \times \CC\PP^{n-1}$, on which $\mathrm{pr}_1^*\omega_0 + \mathrm{pr}_2^*\omega_{FS}$ is a
+K\"ahler form (Corollary~\ref{kahler:corollary-projective-kahler}). For $n = 1$ the same construction works with $\CC\PP^0$ a point: $h_1$ is the
+flat metric, $\mathrm{pr}_2^*\omega_{FS} = 0$, and $\sigma^*\omega_0 = \omega_0$ is positive. So $k_0 = \lfloor C + lC_1/c\rfloor + 1$ works for all
+tuples in $W$.
+\end{proof}
+
+\begin{theorem}[Kodaira embedding theorem]\label{kodaira:theorem-embedding}
+Let $X$ be a compact complex manifold and $L$ a positive line bundle. Then there is $k_0$ such that $L^k$ is very ample for all $k \geq k_0$. In
+particular $X$ is projective.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: vanishing on blow-ups.} Let $\sigma \colon \tilde X \to X$ be the blow-up at distinct points $x'_1, \ldots, x'_s$ ($s \in \{1, 2\}$) and
+$m \in \{1, 2\}$. By Lemma~\ref{kodaira:lemma-blowup-facts}(2),
+\[
+\sigma^*L^k \otimes \mathcal{O}(-mE) = K_{\tilde X} \otimes N_k, \qquad N_k = \sigma^*(L^k \otimes K_X^{-1}) \otimes \mathcal{O}(-(m + n - 1)E),
+\]
+also for $n = 1$. By Lemma~\ref{kodaira:lemma-positivity-blowup} with $M = K_X^{-1}$ and $l = m + n - 1 \geq 1$, every tuple has a neighbourhood $W$
+and a $k_0$ such that $N_k$ is positive for $k \geq k_0$ and tuples in $W$. Then $H^1(\tilde X, \sigma^*L^k \otimes \mathcal{O}(-mE)) = 0$ by
+Corollary~\ref{kodaira:corollary-kodaira-vanishing}, applied on the compact complex manifold $\tilde X$.
+
+\emph{Step 2: consequences.} For $s = 1$, $m = 1$, the exact sequence $0 \to \sigma^*L^k(-E) \to \sigma^*L^k \to \sigma^*L^k|_E \to 0$ and Step 1
+show that $H^0(\tilde X, \sigma^*L^k) \to H^0(E, \sigma^*L^k|_E)$ is onto. The bundle $\sigma^*L^k|_E = E \times L^k_{x'}$ is trivial and $E$ is
+compact and connected, so the target is $L^k_{x'}$. By Lemma~\ref{kodaira:lemma-blowup-facts}(3), $H^0(X, L^k) \to L^k_{x'}$ is onto, so $x'$ is not a
+base point. For $s = 1$, $m = 2$, the sequence $0 \to \sigma^*L^k(-2E) \to \sigma^*L^k(-E) \to \sigma^*L^k(-E)|_E \to 0$ shows that
+$H^0(\tilde X, \sigma^*L^k(-E))$ maps onto $H^0(E, L^k_{x'} \otimes \mathcal{O}_E(1))$, using Lemma~\ref{kodaira:lemma-blowup-facts}(1). This space
+contains every $v \otimes \lambda$ with $\lambda$ a linear form on $T_{x'}X$. By parts (3) and (4) of that lemma, the differentials of the sections of
+$L^k$ vanishing at $x'$ span $L^k_{x'} \otimes T^*_{x'}X$. For $s = 2$, $m = 1$, similarly
+$H^0(X, L^k) \to L^k_{x'_1} \oplus L^k_{x'_2}$ is onto, so some section vanishes at $x'_1$ but not at $x'_2$. For $n = 1$ the same arguments work
+with $E$ a sum of points and $\mathcal{O}(-x')|_{x'} \cong T^*_{x'}X$.
+
+\emph{Step 3: uniformity.} Cover the compact space $X$ by finitely many neighbourhoods $W$ from Step 1 for $s = 1$, $m \in \{1, 2\}$. We get $k_1$
+such that for all $k \geq k_1$, $L^k$ has no base points and its sections separate tangents at every point. So $\varphi_{L^k}$ is an immersion for all
+$k \geq k_1$. An immersion is locally injective (Proposition~\ref{smooth-manifolds:proposition-local-forms}), so every $x$ has a neighbourhood $V_x$ on
+which $\varphi_{L^{k_1}}$ is injective. Then $U = \bigcup_xV_x \times V_x$ is a neighbourhood of the diagonal in $X \times X$ such that
+$\varphi_{L^{k_1}}(x) \neq \varphi_{L^{k_1}}(y)$ for $(x, y) \in U$ with $x \neq y$. The complement $K = (X \times X) \setminus U$ is compact and
+consists of pairs of distinct points, so finitely many neighbourhoods from Step 1 with $s = 2$ cover it. This gives $k_2$ such that sections of $L^k$
+separate the points of every pair in $K$ for $k \geq k_2$.
+
+\emph{Step 4: conclusion.} Let $k \geq \max(k_2, 2k_1)$. For $(x, y) \in U$ with $x \neq y$, pick $s \in H^0(X, L^{k_1})$ with $s(x) = 0 \neq s(y)$ and
+$t \in H^0(X, L^{k - k_1})$ with $t(y) \neq 0$, which exists because $k - k_1 \geq k_1$. Then $st \in H^0(X, L^k)$ vanishes at $x$ but not at $y$.
+Together with Step 3, sections of $L^k$ separate all pairs of points and all tangents, so $L^k$ is very ample by
+Lemma~\ref{kodaira:lemma-embedding-criterion}.
+\end{proof}
+
+\begin{corollary}\label{kodaira:corollary-projective-criterion}
+For a compact complex manifold $X$ the following are equivalent:
+\begin{enumerate}
+\item $X$ is projective;
+\item $X$ carries a positive line bundle;
+\item $X$ is a Hodge manifold;
+\item $X$ is K\"ahler and some K\"ahler class lies in the image of $H^2(X; \QQ) \to H^2(X; \RR)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) $\Rightarrow$ (2): restrict $\mathcal{O}(1)$ (Proposition~\ref{kodaira:proposition-positivity-properties}(1)). (2) $\Leftrightarrow$ (3) is
+Corollary~\ref{kodaira:corollary-positive-iff-hodge}, and (2) $\Rightarrow$ (1) is Theorem~\ref{kodaira:theorem-embedding}. (3) $\Rightarrow$ (4) is
+clear. For (4) $\Rightarrow$ (3), if $[\omega]$ is rational, then $N[\omega]$ is integral for a suitable integer $N > 0$, and $N\omega$ is a Hodge metric.
+\end{proof}
+
+\begin{corollary}\label{kodaira:corollary-h20-zero}
+A compact K\"ahler manifold with $H^0(X, \Omega^2_X) = 0$ is projective. In particular every compact Riemann surface is projective, and so is
+every compact K\"ahler surface with $p_g = 0$.
+\end{corollary}
+
+\begin{proof}
+By the Hodge decomposition, $H^{2,0} = 0 = H^{0,2}$, so $H^2(X; \RR) = H^{1,1}(X) \cap H^2(X; \RR)$ consists of classes of closed real $(1,1)$-forms.
+The K\"ahler classes form an open subset of this space: if $\omega$ is K\"ahler and $\beta_1, \ldots, \beta_m$ are closed real $(1,1)$-forms whose
+classes form a basis, then $\omega + \sum_ic_i\beta_i$ is positive for all small $|c_i|$, by compactness. The image of $H^2(X; \QQ)$ is dense in
+$H^2(X; \RR) = H^2(X; \QQ) \otimes \RR$. So there is a rational K\"ahler class, and Corollary~\ref{kodaira:corollary-projective-criterion} applies.
+For a Riemann surface $\Omega^2 = 0$.
+\end{proof}
+
+\begin{remark}\label{kodaira:remark-chow-tori}
+By Chow's theorem (Chapter~\ref{gaga}), a closed complex submanifold of $\CC\PP^N$ is the zero set of homogeneous polynomials, so projective
+manifolds are smooth projective varieties. Not every compact K\"ahler manifold is projective: a complex torus $\CC^n/\Lambda$ is projective if
+and only if $\Lambda$ satisfies the Riemann bilinear relations, that is, some integral class of type $(1,1)$ is positive, which fails for a
+general lattice when $n \geq 2$ (Chapter~\ref{abelian-varieties}, \cite{birkenhake-lange}).
+\end{remark}
+
+\section{Exercises}\label{kodaira:section-exercises}
+
+\begin{exercise}\label{kodaira:exercise-curves-very-ample}
+Let $X$ be a compact Riemann surface of genus $g$ and $L$ a line bundle of degree $\geq 2g + 1$. Show directly, without blowing up, that $L$ is very
+ample.
+\end{exercise}
+
+\begin{solution}
+For points $x, y$, possibly equal, $\deg L(-x-y) = \deg L - 2 > 2g - 2$, so $H^1(X, L(-x-y)) = 0$ by Corollary~\ref{kodaira:corollary-curves-vanishing}.
+The exact sequence $0 \to L(-x-y) \to L \to L \otimes (\mathcal{O}_X/\mathcal{O}(-x-y)) \to 0$ shows that $H^0(X, L)$ maps onto the two-dimensional
+space $L_x \oplus L_y$ if $x \neq y$, and onto the $1$-jets $L_x \otimes \mathcal{O}_{X,x}/\mathfrak{m}_x^2$ if $x = y$. This is separation of points and tangents.
+Base-point freeness follows similarly from $H^1(X, L(-x)) = 0$.
+\end{solution}
+
+\begin{exercise}\label{kodaira:exercise-serre-vanishing}
+Let $L$ be a positive line bundle on $X$ and $E$ a holomorphic vector bundle of the form $M_1 \oplus \cdots \oplus M_r$ with $M_i$ line bundles. Show
+that $H^q(X, E \otimes L^k) = 0$ for all $q > 0$ and $k \gg 0$. (The statement holds for all holomorphic vector bundles, and even for coherent
+sheaves; this is Serre's vanishing theorem, see Chapter~\ref{coherent-cohomology}.)
+\end{exercise}
+
+\begin{solution}
+Cohomology commutes with finite direct sums. For each $i$, $M_i \otimes L^k \otimes K_X^{-1}$ is positive for $k \gg 0$ by
+Proposition~\ref{kodaira:proposition-positivity-properties}(3), so $H^q(X, M_i \otimes L^k) = 0$ for $q > 0$ by
+Corollary~\ref{kodaira:corollary-kodaira-vanishing}.
+\end{solution}
+
+\begin{exercise}\label{kodaira:exercise-hypersurface-hodge}
+Let $Y \subseteq \CC\PP^3$ be a smooth surface of degree $d$. Show that $q(Y) = 0$ and $p_g(Y) = h^0(\CC\PP^3, \mathcal{O}(d - 4))$, using
+Theorem~\ref{kodaira:theorem-lefschetz-hyperplane}, adjunction and Kodaira vanishing.
+\end{exercise}
+
+\begin{solution}
+$q = h^{0,1}(Y) = h^{0,1}(\CC\PP^3) = 0$ by the Lefschetz theorem for $H^1(\mathcal{O})$ ($p + q = 1 < 2$). By adjunction
+$K_Y = \mathcal{O}(d - 4)|_Y$, so $p_g = h^0(Y, \mathcal{O}_Y(d - 4))$. The sequence $0 \to \mathcal{O}(-4) \to \mathcal{O}(d - 4) \to \mathcal{O}_Y(d - 4) \to 0$ on
+$\CC\PP^3$ and $H^1(\CC\PP^3, \mathcal{O}(-4)) = 0$ (Example~\ref{kodaira:example-projective-space}) give $H^0(\CC\PP^3, \mathcal{O}(d-4)) \to H^0(Y, \mathcal{O}_Y(d-4))$
+onto. It is injective because $H^0(\CC\PP^3, \mathcal{O}(-4)) = 0$. For $d = 4$ this gives $p_g = 1$.
+\end{solution}
+
+\begin{exercise}\label{kodaira:exercise-not-hodge}
+Show that a compact complex manifold with $H^2(X; \QQ) = 0$ and $\dim X \geq 1$ is never projective, and deduce again that the Hopf surface is not
+projective.
+\end{exercise}
+
+\begin{solution}
+A projective manifold has an integral K\"ahler class $[\omega]$, and $[\omega] \neq 0$ (Proposition~\ref{kahler:proposition-kahler-class-powers}). The Hopf
+surface has $H^2 = 0$ (Counterexample~\ref{kahler:counterexample-hopf}).
+\end{solution}
+
+\begin{exercise}\label{kodaira:exercise-products-blowups}
+Show that products of projective manifolds and blow-ups of projective manifolds at finitely many points are projective.
+\end{exercise}
+
+\begin{solution}
+If $\omega_1$, $\omega_2$ are Hodge metrics on $X_1$, $X_2$, then $\mathrm{pr}_1^*\omega_1 + \mathrm{pr}_2^*\omega_2$ is a Hodge metric on $X_1 \times X_2$, so
+Corollary~\ref{kodaira:corollary-projective-criterion} applies. For a blow-up at one or two points, Lemma~\ref{kodaira:lemma-positivity-blowup} with
+$M = \mathcal{O}_X$ and $l = 1$ shows that $\sigma^*L^k \otimes \mathcal{O}(-E)$ is positive for $k \gg 0$ when $L$ is positive. The same proof works for
+any finite number of points, with pairwise disjoint balls.
+\end{solution}
+
+\begin{exercise}\label{kodaira:exercise-negative-degree}
+Let $X$ be a compact Riemann surface and $L$ a line bundle with $\deg L < 0$. Deduce $H^0(X, L) = 0$ from
+Theorem~\ref{kodaira:theorem-kodaira-nakano}, and show directly from Theorem~\ref{kodaira:theorem-nakano-identity} that a holomorphic section $s$ of
+a Hermitian line bundle whose curvature satisfies $iF < 0$ everywhere vanishes.
+\end{exercise}
+
+\begin{solution}
+$L^{-1}$ is positive (Proposition~\ref{kodaira:proposition-positive-curves}), and the second statement of Theorem~\ref{kodaira:theorem-kodaira-nakano}
+with $p = q = 0 < 1 = n$ gives $H^0(X, L) = 0$. Directly: on sections ($p = q = 0$), $\Lambda s = 0$, so $[iF, \Lambda]s = -\Lambda(iF\,s) = -f\,s$, where
+$iF = f\,\omega$ with $f < 0$ (for $n = 1$, $\Lambda\omega = 1$). Since $\Delta''s = \bar\partial^*\bar\partial s = 0$ for holomorphic $s$,
+$0 = \|D's\|^2 + \|D'^*s\|^2 - \int_Xf|s|^2\,\omega$, and all terms are non-negative, so $s = 0$.
+\end{solution}

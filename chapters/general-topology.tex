@@ -1,0 +1,1089 @@
+\chapter{General Topology}\label{general-topology}
+\chapterstatus{complete}
+
+\section{Introduction}\label{general-topology:section-introduction}
+
+Topology axiomatises the notions of nearness and continuity. This chapter develops the point-set topology used in
+the rest of the project: metric spaces for analysis, quotients and compactness for geometry, and paracompactness and
+partitions of unity, which are the basic tool for passing from local to global constructions on manifolds. The main
+theorems are Tychonoff's theorem (Theorem~\ref{general-topology:theorem-tychonoff}), the characterisation of compact
+metric spaces (Theorem~\ref{general-topology:theorem-compact-metric}), the Baire category theorem
+(Theorem~\ref{general-topology:theorem-baire}), Urysohn's lemma and the Tietze extension theorem
+(Theorems~\ref{general-topology:theorem-urysohn} and~\ref{general-topology:theorem-tietze}), and the existence of
+partitions of unity (Theorem~\ref{general-topology:theorem-partitions-of-unity}). Standard references are
+\cite{munkres-topology} and \cite{engelking-general-topology}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{sets} (Set Theory), Chapter~\ref{number-systems} (Number Systems),
+Chapter~\ref{categories} (Categories) and Chapter~\ref{linear-algebra} (Linear Algebra).
+
+\section{Topological spaces and continuous maps}\label{general-topology:section-spaces}
+
+\begin{definition}\label{general-topology:definition-topology}
+A \emph{topology} on a set $X$ is a set $\mathcal{T}$ of subsets of $X$, called \emph{open} sets, such that $\emptyset$ and $X$
+are open, every union of open sets is open, and every finite intersection of open sets is open. A \emph{topological space}
+is a set with a topology. A subset $C \subseteq X$ is \emph{closed} if $X \setminus C$ is open. A \emph{neighbourhood} of a point
+$x$ (or of a subset $A$) is a set containing an open set containing $x$ (or $A$). If $\mathcal{T} \subseteq \mathcal{T}'$ are two
+topologies on $X$, then $\mathcal{T}'$ is \emph{finer} and $\mathcal{T}$ is \emph{coarser}.
+\end{definition}
+
+\begin{example}\label{general-topology:example-topologies}
+\begin{enumerate}
+\item The \emph{discrete} topology $\mathcal{P}(X)$ and the \emph{indiscrete} topology $\{\emptyset, X\}$ are the finest and the
+coarsest topologies on $X$.
+\item The \emph{cofinite} topology on $X$ consists of $\emptyset$ and the complements of finite sets. The \emph{cocountable} topology
+consists of $\emptyset$ and the complements of countable sets.
+\item The \emph{Sierpi\'nski space} is $\{0, 1\}$ with open sets $\emptyset$, $\{1\}$ and $\{0, 1\}$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{general-topology:definition-closure}
+Let $A$ be a subset of a space $X$. Its \emph{interior} $\operatorname{int} A$ is the union of all open sets contained in $A$, its
+\emph{closure} $\overline{A}$ is the intersection of all closed sets containing $A$, and its \emph{boundary} is
+$\partial A = \overline{A} \setminus \operatorname{int} A$. The set $A$ is \emph{dense} if $\overline{A} = X$.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-closure}
+Let $A, B \subseteq X$. Then $\operatorname{int} A$ is the largest open subset of $A$ and $\overline{A}$ is the smallest closed set
+containing $A$; $X \setminus \overline{A} = \operatorname{int}(X \setminus A)$; a point $x$ lies in $\overline{A}$ if and only if every open
+set containing $x$ meets $A$; and $\overline{A \cup B} = \overline{A} \cup \overline{B}$.
+\end{lemma}
+
+\begin{proof}
+The first two statements hold because unions of open sets are open and intersections of closed sets are closed. Taking
+complements turns closed sets containing $A$ into open sets contained in $X \setminus A$, which gives the third statement. So
+$x \notin \overline{A}$ if and only if $x$ lies in an open set contained in $X \setminus A$, that is, an open set not meeting $A$. Finally
+$\overline{A} \cup \overline{B}$ is closed and contains $A \cup B$, so it contains $\overline{A \cup B}$; the reverse inclusion holds as
+$\overline{A}, \overline{B} \subseteq \overline{A \cup B}$.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-basis}
+A \emph{basis} of a topology $\mathcal{T}$ is a subset $\mathcal{B} \subseteq \mathcal{T}$ such that every open set is a union of members
+of $\mathcal{B}$. A \emph{subbasis} is a subset $\mathcal{S} \subseteq \mathcal{T}$ such that the finite intersections of members of $\mathcal{S}$
+(the empty intersection being $X$) form a basis.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-basis}
+\begin{enumerate}
+\item A set $\mathcal{B}$ of subsets of $X$ is a basis of some topology if and only if $\mathcal{B}$ covers $X$ and for all
+$B_1, B_2 \in \mathcal{B}$ and $x \in B_1 \cap B_2$ there is $B_3 \in \mathcal{B}$ with $x \in B_3 \subseteq B_1 \cap B_2$. This topology
+consists of the unions of members of $\mathcal{B}$.
+\item For every set $\mathcal{S}$ of subsets of $X$ there is a coarsest topology containing $\mathcal{S}$, the topology \emph{generated}
+by $\mathcal{S}$, and $\mathcal{S}$ is a subbasis of it.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) If $\mathcal{B}$ is a basis, then $X$ is a union of members and $B_1 \cap B_2$ is open, hence a union of members, which gives the two
+conditions. Conversely, let $\mathcal{T}$ be the set of unions of members of $\mathcal{B}$. It contains $\emptyset$ (the empty union) and $X$
+(first condition), and is closed under unions. If $U = \bigcup_i B_i$ and $V = \bigcup_j B'_j$, then $U \cap V = \bigcup_{i,j} B_i \cap B'_j$,
+and each $B_i \cap B'_j$ is a union of members of $\mathcal{B}$ by the second condition. By induction $\mathcal{T}$ is closed under finite
+intersections.
+
+(2) The set $\mathcal{B}$ of finite intersections of members of $\mathcal{S}$ contains $X$ and is closed under finite intersections, so it
+satisfies the conditions of (1). The topology it generates contains $\mathcal{S}$, and every topology containing $\mathcal{S}$ contains
+$\mathcal{B}$ and all unions of its members.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-continuous}
+A map $f \colon X \to Y$ between spaces is \emph{continuous} if $f^{-1}(V)$ is open for every open $V \subseteq Y$. It is a
+\emph{homeomorphism} if it is bijective and both $f$ and $f^{-1}$ are continuous. It is \emph{open} (\emph{closed}) if it maps open
+(closed) sets to open (closed) sets.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-continuity}
+For a map $f \colon X \to Y$ the following are equivalent:
+\begin{enumerate}
+\item $f$ is continuous;
+\item $f^{-1}(C)$ is closed for every closed $C \subseteq Y$;
+\item $f(\overline{A}) \subseteq \overline{f(A)}$ for every $A \subseteq X$;
+\item for every $x \in X$ and every open $V \ni f(x)$ there is an open $U \ni x$ with $f(U) \subseteq V$;
+\item $f^{-1}(S)$ is open for every member $S$ of a subbasis of $Y$.
+\end{enumerate}
+Compositions of continuous maps are continuous, so spaces and continuous maps form a category $\cat{Top}$.
+\end{proposition}
+
+\begin{proof}
+(1)$\Leftrightarrow$(2) since $f^{-1}(Y \setminus C) = X \setminus f^{-1}(C)$. (2)$\Rightarrow$(3): $f^{-1}(\overline{f(A)})$ is closed and contains
+$A$, hence contains $\overline{A}$. (3)$\Rightarrow$(2): if $C$ is closed and $A = f^{-1}(C)$, then $f(\overline{A}) \subseteq \overline{f(A)} \subseteq C$,
+so $\overline{A} \subseteq A$. (1)$\Rightarrow$(4): take $U = f^{-1}(V)$. (4)$\Rightarrow$(1): $f^{-1}(V)$ is the union of the open sets $U$ provided
+by (4) for its points. (1)$\Leftrightarrow$(5): preimages commute with unions and intersections, and every open set is a union of finite
+intersections of members of the subbasis. The last statement follows from $(g \circ f)^{-1}(W) = f^{-1}(g^{-1}(W))$.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-bijection-not-homeomorphism}
+A continuous bijection need not be a homeomorphism: the identity map from $X$ with the discrete topology to $X$ with the
+indiscrete topology is continuous, and its inverse is not if $X$ has at least two points.
+\end{counterexample}
+
+\begin{definition}\label{general-topology:definition-hausdorff}
+A space $X$ is \emph{Hausdorff} if any two distinct points have disjoint open neighbourhoods. A sequence $(x_n)_{n \in \NN}$ in $X$
+\emph{converges} to $x$ if every open set containing $x$ contains $x_n$ for all sufficiently large $n$.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-hausdorff-limits}
+In a Hausdorff space every sequence has at most one limit, and every finite subset is closed.
+\end{lemma}
+
+\begin{proof}
+If $x \neq y$ are limits, take disjoint open $U \ni x$ and $V \ni y$; for large $n$, $x_n \in U \cap V$, a contradiction. For a point $x$, every
+$y \neq x$ has an open neighbourhood not containing $x$, so $X \setminus \{x\}$ is open; finite unions of closed sets are closed.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-cofinite-not-hausdorff}
+The cofinite topology on an infinite set $X$ is not Hausdorff: two nonempty open sets have finite complements, and the union of
+these complements is not all of $X$, so they meet. In this space every injective sequence converges to every point, since an open set
+misses only finitely many of its terms.
+\end{counterexample}
+
+\section{Metric spaces}\label{general-topology:section-metric}
+
+\begin{definition}\label{general-topology:definition-metric}
+A \emph{metric} on a set $X$ is a map $d \colon X \times X \to \RR$ such that for all $x, y, z \in X$: $d(x, y) \geq 0$ with equality if and
+only if $x = y$; $d(x, y) = d(y, x)$; and $d(x, z) \leq d(x, y) + d(y, z)$ (the \emph{triangle inequality}). The \emph{open ball} of radius
+$r > 0$ around $x$ is $B(x, r) = \{y : d(x, y) < r\}$. A set $A$ is \emph{bounded} if $A \subseteq B(x, r)$ for some $x$ and $r$.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-metric-topology}
+The open balls of a metric space form a basis of a topology, the \emph{metric topology}: $U$ is open if and only if for every $x \in U$
+there is $\varepsilon > 0$ with $B(x, \varepsilon) \subseteq U$. It is Hausdorff. A space whose topology is the metric topology of some metric
+is \emph{metrisable}.
+\end{lemma}
+
+\begin{proof}
+If $x \in B(a, r) \cap B(b, s)$, let $\varepsilon = \min(r - d(a, x), s - d(b, x)) > 0$. By the triangle inequality $B(x, \varepsilon)$ is contained in
+both balls, so Lemma~\ref{general-topology:lemma-basis} applies; the description of open sets follows. If $x \neq y$ and
+$r = d(x, y)$, the balls $B(x, r/2)$ and $B(y, r/2)$ are disjoint by the triangle inequality.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-normed-space}
+Let $\mathbb{K} = \RR$ or $\CC$, with absolute value $|\cdot|$. A \emph{norm} on a $\mathbb{K}$-vector space $V$ is a map
+$\| \cdot \| \colon V \to \RR$ such that $\|v\| = 0$ only for $v = 0$, $\|\lambda v\| = |\lambda|\,\|v\|$ and $\|v + w\| \leq \|v\| + \|w\|$
+(so $\|v\| \geq 0$). Then $d(v, w) = \|v - w\|$ is a metric. On $\mathbb{K}^n$ we use the \emph{Euclidean norm}
+$\|x\|_2 = (\sum_i |x_i|^2)^{1/2}$, the norm of the standard inner product (a norm by
+Proposition~\ref{linear-algebra:proposition-cauchy-schwarz}), and the \emph{maximum norm} $\|x\|_\infty = \max_i |x_i|$.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-equivalent-metrics}
+If $d, d'$ are metrics on $X$ with $c\,d \leq d' \leq C\,d$ for constants $c, C > 0$, they define the same topology. In particular, since
+$\|x\|_\infty \leq \|x\|_2 \leq \sqrt{n}\,\|x\|_\infty$, the two norms on $\mathbb{K}^n$ define the same topology. On $\RR$ it is the topology with
+basis the open intervals, the \emph{standard topology}.
+\end{lemma}
+
+\begin{proof}
+$B_{d'}(x, c\varepsilon) \subseteq B_d(x, \varepsilon)$ and $B_d(x, \varepsilon/C) \subseteq B_{d'}(x, \varepsilon)$, so the criterion of
+Lemma~\ref{general-topology:lemma-metric-topology} gives the same open sets. The norm inequalities hold because
+$\max_i |x_i|^2 \leq \sum_i |x_i|^2 \leq n \max_i |x_i|^2$. On $\RR$ the balls are the bounded open intervals $(a - r, a + r)$, and every bounded
+open interval is such a ball.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-metric-continuity}
+Let $f \colon X \to Y$ be a map of metric spaces.
+\begin{enumerate}
+\item $f$ is continuous if and only if for every $x$ and $\varepsilon > 0$ there is $\delta > 0$ with $d(f(x), f(x')) < \varepsilon$ whenever
+$d(x, x') < \delta$.
+\item For $A \subseteq X$, a point $x$ lies in $\overline{A}$ if and only if it is the limit of a sequence in $A$.
+\item $f$ is continuous if and only if $f(x_n) \to f(x)$ whenever $x_n \to x$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is Proposition~\ref{general-topology:proposition-continuity}(4) with balls. (2) If $x \in \overline{A}$, choose $a_n \in A \cap B(x, 1/(n+1))$ by
+Lemma~\ref{general-topology:lemma-closure}; then $a_n \to x$. Conversely, if $a_n \to x$, every open set containing $x$ contains some $a_n$.
+(3) If $f$ is continuous and $x_n \to x$, every open $V \ni f(x)$ has open preimage containing $x$, hence containing $x_n$ for large $n$.
+If $f$ is not continuous at $x$, there are $\varepsilon > 0$ and $x_n$ with $d(x, x_n) < 1/(n+1)$ and $d(f(x), f(x_n)) \geq \varepsilon$; then
+$x_n \to x$ but $f(x_n) \not\to f(x)$.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-sequences-insufficient}
+In general spaces sequences do not detect closures. Give $\RR$ the cocountable topology. If $x_n \to x$, the set $C = \{x_n : x_n \neq x\}$ is
+countable, so $\RR \setminus C$ is an open set containing $x$, and hence $x_n = x$ for large $n$. Now $A = \RR \setminus \{0\}$ is uncountable
+(Proposition~\ref{number-systems:proposition-reals-cardinality}), so the only closed set containing it is $\RR$ and $0 \in \overline{A}$; but no
+sequence in $A$ converges to $0$. (Nets or filters replace sequences in general \cite[Chapter 1]{engelking-general-topology}.)
+\end{counterexample}
+
+\begin{proposition}\label{general-topology:proposition-arithmetic-continuous}
+Addition and multiplication $\mathbb{K} \times \mathbb{K} \to \mathbb{K}$ are continuous for the metric $\|(x, y) - (a, b)\|_\infty$, and so is
+$x \mapsto 1/x$ on $\mathbb{K} \setminus \{0\}$.
+\end{proposition}
+
+\begin{proof}
+We have $|(x + y) - (a + b)| \leq |x - a| + |y - b|$, and if $|x - a|, |y - b| < \delta \leq 1$ then
+$|xy - ab| \leq |x|\,|y - b| + |b|\,|x - a| \leq (|a| + 1 + |b|)\delta$. If $|x - a| < |a|/2$ then $|x| > |a|/2$ and
+$|1/x - 1/a| = |x - a|/(|x|\,|a|) \leq 2|x - a|/|a|^2$. In each case the criterion of
+Proposition~\ref{general-topology:proposition-metric-continuity}(1) holds.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-uniform-limit}
+Let $X$ be a space, $(Y, d)$ a metric space and $f_n \colon X \to Y$ continuous maps converging \emph{uniformly} to $f$: for every
+$\varepsilon > 0$ there is $N$ with $d(f_n(x), f(x)) < \varepsilon$ for all $n \geq N$ and all $x$. Then $f$ is continuous.
+\end{proposition}
+
+\begin{proof}
+Let $x \in X$ and $\varepsilon > 0$. Choose $n$ with $d(f_n, f) < \varepsilon/3$ everywhere, and an open $U \ni x$ with
+$d(f_n(x), f_n(x')) < \varepsilon/3$ for $x' \in U$. Then $d(f(x), f(x')) < \varepsilon$ for $x' \in U$, and
+Proposition~\ref{general-topology:proposition-continuity}(4) applies.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-countability}
+A space is \emph{first countable} if every point $x$ has countably many open neighbourhoods such that every open set containing $x$
+contains one of them; \emph{second countable} if its topology has a countable basis; \emph{separable} if it has a countable dense subset;
+and \emph{Lindel\"of} if every open cover has a countable subcover.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-countability}
+Metric spaces are first countable. Second countable spaces are separable and Lindel\"of. A separable metric space is second countable.
+In particular $\RR^n$ and $\CC^n$ are second countable.
+\end{proposition}
+
+\begin{proof}
+The balls $B(x, 1/(n+1))$ show first countability. Let $\mathcal{B}$ be a countable basis. Choosing a point in each nonempty member gives a
+countable set meeting every nonempty open set, hence dense by Lemma~\ref{general-topology:lemma-closure}. Given an open cover $\mathcal{U}$,
+for each $B \in \mathcal{B}$ contained in some member of $\mathcal{U}$ choose one such member $U_B$; these countably many sets cover, because a
+point $x \in U \in \mathcal{U}$ lies in some $B \in \mathcal{B}$ with $B \subseteq U$, and then $x \in U_B$. If $D$ is a countable dense subset of a metric space,
+the balls $B(q, 1/n)$ with $q \in D$, $n \geq 1$ form a basis: if $x \in U$ with $U$ open, choose $n$ with $B(x, 2/n) \subseteq U$ and $q \in D \cap B(x, 1/n)$;
+then $x \in B(q, 1/n) \subseteq B(x, 2/n) \subseteq U$. Finally $\QQ^n$ and $(\QQ + i\QQ)^n$ are countable
+(Corollary~\ref{sets:corollary-omega-squared}) and dense, by density of $\QQ$ in $\RR$
+(Proposition~\ref{number-systems:proposition-complete-archimedean}).
+\end{proof}
+
+\begin{counterexample}[The Sorgenfrey line]\label{general-topology:counterexample-sorgenfrey}
+The half-open intervals $[a, b)$ form a basis of a topology on $\RR$, the \emph{Sorgenfrey line}, finer than the Euclidean topology. It is first countable (the sets $[x, x + 1/n)$ form a neighbourhood basis at $x$) and separable
+($\QQ$ is dense, as every $[a, b)$ contains a rational number). It is not second countable: if $\mathcal{B}$ is a basis, then for each $x$ some $B_x \in \mathcal{B}$ satisfies $x \in B_x \subseteq [x, x + 1)$, so $x = \min B_x$, and $x \mapsto B_x$ is
+injective from the uncountable set $\RR$ to $\mathcal{B}$. By Proposition~\ref{general-topology:proposition-countability}, it is therefore not metrisable: separable metric spaces are second countable.
+\end{counterexample}
+
+\section{Subspaces, products and quotients}\label{general-topology:section-constructions}
+
+\begin{definition}\label{general-topology:definition-initial-final}
+Let $X$ be a set. For a family of maps $f_i \colon X \to X_i$ into spaces, the \emph{initial topology} is the topology generated by the sets
+$f_i^{-1}(U)$, $U \subseteq X_i$ open. For a family of maps $g_i \colon X_i \to X$ from spaces, the \emph{final topology} consists of the sets
+$U \subseteq X$ such that $g_i^{-1}(U)$ is open for all $i$.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-initial-final}
+With the initial topology, a map $h \colon Z \to X$ from a space is continuous if and only if every $f_i \circ h$ is continuous. With the
+final topology, a map $h \colon X \to Z$ to a space is continuous if and only if every $h \circ g_i$ is continuous.
+\end{proposition}
+
+\begin{proof}
+The final topology is a topology because preimages commute with unions and intersections. For the initial topology, $h^{-1}(f_i^{-1}(U)) = (f_i h)^{-1}(U)$
+and Proposition~\ref{general-topology:proposition-continuity}(5) give the claim. For the final topology, $h^{-1}(W)$ is open if and only if
+$g_i^{-1}(h^{-1}(W)) = (hg_i)^{-1}(W)$ is open for all $i$.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-subspace}
+The \emph{subspace topology} on $A \subseteq X$ is the initial topology for the inclusion: its open sets are the sets $U \cap A$ with $U$ open in
+$X$, and its closed sets are the sets $C \cap A$ with $C$ closed in $X$. An \emph{embedding} is a map $f \colon X \to Y$ that is a homeomorphism
+onto $f(X)$ with the subspace topology.
+\end{definition}
+
+\begin{lemma}[Pasting lemma]\label{general-topology:lemma-pasting}
+Let $f \colon X \to Y$ be a map and suppose $X = \bigcup_i A_i$, where either all $A_i$ are open, or there are finitely many $A_i$ and all are closed.
+If every restriction $f|_{A_i}$ is continuous, then $f$ is continuous.
+\end{lemma}
+
+\begin{proof}
+For $V \subseteq Y$ we have $f^{-1}(V) = \bigcup_i (f|_{A_i})^{-1}(V)$. In the first case, for $V$ open each $(f|_{A_i})^{-1}(V)$ is open in the open
+set $A_i$, hence open in $X$. In the second case, for $V$ closed each term is closed in the closed set $A_i$, hence closed in $X$, and a finite union of
+closed sets is closed.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-product}
+The \emph{product} of a family of spaces $(X_i)_{i \in I}$ is the set $\prod_i X_i$ with the initial topology for the projections
+$p_i \colon \prod_j X_j \to X_i$, the \emph{product topology}. The \emph{disjoint union} $\coprod_i X_i$ carries the final topology for the
+inclusions.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-product}
+\begin{enumerate}
+\item The sets $\prod_i U_i$, with $U_i \subseteq X_i$ open and $U_i = X_i$ for all but finitely many $i$, form a basis of the product topology.
+\item $\prod_i X_i$ with the projections is a product in $\cat{Top}$, and $\coprod_i X_i$ with the inclusions is a coproduct, in the sense of
+Example~\ref{categories:example-limits}.
+\item The projections are open maps. A product of Hausdorff spaces is Hausdorff, and so is a subspace of a Hausdorff space.
+\item The product topology on $\mathbb{K}^n = \mathbb{K} \times \cdots \times \mathbb{K}$ is the topology of the Euclidean norm.
+\item For every space $X$, sums and products of continuous functions $X \to \mathbb{K}$ are continuous, and so is $1/g$ for continuous
+$g \colon X \to \mathbb{K} \setminus \{0\}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) These sets are the finite intersections of the subbasic sets $p_i^{-1}(U_i)$. (2) By
+Proposition~\ref{general-topology:proposition-initial-final}, a map $h \colon Z \to \prod_i X_i$ is continuous if and only if all its components $p_i h$
+are; so continuous families $Z \to X_i$ correspond bijectively to continuous maps $Z \to \prod_i X_i$. Dually for disjoint unions. (3) The image of a
+basic open set under $p_i$ is $U_i$, and images commute with unions. If $x \neq y$ in the product, then $x_i \neq y_i$ for some $i$, and preimages under
+$p_i$ of disjoint neighbourhoods of $x_i, y_i$ separate $x, y$. For subspaces intersect with $A$. (4) By
+Lemma~\ref{general-topology:lemma-equivalent-metrics} we may use $\|\cdot\|_\infty$, whose balls are products of balls; and every basic open set
+$\prod_i U_i$ contains, around each of its points $a$, the $\|\cdot\|_\infty$-ball of radius $\min_i \varepsilon_i$, where $B(a_i, \varepsilon_i) \subseteq U_i$.
+(5) If $f, g$ are continuous, then $(f, g) \colon X \to \mathbb{K}^2$ is continuous by (2), and $\mathbb{K}^2$ carries the metric topology of
+$\|\cdot\|_\infty$ by (4); compose with the maps of Proposition~\ref{general-topology:proposition-arithmetic-continuous}.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-box-topology}
+The \emph{box topology} on $\prod_i X_i$, with basis all products of open sets, is finer than the product topology and does not have the universal
+property of the product. The map $\RR \to \RR^{\NN}$, $t \mapsto (t, t, \ldots)$, has continuous components, but the preimage of the box
+$\prod_{n} (-1/(n+1), 1/(n+1))$ is $\{0\}$, which is not open.
+\end{counterexample}
+
+\begin{definition}\label{general-topology:definition-quotient}
+A surjective map $q \colon X \to Y$ from a space is a \emph{quotient map} if $Y$ carries the final topology: $V \subseteq Y$ is open if and only if
+$q^{-1}(V)$ is open. For an equivalence relation $\sim$ on $X$, the \emph{quotient space} $X/{\sim}$ is the set of classes with the final topology for
+the projection. For $A \subseteq X$, $X/A$ denotes the quotient identifying all points of $A$ with each other.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-quotient}
+Let $q \colon X \to Y$ be a quotient map. A map $h \colon Y \to Z$ is continuous if and only if $h \circ q$ is continuous; hence every continuous map
+$g \colon X \to Z$ that is constant on the fibres of $q$ factors uniquely as $g = \bar{g} \circ q$ with $\bar{g}$ continuous. A continuous surjection that
+is open or closed is a quotient map.
+\end{proposition}
+
+\begin{proof}
+The first statement is Proposition~\ref{general-topology:proposition-initial-final}; $\bar{g}$ is well defined as a map of sets because $g$ is
+constant on fibres. If $f \colon X \to Y$ is a continuous open surjection and $f^{-1}(V)$ is open, then $V = f(f^{-1}(V))$ is open. The closed case
+is the same with closed sets, using $f^{-1}(Y \setminus V) = X \setminus f^{-1}(V)$.
+\end{proof}
+
+\begin{example}\label{general-topology:example-quotients}
+\begin{enumerate}
+\item The \emph{unit sphere} $S^n = \{x \in \RR^{n+1} : \|x\|_2 = 1\}$ is a subspace of $\RR^{n+1}$, and the \emph{real projective space} is
+$\RR\PP^n = S^n/(x \sim -x)$.
+\item The \emph{cylinder} and the \emph{torus} are the quotients of $[0,1]^2$ identifying $(0, t) \sim (1, t)$, respectively identifying in addition
+$(s, 0) \sim (s, 1)$. The \emph{cone} on $X$ is $(X \times [0,1])/(X \times \{1\})$.
+\item Two spaces $X$, $Y$ with a subspace $A \subseteq X$ and a continuous map $f \colon A \to Y$ give the \emph{adjunction space}
+$X \cup_f Y = (X \sqcup Y)/(a \sim f(a))$, the space obtained by \emph{attaching} $X$ to $Y$ along $f$. These are the building blocks of CW
+complexes (Chapter~\ref{homotopy}).
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{general-topology:counterexample-bad-quotients}
+Quotients of Hausdorff spaces need not be Hausdorff.
+\begin{enumerate}
+\item Let $x \sim y$ on $\RR$ if $x - y \in \QQ$. If $V \subseteq \RR/{\sim}$ is open and nonempty, then $W = q^{-1}(V)$ is a nonempty open set with
+$W + \QQ = W$. Its complement is closed and invariant under translation by $\QQ$; if it contained a point $y$ it would contain the dense set $y + \QQ$,
+hence be all of $\RR$. So $W = \RR$, and the quotient is indiscrete.
+\item (The line with two origins.) Let $X = (\RR \times \{1, 2\})/{\sim}$ with $(t, 1) \sim (t, 2)$ for $t \neq 0$. The projection $q$ is open, since for
+$U$ open $q^{-1}(q(U))$ is the union of $U$ and the swap of $U \setminus (\{0\} \times \{1, 2\})$; so $q$ restricts to homeomorphisms of each copy of $\RR$
+onto open subsets, and every point of $X$ has an open neighbourhood homeomorphic to $\RR$. But the two origins $q(0, 1)$ and $q(0, 2)$ have no
+disjoint neighbourhoods, since preimages of neighbourhoods contain $(-\varepsilon, \varepsilon) \times \{1\}$ and $(-\varepsilon, \varepsilon) \times \{2\}$,
+whose images share $q(\varepsilon/2, 1)$.
+\end{enumerate}
+\end{counterexample}
+
+\section{Connectedness}\label{general-topology:section-connectedness}
+
+\begin{definition}\label{general-topology:definition-connected}
+A space $X$ is \emph{connected} if it is nonempty and is not the union of two disjoint nonempty open subsets. A subset is connected if it is
+connected as a subspace.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-connected-criteria}
+For a nonempty space $X$ the following are equivalent: $X$ is connected; the only subsets of $X$ that are both open and closed are $\emptyset$ and
+$X$; every continuous map from $X$ to the discrete space $\{0, 1\}$ is constant.
+\end{lemma}
+
+\begin{proof}
+A decomposition $X = U \sqcup V$ into disjoint open sets is the same as a set $U = X \setminus V$ that is open and closed, and the same as the
+continuous map equal to $0$ on $U$ and $1$ on $V$.
+\end{proof}
+
+\begin{theorem}\label{general-topology:theorem-intervals-connected}
+A nonempty subset $I \subseteq \RR$ is connected if and only if it is an interval: $a, b \in I$ and $a < c < b$ imply $c \in I$.
+\end{theorem}
+
+\begin{proof}
+If $I$ is not an interval, with $a, b \in I$, $a < c < b$ and $c \notin I$, then $I \cap (-\infty, c)$ and $I \cap (c, \infty)$ disconnect $I$.
+
+Let $I$ be an interval and suppose $I = U \sqcup V$ with $U, V$ nonempty and open in $I$. Choose $a \in U$ and $b \in V$; exchanging the roles of $U$ and
+$V$ if necessary, $a < b$. Then $[a, b] \subseteq I$. Let $s = \sup(U \cap [a, b])$, which exists by completeness of $\RR$, and $s \in [a, b] \subseteq I$.
+Suppose $s \in U$. Then $s < b$, and since $U$ is open in $I$ there is $\varepsilon > 0$ with $(s - \varepsilon, s + \varepsilon) \cap I \subseteq U$; the
+points of $(s, \min(s + \varepsilon, b))$ lie in $U \cap [a, b]$, contradicting the definition of $s$. Suppose $s \in V$. Then $s > a$, and there is
+$\varepsilon > 0$ with $(s - \varepsilon, s + \varepsilon) \cap I \subseteq V$. So $U \cap [a, b] \subseteq [a, \max(a, s - \varepsilon)]$, whose supremum is
+smaller than $s$, again a contradiction.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-connected-operations}
+\begin{enumerate}
+\item Continuous images of connected spaces are connected.
+\item If $(A_i)$ is a family of connected subsets of $X$ with a common point, then $\bigcup_i A_i$ is connected.
+\item If $A \subseteq X$ is connected and $A \subseteq B \subseteq \overline{A}$, then $B$ is connected.
+\item A product of connected spaces is connected.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We use Lemma~\ref{general-topology:lemma-connected-criteria}. (1) If $f \colon X \to Y$ is surjective and $h \colon Y \to \{0,1\}$ is continuous, then
+$hf$ is constant, so $h$ is. (2) A continuous map $\bigcup_i A_i \to \{0, 1\}$ is constant on each $A_i$, with the value it takes at the common point.
+(3) A continuous $h \colon B \to \{0,1\}$ is constant, say equal to $c$, on $A$; then $h^{-1}(c)$ is closed in $B$ and contains $A$, so it contains the
+closure of $A$ in $B$, which is $B$. (4) For two factors, fix $(x_0, y_0)$. For each $y$, the set $(X \times \{y\}) \cup (\{x_0\} \times Y)$ is connected by
+(2), both pieces being homeomorphic to $X$ or $Y$ and sharing $(x_0, y)$. All these sets contain $(x_0, y_0)$ and cover $X \times Y$, so (2) applies; by
+induction finite products are connected. For an arbitrary product, fix a point $a$ and let $D$ be the set of points that differ from $a$ in finitely
+many coordinates. For each finite set $F$ of indices, the points agreeing with $a$ outside $F$ form a subspace homeomorphic to $\prod_{i \in F} X_i$,
+which is connected and contains $a$; so $D$ is connected by (2). Every basic open set of
+Proposition~\ref{general-topology:proposition-product}(1) meets $D$, so $D$ is dense and the product is connected by (3).
+\end{proof}
+
+\begin{corollary}[Intermediate value theorem]\label{general-topology:corollary-ivt}
+If $X$ is connected and $f \colon X \to \RR$ is continuous, then $f(X)$ is an interval. In particular, a continuous $f \colon [a, b] \to \RR$ takes every
+value between $f(a)$ and $f(b)$.
+\end{corollary}
+
+\begin{proof}
+Combine Theorem~\ref{general-topology:theorem-intervals-connected} and Proposition~\ref{general-topology:proposition-connected-operations}(1).
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-components}
+The \emph{connected component} of $x \in X$ is the union of all connected subsets containing $x$. A \emph{path} from $x$ to $y$ is a continuous map
+$\gamma \colon [0, 1] \to X$ with $\gamma(0) = x$ and $\gamma(1) = y$. The space $X$ is \emph{path-connected} if it is nonempty and any two points are
+joined by a path. It is \emph{locally connected} (\emph{locally path-connected}) if every neighbourhood of every point contains a connected
+(path-connected) open neighbourhood.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-components}
+\begin{enumerate}
+\item The connected components are connected, closed, and partition $X$. In a locally connected space they are open.
+\item Path-connected spaces are connected. The relation ``joined by a path'' is an equivalence relation, whose classes are the \emph{path components}.
+\item In a locally path-connected space the path components are open, and they coincide with the connected components. In particular, a connected
+open subset of $\RR^n$ is path-connected.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The component $C$ of $x$ is connected by Proposition~\ref{general-topology:proposition-connected-operations}(2), and $\overline{C}$ is connected by
+(3), so $C = \overline{C}$. If two components meet, their union is connected, so they are equal. If $X$ is locally connected and $y \in C$, a connected
+open neighbourhood of $y$ lies in the component of $y$, which is $C$.
+
+(2) If $\gamma$ is a path from $x$ to $y$ and $\delta$ one from $y$ to $z$, then $\gamma * \delta$, equal to $\gamma(2t)$ on $[0, 1/2]$ and to
+$\delta(2t - 1)$ on $[1/2, 1]$, is continuous by the pasting lemma (Lemma~\ref{general-topology:lemma-pasting}); reversing $t \mapsto 1 - t$ gives
+symmetry. If $X$ is path-connected and $x \in X$, then $X$ is the union of the images of paths starting at $x$, which are connected by
+Theorem~\ref{general-topology:theorem-intervals-connected} and Proposition~\ref{general-topology:proposition-connected-operations}(1), so $X$ is
+connected by Proposition~\ref{general-topology:proposition-connected-operations}(2).
+
+(3) If $y$ lies in the path component $P$ and $U$ is a path-connected open neighbourhood of $y$, then $U \subseteq P$; so path components are open. Each
+connected component $C$ is the disjoint union of the path components it contains, which are open; by connectedness there is only one. Open balls in
+$\RR^n$ are path-connected (use straight segments), so open subsets of $\RR^n$ are locally path-connected.
+\end{proof}
+
+\begin{counterexample}[Topologist's sine curve]\label{general-topology:counterexample-sine-curve}
+Connected does not imply path-connected. Let $f \colon (0, 1] \to [-1, 1]$ be the continuous function with $f(1/n) = (-1)^n$ for $n \geq 1$ that is
+affine on each interval $[1/(n+1), 1/n]$ (continuous by the pasting lemma applied on the open sets $(1/(n+1), 1/(n-1))$ and $(1/2, 1]$); classically one
+uses $\sin(1/x)$ instead. Let $G$ be its graph and $T = G \cup (\{0\} \times [-1, 1]) \subseteq \RR^2$. The map $x \mapsto (x, f(x))$ is continuous, so $G$ is
+connected. By Corollary~\ref{general-topology:corollary-ivt}, for each $y \in [-1, 1]$ and $n$ there is $x_n \in [1/(n+1), 1/n]$ with $f(x_n) = y$, and
+$(x_n, y) \to (0, y)$; so $G \subseteq T \subseteq \overline{G}$ and $T$ is connected.
+
+Suppose $\gamma = (x, y) \colon [0, 1] \to T$ is a path from $(0, 0)$ to $(1, f(1))$. The set of $t$ with $x(t) = 0$ is closed and contains $0$; let $t_0$ be
+its largest element, so $t_0 < 1$ and $\gamma(t) \in G$ for $t > t_0$. By continuity there is $\delta > 0$ with $t_0 + \delta \leq 1$ and
+$|y(t) - y(t_0)| < 1/2$ for $t \in [t_0, t_0 + \delta]$. Let $u = x(t_0 + \delta) > 0$ and choose $n$ with $1/n < u$. By
+Corollary~\ref{general-topology:corollary-ivt} there are $t, t' \in (t_0, t_0 + \delta]$ with $x(t) = 1/n$ and $x(t') = 1/(n+1)$, so $y(t)$ and $y(t')$
+are $1$ and $-1$ in some order; both lie within $1/2$ of $y(t_0)$, which is impossible.
+\end{counterexample}
+
+\begin{example}\label{general-topology:example-r-not-r2}
+$\RR$ and $\RR^2$ are not homeomorphic. A homeomorphism would restrict to a homeomorphism between $\RR \setminus \{a\}$, which is not connected, and
+$\RR^2 \setminus \{b\}$, which is path-connected: two points $p, q \neq b$ are joined by the segment $[p, q]$ if it avoids $b$, and otherwise by the segments
+$[p, r]$ and $[r, q]$ for any $r$ not on the line through $p$ and $q$. Similarly $S^n$ is path-connected for $n \geq 1$, being a continuous image of
+$\RR^{n+1} \setminus \{0\}$ under $x \mapsto x/\|x\|_2$.
+\end{example}
+
+\section{Compactness}\label{general-topology:section-compactness}
+
+\begin{definition}\label{general-topology:definition-compact}
+An \emph{open cover} of a space $X$ is a family of open sets whose union is $X$. The space $X$ is \emph{compact} if every open cover has a finite
+subcover. A subset is compact if it is compact as a subspace, that is, if every cover of it by open subsets of $X$ has a finite subcover.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-compact-basic}
+\begin{enumerate}
+\item A closed subset of a compact space is compact.
+\item In a Hausdorff space, disjoint compact subsets $K$, $L$ have disjoint open neighbourhoods; in particular compact subsets are closed.
+\item Continuous images of compact spaces are compact.
+\item A continuous map from a compact space to a Hausdorff space is closed. If it is bijective, it is a homeomorphism; if it is injective, it is an
+embedding; if it is surjective, it is a quotient map.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) An open cover of $C \subseteq X$, together with $X \setminus C$, covers $X$. (2) First let $L = \{y\}$. For each $k \in K$ choose disjoint open
+$U_k \ni k$ and $V_k \ni y$; finitely many $U_{k_1}, \ldots, U_{k_m}$ cover $K$, and $U = \bigcup_j U_{k_j}$ and $V = \bigcap_j V_{k_j}$ are disjoint.
+For general $L$, do this for each $y \in L$ and use a finite subcover of $L$ by the resulting $V$'s in the same way. (3) Preimages of an open cover of
+$f(X)$ cover $X$. (4) Closed subsets are compact by (1), their images are compact by (3), hence closed by (2). A closed continuous bijection has continuous
+inverse; for an injection apply this to $X \to f(X)$, and for a surjection use Proposition~\ref{general-topology:proposition-quotient}.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-finite-products}
+If $X$ and $Y$ are compact, so is $X \times Y$.
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal{W}$ be an open cover of $X \times Y$ and fix $y \in Y$. For each $x \in X$ choose $W_x \in \mathcal{W}$ containing $(x, y)$ and a basic open
+set $U_x \times V_x$ with $(x, y) \in U_x \times V_x \subseteq W_x$. Finitely many $U_{x_1}, \ldots, U_{x_m}$ cover $X$; let $N_y = \bigcap_j V_{x_j}$. Then
+$X \times N_y$ is covered by $W_{x_1}, \ldots, W_{x_m}$ (the \emph{tube lemma}). Finitely many $N_y$ cover $Y$, and the corresponding finitely many
+members of $\mathcal{W}$ cover $X \times Y$.
+\end{proof}
+
+\begin{theorem}[Heine--Borel]\label{general-topology:theorem-heine-borel}
+Every closed bounded interval $[a, b] \subseteq \RR$ is compact. A subset of $\RR^n$ (or $\CC^n = \RR^{2n}$) is compact if and only if it is closed
+and bounded.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{U}$ be an open cover of $[a, b]$ and $S$ the set of $t \in [a, b]$ such that $[a, t]$ is covered by finitely many members. Then $a \in S$;
+let $s = \sup S$. Choose $U \in \mathcal{U}$ with $s \in U$ and $\varepsilon > 0$ with $(s - \varepsilon, s + \varepsilon) \cap [a, b] \subseteq U$, and
+$t \in S$ with $t > s - \varepsilon$. A finite cover of $[a, t]$ together with $U$ covers $[a, t']$ for
+$t' = \min(s + \varepsilon/2, b)$, so $t' \in S$ and $t' \leq s$. Hence $s = b \in S$.
+
+For the second statement, a compact
+$K \subseteq \RR^n$ is closed by Proposition~\ref{general-topology:proposition-compact-basic}(2) and bounded, since the balls $B(0, m)$ cover it. A
+closed bounded set lies in some cube $[-R, R]^n$, which is compact as a finite product of compact spaces by Proposition~\ref{general-topology:proposition-finite-products} (with the product topology, which is the
+Euclidean one by Proposition~\ref{general-topology:proposition-product}(4)); so it is compact by
+Proposition~\ref{general-topology:proposition-compact-basic}(1).
+\end{proof}
+
+\begin{corollary}[Extreme value theorem]\label{general-topology:corollary-extreme-value}
+A continuous function $f \colon X \to \RR$ on a nonempty compact space attains a maximum and a minimum.
+\end{corollary}
+
+\begin{proof}
+$f(X)$ is compact, hence closed and bounded, so it contains its supremum and infimum, which lie in its closure.
+\end{proof}
+
+\begin{lemma}[Alexander subbasis lemma]\label{general-topology:lemma-alexander}
+Let $\mathcal{S}$ be a subbasis of the topology of $X$. If every cover of $X$ by members of $\mathcal{S}$ has a finite subcover, then $X$ is compact.
+\end{lemma}
+
+\begin{proof}
+Suppose not. The set of open covers of $X$ without finite subcover is nonempty, and ordered by inclusion every chain in it has an upper bound, its
+union: a finite subcover of the union would lie in one member of the chain. By Zorn's lemma (Theorem~\ref{sets:theorem-choice-equivalents}) there is a
+maximal open cover $\mathcal{C}$ without finite subcover. The members of $\mathcal{C} \cap \mathcal{S}$ do not cover $X$, since otherwise they would have
+a finite subcover. Choose $x$ not covered by them and $U \in \mathcal{C}$ with $x \in U$. There are $S_1, \ldots, S_k \in \mathcal{S}$ with
+$x \in S_1 \cap \cdots \cap S_k \subseteq U$, and no $S_j$ belongs to $\mathcal{C}$. By maximality, $\mathcal{C} \cup \{S_j\}$ has a finite subcover, so
+$X = S_j \cup Y_j$ with $Y_j$ a finite union of members of $\mathcal{C}$. Then $X = (S_1 \cap \cdots \cap S_k) \cup Y_1 \cup \cdots \cup Y_k \subseteq U \cup Y_1 \cup \cdots \cup Y_k$
+is covered by finitely many members of $\mathcal{C}$, a contradiction. (If $k = 0$, then $U = X$ is itself a finite subcover.)
+\end{proof}
+
+\begin{theorem}[Tychonoff]\label{general-topology:theorem-tychonoff}
+Every product of compact spaces is compact.
+\end{theorem}
+
+\begin{proof}
+Let $X = \prod_i X_i$. If some $X_i$ is empty, so is $X$. Otherwise, by Lemma~\ref{general-topology:lemma-alexander} it suffices to consider a cover
+$\mathcal{S}$ of $X$ by subbasic sets $p_i^{-1}(U)$. For each $i$ let $\mathcal{U}_i$ be the set of open $U \subseteq X_i$ with $p_i^{-1}(U) \in \mathcal{S}$.
+If for some $i$ the family $\mathcal{U}_i$ covers $X_i$, then a finite subcover of $\mathcal{U}_i$ gives a finite subcover of $\mathcal{S}$. Otherwise choose,
+by the axiom of choice, $x_i \in X_i$ not covered by $\mathcal{U}_i$ for each $i$; then the point $(x_i)_i$ is not covered by $\mathcal{S}$, a contradiction.
+\end{proof}
+
+\begin{remark}\label{general-topology:remark-tychonoff-choice}
+Tychonoff's theorem implies the axiom of choice over ZF \cite{kelley-1950}, so the use of choice in its proof cannot be avoided.
+\end{remark}
+
+\begin{example}\label{general-topology:example-circle}
+The sphere $S^n$ is compact by Theorem~\ref{general-topology:theorem-heine-borel}, and so is $\RR\PP^n$, a continuous image of $S^n$. The quotient
+$[0, 4]/\{0, 4\}$ is homeomorphic to $S^1$. Indeed, let $Q = \{x \in \RR^2 : \|x\|_\infty = 1\}$ be the boundary of the square. The maps
+$x \mapsto x/\|x\|_2$ and $x \mapsto x/\|x\|_\infty$ are mutually inverse continuous maps $Q \to S^1$ and $S^1 \to Q$. The map $[0, 4] \to Q$ running
+affinely along the four sides, from $(1, -1)$ to $(1, 1)$, $(-1, 1)$, $(-1, -1)$ and back, is a continuous surjection identifying only $0$ and $4$; the
+induced continuous bijection $[0, 4]/\{0, 4\} \to Q$ from a compact space to a Hausdorff space is a homeomorphism by
+Proposition~\ref{general-topology:proposition-compact-basic}(4).
+\end{example}
+
+\begin{counterexample}\label{general-topology:counterexample-compactness}
+\begin{enumerate}
+\item An infinite set $X$ with the metric $d(x, y) = 1$ for $x \neq y$ is closed and bounded in itself but not compact: its topology is discrete, and the
+cover by singletons has no finite subcover.
+\item In the cofinite topology on $\NN$ every subset is compact (any member of a cover contains all but finitely many points), and the set of even
+numbers is compact but not closed. Hausdorffness in Proposition~\ref{general-topology:proposition-compact-basic}(2) is needed.
+\end{enumerate}
+\end{counterexample}
+
+\section{Complete and compact metric spaces}\label{general-topology:section-complete}
+
+\begin{definition}\label{general-topology:definition-complete}
+A sequence $(x_n)$ in a metric space is \emph{Cauchy} if for every $\varepsilon > 0$ there is $N$ with $d(x_m, x_n) < \varepsilon$ for $m, n \geq N$.
+The space is \emph{complete} if every Cauchy sequence converges. It is \emph{totally bounded} if for every $\varepsilon > 0$ it is covered by finitely
+many balls of radius $\varepsilon$. A \emph{Banach space} is a normed space that is complete for the metric of its norm.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-complete-examples}
+\begin{enumerate}
+\item $\RR^n$ and $\CC^n$ are complete, and so are all their closed subsets.
+\item A complete subspace of a metric space is closed; a closed subspace of a complete space is complete.
+\item For a nonempty set $X$ and a complete metric space $(Y, d)$, the set $B(X, Y)$ of maps with bounded image, with
+$d_\infty(f, g) = \sup_x d(f(x), g(x))$, is a complete metric space. If $X$ is a space, the subset $C_b(X, Y)$ of continuous maps is closed, hence complete.
+In particular $C_b(X, \mathbb{K})$ with the norm $\|f\|_\infty = \sup |f|$ is a Banach space.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(2) If $A \subseteq X$ is complete and $x \in \overline{A}$, a sequence in $A$ converging to $x$ (Proposition~\ref{general-topology:proposition-metric-continuity})
+is Cauchy, so it converges in $A$, and by uniqueness of limits $x \in A$. If $X$ is complete and $A$ closed, a Cauchy sequence in $A$ converges in $X$, and its
+limit lies in $\overline{A} = A$.
+
+(1) With the maximum norm, a sequence is Cauchy if and only if each coordinate sequence is, and converges if and only if each coordinate does. Real
+Cauchy sequences converge by Proposition~\ref{number-systems:proposition-cauchy-complete}, and complex ones because real and imaginary parts are
+Cauchy. The second part follows from (2).
+
+(3) For bounded $f, g$, $d_\infty(f, g)$ is finite by the triangle inequality, and $d_\infty$ is a metric. Let $(f_n)$ be Cauchy. For each $x$, $(f_n(x))$ is
+Cauchy in $Y$; let $f(x)$ be its limit. Given $\varepsilon > 0$ choose $N$ with $d(f_n(x), f_m(x)) < \varepsilon$ for all $x$ and $m, n \geq N$. Since
+$|d(a, b) - d(a, c)| \leq d(b, c)$, letting $m \to \infty$ gives $d(f_n(x), f(x)) \leq \varepsilon$ for all $x$ and $n \geq N$. So $f$ is bounded and
+$f_n \to f$ in $d_\infty$. Uniform limits of continuous maps are continuous (Proposition~\ref{general-topology:proposition-uniform-limit}), so $C_b(X, Y)$ is
+closed.
+\end{proof}
+
+\begin{lemma}[Lebesgue number lemma]\label{general-topology:lemma-lebesgue-number}
+Let $X$ be a metric space in which every sequence has a convergent subsequence, and $\mathcal{U}$ an open cover. There is $\delta > 0$ such that every
+ball of radius $\delta$ is contained in some member of $\mathcal{U}$.
+\end{lemma}
+
+\begin{proof}
+Otherwise choose $x_n$ such that $B(x_n, 1/n)$ lies in no member of $\mathcal{U}$, and a subsequence $x_{n_k} \to x$. Let $x \in U \in \mathcal{U}$ and
+$B(x, 2\varepsilon) \subseteq U$. For $k$ large, $d(x_{n_k}, x) < \varepsilon$ and $1/n_k < \varepsilon$, so $B(x_{n_k}, 1/n_k) \subseteq B(x, 2\varepsilon) \subseteq U$,
+a contradiction.
+\end{proof}
+
+\begin{theorem}\label{general-topology:theorem-compact-metric}
+For a metric space $X$ the following are equivalent:
+\begin{enumerate}
+\item $X$ is compact;
+\item every sequence in $X$ has a convergent subsequence ($X$ is \emph{sequentially compact});
+\item $X$ is complete and totally bounded.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1)$\Rightarrow$(2): Let $(x_n)$ have no convergent subsequence. Then every $x \in X$ has an open ball containing $x_n$ for only finitely many $n$:
+otherwise we could choose $n_1 < n_2 < \cdots$ with $d(x_{n_k}, x) < 1/k$. Finitely many such balls cover $X$, but together they contain $x_n$ for only finitely
+many $n$, a contradiction.
+
+(2)$\Rightarrow$(3): A Cauchy sequence with a convergent subsequence converges to the same limit. If $X$ were not totally bounded, for some
+$\varepsilon > 0$ we could choose inductively $x_n \notin \bigcup_{m < n} B(x_m, \varepsilon)$; this sequence has no Cauchy subsequence.
+
+(3)$\Rightarrow$(2): Let $(x_n)$ be a sequence. Cover $X$ by finitely many balls of radius $1$; one of them contains $x_n$ for infinitely many $n$. Among
+these indices, cover by balls of radius $1/2$ and choose again, and so on; this gives nested infinite index sets $N_1 \supseteq N_2 \supseteq \cdots$ such that
+$d(x_m, x_n) < 2/k$ for $m, n \in N_k$. Choosing $n_k \in N_k$ increasing gives a Cauchy subsequence, which converges.
+
+(2)$\Rightarrow$(1): Let $\mathcal{U}$ be an open cover and $\delta$ a Lebesgue number (Lemma~\ref{general-topology:lemma-lebesgue-number}). By
+(2)$\Rightarrow$(3), $X$ is covered by finitely many balls of radius $\delta$, each contained in a member of $\mathcal{U}$.
+\end{proof}
+
+\begin{corollary}\label{general-topology:corollary-uniform-continuity}
+A continuous map $f \colon X \to Y$ from a compact metric space to a metric space is \emph{uniformly continuous}: for every $\varepsilon > 0$ there is
+$\delta > 0$ such that $d(x, x') < \delta$ implies $d(f(x), f(x')) < \varepsilon$.
+\end{corollary}
+
+\begin{proof}
+Let $\delta$ be a Lebesgue number of the cover by the sets $f^{-1}(B(y, \varepsilon/2))$. If $d(x, x') < \delta$, then $x, x' \in B(x, \delta)$ lie in one such
+set, so $d(f(x), f(x')) < \varepsilon$.
+\end{proof}
+
+\begin{theorem}[Banach fixed point theorem]\label{general-topology:theorem-banach-fixed-point}
+Let $X$ be a nonempty complete metric space and $T \colon X \to X$ a \emph{contraction}: $d(Tx, Ty) \leq c\,d(x, y)$ for some $0 \leq c < 1$. Then $T$ has a
+unique fixed point, and for every $x_0$ the sequence $x_{n+1} = Tx_n$ converges to it.
+\end{theorem}
+
+\begin{proof}
+By induction $d(x_{n+1}, x_n) \leq c^n d(x_1, x_0)$, so for $m > n$,
+$d(x_m, x_n) \leq \sum_{k=n}^{m-1} c^k d(x_1, x_0) = c^n\frac{1 - c^{m-n}}{1 - c}d(x_1, x_0) \leq \frac{c^n}{1 - c}d(x_1, x_0)$. Since $c^n \to 0$ (if
+$c > 0$, write $1/c = 1 + h$ with $h > 0$; then $c^{-n} \geq 1 + nh$), the sequence is Cauchy; let $x$ be its limit. A contraction is continuous, so
+$Tx = \lim Tx_n = \lim x_{n+1} = x$. If also $Ty = y$, then $d(x, y) \leq c\,d(x, y)$, so $x = y$.
+\end{proof}
+
+\begin{theorem}[Baire category theorem]\label{general-topology:theorem-baire}
+In a complete metric space $X$, a countable intersection of dense open sets is dense. Equivalently, a countable union of closed sets with empty interior
+has empty interior.
+\end{theorem}
+
+\begin{proof}
+Let $U_1, U_2, \ldots$ be dense open and $W$ nonempty open. Since $W \cap U_1$ is nonempty and open, it contains a ball $B(x_1, 2r_1)$ with $r_1 < 1$, and
+then the closed ball $\bar{B}(x_1, r_1) = \{y : d(x_1, y) \leq r_1\}$. Inductively, $B(x_n, r_n) \cap U_{n+1}$ is nonempty and open, so it contains
+$\bar{B}(x_{n+1}, r_{n+1})$ with $r_{n+1} < 1/(n+1)$. For $m \geq n$, $x_m \in B(x_n, r_n)$, so $(x_n)$ is Cauchy; its limit $x$ lies in every closed set
+$\bar{B}(x_n, r_n)$, hence in $W \cap \bigcap_n U_n$. The second statement is the first for the complements.
+\end{proof}
+
+\begin{corollary}\label{general-topology:corollary-baire-uncountable}
+A nonempty complete metric space in which no point is isolated (no singleton is open) is uncountable.
+\end{corollary}
+
+\begin{proof}
+If $X = \{x_1, x_2, \ldots\}$, then $X$ is the countable union of the closed sets $\{x_n\}$, which have empty interior, contradicting
+Theorem~\ref{general-topology:theorem-baire}.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-completeness-not-topological}
+Completeness is not a topological property: $t \mapsto t/(1 - |t|)$ is a homeomorphism $(-1, 1) \to \RR$ with inverse $s \mapsto s/(1 + |s|)$, but
+$(-1, 1)$ is not complete. And $\QQ$, which is not complete, is a countable union of closed sets with empty interior, so the Baire category theorem fails
+for it.
+\end{counterexample}
+
+\section{Separation axioms, Urysohn and Tietze}\label{general-topology:section-separation}
+
+\begin{definition}\label{general-topology:definition-separation}
+A space $X$ is \emph{$T_1$} if its points are closed. A $T_1$ space is \emph{regular} if a point $x$ and a closed set $C \not\ni x$ have disjoint open
+neighbourhoods, and \emph{normal} if any two disjoint closed sets have disjoint open neighbourhoods. So normal $\Rightarrow$ regular $\Rightarrow$
+Hausdorff $\Rightarrow$ $T_1$.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-normal-shrinking}
+A $T_1$ space $X$ is normal if and only if for every closed $C$ and open $U \supseteq C$ there is an open $V$ with $C \subseteq V \subseteq \overline{V} \subseteq U$.
+It is regular if and only if this holds for $C$ a point.
+\end{lemma}
+
+\begin{proof}
+If $X$ is normal, separate $C$ and $X \setminus U$ by disjoint open $V$ and $W$; then $\overline{V} \subseteq X \setminus W \subseteq U$. Conversely, for
+disjoint closed $C, D$ choose $V$ for $U = X \setminus D$; then $V$ and $X \setminus \overline{V}$ separate them. The regular case is identical.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-normal-examples}
+Metric spaces and compact Hausdorff spaces are normal.
+\end{proposition}
+
+\begin{proof}
+For a nonempty subset $A$ of a metric space let $d(x, A) = \inf_{a \in A} d(x, a)$. Then $|d(x, A) - d(y, A)| \leq d(x, y)$, so $d(-, A)$ is continuous, and
+$d(x, A) = 0$ if and only if $x \in \overline{A}$. For disjoint nonempty closed $A, B$, the continuous function (Proposition~\ref{general-topology:proposition-product}(5)) $g(x) = d(x, A) - d(x, B)$ is negative on $A$ and positive
+on $B$, so $\{g < 0\}$ and $\{g > 0\}$ separate them. For compact Hausdorff spaces use Propositions~\ref{general-topology:proposition-compact-basic}(1)
+and~(2).
+\end{proof}
+
+\begin{theorem}[Urysohn's lemma]\label{general-topology:theorem-urysohn}
+Let $A$, $B$ be disjoint closed subsets of a normal space $X$. There is a continuous $f \colon X \to [0, 1]$ with $f = 0$ on $A$ and $f = 1$ on $B$.
+\end{theorem}
+
+\begin{proof}
+Let $D$ be the set of dyadic rationals $k/2^n$ in $[0, 1]$. We construct open sets $U_r$, $r \in D$, with $A \subseteq U_0$, $U_1 = X \setminus B$ and
+$\overline{U_r} \subseteq U_s$ for $r < s$. Choose $U_0$ with $A \subseteq U_0 \subseteq \overline{U_0} \subseteq U_1$ by
+Lemma~\ref{general-topology:lemma-normal-shrinking}. If $U_r$ is defined for all $r$ with denominator $2^n$, then for $r = (2k+1)/2^{n+1}$ choose $U_r$
+with $\overline{U_{k/2^n}} \subseteq U_r \subseteq \overline{U_r} \subseteq U_{(k+1)/2^n}$. The required inclusions for $r < s$ with denominators dividing
+$2^{n+1}$ follow: if one of them is new, pass through the neighbouring old index, and if both are new, there is an old index strictly between them.
+
+Define $f(x) = \inf(\{r \in D : x \in U_r\} \cup \{1\})$. Then $f = 0$ on $A$, and $f = 1$ on $B$ since $B$ meets no $U_r$. If $x \in \overline{U_r}$, then
+$x \in U_s$ for all $s > r$ in $D$, so $f(x) \leq r$ by density of $D$. If $x \notin U_r$, then $x \notin U_s$ for $s \leq r$, so $f(x) \geq r$. Hence for
+$a \in \RR$,
+\[
+f^{-1}([0, a)) = \bigcup_{r \in D,\, r < a} U_r \quad (a \leq 1), \qquad f^{-1}((a, 1]) = \bigcup_{r \in D,\, r > a} (X \setminus \overline{U_r}) \quad (a \geq 0).
+\]
+For the second equality, if $f(x) > a$ choose $r \in D$ with $a < r < f(x)$; then $x \notin \overline{U_r}$. These sets are open, and the intervals
+$[0, a)$, $(a, 1]$ form a subbasis of $[0, 1]$, so $f$ is continuous.
+\end{proof}
+
+\begin{theorem}[Tietze extension theorem]\label{general-topology:theorem-tietze}
+Let $A$ be a closed subset of a normal space $X$. Every continuous $f \colon A \to [-1, 1]$ extends to a continuous $F \colon X \to [-1, 1]$, and every
+continuous $f \colon A \to \RR$ extends to a continuous $F \colon X \to \RR$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1.} If $g \colon A \to [-c, c]$ is continuous, there is a continuous $h \colon X \to [-c/3, c/3]$ with $|g - h| \leq 2c/3$ on $A$: the sets
+$g^{-1}([-c, -c/3])$ and $g^{-1}([c/3, c])$ are disjoint and closed in $X$, and Urysohn's lemma (rescaled) gives $h$ equal to $-c/3$ on the first and
+$c/3$ on the second; check $|g - h| \leq 2c/3$ separately on the two sets and on the rest of $A$, where $|g| < c/3$.
+
+\emph{Step 2.} Put $g_0 = f$ and, given $g_n \colon A \to [-(2/3)^n, (2/3)^n]$, let $h_n$ be as in Step 1 and $g_{n+1} = g_n - h_n|_A$. Then
+$|h_n| \leq \frac{1}{3}(\frac{2}{3})^n$, so $F = \sum_n h_n$ converges uniformly and is continuous by
+Proposition~\ref{general-topology:proposition-uniform-limit}, with $|F| \leq \sum_n \frac13(\frac23)^n = 1$. On $A$,
+$f - \sum_{n < N} h_n = g_N \to 0$, so $F|_A = f$.
+
+\emph{Step 3.} For $f \colon A \to \RR$, compose with the homeomorphism $\RR \to (-1, 1)$ of
+Counterexample~\ref{general-topology:counterexample-completeness-not-topological} and extend to $F \colon X \to [-1, 1]$ by Step 2. The set
+$E = F^{-1}(\{-1, 1\})$ is closed and disjoint from $A$; by Urysohn's lemma choose $\varphi \colon X \to [0, 1]$ with $\varphi = 0$ on $E$ and $\varphi = 1$ on
+$A$. Then $\varphi F$ extends $f$ and takes values in $(-1, 1)$; compose back.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-hausdorff-not-regular}
+Let $K = \{1/n : n \geq 1\}$ and give $\RR$ the topology with basis the open intervals $(a, b)$ and the sets $(a, b) \setminus K$ (the conditions of
+Lemma~\ref{general-topology:lemma-basis} are clear). It is finer than the standard topology, hence Hausdorff, and $K$ is closed. Suppose $U \supseteq K$
+and $V \ni 0$ are disjoint open sets. Since every interval around $0$ meets $K$, $V$ contains a set $(a, b) \setminus K$ with $a < 0 < b$. Choose $n$ with
+$1/n < b$. The only basic sets containing $1/n$ are intervals, so $U \supseteq (c, d) \ni 1/n$, and $(c, d) \cap (a, b)$ contains points not in $K$, which lie in
+$U \cap V$. So this Hausdorff space is not regular.
+\end{counterexample}
+
+\begin{lemma}[Tychonoff]\label{general-topology:lemma-regular-lindelof-normal}
+A regular space in which every open cover has a countable subcover (a \emph{Lindel\"of} space), for instance a regular second countable space, is normal.
+\end{lemma}
+
+\begin{proof}
+Let $A$, $B$ be disjoint closed sets. For $a \in A$, regularity and Lemma~\ref{general-topology:lemma-normal-shrinking} give an open $U \ni a$ with $\overline U \cap B = \emptyset$. As $A$ is closed in a Lindel\"of space, it is
+Lindel\"of, so countably many such sets $U_1, U_2, \ldots$ cover $A$; similarly open $V_1, V_2, \ldots$ cover $B$ with $\overline{V_k} \cap A = \emptyset$. Put $U'_n = U_n \setminus \bigcup_{k \leq n}\overline{V_k}$ and
+$V'_n = V_n \setminus \bigcup_{k \leq n}\overline{U_k}$, which are open, and $U' = \bigcup_nU'_n$, $V' = \bigcup_nV'_n$. Then $A \subseteq U'$, since a point of $A$ lies in some $U_n$ and in no $\overline{V_k}$; similarly $B \subseteq V'$. If
+$x \in U'_n \cap V'_m$ with $n \leq m$, then $x \in U_n$ but $x \notin \overline{U_n}$, a contradiction, and the case $n > m$ is symmetric. So $U' \cap V' = \emptyset$. Second countable spaces are Lindel\"of by
+Proposition~\ref{general-topology:proposition-countability}.
+\end{proof}
+
+\begin{theorem}[Urysohn metrisation theorem]\label{general-topology:theorem-urysohn-metrisation}
+Every regular second countable space is metrisable: its topology is induced by a metric.
+\end{theorem}
+
+\begin{proof}
+Let $X$ be regular with a countable basis $(B_n)$; by Lemma~\ref{general-topology:lemma-regular-lindelof-normal} it is normal. For each pair $(n, m)$ with $\overline{B_n} \subseteq B_m$ choose, by Urysohn's lemma
+(Theorem~\ref{general-topology:theorem-urysohn}), a continuous $f_{n,m} \colon X \to [0, 1]$ equal to $1$ on $\overline{B_n}$ and to $0$ outside $B_m$. Enumerate these functions as $f_1, f_2, \ldots$. They separate points from closed
+sets: if $x \in U$ with $U$ open, choose $m$ with $x \in B_m \subseteq U$, and by regularity and Lemma~\ref{general-topology:lemma-normal-shrinking} an open $V$ with $x \in V \subseteq \overline V \subseteq B_m$, and then $n$ with
+$x \in B_n \subseteq V$; the corresponding $f_k$ has $f_k(x) = 1$ and vanishes outside $U$.
+
+Define $d(x, y) = \sum_k2^{-k}|f_k(x) - f_k(y)|$. It is symmetric and satisfies the triangle inequality, and $d(x, y) > 0$ for $x \neq y$, because $X$ is $T_1$, so $X \setminus \{y\}$ is an open neighbourhood of $x$, and some $f_k$ equals $1$ at $x$ and vanishes
+outside it, so $f_k(x) = 1 \neq 0 = f_k(y)$. Each $d(x, -)$ is continuous, being a uniformly convergent series of continuous functions (Proposition~\ref{general-topology:proposition-uniform-limit}), so $d$-balls are open.
+Conversely, if $x \in U$ with $U$ open and $f_k$ is as above, then $d(x, y) < 2^{-k}$ implies $|f_k(y) - 1| < 1$, so $f_k(y) > 0$ and $y \in U$: the $d$-ball of radius $2^{-k}$ about $x$ lies in $U$. So $d$ induces the topology of $X$.
+\end{proof}
+
+\begin{remark}\label{general-topology:remark-metrisation}
+Topological manifolds are regular (indeed locally compact Hausdorff) and second countable, hence metrisable (Chapter~\ref{topological-manifolds}). Regularity cannot be weakened to the Hausdorff property:
+the space of Counterexample~\ref{general-topology:counterexample-hausdorff-not-regular} is second countable (a basis is given by the intervals with rational endpoints and their differences with $K$) and Hausdorff, but
+not regular, hence not metrisable, since metric spaces are normal
+(Proposition~\ref{general-topology:proposition-normal-examples}).
+\end{remark}
+
+\section{Local compactness and proper maps}\label{general-topology:section-local-compactness}
+
+\begin{definition}\label{general-topology:definition-locally-compact}
+A space is \emph{locally compact} if every point has a compact neighbourhood. A continuous map $f \colon X \to Y$ is \emph{proper} if $f^{-1}(K)$ is
+compact for every compact $K \subseteq Y$. The \emph{support} of a function $f \colon X \to \mathbb{K}$ is $\operatorname{supp} f = \overline{\{f \neq 0\}}$, and
+$C_c(X)$ denotes the continuous functions with compact support.
+\end{definition}
+
+\begin{definition}\label{general-topology:definition-one-point-compactification}
+Let $X$ be a Hausdorff space. The \emph{one-point compactification} is $X^+ = X \sqcup \{\infty\}$, whose open sets are the open subsets of $X$ and the sets
+$(X \setminus K) \cup \{\infty\}$ with $K \subseteq X$ compact.
+\end{definition}
+
+\begin{theorem}\label{general-topology:theorem-one-point-compactification}
+Let $X$ be Hausdorff. Then $X^+$ is a compact space containing $X$ as an open subspace, and $X^+$ is Hausdorff if and only if $X$ is locally compact.
+\end{theorem}
+
+\begin{proof}
+Compact subsets of $X$ are closed (Proposition~\ref{general-topology:proposition-compact-basic}), so the sets $X \setminus K$ are open. The open sets
+form a topology: $\bigcup_i ((X \setminus K_i) \cup \{\infty\}) = (X \setminus \bigcap_i K_i) \cup \{\infty\}$ and
+$U \cup (X \setminus K) \cup \{\infty\} = (X \setminus (K \setminus U)) \cup \{\infty\}$, where $\bigcap_i K_i$ and $K \setminus U$ are closed subsets of a
+compact set, hence compact; and $U \cap ((X \setminus K) \cup \{\infty\}) = U \cap (X \setminus K)$ and
+$((X \setminus K) \cup \{\infty\}) \cap ((X \setminus L) \cup \{\infty\}) = (X \setminus (K \cup L)) \cup \{\infty\}$. The traces on $X$ of the open sets
+are open in $X$, so $X$ is an open subspace. Given an open cover of $X^+$, a member $(X \setminus K) \cup \{\infty\}$ contains $\infty$, and finitely many
+members cover $K$.
+
+If $X$ is locally compact, points of $X$ are separated in $X$, and $x \in X$ with a compact neighbourhood $K$ is separated from $\infty$ by
+$\operatorname{int} K$ and $(X \setminus K) \cup \{\infty\}$. Conversely, if $x$ and $\infty$ have disjoint neighbourhoods $U$ and $(X \setminus K) \cup \{\infty\}$,
+then $U \subseteq K$, so $K$ is a compact neighbourhood of $x$.
+\end{proof}
+
+\begin{example}\label{general-topology:example-stereographic}
+$(\RR^n)^+ \cong S^n$. Let $N = (0, \ldots, 0, 1)$ and define $\tau \colon \RR^n \to S^n$ by
+$\tau(y) = (2y, \|y\|^2 - 1)/(\|y\|^2 + 1)$. A direct computation shows $\|\tau(y)\| = 1$, that $\tau$ is a bijection onto $S^n \setminus \{N\}$ with inverse
+the \emph{stereographic projection} $x \mapsto (x_1, \ldots, x_n)/(1 - x_{n+1})$, and that $\|\tau(y) - N\| = 2/\sqrt{\|y\|^2 + 1}$. Extend $\tau$ by
+$\tau(\infty) = N$. It is continuous at $\infty$: for $\varepsilon > 0$, $\tau$ maps the complement of a closed ball of large radius $R$, which is a compact
+set, into $B(N, \varepsilon)$. So $\tau \colon (\RR^n)^+ \to S^n$ is a continuous bijection from a compact space to a Hausdorff space, hence a homeomorphism.
+\end{example}
+
+\begin{lemma}\label{general-topology:lemma-lch-shrinking}
+Let $X$ be locally compact Hausdorff, $K \subseteq X$ compact and $U \supseteq K$ open. There is an open $V$ with compact closure such that
+$K \subseteq V \subseteq \overline{V} \subseteq U$, and there is $f \in C_c(X)$ with values in $[0, 1]$, $f = 1$ on $K$ and $\operatorname{supp} f \subseteq U$.
+\end{lemma}
+
+\begin{proof}
+By Theorem~\ref{general-topology:theorem-one-point-compactification} and Proposition~\ref{general-topology:proposition-normal-examples}, $X^+$ is
+normal. The set $K$ is closed in $X^+$, $X^+ \setminus U$ is closed, and they are disjoint. By Lemma~\ref{general-topology:lemma-normal-shrinking} there is an
+open $V$ with $K \subseteq V$ and $\overline{V} \subseteq U$ (closure in $X^+$); then $\overline{V}$ is a closed subset of $X^+$ not containing $\infty$, so it
+is compact and equals the closure of $V$ in $X$. Urysohn's lemma (Theorem~\ref{general-topology:theorem-urysohn}) in $X^+$ gives a continuous
+$f \colon X^+ \to [0, 1]$ equal to $1$ on $K$ and $0$ on $X^+ \setminus V$. Its restriction to $X$ has support contained in the compact set $\overline{V} \subseteq U$,
+so the support is compact.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-proper-closed}
+Let $f \colon X \to Y$ be a continuous map to a locally compact Hausdorff space. If $f$ is proper, then $f$ is closed. A continuous map from a compact
+space to a Hausdorff space is proper.
+\end{proposition}
+
+\begin{proof}
+Let $C \subseteq X$ be closed and $y \in \overline{f(C)}$. Choose a compact neighbourhood $K$ of $y$. Then $C \cap f^{-1}(K)$ is compact, so
+$f(C \cap f^{-1}(K)) = f(C) \cap K$ is compact, hence closed. Every open $W \ni y$ gives an open set $W \cap \operatorname{int} K \ni y$, which meets $f(C)$;
+so $y \in \overline{f(C) \cap K} = f(C) \cap K$. For the last statement, compact subsets of a Hausdorff space are closed, and closed subsets of compact spaces are
+compact.
+\end{proof}
+
+\begin{counterexample}\label{general-topology:counterexample-q-not-locally-compact}
+$\QQ$ is not locally compact. A compact neighbourhood $K$ of $0$ in $\QQ$ would contain $[-\varepsilon, \varepsilon] \cap \QQ$ for some $\varepsilon > 0$,
+which is closed in $K$ and hence compact. But choosing an irrational $\alpha \in (0, \varepsilon)$, the open sets $(\QQ \cap (-\infty, \alpha - 1/n)) \cup (\QQ \cap (\alpha + 1/n, \infty))$, $n \geq 1$, form an increasing family that
+covers $[-\varepsilon, \varepsilon] \cap \QQ$ without finite subcover.
+\end{counterexample}
+
+\section{Paracompactness and partitions of unity}\label{general-topology:section-paracompactness}
+
+\begin{definition}\label{general-topology:definition-paracompact}
+A family $(A_i)_{i \in I}$ of subsets of $X$ is \emph{locally finite} if every point has a neighbourhood meeting $A_i$ for only finitely many $i$. A
+\emph{refinement} of a cover $(U_i)$ is a cover $(V_j)$ such that each $V_j$ is contained in some $U_i$. A space is \emph{paracompact} if every open cover has
+a locally finite open refinement.
+\end{definition}
+
+\begin{lemma}\label{general-topology:lemma-locally-finite}
+If $(A_i)$ is locally finite, then so is $(\overline{A_i})$, and $\overline{\bigcup_i A_i} = \bigcup_i \overline{A_i}$. In particular a union of a locally finite
+family of closed sets is closed. If $(f_i)$ are continuous functions $X \to \mathbb{K}$ whose supports form a locally finite family, then $\sum_i f_i$ is a
+well-defined continuous function.
+\end{lemma}
+
+\begin{proof}
+An open set meets $\overline{A_i}$ if and only if it meets $A_i$. Let $x \in \overline{\bigcup_i A_i}$ and let $W$ be an open neighbourhood of $x$ meeting only
+$A_{i_1}, \ldots, A_{i_k}$. Every open $W' \ni x$ satisfies $W' \cap W \cap \bigcup_i A_i \neq \emptyset$, so $W'$ meets $A_{i_1} \cup \cdots \cup A_{i_k}$; hence
+$x \in \overline{A_{i_1} \cup \cdots \cup A_{i_k}} = \overline{A_{i_1}} \cup \cdots \cup \overline{A_{i_k}}$ by Lemma~\ref{general-topology:lemma-closure}. For the
+sum, each point has an open neighbourhood on which all but finitely many $f_i$ vanish, and on it the sum is a finite sum of continuous functions
+(Proposition~\ref{general-topology:proposition-product}(5)); conclude by the pasting lemma.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-paracompact-normal}
+A paracompact Hausdorff space is normal.
+\end{proposition}
+
+\begin{proof}
+\emph{Regularity.} Let $C$ be closed and $x \notin C$. For $c \in C$ choose disjoint open $U_c \ni c$ and $W_c \ni x$. Let $\mathcal{V}$ be a locally finite
+open refinement of the cover $\{U_c\} \cup \{X \setminus C\}$, and $\mathcal{V}'$ the members meeting $C$; each is contained in some $U_c$, so its closure is
+contained in $X \setminus W_c$ and does not contain $x$. Then $V = \bigcup \mathcal{V}'$ is an open set containing $C$ with
+$\overline{V} = \bigcup_{V' \in \mathcal{V}'} \overline{V'} \not\ni x$ by Lemma~\ref{general-topology:lemma-locally-finite}. So $V$ and $X \setminus \overline{V}$
+separate $C$ and $x$.
+
+\emph{Normality.} The same argument, with $x$ replaced by a closed set $D$ disjoint from $C$ and the sets $U_c$, $W_c$ provided by regularity, separates
+$C$ and $D$.
+\end{proof}
+
+\begin{lemma}[Shrinking lemma]\label{general-topology:lemma-shrinking}
+Let $X$ be normal and $(U_i)_{i \in I}$ an open cover that is \emph{point-finite} (each point lies in finitely many $U_i$), for instance locally finite.
+There is an open cover $(V_i)_{i \in I}$ with $\overline{V_i} \subseteq U_i$ for all $i$.
+\end{lemma}
+
+\begin{proof}
+Consider pairs $(J, (V_j)_{j \in J})$ with $J \subseteq I$, $V_j$ open and $\overline{V_j} \subseteq U_j$, such that $(V_j)_{j \in J} \cup (U_i)_{i \notin J}$ covers
+$X$, ordered by extension. The pair $(\emptyset, ())$ is one. Given a chain, let $J^*$ be the union of the index sets, with the $V_j$ defined compatibly. Let
+$x \in X$ and $F$ the finite nonempty set of $i$ with $x \in U_i$. If $F \not\subseteq J^*$, $x$ is covered by some $U_i$ with $i \notin J^*$. Otherwise
+$F \subseteq J$ for some member $(J, V)$ of the chain; there $x$ is covered by some $V_j$, $j \in J$, since $x \in U_i$ implies $i \in F \subseteq J$. So the union
+is an upper bound, and Zorn's lemma gives a maximal pair $(J, V)$. If $i \notin J$, the set
+$C = X \setminus (\bigcup_{j \in J} V_j \cup \bigcup_{k \notin J, k \neq i} U_k)$ is closed and contained in $U_i$; by
+Lemma~\ref{general-topology:lemma-normal-shrinking} choose open $V_i$ with $C \subseteq V_i \subseteq \overline{V_i} \subseteq U_i$, contradicting maximality. So
+$J = I$.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-partition-of-unity}
+A \emph{partition of unity} on $X$ is a family of continuous functions $\psi_i \colon X \to [0, 1]$ whose supports form a locally finite family and with
+$\sum_i \psi_i = 1$. It is \emph{subordinate} to an open cover $(U_i)_{i \in I}$ (with the same index set) if $\operatorname{supp} \psi_i \subseteq U_i$ for all
+$i$.
+\end{definition}
+
+\begin{theorem}\label{general-topology:theorem-partitions-of-unity}
+Let $X$ be paracompact Hausdorff. Every open cover $(U_i)_{i \in I}$ has a subordinate partition of unity.
+\end{theorem}
+
+\begin{proof}
+Let $(W_k)_{k \in K}$ be a locally finite open refinement, with $W_k \subseteq U_{\varphi(k)}$ for a chosen map $\varphi \colon K \to I$. The space is normal
+(Proposition~\ref{general-topology:proposition-paracompact-normal}), so by Lemma~\ref{general-topology:lemma-shrinking} there is an open cover $(V_k)$ with
+$\overline{V_k} \subseteq W_k$, and by Lemma~\ref{general-topology:lemma-normal-shrinking} open $V'_k$ with
+$\overline{V_k} \subseteq V'_k \subseteq \overline{V'_k} \subseteq W_k$. By Urysohn's lemma choose $f_k \colon X \to [0, 1]$ equal to $1$ on $\overline{V_k}$ and $0$
+outside $V'_k$, so $\operatorname{supp} f_k \subseteq \overline{V'_k} \subseteq W_k$. By Lemma~\ref{general-topology:lemma-locally-finite}, $f = \sum_k f_k$ is continuous,
+and $f \geq 1$ because the $V_k$ cover. The functions $g_k = f_k/f$ are continuous with supports in $W_k$ and sum $1$. Finally let
+$\psi_i = \sum_{\varphi(k) = i} g_k$. Its support is contained in $\bigcup_{\varphi(k) = i}\overline{V'_k}$, which is closed by
+Lemma~\ref{general-topology:lemma-locally-finite} and contained in $U_i$; the supports of the $\psi_i$ are locally finite because each point has a neighbourhood
+meeting only finitely many $W_k$; and $\sum_i \psi_i = \sum_k g_k = 1$.
+\end{proof}
+
+\begin{proposition}\label{general-topology:proposition-exhaustion}
+Let $X$ be locally compact Hausdorff and second countable. There are compact sets $K_1 \subseteq K_2 \subseteq \cdots$ with
+$K_n \subseteq \operatorname{int} K_{n+1}$ and $\bigcup_n K_n = X$ (an \emph{exhaustion by compact sets}), and $X$ is paracompact.
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal{B}$ be a countable basis, and $\mathcal{B}'$ the members with compact closure. $\mathcal{B}'$ covers $X$: if $x$ has a compact neighbourhood $K$ and
+$x \in B \subseteq \operatorname{int} K$ with $B \in \mathcal{B}$, then $\overline{B} \subseteq K$ is compact. Enumerate $\mathcal{B}' = \{B_1, B_2, \ldots\}$ (with
+repetitions if finite; if $X = \emptyset$ there is nothing to prove). Let $K_1 = \overline{B_1}$, and given $K_n$ choose $m_n \geq n + 1$ with
+$K_n \subseteq B_1 \cup \cdots \cup B_{m_n}$ and let $K_{n+1} = \overline{B_1} \cup \cdots \cup \overline{B_{m_n}}$. Then $K_n \subseteq \operatorname{int} K_{n+1}$ and
+$B_n \subseteq K_{n+1}$.
+
+Put $K_0 = K_{-1} = \emptyset$ and let $\mathcal{U}$ be an open cover. For $n \geq 1$ the compact set $L_n = K_n \setminus \operatorname{int} K_{n-1}$ is contained in
+the open set $O_n = \operatorname{int} K_{n+1} \setminus K_{n-2}$. Cover $L_n$ by finitely many sets $U \cap O_n$ with $U \in \mathcal{U}$, and let $\mathcal{V}$ be
+the collection of all these sets for all $n$. It is an open refinement of $\mathcal{U}$, and it covers $X$ because a point lies in $L_n$ for the least $n$
+with $x \in K_n$. A point $x$ lies in $\operatorname{int} K_m$ for some $m$, and the sets of $\mathcal{V}$ coming from $L_n$ lie in $X \setminus K_{n-2}$, so they
+meet $\operatorname{int} K_m$ only if $n \leq m + 1$. Hence $\mathcal{V}$ is locally finite.
+\end{proof}
+
+\begin{theorem}[Stone]\label{general-topology:theorem-stone}
+Every metric space is paracompact.
+\end{theorem}
+
+\begin{proof}
+This is \cite{stone-1948}; we give the proof of \cite{rudin-paracompact}. Let $(U_s)_{s \in S}$ be an open cover and well-order $S$
+(Theorem~\ref{sets:theorem-choice-equivalents}). For $n \geq 1$ define inductively $V_{s,n}$ as the union of the balls $B(x, 2^{-n})$ over all $x$ such
+that: (i) $s$ is the least index with $x \in U_s$; (ii) $x \notin V_{t,j}$ for all $t$ and all $j < n$; (iii) $B(x, 3 \cdot 2^{-n}) \subseteq U_s$. Each
+$V_{s,n}$ is open and contained in $U_s$ by (iii).
+
+\emph{Cover.} For $x \in X$ let $s$ be least with $x \in U_s$ and $n$ with $B(x, 3 \cdot 2^{-n}) \subseteq U_s$. Either $x \in V_{t,j}$ for some $j < n$, or $x$
+satisfies (i)--(iii) and $x \in V_{s,n}$.
+
+\emph{Local finiteness.} Let $x \in X$, let $s$ be least such that $x \in V_{s,n}$ for some $n$, fix such $n$, and choose $j \geq 1$ with $B(x, 2^{-j}) \subseteq V_{s,n}$.
+We claim that $B(x, 2^{-n-j})$ meets only finitely many $V_{t,i}$. If $i \geq n + j$, a ball $B(y, 2^{-i})$ in $V_{t,i}$ has $y \notin V_{s,n}$ by (ii) (as
+$n < i$), so $d(x, y) \geq 2^{-j}$; since $2^{-i} + 2^{-n-j} \leq 2^{-j}$, it does not meet $B(x, 2^{-n-j})$. If $i < n + j$, then $B(x, 2^{-n-j})$ meets
+$V_{t,i}$ for at most one $t$: suppose it contains $p \in B(y, 2^{-i}) \subseteq V_{t,i}$ and $q \in B(z, 2^{-i}) \subseteq V_{t',i}$ with $t < t'$ and centres $y$, $z$
+as in the definition. By (iii) $B(y, 3 \cdot 2^{-i}) \subseteq U_t$, and by (i) $z \notin U_t$, so $d(y, z) \geq 3 \cdot 2^{-i}$. But
+$d(y, z) < 2^{-i} + 2 \cdot 2^{-n-j} + 2^{-i} \leq 3 \cdot 2^{-i}$, since $2^{-n-j} \leq 2^{-i-1}$. So only finitely many pairs $(t, i)$ occur.
+\end{proof}
+
+\begin{remark}\label{general-topology:remark-paracompact}
+Topological manifolds (Hausdorff, second countable and locally homeomorphic to $\RR^n$) are locally compact, hence paracompact by
+Proposition~\ref{general-topology:proposition-exhaustion}, and admit partitions of unity; smooth partitions of unity are constructed in
+Chapter~\ref{smooth-manifolds}. Without second countability this fails: the long line is a Hausdorff space locally homeomorphic to $\RR$ that is not
+paracompact \cite{engelking-general-topology}. Paracompactness is also the natural hypothesis under which \v{C}ech cohomology computes sheaf
+cohomology (Chapter~\ref{sheaf-cohomology}).
+\end{remark}
+
+\section{Exercises}\label{general-topology:section-exercises}
+
+\begin{exercise}\label{general-topology:exercise-hausdorff-diagonal}
+Show that $X$ is Hausdorff if and only if the diagonal $\Delta = \{(x, x)\}$ is closed in $X \times X$. Deduce that if $f, g \colon Z \to X$ are continuous and $X$
+is Hausdorff, then $\{z : f(z) = g(z)\}$ is closed, and that the graph of a continuous map to a Hausdorff space is closed.
+\end{exercise}
+
+\begin{solution}
+$(x, y) \notin \Delta$ has a basic neighbourhood $U \times V$ disjoint from $\Delta$ if and only if $U \cap V = \emptyset$. So $X \times X \setminus \Delta$ is open if and
+only if distinct points have disjoint neighbourhoods. The set $\{f = g\}$ is the preimage of $\Delta$ under the continuous map $(f, g) \colon Z \to X \times X$, and
+the graph of $f \colon Y \to X$ is $\{(y, x) : f(y) = x\}$, the equaliser of $f \circ p_1$ and $p_2$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-closure-product}
+Show that $\overline{\prod_i A_i} = \prod_i \overline{A_i}$ in a product of spaces.
+\end{exercise}
+
+\begin{solution}
+A point $x$ lies in the closure of $\prod_i A_i$ if and only if every basic open set $\prod_i U_i \ni x$ meets $\prod_i A_i$, that is, $U_i \cap A_i \neq \emptyset$
+for the finitely many $i$ with $U_i \neq X_i$. This holds for all such sets if and only if $x_i \in \overline{A_i}$ for every $i$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-projective-hausdorff}
+Show that $\RR\PP^n$ is a compact Hausdorff space, and that the projection $S^n \to \RR\PP^n$ is open.
+\end{exercise}
+
+\begin{solution}
+If $U \subseteq S^n$ is open, $q^{-1}(q(U)) = U \cup (-U)$ is open, so $q$ is open. Given $[x] \neq [y]$, we have $x \neq \pm y$; choose
+$\varepsilon < \min(\|x - y\|, \|x + y\|)/2$. The open sets $U = (B(x, \varepsilon) \cup B(-x, \varepsilon)) \cap S^n$ and
+$V = (B(y, \varepsilon) \cup B(-y, \varepsilon)) \cap S^n$ are invariant under $x \mapsto -x$ and disjoint, so $q(U)$ and $q(V)$ are disjoint open
+neighbourhoods. Compactness was shown in Example~\ref{general-topology:example-circle}.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-baire-lch}
+Prove the Baire category theorem for locally compact Hausdorff spaces.
+\end{exercise}
+
+\begin{solution}
+Let $U_1, U_2, \ldots$ be dense open and $W$ nonempty open. By Lemma~\ref{general-topology:lemma-lch-shrinking}, choose nonempty open sets $V_n$ with compact
+closure and $\overline{V_1} \subseteq W \cap U_1$, $\overline{V_{n+1}} \subseteq V_n \cap U_{n+1}$. The compact sets $\overline{V_n}$ are nested and nonempty, so their
+intersection is nonempty: otherwise the open sets $\overline{V_1} \setminus \overline{V_n}$ would cover $\overline{V_1}$ without finite subcover. A point of
+the intersection lies in $W \cap \bigcap_n U_n$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-completion}
+Let $X$ be a metric space. Show that $x \mapsto d(x, -) - d(x_0, -)$ is an isometric embedding of $X$ into the Banach space $C_b(X, \RR)$, for a fixed
+$x_0 \in X$, and deduce that $X$ has a \emph{completion}: a complete metric space containing $X$ as a dense subspace.
+\end{exercise}
+
+\begin{solution}
+The function $\phi_x = d(x, -) - d(x_0, -)$ is bounded by $d(x, x_0)$ and continuous. By the triangle inequality $|\phi_x(z) - \phi_y(z)| \leq d(x, y)$ with
+equality at $z = y$, so $\|\phi_x - \phi_y\|_\infty = d(x, y)$. The closure of the image in the complete space $C_b(X, \RR)$
+(Proposition~\ref{general-topology:proposition-complete-examples}) is complete and contains $X$ as a dense subspace.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-one-point-naturals}
+Show that the one-point compactification of $\NN$ (discrete) is homeomorphic to $\{0\} \cup \{1/n : n \geq 1\} \subseteq \RR$, and that
+$(0, 1)^+$ is homeomorphic to $S^1$.
+\end{exercise}
+
+\begin{exercise}\label{general-topology:exercise-proper-extension}
+Let $f \colon X \to Y$ be a continuous map between locally compact Hausdorff spaces. Show that $f$ is proper if and only if its extension
+$f^+ \colon X^+ \to Y^+$ with $f^+(\infty) = \infty$ is continuous.
+\end{exercise}
+
+\begin{exercise}\label{general-topology:exercise-quotient-product}
+Let $q \colon X \to Y$ be a quotient map and $K$ a compact Hausdorff space. Show that $q \times \id_K \colon X \times K \to Y \times K$ is a quotient map. (Hint:
+use the tube lemma from the proof of Proposition~\ref{general-topology:proposition-finite-products}.)
+\end{exercise}

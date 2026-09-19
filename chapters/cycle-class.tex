@@ -1,0 +1,205 @@
+\chapter{The Cycle Class Map}\label{cycle-class}
+\chapterstatus{complete}
+
+\section{Introduction}\label{cycle-class:section-introduction}
+
+A subvariety $Z$ of codimension $p$ in a complex projective manifold $X$ has a cohomology class $[Z] \in H^{2p}(X; \ZZ)$. Topologically it is the
+Poincar\'e dual of the fundamental class of $Z$, which exists although $Z$ may be singular. Analytically it is represented by the current of integration
+over $Z$. The resulting \emph{cycle class map} $\mathrm{cl} \colon \CH^p(X) \to H^{2p}(X; \ZZ)$ is a ring homomorphism compatible with pullbacks, pushforwards
+and Chern classes. Its image consists of Hodge classes (Corollary~\ref{cycle-class:corollary-hodge-classes}), and the Hodge conjecture asks whether, after tensoring
+with $\QQ$, every Hodge class is in the image. This chapter constructs the map, states its properties, and shows that the conjecture can equivalently be
+phrased with Chern classes of vector bundles. References: \cite[Chapter 19]{fulton-intersection}, \cite[Chapter 11]{voisin-hodge-1}, \cite[Chapter 0, Section 4]{griffiths-harris}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{intersection-theory} (Algebraic Cycles and Chow Groups), Chapter~\ref{gaga} (Analytic Spaces and GAGA),
+Chapter~\ref{de-rham} (de Rham Cohomology), Chapter~\ref{poincare-duality} (Topological Manifolds and Poincar\'e Duality) and Chapter~\ref{hodge-decomposition}
+(The Hodge Decomposition).
+
+Throughout, $X$ is a nonsingular complex variety of dimension $n$, identified with the complex manifold $X^{\mathrm{an}}$ (Chapter~\ref{gaga}), and cohomology is singular
+cohomology of $X^{\mathrm{an}}$.
+
+\section{Fundamental classes}\label{cycle-class:section-fundamental-classes}
+
+\begin{lemma}\label{cycle-class:lemma-bm-vanishing}
+Let $S$ be a closed complex analytic subset of complex dimension $\leq d$ of a complex manifold. Then $H^{BM}_i(S; \ZZ) = 0$ for $i > 2d$, and $H^{BM}_{2d}(S; \ZZ)$ is free on the
+irreducible components of dimension $d$.
+\end{lemma}
+
+\begin{proof}[Sketch of proof]
+Analytic sets admit triangulations compatible with a stratification by complex submanifolds, the strata of $S$ having real dimension $\leq 2d$
+\cite[Chapter 19]{fulton-intersection}. So the locally finite chain complex of $S$ vanishes above degree $2d$, which gives the first statement. For the second, let
+$\Sigma = \mathrm{Sing}(S) \cup S_{<d}$, where $S_{<d}$ is the union of the components of dimension $< d$. It has complex dimension $\leq d - 1$, and the long exact sequence
+$H^{BM}_{2d}(\Sigma) \to H^{BM}_{2d}(S) \to H^{BM}_{2d}(S \setminus \Sigma) \to H^{BM}_{2d-1}(\Sigma)$ has outer terms zero by the first statement. The complex manifold $S \setminus \Sigma$ is
+canonically oriented, of real dimension $2d$, with one connected component for each $d$-dimensional irreducible component of $S$ (the regular locus of an irreducible analytic set is
+connected), and $H^{BM}_{2d}$ of an oriented $2d$-manifold is free on its connected components (Remark~\ref{poincare-duality:remark-borel-moore}).
+\end{proof}
+
+\begin{definition}\label{cycle-class:definition-cycle-class}
+Let $Z \subseteq X$ be a subvariety of codimension $p$. Its \emph{fundamental class} $[Z] \in H^{BM}_{2n-2p}(Z; \ZZ)$ is the class corresponding to $Z$ in
+Lemma~\ref{cycle-class:lemma-bm-vanishing}. Its \emph{cycle class} $\mathrm{cl}(Z) \in H^{2p}(X; \ZZ)$ is the image of $[Z]$ under
+$H^{BM}_{2n-2p}(Z) \cong H^{2p}(X, X \setminus Z) \to H^{2p}(X)$ (Remark~\ref{poincare-duality:remark-fundamental-classes-subspaces}). It extends linearly to
+$\mathrm{cl} \colon Z^p(X) \to H^{2p}(X; \ZZ)$. For $X$ compact, $\mathrm{cl}(Z)$ is the Poincar\'e dual of $i_*[Z] \in H_{2n-2p}(X; \ZZ)$.
+\end{definition}
+
+\begin{proposition}\label{cycle-class:proposition-current}
+Let $X$ be compact. The image of $\mathrm{cl}(Z)$ in $H^{2p}(X; \RR) \cong H^{2p}_{\mathrm{dR}}(X)$ is the class of the current of integration over $Z_{\mathrm{reg}}$ of
+Proposition~\ref{complex-manifolds:proposition-subvariety-class}: for every closed $(2n - 2p)$-form $\varphi$,
+\[
+\int_X\mathrm{cl}(Z) \wedge \varphi = \int_{Z_{\mathrm{reg}}}\varphi .
+\]
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+For $Z$ nonsingular this is Theorem~\ref{de-rham:theorem-currents}. In general both sides are determined by their restriction to the complement of $\Sigma = \mathrm{Sing}(Z)$. The
+topological class is determined there by Lemma~\ref{cycle-class:lemma-bm-vanishing}, and the current by the fact that integration over $Z_{\mathrm{reg}}$ is a closed current whose
+restriction to $X \setminus \Sigma$ is the integration current of a closed submanifold. Two closed currents of degree $2p$ that agree off an analytic set of real codimension
+$> 2p$ in $X$ are equal (the difference would be a closed current supported on $\Sigma$ of degree below its codimension, which vanishes by the support theorem) \cite[Chapter 3]{griffiths-harris},
+\cite[Section 11.1]{voisin-hodge-1}.
+\end{proof}
+
+\section{The cycle class map and its properties}\label{cycle-class:section-properties}
+
+\begin{theorem}\label{cycle-class:theorem-cycle-class}
+Let $X$ be a nonsingular complex variety.
+\begin{enumerate}
+\item $\mathrm{cl}$ factors through rational equivalence and gives homomorphisms $\mathrm{cl} \colon \CH^p(X) \to H^{2p}(X; \ZZ)$, which form a ring homomorphism
+$\CH^\bullet(X) \to H^{2\bullet}(X; \ZZ)$ for the intersection product and the cup product.
+\item It is compatible with pullback along morphisms of nonsingular varieties and with proper pushforward (Gysin maps in cohomology), and with exterior products.
+\item $\mathrm{cl}(c_i(E) \cap [X]) = c_i(E)$, the topological Chern class of the underlying complex vector bundle.
+\item For $X$ projective, $\deg\alpha = \int_X\mathrm{cl}(\alpha)$ for $\alpha \in \CH^n(X)$.
+\end{enumerate}
+\end{theorem}
+
+This is \cite[Chapter 19]{fulton-intersection}. For (1), rational equivalence is generated by the fibres $\Gamma(0) - \Gamma(\infty)$ of a family
+$\Gamma \subseteq \PP^1 \times X$ (Proposition~\ref{intersection-theory:proposition-equivalences}), and $\mathrm{cl}(\Gamma(0)) = \mathrm{cl}(\Gamma(\infty))$ because the two points of $\PP^1$
+have the same class in $H^2(\PP^1; \ZZ)$ and $\mathrm{cl}(\Gamma(t)) = \mathrm{pr}_{2*}(\mathrm{cl}(\Gamma) \cup \mathrm{pr}_1^*\mathrm{cl}(t))$. Multiplicativity reduces, by the moving lemma or
+deformation to the normal cone, to transverse intersections, where it is the statement that cup product is Poincar\'e dual to transverse intersection
+(Remark~\ref{poincare-duality:remark-fundamental-classes-subspaces}).
+
+\begin{example}\label{cycle-class:example-classes}
+\begin{enumerate}
+\item On $\PP^n$, $\mathrm{cl}(h^k)$ is the $k$-th power of the positive generator of $H^2(\CC\PP^n; \ZZ)$, and $\mathrm{cl} \colon \CH^\bullet(\PP^n) \to H^{2\bullet}(\CC\PP^n; \ZZ)$ is an isomorphism of
+rings (Example~\ref{intersection-theory:example-chow-ring-projective} and Theorem~\ref{singular-cohomology:theorem-projective-spaces}).
+\item For a divisor $D$, $\mathrm{cl}(D) = c_1(\mathcal{O}(D))$, by (3) applied to $E = \mathcal{O}(D)$ and $c_1(\mathcal{O}(D)) \cap [X] = [D]$. So on $\CH^1(X) = \Pic(X)$ the cycle class map is the first
+Chern class of Theorem~\ref{holomorphic-bundles:theorem-exponential}.
+\item For a point $x$ of a projective $X$, $\mathrm{cl}(x)$ is the generator of $H^{2n}(X; \ZZ) \cong \ZZ$ dual to the fundamental class. So $\mathrm{cl}$ on $\CH_0$ is the degree, and it loses all the
+information in the huge kernel of Example~\ref{intersection-theory:example-chow-zero-surfaces}.
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{cycle-class:example-kernel-curves}
+\begin{enumerate}
+\item Let $C$ be a nonsingular projective curve of genus $g$. On $\CH^1(C) = \Pic(C)$ the cycle class map is the degree $\CH^1(C) \to H^2(C; \ZZ) \cong \ZZ$ (Example~\ref{cycle-class:example-classes}(2) and~(3)),
+which is surjective, and its kernel $\CH^1(C)_{\mathrm{hom}}$ is the group of divisor classes of degree $0$, isomorphic to the Jacobian $J(C)$ by the Abel--Jacobi theorem
+(Theorem~\ref{curves:theorem-abel-jacobi}). For $g \geq 1$ this kernel is an uncountable group; for an elliptic curve and points $p \neq q$ the class of $p - q$ is nonzero
+(Counterexample~\ref{holomorphic-bundles:counterexample-topologically-trivial} and GAGA). For $g = 0$, $\mathrm{cl}$ is an isomorphism.
+\item Let $Z = V(f_1, \ldots, f_p) \subseteq \PP^n$ be a complete intersection of hypersurfaces of degrees $d_1, \ldots, d_p$, meeting properly and generically transversally. Then
+$[Z] = [V(f_1)] \cdots [V(f_p)]$ in $\CH^p(\PP^n)$, so by Theorem~\ref{cycle-class:theorem-cycle-class}(1) and Exercise~\ref{cycle-class:exercise-hypersurface-class},
+$\mathrm{cl}(Z) = d_1 \cdots d_p\,h^p$, and $\int\mathrm{cl}(Z) \cup h^{n-p} = d_1 \cdots d_p$ is the degree of $Z$ (B\'ezout).
+\end{enumerate}
+\end{example}
+
+\section{Cycle classes are Hodge classes}\label{cycle-class:section-hodge-classes}
+
+\begin{definition}\label{cycle-class:definition-hodge-classes}
+Let $X$ be a compact K\"ahler manifold. The group of \emph{rational Hodge classes} of degree $2p$ is $\mathrm{Hdg}^p(X) = H^{2p}(X; \QQ) \cap H^{p,p}(X)$, the intersection taken inside
+$H^{2p}(X; \CC)$. The group of \emph{integral Hodge classes} $\mathrm{Hdg}^p(X; \ZZ)$ is the preimage of $H^{p,p}(X)$ under $H^{2p}(X; \ZZ) \to H^{2p}(X; \CC)$; it contains the torsion
+subgroup.
+\end{definition}
+
+\begin{corollary}\label{cycle-class:corollary-hodge-classes}
+For a nonsingular projective complex variety $X$, $\mathrm{cl}(\CH^p(X)) \subseteq \mathrm{Hdg}^p(X; \ZZ)$, and $\mathrm{cl}(\CH^p(X)) \otimes \QQ \subseteq \mathrm{Hdg}^p(X)$.
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{cycle-class:proposition-current}, the image of $\mathrm{cl}(Z)$ in $H^{2p}(X; \CC)$ is the class of the integration current over $Z$, which lies in $H^{p,p}(X)$ by
+Proposition~\ref{hodge-decomposition:proposition-cycle-classes-type}. Extend linearly.
+\end{proof}
+
+\begin{corollary}\label{cycle-class:corollary-effective}
+Let $X \subseteq \PP^N$ be a nonsingular projective variety of dimension $n$, let $h \in H^2(X; \ZZ)$ be the class of a hyperplane section, and let $Z = \sum_ia_iZ_i \in Z^p(X)$ be a nonzero effective cycle
+($a_i \geq 0$). Then $\int_X\mathrm{cl}(Z) \cup h^{n-p} > 0$. In particular $\mathrm{cl}(Z)$ is not a torsion class, and a nonzero effective cycle is not homologically, hence not rationally, equivalent to zero.
+\end{corollary}
+
+\begin{proof}
+By Example~\ref{cycle-class:example-classes}(2), $h = c_1(\mathcal{O}(1)|_X)$, which is represented by the restriction $\omega$ of the Fubini--Study form (Example~\ref{holomorphic-bundles:example-fubini-study}
+and naturality of Chern--Weil forms), a K\"ahler form on $X$. By Proposition~\ref{cycle-class:proposition-current} and Proposition~\ref{kahler:proposition-volume},
+\[
+\int_X\mathrm{cl}(Z_i) \cup h^{n-p} = \int_{Z_{i,\mathrm{reg}}}\omega^{n-p} = (n-p)!\,\mathrm{vol}(Z_{i,\mathrm{reg}}) > 0,
+\]
+and summing with the coefficients $a_i \geq 0$, not all zero, gives a positive number. A torsion class, or the class $0$, would give $0$.
+\end{proof}
+
+\begin{counterexample}\label{cycle-class:counterexample-not-effective}
+Corollary~\ref{cycle-class:corollary-effective} is a constraint on which Hodge classes can be classes of \emph{effective} cycles, and the Hodge conjecture cannot be strengthened to effective
+cycles. On $X = \PP^1 \times \PP^1$ with the classes $a$, $b$ of the two rulings, $\int(a - b) \cup (a + b) = 0$ for the hyperplane class $a + b$ of the Segre embedding (as $a^2 = b^2 = 0$), so $a - b$ is an
+integral Hodge class, the class of the divisor $\{p\} \times \PP^1 - \PP^1 \times \{q\}$, but not the class of any effective cycle. In general the classes of effective cycles of codimension $p$ form a monoid, closed under addition, which by the corollary meets the hyperplane
+$\{\alpha : \int_X\alpha \cup h^{n-p} = 0\}$ only in $0$.
+\end{counterexample}
+
+\begin{remark}\label{cycle-class:remark-hodge-conjecture}
+The \emph{Hodge conjecture} (Chapter~\ref{hodge-conjecture}) asserts that $\mathrm{cl}(\CH^p(X)) \otimes \QQ = \mathrm{Hdg}^p(X)$ for every nonsingular projective complex variety. The
+integral version, $\mathrm{cl}(\CH^p(X)) = \mathrm{Hdg}^p(X; \ZZ)$, is false: Atiyah and Hirzebruch found torsion classes that are not algebraic \cite{atiyah-hirzebruch-1962}, and
+Koll\'ar found non-torsion counterexamples (Chapter~\ref{failures}). For $p = 1$ the integral statement is true: this is the Lefschetz $(1,1)$-theorem
+(Chapter~\ref{lefschetz-11}), which for projective $X$ follows from Lemma~\ref{kodaira:lemma-integral-11} together with Example~\ref{cycle-class:example-classes}(2) and GAGA.
+\end{remark}
+
+\section{Cycles and coherent sheaves}\label{cycle-class:section-chern-character}
+
+\begin{proposition}\label{cycle-class:proposition-chern-character-cycle}
+Let $X$ be a nonsingular projective variety and $Z \subseteq X$ a subvariety of codimension $p$. Then $\mathrm{ch}(\mathcal{O}_Z) = [Z] + (\text{terms in } \CH^{>p}(X) \otimes \QQ)$, where
+$\mathrm{ch}$ is computed with a finite locally free resolution of $\mathcal{O}_Z$. Consequently the $\QQ$-subspace of $H^{2\bullet}(X; \QQ)$ spanned by the classes of algebraic cycles equals the
+$\QQ$-subalgebra generated by the Chern classes of algebraic vector bundles on $X$.
+\end{proposition}
+
+\begin{proof}
+The first statement is in \cite[Chapter 15]{fulton-intersection}: it follows from Grothendieck--Riemann--Roch (Theorem~\ref{intersection-theory:theorem-grr}) applied to a resolution
+of singularities of $Z$, or directly from the fact that the lowest nonzero term of $\mathrm{ch}$ of a sheaf supported in codimension $p$ is its fundamental cycle. On a nonsingular projective
+variety every coherent sheaf has a finite resolution by locally free sheaves \cite[Exercises III.6.8 and III.6.9]{hartshorne-ag}, so $\mathrm{ch}(\mathcal{O}_Z)$ is a polynomial with rational
+coefficients in Chern classes of vector bundles. By descending induction on $p$, every $[Z]$ lies in the $\QQ$-algebra generated by Chern classes of vector bundles. Conversely, Chern
+classes of vector bundles are classes of algebraic cycles, $c_i(E) \cap [X] \in \CH^i(X)$ (Theorem~\ref{cycle-class:theorem-cycle-class}(3)), and products of cycle classes are cycle
+classes (Theorem~\ref{cycle-class:theorem-cycle-class}(1)).
+\end{proof}
+
+\begin{remark}\label{cycle-class:remark-kahler-version}
+Proposition~\ref{cycle-class:proposition-chern-character-cycle} suggests versions of the Hodge conjecture for compact K\"ahler manifolds: with analytic cycles, with Chern classes of
+holomorphic vector bundles, or with Chern classes of coherent analytic sheaves. All of these fail for suitable complex tori: Voisin constructed a
+four-dimensional torus with a nonzero Hodge class in $H^4$ that is not a combination of Chern classes of coherent sheaves \cite{voisin-2002}. So projectivity is essential
+(Chapter~\ref{failures}).
+\end{remark}
+
+\begin{remark}\label{cycle-class:remark-deligne-cohomology}
+The cycle class map refines to the \emph{Deligne cycle class} with values in Deligne cohomology $H^{2p}_{\mathcal{D}}(X; \ZZ(p))$. Its restriction to homologically trivial cycles is the
+Abel--Jacobi map to the intermediate Jacobian (Chapter~\ref{intermediate-jacobians}), which sees information about $\CH^p(X)$ invisible to cohomology, such as $\Pic^0$ for $p = 1$.
+\end{remark}
+
+\section{Exercises}\label{cycle-class:section-exercises}
+
+\begin{exercise}\label{cycle-class:exercise-hypersurface-class}
+Let $X \subseteq \PP^n$ be a hypersurface of degree $d$. Show that $\mathrm{cl}(X) = dh$ in $H^2(\CC\PP^n; \ZZ)$.
+\end{exercise}
+
+\begin{solution}
+$[X] = \mathrm{div}(f/x_0^d) + d[H_0]$ in $Z^1(\PP^n)$ for a defining polynomial $f$, so $[X] = dh$ in $\CH^1(\PP^n)$, and $\mathrm{cl}(h)$ is the generator. Alternatively,
+$\mathrm{cl}(X) = c_1(\mathcal{O}(X)) = c_1(\mathcal{O}(d)) = dh$ by Example~\ref{cycle-class:example-classes}(2).
+\end{solution}
+
+\begin{exercise}\label{cycle-class:exercise-diagonal}
+Let $X$ be a nonsingular projective variety of dimension $n$ and $\Delta \subseteq X \times X$ the diagonal. Show that $\deg(\Delta \cdot \Delta) = \chi_{\mathrm{top}}(X)$, and more generally
+the \emph{Lefschetz fixed point formula}: for a morphism $f \colon X \to X$ with graph $\Gamma_f$, $\deg(\Gamma_f \cdot \Delta) = \sum_i(-1)^i\operatorname{tr}(f^* \mid H^i(X; \QQ))$.
+\end{exercise}
+
+\begin{solution}
+Choose a basis $(e_a)$ of $H^\bullet(X; \QQ)$ with dual basis $(e^a)$ for the Poincar\'e pairing, $\int_Xe_a \cup e^b = \delta_a^b$. By the K\"unneth formula,
+$\mathrm{cl}(\Delta) = \sum_a(-1)^{\deg e_a}e_a \otimes e^a$ (the sign makes $\int_{X \times X}\mathrm{cl}(\Delta) \cup (\alpha \otimes \beta) = \int_X\alpha \cup \beta$). Then
+$\mathrm{cl}(\Gamma_f) = (1 \times f)^*\mathrm{cl}(\Delta)$ up to the ordering of factors, and $\int\mathrm{cl}(\Gamma_f) \cup \mathrm{cl}(\Delta) = \sum_a(-1)^{\deg e_a}\int_Xf^*e_a \cup e^a$, which is the
+alternating trace. For $f = \mathrm{id}$ the traces are the Betti numbers. Degrees of intersections are integrals of cup products by Theorem~\ref{cycle-class:theorem-cycle-class}(4).
+\end{solution}
+
+\begin{exercise}\label{cycle-class:exercise-torsion-hodge}
+Show that every torsion class in $H^{2p}(X; \ZZ)$ is an integral Hodge class, and that for $X$ with $H^{2p}(X; \ZZ)$ torsion-free and $H^{2p}(X; \CC) = H^{p,p}(X)$ every integral class is a
+Hodge class.
+\end{exercise}
+
+\begin{solution}
+A torsion class maps to $0 \in H^{2p}(X; \CC)$, which lies in $H^{p,p}$. The second statement is immediate from the definition.
+\end{solution}

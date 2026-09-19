@@ -1,0 +1,396 @@
+\chapter{K\"ahler Manifolds}\label{kahler}
+\chapterstatus{complete}
+
+\section{Introduction}\label{kahler:section-introduction}
+
+A K\"ahler metric is a Hermitian metric whose fundamental $2$-form is closed. This single condition makes the Riemannian and the complex
+structure compatible to second order (Proposition~\ref{kahler:proposition-kahler-equivalent}), it holds on every projective manifold
+(Corollary~\ref{kahler:corollary-projective-kahler}), and it is exactly what the Hodge decomposition of Chapter~\ref{hodge-decomposition}
+needs. This chapter develops K\"ahler metrics and the pointwise linear algebra of the Lefschetz operator
+(Theorem~\ref{kahler:theorem-sl2-forms}), which becomes the hard Lefschetz theorem in Chapter~\ref{lefschetz-theorems}. References:
+\cite[Chapter 0]{griffiths-harris}, \cite[Chapters 1 and 3]{huybrechts-complex}, \cite[Chapters 3 and 6]{voisin-hodge-1}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{dolbeault} (Dolbeault Cohomology), Chapter~\ref{riemannian-geometry} (Riemannian
+Geometry) and Chapter~\ref{representation-theory} (Representations of Groups and Lie Algebras).
+
+Throughout, $X$ is a complex manifold of complex dimension $n$ and $J$ is its almost complex structure (multiplication by $i$ on tangent
+vectors). Forms are complex valued unless said otherwise, and $\Lambda^{p,q}$ denotes forms of type $(p,q)$.
+
+\section{Hermitian metrics and the fundamental form}\label{kahler:section-hermitian}
+
+\begin{definition}\label{kahler:definition-hermitian}
+A \emph{Hermitian metric} on $X$ is a Riemannian metric $g$ with $g(JU, JV) = g(U, V)$ for all tangent vectors $U, V$. Its
+\emph{fundamental form} is the real $2$-form $\omega(U, V) = g(JU, V)$.
+\end{definition}
+
+\begin{proposition}\label{kahler:proposition-fundamental-form-coordinates}
+Let $g$ be a Hermitian metric and extend it complex bilinearly to complexified tangent vectors. In holomorphic coordinates
+$z^j = x^j + iy^j$ put $h_{j\bar k} = 2g(\partial/\partial z^j, \partial/\partial\bar z^k)$. Then $(h_{j\bar k})$ is a positive definite
+Hermitian matrix at every point and
+\[
+\omega = \frac{i}{2}\sum_{j,k}h_{j\bar k}\,dz^j \wedge d\bar z^k,
+\]
+a real form of type $(1,1)$. Conversely, every real $(1,1)$-form $\frac{i}{2}\sum h_{j\bar k}\,dz^j \wedge d\bar z^k$ whose matrix
+$(h_{j\bar k})$ is positive definite (such a form is called \emph{positive}) is the fundamental form of exactly one Hermitian metric. For the
+standard metric of $\CC^n$ one gets $\omega_0 = \frac{i}{2}\sum_jdz^j \wedge d\bar z^j = \sum_jdx^j \wedge dy^j$.
+\end{proposition}
+
+\begin{proof}
+The $J$-invariance of $g$ says that $g$ pairs the $+i$- and $-i$-eigenspaces of $J$ with each other and each of them with itself
+trivially: $g(\partial_j, \partial_k) = g(J\partial_j, J\partial_k) = i^2g(\partial_j, \partial_k)$ forces $g(\partial_j, \partial_k) = 0$,
+where $\partial_j = \partial/\partial z^j$, and similarly for $\bar\partial_j = \partial/\partial\bar z^j$. So
+$g = \frac12\sum h_{j\bar k}(dz^j \otimes d\bar z^k + d\bar z^k \otimes dz^j)$. Since $g$ is real, $\overline{h_{j\bar k}} = h_{k\bar j}$,
+and for $U = \sum u^j\partial_j + \overline{u^j}\bar\partial_j$ real, $g(U, U) = \sum h_{j\bar k}u^j\overline{u^k}$, so $(h_{j\bar k})$ is
+positive definite. Since $J\partial_j = i\partial_j$ and $J\bar\partial_k = -i\bar\partial_k$,
+$\omega(\partial_j, \bar\partial_k) = g(i\partial_j, \bar\partial_k) = \frac{i}{2}h_{j\bar k}$,
+$\omega(\bar\partial_k, \partial_j) = -\frac{i}{2}h_{j\bar k}$ and $\omega$ vanishes on pairs of the same type; this is the displayed
+formula. Conversely, a positive $(1,1)$-form determines $h_{j\bar k}$ and hence $g$ by the same formulas, and $g$ is then a $J$-invariant
+Riemannian metric. For $\CC^n$, $g(\partial_j, \bar\partial_k) = \frac14(g(\partial_{x^j}, \partial_{x^k}) + g(\partial_{y^j}, \partial_{y^k})) = \frac12\delta_{jk}$, and
+$\frac{i}{2}dz \wedge d\bar z = dx \wedge dy$.
+\end{proof}
+
+\begin{proposition}\label{kahler:proposition-volume}
+For a Hermitian metric, $\omega^n/n! = \mathrm{vol}_g$ is the Riemannian volume form for the canonical orientation. The restriction of $\omega$
+to a complex submanifold $Y$ is the fundamental form of the restricted metric. Hence for a nonempty compact complex submanifold, or analytic
+subvariety, $Z$ of pure dimension $k$,
+\[
+\int_Z\frac{\omega^k}{k!} = \mathrm{vol}(Z_{\mathrm{reg}}) > 0 .
+\]
+\end{proposition}
+
+\begin{proof}
+At a point choose, by Gram--Schmidt for the Hermitian form $(h_{j\bar k})$, a linear change of coordinates making $h_{j\bar k} = \delta_{jk}$
+there. Then $\omega = \sum_jdx^j \wedge dy^j$ at that point, so
+$\omega^n = n!\,dx^1 \wedge dy^1 \wedge \cdots \wedge dx^n \wedge dy^n$, which is the volume form of the orthonormal basis
+$\partial_{x^1}, \partial_{y^1}, \ldots$ in the canonical orientation. The tangent spaces of $Y$ are $J$-stable, so the restricted metric is
+Hermitian, and $\omega(U, V) = g(JU, V)$ for $U, V$ tangent to $Y$ is its fundamental form. The formula for $Z$ follows by applying the
+first statement to $Z_{\mathrm{reg}}$, which is a nonempty open complex manifold of dimension $k$; the integral converges by
+Proposition~\ref{complex-manifolds:proposition-subvariety-class}.
+\end{proof}
+
+\section{The K\"ahler condition}\label{kahler:section-kahler}
+
+\begin{definition}\label{kahler:definition-kahler}
+A Hermitian metric is \emph{K\"ahler} if its fundamental form is closed, $d\omega = 0$; then $\omega$ is called a \emph{K\"ahler form}. A
+complex manifold is \emph{K\"ahler} if it admits a K\"ahler metric, and the class $[\omega] \in H^2(X; \RR)$ is then a
+\emph{K\"ahler class}.
+\end{definition}
+
+\begin{proposition}\label{kahler:proposition-kahler-equivalent}
+For a Hermitian metric on $X$ the following are equivalent:
+\begin{enumerate}
+\item $d\omega = 0$;
+\item around every point $p$ there are holomorphic coordinates centred at $p$ with $h_{j\bar k} = \delta_{jk} + O(|z|^2)$ (the metric
+\emph{osculates to order two} to the flat metric);
+\item locally $\omega = i\partial\bar\partial\varphi$ for a smooth real function $\varphi$, a \emph{local K\"ahler potential}.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(2)$\Rightarrow$(1): in the coordinates of (2), the coefficients of $d\omega$ at $p$ are first derivatives of the $h_{j\bar k}$ at $0$, which
+vanish; since $p$ is arbitrary, $d\omega = 0$. (3)$\Rightarrow$(1): $d(i\partial\bar\partial\varphi) = i(\partial + \bar\partial)\partial\bar\partial\varphi = 0$ by
+Proposition~\ref{complex-manifolds:proposition-dbar}.
+
+(1)$\Rightarrow$(2): after a linear change of coordinates, $h_{j\bar k}(0) = \delta_{jk}$. By Taylor's theorem
+\[
+h_{j\bar k} = \delta_{jk} + \sum_l\left(a_{jkl}z^l + b_{jkl}\bar z^l\right) + O(|z|^2),
+\]
+and $\overline{h_{j\bar k}} = h_{k\bar j}$ gives $b_{jkl} = \overline{a_{kjl}}$. The $(2,1)$-component of $d\omega$ is
+$\partial\omega = \frac{i}{2}\sum\partial_lh_{j\bar k}\,dz^l \wedge dz^j \wedge d\bar z^k$, and its vanishing at $0$ says that
+$a_{jkl} = a_{lkj}$. Define $w^k = z^k + \frac12\sum_{j,l}a_{jkl}z^jz^l$. Since $dw^k = dz^k$ at $0$, the map $z \mapsto w$ is a diffeomorphism near $0$
+(Theorem~\ref{real-analysis:theorem-inverse-function}), and its inverse is holomorphic because its derivative, the inverse of a complex
+linear map, is complex linear; so the $w^k$ are holomorphic coordinates near $0$. By the symmetry $a_{jkl} = a_{lkj}$,
+$dw^k = dz^k + \sum_{j,l}a_{jkl}z^l\,dz^j$. Hence
+\[
+\sum_kdw^k \wedge d\bar w^k = \sum_{j,k}\Big(\delta_{jk} + \sum_la_{jkl}z^l + \sum_l\overline{a_{kjl}}\,\bar z^l\Big)dz^j \wedge d\bar z^k + O(|z|^2),
+\]
+so $\omega - \frac{i}{2}\sum_kdw^k \wedge d\bar w^k$ has coefficients $O(|z|^2)$ in the basis $dz^j \wedge d\bar z^k$, hence also in the
+basis $dw^j \wedge d\bar w^k$, which differs from it by a smooth change of basis, and $|z|$ and $|w|$ are comparable near $0$. This is (2).
+
+(1)$\Rightarrow$(3): on a polydisc $\Delta$ around a point, $\omega = d\eta$ for a real $1$-form $\eta$ by the Poincar\'e lemma
+(Theorem~\ref{de-rham:theorem-homotopy-invariance}). Write $\eta = \eta^{1,0} + \eta^{0,1}$ with $\eta^{1,0} = \overline{\eta^{0,1}}$.
+The $(0,2)$-component of $d\eta = \omega$ is $\bar\partial\eta^{0,1} = 0$, so on a smaller polydisc $\eta^{0,1} = \bar\partial f$ for a
+smooth complex function $f$ by Lemma~\ref{dolbeault:lemma-dbar-poincare-pq}, and then $\eta^{1,0} = \partial\bar f$. The $(1,1)$-component
+gives
+\[
+\omega = \partial\eta^{0,1} + \bar\partial\eta^{1,0} = \partial\bar\partial f + \bar\partial\partial\bar f = \partial\bar\partial(f - \bar f),
+\]
+so $\varphi = -i(f - \bar f) = 2\operatorname{Im}f$ is real and $i\partial\bar\partial\varphi = \omega$.
+\end{proof}
+
+\begin{remark}\label{kahler:remark-levi-civita}
+The K\"ahler condition has several other equivalent forms: $J$ is parallel for the Levi-Civita connection; the Levi-Civita connection of $g$,
+transported to $T^{1,0}X$, is the Chern connection of the Hermitian holomorphic bundle $T^{1,0}X$
+(Theorem~\ref{holomorphic-bundles:theorem-chern-connection}); the holonomy group of $g$ is contained in $U(n)$ \cite[Chapter 4]{huybrechts-complex}.
+Condition (2) is the useful one in practice: any first-order identity between operators built from $g$ and $J$ that holds on $\CC^n$ with
+the flat metric holds on every K\"ahler manifold, since it can be checked at the centre of such coordinates. The K\"ahler identities of
+Chapter~\ref{hodge-decomposition} are proved this way.
+\end{remark}
+
+\section{Examples}\label{kahler:section-examples}
+
+\begin{proposition}[Fubini--Study metric]\label{kahler:proposition-fubini-study}
+Let $\sigma$ be a holomorphic section of the projection $\CC^{n+1} \setminus \{0\} \to \CC\PP^n$ over an open set $U$. The form
+\[
+\omega_{FS} = \frac{i}{2\pi}\partial\bar\partial\log|\sigma|^2
+\]
+does not depend on $\sigma$, and so defines a real $(1,1)$-form on $\CC\PP^n$. It is a K\"ahler form, invariant under the action of
+$U(n+1)$, and $[\omega_{FS}] = c_1(\mathcal{O}(1))$, the positive generator of $H^2(\CC\PP^n; \ZZ)$.
+\end{proposition}
+
+\begin{proof}
+Another section is $\lambda\sigma$ with $\lambda$ holomorphic and nowhere zero on $U$ (shrinking $U$ so that $\log\lambda$ exists), and
+$\log|\lambda\sigma|^2 = \log|\sigma|^2 + \log\lambda + \overline{\log\lambda}$. Since $\bar\partial\log\lambda = 0$ and
+$\partial\overline{\log\lambda} = 0$, $\partial\bar\partial$ kills the last two terms, so $\omega_{FS}$ is well defined; it is real because
+$\overline{i\partial\bar\partial u} = -i\bar\partial\partial u = i\partial\bar\partial u$ for real $u$, and closed by
+Proposition~\ref{kahler:proposition-kahler-equivalent}. For $A \in U(n+1)$, $A \circ \sigma$ is a section over $A(U)$ with
+$|A\sigma| = |\sigma|$, so $\omega_{FS}$ is $U(n+1)$-invariant. As $U(n+1)$ acts transitively on $\CC\PP^n$, positivity need only be checked
+at $[1 : 0 : \cdots : 0]$. With the section $\sigma(w) = (1, w_1, \ldots, w_n)$ in affine coordinates,
+$\log|\sigma|^2 = \log(1 + |w|^2) = |w|^2 + O(|w|^4)$, so at $w = 0$
+\[
+\omega_{FS} = \frac{i}{2\pi}\sum_jdw^j \wedge d\bar w^j = \frac1\pi\sum_jdu^j \wedge dv^j \qquad (w^j = u^j + iv^j),
+\]
+which is positive. Finally, $\sigma$ is a nowhere-vanishing section of $\mathcal{O}(-1) \subseteq \CC\PP^n \times \CC^{n+1}$, and the dual
+frame $\sigma^*$ of $\mathcal{O}(1)$ has norm $|\sigma^*|^2 = |\sigma|^{-2} = e^{-\varphi}$ for the dual of the standard metric, with
+$\varphi = \log|\sigma|^2$. By Theorem~\ref{holomorphic-bundles:theorem-chern-connection}, $c_1(\mathcal{O}(1)) = [\frac{i}{2\pi}\partial\bar\partial\varphi] = [\omega_{FS}]$.
+This is the positive generator of $H^2(\CC\PP^n; \ZZ)$ by Example~\ref{holomorphic-bundles:example-fubini-study}.
+\end{proof}
+
+\begin{corollary}\label{kahler:corollary-projective-kahler}
+A complex submanifold of a K\"ahler manifold is K\"ahler with the restricted metric. In particular every \emph{projective manifold}, that is,
+every closed complex submanifold $X \subseteq \CC\PP^N$, is K\"ahler, and its K\"ahler class $[\omega_{FS}|_X]$ is the restriction of the
+hyperplane class $c_1(\mathcal{O}(1))$.
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{kahler:proposition-volume}, the fundamental form of the restricted metric is the restriction of $\omega$, and restriction
+of forms commutes with $d$.
+\end{proof}
+
+\begin{example}\label{kahler:example-kahler}
+\begin{enumerate}
+\item $\CC^n$ with $\omega_0$, and complex tori $\CC^n/\Lambda$ with the form induced by $\omega_0$, which is invariant under translations. Products
+of K\"ahler manifolds are K\"ahler, with $\omega = \mathrm{pr}_1^*\omega_1 + \mathrm{pr}_2^*\omega_2$.
+\item Every Hermitian metric on a Riemann surface is K\"ahler, since $d\omega$ is a $3$-form on a real surface.
+\item Every smooth projective variety is K\"ahler (Corollary~\ref{kahler:corollary-projective-kahler}). The blow-up of a compact K\"ahler
+manifold along a compact complex submanifold is again K\"ahler \cite[Chapter 3]{voisin-hodge-1}.
+\item Not every compact K\"ahler manifold is projective: a complex torus $\CC^n/\Lambda$ with $n \geq 2$ and $\Lambda$ general has no
+nonconstant meromorphic functions, hence no embedding into projective space \cite{birkenhake-lange}; see also Chapter~\ref{abelian-varieties}. Voisin even showed that there
+are compact K\"ahler manifolds that are not homotopy equivalent to any projective manifold \cite{voisin-kodaira}.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{kahler:proposition-kahler-class-powers}
+Let $X$ be a compact K\"ahler manifold with K\"ahler form $\omega$. Then $[\omega]^k \neq 0$ in $H^{2k}(X; \RR)$ for $0 \leq k \leq n$; in
+particular $b_{2k}(X) \geq 1$. The cycle class (Proposition~\ref{complex-manifolds:proposition-subvariety-class}) of a nonempty analytic
+subvariety $Z$ of pure dimension $k$ is nonzero in $H^{2n-2k}(X; \RR)$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{kahler:proposition-volume}, $\int_X\omega^k \wedge \omega^{n-k} = n!\,\mathrm{vol}(X) > 0$. If $\omega^k = d\eta$ were
+exact, then $\omega^n = d(\eta \wedge \omega^{n-k})$ would be exact and its integral would vanish by Stokes' theorem. For $Z$, the class
+$[Z]$ is represented by the current of integration over $Z_{\mathrm{reg}}$, whose value on the closed form $\omega^k$ is
+$\int_Z\omega^k = k!\,\mathrm{vol}(Z_{\mathrm{reg}}) > 0$; since a closed current that is exact vanishes on closed forms, $[Z] \neq 0$
+(Theorem~\ref{de-rham:theorem-currents}).
+\end{proof}
+
+\begin{lemma}[Wirtinger inequality for $2$-planes]\label{kahler:lemma-wirtinger}
+Let $g$ be a Hermitian metric with fundamental form $\omega$, and let $u$, $v$ be orthonormal tangent vectors at a point. Then $|\omega(u, v)| \leq 1$, with equality if and only if $v = \pm Ju$, that is, if and only if
+the real $2$-plane spanned by $u$ and $v$ is a complex line.
+\end{lemma}
+
+\begin{proof}
+$\omega(u, v) = g(Ju, v)$, and $|Ju| = |u| = 1$ because $g$ is $J$-invariant. By the Cauchy--Schwarz inequality $|g(Ju, v)| \leq |Ju||v| = 1$, with equality if and only if $v = \pm Ju$. A real plane containing $u$
+and $Ju$ is $J$-stable, hence a complex line.
+\end{proof}
+
+\begin{proposition}\label{kahler:proposition-area-minimising}
+Let $(X, \omega)$ be a K\"ahler manifold and $C \subseteq X$ a compact complex curve (a compact complex submanifold of dimension $1$). If $\Sigma$ is a compact oriented surface and $f \colon \Sigma \to X$ an immersion
+with $f_*[\Sigma] = [C]$ in $H_2(X; \RR)$, then $\mathrm{area}(f) \geq \mathrm{area}(C) = \int_C\omega$, with equality if $f(\Sigma)$ is a complex curve with its complex orientation. So holomorphic curves minimise area in
+their homology class.
+\end{proposition}
+
+\begin{proof}
+At a point of $\Sigma$ choose an oriented orthonormal basis $u$, $v$ of $T\Sigma$ for the pulled-back metric; the area form of $f^*g$ takes the value $1$ on $(u, v)$, while $f^*\omega$ takes the value
+$\omega(df\,u, df\,v) \leq 1$ by Lemma~\ref{kahler:lemma-wirtinger}. So $f^*\omega \leq dA$ pointwise, and
+\[
+\mathrm{area}(f) = \int_\Sigma dA \geq \int_\Sigma f^*\omega = \int_C\omega = \mathrm{area}(C),
+\]
+where the middle equality holds because $\omega$ is closed and $f_*[\Sigma] = [C]$ (Theorem~\ref{de-rham:theorem-de-rham}), and the last is Proposition~\ref{kahler:proposition-volume} with $k = 1$. If $f(\Sigma)$ is a
+complex curve with the complex orientation, equality holds pointwise by the equality case of the lemma.
+\end{proof}
+
+\begin{remark}\label{kahler:remark-calibrations}
+The same argument, with the Wirtinger inequality $\frac{\omega^k}{k!} \leq \mathrm{vol}$ on real $2k$-planes, shows that compact complex submanifolds of any dimension minimise volume in their homology class
+\cite[Chapter 0, Section 2]{griffiths-harris}. A closed form that is bounded by the volume on every plane, with equality on a class of submanifolds, is called a \emph{calibration}; the K\"ahler form is the first
+example, and the holomorphic volume form of a Calabi--Yau manifold calibrates the \emph{special Lagrangian} submanifolds \cite{joyce-special-holonomy}.
+\end{remark}
+
+\begin{counterexample}\label{kahler:counterexample-hopf}
+The Hopf surface $X = (\CC^2 \setminus \{0\})/\langle z \mapsto 2z\rangle$ is a compact complex manifold diffeomorphic to $S^1 \times S^3$
+(Exercise~\ref{complex-manifolds:exercise-hopf-surface}), and it is not K\"ahler: $H^2(X; \RR) = 0$, whereas a compact K\"ahler manifold of positive
+dimension has $H^2 \neq 0$ by Proposition~\ref{kahler:proposition-kahler-class-powers}. Another obstruction, that $b_1(X) = 1$ is odd, is
+explained in Chapter~\ref{hodge-decomposition}.
+\end{counterexample}
+
+\section{Linear algebra of the Lefschetz operator}\label{kahler:section-lefschetz-linear-algebra}
+
+\begin{definition}\label{kahler:definition-lefschetz-operators}
+Let $V$ be a real vector space of dimension $2n$ with a complex structure $J$ and a $J$-invariant inner product $g$, with fundamental form
+$\omega$. Let $\Lambda^\bullet = \Lambda^\bullet V^* \otimes_\RR \CC$ with the Hermitian inner product induced by $g$, for which the wedge
+products of an orthonormal basis of $V^*$ form an orthonormal basis. Define:
+\begin{itemize}
+\item the \emph{Lefschetz operator} $L(\alpha) = \omega \wedge \alpha$, of degree $+2$;
+\item its adjoint $\Lambda = L^*$, of degree $-2$;
+\item the \emph{counting operator} $H = \sum_k(k - n)\pi_k$, where $\pi_k$ is the projection onto $\Lambda^k$.
+\end{itemize}
+On a Hermitian manifold these operators act pointwise on forms. A form $\alpha$ with $\Lambda\alpha = 0$ is called \emph{primitive}, and
+$P^k$ denotes the primitive forms of degree $k$.
+\end{definition}
+
+\begin{theorem}\label{kahler:theorem-sl2-forms}
+The operators satisfy
+\[
+[L, \Lambda] = H, \qquad [H, L] = 2L, \qquad [H, \Lambda] = -2\Lambda,
+\]
+so $e = L$, $f = \Lambda$, $h = H$ define a representation of $\mathfrak{sl}_2$ on $\Lambda^\bullet$ in which $\Lambda^k$ is the weight space of
+weight $k - n$. Consequently:
+\begin{enumerate}
+\item for $0 \leq k \leq n$, $L^{n-k} \colon \Lambda^k \to \Lambda^{2n-k}$ is an isomorphism;
+\item $P^k = 0$ for $k > n$, and every $\alpha \in \Lambda^k$ can be written uniquely as $\alpha = \sum_{j \geq 0}L^j\alpha_j$ with
+$\alpha_j \in P^{k-2j}$ (the \emph{Lefschetz} or \emph{primitive decomposition});
+\item for $k \leq n$, a form $\alpha \in \Lambda^k$ is primitive if and only if $L^{n-k+1}\alpha = 0$;
+\item $L$, $\Lambda$ map $\Lambda^{p,q}$ to $\Lambda^{p+1,q+1}$ and $\Lambda^{p-1,q-1}$, and if $\alpha$ has type $(p,q)$ then each
+$\alpha_j$ has type $(p - j, q - j)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The last two commutators hold because $L$ raises the degree by $2$ and $\Lambda$ lowers it by $2$: for $\alpha \in \Lambda^k$,
+$HL\alpha - LH\alpha = (k + 2 - n)L\alpha - (k - n)L\alpha = 2L\alpha$, and similarly for $\Lambda$.
+
+For $[L, \Lambda] = H$, choose an orthonormal basis $e_1, Je_1, \ldots, e_n, Je_n$ of $V$ (possible by induction: $e_1^\perp$ is
+$J$-stable when $e_1$ is a unit vector and $e_1 \perp Je_1$, as $g(e_1, Je_1) = g(Je_1, J^2e_1) = -g(Je_1, e_1)$). Let
+$x^1, y^1, \ldots, x^n, y^n$ be the dual basis, so that $\omega = \sum_j\omega_j$ with $\omega_j = x^j \wedge y^j$. The algebra
+$\Lambda^\bullet$ is the graded tensor product of the four-dimensional algebras $A_j = \Lambda^\bullet\langle x^j, y^j\rangle$, with the
+product inner product; $L = \sum_jL_j$ where $L_j$ is multiplication by $\omega_j$ in the $j$-th factor, and so $\Lambda = \sum_j\Lambda_j$
+with $\Lambda_j$ the adjoint of $L_j$ acting in the $j$-th factor. Since $L_j$ and $\Lambda_j$ have even degree, operators in different
+factors commute, and
+\[
+[L, \Lambda] = \sum_{j,k}[L_j, \Lambda_k] = \sum_j[L_j, \Lambda_j].
+\]
+In $A_j$, with orthonormal basis $1, x^j, y^j, x^j \wedge y^j$, the operator $L_j$ maps $1 \mapsto x^j \wedge y^j$ and kills the other basis
+vectors, and $\Lambda_j$ maps $x^j \wedge y^j \mapsto 1$ and kills the others. So $[L_j, \Lambda_j]$ is $-1$ on $1$, $0$ on $x^j, y^j$ and
+$+1$ on $x^j \wedge y^j$: it is multiplication by $(\deg_j - 1)$, where $\deg_j$ is the degree in the $j$-th factor. On a product of basis
+elements of total degree $k = \sum_j\deg_j$, $[L, \Lambda]$ is therefore multiplication by $\sum_j(\deg_j - 1) = k - n$, which is $H$.
+
+The consequences are statements about finite-dimensional $\mathfrak{sl}_2$-representations. The map $(e, f, h) \mapsto (f, e, -h)$ is an
+automorphism of $\mathfrak{sl}_2$, so $e' = \Lambda$, $f' = L$, $h' = -H$ is again a representation, in which $\Lambda^k$ has weight $n - k$.
+Corollary~\ref{representation-theory:corollary-lefschetz-structure} for $(e', f', h')$ says: $f'^{\,j} = L^j$ is an isomorphism from weight
+$j$ to weight $-j$, which for $j = n - k$ is (1); the primitive vectors $\ker e' = \ker\Lambda$ occur only in weights $j \geq 0$, that is, in
+degrees $k \leq n$; and
+\[
+\Lambda^\bullet = \bigoplus_{j \geq 0}\ \bigoplus_{i=0}^{j}L^iP^{n-j},
+\]
+which, restricted to degree $k$, is (2). For (3), write $\alpha = \sum_iL^i\alpha_i$ with $\alpha_i \in P^{k-2i}$. A primitive vector of
+degree $m \leq n$ generates an irreducible representation with basis $\alpha, L\alpha, \ldots, L^{n-m}\alpha$ and $L^{n-m+1}\alpha = 0$
+(Theorem~\ref{representation-theory:theorem-sl2-irreducibles}). So $L^{n-k+1}L^i\alpha_i = 0$ for $i = 0$, while for $i \geq 1$ the exponent
+$n - k + 1 + i \leq n - (k - 2i)$ and $L^{n-k+1+i}\alpha_i \neq 0$ if $\alpha_i \neq 0$. These terms lie in different summands of the direct
+sum above, so $L^{n-k+1}\alpha = 0$ if and only if $\alpha_i = 0$ for all $i \geq 1$, that is, if and only if $\alpha = \alpha_0$ is primitive.
+
+For (4), $L$ has type $(1,1)$ because $\omega$ does (Proposition~\ref{kahler:proposition-fundamental-form-coordinates}); since the spaces
+$\Lambda^{p,q}$ are mutually orthogonal (the basis $dz^I \wedge d\bar z^K$ of an orthonormal complex frame is orthogonal), the adjoint $\Lambda$ has
+type $(-1,-1)$. For $\theta \in \RR$ let $T_\theta$ act on $\Lambda^{p,q}$ by $e^{i(p-q)\theta}$. It commutes with $L$ and $\Lambda$, hence maps
+$L^jP^{k-2j}$ to itself, and by uniqueness in (2) $(T_\theta\alpha)_j = T_\theta(\alpha_j)$. If $\alpha$ has type $(p,q)$ then
+$T_\theta\alpha = e^{i(p-q)\theta}\alpha$, so $T_\theta\alpha_j = e^{i(p-q)\theta}\alpha_j$ for all $\theta$, and $\alpha_j$ has only components of
+types $(p', q')$ with $p' - q' = p - q$ and $p' + q' = k - 2j$, that is, $(p', q') = (p - j, q - j)$.
+\end{proof}
+
+\begin{remark}\label{kahler:remark-hodge-riemann-pointwise}
+For a primitive form $\alpha \in P^k$ of type $(p,q)$, the Hodge star operator is given by \emph{Weil's formula}
+\[
+*\alpha = (-1)^{k(k+1)/2}\,i^{p-q}\,\frac{L^{n-k}\alpha}{(n-k)!},
+\]
+and it follows that $i^{p-q}(-1)^{k(k-1)/2}\,\alpha \wedge \bar\alpha \wedge \omega^{n-k}$ is a positive multiple of the volume form when
+$\alpha \neq 0$ \cite[Section 1.2]{huybrechts-complex}. For instance, when $n = 1$ and $\alpha = dz$, one has $*dz = -i\,dz$ and
+$i\,dz \wedge d\bar z = 2\,dx \wedge dy$. Integrated over a compact K\"ahler manifold, this positivity becomes the Hodge--Riemann bilinear relations of
+Chapter~\ref{lefschetz-theorems}, the source of the polarisations of the Hodge structures of Part~\ref{part-hodge-theory}.
+\end{remark}
+
+\section{Exercises}\label{kahler:section-exercises}
+
+\begin{exercise}\label{kahler:exercise-fubini-study-line}
+Compute $\int_{\CC\PP^1}\omega_{FS}$ directly in the affine coordinate $w$, and deduce that $\int_{\CC\PP^n}\omega_{FS}^n = 1$.
+\end{exercise}
+
+\begin{solution}
+On $\CC\PP^1$, $\omega_{FS} = \frac{i}{2\pi}\partial\bar\partial\log(1 + |w|^2) = \frac{i}{2\pi}\frac{dw \wedge d\bar w}{(1 + |w|^2)^2}$, and the
+point at infinity has measure zero. In polar coordinates $\frac{i}{2}dw \wedge d\bar w = r\,dr\,d\theta$, so
+\[
+\int_{\CC\PP^1}\omega_{FS} = \frac1\pi\int_0^{2\pi}\int_0^\infty\frac{r\,dr}{(1 + r^2)^2}\,d\theta = \frac1\pi \cdot 2\pi \cdot \frac12 = 1 .
+\]
+A line generates $H_2(\CC\PP^n; \ZZ)$ (it is the $2$-skeleton of the standard cell structure), so $[\omega_{FS}]$ is the generator $\alpha$
+of $H^2(\CC\PP^n; \ZZ)$ that is positive on lines, and
+$\alpha^n$ generates $H^{2n}(\CC\PP^n; \ZZ)$ (Theorem~\ref{singular-cohomology:theorem-projective-spaces}); it is positive on the
+fundamental class since $\omega_{FS}^n$ is a positive multiple of the volume form (Proposition~\ref{kahler:proposition-volume}). So
+$\int_{\CC\PP^n}\omega_{FS}^n = 1$.
+\end{solution}
+
+\begin{exercise}\label{kahler:exercise-primitive-dimension}
+Show that $\dim P^k = \binom{2n}{k} - \binom{2n}{k-2}$ for $k \leq n$, and list the dimensions of $P^0, P^1, P^2$ when $n = 2$.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{kahler:theorem-sl2-forms}(2), $\Lambda^k = P^k \oplus L\Lambda^{k-2}$, and $L \colon \Lambda^{k-2} \to \Lambda^k$ is injective
+for $k \leq n$ by (1) (as $L^{n-k+2}$ is injective on $\Lambda^{k-2}$). For $n = 2$ the dimensions are $1$, $4$ and $6 - 1 = 5$.
+\end{solution}
+
+\begin{exercise}\label{kahler:exercise-no-global-potential}
+Show that the K\"ahler form of a compact K\"ahler manifold of positive dimension is never of the form $i\partial\bar\partial\varphi$ for a
+smooth function $\varphi$ on all of $X$, while on $\CC^n$ one has $\omega_0 = i\partial\bar\partial(\frac12|z|^2)$.
+\end{exercise}
+
+\begin{solution}
+$i\partial\bar\partial\varphi = d(i\bar\partial\varphi)$, because $d = \partial + \bar\partial$ and $\bar\partial\bar\partial\varphi = 0$. So
+$[\omega] = 0$, contradicting Proposition~\ref{kahler:proposition-kahler-class-powers} for $k = 1$. On $\CC^n$,
+$i\partial\bar\partial\frac12\sum_jz^j\bar z^j = \frac{i}{2}\sum_jdz^j \wedge d\bar z^j = \omega_0$.
+\end{solution}
+
+\begin{exercise}\label{kahler:exercise-hopf-direct}
+Let $C \subseteq X$ be the image of the line $\{z_1 = 0\}$ in the Hopf surface of Counterexample~\ref{kahler:counterexample-hopf}. Show that $C$ is
+an elliptic curve and give a second proof that $X$ is not K\"ahler using $\int_C\omega$.
+\end{exercise}
+
+\begin{solution}
+$C = (\CC^\times)/\langle 2\rangle \cong \CC/(2\pi i\ZZ + \log 2\,\ZZ)$ via the exponential, a complex torus of dimension one. If $\omega$ were a
+K\"ahler form, then $\omega = d\eta$ because $H^2(X; \RR) = 0$, so $\int_C\omega = \int_Cd\eta = 0$ by Stokes' theorem; but
+$\int_C\omega = \mathrm{vol}(C) > 0$ by Proposition~\ref{kahler:proposition-volume}.
+\end{solution}
+
+\begin{exercise}\label{kahler:exercise-kahler-cone}
+Show that the set of K\"ahler classes of a compact K\"ahler manifold is an open convex cone in the real vector space
+$H^{1,1}(X) \cap H^2(X; \RR)$ of classes represented by closed real $(1,1)$-forms.
+\end{exercise}
+
+\begin{solution}
+If $\omega_1, \omega_2$ are K\"ahler forms and $s, t > 0$, then $s\omega_1 + t\omega_2$ is a closed positive real $(1,1)$-form, hence K\"ahler; this
+gives convexity and the cone property. For openness, choose closed real $(1,1)$-forms $\beta_1, \ldots, \beta_m$ whose classes form a basis of the
+space. Positivity is an open condition on the coefficient matrix and $X$ is compact, so $\omega + \sum_ic_i\beta_i$ is positive for all small
+$|c_i|$.
+\end{solution}
+
+\begin{exercise}\label{kahler:exercise-product-lefschetz}
+Let $V = V_1 \oplus V_2$ be an orthogonal sum of Hermitian vector spaces of complex dimensions $n_1$, $n_2$. Show that
+$L = L_1 \otimes 1 + 1 \otimes L_2$, $\Lambda = \Lambda_1 \otimes 1 + 1 \otimes \Lambda_2$ on $\Lambda^\bullet V^* = \Lambda^\bullet V_1^* \otimes \Lambda^\bullet V_2^*$,
+and that the $\mathfrak{sl}_2$-representation of Theorem~\ref{kahler:theorem-sl2-forms} is the tensor product of those for $V_1$ and $V_2$.
+Deduce the decomposition of $\Lambda^\bullet(\CC^n)^*$ into irreducibles using the Clebsch--Gordan formula.
+\end{exercise}
+
+\begin{solution}
+$\omega = \omega_1 + \omega_2$, and the tensor product inner product is the induced one, which gives the formulas for $L$ and $\Lambda$ (the
+operators have even degree, so there are no signs). The counting operators satisfy $H = H_1 \otimes 1 + 1 \otimes H_2$ since $n = n_1 + n_2$;
+this is the tensor product representation. For $n = 1$ the representation on $\Lambda^\bullet(\CC)^* \cong \CC^4$ is $V(1) \oplus 2V(0)$ (from
+the proof of Theorem~\ref{kahler:theorem-sl2-forms}: $1, x \wedge y$ span $V(1)$, and $x$, $y$ are primitive of weight $0$). Hence
+$\Lambda^\bullet(\CC^n)^* \cong (V(1) \oplus 2V(0))^{\otimes n}$, which decomposes by the Clebsch--Gordan formula $V(a) \otimes V(b) \cong V(a + b) \oplus V(a + b - 2) \oplus \cdots \oplus V(|a - b|)$
+(Exercise~\ref{representation-theory:exercise-clebsch-gordan}).
+\end{solution}

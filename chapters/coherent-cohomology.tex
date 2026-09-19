@@ -1,0 +1,326 @@
+\chapter{Cohomology of Coherent Sheaves}\label{coherent-cohomology}
+\chapterstatus{complete}
+
+\section{Introduction}\label{coherent-cohomology:section-introduction}
+
+The sheaf cohomology of Chapter~\ref{sheaf-cohomology} applied to quasi-coherent sheaves on schemes is computable. On affine schemes it
+vanishes in positive degrees (Theorem~\ref{coherent-cohomology:theorem-affine-vanishing}), so on separated schemes it is computed by \v{C}ech
+complexes of affine covers. On projective space everything can be computed explicitly
+(Theorem~\ref{coherent-cohomology:theorem-projective-space}). For a projective scheme over a field the cohomology groups of coherent sheaves are
+finite-dimensional, those of $\mathcal{F}(n)$ vanish for $n \gg 0$, and the Euler characteristic $\chi(\mathcal{F}(n))$ is a polynomial in $n$, the
+Hilbert polynomial. Serre duality relates $H^i$ and $H^{n-i}$. For complex projective manifolds these groups coincide with the Dolbeault
+cohomology of Chapter~\ref{dolbeault} by GAGA (Chapter~\ref{gaga}), and so compute the Hodge numbers. References:
+\cite[Chapter III]{hartshorne-ag}, \cite{stacks-project}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{coherent-sheaves} (Quasi-coherent and Coherent Sheaves) and Chapter~\ref{sheaf-cohomology}
+(Sheaf Cohomology).
+
+For an $A$-module $M$ and $f_1, \ldots, f_r \in A$, the \emph{\v{C}ech complex} $\check C^\bullet(f; M)$ is
+$\prod_{i_0}M_{f_{i_0}} \to \prod_{i_0 < i_1}M_{f_{i_0}f_{i_1}} \to \cdots$ with the alternating differential of
+Definition~\ref{sheaf-cohomology:definition-cech}. It is the \v{C}ech complex of $\widetilde M$ for the cover of $\bigcup_iD(f_i)$ by the $D(f_i)$.
+
+\section{Vanishing on affine schemes}\label{coherent-cohomology:section-affine}
+
+\begin{lemma}\label{coherent-cohomology:lemma-cech-exact}
+If $f_1, \ldots, f_r$ generate the unit ideal of $A$, then the augmented \v{C}ech complex $0 \to M \to \check C^\bullet(f; M)$ is exact for every $A$-module $M$.
+\end{lemma}
+
+\begin{proof}
+A module that becomes zero after inverting each $f_j$ is zero, because every prime omits some $f_j$
+(Proposition~\ref{commutative-algebra:proposition-local-global}). Localisation is exact, so it suffices to show that the complex becomes exact after
+inverting $f_j$. After inverting $f_j$ it is the augmented \v{C}ech complex of $M_{f_j}$ for the elements $f_1, \ldots, f_r$ of $A_{f_j}$, one of which is a unit.
+The operator $(k\alpha)_{i_0 \cdots i_{p-1}} = \alpha_{ji_0 \cdots i_{p-1}}$ is then defined, since $M_{f_jf_{i_0} \cdots} = M_{f_{i_0} \cdots}$, and
+$dk + kd = \mathrm{id}$ as in the proof of Lemma~\ref{sheaf-cohomology:lemma-cech-resolution}. So the localised complex is contractible.
+\end{proof}
+
+\begin{lemma}[Cartan]\label{coherent-cohomology:lemma-cartan}
+Let $X$ be a topological space and $\mathcal{B}$ a basis of quasi-compact open sets closed under finite intersections. Let $\mathcal{F}$ be a sheaf of
+abelian groups such that $\check H^p(\mathcal{V}, \mathcal{F}) = 0$ for all $p > 0$, all $U \in \mathcal{B}$ and all finite covers $\mathcal{V}$ of $U$ by members of
+$\mathcal{B}$. Then $H^p(U, \mathcal{F}) = 0$ for all $U \in \mathcal{B}$ and $p > 0$.
+\end{lemma}
+
+\begin{proof}
+Embed $\mathcal{F}$ into an injective sheaf $\mathcal{I}$ (Theorem~\ref{sheaf-cohomology:theorem-enough-injectives}) and let $\mathcal{Q} = \mathcal{I}/\mathcal{F}$.
+
+\emph{Step 1: $\mathcal{I}(U) \to \mathcal{Q}(U)$ is onto for $U \in \mathcal{B}$.} A section $s \in \mathcal{Q}(U)$ lifts locally, and by quasi-compactness we find a
+finite cover of $U$ by $U_1, \ldots, U_m \in \mathcal{B}$ and lifts $t_i \in \mathcal{I}(U_i)$. Then $t_i - t_j \in \mathcal{F}(U_i \cap U_j)$ is a \v{C}ech $1$-cocycle, so by
+hypothesis $t_i - t_j = c_j - c_i$ with $c_i \in \mathcal{F}(U_i)$. The sections $t_i + c_i$ agree on overlaps and glue to a lift of $s$.
+
+\emph{Step 2: $\mathcal{Q}$ satisfies the hypothesis.} For a finite cover $\mathcal{V}$ of $U \in \mathcal{B}$ by members of $\mathcal{B}$, all intersections lie in
+$\mathcal{B}$, so by Step 1 the sequence $0 \to \check C^\bullet(\mathcal{V}, \mathcal{F}) \to \check C^\bullet(\mathcal{V}, \mathcal{I}) \to \check C^\bullet(\mathcal{V}, \mathcal{Q}) \to 0$
+is exact. Injective sheaves are flasque (Lemma~\ref{sheaf-cohomology:lemma-injective-flasque}), so $\check H^p(\mathcal{V}, \mathcal{I}) = 0$ for $p > 0$
+(Lemma~\ref{sheaf-cohomology:lemma-cech-resolution}). The long exact sequence gives $\check H^p(\mathcal{V}, \mathcal{Q}) \cong \check H^{p+1}(\mathcal{V}, \mathcal{F}) = 0$.
+
+\emph{Step 3.} By the long exact sequence of $0 \to \mathcal{F} \to \mathcal{I} \to \mathcal{Q} \to 0$ on $U$, $H^1(U, \mathcal{F}) = \operatorname{coker}(\mathcal{I}(U) \to \mathcal{Q}(U)) = 0$
+by Step 1, and $H^{p+1}(U, \mathcal{F}) \cong H^p(U, \mathcal{Q})$ for $p \geq 1$. By Step 2 and induction on $p$, applied to all sheaves satisfying the hypothesis at
+once, $H^p(U, \mathcal{F}) = 0$ for all $p \geq 1$.
+\end{proof}
+
+\begin{theorem}[Serre]\label{coherent-cohomology:theorem-affine-vanishing}
+Let $X = \Spec A$ and $\mathcal{F}$ a quasi-coherent sheaf on $X$. Then $H^p(X, \mathcal{F}) = 0$ for all $p > 0$.
+\end{theorem}
+
+\begin{proof}
+Take $\mathcal{B}$ to be the basic open sets $D(g)$. They are quasi-compact (Proposition~\ref{schemes:proposition-spec-topology}) and
+$D(g) \cap D(h) = D(gh)$. A finite cover of $D(g) \cong \Spec A_g$ by basic open sets $D(f_i)$ with $D(f_i) \subseteq D(g)$ is a cover of $\Spec A_g$ by the $D(f_i)$, and the
+$f_i$ generate the unit ideal of $A_g$. By Theorem~\ref{coherent-sheaves:theorem-affine}, $\mathcal{F} = \widetilde M$ and the \v{C}ech complex of the cover is
+$\check C^\bullet(f; M_g)$, which is exact in positive degrees by Lemma~\ref{coherent-cohomology:lemma-cech-exact}. Apply
+Lemma~\ref{coherent-cohomology:lemma-cartan}.
+\end{proof}
+
+\begin{counterexample}\label{coherent-cohomology:counterexample-not-quasi-coherent}
+Theorem~\ref{coherent-cohomology:theorem-affine-vanishing} needs quasi-coherence. Let $X = \Aa^1_k = \Spec k[t]$ with its Zariski topology, and let $0$, $1$ be the corresponding closed points. Consider the morphism of sheaves of
+abelian groups
+\[
+\ZZ_X \to (i_0)_*\ZZ \oplus (i_1)_*\ZZ
+\]
+to the skyscraper sheaves at $0$ and $1$, taking the values of a locally constant function at the two points, and let $\mathcal{K}$ be its kernel. It is surjective on stalks: the stalk of $(i_0)_*\ZZ$ at a point $y$ is $\ZZ$
+if every open neighbourhood of $y$ contains $0$, that is, if $y = 0$, since $\{0\}$ is closed, and $0$ otherwise; and at $y = 0$ the map on stalks is the identity of $\ZZ$. So
+$0 \to \mathcal{K} \to \ZZ_X \to (i_0)_*\ZZ \oplus (i_1)_*\ZZ \to 0$ is exact. Since $X$ is irreducible, every nonempty open subset is irreducible, hence connected, so $\ZZ_X(U) = \ZZ$ for all nonempty $U$, with the identity as
+restriction maps; thus $\ZZ_X$ is flasque and $H^1(X, \ZZ_X) = 0$ (Proposition~\ref{sheaf-cohomology:proposition-flasque}), and $\Gamma(X, \ZZ_X) = \ZZ$ maps to $\ZZ \oplus \ZZ$ diagonally. The long exact sequence gives
+\[
+H^1(X, \mathcal{K}) \cong (\ZZ \oplus \ZZ)/\ZZ \cong \ZZ \neq 0,
+\]
+although $X$ is affine. The sheaf $\mathcal{K}$, the extension by zero of $\ZZ$ from $X \setminus \{0, 1\}$ (Definition~\ref{sheaves:definition-extension-by-zero}), is not a sheaf of $\mathcal{O}_X$-modules.
+\end{counterexample}
+
+\begin{corollary}\label{coherent-cohomology:corollary-cech-computes}
+Let $X$ be a quasi-compact separated scheme, $\mathcal{U}$ a finite cover by affine open subsets and $\mathcal{F}$ quasi-coherent. Then
+$H^p(X, \mathcal{F}) \cong \check H^p(\mathcal{U}, \mathcal{F})$. In particular $H^p(X, \mathcal{F}) = 0$ for $p \geq |\mathcal{U}|$.
+\end{corollary}
+
+\begin{proof}
+Finite intersections of affine opens in a separated scheme are affine (as in the proof of Lemma~\ref{coherent-sheaves:lemma-extend-sections}), so
+Theorem~\ref{coherent-cohomology:theorem-affine-vanishing} and Leray's theorem (Theorem~\ref{sheaf-cohomology:theorem-leray}) apply. The alternating \v{C}ech
+complex of a cover with $m$ members vanishes in degrees $\geq m$.
+\end{proof}
+
+\begin{remark}\label{coherent-cohomology:remark-serre-criterion}
+Conversely, Serre's criterion says that a Noetherian scheme on which $H^1$ of every quasi-coherent (even every coherent) ideal sheaf vanishes is
+affine \cite[Theorem III.3.7]{hartshorne-ag}. Grothendieck's vanishing theorem says that $H^p(X, \mathcal{F}) = 0$ for $p > \dim X$ for every sheaf of abelian
+groups on a Noetherian space $X$ \cite[Theorem III.2.7]{hartshorne-ag}.
+\end{remark}
+
+\section{The cohomology of projective space}\label{coherent-cohomology:section-projective-space}
+
+\begin{theorem}\label{coherent-cohomology:theorem-projective-space}
+Let $A$ be a Noetherian ring, $S = A[x_0, \ldots, x_r]$ and $X = \PP^r_A$ with $r \geq 1$.
+\begin{enumerate}
+\item $\bigoplus_nH^0(X, \mathcal{O}(n)) \cong S$.
+\item $H^i(X, \mathcal{O}(n)) = 0$ for $0 < i < r$ and all $n$.
+\item $H^r(X, \mathcal{O}(n))$ is the free $A$-module with basis the Laurent monomials $x_0^{a_0} \cdots x_r^{a_r}$ with all $a_i \leq -1$ and $\sum a_i = n$. In particular
+$H^r(X, \mathcal{O}(-r-1)) \cong A$, spanned by $(x_0 \cdots x_r)^{-1}$, and $H^r(X, \mathcal{O}(n)) = 0$ for $n > -r-1$.
+\item The multiplication pairing $H^0(X, \mathcal{O}(n)) \times H^r(X, \mathcal{O}(-n-r-1)) \to H^r(X, \mathcal{O}(-r-1)) \cong A$ is perfect.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{F} = \bigoplus_n\mathcal{O}(n)$, a quasi-coherent sheaf. By Corollary~\ref{coherent-cohomology:corollary-cech-computes} with the standard cover
+$U_i = D_+(x_i)$, $H^i(X, \mathcal{O}(n))$ is the degree-$n$ part of the cohomology of the graded complex
+\[
+\prod_{i_0}S_{x_{i_0}} \to \prod_{i_0 < i_1}S_{x_{i_0}x_{i_1}} \to \cdots \to S_{x_0 \cdots x_r},
+\]
+which is the \v{C}ech complex of $\mathcal{F}$. (1) is Proposition~\ref{coherent-sheaves:proposition-twisting}. (3) $H^r$ is the cokernel of $\prod_kS_{x_0 \cdots \widehat{x_k} \cdots x_r} \to S_{x_0 \cdots x_r}$. The
+target is free on all Laurent monomials, and the image is spanned by those in which some exponent $a_k$ is $\geq 0$. The monomials with all $a_i \leq -1$ give a
+basis of the cokernel. (4) In the basis of (3), $x^b \cdot x^{a}$ with $b_i \geq 0$, $\sum b_i = n$, and $a_i \leq -1$, $\sum a_i = -n-r-1$ is zero in $H^r$ unless
+$b_i + a_i = -1$ for all $i$. So the monomial bases $\{x^b\}$ and $\{x^{-b-\mathbf{1}}\}$ are dual.
+
+(2) By induction on $r$. The case $r = 1$ is empty. Let $r \geq 2$ and $M^i = \bigoplus_nH^i(X, \mathcal{O}(n))$. \emph{Every element of $M^i$, $i > 0$, is killed by a power of
+$x_r$.} Indeed, localising the \v{C}ech complex at $x_r$ gives the \v{C}ech complex of $S_{x_r}$ for the cover of $U_r$ by the affine sets $U_i \cap U_r$. Its
+cohomology is $H^i(U_r, \mathcal{F}|_{U_r}) = 0$ for $i > 0$, as $U_r$ is affine (Theorem~\ref{coherent-cohomology:theorem-affine-vanishing}), and localisation is exact.
+\emph{Multiplication by $x_r$ is injective on $M^i$ for $0 < i < r$.} Let $H = V_+(x_r) \cong \PP^{r-1}_A$. The exact sequence
+$0 \to S(-1) \xrightarrow{x_r} S \to S/(x_r) \to 0$ gives $0 \to \mathcal{O}(n-1) \to \mathcal{O}(n) \to \mathcal{O}_H(n) \to 0$, with $H^i(X, \mathcal{O}_H(n)) = H^i(H, \mathcal{O}_H(n))$
+(Example~\ref{sheaf-cohomology:example-leray}). In the long exact sequence
+\[
+H^{i-1}(H, \mathcal{O}_H(n)) \to H^i(X, \mathcal{O}(n-1)) \xrightarrow{x_r} H^i(X, \mathcal{O}(n)),
+\]
+the left term vanishes for $2 \leq i \leq r - 1$ by induction ($0 < i - 1 < r - 1$). For $i = 1$, the map $H^0(X, \mathcal{O}(n)) = S_n \to H^0(H, \mathcal{O}_H(n)) = (S/x_r)_n$ is
+onto, so again $x_r$ is injective on $H^1$. An element killed by a power of $x_r$, on which $x_r$ is injective, is zero. So $M^i = 0$ for $0 < i < r$.
+\end{proof}
+
+\begin{corollary}\label{coherent-cohomology:corollary-p1}
+On $\PP^1_k$, $h^0(\mathcal{O}(n)) = \max(n + 1, 0)$ and $h^1(\mathcal{O}(n)) = \max(-n - 1, 0)$. So $\chi(\mathcal{O}(n)) = n + 1$ for all $n$, and $H^1(\PP^1, \mathcal{O}(-2)) \cong k$.
+\end{corollary}
+
+\begin{proof}
+Count the monomials $x_0^{a_0}x_1^{a_1}$ with $a_0 + a_1 = n$ and $a_i \geq 0$, respectively $a_i \leq -1$.
+\end{proof}
+
+\section{Finiteness and Serre vanishing}\label{coherent-cohomology:section-finiteness}
+
+\begin{theorem}[Serre]\label{coherent-cohomology:theorem-finiteness}
+Let $X$ be a projective scheme over a Noetherian ring $A$ with a very ample sheaf $\mathcal{O}_X(1)$, and $\mathcal{F}$ a coherent sheaf on $X$. Then:
+\begin{enumerate}
+\item $H^i(X, \mathcal{F})$ is a finitely generated $A$-module for every $i$;
+\item there is $n_0$ with $H^i(X, \mathcal{F}(n)) = 0$ for all $i > 0$ and $n \geq n_0$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Pushing forward along the closed immersion $X \to \PP^r_A$ changes neither the cohomology nor coherence (Example~\ref{sheaf-cohomology:example-leray}), so
+let $X = \PP^r_A$. Both statements hold for $i > r$ by Corollary~\ref{coherent-cohomology:corollary-cech-computes}. We use descending induction on $i$, for all
+coherent sheaves simultaneously. By Theorem~\ref{coherent-sheaves:theorem-serre-generation} there is an exact sequence $0 \to \mathcal{R} \to \mathcal{E} \to \mathcal{F} \to 0$
+with $\mathcal{E}$ a finite direct sum of sheaves $\mathcal{O}(q_j)$ and $\mathcal{R}$ coherent (Corollary~\ref{coherent-sheaves:corollary-qc-properties}). By
+Theorem~\ref{coherent-cohomology:theorem-projective-space}, $H^i(\mathcal{E})$ is finitely generated and $H^i(\mathcal{E}(n)) = 0$ for $i > 0$ and $n$ large. The exact
+sequence $H^i(\mathcal{E}(n)) \to H^i(\mathcal{F}(n)) \to H^{i+1}(\mathcal{R}(n))$ and the induction hypothesis for $\mathcal{R}$ give both statements for $\mathcal{F}$ in degree
+$i$. For (1), $A$ is Noetherian, so an extension of a submodule of a finitely generated module by a quotient of a finitely generated module is
+finitely generated.
+\end{proof}
+
+\begin{corollary}\label{coherent-cohomology:corollary-finite-dimensional}
+For a projective scheme $X$ over a field $k$ and $\mathcal{F}$ coherent, all $H^i(X, \mathcal{F})$ are finite-dimensional, and they vanish for $i > \dim X$. In particular
+$\Gamma(X, \mathcal{O}_X)$ is a finite-dimensional $k$-algebra, equal to $k$ if $X$ is geometrically integral.
+\end{corollary}
+
+\begin{proof}
+Finiteness is Theorem~\ref{coherent-cohomology:theorem-finiteness}(1), and vanishing above the dimension is Grothendieck's theorem
+(Remark~\ref{coherent-cohomology:remark-serre-criterion}). If $X$ is integral, $\Gamma(X, \mathcal{O}_X)$ is a domain finite over $k$, hence a field finite over $k$. If $X$
+is geometrically integral, its base change to $\bar k$ is $\Gamma(X_{\bar k}, \mathcal{O}) = \bar k$ by Theorem~\ref{varieties:theorem-projective-constant}
+(cohomology commutes with flat base change of fields, by the \v{C}ech description), so $\Gamma(X, \mathcal{O}_X) = k$.
+\end{proof}
+
+\section{Euler characteristic and Hilbert polynomial}\label{coherent-cohomology:section-hilbert}
+
+\begin{definition}\label{coherent-cohomology:definition-euler}
+For a coherent sheaf $\mathcal{F}$ on a projective scheme $X$ over a field $k$, the \emph{Euler characteristic} is $\chi(\mathcal{F}) = \sum_i(-1)^ih^i(\mathcal{F})$, where
+$h^i = \dim_kH^i$. It is additive in short exact sequences, by the long exact sequence.
+\end{definition}
+
+\begin{theorem}\label{coherent-cohomology:theorem-hilbert-polynomial}
+Let $X \subseteq \PP^r_k$ be a projective scheme over an infinite field $k$ and $\mathcal{F}$ a coherent sheaf on $X$. There is a polynomial $P_\mathcal{F} \in \QQ[t]$, the
+\emph{Hilbert polynomial}, with $\chi(\mathcal{F}(n)) = P_\mathcal{F}(n)$ for all $n \in \ZZ$. Its degree is $\dim\mathrm{Supp}\,\mathcal{F}$ ($-\infty$ if $\mathcal{F} = 0$), and
+$h^0(\mathcal{F}(n)) = P_\mathcal{F}(n)$ for $n \gg 0$.
+\end{theorem}
+
+\begin{proof}
+Induction on $d = \dim\mathrm{Supp}\,\mathcal{F}$. If $d \leq 0$, the support is finite, $\mathcal{O}(1)$ is trivial on a neighbourhood of it, so $\mathcal{F}(n) \cong \mathcal{F}$ and
+$\chi$ is constant, equal to $h^0(\mathcal{F})$, which is nonzero if $\mathcal{F} \neq 0$ (a sheaf with finite support is a sum of skyscrapers). Let $d \geq 1$. The
+\emph{associated points} of $\mathcal{F}$, the points $x$ such that $\mathfrak{m}_x$ is an associated prime of $\mathcal{F}_x$, are finite in number
+(Proposition~\ref{commutative-algebra:proposition-associated-primes}, on a finite affine cover). Since $k$ is infinite, there is a linear form $h$ vanishing at none of
+them: $S_1$ is not a finite union of proper subspaces. Then multiplication by $h$ is injective on $\mathcal{F}(-1) \to \mathcal{F}$, because its kernel would have
+an associated point among those of $\mathcal{F}$. So there is an exact sequence
+\[
+0 \to \mathcal{F}(n-1) \xrightarrow{h} \mathcal{F}(n) \to \mathcal{F}_H(n) \to 0, \qquad \mathcal{F}_H = \mathcal{F}/h\mathcal{F}.
+\]
+$\mathrm{Supp}\,\mathcal{F}_H = \mathrm{Supp}\,\mathcal{F} \cap V_+(h)$ has dimension $d - 1$ by Theorem~\ref{varieties:theorem-projective-dimension}, since $h$ vanishes at no generic
+point of a component of the support (these are associated points). By induction $\chi(\mathcal{F}(n)) - \chi(\mathcal{F}(n-1)) = P_{\mathcal{F}_H}(n)$ is a polynomial of degree
+$d - 1$, so $\chi(\mathcal{F}(n))$ is a polynomial of degree $d$. The last statement follows from Theorem~\ref{coherent-cohomology:theorem-finiteness}(2).
+\end{proof}
+
+\begin{definition}\label{coherent-cohomology:definition-degree-genus}
+For a closed subscheme $X \subseteq \PP^r_k$ of dimension $d$ with Hilbert polynomial $P_X = P_{\mathcal{O}_X}$, the \emph{degree} of $X$ is $d!$ times the leading
+coefficient of $P_X$, and the \emph{arithmetic genus} is $p_a(X) = (-1)^d(P_X(0) - 1)$.
+\end{definition}
+
+\begin{example}\label{coherent-cohomology:example-hilbert-polynomials}
+\begin{enumerate}
+\item $P_{\PP^r}(n) = \binom{n+r}{r}$ for all $n$, by Theorem~\ref{coherent-cohomology:theorem-projective-space}. So $\PP^r$ has degree $1$ and $p_a = 0$.
+\item For a hypersurface $X = V_+(f)$ of degree $d$, the sequence $0 \to \mathcal{O}(n-d) \to \mathcal{O}(n) \to \mathcal{O}_X(n) \to 0$ gives
+$P_X(n) = \binom{n+r}{r} - \binom{n-d+r}{r}$, of degree $r - 1$ with leading coefficient $d/(r-1)!$. So $X$ has degree $d$.
+\item For a plane curve of degree $d$, $P_X(n) = dn + 1 - \frac{(d-1)(d-2)}{2}$, so $p_a = \frac{(d-1)(d-2)}{2}$: $0$ for lines and conics, $1$ for cubics, $3$ for quartics.
+\item The twisted cubic $C = v_3(\PP^1) \subseteq \PP^3$ has $\mathcal{O}_C(n) = \mathcal{O}_{\PP^1}(3n)$, so $P_C(n) = 3n + 1$: degree $3$, genus $0$.
+\end{enumerate}
+\end{example}
+
+\section{Serre duality}\label{coherent-cohomology:section-serre-duality}
+
+\begin{theorem}[Serre duality on projective space]\label{coherent-cohomology:theorem-duality-projective}
+Let $X = \PP^r_k$ and $\omega = \mathcal{O}(-r-1)$, with the isomorphism $H^r(X, \omega) \cong k$ of Theorem~\ref{coherent-cohomology:theorem-projective-space}. For every coherent
+$\mathcal{F}$ the pairing $\Hom(\mathcal{F}, \omega) \times H^r(X, \mathcal{F}) \to H^r(X, \omega) \cong k$ is perfect.
+\end{theorem}
+
+\begin{proof}
+Both $\mathcal{F} \mapsto \Hom(\mathcal{F}, \omega)$ and $\mathcal{F} \mapsto H^r(X, \mathcal{F})^\vee$ are contravariant and left exact: the second because $H^{r+1} = 0$, so $H^r$ is right exact.
+The pairing gives a natural transformation between them, which is an isomorphism for $\mathcal{F} = \mathcal{O}(q)$ by
+Theorem~\ref{coherent-cohomology:theorem-projective-space}(4), since $\Hom(\mathcal{O}(q), \omega) = H^0(\mathcal{O}(-q-r-1))$, and hence for finite sums of such.
+Every coherent $\mathcal{F}$ has a presentation $\mathcal{E}_1 \to \mathcal{E}_0 \to \mathcal{F} \to 0$ by finite sums of twisting sheaves
+(Theorem~\ref{coherent-sheaves:theorem-serre-generation}, applied twice). By the five lemma the transformation is an isomorphism for $\mathcal{F}$.
+\end{proof}
+
+\begin{theorem}[Serre duality]\label{coherent-cohomology:theorem-serre-duality}
+Let $X$ be a nonsingular projective variety of dimension $n$ over an algebraically closed field $k$, with canonical sheaf $\omega_X = \Lambda^n\Omega_{X/k}$. There is an
+isomorphism $H^n(X, \omega_X) \cong k$, and for every locally free sheaf $\mathcal{E}$ and every $i$ the pairing
+\[
+H^i(X, \mathcal{E}) \times H^{n-i}(X, \mathcal{E}^\vee \otimes \omega_X) \to H^n(X, \omega_X) \cong k
+\]
+is perfect. More generally $\mathrm{Ext}^i(\mathcal{F}, \omega_X) \cong H^{n-i}(X, \mathcal{F})^\vee$ for coherent $\mathcal{F}$.
+\end{theorem}
+
+This is \cite[Theorem III.7.6 and Corollary III.7.7]{hartshorne-ag}, where it is deduced from Theorem~\ref{coherent-cohomology:theorem-duality-projective} and a computation of
+$\mathrm{Ext}$ sheaves for the embedding $X \subseteq \PP^r$, and \cite[Corollary III.7.12]{hartshorne-ag} for the identification of the dualising sheaf with $\omega_X$. For
+$k = \CC$, via GAGA (Chapter~\ref{gaga}), it agrees with the analytic Serre duality of Theorem~\ref{dolbeault:theorem-serre-duality}.
+
+\begin{corollary}\label{coherent-cohomology:corollary-hodge-symmetry-serre}
+For a nonsingular projective variety over $k$ put $h^{p,q} = \dim H^q(X, \Omega^p_X)$. Then $h^{p,q} = h^{n-p,n-q}$, and $\chi(\omega_X) = (-1)^n\chi(\mathcal{O}_X)$.
+\end{corollary}
+
+\begin{proof}
+$\Omega^p$ is locally free, and $(\Omega^p)^\vee \otimes \omega \cong \Omega^{n-p}$ by the perfect pairing $\Omega^p \otimes \Omega^{n-p} \to \omega$. Apply
+Theorem~\ref{coherent-cohomology:theorem-serre-duality}. For the second, take $\mathcal{E} = \mathcal{O}_X$.
+\end{proof}
+
+\section{Semicontinuity and base change}\label{coherent-cohomology:section-base-change}
+
+\begin{theorem}[Semicontinuity]\label{coherent-cohomology:theorem-semicontinuity}
+Let $f \colon X \to Y$ be a projective morphism of Noetherian schemes and $\mathcal{F}$ a coherent sheaf on $X$, flat over $Y$. For $y \in Y$ let
+$\mathcal{F}_y$ be the restriction to the fibre $X_y$. Then:
+\begin{enumerate}
+\item $y \mapsto h^i(X_y, \mathcal{F}_y)$ is upper semicontinuous for every $i$;
+\item $y \mapsto \chi(\mathcal{F}_y)$ is locally constant, and so is the Hilbert polynomial of $\mathcal{F}_y$;
+\item (cohomology and base change) if $Y$ is integral and $h^i(X_y, \mathcal{F}_y)$ is constant, then $R^if_*\mathcal{F}$ is locally free and
+$R^if_*\mathcal{F} \otimes k(y) \cong H^i(X_y, \mathcal{F}_y)$ for all $y$.
+\end{enumerate}
+\end{theorem}
+
+This is \cite[Theorem III.12.8, Corollary III.12.9 and Theorem III.9.9]{hartshorne-ag}. The proof represents the cohomology of all fibres by one bounded complex
+of finitely generated locally free sheaves on $Y$. The theorem implies that Hodge numbers are upper semicontinuous in algebraic families; in the
+K\"ahler case they are in fact constant, by the Hodge decomposition and the constancy of Betti numbers in smooth families (Chapter~\ref{vhs}).
+
+\begin{counterexample}\label{coherent-cohomology:counterexample-jump}
+Individual $h^i$ can jump, although $\chi$ cannot. For the family of line bundles $\mathcal{L}_t$ of degree $0$ on a fixed elliptic curve $E$, parametrised
+by $t \in E$ (the Poincar\'e bundle on $E \times E$), one has $h^0(\mathcal{L}_t) = 1$ if $\mathcal{L}_t$ is trivial and $0$ otherwise, while
+$\chi(\mathcal{L}_t) = 0$ is constant (Chapter~\ref{curves}).
+\end{counterexample}
+
+\section{Exercises}\label{coherent-cohomology:section-exercises}
+
+\begin{exercise}\label{coherent-cohomology:exercise-punctured-plane}
+Compute $H^1(\Aa^2_k \setminus \{0\}, \mathcal{O})$ with the \v{C}ech complex of the cover $D(x) \cup D(y)$, and deduce again that $\Aa^2_k \setminus \{0\}$ is not affine.
+\end{exercise}
+
+\begin{solution}
+The complex is $k[x, y]_x \times k[x, y]_y \to k[x, y]_{xy}$, $(a, b) \mapsto b - a$. Its cokernel has basis the monomials $x^{-i}y^{-j}$ with $i, j \geq 1$, so $H^1$ is
+infinite-dimensional. The scheme is quasi-compact and separated, so the \v{C}ech complex computes cohomology
+(Corollary~\ref{coherent-cohomology:corollary-cech-computes}), and it is not affine by Theorem~\ref{coherent-cohomology:theorem-affine-vanishing}.
+\end{solution}
+
+\begin{exercise}\label{coherent-cohomology:exercise-plane-curve-cohomology}
+Let $C \subseteq \PP^2_k$ be a plane curve of degree $d \geq 1$. Show that $h^0(\mathcal{O}_C) = 1$ and $h^1(\mathcal{O}_C) = \frac{(d-1)(d-2)}{2}$.
+\end{exercise}
+
+\begin{solution}
+The sequence $0 \to \mathcal{O}(-d) \to \mathcal{O} \to \mathcal{O}_C \to 0$ and Theorem~\ref{coherent-cohomology:theorem-projective-space} give
+$0 \to k \to H^0(\mathcal{O}_C) \to H^1(\mathcal{O}(-d)) = 0 \to 0$ and $0 \to H^1(\mathcal{O}_C) \to H^2(\mathcal{O}(-d)) \to H^2(\mathcal{O}) = 0$. The space $H^2(\PP^2, \mathcal{O}(-d))$ has
+basis the monomials $x^ay^bz^c$ with $a, b, c \leq -1$ and $a + b + c = -d$, and there are $\binom{d-1}{2}$ of them.
+\end{solution}
+
+\begin{exercise}\label{coherent-cohomology:exercise-euler-projective}
+Show that $\chi(\PP^r, \mathcal{O}(n)) = \binom{n+r}{r}$ for all $n \in \ZZ$, interpreting the binomial coefficient as the polynomial $\frac{(n+1)\cdots(n+r)}{r!}$, and check the
+value at $n = -r-1$ against Serre duality.
+\end{exercise}
+
+\begin{solution}
+For $n \geq 0$ only $H^0$ contributes and has dimension $\binom{n+r}{r}$. For $-r-1 < n < 0$ all cohomology vanishes and the polynomial vanishes too. For $n \leq -r-1$, only $H^r$
+contributes, with dimension equal to the number of monomials with exponents $\leq -1$ summing to $n$, which is $\binom{-n-1}{r}$. This equals $(-1)^r\binom{n+r}{r}$
+as polynomials in $n$. At $n = -r-1$ we get $(-1)^r$, matching $h^r(\omega) = h^0(\mathcal{O}) = 1$.
+\end{solution}
+
+\begin{exercise}\label{coherent-cohomology:exercise-degree-hyperplane}
+Let $X \subseteq \PP^r_k$ be a projective variety of dimension $d \geq 1$ over an infinite field, and $H$ a hyperplane not containing $X$. Show that $X \cap H$ has the same
+degree as $X$.
+\end{exercise}
+
+\begin{solution}
+From $0 \to \mathcal{O}_X(n - 1) \to \mathcal{O}_X(n) \to \mathcal{O}_{X \cap H}(n) \to 0$ we get $P_{X \cap H}(n) = P_X(n) - P_X(n-1)$. If $P_X$ has leading term $e\,n^d/d!$, the
+difference has leading term $e\,n^{d-1}/(d-1)!$. So both have degree $e$.
+\end{solution}

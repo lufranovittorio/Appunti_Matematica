@@ -1,0 +1,1094 @@
+\chapter{Set Theory}\label{sets}
+\chapterstatus{complete}
+
+\section{Introduction}\label{sets:section-introduction}
+
+This chapter sets up the foundations of the project: Zermelo--Fraenkel set
+theory with the axiom of choice (ZFC), formulated as a first-order theory in
+the sense of Chapter~\ref{logic}. We develop the basic constructions
+(relations, functions, quotients), the natural numbers, ordinals and
+cardinals, prove the equivalence of the axiom of choice with Zorn's lemma and
+the well-ordering theorem, and discuss Grothendieck universes, which provide
+the conventions on size used throughout the project
+(Notation~\ref{introduction:notation-universe}).
+
+Standard references are \cite{jech-set-theory} and \cite{kunen-set-theory};
+\cite{halmos-naive} is an informal introduction.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{logic} (Mathematical Logic).
+
+\begin{remark}\label{sets:remark-formal-informal}
+Set theory is the first-order theory, in the language with one binary
+relation symbol $\in$ (Example~\ref{logic:example-languages}), whose axioms
+are listed in Definition~\ref{sets:definition-zfc}. Its models have a universe
+whose elements are called \emph{sets}. We write statements in ordinary
+mathematical language, but each of them can be translated into a formula of
+this language, and each ``construction'' is justified by the axioms. A
+\emph{class} is given by a formula $\varphi(x)$, possibly with parameters, and
+we write $\{x : \varphi(x)\}$ for it; a class need not be a set. Statements
+about classes are abbreviations of statements about the corresponding
+formulas.
+\end{remark}
+
+\section{The axioms}\label{sets:section-axioms}
+
+We use the abbreviations $x \subseteq y$ for $\forall z\,(z \in x \to z \in y)$,
+$\forall z \in x\, \varphi$ for $\forall z\,(z \in x \to \varphi)$ and
+$\exists z \in x\, \varphi$ for $\exists z\,(z \in x \wedge \varphi)$.
+
+\begin{definition}\label{sets:definition-zfc}
+The axioms of \emph{Zermelo--Fraenkel set theory} ZF are the following
+sentences.
+\begin{enumerate}
+\item (Extensionality) $\forall x \forall y\, (\forall z\,(z \in x \leftrightarrow z \in y) \to x = y)$.
+\item (Foundation) $\forall x\, (\exists y\, (y \in x) \to \exists y \in x\, \neg\exists z\, (z \in x \wedge z \in y))$.
+\item (Separation) For every formula $\varphi$ in which $y$ is not free:
+$\forall w_1 \cdots \forall w_n \forall x \exists y \forall z\, (z \in y \leftrightarrow (z \in x \wedge \varphi))$,
+where $w_1, \ldots, w_n$ are the other free variables of $\varphi$.
+\item (Pairing) $\forall x \forall y \exists z\, (x \in z \wedge y \in z)$.
+\item (Union) $\forall F \exists A \forall Y \forall x\, ((x \in Y \wedge Y \in F) \to x \in A)$.
+\item (Replacement) For every formula $\varphi$ in which $B$ is not free:
+$\forall w_1 \cdots \forall w_n \forall A\, \bigl(\forall x \in A\, \exists! y\, \varphi \to \exists B\, \forall x \in A\, \exists y \in B\, \varphi\bigr)$,
+where $\exists! y\, \varphi$ abbreviates ``there is exactly one $y$ with $\varphi$''
+and $w_1, \ldots, w_n$ are the other free variables of $\varphi$.
+\item (Infinity) $\exists x\, \bigl(\exists e \in x\, \forall z\, (z \notin e) \wedge \forall y \in x\, \exists s \in x\, \forall z\, (z \in s \leftrightarrow (z \in y \vee z = y))\bigr)$.
+\item (Power set) $\forall x \exists y \forall z\, (z \subseteq x \to z \in y)$.
+\end{enumerate}
+The theory ZFC consists of ZF together with the axiom of choice,
+Definition~\ref{sets:definition-choice}. The axioms of separation and
+replacement are \emph{schemas}: they consist of one axiom for each formula
+$\varphi$.
+\end{definition}
+
+\begin{remark}\label{sets:remark-axioms-meaning}
+Extensionality says that a set is determined by its elements. Separation
+says that for a set $x$ and a property $\varphi$, the elements of $x$ with the
+property form a set, written $\{z \in x : \varphi(z)\}$. Pairing, union and
+power set provide sets containing the pair $\{x, y\}$, the union of the
+elements of $F$, and the subsets of $x$; by separation and extensionality
+there are then unique sets with exactly these elements. Replacement says that
+the image of a set under a class function is contained in a set. Infinity
+provides a set containing $\emptyset$ and closed under $y \mapsto y \cup \{y\}$.
+Foundation says that every nonempty set has an $\in$-minimal element.
+\end{remark}
+
+\begin{lemma}\label{sets:lemma-basic-constructions}
+\begin{enumerate}
+\item There is a unique set $\emptyset$ with no elements.
+\item For all sets $x, y$ there are unique sets $\{x, y\}$, $\bigcup x$ and
+$\mathcal{P}(x)$ with, respectively, the elements $x$ and $y$; the elements
+of elements of $x$; the subsets of $x$.
+\item For all sets $x, y$ there are unique sets $x \cup y$, $x \cap y$ and
+$x \setminus y$ with the usual elements. If $F$ is a nonempty set, there is a
+unique set $\bigcap F$ whose elements are the sets belonging to every element
+of $F$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Uniqueness always follows from extensionality. (1) Some set $x$ exists,
+because $\exists x\,(x = x)$ is valid (structures are nonempty); apply
+separation with the formula $z \neq z$. (2) Apply separation to the sets given
+by pairing, union and power set, with the formulas $z = x \vee z = y$,
+$\exists Y \in x\,(z \in Y)$ and $z \subseteq x$. (3) Put
+$x \cup y = \bigcup\{x, y\}$, and use separation on $x$ for $x \cap y$ and
+$x \setminus y$. If $X \in F$, put
+$\bigcap F = \{z \in X : \forall Y \in F\, (z \in Y)\}$.
+\end{proof}
+
+\begin{proposition}[Russell]\label{sets:proposition-russell}
+There is no set of which every set is an element.
+\end{proposition}
+
+\begin{proof}
+Suppose $V$ is such a set and let $R = \{x \in V : x \notin x\}$. Then
+$R \in V$, so $R \in R$ if and only if $R \notin R$, a contradiction.
+\end{proof}
+
+\begin{remark}\label{sets:remark-proper-classes}
+So the class $\{x : x = x\}$ of all sets is not a set; such classes are
+called \emph{proper classes}. Proposition~\ref{sets:proposition-russell} holds
+even without foundation. With foundation it is also immediate from
+Lemma~\ref{sets:lemma-foundation}.
+\end{remark}
+
+\begin{lemma}\label{sets:lemma-foundation}
+There is no set $x$ with $x \in x$, and there are no sets $x, y$ with
+$x \in y$ and $y \in x$.
+\end{lemma}
+
+\begin{proof}
+If $x \in x$, the set $\{x\}$ has no $\in$-minimal element: its only element
+$x$ satisfies $x \in x \cap \{x\}$. If $x \in y \in x$, the set $\{x, y\}$ has no
+$\in$-minimal element, since $y \in x \cap \{x,y\}$ and $x \in y \cap \{x,y\}$.
+\end{proof}
+
+\section{Relations and functions}\label{sets:section-relations}
+
+\begin{definition}\label{sets:definition-ordered-pair}
+The \emph{ordered pair} of $a$ and $b$ is $(a, b) = \{\{a\}, \{a, b\}\}$.
+\end{definition}
+
+\begin{lemma}\label{sets:lemma-ordered-pair}
+$(a, b) = (c, d)$ if and only if $a = c$ and $b = d$.
+\end{lemma}
+
+\begin{proof}
+Suppose $(a, b) = (c, d)$. If $a = b$, then $(a, b) = \{\{a\}\}$, so
+$\{c\} = \{c, d\} = \{a\}$ and $a = b = c = d$. Similarly if $c = d$. Assume
+$a \neq b$ and $c \neq d$. Then $\{a\}$ is the only one-element set in
+$(a, b)$, and $\{c\}$ the only one in $(c, d)$, so $\{a\} = \{c\}$ and $a = c$.
+The two-element sets $\{a, b\}$ and $\{c, d\} = \{a, d\}$ are then equal, and
+since $b \neq a$ we get $b = d$. The converse is clear.
+\end{proof}
+
+\begin{definition}\label{sets:definition-product}
+The \emph{cartesian product} of sets $A$ and $B$ is
+$A \times B = \{p \in \mathcal{P}(\mathcal{P}(A \cup B)) : \exists a \in A\, \exists b \in B\, p = (a, b)\}$.
+It is a set by separation, and its elements are exactly the pairs $(a, b)$
+with $a \in A$, $b \in B$, because $\{a\}$ and $\{a, b\}$ are subsets of
+$A \cup B$.
+\end{definition}
+
+\begin{definition}\label{sets:definition-function}
+A \emph{relation} from $A$ to $B$ is a subset $R \subseteq A \times B$; we
+write $a R b$ for $(a, b) \in R$. A \emph{function} (or \emph{map})
+$f \colon A \to B$ is a relation $f \subseteq A \times B$ such that for every
+$a \in A$ there is exactly one $b \in B$ with $(a, b) \in f$, written
+$b = f(a)$. (Formally, a function records its target: it is the triple
+$(A, B, f)$; we shall not insist on this.) For $X \subseteq A$ and
+$Y \subseteq B$, the \emph{image} is $f[X] = \{f(a) : a \in X\}$ and the
+\emph{preimage} is $f^{-1}[Y] = \{a \in A : f(a) \in Y\}$. The function is
+\emph{injective}, \emph{surjective} or \emph{bijective} if it is so as a map in
+the usual sense. The composition $g \circ f$ of $f \colon A \to B$ and
+$g \colon B \to C$ is $\{(a, c) \in A \times C : \exists b\, ((a, b) \in f \wedge (b, c) \in g)\}$.
+The set of all functions from $A$ to $B$ is
+$B^A = \{f \in \mathcal{P}(A \times B) : f \text{ is a function } A \to B\}$.
+\end{definition}
+
+\begin{definition}\label{sets:definition-family}
+A \emph{family} $(x_i)_{i \in I}$ is a function $i \mapsto x_i$ with domain $I$.
+Its union is $\bigcup_{i \in I} x_i = \bigcup \{x_i : i \in I\}$, which is a set:
+the image of $I$ under the family is a set by replacement and separation.
+Its \emph{product} is the set
+$\prod_{i \in I} x_i = \{f \in (\bigcup_{i \in I} x_i)^I : f(i) \in x_i \text{ for all } i \in I\}$.
+\end{definition}
+
+\begin{lemma}\label{sets:lemma-bijection-inverse}
+A function $f \colon A \to B$ is bijective if and only if there is a function
+$g \colon B \to A$ with $g \circ f = \id_A$ and $f \circ g = \id_B$; such a $g$
+is unique.
+\end{lemma}
+
+\begin{proof}
+If $f$ is bijective, $g = \{(b, a) : (a, b) \in f\}$ is a function $B \to A$
+with the two properties. Conversely, $g \circ f = \id_A$ implies that $f$ is
+injective and $f \circ g = \id_B$ that $f$ is surjective. If $g'$ also has the
+properties, then $g' = g' \circ f \circ g = g$.
+\end{proof}
+
+\begin{definition}\label{sets:definition-equivalence-relation}
+An \emph{equivalence relation} on $A$ is a relation $\sim$ from $A$ to $A$
+that is reflexive, symmetric and transitive. The \emph{class} of $a \in A$ is
+$[a] = \{x \in A : x \sim a\}$, and the \emph{quotient} is the set
+$A/{\sim} = \{X \in \mathcal{P}(A) : \exists a \in A\, X = [a]\}$, with the
+\emph{projection} $\pi \colon A \to A/{\sim}$, $a \mapsto [a]$. A
+\emph{partition} of $A$ is a set of nonempty, pairwise disjoint subsets of
+$A$ whose union is $A$.
+\end{definition}
+
+\begin{proposition}\label{sets:proposition-partitions}
+Let $A$ be a set. The map ${\sim} \mapsto A/{\sim}$ is a bijection from the set
+of equivalence relations on $A$ to the set of partitions of $A$. Its inverse
+sends a partition $\Pi$ to the relation ``$x$ and $y$ lie in the same element
+of $\Pi$''.
+\end{proposition}
+
+\begin{proof}
+If $\sim$ is an equivalence relation, the classes are nonempty ($a \in [a]$)
+and cover $A$. If $z \in [a] \cap [b]$, then $z \sim a$ and $z \sim b$, so
+$a \sim b$ by symmetry and transitivity, and then $[a] = [b]$. So $A/{\sim}$
+is a partition. Conversely, the relation defined by a partition $\Pi$ is
+clearly an equivalence relation whose classes are the elements of $\Pi$, and
+$x \sim y$ if and only if $x$ and $y$ lie in the same class of $\sim$. So the
+two constructions are inverse to each other.
+\end{proof}
+
+\begin{proposition}\label{sets:proposition-quotient-property}
+Let $\sim$ be an equivalence relation on $A$ and $f \colon A \to B$ a map such
+that $a \sim a'$ implies $f(a) = f(a')$. There is a unique map
+$\bar f \colon A/{\sim} \to B$ with $\bar f \circ \pi = f$.
+\end{proposition}
+
+\begin{proof}
+Uniqueness holds because $\pi$ is surjective. Put
+$\bar f = \{(X, b) \in (A/{\sim}) \times B : \exists a \in X\, f(a) = b\}$. Every
+class $X$ is nonempty, and all its elements have the same image under $f$, so
+$\bar f$ is a function, and $\bar f([a]) = f(a)$.
+\end{proof}
+
+\begin{definition}\label{sets:definition-orders}
+A \emph{partial order} on $A$ is a relation $\leq$ that is reflexive,
+antisymmetric and transitive; it is \emph{total} if $x \leq y$ or $y \leq x$
+for all $x, y$. We write $x < y$ for $x \leq y \wedge x \neq y$. A \emph{chain}
+is a totally ordered subset. For $X \subseteq A$, an \emph{upper bound} of $X$
+is an $a \in A$ with $x \leq a$ for all $x \in X$; a \emph{least upper bound}
+or \emph{supremum} is an upper bound below all upper bounds. An element $m$ is
+\emph{maximal} if there is no $x$ with $m < x$, and \emph{greatest} if $x \leq m$
+for all $x$. A \emph{well-order} is a total order in which every nonempty
+subset has a least element. An \emph{isomorphism} of ordered sets is a
+bijection $f$ with $x \leq y \iff f(x) \leq f(y)$. For $a \in A$, the
+\emph{initial segment} determined by $a$ is $A_{<a} = \{x \in A : x < a\}$.
+\end{definition}
+
+\begin{counterexample}\label{sets:counterexample-maximal-not-greatest}
+A maximal element need not be greatest, and a greatest element need not
+exist. In $\{\{0\}, \{1\}\}$, ordered by inclusion, both elements are maximal
+and there is no greatest element.
+\end{counterexample}
+
+\begin{lemma}\label{sets:lemma-well-order-rigid}
+Let $W$ be a well-ordered set and $f \colon W \to W$ a strictly increasing map.
+Then $f(w) \geq w$ for all $w \in W$. Consequently, $W$ is not isomorphic to
+any initial segment $W_{<a}$, and the only isomorphism $W \to W$ is the
+identity. If two well-ordered sets are isomorphic, the isomorphism is unique.
+\end{lemma}
+
+\begin{proof}
+If $\{w : f(w) < w\}$ is nonempty, let $w$ be its least element. Then
+$f(w) < w$, so $f(f(w)) < f(w)$, and $f(w)$ is a smaller element of the same
+set; contradiction. An isomorphism $f \colon W \to W_{<a}$ would give a strictly
+increasing $W \to W$ with $f(a) < a$. If $f, g \colon W \to W'$ are
+isomorphisms, $g^{-1} \circ f$ and $f^{-1} \circ g$ are strictly increasing, so
+$f(w) \geq g(w)$ and $g(w) \geq f(w)$ for all $w$.
+\end{proof}
+
+\section{The natural numbers}\label{sets:section-natural-numbers}
+
+\begin{definition}\label{sets:definition-natural-numbers}
+The \emph{successor} of a set $x$ is $S(x) = x \cup \{x\}$. A set $I$ is
+\emph{inductive} if $\emptyset \in I$ and $S(y) \in I$ for all $y \in I$. By the
+axiom of infinity there is an inductive set $I_0$, and we define
+\[
+\omega = \{n \in I_0 : n \in I \text{ for every inductive set } I\}.
+\]
+The elements of $\omega$ are the \emph{natural numbers}; we write
+$\NN = \omega$, $0 = \emptyset$, $1 = S(0)$, $2 = S(1)$, and so on.
+\end{definition}
+
+\begin{theorem}[Induction]\label{sets:theorem-induction}
+The set $\omega$ is inductive and is contained in every inductive set; it
+does not depend on the choice of $I_0$. If $X \subseteq \omega$ contains $0$
+and $S(n) \in X$ for all $n \in X$, then $X = \omega$.
+\end{theorem}
+
+\begin{proof}
+Every inductive set contains $\emptyset$ and is closed under $S$, so the
+intersection $\omega$ has the same two properties; it is contained in every
+inductive set by definition. If $I_1$ is another inductive set, the set
+defined using $I_1$ is contained in $I_0$ and has the same elements. A set $X$
+as in the statement is inductive, so $\omega \subseteq X$.
+\end{proof}
+
+\begin{lemma}\label{sets:lemma-omega-transitive}
+Every element of a natural number is a natural number, and every natural
+number $n$ is \emph{transitive}: if $y \in x \in n$ then $y \in n$.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be the set of $n \in \omega$ such that $n \subseteq \omega$ and $n$ is
+transitive. Clearly $0 \in X$. If $n \in X$, then
+$S(n) = n \cup \{n\} \subseteq \omega$; and if $y \in x \in S(n)$, then either
+$x \in n$, so $y \in n$, or $x = n$, so $y \in n$; in both cases $y \in S(n)$.
+By Theorem~\ref{sets:theorem-induction}, $X = \omega$.
+\end{proof}
+
+\begin{proposition}[Peano axioms]\label{sets:proposition-peano}
+For all $m, n \in \omega$: $S(n) \neq 0$, and $S(m) = S(n)$ implies $m = n$.
+\end{proposition}
+
+\begin{proof}
+$n \in S(n)$, so $S(n) \neq \emptyset$. Suppose $S(m) = S(n)$ and $m \neq n$.
+Since $m \in S(n)$, we get $m \in n$; similarly $n \in m$. This contradicts
+Lemma~\ref{sets:lemma-foundation}.
+\end{proof}
+
+\begin{theorem}[Recursion]\label{sets:theorem-recursion}
+Let $A$ be a set, $a \in A$ and $g \colon \omega \times A \to A$ a map. There is a
+unique map $f \colon \omega \to A$ with $f(0) = a$ and $f(S(n)) = g(n, f(n))$ for
+all $n \in \omega$.
+\end{theorem}
+
+\begin{proof}
+Call a map $h$ \emph{acceptable} if its domain is $S(k)$ for some $k \in \omega$,
+its values lie in $A$, $h(0) = a$, and $h(S(i)) = g(i, h(i))$ whenever
+$S(i) \in \operatorname{dom}(h)$. Acceptable maps are elements of
+$\mathcal{P}(\omega \times A)$, so they form a set $H$.
+
+If $h, h' \in H$ and $i$ lies in both domains, then $h(i) = h'(i)$. Indeed,
+let $X$ be the set of $i \in \omega$ such that this holds whenever
+$i \in \operatorname{dom}(h) \cap \operatorname{dom}(h')$. Then $0 \in X$. If
+$i \in X$ and $S(i)$ lies in both domains, then so does $i$, because domains
+are transitive (Lemma~\ref{sets:lemma-omega-transitive}), and
+$h(S(i)) = g(i, h(i)) = g(i, h'(i)) = h'(S(i))$. So $X = \omega$.
+
+Hence $f = \bigcup H$ is a function with values in $A$. Every $n \in \omega$ lies
+in its domain: by induction there is an acceptable $h_n$ with domain $S(n)$,
+since $\{(0, a)\}$ is acceptable with domain $S(0)$, and if $h$ is acceptable
+with domain $S(n)$ then $h \cup \{(S(n), g(n, h(n)))\}$ is acceptable with domain
+$S(S(n))$. Then $f(0) = a$, and $f(S(n)) = h_{S(n)}(S(n)) = g(n, h_{S(n)}(n)) = g(n, f(n))$.
+If $f'$ is another such map, induction shows $f(n) = f'(n)$ for all $n$.
+\end{proof}
+
+\begin{example}\label{sets:example-arithmetic}
+By Theorem~\ref{sets:theorem-recursion}, for each $m \in \omega$ there are unique
+maps $n \mapsto m + n$ and $n \mapsto m \cdot n$ with $m + 0 = m$,
+$m + S(n) = S(m + n)$, $m \cdot 0 = 0$ and $m \cdot S(n) = m \cdot n + m$. So
+$(\omega, 0, S, +, \cdot)$ is a model of Robinson arithmetic $Q$
+(Definition~\ref{logic:definition-arithmetic}). The laws of arithmetic are
+proved in Chapter~\ref{number-systems}.
+\end{example}
+
+\section{Ordinals}\label{sets:section-ordinals}
+
+\begin{definition}\label{sets:definition-ordinal}
+A set $x$ is \emph{transitive} if every element of $x$ is a subset of $x$. An
+\emph{ordinal} is a transitive set $\alpha$ such that the relation
+$\{(\beta, \gamma) \in \alpha \times \alpha : \beta \in \gamma\}$ is a strict
+well-order on $\alpha$: it is transitive, for all $\beta, \gamma \in \alpha$
+exactly one of $\beta \in \gamma$, $\beta = \gamma$, $\gamma \in \beta$ holds,
+and every nonempty subset of $\alpha$ has an $\in$-least element. For ordinals
+we write $\beta < \gamma$ for $\beta \in \gamma$. The class of ordinals is
+denoted $\Ord$.
+\end{definition}
+
+\begin{lemma}\label{sets:lemma-ordinal-elements}
+Every element of an ordinal is an ordinal, and $\alpha \notin \alpha$ for every
+ordinal $\alpha$.
+\end{lemma}
+
+\begin{proof}
+Let $\beta \in \alpha$. Then $\beta \subseteq \alpha$, so $\in$ is a strict
+well-order on $\beta$. If $\delta \in \gamma \in \beta$, then $\gamma$ and
+$\delta$ lie in $\alpha$, and transitivity of the order on $\alpha$ gives
+$\delta \in \beta$; so $\beta$ is transitive. The last statement is
+Lemma~\ref{sets:lemma-foundation}.
+\end{proof}
+
+\begin{lemma}\label{sets:lemma-ordinal-subset}
+If $\alpha$ and $\beta$ are ordinals with $\alpha \subsetneq \beta$, then
+$\alpha \in \beta$.
+\end{lemma}
+
+\begin{proof}
+Let $\gamma$ be the least element of $\beta \setminus \alpha$. If
+$\delta \in \gamma$, then $\delta \in \beta$ and $\delta < \gamma$, so
+$\delta \in \alpha$ by minimality; hence $\gamma \subseteq \alpha$. If
+$\delta \in \alpha$, then $\delta \in \beta$; $\delta = \gamma$ is impossible
+since $\gamma \notin \alpha$, and $\gamma \in \delta$ is impossible since it
+would give $\gamma \in \alpha$ by transitivity of $\alpha$; so $\delta \in \gamma$.
+Hence $\alpha = \gamma \in \beta$.
+\end{proof}
+
+\begin{theorem}\label{sets:theorem-ordinals-comparable}
+For all ordinals $\alpha, \beta$, exactly one of $\alpha < \beta$,
+$\alpha = \beta$, $\beta < \alpha$ holds. Every nonempty set $X$ of ordinals has
+a least element, namely $\bigcap X$, and $\sup X = \bigcup X$ is an ordinal
+which is the least ordinal $\geq$ every element of $X$.
+\end{theorem}
+
+\begin{proof}
+The set $\gamma = \alpha \cap \beta$ is transitive and a subset of $\alpha$,
+hence an ordinal. By Lemma~\ref{sets:lemma-ordinal-subset}, $\gamma = \alpha$
+or $\gamma \in \alpha$, and $\gamma = \beta$ or $\gamma \in \beta$. If
+$\gamma \in \alpha$ and $\gamma \in \beta$, then $\gamma \in \gamma$,
+contradicting Lemma~\ref{sets:lemma-ordinal-elements}. So $\alpha \subseteq \beta$
+or $\beta \subseteq \alpha$, and the first claim follows from
+Lemma~\ref{sets:lemma-ordinal-subset}; at most one of the three holds by
+Lemma~\ref{sets:lemma-foundation}.
+
+Let $\alpha \in X$. If no element of $X$ is smaller than $\alpha$, then
+$\alpha$ is least. Otherwise $\alpha \cap X$ is a nonempty subset of $\alpha$
+and has a least element, which is least in $X$. By the first part, the least
+element is contained in every element of $X$, so it equals $\bigcap X$. Finally
+$\bigcup X$ is a transitive set of ordinals; by the first part $\in$ is a
+strict total order on it, and every nonempty subset has a least element; so
+it is an ordinal. It contains each $\alpha \in X$ as a subset, and any ordinal
+containing all $\alpha \in X$ as subsets contains $\bigcup X$.
+\end{proof}
+
+\begin{proposition}[Burali-Forti]\label{sets:proposition-burali-forti}
+There is no set containing all ordinals.
+\end{proposition}
+
+\begin{proof}
+If $X$ were such a set, $\Omega = \{x \in X : x \text{ is an ordinal}\}$ would
+be a transitive set (Lemma~\ref{sets:lemma-ordinal-elements}) well-ordered by
+$\in$ (Theorem~\ref{sets:theorem-ordinals-comparable}), hence an ordinal, so
+$\Omega \in \Omega$.
+\end{proof}
+
+\begin{definition}\label{sets:definition-successor-limit}
+For an ordinal $\alpha$, the set $\alpha + 1 = S(\alpha)$ is an ordinal, the
+least ordinal greater than $\alpha$. An ordinal is a \emph{successor ordinal}
+if it is of the form $\alpha + 1$, and a \emph{limit ordinal} if it is neither
+$0$ nor a successor ordinal.
+\end{definition}
+
+\begin{proposition}\label{sets:proposition-omega-ordinal}
+Every natural number is an ordinal, $\omega$ is an ordinal, and $\omega$ is the
+least limit ordinal. On $\omega$ the order $m < n$ (that is, $m \in n$) is a
+well-order.
+\end{proposition}
+
+\begin{proof}
+$\emptyset$ is an ordinal, and if $\alpha$ is an ordinal so is $S(\alpha)$ (it
+is transitive, and its elements are the ordinals in $\alpha$ together with
+$\alpha$). By induction every natural number is an ordinal. By
+Lemma~\ref{sets:lemma-omega-transitive}, $\omega$ is a transitive set of
+ordinals, hence an ordinal by Theorem~\ref{sets:theorem-ordinals-comparable}.
+It is not $0$, and not a successor, since $S(n) \in \omega$ for $n \in \omega$.
+If $\lambda$ is a limit ordinal, then $0 \in \lambda$, and for $n \in \lambda$ we
+have $S(n) \leq \lambda$ and $S(n) \neq \lambda$, so $S(n) \in \lambda$; thus
+$\lambda$ is inductive and $\omega \subseteq \lambda$.
+\end{proof}
+
+\begin{theorem}[Transfinite induction]\label{sets:theorem-transfinite-induction}
+Let $C$ be a class. Suppose that for every ordinal $\alpha$, if all ordinals
+$\beta < \alpha$ belong to $C$, then $\alpha$ belongs to $C$. Then every
+ordinal belongs to $C$.
+\end{theorem}
+
+\begin{proof}
+Otherwise let $\alpha$ be an ordinal not in $C$. The set
+$\{\beta \in \alpha + 1 : \beta \notin C\}$ is nonempty, and its least element
+$\beta$ satisfies the hypothesis, so $\beta \in C$; contradiction.
+\end{proof}
+
+\begin{theorem}[Transfinite recursion]\label{sets:theorem-transfinite-recursion}
+Let $G$ be a class function, that is, a formula $\psi(x, y)$ such that for
+every $x$ there is exactly one $y$ with $\psi(x, y)$, written $y = G(x)$. There
+is a unique class function $F$ defined on all ordinals such that
+$F(\alpha) = G(F|_\alpha)$ for every ordinal $\alpha$, where
+$F|_\alpha = \{(\beta, F(\beta)) : \beta < \alpha\}$.
+\end{theorem}
+
+\begin{proof}
+As usual for class functions, the theorem is a schema: for each $\psi$ we
+write down a formula defining $F$ and prove its properties. Call a function
+$f$ an \emph{$\alpha$-attempt} if its domain is the ordinal $\alpha$ and
+$f(\beta) = G(f|_\beta)$ for all $\beta < \alpha$. By transfinite induction on
+$\beta$, two attempts agree on the intersection of their domains.
+
+We show by transfinite induction that an $\alpha$-attempt exists for every
+$\alpha$. Suppose that for each $\beta < \alpha$ there is a $\beta$-attempt
+$f_\beta$, which is unique. By replacement, $\{f_\beta : \beta < \alpha\}$ is a
+set. If $\alpha = \beta + 1$, then $f_\beta \cup \{(\beta, G(f_\beta))\}$ is an
+$\alpha$-attempt. If $\alpha$ is $0$ or a limit ordinal, then
+$\bigcup_{\beta < \alpha} f_\beta$ is a function (the $f_\beta$ agree on common
+domains) with domain $\bigcup_{\beta < \alpha} \beta = \alpha$, and it is an
+$\alpha$-attempt.
+
+Define $F(\alpha) = G(f)$, where $f$ is the $\alpha$-attempt; then
+$F|_\alpha = f$ and $F(\alpha) = G(F|_\alpha)$. Uniqueness of $F$ follows by
+transfinite induction.
+\end{proof}
+
+\begin{theorem}\label{sets:theorem-order-type}
+Every well-ordered set $(W, <)$ is isomorphic to a unique ordinal, by a unique
+isomorphism.
+\end{theorem}
+
+\begin{proof}
+Uniqueness follows from Lemma~\ref{sets:lemma-well-order-rigid}: two
+isomorphic ordinals are equal, since otherwise one is an initial segment of
+the other. Let $A$ be the set of $w \in W$ such that $W_{<w}$ is isomorphic to
+some ordinal, necessarily unique, which we call $\alpha_w$. By replacement,
+$\alpha = \{\alpha_w : w \in A\}$ is a set. If $v < w \in A$, the isomorphism
+$W_{<w} \to \alpha_w$ restricts to an isomorphism from $W_{<v}$ to an initial
+segment of $\alpha_w$, which is an ordinal; so $v \in A$ and $\alpha_v < \alpha_w$.
+Hence $A$ is an initial segment of $W$ or equal to $W$, $\alpha$ is a
+transitive set of ordinals, hence an ordinal, and $w \mapsto \alpha_w$ is an
+isomorphism $A \to \alpha$. If $A \neq W$, let $w$ be the least element of
+$W \setminus A$; then $A = W_{<w}$, so $w \in A$, a contradiction.
+\end{proof}
+
+\begin{definition}\label{sets:definition-cumulative-hierarchy}
+By transfinite recursion, define sets $V_\alpha$ for all ordinals by
+$V_0 = \emptyset$, $V_{\alpha + 1} = \mathcal{P}(V_\alpha)$ and
+$V_\lambda = \bigcup_{\alpha < \lambda} V_\alpha$ for limit ordinals $\lambda$.
+\end{definition}
+
+\begin{lemma}\label{sets:lemma-cumulative-hierarchy}
+Every $V_\alpha$ is transitive, and $V_\beta \subseteq V_\alpha$ for
+$\beta \leq \alpha$. A set $x$ lies in $V_{\alpha + 1}$ if and only if
+$x \subseteq V_\alpha$.
+\end{lemma}
+
+\begin{proof}
+The last statement is the definition. We prove the first two statements
+together by transfinite induction on $\alpha$. For $\alpha = 0$ they are
+clear, and for limit $\alpha$ they follow from the induction hypothesis. Let
+$\alpha = \gamma + 1$. If $x \in V_\alpha$ and $y \in x$, then $y \in V_\gamma$,
+so $y \subseteq V_\gamma$ by transitivity of $V_\gamma$, that is,
+$y \in V_\alpha$. Also $V_\gamma \subseteq V_\alpha$, because each element of
+$V_\gamma$ is a subset of $V_\gamma$; combined with the induction hypothesis
+this gives $V_\beta \subseteq V_\alpha$ for all $\beta \leq \alpha$.
+\end{proof}
+
+\begin{lemma}\label{sets:lemma-transitive-closure}
+Every set $x$ is a subset of a transitive set.
+\end{lemma}
+
+\begin{proof}
+Apply Theorem~\ref{sets:theorem-transfinite-recursion} to the class function
+$G$ with $G(f) = \bigcup f(n)$ if $f$ is a function whose domain is $S(n)$ for
+some $n \in \omega$, and $G(f) = x$ otherwise. The resulting $F$ satisfies
+$F(0) = x$ and $F(n + 1) = \bigcup F(n)$ for $n \in \omega$. By replacement,
+$\{F(n) : n \in \omega\}$ is a set; let $T$ be its union. Then $x \subseteq T$,
+and if $z \in y \in T$, say $y \in F(n)$, then $z \in F(n+1) \subseteq T$.
+\end{proof}
+
+\begin{theorem}\label{sets:theorem-every-set-ranked}
+Every set belongs to $V_\alpha$ for some ordinal $\alpha$.
+\end{theorem}
+
+\begin{proof}
+Suppose $x$ belongs to no $V_\alpha$. Let $T$ be a transitive set containing
+$\{x\}$ as a subset (Lemma~\ref{sets:lemma-transitive-closure}) and let
+$Y = \{y \in T : y \notin V_\alpha \text{ for all } \alpha\}$; then $x \in Y$. By
+foundation there is $y \in Y$ with $y \cap Y = \emptyset$. Each $z \in y$ lies in
+$T$ but not in $Y$, so there is a least ordinal $\alpha_z$ with
+$z \in V_{\alpha_z}$. By replacement, $\{\alpha_z : z \in y\}$ is a set; let
+$\alpha$ be its supremum. Then $y \subseteq V_\alpha$ by
+Lemma~\ref{sets:lemma-cumulative-hierarchy}, so $y \in V_{\alpha + 1}$, a
+contradiction.
+\end{proof}
+
+\begin{definition}\label{sets:definition-rank}
+The \emph{rank} $\rk(x)$ of a set $x$ is the least ordinal $\alpha$ with
+$x \subseteq V_\alpha$.
+\end{definition}
+
+\section{Cardinality}\label{sets:section-cardinality}
+
+\begin{definition}\label{sets:definition-equinumerous}
+Sets $A$ and $B$ are \emph{equinumerous}, written $A \approx B$, if there is a
+bijection $A \to B$. We write $A \preceq B$ if there is an injection $A \to B$,
+and $A \prec B$ if $A \preceq B$ and not $A \approx B$.
+\end{definition}
+
+\begin{theorem}[Cantor--Schr\"oder--Bernstein]\label{sets:theorem-schroder-bernstein}
+If $A \preceq B$ and $B \preceq A$, then $A \approx B$.
+\end{theorem}
+
+\begin{proof}
+Let $f \colon A \to B$ and $g \colon B \to A$ be injections. Define
+$C_0 = A \setminus g[B]$ and $C_{n+1} = g[f[C_n]]$ by recursion, and let
+$C = \bigcup_n C_n$. Define $h \colon A \to B$ by $h(a) = f(a)$ if $a \in C$, and
+$h(a) = g^{-1}(a)$ if $a \notin C$; this makes sense because $a \notin C$
+implies $a \in g[B]$, and $g$ is injective.
+
+$h$ is surjective: let $b \in B$. If $g(b) \notin C$, then $h(g(b)) = b$. If
+$g(b) \in C$, then $g(b) \notin C_0$, so $g(b) \in C_{n+1}$ for some $n$, that
+is, $g(b) = g(f(c))$ with $c \in C_n$; then $b = f(c) = h(c)$.
+
+$h$ is injective: $f$ and $g^{-1}$ are injective, so it suffices to exclude
+$f(a) = g^{-1}(a')$ with $a \in C$ and $a' \notin C$. But then
+$a' = g(f(a)) \in C$ since $a \in C_n$ implies $g(f(a)) \in C_{n+1}$.
+\end{proof}
+
+\begin{theorem}[Cantor]\label{sets:theorem-cantor}
+For every set $A$ there is no surjection $A \to \mathcal{P}(A)$. In particular
+$A \prec \mathcal{P}(A)$.
+\end{theorem}
+
+\begin{proof}
+Let $f \colon A \to \mathcal{P}(A)$ and $D = \{a \in A : a \notin f(a)\}$. If
+$D = f(d)$, then $d \in D$ if and only if $d \notin D$. So $f$ is not
+surjective. The map $a \mapsto \{a\}$ is an injection $A \to \mathcal{P}(A)$.
+\end{proof}
+
+\begin{definition}\label{sets:definition-finite}
+A set is \emph{finite} if it is equinumerous with some $n \in \omega$, and
+\emph{infinite} otherwise. It is \emph{countable} if $A \preceq \omega$, and
+\emph{countably infinite} if $A \approx \omega$.
+\end{definition}
+
+\begin{proposition}[Pigeonhole principle]\label{sets:proposition-pigeonhole}
+For $n \in \omega$ there is no injection $n + 1 \to n$. Consequently, if $m \neq n$
+are natural numbers then $m \not\approx n$, and $\omega$ is infinite.
+\end{proposition}
+
+\begin{proof}
+For $n = 0$ there is no map from $1 = \{0\}$ to $\emptyset$. Suppose there is no
+injection $n + 1 \to n$, and let $f \colon n + 2 \to n + 1$ be injective. Let
+$\tau$ be the bijection of $n + 1$ exchanging $n$ and $f(n+1)$. Then
+$\tau \circ f$ is injective and sends $n + 1$ to $n$, so it restricts to an
+injection $n + 1 \to (n + 1) \setminus \{n\} = n$, a contradiction. If $m < n$,
+then $m + 1 \subseteq n$, so an injection $n \to m$ would give one
+$m + 1 \to m$. Finally $\omega \approx n$ would give an injection
+$n + 1 \to n$.
+\end{proof}
+
+\begin{proposition}\label{sets:proposition-subsets-of-omega}
+Every subset of a natural number is finite, and every subset of $\omega$ is
+finite or countably infinite. A set is countable if and only if it is finite
+or countably infinite.
+\end{proposition}
+
+\begin{proof}
+By induction on $n$: subsets of $0$ are finite, and a subset $X$ of $n + 1$
+is $X \cap n$ or $(X \cap n) \cup \{n\}$; if $X \cap n \approx k$ then
+$(X \cap n) \cup \{n\} \approx k + 1$.
+
+Let $X \subseteq \omega$ be infinite. Then $X$ has no upper bound in $\omega$
+(otherwise $X \subseteq m$ for some $m$, and $X$ would be finite). Define
+$e(0) = \min X$ and $e(n + 1) = \min\{x \in X : x > e(n)\}$ by recursion. Then
+$e$ is strictly increasing, hence injective, and $e(n) \geq n$ by induction.
+Given $x \in X$, let $n$ be least with $e(n) \geq x$. If $n = 0$ then
+$x \leq e(0) = \min X \leq x$. If $n > 0$ then $e(n - 1) < x$, so
+$e(n) \leq x$ by definition of $e(n)$. In both cases $x = e(n)$, so
+$e \colon \omega \to X$ is a bijection. The last statement follows: a set injecting
+into $\omega$ is equinumerous with a subset of $\omega$.
+\end{proof}
+
+\begin{definition}\label{sets:definition-cardinal}
+An ordinal $\kappa$ is a \emph{cardinal} if no $\beta < \kappa$ is equinumerous
+with $\kappa$. If $A$ is equinumerous with some ordinal (for instance if $A$
+can be well-ordered, by Theorem~\ref{sets:theorem-order-type}), its
+\emph{cardinality} $|A|$ is the least ordinal equinumerous with $A$; it is a
+cardinal.
+\end{definition}
+
+\begin{example}\label{sets:example-cardinals}
+By Proposition~\ref{sets:proposition-pigeonhole}, every natural number and
+$\omega$ are cardinals, and a finite set $A$ has $|A| \in \omega$, its number of
+elements. The ordinal $\omega + 1$ is not a cardinal: $n \mapsto n + 1$ for
+$n \in \omega$ and $\omega \mapsto 0$ define a bijection $\omega + 1 \to \omega$.
+\end{example}
+
+\begin{theorem}[Hartogs]\label{sets:theorem-hartogs}
+For every set $A$ there is an ordinal $h(A)$ that does not inject into $A$;
+the least such ordinal is a cardinal. This uses no form of the axiom of
+choice.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{W}$ be the set of pairs $(X, R) \in \mathcal{P}(A) \times \mathcal{P}(A \times A)$
+such that $R$ is a well-order on $X$. By Theorem~\ref{sets:theorem-order-type}
+and replacement, the order types of these well-orders form a set $H$. An
+ordinal $\alpha$ injects into $A$ if and only if $\alpha \in H$ (transport the
+order of $\alpha$ to the image). If $\alpha \in H$ and $\beta < \alpha$, then
+$\beta \in H$; so $H$ is a transitive set of ordinals, hence an ordinal, and
+$H \notin H$. Put $h(A) = H$; it is the least ordinal not injecting into $A$.
+If some $\beta < H$ were equinumerous with $H$, then $H$ would inject into $A$
+through $\beta$.
+\end{proof}
+
+\begin{definition}\label{sets:definition-alephs}
+By transfinite recursion let $\omega_0 = \omega$, $\omega_{\alpha + 1} = h(\omega_\alpha)$
+and $\omega_\lambda = \sup_{\alpha < \lambda} \omega_\alpha$ for limit $\lambda$.
+We also write $\aleph_\alpha$ for $\omega_\alpha$ when we think of it as a
+cardinality.
+\end{definition}
+
+\begin{proposition}\label{sets:proposition-alephs}
+The $\omega_\alpha$ are cardinals, $\alpha < \beta$ implies
+$\omega_\alpha < \omega_\beta$, and every infinite cardinal equals $\omega_\alpha$
+for a unique $\alpha$.
+\end{proposition}
+
+\begin{proof}
+Strict monotonicity is clear from the definition, because
+$\omega_\alpha < h(\omega_\alpha)$. By induction $\alpha \leq \omega_\alpha$. A
+supremum $\lambda$ of cardinals is a cardinal: if $\beta < \lambda$ then
+$\beta < \kappa \leq \lambda$ for one of the cardinals $\kappa$, and
+$\beta \approx \lambda$ would give $\kappa \preceq \beta$ and hence
+$\kappa \approx \beta$ by Theorem~\ref{sets:theorem-schroder-bernstein}. With
+Theorem~\ref{sets:theorem-hartogs}, all $\omega_\alpha$ are cardinals.
+
+Let $\kappa$ be an infinite cardinal, so $\omega \leq \kappa$, and let $\alpha$ be
+least with $\kappa \leq \omega_\alpha$ (it exists since
+$\kappa \leq \omega_\kappa$). If $\alpha = 0$, then $\kappa = \omega$. If
+$\alpha$ is a limit and $\kappa < \omega_\alpha$, then $\kappa < \omega_\beta$
+for some $\beta < \alpha$, contradicting minimality. If $\alpha = \beta + 1$
+and $\kappa < \omega_\alpha = h(\omega_\beta)$, then $\kappa$ injects into
+$\omega_\beta$, so $\kappa \preceq \omega_\beta \leq \kappa$ and $\kappa \approx \omega_\beta$
+by Theorem~\ref{sets:theorem-schroder-bernstein}; as both are cardinals,
+$\kappa = \omega_\beta$, contradicting the choice of $\alpha$.
+\end{proof}
+
+\begin{theorem}[Hessenberg]\label{sets:theorem-hessenberg}
+For every infinite cardinal $\kappa$, $\kappa \times \kappa \approx \kappa$.
+\end{theorem}
+
+\begin{proof}
+Order pairs of ordinals by $(\alpha, \beta) \lhd (\gamma, \delta)$ if
+$\max(\alpha, \beta) < \max(\gamma, \delta)$, or the maxima are equal and
+$\alpha < \gamma$, or the maxima are equal, $\alpha = \gamma$ and
+$\beta < \delta$. On every set of pairs this is a strict total order, and every
+nonempty set of pairs has a least element (minimize the maximum, then the
+first coordinate, then the second). For an ordinal $\kappa$, the set
+$\kappa \times \kappa$ contains, with any pair, all $\lhd$-smaller pairs.
+
+Suppose the theorem fails and let $\kappa$ be the least infinite cardinal with
+$\kappa \times \kappa \not\approx \kappa$. Let $\theta$ be the order type of
+$(\kappa \times \kappa, \lhd)$ (Theorem~\ref{sets:theorem-order-type}). If
+$\theta \leq \kappa$, then $\kappa \times \kappa \preceq \kappa$, and since
+$\kappa \preceq \kappa \times \kappa$ via $\xi \mapsto (\xi, 0)$,
+Theorem~\ref{sets:theorem-schroder-bernstein} gives a contradiction. So
+$\kappa < \theta$, and there is a pair $(\xi, \eta) \in \kappa \times \kappa$ whose
+set of $\lhd$-predecessors $P$ has order type $\kappa$. Let
+$\delta = \max(\xi, \eta) + 1$. An infinite cardinal is a limit ordinal: for an
+infinite ordinal $\alpha$, the map $\alpha + 1 \to \alpha$ sending $\alpha$ to
+$0$, each $n \in \omega$ to $n + 1$, and fixing all other elements, is a
+bijection, so $\alpha + 1$ is not a cardinal. Hence $\delta < \kappa$, and
+$P \subseteq \delta \times \delta$.
+If $\delta$ is finite, so is $\delta \times \delta$, contradicting
+$P \approx \kappa$. Otherwise $\mu = |\delta|$ is an infinite cardinal with
+$\mu \leq \delta < \kappa$, and by minimality of $\kappa$,
+$\kappa \approx P \preceq \delta \times \delta \approx \mu \times \mu \approx \mu$. Then
+$\kappa \preceq \mu \leq \kappa$, so $\kappa \approx \mu$, contradicting that $\kappa$
+is a cardinal.
+\end{proof}
+
+\begin{corollary}\label{sets:corollary-omega-squared}
+$\omega \times \omega$ is countably infinite, and so is $\omega^n$ for every
+$n \geq 1$. The set of finite sequences of elements of a countable set is
+countable.
+\end{corollary}
+
+\begin{proof}
+The first statement is Theorem~\ref{sets:theorem-hessenberg}; fix a bijection
+$p \colon \omega \times \omega \to \omega$. By recursion on $n$ define bijections
+$b_n \colon \omega^n \to \omega$ for $n \geq 1$ by $b_1(s) = s(0)$ and
+$b_{n+1}(s) = p(b_n(s|_n), s(n))$. It suffices to treat sequences of natural
+numbers, since an injection $X \to \omega$ induces an injection on sequences.
+The map sending a sequence $s$ of length $n \geq 1$ to $p(n, b_n(s))$, and the
+empty sequence to $p(0, 0)$, is an injection into $\omega$.
+\end{proof}
+
+\section{The axiom of choice}\label{sets:section-choice}
+
+\begin{definition}\label{sets:definition-choice}
+A \emph{choice function} for a set $F$ of nonempty sets is a function
+$c \colon F \to \bigcup F$ with $c(X) \in X$ for all $X \in F$. The \emph{axiom of
+choice} (AC) states that every set of nonempty sets has a choice function.
+\end{definition}
+
+\begin{theorem}\label{sets:theorem-choice-equivalents}
+In ZF, the following statements are equivalent.
+\begin{enumerate}
+\item The axiom of choice.
+\item (Well-ordering theorem) Every set admits a well-order.
+\item (Zorn's lemma) Let $(P, \leq)$ be a partially ordered set in which every
+chain has an upper bound. Then $P$ has a maximal element.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) $\Rightarrow$ (2). Let $A$ be a set and $c$ a choice function for
+$\mathcal{P}(A) \setminus \{\emptyset\}$. Fix some $\star \notin A$. By transfinite
+recursion let $F(\alpha) = c(A \setminus F[\alpha])$ if
+$A \setminus F[\alpha] \neq \emptyset$, and $F(\alpha) = \star$ otherwise, where
+$F[\alpha] = \{F(\beta) : \beta < \alpha\}$. If $F(\beta) = \star$, then
+$A \subseteq F[\beta]$, so $F(\alpha) = \star$ for all $\alpha > \beta$. Hence if
+$F(\alpha) \neq \star$, all $F(\beta)$ with $\beta \leq \alpha$ lie in $A$, and
+$F(\alpha) \notin F[\alpha]$; so these values are distinct. If $F(\alpha) \neq \star$ for all $\alpha < h(A)$, then $F$
+would inject $h(A)$ into $A$, contradicting Theorem~\ref{sets:theorem-hartogs}.
+So there is a least $\alpha$ with $F(\alpha) = \star$, and then
+$F|_\alpha \colon \alpha \to A$ is a bijection; transport the order of $\alpha$.
+
+(2) $\Rightarrow$ (1). Well-order $\bigcup F$ and let $c(X)$ be the least element
+of $X$.
+
+(1) $\Rightarrow$ (3). Suppose $P$ has no maximal element. Then every chain $C$
+has a \emph{strict} upper bound: an upper bound $u$ of $C$ is not maximal, so
+there is $v > u$. Let $c$ be a choice function for
+$\mathcal{P}(P) \setminus \{\emptyset\}$ and $\star \notin P$. Define by transfinite
+recursion $F(\alpha) = c(S_\alpha)$, where $S_\alpha$ is the set of strict upper
+bounds of $F[\alpha]$, if $F[\alpha] \subseteq P$ is a chain and $S_\alpha$ is
+nonempty, and $F(\alpha) = \star$ otherwise. By induction on $\alpha$,
+$F[\alpha]$ is a chain in $P$ on which $F$ is strictly increasing: if this holds
+for all $\beta < \alpha$ then $F[\alpha]$ is a chain, so $S_\alpha \neq \emptyset$
+and $F(\alpha)$ is greater than all $F(\beta)$, $\beta < \alpha$. Hence $F$
+injects $h(P)$ into $P$, contradicting Theorem~\ref{sets:theorem-hartogs}.
+
+(3) $\Rightarrow$ (1). Let $F$ be a set of nonempty sets. Let $P$ be the set of
+functions $c$ with $\operatorname{dom}(c) \subseteq F$ and $c(X) \in X$ for all
+$X \in \operatorname{dom}(c)$, ordered by inclusion. The union of a chain in $P$
+is in $P$ and is an upper bound. Let $c$ be maximal. If $X \in F$ were not in
+the domain of $c$, choose $x \in X$; then $c \cup \{(X, x)\}$ would be larger. So
+$c$ is a choice function for $F$.
+\end{proof}
+
+\begin{remark}\label{sets:remark-choice-history}
+The well-ordering theorem was proved from the axiom of choice by Zermelo;
+see \cite{zermelo-1908}. Zorn's lemma is from \cite{zorn-1935}. It is the form
+of choice used most often in algebra, for instance to show that every vector
+space has a basis or that every nonzero ring has a maximal ideal. G\"odel
+showed that if ZF is consistent then so is ZFC \cite{godel-1938}, and Cohen
+that the negation of AC is also consistent with ZF \cite{cohen-1963}. From now
+on we work in ZFC.
+\end{remark}
+
+\begin{proposition}\label{sets:proposition-cardinal-comparability}
+Every set $A$ has a cardinality $|A|$. For all sets, $A \approx B$ if and only if
+$|A| = |B|$, and $A \preceq B$ if and only if $|A| \leq |B|$. In particular any
+two sets are comparable: $A \preceq B$ or $B \preceq A$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{sets:theorem-choice-equivalents}, every set can be well-ordered,
+so $|A|$ is defined. The first equivalence is clear. If $|A| \leq |B|$, then
+$|A| \subseteq |B|$ and $A \approx |A| \preceq |B| \approx B$. Conversely, if
+$A \preceq B$ and $|B| < |A|$, then $|A| \preceq |B| \subseteq |A|$ and
+Theorem~\ref{sets:theorem-schroder-bernstein} would give $|A| \approx |B|$,
+contradicting that $|A|$ is a cardinal. The last statement follows from
+Theorem~\ref{sets:theorem-ordinals-comparable}.
+\end{proof}
+
+\begin{proposition}\label{sets:proposition-union-bound}
+Let $\kappa$ be an infinite cardinal and $(X_i)_{i \in I}$ a family with
+$|I| \leq \kappa$ and $|X_i| \leq \kappa$ for all $i$. Then
+$|\bigcup_{i \in I} X_i| \leq \kappa$. In particular a countable union of countable
+sets is countable.
+\end{proposition}
+
+\begin{proof}
+We may assume that all $X_i$ are nonempty. By the axiom of choice there is a
+family $(g_i)_{i \in I}$ of surjections $g_i \colon \kappa \to X_i$ (choose one
+from each nonempty set of surjections). The map $(i, \xi) \mapsto g_i(\xi)$ is
+a surjection $q \colon I \times \kappa \to \bigcup_i X_i$. Since
+$I \times \kappa \preceq \kappa \times \kappa \approx \kappa$ by
+Theorem~\ref{sets:theorem-hessenberg}, there is an injection
+$j \colon I \times \kappa \to \kappa$. Sending $u \in \bigcup_i X_i$ to the least
+element of $j[q^{-1}[\{u\}]]$ is an injection $\bigcup_i X_i \to \kappa$, because
+the sets $q^{-1}[\{u\}]$ are nonempty and pairwise disjoint.
+\end{proof}
+
+\begin{corollary}\label{sets:corollary-cardinal-arithmetic}
+If $A$ and $B$ are nonempty and at least one is infinite, then
+$|A \times B| = |A \sqcup B| = \max(|A|, |B|)$, where
+$A \sqcup B = (\{0\} \times A) \cup (\{1\} \times B)$.
+\end{corollary}
+
+\begin{proof}
+Let $\kappa = \max(|A|, |B|)$, an infinite cardinal, and say $|A| = \kappa$. By
+Proposition~\ref{sets:proposition-cardinal-comparability} and
+Theorem~\ref{sets:theorem-hessenberg},
+$A \times B \preceq \kappa \times \kappa \approx \kappa$ and
+$A \sqcup B \preceq 2 \times \kappa \preceq \kappa \times \kappa \approx \kappa$.
+Conversely $A$ injects into $A \sqcup B$, and into $A \times B$ via
+$a \mapsto (a, b_0)$ for a fixed $b_0 \in B$. Conclude with
+Theorem~\ref{sets:theorem-schroder-bernstein}.
+\end{proof}
+
+\begin{remark}\label{sets:remark-continuum-hypothesis}
+We write $2^\kappa$ for $|\mathcal{P}(\kappa)|$; by
+Theorem~\ref{sets:theorem-cantor}, $2^\kappa > \kappa$. The \emph{continuum
+hypothesis} (CH) asserts $2^{\aleph_0} = \aleph_1$. It is independent of ZFC:
+it can be neither proved \cite{cohen-1963} nor refuted \cite{godel-1938}.
+In Chapter~\ref{number-systems} we show $|\RR| = 2^{\aleph_0}$.
+\end{remark}
+
+\begin{definition}\label{sets:definition-cofinality}
+Let $\alpha$ be a limit ordinal. A map $f \colon \beta \to \alpha$ is
+\emph{cofinal} if its image is unbounded in $\alpha$. The \emph{cofinality}
+$\cf(\alpha)$ is the least ordinal $\beta$ admitting a cofinal map
+$\beta \to \alpha$. An infinite cardinal $\kappa$ is \emph{regular} if
+$\cf(\kappa) = \kappa$, and \emph{singular} otherwise.
+\end{definition}
+
+\begin{lemma}\label{sets:lemma-regular-sup}
+Let $\kappa$ be a regular cardinal and $X \subseteq \kappa$ a set with
+$|X| < \kappa$. Then $\sup X < \kappa$.
+\end{lemma}
+
+\begin{proof}
+Let $\mu = |X| < \kappa$ and let $f \colon \mu \to X$ be a bijection. If
+$\sup X = \kappa$, then $f$ is a cofinal map $\mu \to \kappa$, so
+$\cf(\kappa) \leq \mu < \kappa$.
+\end{proof}
+
+\begin{proposition}\label{sets:proposition-regular-cardinals}
+The cardinal $\omega$ is regular, and every infinite successor cardinal
+$\omega_{\alpha + 1}$ is regular.
+\end{proposition}
+
+\begin{proof}
+A map from a finite ordinal $n$ to $\omega$ has a largest value, so it is not
+cofinal. Let $\kappa = \omega_{\alpha + 1}$ and suppose $f \colon \beta \to \kappa$ is
+cofinal with $\beta < \kappa$. Then $|\beta| \leq \omega_\alpha$, every
+$f(\xi) < \kappa$ has $|f(\xi)| \leq \omega_\alpha$, and
+$\kappa = \bigcup_{\xi < \beta} f(\xi)$ because $\kappa$ is a limit ordinal. By
+Proposition~\ref{sets:proposition-union-bound}, $|\kappa| \leq \omega_\alpha$, a
+contradiction.
+\end{proof}
+
+\begin{counterexample}\label{sets:counterexample-singular}
+Not every infinite cardinal is regular. The map $n \mapsto \omega_n$ is
+cofinal from $\omega$ to $\omega_\omega = \sup_n \omega_n$, so
+$\cf(\omega_\omega) = \omega < \omega_\omega$.
+\end{counterexample}
+
+\begin{definition}\label{sets:definition-inaccessible}
+A cardinal $\kappa$ is \emph{strongly inaccessible} if it is uncountable,
+regular, and $2^\lambda < \kappa$ for every cardinal $\lambda < \kappa$.
+\end{definition}
+
+\section{Universes}\label{sets:section-universes}
+
+\begin{definition}\label{sets:definition-universe}
+A \emph{Grothendieck universe} is a set $\mathcal{U}$ such that
+\begin{enumerate}
+\item if $x \in \mathcal{U}$ and $y \in x$, then $y \in \mathcal{U}$;
+\item if $x, y \in \mathcal{U}$, then $\{x, y\} \in \mathcal{U}$;
+\item if $x \in \mathcal{U}$, then $\mathcal{P}(x) \in \mathcal{U}$;
+\item if $I \in \mathcal{U}$ and $(x_i)_{i \in I}$ is a family with
+$x_i \in \mathcal{U}$ for all $i$, then $\bigcup_{i \in I} x_i \in \mathcal{U}$.
+\end{enumerate}
+\end{definition}
+
+This is the definition of \cite[Expos\'e I, Appendice]{sga4-1}.
+
+\begin{lemma}\label{sets:lemma-universe-closure}
+Let $\mathcal{U}$ be a nonempty universe, $A, B, x, y \in \mathcal{U}$ and
+$I \in \mathcal{U}$.
+\begin{enumerate}
+\item $\emptyset \in \mathcal{U}$, and every subset of an element of
+$\mathcal{U}$ is in $\mathcal{U}$.
+\item $\{x\}$, $(x, y)$, $x \cup y$, $A \times B$ and $B^A$ are in $\mathcal{U}$.
+\item If $x_i \in \mathcal{U}$ for all $i \in I$, then
+$\prod_{i \in I} x_i \in \mathcal{U}$; and if $f \colon I \to \mathcal{U}$ is a
+map, the image $f[I]$ is in $\mathcal{U}$.
+\item If $\sim$ is an equivalence relation on $A$, then $A/{\sim} \in \mathcal{U}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) If $y \subseteq x \in \mathcal{U}$, then $y \in \mathcal{P}(x) \in \mathcal{U}$,
+so $y \in \mathcal{U}$. Taking any $x \in \mathcal{U}$ and $y = \emptyset$ gives
+$\emptyset \in \mathcal{U}$.
+(2) $\{x\} = \{x, x\}$ and $(x, y) = \{\{x\}, \{x, y\}\}$. Since
+$\{A, B\} \in \mathcal{U}$, the union of the family $A, B$ indexed by it is
+$A \cup B \in \mathcal{U}$. Then $A \times B \subseteq \mathcal{P}(\mathcal{P}(A \cup B))$
+and $B^A \subseteq \mathcal{P}(A \times B)$.
+(3) $\bigcup_i x_i \in \mathcal{U}$ and
+$\prod_i x_i \subseteq (\bigcup_i x_i)^I$. The image is
+$f[I] = \bigcup_{i \in I} \{f(i)\}$.
+(4) $A/{\sim} \subseteq \mathcal{P}(A)$.
+\end{proof}
+
+\begin{theorem}\label{sets:theorem-inaccessible-universe}
+If $\kappa$ is a strongly inaccessible cardinal, then $V_\kappa$ is a
+Grothendieck universe and $\omega \in V_\kappa$.
+\end{theorem}
+
+\begin{proof}
+First, $|V_\alpha| < \kappa$ for all $\alpha < \kappa$, by transfinite induction:
+$V_0 = \emptyset$; $|V_{\alpha + 1}| = 2^{|V_\alpha|} < \kappa$ by strong
+inaccessibility; and for a limit $\lambda < \kappa$, the cardinals
+$|V_\alpha|$, $\alpha < \lambda$, form a set of fewer than $\kappa$ ordinals below
+$\kappa$, so their supremum $\mu$ is $< \kappa$ by
+Lemma~\ref{sets:lemma-regular-sup}, and
+$|V_\lambda| \leq \max(|\lambda|, \mu, \omega) < \kappa$ by
+Proposition~\ref{sets:proposition-union-bound}.
+
+Since $\kappa$ is a limit ordinal (being an infinite cardinal), every
+$x \in V_\kappa$ lies in some $V_{\alpha + 1}$ with $\alpha < \kappa$, so
+$x \subseteq V_\alpha$. We check the axioms. (1) holds because $V_\kappa$ is
+transitive (Lemma~\ref{sets:lemma-cumulative-hierarchy}). (2) If
+$x \subseteq V_\alpha$ and $y \subseteq V_\beta$ with $\alpha \leq \beta < \kappa$,
+then $x, y \in V_{\beta + 1}$ and $\{x, y\} \in V_{\beta + 2}$. (3) If
+$x \subseteq V_\alpha$ then $\mathcal{P}(x) \subseteq \mathcal{P}(V_\alpha) = V_{\alpha+1}$,
+so $\mathcal{P}(x) \in V_{\alpha + 2}$. (4) Let $I \in V_\kappa$, so $|I| < \kappa$,
+and for $i \in I$ let $\alpha_i < \kappa$ be least with $x_i \subseteq V_{\alpha_i}$.
+The set $\{\alpha_i : i \in I\}$ has fewer than $\kappa$ elements, so its supremum
+$\alpha$ is $< \kappa$ by Lemma~\ref{sets:lemma-regular-sup}. Then
+$\bigcup_i x_i \subseteq V_\alpha$, hence lies in $V_{\alpha + 1}$. Finally,
+$\omega \subseteq V_\omega$, so $\omega \in V_{\omega + 1}$, and
+$\omega + 1 < \kappa$ as $\kappa$ is uncountable.
+\end{proof}
+
+\begin{theorem}\label{sets:theorem-universes-inaccessibles}
+A set $\mathcal{U}$ is a Grothendieck universe with $\omega \in \mathcal{U}$ if and
+only if $\mathcal{U} = V_\kappa$ for a strongly inaccessible cardinal $\kappa$.
+\end{theorem}
+
+One direction is Theorem~\ref{sets:theorem-inaccessible-universe}; for the
+other, see \cite[Expos\'e I, Appendice]{sga4-1}.
+
+\begin{remark}\label{sets:remark-universe-axiom}
+If $\kappa$ is strongly inaccessible, the structure $(V_\kappa, \in)$ is a model
+of ZFC \cite[Chapter 12]{jech-set-theory}. Hence ZFC cannot prove that a
+universe containing $\omega$ exists, if ZFC is consistent
+(Remark~\ref{logic:remark-incompleteness-set-theory}). Following
+\cite{sga4-1}, we therefore add to ZFC the axiom that there is a Grothendieck
+universe containing $\omega$, and we fix one, $\mathcal{U}$, as in
+Notation~\ref{introduction:notation-universe}. Only this single universe is
+needed in this project.
+\end{remark}
+
+\begin{remark}\label{sets:remark-small-sets}
+A set is \emph{small} if it is an element of $\mathcal{U}$. By
+Lemma~\ref{sets:lemma-universe-closure}, the small sets are closed under all
+the constructions of this chapter applied to small sets: subsets, pairs,
+products, sets of maps, quotients, power sets, and unions and products of
+families indexed by small sets. Since $\omega \in \mathcal{U}$, the number
+systems $\ZZ$, $\QQ$, $\RR$ and $\CC$ constructed in
+Chapter~\ref{number-systems} are small, and so is every object built from them
+by these constructions. A set that is merely equinumerous with a small set
+need not be small (it may even fail to be a subset of $\mathcal{U}$), but it is
+in bijection with one, which is all that matters in practice.
+\end{remark}
+
+\section{Exercises}\label{sets:section-exercises}
+
+\begin{exercise}\label{sets:exercise-currying}
+Let $A$, $B$, $C$ be sets. Show that $f \mapsto (a \mapsto (b \mapsto f(a, b)))$ is a
+bijection $C^{A \times B} \to (C^B)^A$, and that $(A \times B) \times C \approx A \times (B \times C)$.
+\end{exercise}
+
+\begin{exercise}\label{sets:exercise-sections}
+Show that the axiom of choice is equivalent (in ZF) to the statement that every
+surjection $f \colon A \to B$ has a \emph{section}, that is, a map
+$s \colon B \to A$ with $f \circ s = \id_B$.
+\end{exercise}
+
+\begin{solution}
+Given AC and a surjection $f$, choose $s(b)$ from the nonempty set $f^{-1}[\{b\}]$.
+Conversely, given a set $F$ of nonempty sets, let
+$A = \{(X, x) : X \in F, x \in X\}$ and let $f \colon A \to F$ be the first
+projection, which is surjective. If $s$ is a section, then
+$X \mapsto$ (second coordinate of $s(X)$) is a choice function.
+\end{solution}
+
+\begin{exercise}\label{sets:exercise-countable-subset}
+Using the axiom of choice, show that every infinite set has a countably
+infinite subset.
+\end{exercise}
+
+\begin{exercise}\label{sets:exercise-limit-ordinal}
+Show that an ordinal $\alpha$ is a limit ordinal if and only if
+$\alpha \neq 0$ and $\alpha = \bigcup \alpha$.
+\end{exercise}
+
+\begin{exercise}\label{sets:exercise-hereditarily-finite}
+Show that $V_\omega$ is a Grothendieck universe which does not contain
+$\omega$, and that every element of $V_\omega$ is a finite set. Show that
+$\emptyset$ is also a universe. (So the condition $\omega \in \mathcal{U}$ in
+Remark~\ref{sets:remark-universe-axiom} is not automatic.)
+\end{exercise}
+
+\begin{exercise}\label{sets:exercise-real-cardinality}
+Show that $\omega^\omega$ (the set of maps $\omega \to \omega$) and
+$\mathcal{P}(\omega)$ are equinumerous.
+\end{exercise}
+
+\begin{exercise}\label{sets:exercise-no-set-of-cardinalities}
+Show that for every set $A$ of sets there is a set not equinumerous with a
+subset of any element of $A$. Deduce that the class of all cardinals is not a
+set.
+\end{exercise}

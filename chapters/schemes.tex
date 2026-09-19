@@ -1,0 +1,457 @@
+\chapter{Schemes}\label{schemes}
+\chapterstatus{complete}
+
+\section{Introduction}\label{schemes:section-introduction}
+
+A scheme is a locally ringed space that is locally the spectrum of a ring. Schemes extend the varieties of Chapter~\ref{varieties} in three
+directions that Hodge theory needs. They work over arbitrary base rings, so that a variety defined over $\QQ$, or a family over a base, is a single
+object; this is how the conjugates $X^\sigma$ of the theory of absolute Hodge classes are defined (Chapter~\ref{absolute-hodge}). They allow nilpotent
+functions, which carry infinitesimal information such as tangent vectors and deformations. And they have non-closed points, which make the
+generic behaviour of families visible. References: \cite[Chapter II]{hartshorne-ag}, \cite{stacks-project}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{varieties} (Algebraic Varieties) and Chapter~\ref{commutative-algebra} (Commutative Algebra).
+
+Rings are commutative with $1$. For a ring $A$ we use the notation $V(I)$, $D(f)$ of Definition~\ref{commutative-algebra:definition-spectrum}.
+For a prime $\mathfrak{p}$, $k(\mathfrak{p}) = A_\mathfrak{p}/\mathfrak{p}A_\mathfrak{p}$ is its residue field.
+
+\section{The spectrum of a ring}\label{schemes:section-spectrum}
+
+\begin{proposition}\label{schemes:proposition-spec-topology}
+Let $A$ be a ring and $X = \Spec A$.
+\begin{enumerate}
+\item The sets $V(I)$ are the closed sets of a topology, the \emph{Zariski topology}: $V(IJ) = V(I \cap J) = V(I) \cup V(J)$ and
+$V(\sum I_\alpha) = \bigcap V(I_\alpha)$. Moreover $V(I) \subseteq V(J)$ if and only if $\sqrt J \subseteq \sqrt I$.
+\item The sets $D(f)$ form a basis of the topology, $D(f) \cap D(g) = D(fg)$, and $D(f) \subseteq D(g)$ if and only if $f \in \sqrt{(g)}$.
+\item The closure of $\{\mathfrak{p}\}$ is $V(\mathfrak{p})$. So the closed points are the maximal ideals, and $\mathfrak{p} \mapsto V(\mathfrak{p})$ is a bijection
+from $X$ to the set of irreducible closed subsets; $\mathfrak{p}$ is the unique \emph{generic point} of $V(\mathfrak{p})$.
+\item $X$ and every $D(f)$ are quasi-compact.
+\item A ring map $\varphi \colon A \to B$ induces a continuous map $\Spec B \to \Spec A$, $\mathfrak{q} \mapsto \varphi^{-1}(\mathfrak{q})$, and the preimage
+of $D(f)$ is $D(\varphi(f))$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A prime contains $IJ$ if and only if it contains $I$ or $J$, and it contains $\sum I_\alpha$ if and only if it contains every $I_\alpha$. The last
+statement holds because $\sqrt I$ is the intersection of the primes containing $I$
+(Proposition~\ref{commutative-algebra:proposition-nilradical}). (2) $X \setminus V(I) = \bigcup_{f \in I}D(f)$, and $\mathfrak{p}$ omits $fg$ if and
+only if it omits both. $D(f) \subseteq D(g)$ means $V(g) \subseteq V(f)$, that is, $f \in \sqrt{(g)}$ by (1). (3) The smallest $V(I)$ containing
+$\mathfrak{p}$ is $V(\mathfrak{p})$. If $V(I)$ is irreducible, then $\sqrt I$ is prime: if $fg \in \sqrt I$, then $V(I) = (V(I) \cap V(f)) \cup (V(I) \cap V(g))$,
+so $V(I) \subseteq V(f)$, say, and $f \in \sqrt I$. Then $V(I) = V(\sqrt I)$ is the closure of the point $\sqrt I$, which is unique because
+$V(\mathfrak{p}) = V(\mathfrak{q})$ forces $\mathfrak{p} = \mathfrak{q}$. (4) If $X = \bigcup_\alpha D(f_\alpha)$, then no prime contains all $f_\alpha$, so they
+generate the unit ideal, and $1 = \sum_{i=1}^ra_if_{\alpha_i}$ involves finitely many. For $D(f) \cong \Spec A_f$ (by
+Proposition~\ref{commutative-algebra:proposition-localisation}(3)) the same argument applies. (5) $\varphi^{-1}(\mathfrak{q})$ omits $f$ exactly when
+$\mathfrak{q}$ omits $\varphi(f)$.
+\end{proof}
+
+\begin{definition}\label{schemes:definition-structure-sheaf}
+The \emph{structure sheaf} $\mathcal{O} = \mathcal{O}_{\Spec A}$ assigns to an open $U \subseteq \Spec A$ the ring of functions
+$s \colon U \to \bigsqcup_{\mathfrak{p} \in U}A_\mathfrak{p}$ with $s(\mathfrak{p}) \in A_\mathfrak{p}$ that are \emph{locally quotients}: every point of $U$ has a
+neighbourhood $V \subseteq U$ and $a, f \in A$ with $f \notin \mathfrak{p}$ and $s(\mathfrak{p}) = a/f$ in $A_\mathfrak{p}$ for all $\mathfrak{p} \in V$. The
+locally ringed space $(\Spec A, \mathcal{O})$ is the \emph{affine scheme} of $A$.
+\end{definition}
+
+\begin{theorem}\label{schemes:theorem-structure-sheaf}
+Let $A$ be a ring.
+\begin{enumerate}
+\item For every $\mathfrak{p}$, the stalk $\mathcal{O}_\mathfrak{p}$ is isomorphic to $A_\mathfrak{p}$; in particular $\Spec A$ is a locally ringed space.
+\item For every $f \in A$, $\mathcal{O}(D(f)) \cong A_f$; in particular $\Gamma(\Spec A, \mathcal{O}) \cong A$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Evaluation at $\mathfrak{p}$ gives $\mathcal{O}_\mathfrak{p} \to A_\mathfrak{p}$. It is surjective, since $a/f$ with $f \notin \mathfrak{p}$ defines a section on
+$D(f)$. It is injective: if $s$, $t$ agree at $\mathfrak{p}$ and are $a/f$, $b/g$ near $\mathfrak{p}$, then $h(ag - bf) = 0$ for some $h \notin \mathfrak{p}$, so
+$a/f = b/g$ in every $A_\mathfrak{q}$ with $\mathfrak{q} \in D(fgh)$, a neighbourhood of $\mathfrak{p}$.
+
+(2) Define $\psi \colon A_f \to \mathcal{O}(D(f))$ by $a/f^n \mapsto (\mathfrak{p} \mapsto a/f^n)$. \emph{Injective:} if $a/f^n = 0$ in every $A_\mathfrak{p}$,
+$\mathfrak{p} \in D(f)$, then the annihilator of $a$ is contained in no prime of $D(f)$. So $V(\mathrm{Ann}(a)) \subseteq V(f)$, and $f \in \sqrt{\mathrm{Ann}(a)}$,
+that is, $f^ma = 0$ and $a/f^n = 0$ in $A_f$. \emph{Surjective:} let $s \in \mathcal{O}(D(f))$. Cover $D(f)$ by open sets on which $s = a_i/g_i$. Shrinking
+them to basic open sets $D(h_i) \subseteq D(g_i)$, and writing $h_i^m = cg_i$, so that $a_i/g_i = ca_i/h_i^m$, we may assume $s = a_i/h_i$ on $D(h_i)$. By
+(4) of Proposition~\ref{schemes:proposition-spec-topology}, finitely many $D(h_1), \ldots, D(h_r)$ suffice. On $D(h_ih_j)$ both $a_i/h_i$ and $a_j/h_j$
+represent $s$. By the injectivity just proved, applied to $D(h_ih_j)$, we get $(h_ih_j)^N(a_ih_j - a_jh_i) = 0$, and we may take one $N$ for all pairs.
+Replacing $a_i$ by $a_ih_i^N$ and $h_i$ by $h_i^{N+1}$ we get $a_ih_j = a_jh_i$. Since $D(f) \subseteq \bigcup D(h_i)$, $f^n = \sum_ib_ih_i$ for some $n$ and
+$b_i$. Let $a = \sum_ib_ia_i$. Then $h_ja = \sum_ib_ia_ih_j = \sum_ib_ih_ia_j = f^na_j$, so $a/f^n = a_j/h_j$ on $D(h_j)$ for every $j$, and $s = \psi(a/f^n)$.
+\end{proof}
+
+\begin{theorem}\label{schemes:theorem-morphisms-to-affine}
+For every locally ringed space $X$ and ring $A$, the map
+\[
+\Hom_{\mathrm{LRS}}(X, \Spec A) \to \Hom_{\mathrm{Ring}}(A, \Gamma(X, \mathcal{O}_X)), \qquad (f, f^\#) \mapsto f^\#_{\Spec A},
+\]
+is bijective. In particular $A \mapsto \Spec A$ is an anti-equivalence between rings and affine schemes, and a ring map $\varphi$ induces the
+morphism $\Spec\varphi$ whose map on stalks is the localisation $A_{\varphi^{-1}(\mathfrak{q})} \to B_\mathfrak{q}$.
+\end{theorem}
+
+\begin{proof}
+Given $\psi \colon A \to \Gamma(X, \mathcal{O}_X)$, define $f(x) = \psi_x^{-1}(\mathfrak{m}_x)$, where $\psi_x \colon A \to \mathcal{O}_{X,x}$. This is a prime. Then
+$f^{-1}(D(a)) = X_{\psi(a)} = \{x : \psi(a)_x \notin \mathfrak{m}_x\}$, which is open, since a germ that is a unit is a unit nearby. So $f$ is continuous. On
+$X_{\psi(a)}$ the section $\psi(a)$ is invertible, so $\psi$ induces $A_a \to \mathcal{O}_X(X_{\psi(a)})$. By Theorem~\ref{schemes:theorem-structure-sheaf}
+these maps define a morphism of sheaves $\mathcal{O}_{\Spec A} \to f_*\mathcal{O}_X$ on the basis of basic open sets, hence a morphism of sheaves. On the stalk
+at $x$ it is the map $A_{f(x)} \to \mathcal{O}_{X,x}$ induced by $\psi_x$, which is local by the definition of $f(x)$. Conversely, let $(f, f^\#)$ be a
+morphism with global map $\psi$. Since $f^\#_x \colon A_{f(x)} \to \mathcal{O}_{X,x}$ is local and compatible with $\psi_x$, we get
+$f(x)A_{f(x)} = (f^\#_x)^{-1}(\mathfrak{m}_x)$, so $f(x) = \psi_x^{-1}(\mathfrak{m}_x)$. On $D(a)$ the map $f^\#$ is determined by $\psi$ through the universal property
+of $A_a$. So the two constructions are inverse. For $X = \Spec B$, $\Gamma(X, \mathcal{O}_X) = B$ by Theorem~\ref{schemes:theorem-structure-sheaf}.
+\end{proof}
+
+\section{Schemes and their properties}\label{schemes:section-schemes}
+
+\begin{definition}\label{schemes:definition-scheme}
+A \emph{scheme} is a locally ringed space $(X, \mathcal{O}_X)$ in which every point has an open neighbourhood $U$ such that $(U, \mathcal{O}_X|_U)$ is
+isomorphic to an affine scheme. A \emph{morphism} of schemes is a morphism of locally ringed spaces. For a scheme $S$, a scheme \emph{over $S$} is a
+morphism $X \to S$, and morphisms over $S$ commute with the structure maps. We write $X(T) = \Hom_S(T, X)$ for the \emph{$T$-valued points}, and
+$X(R) = X(\Spec R)$. The residue field at $x$ is $k(x) = \mathcal{O}_{X,x}/\mathfrak{m}_x$.
+\end{definition}
+
+\begin{proposition}\label{schemes:proposition-gluing}
+Let $X_i$ be schemes, $U_{ij} \subseteq X_i$ open subschemes with $U_{ii} = X_i$, and $\varphi_{ij} \colon U_{ij} \to U_{ji}$ isomorphisms such that
+$\varphi_{ij}(U_{ij} \cap U_{ik}) = U_{ji} \cap U_{jk}$ and $\varphi_{ik} = \varphi_{jk} \circ \varphi_{ij}$ on $U_{ij} \cap U_{ik}$. Then there is a scheme $X$,
+unique up to unique isomorphism, with open subschemes $X_i$ glued along the $\varphi_{ij}$. Morphisms defined on the $X_i$ that agree on overlaps
+glue to a morphism $X \to Y$.
+\end{proposition}
+
+\begin{proof}
+Glue the topological spaces along the homeomorphisms $\varphi_{ij}$, then glue the sheaves, which is possible by the cocycle condition. The result is
+locally ringed and locally affine because each $X_i$ is. Morphisms of locally ringed spaces glue because continuous maps and sheaf maps do
+(Proposition~\ref{sheaves:proposition-modules}).
+\end{proof}
+
+\begin{example}\label{schemes:example-schemes}
+\begin{enumerate}
+\item $\Spec k$ for a field $k$ is a point. $\Spec\ZZ$ has closed points $(p)$ with residue fields $\mathbb{F}_p$, and a generic point $(0)$ with residue
+field $\QQ$, dense in $\Spec\ZZ$.
+\item \emph{Affine space} over $A$ is $\Aa^n_A = \Spec A[x_1, \ldots, x_n]$. For $A = k$ algebraically closed, its closed points are the points of
+$k^n$ (Theorem~\ref{commutative-algebra:theorem-nullstellensatz}), and it has one further point for each irreducible closed subset of dimension
+$> 0$, namely its generic point.
+\item \emph{Projective space} $\PP^n_A$ is glued from $U_i = \Spec A[x_0/x_i, \ldots, x_n/x_i]$ along $U_i \supseteq D(x_j/x_i) \cong D(x_i/x_j) \subseteq U_j$. It is
+also $\Proj A[x_0, \ldots, x_n]$ (Section~\ref{schemes:section-proj}).
+\item The \emph{affine line with doubled origin} is glued from two copies of $\Aa^1_k$ along the identity of $\Aa^1_k \setminus \{0\}$. It is a scheme that is
+not isomorphic to any variety (Example~\ref{schemes:example-not-separated}).
+\item $\Spec k[\varepsilon]/(\varepsilon^2)$ is a single point with a non-reduced local ring. A morphism $\Spec k[\varepsilon]/(\varepsilon^2) \to X$ over $k$ is a
+$k$-point $x$ of $X$ together with a tangent vector in $(\mathfrak{m}_x/\mathfrak{m}_x^2)^\vee$ (Exercise~\ref{schemes:exercise-dual-numbers}).
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{schemes:definition-properties}
+A scheme $X$ is \emph{reduced} if all local rings are reduced, \emph{irreducible} if its space is, \emph{integral} if every $\mathcal{O}_X(U)$, $U \neq \emptyset$,
+is a domain, \emph{locally Noetherian} if it has an affine open cover by spectra of Noetherian rings, and \emph{Noetherian} if moreover it is
+quasi-compact. A morphism $f \colon X \to Y$ is \emph{locally of finite type} if there are affine open covers $Y = \bigcup\Spec B_i$ and
+$f^{-1}(\Spec B_i) = \bigcup_j\Spec A_{ij}$ with each $A_{ij}$ a finitely generated $B_i$-algebra, \emph{of finite type} if moreover finitely many $A_{ij}$
+suffice for each $i$, and \emph{finite} if $f^{-1}(\Spec B_i) = \Spec A_i$ with $A_i$ a finite $B_i$-module. An \emph{open immersion} is an isomorphism onto
+an open subscheme. A \emph{closed immersion} is a morphism that is a homeomorphism onto a closed subset and such that
+$f^\# \colon \mathcal{O}_Y \to f_*\mathcal{O}_X$ is surjective. A \emph{closed subscheme} is an equivalence class of closed immersions.
+\end{definition}
+
+\begin{proposition}\label{schemes:proposition-integral}
+A scheme is integral if and only if it is reduced and irreducible. An integral scheme $X$ has a unique generic point $\eta$, and its
+\emph{function field} is $K(X) = \mathcal{O}_{X,\eta}$, which is the fraction field of $A$ for every nonempty affine open $\Spec A \subseteq X$.
+\end{proposition}
+
+\begin{proof}
+If $X$ is integral, it is reduced. If it were reducible, there would be disjoint nonempty open sets $U_1$, $U_2$, and
+$\mathcal{O}(U_1 \sqcup U_2) = \mathcal{O}(U_1) \times \mathcal{O}(U_2)$ would not be a domain. Conversely, let $X$ be reduced and irreducible, and let
+$U = \Spec A$ be a nonempty affine open. Then $A$ is reduced with irreducible spectrum, so its nilradical $0$ is prime
+(Proposition~\ref{schemes:proposition-spec-topology}(3)), and $A$ is a domain. For general $U$ and $fg = 0$ in $\mathcal{O}(U)$, $U$ is the union of the
+closed sets where the germs of $f$ and of $g$ lie in the maximal ideal. On each affine open these are $V(f)$ and $V(g)$. By irreducibility one of
+them, say $V(f)$, is all of $U$, so $f$ is nilpotent on each affine open, hence $0$. The generic point of $X$ is the generic point of each nonempty
+open subset, which for $\Spec A$ is the prime $(0)$, with local ring $A_{(0)} = \mathrm{Frac}(A)$.
+\end{proof}
+
+\begin{proposition}\label{schemes:proposition-points-over-field}
+Let $X$ be a scheme and $K$ a field. Morphisms $\Spec K \to X$ correspond bijectively to pairs of a point $x \in X$ and a field homomorphism
+$k(x) \to K$. If $X$ is of finite type over an algebraically closed field $k$, then the closed points of $X$ are exactly the points with $k(x) = k$, and
+$X(k)$ is the set of closed points.
+\end{proposition}
+
+\begin{proof}
+A morphism from the one-point space $\Spec K$ has image a point $x$, and the stalk map $\mathcal{O}_{X,x} \to K$ is local, so it kills $\mathfrak{m}_x$ and
+factors through $k(x)$. Conversely such data define a morphism, by Theorem~\ref{schemes:theorem-morphisms-to-affine} applied on an affine
+neighbourhood. For $X$ of finite type over $k$, a point $x$ in an affine open $\Spec A$ is closed in $\Spec A$ if and only if its prime is maximal,
+if and only if $k(x) = k$, by Zariski's lemma (Theorem~\ref{commutative-algebra:theorem-zariski-lemma}) and algebraic closedness. If $k(x) = k$,
+then $x$ is closed in every affine open containing it, and its closure does not meet any open set not containing $x$, since open sets are stable
+under generisation. So $x$ is closed in $X$. Conversely, a closed point of $X$ is closed in an affine open containing it.
+\end{proof}
+
+\section{Fibre products}\label{schemes:section-fibre-products}
+
+\begin{theorem}\label{schemes:theorem-fibre-products}
+Fibre products exist in the category of schemes. For affine schemes,
+$\Spec A \times_{\Spec R}\Spec B = \Spec(A \otimes_RB)$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+For affine schemes this follows from Theorem~\ref{schemes:theorem-morphisms-to-affine} and the universal property of $A \otimes_RB$
+(Proposition~\ref{rings:proposition-tensor-algebras}): a morphism $T \to \Spec(A \otimes_RB)$ is a ring map $A \otimes_RB \to \Gamma(T, \mathcal{O}_T)$, that is,
+a compatible pair of ring maps from $A$ and $B$. In general one glues. If $X \times_SY$ exists and $U \subseteq X$ is open, then the preimage of $U$ in
+$X \times_SY$ is $U \times_SY$. Hence, covering $S$, then $X$ and $Y$ by affine opens, the affine fibre products glue along these canonical open
+subschemes by Proposition~\ref{schemes:proposition-gluing}. The omitted verifications are the cocycle conditions, which follow from the uniqueness
+of fibre products, and the universal property of the glued scheme, which is local \cite[Theorem II.3.3]{hartshorne-ag}.
+\end{proof}
+
+\begin{definition}\label{schemes:definition-fibre}
+For a morphism $f \colon X \to Y$ and $y \in Y$, the \emph{fibre} is $X_y = X \times_Y\Spec k(y)$, a scheme over the residue field $k(y)$ whose underlying space
+is homeomorphic to $f^{-1}(y)$ \cite[Exercise II.3.10]{hartshorne-ag}. For $Y' \to Y$, the \emph{base change} of $X$ is $X_{Y'} = X \times_YY'$. A property of
+morphisms is \emph{stable under base change} if $X_{Y'} \to Y'$ has it whenever $X \to Y$ does.
+\end{definition}
+
+\begin{example}\label{schemes:example-fibre-products}
+\begin{enumerate}
+\item $\Aa^m_R \times_R \Aa^n_R = \Aa^{m+n}_R$, since $R[x] \otimes_RR[y] = R[x, y]$.
+\item $\Spec\CC \times_{\Spec\RR}\Spec\CC = \Spec(\CC \otimes_\RR\CC) = \Spec(\CC \times \CC)$, two points. So a fibre product of one-point schemes can have
+several points, and the underlying set of a fibre product is not the fibre product of the underlying sets.
+\item For $f \colon \Spec\ZZ[i] \to \Spec\ZZ$, the fibre over $(p)$ is $\Spec\mathbb{F}_p[x]/(x^2 + 1)$. It is two reduced points if $p \equiv 1 \bmod 4$, one
+point with residue field $\mathbb{F}_{p^2}$ if $p \equiv 3 \bmod 4$, and the non-reduced point $\Spec\mathbb{F}_2[x]/(x + 1)^2$ if $p = 2$. The
+generic fibre is $\Spec\QQ(i)$.
+\end{enumerate}
+\end{example}
+
+\section{Separated and proper morphisms}\label{schemes:section-separated-proper}
+
+\begin{definition}\label{schemes:definition-separated}
+A morphism $f \colon X \to Y$ is \emph{separated} if the diagonal $\Delta \colon X \to X \times_YX$ is a closed immersion. It is \emph{proper} if it is
+separated, of finite type, and \emph{universally closed}: every base change $X_{Y'} \to Y'$ is a closed map. A scheme over a field $k$ is \emph{complete} if
+it is proper over $\Spec k$.
+\end{definition}
+
+\begin{proposition}\label{schemes:proposition-affine-separated}
+Every morphism of affine schemes is separated. Open and closed immersions are separated, and so are compositions and base changes of separated
+morphisms. A morphism $X \to Y$ is separated if and only if the diagonal has closed image.
+\end{proposition}
+
+\begin{proof}
+For $\Spec A \to \Spec R$ the diagonal corresponds to the multiplication $A \otimes_RA \to A$, which is surjective, so $\Delta$ is a closed immersion (a
+surjection of rings $B \to B/I$ gives a homeomorphism onto $V(I)$ and a surjection of sheaves, by Theorem~\ref{schemes:theorem-structure-sheaf}).
+For the remaining statements, see \cite[Corollary II.4.2 and Corollary II.4.6]{hartshorne-ag}. The last one holds because $\Delta$ is always a
+locally closed immersion: over an affine open of $Y$ and affine opens $U$ of $X$, the diagonal maps $U$ by a closed immersion into the open
+subscheme $U \times_YU$.
+\end{proof}
+
+\begin{example}\label{schemes:example-not-separated}
+The affine line with doubled origin $X$ is not separated over $k$. Let $i_1, i_2 \colon \Aa^1_k \to X$ be the two open immersions. The morphism
+$(i_1, i_2) \colon \Aa^1_k \to X \times_kX$ maps $t \neq 0$ into the diagonal but maps $0$ to the pair of the two origins, which is not in the diagonal. So
+the preimage of $\Delta(X)$ is $\Aa^1_k \setminus \{0\}$, which is not closed. Hence $\Delta(X)$ is not closed.
+\end{example}
+
+\begin{theorem}[Valuative criteria]\label{schemes:theorem-valuative}
+Let $f \colon X \to Y$ be a morphism of finite type with $X$ Noetherian. For every valuation ring $R$ with fraction field $K$ and every
+commutative square formed by $\Spec K \to X$ and $\Spec R \to Y$, consider lifts $\Spec R \to X$ making both triangles commute. Then $f$ is separated
+if and only if there is at most one lift for every such square, and proper if and only if there is exactly one. It suffices to consider discrete
+valuation rings.
+\end{theorem}
+
+This is \cite[Theorems II.4.3 and II.4.7 and Exercise II.4.11]{hartshorne-ag}. Geometrically: a punctured disc $\Spec K$ in $X$ whose image extends
+over the centre of $\Spec R$ in $Y$ extends in at most one way (separated: limits are unique) or in exactly one way (proper: limits exist).
+
+\begin{theorem}\label{schemes:theorem-projective-proper}
+For every ring $A$, $\PP^n_A \to \Spec A$ is proper. Consequently every \emph{projective} morphism, that is, a closed immersion into some $\PP^n_Y$
+followed by the projection, is proper, and every projective variety is complete.
+\end{theorem}
+
+\begin{proof}
+Since $\PP^n_A = \PP^n_\ZZ \times \Spec A$ and properness is stable under base change \cite[Corollary II.4.8]{hartshorne-ag}, we may take $A = \ZZ$. The
+morphism is of finite type, being covered by the $n + 1$ affine spaces $U_i$. It is separated: on $U_i \times U_j$ the diagonal is
+$U_i \cap U_j \to U_i \times U_j$, given by the ring map $\ZZ[x/x_i] \otimes \ZZ[x/x_j] \to \ZZ[x/x_i]_{x_j/x_i}$, which is surjective because $x_i/x_j$ is the
+image of an element of the second factor. By Proposition~\ref{schemes:proposition-affine-separated} this suffices. For properness, use
+Theorem~\ref{schemes:theorem-valuative}. A morphism $\Spec K \to \PP^n_\ZZ$ lands in some $U_i$, so by
+Theorem~\ref{schemes:theorem-morphisms-to-affine} it is given by elements $a_j = x_j/x_i \in K$ with $a_i = 1$. Let $v$ be the valuation of $R$
+(with $v(0) = \infty$) and choose $m$ with $v(a_m)$ minimal; then $a_m \neq 0$. All $b_j = a_j/a_m$ lie in $R$, and the ring map
+$\ZZ[x_0/x_m, \ldots, x_n/x_m] \to R$, $x_j/x_m \mapsto b_j$, defines $\Spec R \to U_m$. On $\Spec K$ it agrees with the given morphism, because on
+$U_i \cap U_m$ the coordinates $x_j/x_i = (x_j/x_m)(x_m/x_i)$ are sent to $b_j/b_i = a_j$. Uniqueness follows from separatedness. Closed immersions are proper, and compositions of proper morphisms are proper \cite[Corollary II.4.8]{hartshorne-ag}.
+\end{proof}
+
+\section{Projective schemes}\label{schemes:section-proj}
+
+\begin{definition}\label{schemes:definition-proj}
+Let $S = \bigoplus_{d \geq 0}S_d$ be a graded ring and $S_+ = \bigoplus_{d > 0}S_d$. The set $\Proj S$ consists of the homogeneous primes not containing
+$S_+$, with the topology whose closed sets are the $V_+(\mathfrak{a})$, $\mathfrak{a}$ homogeneous. For homogeneous $f \in S_+$ let
+$D_+(f) = \{\mathfrak{p} : f \notin \mathfrak{p}\}$, and let $S_{(f)}$ be the degree-zero part of $S_f$, and $S_{(\mathfrak{p})}$ the degree-zero part of the
+localisation at the homogeneous elements not in $\mathfrak{p}$. The structure sheaf consists of the functions $s(\mathfrak{p}) \in S_{(\mathfrak{p})}$ that are
+locally quotients $a/f$ with $a$, $f$ homogeneous of the same degree.
+\end{definition}
+
+\begin{proposition}\label{schemes:proposition-proj}
+$\Proj S$ is a scheme. The stalk at $\mathfrak{p}$ is $S_{(\mathfrak{p})}$, the sets $D_+(f)$ form an open cover, and $D_+(f) \cong \Spec S_{(f)}$. There is a
+morphism $\Proj S \to \Spec S_0$. If $S = A[x_0, \ldots, x_n]$, then $\Proj S = \PP^n_A$, and if $S = A[x_0, \ldots, x_n]/I$ with $I$ homogeneous, then
+$\Proj S$ is a closed subscheme of $\PP^n_A$.
+\end{proposition}
+
+\begin{proof}
+The stalks are computed as in Theorem~\ref{schemes:theorem-structure-sheaf}(1). Every $\mathfrak{p} \in \Proj S$ omits some homogeneous element of
+$S_+$, so the $D_+(f)$ cover. Let $f$ have degree $e > 0$. The map $\mathfrak{p} \mapsto (\mathfrak{p}S_f) \cap S_{(f)}$ is a homeomorphism
+$D_+(f) \to \Spec S_{(f)}$. Its inverse sends $\mathfrak{q}$ to the homogeneous ideal whose degree $d$ part is $\{a \in S_d : a^e/f^d \in \mathfrak{q}\}$; checking
+that this is a homogeneous prime and that the two maps are inverse homeomorphisms is routine \cite[Proposition II.2.5]{hartshorne-ag}. Under it,
+$S_{(\mathfrak{p})}$ corresponds to the localisation of $S_{(f)}$ at $\mathfrak{q}$, and the locally-quotient descriptions of the two structure sheaves
+match, so the ringed spaces are isomorphic. The inclusions $S_0 \to S_{(f)}$ glue to the morphism to $\Spec S_0$. For $S = A[x_0, \ldots, x_n]$,
+$S_{(x_i)} = A[x_0/x_i, \ldots, x_n/x_i]$, and the gluing agrees with Example~\ref{schemes:example-schemes}(3). A surjection $S \to S/I$ induces
+surjections $S_{(x_i)} \to (S/I)_{(x_i)}$, hence closed immersions $\Spec(S/I)_{(x_i)} \to \Spec S_{(x_i)}$, which glue to a closed immersion
+$\Proj S/I \to \PP^n_A$.
+\end{proof}
+
+\section{Varieties as schemes}\label{schemes:section-varieties}
+
+\begin{theorem}\label{schemes:theorem-varieties-schemes}
+Let $k$ be algebraically closed. There is a fully faithful functor $t$ from the category of varieties over $k$ (Chapter~\ref{varieties}) to the category of
+schemes over $k$. The space $t(V)$ is the set of irreducible closed subsets of $V$, and $V$ is homeomorphic to the subspace of closed points of $t(V)$.
+The image consists of the integral separated schemes of finite type over $k$ that admit an immersion into some $\PP^n_k$, and $t(V)$ is proper over $k$ if
+and only if $V$ is projective.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+For an affine variety $V$ with coordinate ring $A$, $t(V) = \Spec A$. Irreducible closed subsets of $V$ correspond to primes of $A$
+(Proposition~\ref{varieties:proposition-irreducible-components}), and points to maximal ideals. By Theorem~\ref{varieties:theorem-regular-functions-affine}
+and Theorem~\ref{schemes:theorem-structure-sheaf}, the regular functions on an open subset $U \subseteq V$ are the sections of $\mathcal{O}_{\Spec A}$ over the
+corresponding open subset. In general $t(V)$ is glued from affine pieces. Full faithfulness reduces, by gluing, to the affine case, where both
+categories are anti-equivalent to the category of finitely generated domains (Proposition~\ref{varieties:proposition-morphisms-to-affine} and
+Theorem~\ref{schemes:theorem-morphisms-to-affine}). The omitted verifications are that the construction is compatible with gluing and that
+quasi-projective varieties give separated schemes, which is Proposition~\ref{schemes:proposition-affine-separated} and
+Theorem~\ref{schemes:theorem-projective-proper}; see \cite[Proposition II.2.6 and Proposition II.4.10]{hartshorne-ag}.
+\end{proof}
+
+\begin{remark}\label{schemes:remark-variety-convention}
+From now on, a \emph{variety over a field $k$} is an integral separated scheme of finite type over $k$. For $k$ algebraically closed and quasi-projective
+varieties this agrees with Chapter~\ref{varieties} by Theorem~\ref{schemes:theorem-varieties-schemes}. There are complete varieties that are not
+projective (Nagata, Hironaka), but every complete curve is projective, and so is every smooth complete surface; see \cite[Appendix B]{hartshorne-ag}.
+\end{remark}
+
+\section{Flat and smooth morphisms}\label{schemes:section-flat-smooth}
+
+\begin{definition}\label{schemes:definition-flat}
+A morphism $f \colon X \to Y$ is \emph{flat} at $x$ if $\mathcal{O}_{X,x}$ is a flat $\mathcal{O}_{Y,f(x)}$-module (Definition~\ref{rings:definition-flat}),
+and \emph{flat} if it is flat at every point. It is \emph{faithfully flat} if moreover it is surjective.
+\end{definition}
+
+\begin{proposition}\label{schemes:proposition-flat}
+\begin{enumerate}
+\item Open immersions are flat, and $\Aa^n_Y \to Y$ and $\PP^n_Y \to Y$ are flat. Compositions and base changes of flat morphisms are flat.
+\item Let $R$ be a principal ideal domain, for instance a discrete valuation ring. An $R$-module is flat if and only if it is torsion-free. Hence
+$X \to \Spec R$ is flat if and only if every local ring $\mathcal{O}_{X,x}$ is torsion-free over $R$. If $X$ is integral, this holds if and only if
+$X$ dominates $\Spec R$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Localisations are flat (Proposition~\ref{commutative-algebra:proposition-localisation}(2)), and so are free modules such as $A[x_1, \ldots, x_n]$ over $A$;
+local rings of $\Aa^n_A$ are localisations of $A[x]$. The statements on composition and base change are \cite[Proposition III.9.2]{hartshorne-ag}.
+(2) If $M$ is flat and $0 \neq t \in R$, tensoring the injection $t \colon R \to R$ with $M$ shows that $t$ is injective on $M$. Conversely, a torsion-free
+$M$ is the union of its finitely generated submodules, which are torsion-free, hence free (Theorem~\ref{rings:theorem-structure-pid}). A union of flat
+submodules is flat, since an element of the kernel of $N' \otimes M \to N \otimes M$ comes from some finitely generated submodule of $M$. For integral $X$,
+torsion-freeness fails exactly when some nonzero $t \in R$ vanishes on $X$, that is, when $X$ maps into a closed point.
+\end{proof}
+
+\begin{example}\label{schemes:example-flat}
+\begin{enumerate}
+\item The family $X = \Spec k[t, x, y]/(xy - t) \to \Aa^1_k = \Spec k[t]$ is flat, since $X$ is integral and dominates $\Aa^1$. Its fibres are the smooth conics
+$xy = t$ for $t \neq 0$, which degenerate to the pair of lines $xy = 0$.
+\item The blow-up $\mathrm{Bl}_0\Aa^2 \to \Aa^2$ is not flat. Its fibres have dimension $0$ except over the origin, where the fibre is $\PP^1$, while flat morphisms
+of finite type between varieties have equidimensional fibres \cite[Proposition III.9.5]{hartshorne-ag}.
+\item A closed immersion $\Spec A/I \to \Spec A$ with $0 \neq I$ and $A$ a domain is not flat, since $A/I$ is torsion.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{schemes:definition-smooth}
+A morphism $f \colon X \to Y$ is \emph{smooth of relative dimension $n$} if every point of $X$ has affine open neighbourhoods $\Spec B$ of $x$ and $\Spec A$ of
+$f(x)$, with $f(\Spec B) \subseteq \Spec A$, such that
+\[
+B \cong A[x_1, \ldots, x_{n+r}]/(g_1, \ldots, g_r) \qquad \text{with } \det\left(\partial g_i/\partial x_{n+j}\right)_{1 \leq i,j \leq r} \text{ invertible in } B.
+\]
+It is \emph{\'etale} if it is smooth of relative dimension $0$.
+\end{definition}
+
+\begin{proposition}\label{schemes:proposition-smooth-nonsingular}
+Let $k$ be algebraically closed and $X$ a variety over $k$ of dimension $n$. Then $X \to \Spec k$ is smooth (of relative dimension $n$) if and only if $X$
+is nonsingular in the sense of Definition~\ref{varieties:definition-tangent-space}.
+\end{proposition}
+
+\begin{proof}
+Both conditions are local, so let $X$ be affine. Suppose $B = k[x_1, \ldots, x_{n+r}]/(g_1, \ldots, g_r)$ with the minor invertible, and let $P$ be a closed point.
+Every irreducible component of $Z(g_1, \ldots, g_r) \subseteq \Aa^{n+r}$ has dimension $\geq n$ by Theorem~\ref{varieties:theorem-hypersurface-sections} applied $r$
+times, so $\dim\mathcal{O}_{X,P} \geq n$. The Jacobian of $(g_i)$ has rank $r$ at $P$, so $\dim T_PX \leq n$ by the computation in
+Theorem~\ref{varieties:theorem-jacobian}, which only used generators of the ideal defining $B$. By Lemma~\ref{varieties:lemma-tangent-dimension},
+$\mathcal{O}_{X,P}$ is regular of dimension $n$. Conversely, let $X \subseteq \Aa^N$ be nonsingular at $P$ with $I(X) = (f_1, \ldots, f_t)$. The Jacobian has rank
+$r = N - n$ at $P$, so after renumbering, $\det(\partial f_i/\partial x_{n+j})_{i,j \leq r}$ is nonzero at $P$, hence invertible on a neighbourhood $D(h)$. The
+scheme $X' = Z(f_1, \ldots, f_r) \cap D(h)$ is smooth of relative dimension $n$ by construction. So by the first part its local ring at $P$ is regular of dimension
+$n$, in particular a domain (Remark~\ref{commutative-algebra:remark-regular-domain}). Hence $X'$ has a unique irreducible component through $P$, of dimension $n$, which contains
+$X \cap D(h)$ and so equals it near $P$. As $X'$ is reduced near $P$, $X = X'$ near $P$.
+\end{proof}
+
+\begin{counterexample}\label{schemes:counterexample-regular-not-smooth}
+Over a non-perfect field, regular does not imply smooth. Let $p$ be an odd prime, $k = \mathbb{F}_p(t)$ and $X = \Spec k[x, y]/(y^2 - x^p + t)$. At the closed point
+$\mathfrak{m} = (y, x^p - t)$, whose residue field is $k(t^{1/p})$, the relation $x^p - t = y^2 \in \mathfrak{m}^2$ shows that $\mathfrak{m}/\mathfrak{m}^2$ is spanned by $y$. So
+$X$ is regular there, of dimension $1$. But $X$ is not smooth over $k$. Smoothness is stable under base change, since a presentation as in
+Definition~\ref{schemes:definition-smooth} base changes to one. After base change to $\bar k$, with $s = t^{1/p}$, the curve becomes
+$y^2 = (x - s)^p$, whose Jacobian $(-p(x - s)^{p-1}, 2y) = (0, 2y)$ vanishes at the point $(s, 0)$. That point is singular by
+Theorem~\ref{varieties:theorem-jacobian}, so $X_{\bar k}$ is not smooth by Proposition~\ref{schemes:proposition-smooth-nonsingular}.
+\end{counterexample}
+
+\section{Base change and varieties over non-closed fields}\label{schemes:section-base-change}
+
+\begin{definition}\label{schemes:definition-geometric}
+Let $X$ be a scheme over a field $k$ and $K \supseteq k$ a field extension. The \emph{base change} is $X_K = X \times_{\Spec k}\Spec K$. The scheme $X$ is
+\emph{geometrically reduced}, \emph{irreducible} or \emph{integral} if $X_{\bar k}$ is reduced, irreducible or integral for an algebraic closure $\bar k$. A
+\emph{geometric point} is a morphism $\Spec\Omega \to X$ with $\Omega$ algebraically closed.
+\end{definition}
+
+\begin{example}\label{schemes:example-non-closed-fields}
+\begin{enumerate}
+\item $X = \Spec\RR[x]/(x^2 + 1) = \Spec\CC$ is integral over $\RR$, but $X_\CC = \Spec\CC \sqcup \Spec\CC$ is not irreducible.
+\item $X = \Spec\mathbb{F}_p(t)[x]/(x^p - t)$ is a point with residue field $\mathbb{F}_p(t^{1/p})$, integral, but $X_{\bar k}$ is non-reduced, since $x^p - t = (x - t^{1/p})^p$.
+\item The conic $X = \Spec\RR[x, y]/(x^2 + y^2 + 1)$ has no $\RR$-points, but it is a nonempty integral scheme whose closed points have residue field $\CC$.
+$X(\CC)$ is an affine conic with an action of complex conjugation without fixed points.
+\item For a variety $X$ over $k$ and a Galois extension $K/k$, $\mathrm{Gal}(K/k)$ acts on $X(K) = \Hom_k(\Spec K, X)$ through its action on $\Spec K$, and
+$X(k) \subseteq X(K)^{\mathrm{Gal}(K/k)}$. For a variety over $\QQ$, the set $X(\bar{\QQ})$ with its Galois action is the starting point of the $\ell$-adic
+cohomology of Chapter~\ref{etale-cohomology}.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{schemes:remark-spreading-out}
+A variety $X$ over $\CC$ is defined by finitely many polynomials, so it is defined over a finitely generated subfield $k_0 \subseteq \CC$: $X = X_0 \times_{k_0}\CC$.
+Moreover, $X_0$ extends to a scheme of finite type over a finitely generated $\ZZ$-algebra, a technique called \emph{spreading out}. For an automorphism
+$\sigma$ of $\CC$, the \emph{conjugate variety} is $X^\sigma = X \times_{\CC,\sigma}\CC$. It is a scheme isomorphic to $X$ as an abstract scheme but not
+over $\CC$, and $X^\sigma(\CC)$ is in general not homeomorphic to $X(\CC)$ \cite{serre-1964}. These constructions are used in the theory of absolute Hodge
+classes (Chapter~\ref{absolute-hodge}).
+\end{remark}
+
+\section{Exercises}\label{schemes:section-exercises}
+
+\begin{exercise}\label{schemes:exercise-spec-z-x}
+Describe the points of $\Spec\ZZ[x]$: show that they are $(0)$, the primes $(f)$ with $f$ irreducible, and the maximal ideals $(p, f)$ with $p$ prime and
+$f$ irreducible modulo $p$.
+\end{exercise}
+
+\begin{solution}
+Let $\mathfrak{p}$ be a prime. If $\mathfrak{p} \cap \ZZ = (p)$ with $p$ prime, then $\mathfrak{p}$ corresponds to a prime of $\mathbb{F}_p[x]$, a principal ideal domain,
+namely $0$ or $(\bar f)$ with $\bar f$ irreducible. This gives $(p)$ and $(p, f)$, and the latter is maximal. If $\mathfrak{p} \cap \ZZ = 0$, then $\mathfrak{p}$
+corresponds to a prime of $\QQ[x]$ (localisation at $\ZZ \setminus 0$), which is $0$ or $(g)$ with $g$ irreducible. Then $\mathfrak{p} = g\QQ[x] \cap \ZZ[x] = (f)$,
+where $f$ is $g$ made primitive (Gauss's lemma, Lemma~\ref{rings:lemma-gauss}). The primes $(p)$ are the primes $(f)$ with $f = p$ constant.
+\end{solution}
+
+\begin{exercise}\label{schemes:exercise-dual-numbers}
+Let $X$ be a scheme over an algebraically closed field $k$ and $D = \Spec k[\varepsilon]/(\varepsilon^2)$. Show that $X(D)$ is in bijection with pairs of a closed
+point $x \in X(k)$ and a vector of $(\mathfrak{m}_x/\mathfrak{m}_x^2)^\vee$.
+\end{exercise}
+
+\begin{solution}
+The image of $D$ is a point $x$, and the morphism is a local $k$-algebra map $\varphi \colon \mathcal{O}_{X,x} \to k[\varepsilon]$. Composing with
+$k[\varepsilon] \to k$ gives $k(x) = k$. Write $\varphi(a) = a(x) + \delta(a)\varepsilon$. Then $\delta$ is a $k$-linear derivation at $x$ that kills $k$ and $\mathfrak{m}_x^2$,
+since $\varepsilon^2 = 0$. So $\delta$ is a linear form on $\mathfrak{m}_x/\mathfrak{m}_x^2$, and conversely every such form defines a local homomorphism.
+\end{solution}
+
+\begin{exercise}\label{schemes:exercise-dvr}
+Let $R$ be a discrete valuation ring with fraction field $K$ and residue field $\kappa$. Describe $\Spec R$ and the fibres of $X \to \Spec R$ for
+$X = \Spec R[x, y]/(xy - \pi)$, where $\pi$ is a uniformiser.
+\end{exercise}
+
+\begin{solution}
+$\Spec R$ has two points: the closed point $\mathfrak{m}$ and the generic point $(0)$, which is open. The generic fibre is the smooth conic $xy = \pi$ over
+$K$, isomorphic to $\Aa^1_K \setminus \{0\}$. The special fibre is $xy = 0$ over $\kappa$, two lines meeting in a point. $X$ is a domain dominating $\Spec R$,
+so the morphism is flat (Proposition~\ref{schemes:proposition-flat}).
+\end{solution}
+
+\begin{exercise}\label{schemes:exercise-proj-conic}
+Show that $\Proj k[x, y, z]/(xz - y^2) \cong \PP^1_k$ for every field $k$.
+\end{exercise}
+
+\begin{solution}
+The ring $S = k[x, y, z]/(xz - y^2)$ is isomorphic to the subring $k[s^2, st, t^2] \subseteq k[s, t]$ of polynomials of even degree, with degrees halved.
+For a graded ring $T$ and $T^{(2)} = \bigoplus_dT_{2d}$ one has $\Proj T^{(2)} \cong \Proj T$, since $D_+(f^2)$ and $D_+(f)$ have the same ring
+$T_{(f)} = T^{(2)}_{(f^2)}$ \cite[Exercise II.5.13]{hartshorne-ag}. Hence $\Proj S \cong \Proj k[s, t] = \PP^1_k$.
+\end{solution}

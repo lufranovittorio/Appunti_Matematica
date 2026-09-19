@@ -1,0 +1,218 @@
+\chapter{Elliptic Operators on Compact Manifolds}\label{elliptic-operators}
+\chapterstatus{complete}
+
+\section{Introduction}\label{elliptic-operators:section-introduction}
+
+This chapter contains the analysis behind the Hodge theorem. An elliptic differential operator on a compact manifold is Fredholm
+between Sobolev spaces (Theorem~\ref{elliptic-operators:theorem-fredholm}), its kernel consists of smooth sections, and a
+self-adjoint elliptic operator has a discrete spectrum with smooth eigensections
+(Theorem~\ref{elliptic-operators:theorem-spectral}). Applied to the Hodge Laplacian these statements give the decomposition of the
+space of forms and the existence of harmonic representatives (Chapter~\ref{hodge-theorem}). References:
+\cite[Chapter 6]{warner-foundations}, \cite[Chapter 4]{wells-differential-analysis}, \cite{hormander-pdo1}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{riemannian-geometry} (Riemannian Geometry) and Chapter~\ref{distributions}
+(Distributions and Sobolev Spaces).
+
+Throughout, $M$ is a compact smooth manifold, and $E$, $F$ are complex vector bundles on $M$ with Hermitian metrics; $M$ carries a
+fixed Riemannian metric and, when needed, an orientation, so that sections can be integrated.
+
+\section{Differential operators and symbols}\label{elliptic-operators:section-symbols}
+
+\begin{definition}\label{elliptic-operators:definition-differential-operator}
+A linear map $P \colon \Gamma(M, E) \to \Gamma(M, F)$ is a \emph{differential operator of order at most $m$} if in local coordinates and local frames it is given by
+$Pu = \sum_{|\alpha| \leq m}A_\alpha(x)\,\partial^\alpha u$ with smooth matrix-valued coefficients $A_\alpha$. Its \emph{principal symbol} is
+\[
+\sigma_m(P)(x, \xi) = \sum_{|\alpha| = m}A_\alpha(x)\,(i\xi)^\alpha \in \Hom(E_x, F_x), \qquad \xi \in T^*_xM,
+\]
+and $P$ is \emph{elliptic} if $\sigma_m(P)(x, \xi)$ is invertible for all $x$ and all $\xi \neq 0$.
+\end{definition}
+
+\begin{proposition}\label{elliptic-operators:proposition-symbol}
+The principal symbol is well defined: it does not depend on the coordinates and frames, and it is characterised by
+\[
+\sigma_m(P)(x, d_xf)\,u(x) = \frac{i^m}{m!}\,P\big((f - f(x))^mu\big)(x)
+\]
+for $f \in C^\infty(M)$ and $u \in \Gamma(M, E)$. Symbols are multiplicative, $\sigma_{m+m'}(P'P) = \sigma_{m'}(P')\sigma_m(P)$, so a composite of elliptic operators is elliptic, and the symbol of the formal
+adjoint is the adjoint of the symbol.
+\end{proposition}
+
+\begin{proof}
+Expanding $P((f - f(x))^mu)$ by the Leibniz rule, all terms in which fewer than $m$ derivatives fall on $(f - f(x))^m$ vanish at $x$, and the remaining term is
+$\sum_{|\alpha| = m}A_\alpha(x)\,\partial^\alpha\big((f - f(x))^m\big)(x)u(x) = m!\sum_{|\alpha| = m}A_\alpha(x)(d_xf)^\alpha u(x)$, which gives the formula. The right-hand side is defined without reference to
+coordinates, so the symbol is invariantly defined, and multiplicativity follows from the same formula applied twice.
+\end{proof}
+
+\begin{example}\label{elliptic-operators:example-elliptic}
+\begin{enumerate}
+\item The Hodge Laplacian $\Delta = d\delta + \delta d$ on $\Omega^k(M)$ has principal symbol $|\xi|^2\,\id$ (compute in normal coordinates, where the first-order terms of the metric vanish); it is elliptic.
+\item The operator $d + \delta \colon \Omega^{\mathrm{even}} \to \Omega^{\mathrm{odd}}$ has symbol $i(\xi \wedge - \iota_\xi)$, whose square is $-|\xi|^2$, so it is invertible for $\xi \neq 0$ and $d + \delta$ is
+elliptic. Its index is the Euler characteristic (Chapter~\ref{hodge-theorem}).
+\item On a complex manifold, $\bar\partial + \bar\partial^*$ is elliptic (Chapter~\ref{dolbeault}); the Cauchy--Riemann operator $\bar\partial$ itself is elliptic in one variable.
+\item Not every operator is elliptic: the wave operator $\partial_t^2 - \Delta$ and the heat operator $\partial_t - \Delta$ are not.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}[Fundamental solution of the Laplacian]\label{elliptic-operators:proposition-fundamental-solution}
+On $\RR^3$, the locally integrable function $E(x) = -\frac{1}{4\pi|x|}$ satisfies $\sum_i\partial_i^2E = \delta_0$ in $\mathcal{D}'(\RR^3)$. Consequently, for $f \in \mathcal{D}(\RR^3)$ the convolution $u = E * f$ solves $\sum_i\partial_i^2u = f$.
+\end{proposition}
+
+\begin{proof}
+$E$ is locally integrable, as $\int_{|x| \leq 1}|x|^{-1}\,dx = 4\pi\int_0^1r\,dr$ in spherical coordinates (Theorem~\ref{measure-theory:theorem-change-of-variables}). Away from $0$, a direct computation gives $\Delta E = 0$, where $\Delta = \sum_i\partial_i^2$ here. Let
+$\varphi \in \mathcal{D}(\RR^3)$ and $A_\varepsilon = \{\varepsilon \leq |x| \leq R\}$ with $R$ large. By the divergence theorem (Example~\ref{differential-forms:example-classical}) applied to $E\nabla\varphi - \varphi\nabla E$ on $A_\varepsilon$ (Green's
+identity), and since $\varphi$ vanishes near $|x| = R$,
+\[
+\int_{A_\varepsilon}E\,\Delta\varphi = \int_{A_\varepsilon}(E\,\Delta\varphi - \varphi\,\Delta E) = -\int_{|x| = \varepsilon}\big(E\,\partial_r\varphi - \varphi\,\partial_rE\big)\,dA,
+\]
+where $\partial_r$ is the radial derivative, the sign coming from the inner boundary sphere having outward normal $-x/|x|$. On $|x| = \varepsilon$, $E = -1/(4\pi\varepsilon)$ and $\partial_rE = 1/(4\pi\varepsilon^2)$; the area is $4\pi\varepsilon^2$. So the first term is
+at most $\varepsilon\sup|\nabla\varphi| \to 0$, and the second is $\frac{1}{4\pi\varepsilon^2}\int_{|x| = \varepsilon}\varphi\,dA \to \varphi(0)$ by continuity. Letting $\varepsilon \to 0$ (dominated convergence on the left),
+$(\Delta E)(\varphi) = \int E\,\Delta\varphi = \varphi(0)$. For the last statement, $\Delta(E * f) = E * \Delta f$ by differentiation under the integral sign, and $(E * \Delta f)(x) = \int E(y)\,\Delta_y f(x - y)\,dy = f(x)$ by the first part applied
+to $\varphi(y) = f(x - y)$.
+\end{proof}
+
+\section{Sobolev spaces of sections}\label{elliptic-operators:section-sobolev-sections}
+
+\begin{definition}\label{elliptic-operators:definition-sobolev-sections}
+Fix a finite atlas of $M$ with trivialisations of $E$ and a subordinate partition of unity $(\psi_i)$. For $s \in \RR$ and $u \in \Gamma(M, E)$ set
+$\|u\|_s^2 = \sum_i\|\psi_iu\|_{H^s(\RR^n)}^2$, using the coordinates and frames to view $\psi_iu$ as a compactly supported $\CC^r$-valued function. The completion is the Sobolev space $H^s(E)$ of sections.
+\end{definition}
+
+\begin{proposition}\label{elliptic-operators:proposition-sobolev-sections}
+The space $H^s(E)$ and the equivalence class of its norm do not depend on the choices. Moreover $H^0(E) = L^2(E)$ with the inner product $\int_M\langle u, v\rangle\,\mathrm{vol}$; the inclusions
+$H^s(E) \to H^t(E)$ for $s > t$ are compact; $\bigcap_sH^s(E) = \Gamma(M, E)$; and a differential operator of order $m$ extends to a bounded map $H^{s+m}(E) \to H^s(F)$ for every $s$.
+\end{proposition}
+
+\begin{proof}
+Changing charts and frames changes $\psi_iu$ by composition with a diffeomorphism and multiplication by a smooth matrix, which are bounded operations on $H^s$ of compactly supported functions
+\cite[Chapter 6]{warner-foundations}; hence the norms are equivalent. For $s = 0$ the statement is Plancherel's theorem plus the fact that the two ways of integrating differ by a bounded density. Compactness
+follows from the Rellich theorem (Theorem~\ref{distributions:theorem-rellich}, in the form of Counterexample~\ref{distributions:counterexample-rellich-rn} for compactly supported distributions) applied to
+each $\psi_iu$. The identification of $\bigcap_sH^s$ with smooth sections is the Sobolev embedding theorem (Theorem~\ref{distributions:theorem-sobolev-embedding}), and boundedness of differential operators
+follows because differentiation lowers $s$ by the order and multiplication by smooth functions is bounded.
+\end{proof}
+
+\section{Elliptic estimates and regularity}\label{elliptic-operators:section-estimates}
+
+\begin{theorem}\label{elliptic-operators:theorem-elliptic-estimate}
+Let $P$ be an elliptic differential operator of order $m$ from $E$ to $F$ over the compact manifold $M$. For every $s$ there is $C_s$ with
+\[
+\|u\|_{s+m} \leq C_s\left(\|Pu\|_s + \|u\|_s\right) \qquad \text{for all } u \in H^{s+m}(E),
+\]
+and (\emph{elliptic regularity}) if $u \in H^t(E)$ for some $t$ and $Pu \in H^s(F)$, then $u \in H^{s+m}(E)$; in particular $Pu$ smooth implies $u$ smooth.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Locally one freezes the coefficients: near a point $x_0$, $P$ differs from the constant-coefficient elliptic operator $P_0 = \sum_{|\alpha| = m}A_\alpha(x_0)\partial^\alpha$ by an operator whose top-order
+coefficients are small on a small neighbourhood and whose remaining terms have order $< m$. The constant-coefficient estimate
+(Theorem~\ref{distributions:theorem-elliptic-estimate}, transported to $\RR^n$ by a cut-off and to the torus) then gives
+$\|u\|_{s+m} \leq C(\|Pu\|_s + \|u\|_{s+m-1})$ for $u$ supported in that neighbourhood, and the error term is absorbed using the interpolation inequality
+$\|u\|_{s+m-1} \leq \varepsilon\|u\|_{s+m} + C_\varepsilon\|u\|_s$, which follows from
+$\langle\xi\rangle^{s+m-1} \leq \varepsilon\langle\xi\rangle^{s+m} + C_\varepsilon\langle\xi\rangle^s$. Summing over a finite cover with a partition of unity gives the global estimate. Regularity is proved by the same
+estimates applied to difference quotients, or by constructing a \emph{parametrix}: an operator $Q$ with $QP = I + S$ and $PQ = I + S'$ where $S$, $S'$ are smoothing operators; then $u = Q(Pu) - Su$ is as
+regular as $Pu$ allows. The omitted verifications are the construction of the parametrix and the coordinate invariance of the estimates; see \cite[Chapter 6]{warner-foundations},
+\cite[Chapter 4]{wells-differential-analysis} or \cite[Chapters 17--18]{hormander-pdo1}.
+\end{proof}
+
+\begin{counterexample}\label{elliptic-operators:counterexample-wave}
+Regularity fails for non-elliptic operators. On $\RR^2$ with coordinates $(t, x)$ let $P = \partial_t^2 - \partial_x^2$, whose symbol $-\tau^2 + \xi^2$ vanishes on the lines $\tau = \pm\xi$. For every locally integrable $g$ on $\RR$,
+the function $u(t, x) = g(x - t)$ satisfies $Pu = 0$ in $\mathcal{D}'(\RR^2)$. Indeed, in the coordinates $s = x - t$, $r = x + t$ one has $\partial_t = \partial_r - \partial_s$, $\partial_x = \partial_r + \partial_s$, so
+$\partial_t^2 - \partial_x^2 = -4\partial_r\partial_s$ and $dt\,dx = \frac12ds\,dr$. For a test function $\varphi$, written $\tilde\varphi(s, r)$ in the new coordinates,
+\[
+\langle Pu, \varphi\rangle = \int u\,(\partial_t^2 - \partial_x^2)\varphi\,dt\,dx = -2\int g(s)\Big(\int\partial_r(\partial_s\tilde\varphi)\,dr\Big)ds = 0,
+\]
+since $\partial_s\tilde\varphi$ has compact support in $r$. Taking $g$ the indicator function of $[0, \infty)$ gives a discontinuous solution of $Pu = 0$, although $0$ is smooth. For elliptic operators this cannot happen: a
+distribution $u$ with $\sum_j\partial_j^2u$ smooth is smooth, by the local form of Theorem~\ref{elliptic-operators:theorem-elliptic-estimate}.
+\end{counterexample}
+
+\section{Fredholm theory and the spectral decomposition}\label{elliptic-operators:section-fredholm}
+
+\begin{definition}\label{elliptic-operators:definition-formal-adjoint}
+The \emph{formal adjoint} $P^*$ of a differential operator $P$ is the differential operator of the same order characterised by $\int_M\langle Pu, v\rangle = \int_M\langle u, P^*v\rangle$ for smooth sections;
+it exists, is unique, and has symbol $\sigma_m(P^*)(x, \xi) = (-1)^m\sigma_m(P)(x, \xi)^*$, so $P^*$ is elliptic if $P$ is. The operator $P$ is \emph{formally self-adjoint} if $P = P^*$; the Hodge Laplacian
+is (Proposition~\ref{riemannian-geometry:proposition-adjoint}).
+\end{definition}
+
+\begin{theorem}\label{elliptic-operators:theorem-fredholm}
+Let $P$ be elliptic of order $m$ on a compact manifold. Then:
+\begin{enumerate}
+\item $\ker P = \{u \in \Gamma(M, E) : Pu = 0\}$ is finite-dimensional and consists of smooth sections, and the same holds for $\ker P^*$;
+\item $P \colon H^{s+m}(E) \to H^s(F)$ is Fredholm for every $s$, with kernel and cokernel independent of $s$;
+\item there is an orthogonal decomposition $L^2(F) = \operatorname{im}(P) \oplus \ker P^*$, and $Pu = f$ is solvable with $u$ smooth if and only if $f$ is smooth and orthogonal to $\ker P^*$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Elements of the kernel are smooth by elliptic regularity. On $\ker P$ the elliptic estimate gives $\|u\|_{s+m} \leq C_s\|u\|_s$, so the $H^{s}$ and $H^{s+m}$ norms are equivalent there; since the inclusion
+$H^{s+m} \to H^s$ is compact (Proposition~\ref{elliptic-operators:proposition-sobolev-sections}), the unit ball of $\ker P$ is compact, and $\ker P$ is finite-dimensional
+(Proposition~\ref{functional-analysis:proposition-banach-examples}(3)).
+
+(2) Closed range: let $K \subseteq H^{s+m}$ be the orthogonal complement of $\ker P$. We claim $\|u\|_{s+m} \leq C\|Pu\|_s$ on $K$. If not, there are $u_j \in K$ with $\|u_j\|_{s+m} = 1$ and $Pu_j \to 0$; by
+compactness of the inclusion, after passing to a subsequence $u_j \to u$ in $H^s$, and the elliptic estimate gives
+$\|u_j - u_l\|_{s+m} \leq C(\|P(u_j - u_l)\|_s + \|u_j - u_l\|_s) \to 0$, so $u_j \to u$ in $H^{s+m}$ with $\|u\|_{s+m} = 1$, $Pu = 0$ and $u \in K$, a contradiction. Hence $P$ has closed range, and with (1)
+applied to $P$ and $P^*$ it is Fredholm; the kernel is independent of $s$ by regularity, and so is the cokernel by (3).
+
+(3) The operator $P$ with domain $H^m(E)$ and its formal adjoint satisfy: $f \in L^2(F)$ is orthogonal to $\operatorname{im}(P)$ if and only if $\int\langle Pu, f\rangle = 0$ for all smooth $u$, that is,
+$P^*f = 0$ in the sense of distributions, which by elliptic regularity means $f \in \ker P^*$ and $f$ smooth. Since the range is closed, $L^2 = \overline{\operatorname{im}P} \oplus \ker P^* = \operatorname{im}P \oplus \ker P^*$, where
+$\operatorname{im}P$ is taken on $H^m$; and if $f$ is smooth and orthogonal to $\ker P^*$, a solution $u \in H^m$ exists and is smooth by regularity.
+\end{proof}
+
+\begin{example}\label{elliptic-operators:example-circle-derivative}
+On the circle $S^1 = \RR/2\pi\ZZ$ let $P = d/d\theta$ on complex functions. Its symbol $i\xi$ is invertible for $\xi \neq 0$, so $P$ is elliptic of order $1$, and integration by parts gives $P^* = -d/d\theta$. Both kernels
+consist of the constants. Theorem~\ref{elliptic-operators:theorem-fredholm} predicts that $u' = f$ has a smooth periodic solution exactly when $f$ is orthogonal to $\ker P^*$, that is, when $\int_0^{2\pi}f\,d\theta = 0$; this
+is visible directly, since $u(\theta) = \int_0^\theta f$ is periodic exactly in that case. The index is $\dim\ker P - \dim\ker P^* = 0$. For the perturbation $P_c = d/d\theta + c$ with a constant $c \in \CC$, the kernel is
+spanned by $e^{-c\theta}$ when this function is $2\pi$-periodic, that is, when $c \in i\ZZ$, and is $0$ otherwise; so the dimension of the kernel jumps. The adjoint $P_c^* = -d/d\theta + \bar c$ has kernel spanned by $e^{\bar c\theta}$ for exactly the same values of $c$, so the index stays $0$,
+as predicted by Remark~\ref{elliptic-operators:remark-index}, since the principal symbol does not depend on $c$.
+\end{example}
+
+\begin{theorem}\label{elliptic-operators:theorem-spectral}
+Let $P$ be a formally self-adjoint elliptic operator of order $m > 0$ on a compact manifold, with $P \geq 0$ in the sense that $\int\langle Pu, u\rangle \geq 0$. Then $L^2(E)$ has a complete orthonormal
+system of smooth eigensections of $P$, the eigenvalues $0 \leq \lambda_1 \leq \lambda_2 \leq \cdots$ are real, have finite multiplicity, and tend to $+\infty$. Every $u \in L^2(E)$ is the $L^2$-limit of its
+eigenfunction expansion, which converges in $\Gamma(M, E)$ when $u$ is smooth.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{elliptic-operators:theorem-fredholm} applied to $P + I$, which is elliptic and injective on smooth sections (as $\int\langle (P+I)u, u\rangle \geq \|u\|_{L^2}^2$), the map
+$P + I \colon H^m(E) \to L^2(E)$ is bijective, with bounded inverse $G$ by the open mapping theorem (Theorem~\ref{functional-analysis:theorem-baire-consequences}). Composing with the compact inclusion
+$H^m \to L^2$ shows that $G \colon L^2 \to L^2$ is compact, and it is self-adjoint and positive because $P + I$ is. By the spectral theorem for compact self-adjoint operators
+(Theorem~\ref{functional-analysis:theorem-spectral-compact}) there is an orthonormal basis of $L^2(E)$ of eigenvectors of $G$, with eigenvalues $\mu_k > 0$ tending to $0$ (they are nonzero since $G$ is
+injective). Then $Pu_k = (\mu_k^{-1} - 1)u_k$, so the $u_k$ are eigensections of $P$ with eigenvalues $\lambda_k = \mu_k^{-1} - 1 \to \infty$, smooth by elliptic regularity, and $\lambda_k \geq 0$ by positivity.
+Finite multiplicity is finite-dimensionality of the eigenspaces, which are kernels of the elliptic operators $P - \lambda_k$. For smooth $u$, the coefficients $\langle u, u_k\rangle$ decay faster than any power
+of $\lambda_k$, because $\lambda_k^N\langle u, u_k\rangle = \langle P^Nu, u_k\rangle$ is bounded; with the Sobolev embedding this gives convergence in every $H^s$, hence in $\Gamma(M, E)$.
+\end{proof}
+
+\begin{remark}\label{elliptic-operators:remark-index}
+The index $\operatorname{ind}P = \dim\ker P - \dim\ker P^*$ depends only on the homotopy class of the principal symbol, and the Atiyah--Singer index theorem computes it as a characteristic number of the
+symbol; for $d + \delta$ this gives the Gauss--Bonnet theorem, and for the Dolbeault operator the Riemann--Roch--Hirzebruch theorem (Chapter~\ref{kodaira}). See \cite{lawson-michelsohn}.
+\end{remark}
+
+\section{Exercises}\label{elliptic-operators:section-exercises}
+
+\begin{exercise}\label{elliptic-operators:exercise-symbol-laplacian}
+Compute the principal symbol of $d$, of $\delta$ and of $\Delta$ on forms, and verify that $\Delta$ is elliptic while $d$ is not (for $n \geq 2$).
+\end{exercise}
+
+\begin{solution}
+$\sigma_1(d)(x, \xi)\alpha = i\xi \wedge \alpha$ and $\sigma_1(\delta)(x, \xi)\alpha = -i\iota_\xi\alpha$, so
+$\sigma_2(\Delta)(x, \xi) = \xi \wedge \iota_\xi + \iota_\xi(\xi \wedge -) = |\xi|^2\id$ by the algebraic identity of
+Proposition~\ref{multilinear-algebra:proposition-interior-antiderivation}. The symbol of $d$ is not injective on $\Lambda^k$ for $k \geq 1$, since $\xi \wedge \xi = 0$.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-eigenvalues-torus}
+Compute the spectrum of the Laplacian on functions on the flat torus $\RR^n/\ZZ^n$ and verify Theorem~\ref{elliptic-operators:theorem-spectral} directly.
+\end{exercise}
+
+\begin{solution}
+The functions $e^{2\pi ik\cdot x}$, $k \in \ZZ^n$, are eigenfunctions with eigenvalues $4\pi^2|k|^2$, and they form an orthonormal basis of $L^2$
+(Example~\ref{functional-analysis:example-fourier}); multiplicities are the numbers of lattice points on spheres, and the eigenvalues tend to infinity.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-index-self-adjoint}
+Show that a formally self-adjoint elliptic operator on a compact manifold has index zero, and that the index of an elliptic operator changes sign when $P$ is replaced by $P^*$.
+\end{exercise}
+
+\begin{exercise}\label{elliptic-operators:exercise-no-solutions}
+Give an example of a compact manifold and a smooth function $f$ for which $\Delta u = f$ has no solution, and characterise the $f$ for which it does.
+\end{exercise}
+
+\begin{solution}
+On a compact connected oriented $M$, $\ker\Delta$ on functions consists of the constants, so by Theorem~\ref{elliptic-operators:theorem-fredholm} the equation is solvable exactly when
+$\int_Mf\,\mathrm{vol} = 0$; any $f$ with nonzero integral, for instance $f = 1$, gives no solution.
+\end{solution}

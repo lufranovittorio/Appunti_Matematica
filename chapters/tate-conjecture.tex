@@ -1,0 +1,260 @@
+\chapter{The Tate Conjecture}\label{tate-conjecture}
+\chapterstatus{complete}
+
+\section{Introduction}\label{tate-conjecture:section-introduction}
+
+The Tate conjecture is the arithmetic analogue of the Hodge conjecture. The Hodge decomposition is replaced by the action of a Galois group on $\ell$-adic cohomology, and Hodge classes by
+\emph{Tate classes}, the classes fixed by an open subgroup of the Galois group. Classes of algebraic cycles defined over the base field are Tate classes, and Tate conjectured the converse for
+varieties over finitely generated fields \cite{tate-1965}. Over finite fields there is no Hodge theory and the Tate conjecture is the only statement available; over $\CC$ there is no interesting Galois
+group and the Hodge conjecture is the only statement available; over number fields both apply, and the Mumford--Tate conjecture connects them. The best-known evidence is the case of divisors on abelian
+varieties, which is Tate's isogeny theorem over finite fields \cite{tate-1966} and Faltings' theorem over number fields \cite{faltings-1983}. References: \cite{tate-1965}, \cite{totaro-2017},
+\cite{milne-etale}, and the source \emph{The Hodge Conjecture} (Chapter 8).
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{etale-cohomology} (\'Etale Cohomology), Chapter~\ref{abelian-varieties} (Abelian Varieties) and Chapter~\ref{absolute-hodge} (Absolute Hodge Classes).
+
+\noindent\textbf{Conventions.} In this chapter $k$ is a field finitely generated over its prime field, $\bar k$ an algebraic closure, $G_k = \mathrm{Aut}(\bar k/k)$, which is the Galois group of the separable
+closure of $k$ in $\bar k$, and $\ell$ a prime different from the characteristic of $k$. $X$ is a nonsingular projective geometrically irreducible variety over $k$, $\bar X = X \times_k\bar k$, and $H^i(\bar X, \QQ_\ell(j))$ is $\ell$-adic cohomology with the continuous
+action of $G_k$ (Definition~\ref{etale-cohomology:definition-l-adic}). For a finite extension $k'/k$ inside $\bar k$ we write $G_{k'} \subseteq G_k$ for the corresponding open subgroup.
+
+\section{The statement}\label{tate-conjecture:section-statement}
+
+\begin{definition}\label{tate-conjecture:definition-tate-classes}
+The space of \emph{Tate classes of codimension $p$ over $k$} is $T^p_\ell(X/k) = H^{2p}(\bar X, \QQ_\ell(p))^{G_k}$. The space of \emph{geometric Tate classes} is
+$T^p_\ell(\bar X) = \bigcup_{k'}T^p_\ell(X_{k'}/k')$, the union over finite extensions $k'/k$, that is, the classes fixed by some open subgroup of $G_k$.
+\end{definition}
+
+\begin{lemma}\label{tate-conjecture:lemma-cycles-tate}
+Let $Z$ be an algebraic cycle of codimension $p$ on $\bar X$ with $\QQ$-coefficients. Then $Z$ is defined over a finite extension $k'$ of $k$, and $\mathrm{cl}_\ell(Z) \in T^p_\ell(X_{k'}/k')$. If $Z$ is defined
+over $k$, then $\mathrm{cl}_\ell(Z) \in T^p_\ell(X/k)$.
+\end{lemma}
+
+\begin{proof}
+Each component of $Z$ is cut out by finitely many polynomials with coefficients in $\bar k$, which lie in a finite extension $k'$. For $g \in G_{k'}$, $g$ fixes $Z$, and the cycle class is $G_k$-equivariant
+(Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(4)), so $g\,\mathrm{cl}_\ell(Z) = \mathrm{cl}_\ell(gZ) = \mathrm{cl}_\ell(Z)$. The same argument with $G_k$ gives the last statement.
+\end{proof}
+
+\begin{conjecture}[Tate]\label{tate-conjecture:conjecture-tate}
+The cycle class map induces a surjection
+\[
+\CH^p(X) \otimes_\ZZ\QQ_\ell \longrightarrow H^{2p}(\bar X, \QQ_\ell(p))^{G_k}.
+\]
+We write $T^p(X/k)$ for this statement, and $T^p(\bar X)$ for the statement that the geometric Tate classes are spanned over $\QQ_\ell$ by classes of cycles on $\bar X$.
+\end{conjecture}
+
+\begin{lemma}\label{tate-conjecture:lemma-descent}
+If $k'/k$ is a finite extension and $T^p(X_{k'}/k')$ holds, then $T^p(X/k)$ holds. In particular $T^p(\bar X)$ is equivalent to $T^p(X_{k'}/k')$ for all finite $k'/k$.
+\end{lemma}
+
+\begin{proof}
+Let $k_s$ be the separable closure of $k$ in $k'$, so that $k'/k_s$ is purely inseparable and $G_{k'} = G_{k_s}$. First we show $T^p(X_{k_s}/k_s)$. The projection $\pi \colon X_{k'} \to X_{k_s}$ is finite and a
+homeomorphism, so for every subvariety $W \subseteq X_{k'}$ the preimage of $\pi(W)$ is $W$ as a set, and $\pi^*[\pi(W)] = m[W]$ for some integer $m \geq 1$. As $\bar X$ is the same for $k'$ and $k_s$, this gives
+$\mathrm{cl}_\ell(W) = \frac1m\mathrm{cl}_\ell(\pi(W))$ in $H^{2p}(\bar X, \QQ_\ell(p))$. So classes of cycles on $X_{k'}$ are combinations of classes of cycles on $X_{k_s}$, and $T^p(X_{k_s}/k_s)$ holds.
+
+Now let $v \in H^{2p}(\bar X, \QQ_\ell(p))^{G_k}$. It is $G_{k_s}$-invariant, so $v = \sum_ia_i\mathrm{cl}_\ell(Z_i)$ with $a_i \in \QQ_\ell$ and $Z_i$ cycles on $X_{k_s}$. Let $g_1, \ldots, g_d$ be representatives of the cosets
+$G_k/G_{k_s}$, where $d = [k_s : k]$. On $G_{k_s}$-invariant vectors the operator $\pi_\Gamma = \frac1d\sum_jg_j$ does not depend on the representatives, it fixes $v$, and
+$\pi_\Gamma\mathrm{cl}_\ell(Z_i) = \frac1d\mathrm{cl}_\ell(\sum_jg_jZ_i)$. The cycle $\sum_jg_jZ_i$ on $\bar X$ is the pullback of the pushforward of $Z_i$ along the finite separable morphism $X_{k_s} \to X$, hence
+the class of a cycle defined over $k$. So $v = \sum_ia_i\pi_\Gamma\mathrm{cl}_\ell(Z_i)$ is a combination of classes of cycles defined over $k$.
+
+For the last statement, a geometric Tate class is fixed by some $G_{k'}$, so $T^p(X_{k'}/k')$ for all $k'$ implies $T^p(\bar X)$. Conversely, if $T^p(\bar X)$ holds and $v$ is a Tate class over $k'$, then
+$v = \sum a_i\mathrm{cl}_\ell(Z_i)$ with cycles $Z_i$ on $\bar X$, all defined over some finite extension $k''$ of $k'$ (Lemma~\ref{tate-conjecture:lemma-cycles-tate}). The argument above, with $k'/k$ replaced
+by $k''/k'$, used only that $v$ is invariant under the smaller Galois group and is a combination of classes of cycles defined over the larger field; so it shows that $v$ is a combination of classes of
+cycles defined over $k'$.
+\end{proof}
+
+\begin{counterexample}\label{tate-conjecture:counterexample-algebraically-closed}
+The hypothesis that $k$ is finitely generated cannot be dropped. Let $X$ be a nonsingular projective surface over $\CC$ with $h^{2,0}(X) > 0$, for instance a quartic surface in $\PP^3$. For $k = \CC$ the Galois
+group is trivial, so every class in $H^2(X, \QQ_\ell(1))$ is invariant. But the $\QQ_\ell$-span of divisor classes has dimension $\rho(X) \leq h^{1,1} < b_2(X)$, by Artin's comparison theorem
+(Theorem~\ref{etale-cohomology:theorem-comparison}) and the Lefschetz $(1,1)$-theorem. So $T^1(X/\CC)$ fails. The same happens over $\bar{\QQ}$, and over $\bar{\mathbb{F}}_p$ for a surface with
+$\rho(X) < b_2(X)$.
+\end{counterexample}
+
+\begin{remark}\label{tate-conjecture:remark-poles}
+Over a finite field $k = \mathbb{F}_q$, Tate formulated a companion conjecture: the rank of the group of codimension-$p$ cycles on $X$ modulo numerical equivalence equals the order of the pole of the zeta
+function $Z(X, q^{-s})$ at $s = p$ \cite{tate-1965}. Since the eigenvalues of Frobenius on $H^{2p}(\bar X, \QQ_\ell)$ have absolute value $q^p$ \cite{deligne-weil-1}, that order is the multiplicity of the
+eigenvalue $q^p$ of the geometric Frobenius on $H^{2p}$. This refinement is tied to $T^p(X/k)$, to the equality of homological and numerical equivalence (Chapter~\ref{standard-conjectures}), and to the
+semisimplicity of the Frobenius action; see \cite{totaro-2017}.
+\end{remark}
+
+\section{Divisors on abelian varieties}\label{tate-conjecture:section-abelian}
+
+For an abelian variety $A$ over $k$, the \emph{Tate module} is $T_\ell A = \varprojlim_mA[\ell^m](\bar k)$, a free $\ZZ_\ell$-module of rank $2\dim A$ with a continuous action of $G_k$, and
+$V_\ell A = T_\ell A \otimes_{\ZZ_\ell}\QQ_\ell$. As in Example~\ref{etale-cohomology:example-tate-module}, $H^1(\bar A, \QQ_\ell) \cong \Hom(V_\ell A, \QQ_\ell)$ and $H^i(\bar A, \QQ_\ell) \cong \Lambda^iH^1(\bar A, \QQ_\ell)$,
+compatibly with $G_k$ \cite{milne-etale}.
+
+\begin{theorem}[Tate, Zarhin, Faltings]\label{tate-conjecture:theorem-isogeny}
+Let $A$ and $B$ be abelian varieties over $k$, where $k$ is finite or of characteristic $\neq 2$. Then:
+\begin{enumerate}
+\item the natural map $\Hom_k(A, B) \otimes_\ZZ\ZZ_\ell \to \Hom_{G_k}(T_\ell A, T_\ell B)$ is an isomorphism;
+\item the representation of $G_k$ on $V_\ell A$ is semisimple.
+\end{enumerate}
+\end{theorem}
+
+This is due to Tate for finite fields \cite{tate-1966}, Zarhin for finitely generated fields of characteristic $p > 2$ \cite{zarhin-1975}, and Faltings for finitely generated fields of characteristic $0$,
+where it is the heart of his proof of the Mordell conjecture \cite{faltings-1983}. Injectivity in (1), and the fact that the cokernel is torsion-free, hold over any field
+\cite{mumford-abelian}; the content is surjectivity. Over a finite field the key finiteness input is that there are only finitely many isomorphism classes of polarised abelian varieties of given dimension and
+degree over $k$, and over number fields Faltings proves this finiteness with his height.
+
+\begin{corollary}\label{tate-conjecture:corollary-divisors-abelian}
+For an abelian variety $A$ over $k$ (as in Theorem~\ref{tate-conjecture:theorem-isogeny}), $T^1(A/k)$ holds: the Tate classes in $H^2(\bar A, \QQ_\ell(1))$ are $\QQ_\ell$-linear combinations of classes of divisors
+defined over $k$.
+\end{corollary}
+
+\begin{proof}[Sketch of proof]
+We use two facts from the theory of abelian varieties \cite{mumford-abelian}. First, $H^2(\bar A, \QQ_\ell(1)) = \Lambda^2H^1(\bar A, \QQ_\ell)(1)$ is the space of alternating $\QQ_\ell$-bilinear forms
+$V_\ell A \times V_\ell A \to \QQ_\ell(1)$, and through the Weil pairing $e_\ell \colon V_\ell A \times V_\ell A^\vee \to \QQ_\ell(1)$ such a form is $E_\phi(x, y) = e_\ell(x, \phi y)$ for a unique
+$\phi \in \Hom(V_\ell A, V_\ell A^\vee)$ that is symmetric, $\phi^\vee = \phi$ (with the sign conventions of \cite{mumford-abelian}); a form is $G_k$-invariant if and only if $\phi$ is $G_k$-equivariant, because
+$e_\ell$ is. Second, the class $c_1(L) \in H^2(\bar A, \QQ_\ell(1))$ of a line bundle corresponds to $\phi = \lambda_L$, the homomorphism $\lambda_L \colon A \to A^\vee$, $a \mapsto t_a^*L \otimes L^{-1}$, and
+$L \mapsto \lambda_L$ identifies $\mathrm{NS}(A) \otimes \QQ$ with the symmetric elements of $\Hom_k(A, A^\vee) \otimes \QQ$.
+
+Now let $E$ be a $G_k$-invariant class. Then $E = E_\phi$ with $\phi$ symmetric and equivariant, so by Theorem~\ref{tate-conjecture:theorem-isogeny}(1), applied to $B = A^\vee$,
+$\phi = \sum_ja_j\psi_j$ with $a_j \in \QQ_\ell$ and $\psi_j \in \Hom_k(A, A^\vee)$. Replacing $\psi_j$ by $\frac12(\psi_j + \psi_j^\vee)$ we may take the $\psi_j$ symmetric, since $\phi$ is. Each symmetric $\psi_j$ is
+$\lambda_{L_j}$ for some $L_j \in \mathrm{NS}(A) \otimes \QQ$, with $L_j$ defined over $k$. Hence $E = \sum_ja_jc_1(L_j)$.
+\end{proof}
+
+\begin{example}\label{tate-conjecture:example-products-curves}
+Let $C_1$ and $C_2$ be nonsingular projective curves over $k$ with Jacobians $J_1$, $J_2$. By the K\"unneth formula,
+$H^2(\bar C_1 \times \bar C_2) = H^2(\bar C_1) \oplus \big(H^1(\bar C_1) \otimes H^1(\bar C_2)\big) \oplus H^2(\bar C_2)$, and the Tate classes in the middle summand, twisted by $(1)$, are the $G_k$-equivariant maps
+$V_\ell J_1 \to V_\ell J_2$. By Theorem~\ref{tate-conjecture:theorem-isogeny} these are combinations of homomorphisms $J_1 \to J_2$, which are induced by divisors on $C_1 \times C_2$ (divisorial
+correspondences). So $T^1(C_1 \times C_2/k)$ holds. This was Tate's motivating application \cite{tate-1966}.
+\end{example}
+
+\section{K3 surfaces and other known cases}\label{tate-conjecture:section-known}
+
+\begin{theorem}\label{tate-conjecture:theorem-known}
+The Tate conjecture $T^1$ holds in the following cases.
+\begin{enumerate}
+\item Abelian varieties over finite fields and over finitely generated fields of characteristic $\neq 2$ (Corollary~\ref{tate-conjecture:corollary-divisors-abelian}), and more generally varieties whose
+$H^2$ is controlled by an abelian variety, such as products of curves (Example~\ref{tate-conjecture:example-products-curves}).
+\item K3 surfaces over finitely generated fields of characteristic $0$ \cite{andre-1996}.
+\item K3 surfaces over finite fields of characteristic $p \geq 3$: for ordinary K3 surfaces by Nygaard \cite{nygaard-1983}, for those of finite height by Nygaard and Ogus \cite{nygaard-ogus-1985}, and in
+general by work of Charles \cite{charles-2013}, Maulik \cite{maulik-2014} and Madapusi Pera \cite{madapusi-pera-2015}.
+\end{enumerate}
+\end{theorem}
+
+The proofs for K3 surfaces use the Kuga--Satake construction (Remark~\ref{known-cases:remark-kuga-satake}), which embeds $H^2$ of a K3 surface into $H^2$ of an abelian variety, and transport
+Theorem~\ref{tate-conjecture:theorem-isogeny} through it. The difficulty is arithmetic: the Kuga--Satake abelian variety must be defined over a finitely generated field, and in positive characteristic one needs
+integral models of orthogonal Shimura varieties.
+
+\begin{remark}\label{tate-conjecture:remark-artin-tate}
+For a surface $X$ over a finite field, Tate showed that $T^1(X/k)$ is equivalent to the finiteness of the $\ell$-primary part of the Brauer group $\mathrm{Br}(X)$, and, with Artin, conjectured a formula
+for the special value of the zeta function in terms of $|\mathrm{Br}(X)|$ and the discriminant of the N\'eron--Severi lattice, an analogue of the Birch and Swinnerton-Dyer conjecture
+\cite{tate-bourbaki-1966}. The Tate conjecture for divisors thus has a cohomological content (surjectivity of a cycle map) and a finiteness content (Brauer groups) that are equivalent.
+\end{remark}
+
+\section{The Mumford--Tate conjecture}\label{tate-conjecture:section-mumford-tate}
+
+Let $k \subseteq \CC$ be a number field and $X$ nonsingular projective over $k$. For each $i$, Artin's comparison theorem identifies $H^i(\bar X, \QQ_\ell)$ with $H^i(X_\CC; \QQ) \otimes \QQ_\ell$
+(Theorem~\ref{etale-cohomology:theorem-comparison}, using invariance of \'etale cohomology under extension of algebraically closed fields \cite{milne-etale}). So $G_k$ acts on $H \otimes \QQ_\ell$, where
+$H = H^i(X_\CC; \QQ)$ is a Hodge structure with Mumford--Tate group $\mathrm{MT}(H)$ (Definition~\ref{mumford-tate:definition-mumford-tate}).
+
+\begin{definition}\label{tate-conjecture:definition-galois-group}
+Let $V$ be a finite-dimensional $\QQ_\ell$-vector space with a continuous representation $\rho \colon G_k \to \mathrm{GL}(V)$. Its \emph{$\ell$-adic algebraic monodromy group} $G_\ell(V)$ is the Zariski closure of
+$\rho(G_k)$ in $\mathrm{GL}(V)$, an algebraic group over $\QQ_\ell$, and $G_\ell^0(V)$ is its identity component. For $V = H \otimes \QQ_\ell$ with $H = H^i(X_\CC; \QQ)$ we write $G_\ell$ and $G_\ell^0$.
+\end{definition}
+
+\begin{lemma}\label{tate-conjecture:lemma-identity-component}
+In the situation of Definition~\ref{tate-conjecture:definition-galois-group}, $G_\ell^0(V)$ does not change if $k$ is replaced by a finite extension, and the vectors of $V$ fixed by some open subgroup of $G_k$ are
+exactly the invariants of $G_\ell^0(V)$.
+\end{lemma}
+
+\begin{proof}
+If $\Gamma_0 \subseteq \Gamma$ are subgroups of $\mathrm{GL}(V)(\QQ_\ell)$ with $\Gamma = \bigcup_{j=1}^rg_j\Gamma_0$, then the Zariski closures satisfy $\bar\Gamma = \bigcup_jg_j\bar\Gamma_0$, so $\bar\Gamma_0$ is a closed subgroup of finite index
+in $\bar\Gamma$; it is then a union of connected components of $\bar\Gamma$ and contains $\bar\Gamma^0$. The subgroup $\rho^{-1}(G_\ell^0(V)(\QQ_\ell))$ has finite index in $G_k$ and is closed, hence open, say $G_{k_0}$; the Zariski
+closure of $\rho(G_{k_0})$ lies in $G_\ell^0(V)$ and has finite index in $G_\ell(V)$, so it equals $G_\ell^0(V)$. For any finite $k'/k$, the Zariski closure of $\rho(G_{k'})$ has finite index in $G_\ell(V)$, so its identity
+component is $G_\ell^0(V)$. This proves the first statement. For the second, the stabiliser of a vector is Zariski closed, so a vector fixed by $\rho(G_{k'})$ is fixed by its Zariski closure, which contains $G_\ell^0(V)$;
+conversely a $G_\ell^0(V)$-invariant vector is fixed by $\rho(G_{k_0})$.
+\end{proof}
+
+\begin{conjecture}[Mumford--Tate]\label{tate-conjecture:conjecture-mumford-tate}
+$G_\ell^0 = \mathrm{MT}(H) \otimes_\QQ\QQ_\ell$ inside $\mathrm{GL}(H \otimes \QQ_\ell)$.
+\end{conjecture}
+
+\begin{theorem}[Deligne]\label{tate-conjecture:theorem-deligne-inclusion}
+If $X = A$ is an abelian variety and $H = H^1(A_\CC; \QQ)$, then $G_\ell^0 \subseteq \mathrm{MT}(H) \otimes_\QQ\QQ_\ell$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Let $\mathrm{MT}' \subseteq \mathrm{GL}(H) \times \mathbb{G}_m$ be the subgroup fixing every Hodge class in every tensor space $T^{m,m'}(H)(r)$ of weight $0$, where $\mathbb{G}_m$ acts on $\QQ(1)$ through the identity
+character. Its image under the first projection is $\mathrm{MT}(H)$; this is a reformulation of Theorem~\ref{mumford-tate:theorem-hodge-classes-invariants} which we do not prove \cite{deligne-abelian}. By
+Noetherianity, $\mathrm{MT}'$ is the stabiliser of finitely many Hodge classes $t_1, \ldots, t_N$. The spaces $T^{m,m'}(H)(r)$ are Tate twists of Künneth summands of $H^\bullet(A^M_\CC)$ for suitable $M$ (using a
+polarisation to identify $H^\vee$ with $H(1)$), so by Theorem~\ref{absolute-hodge:theorem-deligne} the $t_j$ are absolute Hodge, and by Proposition~\ref{absolute-hodge:proposition-galois-finite} their $\ell$-adic
+incarnations are fixed by an open subgroup $G_{k'}$. The group $G_k$ acts on $T^{m,m'}(H \otimes \QQ_\ell)(r)$ through $(\rho_\ell, \chi_\ell) \colon G_k \to \mathrm{GL}(H \otimes \QQ_\ell) \times \mathbb{G}_m(\QQ_\ell)$,
+$\chi_\ell$ the cyclotomic character. Hence $(\rho_\ell, \chi_\ell)(G_{k'}) \subseteq \mathrm{MT}'(\QQ_\ell)$, so $\rho_\ell(G_{k'}) \subseteq \mathrm{MT}(H)(\QQ_\ell)$, and taking Zariski closures,
+$G_\ell^0 \subseteq \mathrm{MT}(H)_{\QQ_\ell}$.
+\end{proof}
+
+\begin{proposition}\label{tate-conjecture:proposition-commutants}
+Let $A$ be an abelian variety over a number field $k \subseteq \CC$ such that all endomorphisms of $A_\CC$ are defined over $k$. Then $G_\ell$ and $\mathrm{MT}(H)_{\QQ_\ell}$ have the same commutant in
+$\End(H \otimes \QQ_\ell)$, namely $\End(A) \otimes \QQ_\ell$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{tate-conjecture:theorem-isogeny}(1) with $B = A$, the commutant of $\rho_\ell(G_k)$, which equals the commutant of its Zariski closure $G_\ell$, is $\End_k(A) \otimes \QQ_\ell$, acting on
+$V_\ell A$ and dually on $H \otimes \QQ_\ell$. By Corollary~\ref{mumford-tate:corollary-endomorphisms}, the commutant of $\mathrm{MT}(H)$ in $\End(H)$ is $\End_{\mathrm{HS}}(H) = \End(A_\CC) \otimes \QQ$, and taking
+commutants commutes with the flat base change $\QQ \to \QQ_\ell$ (it is the solution space of linear equations). As $\End(A_\CC) = \End_k(A)$ by hypothesis, the two commutants agree.
+\end{proof}
+
+\begin{remark}\label{tate-conjecture:remark-mumford-tate-known}
+Proposition~\ref{tate-conjecture:proposition-commutants} and Theorem~\ref{tate-conjecture:theorem-deligne-inclusion} show that $G_\ell^0 \subseteq \mathrm{MT}_{\QQ_\ell}$ are reductive groups with the same
+commutant ($G_\ell^0$ is reductive because $V_\ell A$ is semisimple, Theorem~\ref{tate-conjecture:theorem-isogeny}(2)). This is consistent with the Mumford--Tate conjecture but does not imply it:
+reductive subgroups with the same commutant, such as $\mathrm{Sp}_{2g} \subseteq \mathrm{SL}_{2g}$ acting on $\QQ_\ell^{2g}$, can differ. The conjecture is known for elliptic curves: for $E$ without complex
+multiplication, Serre's open image theorem \cite{serre-1972} gives $G_\ell = \mathrm{GL}_2$, which is $\mathrm{MT}(H)_{\QQ_\ell}$ by Proposition~\ref{mumford-tate:proposition-elliptic-curves}. It is known for
+abelian varieties of CM type, and for many abelian varieties with $\End(A_\CC) = \ZZ$, depending on the dimension \cite{pink-1998}; it is open in general.
+\end{remark}
+
+\begin{proposition}\label{tate-conjecture:proposition-hodge-tate}
+Let $X$ be a nonsingular projective variety over a number field $k \subseteq \CC$, and $p \geq 0$. Suppose that the geometric Tate classes in $H^{2p}(\bar X, \QQ_\ell(p))$ are exactly the images under $c_\ell$
+of the classes $(2\pi i)^p\alpha \otimes a$, $\alpha \in \mathrm{Hdg}^p(X_\CC)$, $a \in \QQ_\ell$; this is what the Mumford--Tate conjecture for $H^{2p}(X_\CC)$ predicts. Then the Hodge conjecture for $X_\CC$
+in codimension $p$ is equivalent to $T^p(\bar X)$.
+\end{proposition}
+
+\begin{proof}
+We use that every algebraic class on $X_\CC$ is the class of a cycle defined over $\bar k$: a cycle on $X_\CC$ is defined over a finitely generated extension of $\bar k$, so it is a member of a family of cycles
+parametrised by a variety over $\bar k$, and specialising to a $\bar k$-point does not change its cohomology class, which is locally constant in the family. So the $\QQ$-space $Z^p_{\mathrm{alg}}$ of algebraic
+classes is the same for $X_\CC$ and $\bar X$, and $c_\ell$ identifies $Z^p_{\mathrm{alg}} \otimes \QQ_\ell$ with the $\QQ_\ell$-span of the $\ell$-adic cycle classes, by Theorem~\ref{etale-cohomology:theorem-comparison}.
+By hypothesis $c_\ell$ identifies $\mathrm{Hdg}^p(X_\CC) \otimes \QQ_\ell$ with $T^p_\ell(\bar X)$. Hence $T^p(\bar X)$ says $Z^p_{\mathrm{alg}} \otimes \QQ_\ell = \mathrm{Hdg}^p \otimes \QQ_\ell$, which, since
+$Z^p_{\mathrm{alg}} \subseteq \mathrm{Hdg}^p$ are $\QQ$-subspaces of the same finite-dimensional space, is equivalent to $Z^p_{\mathrm{alg}} = \mathrm{Hdg}^p$.
+\end{proof}
+
+\begin{remark}\label{tate-conjecture:remark-hodge-versus-tate}
+Neither the Hodge nor the Tate conjecture is known to imply the other. The Hodge conjecture says nothing over finite fields, and the Tate conjecture over number fields is linked to it only through the
+Mumford--Tate conjecture, which is itself open. The two known inclusions, $\mathrm{algebraic} \subseteq \mathrm{Hodge}$ and $\mathrm{algebraic} \subseteq \mathrm{Tate}$, are joined by Deligne's theorem, which gives
+$\mathrm{Hodge} \subseteq \mathrm{Tate}$ for abelian varieties (Corollary~\ref{absolute-hodge:corollary-tate-classes} and Theorem~\ref{absolute-hodge:theorem-deligne}), and Theorem~\ref{tate-conjecture:theorem-deligne-inclusion}
+is the group-theoretic form of the same statement. For abelian varieties Faltings' theorem proves the Tate conjecture for divisors, and the Lefschetz $(1,1)$-theorem the Hodge conjecture for
+divisors; in codimension $\geq 2$ both are open.
+\end{remark}
+
+\section{Exercises}\label{tate-conjecture:section-exercises}
+
+\begin{exercise}\label{tate-conjecture:exercise-frobenius}
+Let $k = \mathbb{F}_q$ and let $F$ be the geometric Frobenius, acting on $H^{2p}(\bar X, \QQ_\ell)$. Assuming that $F$ acts semisimply, show that $\dim T^p_\ell(\bar X)$ is the number of eigenvalues of $F$ on
+$H^{2p}(\bar X, \QQ_\ell)$, counted with multiplicity, of the form $\zeta q^p$ with $\zeta$ a root of unity.
+\end{exercise}
+
+\begin{solution}
+$G_{\mathbb{F}_{q^m}}$ is topologically generated by $F^m$, and the geometric Frobenius acts on $\QQ_\ell(1)$ by $q^{-1}$. So a class in $H^{2p}(\bar X, \QQ_\ell(p)) = H^{2p}(\bar X, \QQ_\ell) \otimes \QQ_\ell(p)$ is fixed by
+$G_{\mathbb{F}_{q^m}}$ if and only if, as a class in $H^{2p}(\bar X, \QQ_\ell)$, it satisfies $F^mv = q^{pm}v$. Since $F$ is semisimple, the union over $m$ of the eigenspaces of $F^m$ for $q^{pm}$ is the sum of the
+eigenspaces of $F$ for the eigenvalues $\lambda$ with $\lambda^m = q^{pm}$ for some $m$, that is, $\lambda = \zeta q^p$. The union is an increasing union of subspaces, so it is the largest of them.
+\end{solution}
+
+\begin{exercise}\label{tate-conjecture:exercise-elliptic-mt}
+Let $E$ be an elliptic curve over a number field $k \subseteq \CC$ with complex multiplication by an imaginary quadratic field $K$, all of whose endomorphisms are defined over $k$. Show that $G_\ell^0$ is contained in the
+torus $(\mathrm{Res}_{K/\QQ}\mathbb{G}_m)_{\QQ_\ell}$, and deduce that $G_\ell^0 \subseteq \mathrm{MT}(H^1(E_\CC))_{\QQ_\ell}$ directly, without Theorem~\ref{tate-conjecture:theorem-deligne-inclusion}.
+\end{exercise}
+
+\begin{solution}
+The action of $K = \End(E) \otimes \QQ$ on $V_\ell E$ commutes with $G_k$, since the endomorphisms are defined over $k$. $V_\ell E$ is free of rank one over $K \otimes \QQ_\ell$, so the commutant of $K \otimes \QQ_\ell$
+in $\End(V_\ell E)$ is $K \otimes \QQ_\ell$ itself. Hence $\rho_\ell(G_k) \subseteq (K \otimes \QQ_\ell)^\times = (\mathrm{Res}_{K/\QQ}\mathbb{G}_m)(\QQ_\ell)$, and the same holds for the Zariski closure. By
+Proposition~\ref{mumford-tate:proposition-elliptic-curves}, this torus is $\mathrm{MT}(H^1(E_\CC))$ (the same argument applies to the dual $H^1$).
+\end{solution}
+
+\begin{exercise}\label{tate-conjecture:exercise-supersingular}
+Let $E$ be a supersingular elliptic curve over $\mathbb{F}_p$, and $k = \mathbb{F}_{p^2}$ a field over which all endomorphisms of $E$ are defined, so that $\End(E_k) \otimes \QQ$ is a quaternion algebra of rank $4$. Using
+Theorem~\ref{tate-conjecture:theorem-isogeny}, show that $\rho(E \times E) = 6$ over $k$, and that all of $H^2(\overline{E \times E}, \QQ_\ell(1))$ consists of Tate classes over $k$. Why is this impossible over $\CC$?
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{tate-conjecture:example-products-curves}, the N\'eron--Severi group of $E \times E$ has rank $2 + \operatorname{rank}\Hom(E, E) = 2 + 4 = 6 = b_2(E \times E)$. By Corollary~\ref{tate-conjecture:corollary-divisors-abelian} the
+Tate classes are spanned by divisor classes, and conversely divisor classes over $k$ are Tate; since the divisor classes span a $6$-dimensional space, every class in $H^2$ is a Tate class. Over $\CC$ the rank of
+$\End(E)$ is at most $2$ (Proposition~\ref{abelian-varieties:proposition-elliptic-endomorphisms}), so $\rho(E \times E) \leq 4 < 6$; equivalently $h^{2,0}(E \times E) = 1$ prevents all of $H^2$ from being of type $(1,1)$.
+\end{solution}

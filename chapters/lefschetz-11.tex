@@ -1,0 +1,197 @@
+\chapter{The Lefschetz (1,1) Theorem}\label{lefschetz-11}
+\chapterstatus{complete}
+
+\section{Introduction}\label{lefschetz-11:section-introduction}
+
+The Lefschetz $(1,1)$-theorem is the one case of the Hodge conjecture that is completely understood, and it holds even with integral coefficients: on a
+nonsingular projective variety every integral class of type $(1,1)$ in $H^2$ is the class of a divisor (Theorem~\ref{lefschetz-11:theorem-lefschetz-11}). Its proof
+uses the exponential sequence, which exists because the Picard group is the cohomology of a sheaf of abelian groups. With hard Lefschetz it gives the Hodge conjecture
+in codimension $n - 1$, hence in dimension at most three. This chapter proves the theorem, draws the consequences, and explains precisely which step has no analogue in
+higher codimension. References: \cite[Chapter 1, Section 1]{griffiths-harris}, \cite[Section 11.3]{voisin-hodge-1}, \cite{kodaira-spencer-1953}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-conjecture} (The Hodge Conjecture) and Chapter~\ref{gaga} (Analytic Spaces and GAGA).
+
+Throughout, $X$ is a compact K\"ahler manifold of dimension $n$; from Section~\ref{lefschetz-11:section-projective} on it is projective.
+
+\section{The theorem for compact K\"ahler manifolds}\label{lefschetz-11:section-kahler}
+
+\begin{theorem}[Lefschetz $(1,1)$, K\"ahler form]\label{lefschetz-11:theorem-kahler}
+Let $X$ be a compact K\"ahler manifold. The image of the first Chern class $c_1 \colon \Pic(X) \to H^2(X; \ZZ)$ is exactly the group of integral Hodge classes
+$\mathrm{Hdg}^1(X; \ZZ)$, the classes whose image in $H^2(X; \CC)$ is of type $(1,1)$.
+\end{theorem}
+
+\begin{proof}
+The Chern class of a holomorphic line bundle is represented by $\frac{i}{2\pi}F$, a closed real $(1,1)$-form (Theorem~\ref{holomorphic-bundles:theorem-chern-connection}), so
+$c_1(\Pic(X)) \subseteq \mathrm{Hdg}^1(X; \ZZ)$. Conversely, let $a \in H^2(X; \ZZ)$ have image of type $(1,1)$. By the \emph{key lemma} (Lemma~\ref{kodaira:lemma-integral-11}), the map
+$H^2(X; \ZZ) \to H^2(X, \mathcal{O}_X)$ induced by $\ZZ_X \subseteq \mathcal{O}_X$ is the composite of $H^2(X; \ZZ) \to H^2(X; \CC)$ with the projection to $H^{0,2}(X) \cong H^2(X, \mathcal{O}_X)$.
+So $a$ maps to $0$ in $H^2(X, \mathcal{O}_X)$. In the long exact sequence of the exponential sequence $0 \to \ZZ \to \mathcal{O}_X \to \mathcal{O}_X^* \to 0$
+(Theorem~\ref{holomorphic-bundles:theorem-exponential}),
+\[
+H^1(X, \mathcal{O}_X^*) = \Pic(X) \xrightarrow{c_1} H^2(X; \ZZ) \to H^2(X, \mathcal{O}_X),
+\]
+so $a$ is in the image of $c_1$.
+\end{proof}
+
+\begin{corollary}\label{lefschetz-11:corollary-neron-severi}
+$\mathrm{NS}(X) := c_1(\Pic(X)) = \mathrm{Hdg}^1(X; \ZZ)$, and $\Pic(X)$ is an extension $0 \to \Pic^0(X) \to \Pic(X) \to \mathrm{NS}(X) \to 0$ of a finitely generated abelian group by the complex torus
+$\Pic^0(X) = H^1(X, \mathcal{O}_X)/H^1(X; \ZZ)$ of dimension $h^{0,1} = b_1/2$. The \emph{Picard number} $\rho(X) = \operatorname{rank}\mathrm{NS}(X)$ satisfies $\rho(X) \leq h^{1,1}(X)$.
+\end{corollary}
+
+\begin{proof}
+The first statement is Theorem~\ref{lefschetz-11:theorem-kahler}, and the extension is the exponential sequence. $\mathrm{NS}(X) \subseteq H^2(X; \ZZ)$ is finitely generated, and
+$\Pic^0(X)$ is a torus by Remark~\ref{holomorphic-bundles:remark-picard-variety} and Exercise~\ref{hodge-decomposition:exercise-h1-real}. Finally $\mathrm{NS}(X) \otimes \RR$ injects into the real
+classes of type $(1,1)$, which form a real vector space of dimension $h^{1,1}$ (a real structure on $H^{1,1}$, since $\overline{H^{1,1}} = H^{1,1}$).
+\end{proof}
+
+\begin{proposition}\label{lefschetz-11:proposition-flat}
+Let $X$ be a compact K\"ahler manifold, and let $U(1)_X$ be the sheaf of locally constant functions with values in $U(1) = \{z \in \CC : |z| = 1\}$. The inclusion $U(1)_X \subseteq \mathcal{O}_X^*$ induces a
+homomorphism $b \colon H^1(X, U(1)_X) \to \Pic(X)$, whose image consists of the \emph{flat unitary} line bundles, those given by locally constant transition functions of modulus one.
+\begin{enumerate}
+\item $b$ maps the kernel of the connecting map $\delta \colon H^1(X, U(1)_X) \to H^2(X; \ZZ)$ isomorphically onto $\Pic^0(X)$, and this kernel is $H^1(X; \RR)/H^1(X; \ZZ)$, a real torus of dimension $b_1(X)$.
+\item A holomorphic line bundle is flat unitary if and only if its first Chern class is a torsion element of $H^2(X; \ZZ)$. In particular every torsion class in $H^2(X; \ZZ)$ lies in $\mathrm{NS}(X)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The map $t \mapsto e^{2\pi it}$ gives a short exact sequence of sheaves $0 \to \ZZ_X \to \RR_X \to U(1)_X \to 0$: on a connected neighbourhood a locally constant function is constant, and $\RR \to U(1)$ is
+surjective with kernel $\ZZ$. The inclusions $\RR_X \subseteq \mathcal{O}_X$ and $U(1)_X \subseteq \mathcal{O}_X^*$ map it to the exponential sequence of
+Theorem~\ref{holomorphic-bundles:theorem-exponential}, and by naturality of the long exact sequence (Theorem~\ref{homological-algebra:theorem-long-exact-sequence}) we get a commutative diagram with exact rows
+\begin{center}
+\begin{tikzcd}
+H^1(X; \ZZ) \arrow[r] \arrow[d, equal] & H^1(X; \RR) \arrow[r, "\beta"] \arrow[d, "a"] & H^1(X, U(1)_X) \arrow[r, "\delta"] \arrow[d, "b"] & H^2(X; \ZZ) \arrow[r] \arrow[d, equal] & H^2(X; \RR) \\
+H^1(X; \ZZ) \arrow[r] & H^1(X, \mathcal{O}_X) \arrow[r, "\beta'"] & \Pic(X) \arrow[r, "c_1"] & H^2(X; \ZZ) &
+\end{tikzcd}
+\end{center}
+where $a$ is induced by $\RR_X \subseteq \mathcal{O}_X$. By Exercise~\ref{hodge-decomposition:exercise-h1-real}, $a$ is an isomorphism of real vector spaces. By exactness,
+$\ker\delta = \beta(H^1(X; \RR)) \cong H^1(X; \RR)/H^1(X; \ZZ)$ and $\Pic^0(X) = \ker c_1 = \beta'(H^1(X, \mathcal{O}_X)) \cong H^1(X, \mathcal{O}_X)/H^1(X; \ZZ)$, and $a$ induces an isomorphism between these
+quotients, since the left square commutes. As $b\beta = \beta'a$, this isomorphism is the restriction of $b$, proving (1); the image of $H^1(X; \ZZ)$ in $H^1(X; \RR)$ is a lattice by the universal coefficient
+theorem (Theorem~\ref{singular-cohomology:theorem-universal-coefficients}).
+
+(2) If $L = b(y)$, then $c_1(L) = \delta(y)$ maps to $0$ in $H^2(X; \RR)$ by exactness of the top row, so it is torsion, because the kernel of $H^2(X; \ZZ) \to H^2(X; \RR)$ is the torsion subgroup (again by
+the universal coefficient theorem). Conversely, let $c_1(L)$ be torsion. Then it maps to $0$ in $H^2(X; \RR)$, so $c_1(L) = \delta(y)$ for some $y$, and $L \otimes b(y)^{-1}$ has $c_1 = 0$. By (1),
+$L \otimes b(y)^{-1} = b(y')$ is flat unitary, and so is $L = b(yy')$. The same argument, starting from a torsion class $t = \delta(y)$, shows $t = c_1(b(y)) \in \mathrm{NS}(X)$.
+\end{proof}
+
+\begin{example}\label{lefschetz-11:example-two-torus}
+Let $T = \CC^2/\Lambda$ be a complex torus of dimension $2$ and $\sigma = dz_1 \wedge dz_2$. By Example~\ref{dolbeault:example-hodge-numbers}, $h^{2,0} = h^{0,2} = 1$ and $h^{1,1} = 4$, with $H^{2,0}(T)$
+spanned by $[\sigma]$ and $H^{0,2}(T)$ by $[\bar\sigma]$; and $H^2(T; \ZZ) \cong \ZZ^6$ (Example~\ref{singular-cohomology:example-torus}). A real class $a \in H^2(T; \RR)$ is of type $(1,1)$ if and only if
+$\int_Ta \wedge \sigma = 0$. Indeed, write $a = a^{2,0} + a^{1,1} + a^{0,2}$ (Theorem~\ref{hodge-decomposition:theorem-hodge-decomposition}), with $a^{2,0} = \overline{a^{0,2}}$ because $a$ is real, and
+$a^{0,2} = c[\bar\sigma]$. For type reasons only $a^{0,2}$ contributes to $\int_Ta \wedge \sigma$, so the integral is $c\int_T\bar\sigma \wedge \sigma$, and $\bar\sigma \wedge \sigma$ is a nonzero constant
+multiple of $dx_1 \wedge dy_1 \wedge dx_2 \wedge dy_2$ ($z_j = x_j + iy_j$); hence it vanishes if and only if $c = 0$, that is, $a^{0,2} = a^{2,0} = 0$.
+
+By Theorem~\ref{lefschetz-11:theorem-kahler}, $\mathrm{NS}(T)$ is therefore the kernel of $\varphi \colon H^2(T; \ZZ) \to \CC$, $\varphi(a) = \int_Ta \wedge \sigma$. If $e_1, \ldots, e_6$ is a $\ZZ$-basis of
+$H^2(T; \ZZ)$ with \emph{periods} $\pi_k = \varphi(e_k)$, then
+\[
+\rho(T) = 6 - \dim_\QQ(\QQ\pi_1 + \cdots + \QQ\pi_6),
+\]
+since the kernel of $\ZZ^6 \to \CC$, $m \mapsto \sum_km_k\pi_k$, has the same rank as the kernel of its extension to $\QQ^6$. The real extension $H^2(T; \RR) \to \CC$ has as kernel the real classes of type
+$(1,1)$, of real dimension $h^{1,1} = 4$, so it is surjective and the $\pi_k$ span $\CC$ over $\RR$. Hence the $\QQ$-dimension above is at least $2$ and $\rho(T) \leq 4$, as predicted by
+Corollary~\ref{lefschetz-11:corollary-neron-severi}. The Picard number of $T$ is thus governed by the linear relations over $\QQ$ among six complex numbers: $\rho(T) = 4$ when the periods span only a
+two-dimensional $\QQ$-vector space, as for $E \times E$ with $E = \CC/(\ZZ + \ZZ i)$ (Example~\ref{lefschetz-11:example-neron-severi}(2), since $\Hom(E, E) \supseteq \ZZ[i]$ has rank $2$), and
+$\rho(T) = 0$ when they are linearly independent over $\QQ$, which is the situation of Exercise~\ref{lefschetz-11:exercise-picard-number-torus}.
+\end{example}
+
+\section{The projective case: classes of divisors}\label{lefschetz-11:section-projective}
+
+\begin{theorem}[Lefschetz $(1,1)$]\label{lefschetz-11:theorem-lefschetz-11}
+Let $X$ be a nonsingular complex projective variety. Every class in $\mathrm{Hdg}^1(X; \ZZ)$ is the class of a divisor: the cycle class map $\CH^1(X) \to \mathrm{Hdg}^1(X; \ZZ)$ is surjective. In particular
+$\mathrm{HC}(X, 1)$ holds, even integrally.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{lefschetz-11:theorem-kahler}, a class $a \in \mathrm{Hdg}^1(X; \ZZ)$ is $c_1(L)$ for a holomorphic line bundle $L$ on $X^{\mathrm{an}}$. By GAGA
+(Corollary~\ref{gaga:corollary-consequences}(2)), $L$ is the analytification of an algebraic line bundle, still denoted $L$. Let $H$ be a hyperplane section. By Serre's theorem
+(Theorem~\ref{coherent-sheaves:theorem-serre-generation}), $L(m) = L \otimes \mathcal{O}(mH)$ is globally generated for $m \gg 0$, so it has a nonzero section, whose divisor $D_1$ is effective with
+$\mathcal{O}(D_1) \cong L(m)$ (Proposition~\ref{divisors:proposition-cartier-picard}). Likewise $\mathcal{O}(mH)$ has the divisor $D_2 = mH$. So $L \cong \mathcal{O}(D_1 - D_2)$, and
+$a = c_1(L) = \mathrm{cl}(D_1) - \mathrm{cl}(D_2)$ by Example~\ref{cycle-class:example-classes}(2).
+\end{proof}
+
+\begin{corollary}\label{lefschetz-11:corollary-codimension-n-1}
+For a nonsingular projective variety $X$ of dimension $n$, $\mathrm{HC}(X, n - 1)$ holds. Consequently the Hodge conjecture holds for all nonsingular projective varieties of
+dimension at most $3$.
+\end{corollary}
+
+\begin{proof}
+$\mathrm{HC}(X, 1)$ holds by Theorem~\ref{lefschetz-11:theorem-lefschetz-11}, and implies $\mathrm{HC}(X, n - 1)$ for $n \geq 2$ by Proposition~\ref{hodge-conjecture:proposition-lefschetz-reduction}.
+Together with the trivial cases $p = 0$ and $p = n$ (Proposition~\ref{hodge-conjecture:proposition-trivial-degrees}), this covers all $p$ when $n \leq 3$.
+\end{proof}
+
+\begin{remark}\label{lefschetz-11:remark-integral-curves}
+For curves on a threefold, the integral version fails in general: Proposition~\ref{hodge-conjecture:proposition-lefschetz-reduction} only gives that some multiple of an integral Hodge
+class in $H^4$ is algebraic, since $L^{n-2}$ need not be an isomorphism over $\ZZ$. Koll\'ar's counterexamples to the integral Hodge conjecture are integral classes in $H^4$ of threefolds
+(Chapter~\ref{failures}). On the other hand, Voisin proved the integral Hodge conjecture for curve classes on uniruled threefolds and on Calabi--Yau threefolds \cite{voisin-2006}.
+\end{remark}
+
+\begin{example}\label{lefschetz-11:example-neron-severi}
+\begin{enumerate}
+\item For $X \subseteq \PP^3$ a nonsingular quartic surface, $\mathrm{NS}(X)$ is a sublattice of $H^2(X; \ZZ) \cong \ZZ^{22}$ of rank $\rho \in [1, 20]$, and $\rho = 20$ is attained (for instance by the Fermat quartic).
+\item For $E \times E'$, $\mathrm{NS} \cong \ZZ^2 \oplus \Hom(E, E')$ (Exercise~\ref{abelian-varieties:exercise-ns-product}), which by Theorem~\ref{lefschetz-11:theorem-lefschetz-11} is also the
+lattice of integral classes of type $(1,1)$, a statement about Hodge structures (Example~\ref{hodge-conjecture:example-elliptic-product}).
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{lefschetz-11:example-quadric}
+Let $X = \PP^1 \times \PP^1$, which is isomorphic to a nonsingular quadric surface in $\PP^3$ (Example~\ref{holomorphic-bundles:example-adjunction}), with projections $\mathrm{pr}_1$, $\mathrm{pr}_2$, and let $h$ be the
+positive generator of $H^2(\PP^1; \ZZ)$. By the K\"unneth formula (Theorem~\ref{singular-cohomology:theorem-kunneth}), $H^2(X; \ZZ) = \ZZ a \oplus \ZZ b$ with $a = \mathrm{pr}_1^*h$ and $b = \mathrm{pr}_2^*h$. By
+naturality of $c_1$ (Theorem~\ref{vector-bundles:theorem-line-bundles}), $a = c_1(\mathrm{pr}_1^*\mathcal{O}(1))$ and $b = c_1(\mathrm{pr}_2^*\mathcal{O}(1))$; these are the classes of the divisors
+$\{p\} \times \PP^1$ and $\PP^1 \times \{p\}$, the two rulings of the quadric. So every integral class is algebraic and $\rho(X) = b_2(X) = 2$, without any Hodge theory. Conversely this determines the Hodge
+numbers: $\rho(X) \leq h^{1,1}(X)$ (Corollary~\ref{lefschetz-11:corollary-neron-severi}) and $h^{2,0} + h^{1,1} + h^{0,2} = b_2 = 2$ with $h^{2,0} = h^{0,2}$ force $h^{1,1} = 2$ and $h^{2,0} = 0$. The
+intersection numbers are $a^2 = b^2 = 0$ and $ab = 1$: two lines of the same ruling are disjoint, and two lines of different rulings meet transversally in one point.
+\end{example}
+
+\begin{theorem}[Noether--Lefschetz]\label{lefschetz-11:theorem-noether-lefschetz}
+For $d \geq 4$, a very general nonsingular surface of degree $d$ in $\PP^3$ has $\Pic(X) = \ZZ\cdot\mathcal{O}_X(1)$, so $\rho(X) = 1$.
+\end{theorem}
+
+This is proved in \cite{voisin-hodge-2} and \cite{griffiths-harris-noether-lefschetz}. The proof shows, with the infinitesimal variation of Hodge structure (Chapter~\ref{vhs}), that
+the locus of surfaces on which a given integral class stays of type $(1,1)$ is a proper subvariety of the parameter space, unless the class is a multiple of the hyperplane class; a
+very general surface lies outside all these countably many loci. For $d \leq 3$ the statement is false: quadrics contain two families of lines, and cubic surfaces contain $27$ lines.
+
+\section{Why the proof does not generalise}\label{lefschetz-11:section-why-not}
+
+\begin{remark}\label{lefschetz-11:remark-why-not}
+The proof of Theorem~\ref{lefschetz-11:theorem-lefschetz-11} has three steps, and none generalises to codimension $p \geq 2$.
+\begin{enumerate}
+\item \emph{A cohomological object parametrising cycles.} Divisors modulo linear equivalence are line bundles, $\Pic(X) = H^1(X, \mathcal{O}_X^*)$, the cohomology of a sheaf of abelian
+groups, and the exponential sequence relates it to $H^2(X; \ZZ)$. For codimension $p$ the Chow group $\CH^p(X) \cong H^p(X, \mathcal{K}_p)$ (Bloch's formula) involves a sheaf of Quillen
+$K$-groups, which has no comparison with singular cohomology that is exact in the needed way.
+\item \emph{The key lemma.} The obstruction to lifting an integral class is its image in $H^2(X, \mathcal{O}_X) = H^{0,2}$, a coherent cohomology group, and it vanishes exactly for type $(1,1)$. For
+$p \geq 2$, the analogous vanishing of the components in $H^{p-1,p+1}, \ldots, H^{0,2p}$ has no sheaf-theoretic interpretation producing an object like a line bundle. Deligne cohomology
+$H^{2p}_{\mathcal{D}}(X; \ZZ(p))$ fits into an exact sequence $0 \to J^p(X) \to H^{2p}_{\mathcal{D}}(X; \ZZ(p)) \to \mathrm{Hdg}^p(X; \ZZ) \to 0$, so every integral Hodge class lifts to Deligne
+cohomology (Chapter~\ref{intermediate-jacobians}); the missing step is to lift further to cycles.
+\item \emph{Sections of line bundles.} A line bundle twisted by a high multiple of an ample bundle has sections, whose zero loci are divisors. In codimension $\geq 2$ there is no
+analogue: a vector bundle of rank $p$ with enough sections gives cycles as zero loci of sections, but the Chern classes of such bundles need not span the Hodge classes, and producing a
+bundle with a prescribed Chern class is the vector bundle form of the conjecture itself (Proposition~\ref{hodge-conjecture:proposition-equivalent-forms}(3)).
+\end{enumerate}
+\end{remark}
+
+\section{Exercises}\label{lefschetz-11:section-exercises}
+
+\begin{exercise}\label{lefschetz-11:exercise-picard-number-torus}
+Let $T$ be a complex torus of dimension $2$ with $\rho(T) = 0$. Show that $T$ carries no nonconstant meromorphic functions and no curves.
+\end{exercise}
+
+\begin{solution}
+A curve $C$ would give a line bundle $\mathcal{O}(C)$ with $c_1(\mathcal{O}(C)) = \mathrm{cl}(C) \neq 0$, since $\int_T\mathrm{cl}(C) \wedge \omega = \int_C\omega > 0$ for a K\"ahler form $\omega$
+(Proposition~\ref{kahler:proposition-kahler-class-powers}). So $\mathrm{NS}(T) \neq 0$, a contradiction. A nonconstant meromorphic function $f$ has a nonzero polar divisor, which is a union of
+curves.
+\end{solution}
+
+\begin{exercise}\label{lefschetz-11:exercise-hodge-classes-surface}
+Let $S$ be a nonsingular projective surface with $p_g(S) = h^{2,0}(S) = 0$. Show that every class in $H^2(S; \ZZ)$ is the class of a divisor, and that $\rho(S) = b_2(S)$.
+\end{exercise}
+
+\begin{solution}
+If $h^{2,0} = h^{0,2} = 0$, then $H^2(S; \CC) = H^{1,1}$, so every integral class is an integral Hodge class, hence algebraic by Theorem~\ref{lefschetz-11:theorem-lefschetz-11}. So
+$\mathrm{NS}(S) = H^2(S; \ZZ)$ and $\rho = b_2$.
+\end{solution}
+
+\begin{exercise}\label{lefschetz-11:exercise-cubic-threefold}
+Show that on a nonsingular cubic threefold $X \subseteq \PP^4$ the Hodge conjecture holds, and compute $\mathrm{Hdg}^1$ and $\mathrm{Hdg}^2$.
+\end{exercise}
+
+\begin{solution}
+By Corollary~\ref{lefschetz-11:corollary-codimension-n-1} the conjecture holds in dimension $3$. By the Lefschetz hyperplane theorem and Poincar\'e duality, $H^2 = \QQ h$ and $H^4 = \QQ h^2/3$
+(the class of a line, since $\int_Xh^3 = 3$), both algebraic, so $\mathrm{Hdg}^1 = H^2(X; \QQ)$ and $\mathrm{Hdg}^2 = H^4(X; \QQ)$. The interesting group $H^3$, of dimension $10$ with $h^{2,1} = 5$, has
+no Hodge classes, being of odd degree.
+\end{solution}

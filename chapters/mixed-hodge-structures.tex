@@ -1,0 +1,386 @@
+\chapter{Mixed Hodge Structures}\label{mixed-hodge-structures}
+\chapterstatus{complete}
+
+\section{Introduction}\label{mixed-hodge-structures:section-introduction}
+
+The cohomology of a smooth but non-compact variety, or of a singular projective one, is not a pure Hodge structure. For example, $H^1(\CC^*; \QQ)$ is one-dimensional, so it cannot carry a
+Hodge structure of odd weight. Deligne showed that the cohomology of every complex algebraic variety carries a \emph{mixed Hodge structure}: an increasing \emph{weight filtration} whose graded pieces
+are pure Hodge structures of various weights. Morphisms of mixed Hodge structures are strict for both filtrations (Theorem~\ref{mixed-hodge-structures:theorem-abelian}), and this rigidity has consequences
+for compact varieties too. Three of them are proved in Section~\ref{mixed-hodge-structures:section-applications}: the global invariant cycle theorem, used in Chapter~\ref{vhs}; the fact that
+algebraicity of a Hodge class can be tested on a Zariski open subset, modulo lower dimensions; and the birational invariance of the Hodge conjecture, modulo lower dimensions. References:
+\cite{deligne-hodge-2}, \cite{deligne-hodge-3}, \cite{peters-steenbrink}, \cite[Chapter 8]{voisin-hodge-1}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{hodge-structures} (Hodge Structures), Chapter~\ref{derived-categories} (Derived Categories) and Chapter~\ref{gaga} (Analytic Spaces and GAGA).
+
+\noindent\textbf{Conventions.} Filtrations are finite and exhaustive. $W_\bullet$ always denotes an increasing filtration ($W_{k-1} \subseteq W_k$) and $F^\bullet$ a decreasing one
+($F^{p+1} \subseteq F^p$). For an increasing filtration, $\mathrm{Gr}^W_k = W_k/W_{k-1}$. The Tate structure $\QQ(m)$ is $(2\pi i)^m\QQ \subseteq \CC$, pure of weight $-2m$ and type $(-m,-m)$
+(Example~\ref{hodge-structures:example-hodge-structures}), and $H(m) = H \otimes \QQ(m)$. Varieties are complex algebraic varieties, and their cohomology is the singular cohomology of the associated
+analytic space.
+
+\section{Mixed Hodge structures}\label{mixed-hodge-structures:section-definition}
+
+\begin{definition}\label{mixed-hodge-structures:definition-mhs}
+A \emph{mixed Hodge structure} $(H, W, F)$ consists of
+\begin{enumerate}
+\item a finite-dimensional $\QQ$-vector space $H$;
+\item a finite increasing filtration $W_\bullet$ of $H$ by $\QQ$-subspaces, the \emph{weight filtration};
+\item a finite decreasing filtration $F^\bullet$ of $H_\CC = H \otimes_\QQ \CC$ by $\CC$-subspaces, the \emph{Hodge filtration};
+\end{enumerate}
+such that for every $k$ the filtration induced by $F$ on $\mathrm{Gr}^W_kH_\CC = W_kH_\CC/W_{k-1}H_\CC$, namely
+\[
+F^p\mathrm{Gr}^W_kH_\CC = (F^p \cap W_kH_\CC + W_{k-1}H_\CC)/W_{k-1}H_\CC,
+\]
+is the Hodge filtration of a pure $\QQ$-Hodge structure of weight $k$ on $\mathrm{Gr}^W_kH$ (Proposition~\ref{hodge-structures:proposition-filtration}). A \emph{morphism}
+$f \colon (H, W, F) \to (H', W', F')$ is a $\QQ$-linear map with $f(W_k) \subseteq W'_k$ and $f_\CC(F^p) \subseteq F'^p$ for all $k$, $p$. The \emph{Hodge numbers} are
+$h^{p,q}(H) = \dim_\CC(\mathrm{Gr}^W_{p+q}H_\CC)^{p,q}$, and the \emph{weights} of $H$ are the $k$ with $\mathrm{Gr}^W_kH \neq 0$.
+\end{definition}
+
+\begin{example}\label{mixed-hodge-structures:example-mhs}
+\begin{enumerate}
+\item A pure Hodge structure of weight $k$ is a mixed Hodge structure with $W_{k-1} = 0$ and $W_k = H$, and morphisms of pure Hodge structures of the same weight are the same as morphisms of the
+associated mixed Hodge structures. A direct sum of pure Hodge structures of different weights is a mixed Hodge structure, with $W_k$ the sum of the summands of weight $\leq k$.
+\item $H^1(\CC^*; \QQ)$ is one-dimensional, spanned by the class of $\frac{1}{2\pi i}\frac{dz}{z}$, which integrates to $1$ over the unit circle. With $W_1 = 0$, $W_2 = H^1$, $F^1 = H^1(\CC^*; \CC)$ and
+$F^2 = 0$, it is the pure Tate structure $\QQ(-1)$ of weight $2$ and type $(1,1)$. This is the structure given by Theorem~\ref{mixed-hodge-structures:theorem-smooth} below, with $\bar X = \PP^1$ and $D = \{0, \infty\}$.
+\item Let $C$ be a nodal plane cubic curve, obtained from $\PP^1$ by identifying two points. Then $H^1(C; \QQ) \cong \QQ$ is pure of weight $0$ and type $(0,0)$
+(Example~\ref{mixed-hodge-structures:example-nodal} below): the loop through the node is not detected by holomorphic $1$-forms.
+\item \emph{Kummer structures.} Let $q \in \CC^*$, choose $\log q$, and put $\lambda = \log q/2\pi i$. On $H = \QQ e_0 \oplus \QQ e_1$ let $W_{-3} = 0$, $W_{-2} = W_{-1} = \QQ e_1$, $W_0 = H$, and
+$F^{-1} = H_\CC$, $F^0 = \CC(e_0 - \lambda e_1)$, $F^1 = 0$. This is a mixed Hodge structure $K_q$, an extension of $\QQ(0)$ by $\QQ(1)$ (Exercise~\ref{mixed-hodge-structures:exercise-kummer}). Another choice
+of $\log q$ changes $\lambda$ by an integer $n$, and $e_0 \mapsto e_0 + ne_1$ is an isomorphism between the two structures, so $K_q$ depends only on $q$.
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{mixed-hodge-structures:counterexample-no-splitting}
+A mixed Hodge structure need not be the direct sum of its graded pieces, not even after extending scalars to $\RR$. In $K_q$, a complement of $W_{-2}$ that is a sub-mixed Hodge structure is a line
+$L = \QQ(e_0 + te_1)$ with $t \in \QQ$ whose induced Hodge filtration is that of $\QQ(0)$, that is, with $L_\CC \subseteq F^0 = \CC(e_0 - \lambda e_1)$. This forces $t = -\lambda$. So $K_q$ splits if and
+only if $\lambda \in \QQ$, that is, $q$ is a root of unity; and the same argument with $t \in \RR$ shows that $K_q \otimes \RR$ does not split when $|q| \neq 1$, since then $\lambda \notin \RR$. Carlson showed
+that the analogous extensions of $\ZZ(0)$ by $\ZZ(1)$ over $\ZZ$ are classified exactly by $q \in \CC/2\pi i\ZZ \cong \CC^*$ \cite{carlson-1980}: Kummer structures are the Hodge-theoretic incarnation of
+the exponential map. Contrast this with pure polarisable Hodge structures, which form a semisimple category (Theorem~\ref{hodge-structures:theorem-semisimple}).
+\end{counterexample}
+
+\section{The Deligne splitting and strictness}\label{mixed-hodge-structures:section-strictness}
+
+\begin{theorem}[Deligne]\label{mixed-hodge-structures:theorem-splitting}
+Let $(H, W, F)$ be a mixed Hodge structure. For $p, q \in \ZZ$ put
+\[
+I^{p,q} = F^p \cap W_{p+q,\CC} \cap \Big(\overline{F^q} \cap W_{p+q,\CC} + \sum_{j \geq 1}\overline{F^{q-j}} \cap W_{p+q-j-1,\CC}\Big).
+\]
+Then $H_\CC = \bigoplus_{p,q}I^{p,q}$, and
+\[
+W_{k,\CC} = \bigoplus_{p+q \leq k}I^{p,q}, \qquad F^p = \bigoplus_{p' \geq p}I^{p',q}, \qquad \overline{I^{p,q}} \subseteq I^{q,p} \oplus \bigoplus_{p' < q,\,q' < p}I^{p',q'}.
+\]
+The projection $W_{p+q,\CC} \to \mathrm{Gr}^W_{p+q}H_\CC$ maps $I^{p,q}$ isomorphically onto $(\mathrm{Gr}^W_{p+q})^{p,q}$. Conversely, if $W$ is a filtration by $\QQ$-subspaces and $F$ a filtration of $H_\CC$
+admitting a bigrading $H_\CC = \bigoplus I^{p,q}$ with these three properties, then $(H, W, F)$ is a mixed Hodge structure.
+\end{theorem}
+
+The first part is \cite{deligne-hodge-2}; see \cite[Chapter 3]{peters-steenbrink} for the explicit formula. The converse is immediate: on $\mathrm{Gr}^W_k$ the images of the $I^{p,q}$ with $p + q = k$
+give a decomposition with $\overline{H^{p,q}} = H^{q,p}$, since the error terms have $p' + q' < k$, and the filtration induced by $F$ is $\bigoplus_{p' \geq p}H^{p',k-p'}$. The subspaces $I^{p,q}$ form
+the \emph{Deligne splitting}. It splits $W$ and $F$ simultaneously, but it is not compatible with complex conjugation in general (Counterexample~\ref{mixed-hodge-structures:counterexample-no-splitting}).
+Every morphism $f$ of mixed Hodge structures maps $I^{p,q}(H)$ into $I^{p,q}(H')$, as is clear from the formula, since $f$ preserves $W$, $F$ and, being defined over $\QQ$, also $\overline F$.
+
+\begin{theorem}[Deligne]\label{mixed-hodge-structures:theorem-abelian}
+\begin{enumerate}
+\item Every morphism $f \colon H \to H'$ of mixed Hodge structures is \emph{strict} for $W$ and for $F$: $f(W_k) = W'_k \cap f(H)$ and $f_\CC(F^p) = F'^p \cap f_\CC(H_\CC)$.
+\item Mixed Hodge structures form an abelian category, in which kernels, images and cokernels carry the induced filtrations.
+\item For every $k$, the functor $H \mapsto \mathrm{Gr}^W_kH$ from mixed Hodge structures to pure Hodge structures of weight $k$ is exact.
+\item $H \otimes H'$, $H^\vee$ and $\Hom(H, H') = H^\vee \otimes H'$ carry mixed Hodge structures, with
+$W_k(H \otimes H') = \sum_{a+b=k}W_aH \otimes W_bH'$, $F^p(H \otimes H') = \sum_{a+b=p}F^aH \otimes F^bH'$, $W_k(H^\vee) = (W_{-k-1}H)^\perp$ and $F^p(H^\vee) = (F^{1-p}H)^\perp$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By Theorem~\ref{mixed-hodge-structures:theorem-splitting}, $f_\CC$ maps $I^{p,q}(H)$ into $I^{p,q}(H')$. Let $y = f(x) \in W'_{k,\CC}$ and decompose $x = \sum x^{p,q}$ with $x^{p,q} \in I^{p,q}(H)$. Then
+$y = \sum f(x^{p,q})$ is the decomposition of $y$, so $f(x^{p,q}) = 0$ whenever $p + q > k$, and $y = f(\sum_{p+q \leq k}x^{p,q}) \in f(W_{k,\CC})$. The same argument, with $p' \geq p$ in place of $p + q \leq k$,
+proves strictness for $F$. Strictness for $W$ over $\QQ$ follows from strictness over $\CC$, because $f(W_k)$ and $W'_k \cap f(H)$ are $\QQ$-subspaces with the same complexification.
+
+(2) Since $f_\CC$ preserves the bigradings, its kernel $K_\CC$, image $f(H_\CC)$ and cokernel $C_\CC$ are bigraded: $K_\CC = \bigoplus(K_\CC \cap I^{p,q}(H))$, $f(H_\CC) = \bigoplus f(I^{p,q}(H))$ and
+$C_\CC = \bigoplus I^{p,q}(H')/f(I^{p,q}(H))$. Give $K$, $f(H)$ and $C$ the filtrations induced as subspaces or quotients. In each case $W_k$ and $F^p$ are the sums of the pieces with $p + q \leq k$,
+respectively with first index $\geq p$. For $f(H)$ the filtrations induced from $H$ (quotient) and from $H'$ (subspace) agree, which is the strictness proved in (1). The bigradings satisfy the
+conjugation condition of Theorem~\ref{mixed-hodge-structures:theorem-splitting}, because $K$, $f(H)$ and $C$ are defined over $\QQ$ and the components of a vector in a bigraded subspace lie in it. By the
+converse part of Theorem~\ref{mixed-hodge-structures:theorem-splitting}, $K$, $f(H)$ and $C$ are mixed Hodge structures, and the canonical map $H/K \to f(H)$ is an isomorphism of mixed Hodge structures.
+
+(3) If $0 \to H' \to H \to H'' \to 0$ is an exact sequence of mixed Hodge structures, then its complexification is exact and each map preserves the bigradings, so
+$0 \to I^{p,q}(H') \to I^{p,q}(H) \to I^{p,q}(H'') \to 0$ is exact for each $(p, q)$. Since $\mathrm{Gr}^W_kH_\CC \cong \bigoplus_{p+q=k}I^{p,q}(H)$, the sequence of graded pieces is exact.
+
+(4) Put $I^{p,q}(H \otimes H') = \bigoplus I^{a,b}(H) \otimes I^{a',b'}(H')$, the sum over $a + a' = p$, $b + b' = q$. This bigrading splits the filtrations $W$ and $F$ of the statement, and it satisfies the
+conjugation condition because the error terms of the factors multiply to error terms. As $W_k(H \otimes H')$ is defined over $\QQ$, the converse part of Theorem~\ref{mixed-hodge-structures:theorem-splitting}
+applies. For the dual, use $I^{p,q}(H^\vee) = (\bigoplus_{(p',q') \neq (-p,-q)}I^{p',q'}(H))^\perp$ in the same way.
+\end{proof}
+
+\begin{lemma}[Principle of weights]\label{mixed-hodge-structures:lemma-weights}
+Let $f \colon H \to H'$ be a morphism of mixed Hodge structures.
+\begin{enumerate}
+\item If the weights of $H$ are all $< m$ and those of $H'$ are all $\geq m$, or the other way round, then $f = 0$.
+\item If $H'$ is pure of weight $k$, then $f(H) = f(W_kH)$ and $f(W_{k-1}H) = 0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) If the weights of $H$ are $< m$ and those of $H'$ are $\geq m$, then $H = W_{m-1}H$ and $f(H) \subseteq W'_{m-1}H' = 0$. In the other case $W_{m-1}H = 0$ and $H' = W'_{m-1}H'$, so strictness
+(Theorem~\ref{mixed-hodge-structures:theorem-abelian}(1)) gives $f(H) = f(H) \cap W'_{m-1}H' = f(W_{m-1}H) = 0$.
+
+(2) $W'_{k-1}H' = 0$ and $W'_kH' = H'$, so $f(W_{k-1}H) \subseteq W'_{k-1}H' = 0$, and strictness gives $f(W_kH) = W'_kH' \cap f(H) = f(H)$.
+\end{proof}
+
+\begin{remark}\label{mixed-hodge-structures:remark-principle}
+Lemma~\ref{mixed-hodge-structures:lemma-weights} is used over and over below: a map compatible with mixed Hodge structures cannot move classes of one weight to classes of another. Its power comes from
+the fact that the maps it is applied to (restrictions, Gysin maps, differentials of spectral sequences) are defined topologically, while the weights are defined algebro-geometrically. It has no
+analogue for filtered vector spaces, where strictness fails (Counterexample~\ref{hodge-structures:counterexample-filtered}).
+\end{remark}
+
+\section{The logarithmic de Rham complex}\label{mixed-hodge-structures:section-log-de-rham}
+
+\begin{definition}\label{mixed-hodge-structures:definition-log-forms}
+Let $\bar X$ be a complex manifold of dimension $n$ and $D \subseteq \bar X$ a divisor with \emph{simple normal crossings}: $D = D_1 \cup \cdots \cup D_N$ with each $D_i$ a nonsingular hypersurface, and
+near every point there are holomorphic coordinates $z_1, \ldots, z_n$ with $D = \{z_1 \cdots z_r = 0\}$. Put $X = \bar X \setminus D$ and let $j \colon X \to \bar X$ be the inclusion.
+\begin{enumerate}
+\item The sheaf $\Omega^p_{\bar X}(\log D)$ of \emph{logarithmic $p$-forms} is the $\mathcal{O}_{\bar X}$-submodule of $j_*\Omega^p_X$ generated locally by the wedge products of $p$ of the forms
+$dz_1/z_1, \ldots, dz_r/z_r, dz_{r+1}, \ldots, dz_n$. It is locally free, and stable under $d$, which gives the \emph{logarithmic de Rham complex} $\Omega^\bullet_{\bar X}(\log D)$.
+\item The \emph{weight filtration} $W_m\Omega^p_{\bar X}(\log D)$ is the subsheaf spanned by the forms $\alpha \wedge dz_{i_1}/z_{i_1} \wedge \cdots \wedge dz_{i_m}/z_{i_m}$ with $\alpha$ holomorphic: forms with at
+most $m$ logarithmic factors.
+\item $D^{(m)}$ is the disjoint union of the $m$-fold intersections $D_{i_1} \cap \cdots \cap D_{i_m}$, $i_1 < \cdots < i_m$, with $D^{(0)} = \bar X$. It is a complex manifold of dimension $n - m$, with the map
+$a_m \colon D^{(m)} \to \bar X$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}\label{mixed-hodge-structures:lemma-residue}
+The residue map $\alpha \wedge dz_{i_1}/z_{i_1} \wedge \cdots \wedge dz_{i_m}/z_{i_m} \mapsto \alpha|_{D_{i_1} \cap \cdots \cap D_{i_m}}$ induces an isomorphism of complexes
+\[
+\mathrm{Res}_m \colon \mathrm{Gr}^W_m\Omega^\bullet_{\bar X}(\log D) \longrightarrow (a_m)_*\Omega^{\bullet-m}_{D^{(m)}}.
+\]
+\end{lemma}
+
+\begin{proof}[Sketch of proof]
+It is easiest to construct the inverse. For $I = \{i_1 < \cdots < i_m\}$ write $D_I = D_{i_1} \cap \cdots \cap D_{i_m}$ and $dz_I/z_I = dz_{i_1}/z_{i_1} \wedge \cdots \wedge dz_{i_m}/z_{i_m}$. Given a
+holomorphic form $\beta$ on $D_I$, extend it locally to a holomorphic form $\tilde\beta$ on $\bar X$ and send it to the class of $\tilde\beta \wedge dz_I/z_I$ in $\mathrm{Gr}^W_m$. The class does not depend on the
+extension: two extensions differ by a combination of forms $z_i\gamma$ and $dz_i \wedge \gamma$ with $i \in I$, and $z_i\gamma \wedge dz_I/z_I$ and $dz_i \wedge \gamma \wedge dz_I/z_I$ have at most $m - 1$
+logarithmic factors, since $z_i \cdot dz_i/z_i = dz_i$ and $dz_i \wedge dz_i/z_i = 0$. It does not depend on the coordinates: replacing $z_i$ by $uz_i$ with $u$ a unit changes $dz_i/z_i$ by the holomorphic
+form $du/u$, which lowers the weight. The map is surjective by the definition of $W_m$, it commutes with $d$ because $d(dz_i/z_i) = 0$, and $\mathrm{Res}_m$ is its inverse. That it is injective, that is,
+that a sum $\sum_I\tilde\beta_I \wedge dz_I/z_I$ lies in $W_{m-1}$ only if every $\beta_I$ vanishes, is a computation in the local basis $dz_I/z_I \wedge dz_J$, $I \subseteq \{1, \ldots, r\}$,
+$J \subseteq \{r+1, \ldots, n\}$, which we omit \cite{deligne-hodge-2}.
+\end{proof}
+
+The residue depends on the ordering $i_1 < \cdots < i_m$ through a sign, and in the comparison with rational cohomology it comes with the factor $(2\pi i)^{-m}$, because $\frac{1}{2\pi i}\frac{dz}{z}$ is the
+rational class of Example~\ref{mixed-hodge-structures:example-mhs}(2). This is why the Tate twist $(-m)$ appears below.
+
+\begin{theorem}[Deligne]\label{mixed-hodge-structures:theorem-smooth}
+Let $X$ be a nonsingular variety, and $\bar X$ a nonsingular compactification with $D = \bar X \setminus X$ a simple normal crossings divisor; such a compactification exists by Nagata's compactification
+theorem and Hironaka's resolution of singularities \cite{hironaka-1964}.
+\begin{enumerate}
+\item The inclusion $\Omega^\bullet_{\bar X}(\log D) \to j_*\Omega^\bullet_X$ is a quasi-isomorphism, and $j_*\Omega^\bullet_X$ computes $Rj_*\CC_X$; hence
+$\mathbb{H}^k(\bar X, \Omega^\bullet_{\bar X}(\log D)) \cong H^k(X; \CC)$.
+\item Let $W_mH^k(X; \CC)$ be the image of $\mathbb{H}^k(\bar X, W_{m-k}\Omega^\bullet_{\bar X}(\log D))$ and $F^pH^k(X; \CC)$ the image of $\mathbb{H}^k(\bar X, \Omega^{\geq p}_{\bar X}(\log D))$. Then $W$ is
+defined over $\QQ$, and $(H^k(X; \QQ), W, F)$ is a mixed Hodge structure, independent of the choice of $\bar X$ and functorial for morphisms of nonsingular varieties.
+\item The weights of $H^k(X; \QQ)$ lie in $[k, 2k]$, and $W_kH^k(X; \QQ) = \operatorname{im}\big(H^k(\bar X; \QQ) \to H^k(X; \QQ)\big)$.
+\item There is a spectral sequence, the \emph{weight spectral sequence},
+\[
+E_1^{-m,k+m} = H^{k-m}(D^{(m)}; \QQ)(-m) \Longrightarrow H^k(X; \QQ),
+\]
+whose terms are pure Hodge structures of weight $k + m$, whose differential $d_1$ is an alternating sum of Gysin maps, and which degenerates at $E_2$, with $E_2^{-m,k+m} = \mathrm{Gr}^W_{k+m}H^k(X; \QQ)$.
+The Hodge-to-de Rham spectral sequence $E_1^{p,q} = H^q(\bar X, \Omega^p_{\bar X}(\log D)) \Rightarrow H^{p+q}(X; \CC)$ degenerates at $E_1$.
+\end{enumerate}
+\end{theorem}
+
+This is \cite[Section 3]{deligne-hodge-2}; see also \cite[Chapter 4]{peters-steenbrink}. The weight spectral sequence is the spectral sequence of the filtered complex $(\Omega^\bullet_{\bar X}(\log D), W)$,
+with $E_1$ computed by Lemma~\ref{mixed-hodge-structures:lemma-residue}. Once one knows that its differentials are morphisms of Hodge structures, degeneration at $E_2$ is the principle of weights: for
+$r \geq 2$, $d_r \colon E_r^{-m,k+m} \to E_r^{-m+r,k+m-r+1}$ goes between subquotients of pure Hodge structures of weights $k + m$ and $k + m + 1 - r \neq k + m$, so it vanishes by
+Lemma~\ref{mixed-hodge-structures:lemma-weights}(1).
+
+\begin{example}\label{mixed-hodge-structures:example-punctured-curve}
+Let $\bar C$ be a compact Riemann surface of genus $g$, $s \geq 1$, and $C = \bar C \setminus \{p_1, \ldots, p_s\}$. Then $D^{(1)} = \{p_1, \ldots, p_s\}$ and $D^{(2)} = \emptyset$, and the weight spectral
+sequence reduces to the exact sequence of mixed Hodge structures
+\[
+0 \to H^1(\bar C; \QQ) \to H^1(C; \QQ) \xrightarrow{\ \mathrm{Res}\ } \QQ(-1)^{s} \xrightarrow{\ \Sigma\ } \QQ(-1) \to 0,
+\]
+where $\mathrm{Res}$ takes the residues at the punctures and $\Sigma$, the Gysin map $H^0(D^{(1)})(-1) \to H^2(\bar C)$, is the sum. So $W_1H^1(C) = H^1(\bar C)$ is pure of weight $1$ and
+$\mathrm{Gr}^W_2H^1(C) \cong \QQ(-1)^{s-1}$; exactness at $\QQ(-1)^s$ is the residue theorem. For $\PP^1$ minus the three points $0, 1, \infty$, $H^1 \cong \QQ(-1)^2$ is spanned by the classes of
+$\frac{1}{2\pi i}\frac{dz}{z}$ and $\frac{1}{2\pi i}\frac{dz}{z - 1}$.
+\end{example}
+
+\begin{counterexample}\label{mixed-hodge-structures:counterexample-odd-weight}
+The weights of $H^k(X)$ for $X$ nonsingular need not include $k$ or $2k$, and cohomology of even degree can be pure of odd weight. Let $E \subseteq \PP^2$ be a smooth cubic curve and $X = \PP^2 \setminus E$,
+an affine surface. The weight spectral sequence ($D^{(2)} = \emptyset$) gives the Gysin sequence
+\[
+H^0(E)(-1) \to H^2(\PP^2) \to H^2(X) \to H^1(E)(-1) \to H^3(\PP^2) = 0.
+\]
+The first map sends $1$ to $\mathrm{cl}(E) = 3h \neq 0$, so it is an isomorphism over $\QQ$, and $H^2(X; \QQ) \cong H^1(E; \QQ)(-1)$ is pure of weight $3$.
+\end{counterexample}
+
+\section{Singular varieties}\label{mixed-hodge-structures:section-singular}
+
+\begin{theorem}[Deligne]\label{mixed-hodge-structures:theorem-singular}
+For every variety $X$ and every $k$, $H^k(X; \QQ)$ and $H^k_c(X; \QQ)$ carry functorial mixed Hodge structures, extending those of Theorem~\ref{mixed-hodge-structures:theorem-smooth}. The long exact
+sequence of a pair $(X, Z)$ with $Z$ closed, and the sequence $\cdots \to H^k_c(X \setminus Z) \to H^k_c(X) \to H^k_c(Z) \to \cdots$, are exact sequences of mixed Hodge structures, and cup products and
+K\"unneth isomorphisms are morphisms of mixed Hodge structures. The weights of $H^k(X)$ lie in $[0, 2k]$; if $X$ is proper they lie in $[0, k]$, and if $X$ is nonsingular in $[k, 2k]$. If $X$ is proper and
+$\pi \colon \tilde X \to X$ is a resolution of singularities, then $W_{k-1}H^k(X; \QQ) = \ker\big(\pi^* \colon H^k(X; \QQ) \to H^k(\tilde X; \QQ)\big)$.
+\end{theorem}
+
+This is \cite{deligne-hodge-3}, via simplicial resolutions of $X$ by nonsingular varieties; see also \cite[Chapter 5]{peters-steenbrink}. For proper $X$ with a resolution $\pi \colon \tilde X \to X$ that is an
+isomorphism outside a closed subset $Z \subseteq X$ with preimage $E = \pi^{-1}(Z)$, there is an exact sequence of mixed Hodge structures
+\[
+\cdots \to H^{k-1}(E) \to H^k(X) \to H^k(\tilde X) \oplus H^k(Z) \to H^k(E) \to H^{k+1}(X) \to \cdots,
+\]
+the Mayer--Vietoris sequence of the proper modification, which computes the mixed Hodge structure of $X$ inductively on the dimension.
+
+\begin{example}\label{mixed-hodge-structures:example-nodal}
+Let $C$ be the nodal cubic, $\pi \colon \PP^1 \to C$ its normalisation, $Z$ the node and $E = \pi^{-1}(Z) = \{0, \infty\}$. The sequence above reads
+\[
+0 \to H^0(C) \to H^0(\PP^1) \oplus H^0(Z) \to H^0(E) \to H^1(C) \to H^1(\PP^1) \oplus H^1(Z) = 0.
+\]
+The map $\QQ^2 \to \QQ^2$, $(a, b) \mapsto (a - b, a - b)$, has a one-dimensional cokernel, so $H^1(C) \cong \QQ(0)$, a quotient of the pure structure $H^0(E)$ of weight $0$. Accordingly
+$W_0H^1(C) = \ker(H^1(C) \to H^1(\PP^1)) = H^1(C)$, as Theorem~\ref{mixed-hodge-structures:theorem-singular} predicts, and $H^1(C)$ has no Hodge decomposition of weight $1$.
+\end{example}
+
+\section{Applications of weights}\label{mixed-hodge-structures:section-applications}
+
+\begin{corollary}\label{mixed-hodge-structures:corollary-restriction}
+Let $\bar X$ be a nonsingular projective variety of dimension $n$, $U \subseteq \bar X$ a nonempty open subset, and $Z = \bar X \setminus U$ with irreducible components $Z_1, \ldots, Z_N$ of codimensions
+$c_1, \ldots, c_N$. Let $g_i \colon \tilde Z_i \to \bar X$ be resolutions of singularities of the $Z_i$ composed with the inclusions.
+\begin{enumerate}
+\item The image of the restriction $H^k(\bar X; \QQ) \to H^k(U; \QQ)$ is $W_kH^k(U; \QQ)$.
+\item The kernel of the restriction is $\sum_ig_{i*}H^{k-2c_i}(\tilde Z_i; \QQ)(-c_i)$, the sum of the images of the Gysin maps.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}[Sketch of proof]
+(1) By resolution of singularities there is a proper birational morphism $\pi \colon \tilde X \to \bar X$ from a nonsingular projective variety that is an isomorphism over $U$ and such that
+$\tilde X \setminus \pi^{-1}(U)$ is a simple normal crossings divisor. By Theorem~\ref{mixed-hodge-structures:theorem-smooth}(3), the image of $H^k(\tilde X) \to H^k(U)$ is $W_kH^k(U)$. The image of
+$H^k(\bar X)$ is contained in it, because restriction from $\bar X$ factors through $\pi^*$. Conversely, for $\alpha \in H^k(\tilde X)$ the class $\pi_*\alpha \in H^k(\bar X)$, defined by Poincar\'e duality,
+restricts on $U$ to $\alpha|_U$, since $\pi$ is an isomorphism over $U$. So the two images agree.
+
+(2) The Gysin images restrict to zero on $U$, since the classes are supported on $Z$. Conversely, the kernel is the image of $H^k_Z(\bar X; \QQ) \cong H^{BM}_{2n-k}(Z; \QQ)(-n)$ (Poincar\'e--Alexander
+duality), by a morphism of mixed Hodge structures into the pure structure $H^k(\bar X)$ of weight $k$. By Lemma~\ref{mixed-hodge-structures:lemma-weights}(2) the kernel is the image of the part of weight
+$\leq k$, and Deligne shows that the lowest weight part of the Borel--Moore homology of $Z$ is the image of the homology of the resolutions $\tilde Z_i$ \cite{deligne-hodge-3}. This last
+identification is the verification we omit.
+\end{proof}
+
+\begin{theorem}[Global invariant cycle theorem]\label{mixed-hodge-structures:theorem-global-invariant}
+Let $f \colon \mathcal{X} \to S$ be a smooth projective morphism of nonsingular varieties with $S$ connected, $\bar{\mathcal{X}}$ a nonsingular projective compactification of $\mathcal{X}$, and $t \in S$ with
+fibre $X_t$. Then
+\[
+\operatorname{im}\big(H^k(\bar{\mathcal{X}}; \QQ) \to H^k(X_t; \QQ)\big) = \operatorname{im}\big(H^k(\mathcal{X}; \QQ) \to H^k(X_t; \QQ)\big) = H^k(X_t; \QQ)^{\pi_1(S, t)},
+\]
+and this subspace is a sub-Hodge structure of $H^k(X_t; \QQ)$.
+\end{theorem}
+
+\begin{proof}
+The Leray spectral sequence $E_2^{a,b} = H^a(S, R^bf_*\QQ) \Rightarrow H^{a+b}(\mathcal{X}; \QQ)$ of a smooth projective morphism degenerates at $E_2$ \cite{deligne-1968}. Its edge map
+$H^k(\mathcal{X}) \to E_\infty^{0,k} \subseteq E_2^{0,k} = H^0(S, R^kf_*\QQ) \subseteq H^k(X_t)$ is the restriction to the fibre, and by degeneration $E_\infty^{0,k} = E_2^{0,k}$, so the restriction is
+surjective onto $H^0(S, R^kf_*\QQ)$. Since $R^kf_*\QQ$ is a local system (Theorem~\ref{vhs:theorem-ehresmann}) and $S$ is connected, $H^0(S, R^kf_*\QQ)$ is the space of $\pi_1(S, t)$-invariants in the stalk
+$H^k(X_t; \QQ)$. This proves the second equality.
+
+The restriction $r \colon H^k(\mathcal{X}; \QQ) \to H^k(X_t; \QQ)$ is induced by the inclusion of nonsingular varieties $X_t \to \mathcal{X}$, so it is a morphism of mixed Hodge structures
+(Theorem~\ref{mixed-hodge-structures:theorem-smooth}(2)), and its target is pure of weight $k$ because $X_t$ is nonsingular and projective. By Lemma~\ref{mixed-hodge-structures:lemma-weights}(2),
+$r(H^k(\mathcal{X})) = r(W_kH^k(\mathcal{X}))$, and $W_kH^k(\mathcal{X})$ is the image of $H^k(\bar{\mathcal{X}})$ by Corollary~\ref{mixed-hodge-structures:corollary-restriction}(1). Since restriction from
+$\bar{\mathcal{X}}$ to $X_t$ factors through $\mathcal{X}$, this proves the first equality. Finally, the image of $H^k(\bar{\mathcal{X}}) \to H^k(X_t)$ is the image of a morphism of pure Hodge structures of
+weight $k$, hence a sub-Hodge structure (Theorem~\ref{hodge-structures:theorem-abelian}).
+\end{proof}
+
+\begin{remark}\label{mixed-hodge-structures:remark-fixed-part}
+Theorem~\ref{mixed-hodge-structures:theorem-global-invariant} is the proof of Theorem~\ref{vhs:theorem-fixed-part} promised in Chapter~\ref{vhs}. The only input not proved in this book is the degeneration
+of the Leray spectral sequence, which Deligne deduces from the hard Lefschetz theorem (Chapter~\ref{lefschetz-theorems}) applied to the fibres \cite{deligne-1968}. The coniveau filtration is handled in
+the same way: $N^cH^k(X)$ is a sum of kernels of restrictions $H^k(X) \to H^k(X \setminus Z)$, which by Corollary~\ref{mixed-hodge-structures:corollary-restriction}(2) are images of Gysin maps and so
+sub-Hodge structures (Proposition~\ref{hodge-conjecture:proposition-coniveau}).
+\end{remark}
+
+\begin{proposition}\label{mixed-hodge-structures:proposition-localisation}
+Keep the notation of Corollary~\ref{mixed-hodge-structures:corollary-restriction}, and let $\alpha \in \mathrm{Hdg}^p(\bar X)$. Suppose that
+\begin{enumerate}
+\item there is an algebraic cycle $V$ on $\bar X$ with $\QQ$-coefficients such that $\alpha|_U = \mathrm{cl}(V)|_U$ in $H^{2p}(U; \QQ)$, and
+\item for each $i$ with $c_i \leq p$, the Hodge conjecture holds for $\tilde Z_i$ in codimension $p - c_i$.
+\end{enumerate}
+Then $\alpha$ is algebraic.
+\end{proposition}
+
+\begin{proof}
+Put $\beta = \alpha - \mathrm{cl}(V)$. It is a Hodge class, by Corollary~\ref{cycle-class:corollary-hodge-classes}, and $\beta|_U = 0$. By Corollary~\ref{mixed-hodge-structures:corollary-restriction}(2),
+$\beta$ lies in the image of
+\[
+g_* = \sum_ig_{i*} \colon A = \bigoplus_iH^{2p-2c_i}(\tilde Z_i; \QQ)(-c_i) \longrightarrow H^{2p}(\bar X; \QQ),
+\]
+where the summands with $c_i > p$ are zero. Each Gysin map $g_{i*}$ is a morphism of Hodge structures of weight $2p$: it is Poincar\'e dual to pushforward in homology, and it maps forms of type $(a, b)$
+to currents of type $(a + c_i, b + c_i)$. The source $A$ is a direct sum of polarisable Hodge structures of weight $2p$ (Theorem~\ref{hodge-structures:theorem-cohomology-polarised}). By
+Theorem~\ref{hodge-structures:theorem-semisimple}, $\ker g_*$ has a complement $A'$ in $A$ that is a sub-Hodge structure, and $g_*|_{A'} \colon A' \to g_*(A)$ is an isomorphism of Hodge structures onto the
+sub-Hodge structure $g_*(A)$. The preimage $\gamma = (\gamma_i) \in A'$ of $\beta$ is then a Hodge class, since isomorphisms of Hodge structures preserve Hodge classes
+(Proposition~\ref{hodge-structures:proposition-hodge-classes-morphisms}); that is, $\gamma_i \in \mathrm{Hdg}^{p-c_i}(\tilde Z_i)$. By hypothesis (2), $\gamma_i = \mathrm{cl}(V_i)$ for cycles $V_i$ on $\tilde Z_i$
+with $\QQ$-coefficients. By compatibility of the cycle class with proper pushforward (Theorem~\ref{cycle-class:theorem-cycle-class}(2)), $\beta = \sum_ig_{i*}\mathrm{cl}(V_i) = \mathrm{cl}(\sum_ig_{i*}V_i)$.
+Hence $\alpha = \mathrm{cl}(V + \sum_ig_{i*}V_i)$ is algebraic.
+\end{proof}
+
+\begin{corollary}\label{mixed-hodge-structures:corollary-localisation}
+Assume that the Hodge conjecture holds for all nonsingular projective varieties of dimension $< n$, and let $\bar X$ be an irreducible nonsingular projective variety of dimension $n$ and
+$U \subseteq \bar X$ a nonempty open subset. Then a Hodge class $\alpha \in \mathrm{Hdg}^p(\bar X)$ is algebraic if and only if $\alpha|_U$ is the restriction of the class of an algebraic cycle on $\bar X$.
+\end{corollary}
+
+\begin{proof}
+One direction is trivial. For the other, since $\bar X$ is irreducible and $U$ is nonempty, every component of $\bar X \setminus U$ has codimension $c_i \geq 1$, so $\dim\tilde Z_i < n$ and hypothesis (2) of
+Proposition~\ref{mixed-hodge-structures:proposition-localisation} holds.
+\end{proof}
+
+\begin{corollary}\label{mixed-hodge-structures:corollary-birational}
+Assume that the Hodge conjecture holds for all nonsingular projective varieties of dimension $< n$, and let $\bar X$ and $\bar X'$ be birational irreducible nonsingular projective varieties of dimension $n$.
+Then the Hodge conjecture holds for $\bar X$ if and only if it holds for $\bar X'$.
+\end{corollary}
+
+\begin{proof}
+Choose nonempty open subsets $U \subseteq \bar X$ and $U' \subseteq \bar X'$ and an isomorphism $\phi \colon U' \to U$; we identify $U$ and $U'$ through $\phi$. Suppose the Hodge conjecture holds for
+$\bar X'$, and let $\alpha \in \mathrm{Hdg}^p(\bar X)$. The restriction $\alpha|_U$ lies in $W_{2p}H^{2p}(U; \QQ)$ by Corollary~\ref{mixed-hodge-structures:corollary-restriction}(1), which is a pure Hodge
+structure of weight $2p$, since the weights of $H^{2p}(U)$ are $\geq 2p$ (Theorem~\ref{mixed-hodge-structures:theorem-smooth}(3)). As the restriction is a morphism of mixed Hodge structures, $\alpha|_U$ is
+rational and lies in $F^p$, so it is a Hodge class of this pure structure (Proposition~\ref{hodge-structures:proposition-filtration}: in weight $2p$, $F^p \cap \overline{F^p}$ is the $(p,p)$-part). The restriction
+$r' \colon H^{2p}(\bar X'; \QQ) \to W_{2p}H^{2p}(U; \QQ)$ is a surjective morphism of pure Hodge structures of weight $2p$, by Corollary~\ref{mixed-hodge-structures:corollary-restriction}(1) applied to $\bar X'$.
+As in the proof of Proposition~\ref{mixed-hodge-structures:proposition-localisation}, semisimplicity (Theorem~\ref{hodge-structures:theorem-semisimple}) gives a Hodge class $\alpha' \in \mathrm{Hdg}^p(\bar X')$ with
+$r'(\alpha') = \alpha|_U$. By hypothesis $\alpha' = \mathrm{cl}(V')$ for a cycle $V'$ on $\bar X'$ with $\QQ$-coefficients. Let $V$ be the closure in $\bar X$ of the cycle $V'|_U$. Since the cycle class
+commutes with restriction to open subsets (Theorem~\ref{cycle-class:theorem-cycle-class}(2)), $\mathrm{cl}(V)|_U = \mathrm{cl}(V'|_U) = \alpha'|_U = \alpha|_U$. By
+Corollary~\ref{mixed-hodge-structures:corollary-localisation}, $\alpha$ is algebraic. The converse follows by symmetry.
+\end{proof}
+
+\begin{remark}\label{mixed-hodge-structures:remark-integral}
+The arguments of Proposition~\ref{mixed-hodge-structures:proposition-localisation} and Corollary~\ref{mixed-hodge-structures:corollary-birational} use semisimplicity to lift Hodge classes along surjections,
+and this is a statement about $\QQ$-structures. Over $\ZZ$ an integral Hodge class in the image of a morphism need not be the image of an integral Hodge class, and the integral analogues must be proved
+by other means: for classes of degree $4$, the birational invariance of the defect $Z^4(X)$ is a theorem of Colliot-Th\'el\`ene and Voisin (Theorem~\ref{failures:theorem-what-survives}).
+\end{remark}
+
+\section{Exercises}\label{mixed-hodge-structures:section-exercises}
+
+\begin{exercise}\label{mixed-hodge-structures:exercise-cstar}
+Compute the mixed Hodge structure on $H^\bullet((\CC^*)^n; \QQ)$.
+\end{exercise}
+
+\begin{solution}
+By the K\"unneth formula, which is compatible with mixed Hodge structures (Theorem~\ref{mixed-hodge-structures:theorem-singular}), and Example~\ref{mixed-hodge-structures:example-mhs}(2),
+$H^k((\CC^*)^n) \cong \Lambda^k(\QQ(-1)^n) \cong \QQ(-k)^{\binom{n}{k}}$, pure of weight $2k$ and type $(k,k)$, spanned by the products of the classes $\frac{1}{2\pi i}\frac{dz_j}{z_j}$. The weights are the largest
+allowed by Theorem~\ref{mixed-hodge-structures:theorem-smooth}(3).
+\end{solution}
+
+\begin{exercise}\label{mixed-hodge-structures:exercise-kummer}
+Show that the Kummer structure $K_q$ of Example~\ref{mixed-hodge-structures:example-mhs}(4) is a mixed Hodge structure with $\mathrm{Gr}^W_{-2}K_q \cong \QQ(1)$ and $\mathrm{Gr}^W_0K_q \cong \QQ(0)$, and that
+$K_q \cong \QQ(1) \oplus \QQ(0)$ if and only if $q$ is a root of unity.
+\end{exercise}
+
+\begin{solution}
+The only nonzero graded pieces are $\mathrm{Gr}^W_{-2} = \QQ e_1$ and $\mathrm{Gr}^W_0 = H/\QQ e_1$. On $\mathrm{Gr}^W_{-2}$ the induced filtration is $F^{-1} = \CC e_1$ and $F^0 = F^0 \cap \CC e_1 = 0$, since
+$e_0 - \lambda e_1 \notin \CC e_1$; this is the Hodge filtration of type $(-1,-1)$, that of $\QQ(1)$ (identify $e_1$ with $2\pi i$). On $\mathrm{Gr}^W_0$ the image of $F^0$ is everything and $F^1 = 0$, which is
+type $(0,0)$. So $K_q$ is a mixed Hodge structure. An isomorphism $K_q \cong \QQ(1) \oplus \QQ(0)$ maps $W_{-2}K_q$ onto $\QQ(1)$, so the preimage of $\QQ(0)$ is a complement of $W_{-2}$ that is a
+sub-mixed Hodge structure; by Counterexample~\ref{mixed-hodge-structures:counterexample-no-splitting} one exists if and only if $\lambda = \log q/2\pi i \in \QQ$. Writing $\lambda = a/b$ with $b \geq 1$, this
+says $q^b = e^{2\pi ia} = 1$; conversely if $q^b = 1$ then $\log q \in 2\pi i\frac{1}{b}\ZZ$.
+\end{solution}
+
+\begin{exercise}\label{mixed-hodge-structures:exercise-hodge-number-bounds}
+Let $X$ be a nonsingular variety. Show that $h^{p,q}(H^k(X)) = 0$ unless $0 \leq p, q \leq k$ and $k \leq p + q \leq 2k$.
+\end{exercise}
+
+\begin{solution}
+The condition on $p + q$ is Theorem~\ref{mixed-hodge-structures:theorem-smooth}(3). The complex $\Omega^{\geq k+1}_{\bar X}(\log D)$ is zero in degrees $\leq k$, so its hypercohomology vanishes in degree $k$, and
+$F^{k+1}H^k(X; \CC) = 0$. Hence $F^{k+1}$ vanishes on every $\mathrm{Gr}^W_m$ and $h^{p,q} = 0$ for $p > k$; by the symmetry $h^{p,q} = h^{q,p}$ of pure Hodge structures, also for $q > k$. Finally
+$F^0 = H_\CC$ because $\Omega^{\geq 0}(\log D)$ is the whole complex, so $h^{p,q} = 0$ for $p < 0$, and for $q < 0$ by symmetry.
+\end{solution}
+
+\begin{exercise}\label{mixed-hodge-structures:exercise-elliptic-punctured}
+Let $E$ be an elliptic curve with origin $0$ and $a \in E$, $a \neq 0$. Show that $H^1(E \setminus \{0\})$ is pure of weight $1$, that $H^1(E \setminus \{0, a\})$ has $\mathrm{Gr}^W_1 \cong H^1(E)$ and $\mathrm{Gr}^W_2 \cong \QQ(-1)$, and compute the
+Hodge numbers of both.
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{mixed-hodge-structures:example-punctured-curve} with $g = 1$: for $s = 1$, $\mathrm{Gr}^W_2 \cong \QQ(-1)^0 = 0$, so $H^1(E \setminus \{0\}) = H^1(E)$, with $h^{1,0} = h^{0,1} = 1$. For $s = 2$,
+$\mathrm{Gr}^W_1 = H^1(E)$ and $\mathrm{Gr}^W_2 \cong \QQ(-1)$, so $h^{1,0} = h^{0,1} = h^{1,1} = 1$ and $\dim H^1 = 3$. (Whether this extension splits depends on $a$: it splits if and only if $a$ is a torsion
+point of $E$, by Carlson's description of extensions \cite{carlson-1980}; we do not prove this.)
+\end{solution}

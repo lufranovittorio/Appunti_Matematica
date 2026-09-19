@@ -1,0 +1,264 @@
+\chapter{Holomorphic Vector Bundles}\label{holomorphic-bundles}
+\chapterstatus{complete}
+
+\section{Introduction}\label{holomorphic-bundles:section-introduction}
+
+Holomorphic line bundles are the objects that encode divisors, projective embeddings and, through their first Chern classes, the
+$(1,1)$-part of cohomology. The exponential sequence (Theorem~\ref{holomorphic-bundles:theorem-exponential}) computes the Picard
+group in terms of cohomology and already contains the case $p = 1$ of the Hodge conjecture: the classes of divisors are exactly the
+integral classes of type $(1,1)$ (Chapter~\ref{lefschetz-11}). References: \cite[Chapter 1]{griffiths-harris},
+\cite[Chapters 2--4]{huybrechts-complex}, \cite[Chapter 4]{voisin-hodge-1}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{complex-manifolds} (Complex Manifolds), Chapter~\ref{sheaf-cohomology} (Sheaf
+Cohomology) and Chapter~\ref{characteristic-classes} (Characteristic Classes).
+
+$X$ denotes a complex manifold of dimension $n$.
+
+\section{Holomorphic bundles and sheaves}\label{holomorphic-bundles:section-bundles}
+
+\begin{definition}\label{holomorphic-bundles:definition-holomorphic-bundle}
+A \emph{holomorphic vector bundle} of rank $r$ on $X$ is a complex manifold $E$ with a holomorphic map $\pi \colon E \to X$ and $\CC$-vector space structures on the fibres, locally biholomorphic to
+$U \times \CC^r$ over $U$ and linear on fibres; equivalently, it is given by holomorphic transition functions $g_{ij} \colon U_i \cap U_j \to \GL_r(\CC)$ satisfying the cocycle condition
+(Proposition~\ref{vector-bundles:proposition-cocycles}). Its sheaf of holomorphic sections is a locally free $\mathcal{O}_X$-module of rank $r$, and this is an equivalence between holomorphic bundles and
+locally free sheaves, as in Proposition~\ref{vector-bundles:proposition-sheaf-of-sections}.
+\end{definition}
+
+\begin{example}\label{holomorphic-bundles:example-bundles}
+The holomorphic tangent bundle $T^{1,0}X$, with transition functions the holomorphic Jacobians; the bundles $\Omega^p_X = \Lambda^p(T^{1,0}X)^\vee$ of holomorphic $p$-forms and the canonical bundle
+$K_X = \Omega^n_X$; the tautological bundle $\mathcal{O}(-1)$ on $\CC\PP^n$ (Exercise~\ref{vector-bundles:exercise-tautological}), its dual $\mathcal{O}(1)$ and the powers
+$\mathcal{O}(k) = \mathcal{O}(1)^{\otimes k}$. The holomorphic sections of $\mathcal{O}(k)$ on $\CC\PP^n$ are the homogeneous polynomials of degree $k$ for $k \geq 0$, and $0$ for $k < 0$
+(Exercise~\ref{holomorphic-bundles:exercise-sections-ok}).
+\end{example}
+
+\begin{proposition}\label{holomorphic-bundles:proposition-picard}
+The isomorphism classes of holomorphic line bundles on $X$ form a group $\Pic(X)$ under $\otimes$, and
+\[
+\Pic(X) \cong H^1(X, \mathcal{O}_X^*),
+\]
+where $\mathcal{O}_X^*$ is the sheaf of nowhere vanishing holomorphic functions.
+\end{proposition}
+
+\begin{proof}
+As in Proposition~\ref{vector-bundles:proposition-cocycles} and Theorem~\ref{vector-bundles:theorem-line-bundles}, line bundles correspond to \v{C}ech cocycles with values in $\mathcal{O}_X^*$ modulo
+coboundaries, and $\check{H}^1 = H^1$ (Remark~\ref{sheaf-cohomology:remark-cech-limit}); tensor product corresponds to multiplication of cocycles.
+\end{proof}
+
+\begin{theorem}[Exponential sequence]\label{holomorphic-bundles:theorem-exponential}
+The sequence of sheaves $0 \to \ZZ_X \to \mathcal{O}_X \xrightarrow{\exp(2\pi i\,\cdot)} \mathcal{O}_X^* \to 0$ is exact, and its long exact sequence reads
+\[
+\cdots \to H^1(X, \ZZ) \to H^1(X, \mathcal{O}_X) \to \Pic(X) \xrightarrow{\ c_1\ } H^2(X, \ZZ) \to H^2(X, \mathcal{O}_X) \to \cdots
+\]
+The map $c_1$ is the first Chern class of the underlying smooth line bundle (Theorem~\ref{vector-bundles:theorem-line-bundles}). In particular, for compact $X$:
+\begin{enumerate}
+\item $c_1$ is surjective onto the kernel of $H^2(X, \ZZ) \to H^2(X, \mathcal{O}_X)$;
+\item its kernel $\Pic^0(X)$ is $H^1(X, \mathcal{O}_X)/\operatorname{im}H^1(X, \ZZ)$;
+\item if $H^1(X, \mathcal{O}_X) = H^2(X, \mathcal{O}_X) = 0$, then $c_1 \colon \Pic(X) \to H^2(X, \ZZ)$ is an isomorphism.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Exactness: the kernel of $\exp(2\pi i \cdot)$ is the constant sheaf $\ZZ$, and surjectivity holds on stalks because a nonvanishing holomorphic function on a small ball has a holomorphic logarithm (integrate
+$df/f$, which is possible on a simply connected domain by Theorem~\ref{complex-analysis:theorem-cauchy-homotopy} applied in one variable at a time, or note that the ball is contractible and use the same
+argument as in Theorem~\ref{vector-bundles:theorem-line-bundles}). The long exact sequence is Theorem~\ref{homological-algebra:theorem-long-exact-sequence}, using
+$\Pic(X) \cong H^1(X, \mathcal{O}_X^*)$. That the connecting map is the topological first Chern class follows by comparing with the corresponding sequence for smooth functions, into which this one maps, and
+using that the sheaf of smooth functions is acyclic. The three consequences are exactness of the long sequence.
+\end{proof}
+
+\begin{remark}\label{holomorphic-bundles:remark-picard-variety}
+When $X$ is compact K\"ahler, the Hodge decomposition (Chapter~\ref{hodge-decomposition}) shows that $H^1(X, \ZZ)$ maps onto a lattice in the complex vector space $H^1(X, \mathcal{O}_X)$ of dimension
+$b_1/2$, so $\Pic^0(X)$ is a compact complex torus, the \emph{Picard variety}, and the image of $c_1$, the \emph{N\'eron--Severi group}, is the group of integral classes of type $(1,1)$
+(Chapter~\ref{lefschetz-11}).
+\end{remark}
+
+\begin{lemma}\label{holomorphic-bundles:lemma-trivial-sections}
+Let $L$ be a holomorphic line bundle on $X$.
+\begin{enumerate}
+\item $L$ is trivial if and only if it has a nowhere vanishing holomorphic section.
+\item If $X$ is compact and connected and both $L$ and its dual $L^\vee$ have nonzero holomorphic sections, then $L$ is trivial. In particular, if $L$ is nontrivial and $H^0(X, L) \neq 0$, then
+$H^0(X, L^\vee) = 0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) A nowhere vanishing section $s$ gives the map $\mathcal{O}_X \to L$, $f \mapsto fs$, which is an isomorphism on every fibre; conversely the trivial bundle has the section $1$.
+
+(2) First, if $U$ is a connected open set and $a$, $b$ are holomorphic functions on $U$, neither identically zero, then $ab$ is not identically zero: otherwise $U \setminus a^{-1}(0)$ is open, nonempty by the identity
+theorem (Proposition~\ref{several-complex-variables:proposition-identity-maximum}), and $b$ vanishes on it, so $b = 0$ by the identity theorem again. Next, a nonzero section $s$ of $L$ does not vanish identically on any
+nonempty open set: the set of points near which $s$ vanishes identically is open, and it is closed by the identity theorem applied in local frames, so it is empty because $X$ is connected and $s \neq 0$.
+
+Now let $s \in H^0(X, L)$ and $t \in H^0(X, L^\vee)$ be nonzero. The pairing $t(s)$ is a holomorphic function on $X$, hence a constant $c$ (Proposition~\ref{complex-manifolds:proposition-no-functions}). In a
+connected coordinate neighbourhood $U$ with a holomorphic frame $e$ and dual frame $e^\vee$, write $s = ae$ and $t = be^\vee$; then $t(s) = ab$ with $a$, $b$ not identically zero on $U$, so $c \neq 0$. Therefore
+$a(x)b(x) = c \neq 0$ everywhere, $s$ vanishes nowhere, and $L$ is trivial by (1).
+\end{proof}
+
+\begin{definition}\label{holomorphic-bundles:definition-dbar-operator}
+Let $L$ be a smooth complex line bundle on $X$, and let $\mathcal{A}^{0,q}(L)$ denote the smooth $L$-valued $(0,q)$-forms. A \emph{$\bar\partial$-operator} on $L$ is a $\CC$-linear map
+$D \colon \mathcal{A}^0(L) \to \mathcal{A}^{0,1}(L)$ with $D(fs) = \bar\partial f \otimes s + fDs$ for smooth functions $f$. In a local smooth frame $e$ it has the form $D(fe) = (\bar\partial f + fa_e)e$ for a
+$(0,1)$-form $a_e = De/e$. The operator is \emph{integrable} if $\bar\partial a_e = 0$ for every local frame $e$.
+\end{definition}
+
+\begin{proposition}\label{holomorphic-bundles:proposition-dbar-operator}
+\begin{enumerate}
+\item If $L$ is a holomorphic line bundle, the operator $\bar\partial_L(fe) = \bar\partial f \otimes e$, for $e$ a holomorphic frame, is a well-defined integrable $\bar\partial$-operator, and a smooth section $s$ is
+holomorphic if and only if $\bar\partial_Ls = 0$.
+\item Integrability does not depend on the frame: if $e' = ge$, then $a_{e'} = a_e + g^{-1}\bar\partial g$ and $\bar\partial a_{e'} = \bar\partial a_e$.
+\item Conversely, for every integrable $\bar\partial$-operator $D$ on a smooth complex line bundle $L$ there is a unique structure of holomorphic line bundle on $L$ with $D = \bar\partial_L$.
+\end{enumerate}
+In particular, on a Riemann surface, where there are no $(0,2)$-forms, every $\bar\partial$-operator is integrable.
+\end{proposition}
+
+\begin{proof}
+(2) $D(e') = D(ge) = (\bar\partial g + ga_e)e = (g^{-1}\bar\partial g + a_e)e'$. Moreover $\bar\partial(g^{-1}\bar\partial g) = -g^{-2}\bar\partial g \wedge \bar\partial g + g^{-1}\bar\partial^2g = 0$, since a $1$-form wedged with itself vanishes and $\bar\partial^2 = 0$
+(Proposition~\ref{complex-manifolds:proposition-dbar}).
+
+(1) Two holomorphic frames differ by a holomorphic $g$, with $\bar\partial g = 0$, so by the computation in (2) the operators defined by the two frames agree; the Leibniz rule is clear, and $a_e = 0$ for a holomorphic frame, so
+$\bar\partial_L$ is integrable. A section $fe$ is holomorphic if and only if $f$ is, that is, $\bar\partial f = 0$.
+
+(3) Let $x \in X$, choose a coordinate polydisc $\Delta$ around $x$ on which $L$ has a smooth frame $e$, and write $a_e = \sum_jf_j\,d\bar z_j$. The condition $\bar\partial a_e = 0$ says
+$\partial f_j/\partial\bar z_l = \partial f_l/\partial\bar z_j$, so by the $\bar\partial$-Poincar\'e lemma (Theorem~\ref{several-complex-variables:theorem-dbar-poincare}) there is a smooth $u$ on a smaller polydisc $\Delta'$
+with $\bar\partial u = a_e$. The frame $e' = e^{-u}e$ satisfies $De' = (-\bar\partial u + a_e)e' = 0$. Cover $X$ by open sets $U_i$ with frames $e_i$ such that $De_i = 0$. On overlaps $e_i = g_{ij}e_j$ with $g_{ij}$ smooth and
+nowhere zero, and $0 = De_i = \bar\partial g_{ij} \otimes e_j$, so the $g_{ij}$ are holomorphic and define a holomorphic structure on $L$ for which the $e_i$ are holomorphic frames. For a section $s = fe_i$ we
+get $Ds = \bar\partial f \otimes e_i = \bar\partial_Ls$, so $D = \bar\partial_L$. For uniqueness, the holomorphic frames of any structure with $\bar\partial_L = D$ are the local frames killed by $D$, so the holomorphic
+atlas is determined by $D$.
+\end{proof}
+
+\begin{example}\label{holomorphic-bundles:example-dbar-trivial-bundle}
+On the smooth trivial line bundle $X \times \CC$, the $\bar\partial$-operators are the $D_a = \bar\partial + a$ with $a$ a $(0,1)$-form, integrable exactly when $\bar\partial a = 0$. A holomorphic isomorphism between the
+structures defined by $D_a$ and $D_b$ is multiplication by a smooth nowhere vanishing function $g$ taking $D_a$-holomorphic sections to $D_b$-holomorphic ones; since
+$D_b(gs) = g(D_as + (g^{-1}\bar\partial g + b - a)s)$, this happens if and only if $a - b = g^{-1}\bar\partial g$. In particular, if $a - b = \bar\partial u$ for a smooth function $u$, then $g = e^u$ is an
+isomorphism. So $a \mapsto (X \times \CC, D_a)$ defines a map from the $\bar\partial$-closed $(0,1)$-forms modulo $\bar\partial$ of functions to $\Pic(X)$, whose image consists of line bundles that are trivial as smooth
+bundles; compare the map $H^1(X, \mathcal{O}_X) \to \Pic(X)$ of Theorem~\ref{holomorphic-bundles:theorem-exponential}, and Chapter~\ref{dolbeault}, where the quotient above is the Dolbeault group
+$H^{0,1}_{\bar\partial}(X)$.
+\end{example}
+
+\section{Divisors}\label{holomorphic-bundles:section-divisors}
+
+\begin{definition}\label{holomorphic-bundles:definition-divisor}
+A \emph{divisor} on $X$ is a locally finite formal sum $D = \sum_ia_iZ_i$ with $a_i \in \ZZ$ and $Z_i$ irreducible analytic hypersurfaces; they form the group $\mathrm{Div}(X)$. A \emph{meromorphic function}
+is a section of the sheaf $\mathcal{M}_X$ of quotients $f/g$ of holomorphic functions with $g \not\equiv 0$; the order $\operatorname{ord}_Z(f) \in \ZZ$ of a meromorphic function along an irreducible
+hypersurface $Z$ is defined by writing $f = u\,h^m$ near a regular point of $Z$, where $h$ is a local defining function of $Z$ and $u$ is a unit, using that $\mathcal{O}_{X,x}$ is a unique factorisation domain
+(Theorem~\ref{several-complex-variables:theorem-local-ring}). The divisor of $f$ is $(f) = \sum_Z\operatorname{ord}_Z(f)\,Z$, and divisors of this form are \emph{principal}.
+\end{definition}
+
+\begin{proposition}\label{holomorphic-bundles:proposition-divisor-line-bundle}
+There is a homomorphism $\mathrm{Div}(X) \to \Pic(X)$, $D \mapsto \mathcal{O}(D)$, defined by taking local defining functions $f_i$ for $D$ on a cover and the cocycle $g_{ij} = f_i/f_j \in \mathcal{O}^*$. Its kernel
+is the group of principal divisors, and $\mathcal{O}(D)$ has a canonical meromorphic section with divisor $D$; for $D$ effective (all $a_i \geq 0$) this section is holomorphic and vanishes exactly on $D$.
+Conversely a nonzero meromorphic section of a line bundle $L$ has a divisor $D$ with $L \cong \mathcal{O}(D)$.
+\end{proposition}
+
+\begin{proof}
+The functions $f_i/f_j$ are nowhere vanishing and holomorphic on overlaps, because two local defining functions of the same divisor differ by a unit
+(Theorem~\ref{several-complex-variables:theorem-local-ring}), and they clearly form a cocycle; changing the $f_i$ changes the cocycle by a coboundary. The local functions $f_i$ glue to a meromorphic section
+of $\mathcal{O}(D)$, whose divisor is $D$. If $\mathcal{O}(D)$ is trivial, the cocycle is a coboundary $f_i/f_j = u_i/u_j$, so the $f_i/u_i$ glue to a global meromorphic function with divisor $D$; conversely,
+principal divisors give trivial cocycles. The last statement follows by taking the divisor of the section and comparing cocycles.
+\end{proof}
+
+\begin{example}\label{holomorphic-bundles:example-divisors-projective}
+On $\CC\PP^n$ every irreducible hypersurface is the zero set of an irreducible homogeneous polynomial, and $\mathcal{O}(D) \cong \mathcal{O}(\deg D)$; the map $\deg \colon \mathrm{Div}(\CC\PP^n) \to \ZZ$
+induces the isomorphism $\Pic(\CC\PP^n) \cong \ZZ$, which also follows from Theorem~\ref{holomorphic-bundles:theorem-exponential} since $H^1(\CC\PP^n, \mathcal{O}) = H^2(\CC\PP^n, \mathcal{O}) = 0$
+(Chapter~\ref{dolbeault}). On a complex torus $X = \CC^n/\Lambda$, by contrast, $H^1(X, \mathcal{O}_X) \neq 0$ and $\Pic^0(X)$ is a nontrivial complex torus, the dual torus.
+\end{example}
+
+\begin{counterexample}\label{holomorphic-bundles:counterexample-topologically-trivial}
+Holomorphic line bundles are not determined by their topology. Let $X = \CC/\Lambda$ with $\Lambda = \ZZ\omega_1 + \ZZ\omega_2$ a lattice, numbered so that $\operatorname{Im}(\omega_2/\omega_1) > 0$, $\pi \colon \CC \to X$ the projection, and $p \neq q$ points of $X$. The line bundle
+$L = \mathcal{O}(p - q) = \mathcal{O}(p) \otimes \mathcal{O}(q)^\vee$ is trivial as a smooth bundle but not as a holomorphic bundle.
+
+\emph{Smooth triviality.} Lift $q - p$ to $c \in \CC$ and let $\tau(x) = x + c$, a biholomorphism of $X$ with $\tau(p) = q$. A local defining function of $q$ composed with $\tau$ is a local defining function of $p$, so
+$\tau^*\mathcal{O}(q) \cong \mathcal{O}(p)$. The translations $x \mapsto x + tc$, $0 \leq t \leq 1$, form a homotopy from the identity to $\tau$, so by Theorem~\ref{vector-bundles:theorem-line-bundles} and homotopy
+invariance (Theorem~\ref{singular-cohomology:theorem-axioms}), $c_1(\mathcal{O}(p)) = \tau^*c_1(\mathcal{O}(q)) = c_1(\mathcal{O}(q))$. Hence $c_1(L) = 0$ and $L$ is smoothly trivial, by the same theorem.
+
+\emph{Holomorphic nontriviality.} If $L$ were holomorphically trivial, the divisor $p - q$ would be principal (Proposition~\ref{holomorphic-bundles:proposition-divisor-line-bundle}): there would be a meromorphic
+function $f$ on $X$ whose only pole is a simple pole at $q$. Then $F = f \circ \pi$ is meromorphic on $\CC$, invariant under translation by $\Lambda$, with simple poles exactly at the points of $\pi^{-1}(q)$. Choose a lift
+$\tilde q$ of $q$ and let $P$ be the parallelogram with vertices $a$, $a + \omega_1$, $a + \omega_1 + \omega_2$, $a + \omega_2$, where $a = \tilde q - \frac12(\omega_1 + \omega_2)$. A boundary point
+$\tilde q + (s - \frac12)\omega_1 + (t - \frac12)\omega_2$ has $s$ or $t$ in $\{0, 1\}$, so it is not in $\tilde q + \Lambda$; and $\tilde q$ is the only point of $\tilde q + \Lambda$ inside $P$. The boundary $\partial P$, traversed through the vertices in the order listed, is positively oriented, with winding number $1$ about
+$\tilde q$ and $0$ about the points outside $P$. By the residue theorem
+(Theorem~\ref{complex-analysis:theorem-residues}), $\int_{\partial P}F\,dz = 2\pi i\operatorname{Res}_{\tilde q}F \neq 0$, the residue at a simple pole being nonzero. On the other hand the integrals over opposite sides of $P$
+cancel: the side from $a + \omega_2$ to $a + \omega_1 + \omega_2$ is the translate by $\omega_2$ of the side from $a$ to $a + \omega_1$, traversed in the opposite direction, and $F(z + \omega_2) = F(z)$; similarly for the
+other pair. So $\int_{\partial P}F\,dz = 0$, a contradiction.
+
+Thus $L$ is a nontrivial element of $\Pic^0(X)$, the kernel of $c_1$ in Theorem~\ref{holomorphic-bundles:theorem-exponential}. The same argument shows that no meromorphic function on $X$ has a single pole which is simple.
+\end{counterexample}
+
+\section{Hermitian metrics and the Chern connection}\label{holomorphic-bundles:section-chern-connection}
+
+\begin{theorem}\label{holomorphic-bundles:theorem-chern-connection}
+Let $E$ be a holomorphic vector bundle with a Hermitian metric $h$. There is a unique connection $\nabla$ on $E$, the \emph{Chern connection}, that is metric and satisfies $\nabla^{0,1} = \bar\partial$. In a
+holomorphic frame with $H_{ij} = h(e_i, e_j)$ one has $\theta = \overline{H}^{-1}\partial\overline{H}$ and curvature $F = \bar\partial\theta$, a $(1,1)$-form with values in $\End E$. For a line bundle with local
+weight $h = e^{-\varphi}$ in a holomorphic frame, $F = \partial\bar\partial\varphi$ and
+\[
+c_1(L) = \left[\frac{i}{2\pi}F\right] = \left[\frac{i}{2\pi}\partial\bar\partial\varphi\right] \in H^2(X; \RR),
+\]
+a class of type $(1,1)$.
+\end{theorem}
+
+\begin{proof}
+Write $\nabla = \nabla^{1,0} + \nabla^{0,1}$. The condition $\nabla^{0,1} = \bar\partial$ fixes the $(0,1)$-part, and the metric condition
+$d\,h(s, t) = h(\nabla s, t) + h(s, \nabla t)$ splits into its $(1,0)$- and $(0,1)$-parts, the first of which reads $\partial h(s, t) = h(\nabla^{1,0}s, t) + h(s, \bar\partial t)$ and determines $\nabla^{1,0}$; this
+proves uniqueness, and the resulting formula in a holomorphic frame, $\theta = \overline{H}^{-1}\partial\overline{H}$, defines a connection with the two properties, which proves existence. Then
+$F = d\theta + \theta \wedge \theta$ has no $(0,2)$-part because $\bar\partial^2 = 0$ and $\nabla^{0,1} = \bar\partial$, and no $(2,0)$-part by the metric condition; the formula $F = \bar\partial\theta$ follows. For a
+line bundle $H = e^{-\varphi}$ is real, so $\theta = H^{-1}\partial H = \partial\log H = -\partial\varphi$ and $F = \bar\partial\theta = -\bar\partial\partial\varphi = \partial\bar\partial\varphi$; the Chern class is
+computed by Chern--Weil theory (Proposition~\ref{characteristic-classes:proposition-chern-properties}).
+\end{proof}
+
+\begin{definition}\label{holomorphic-bundles:definition-positive}
+A Hermitian line bundle $(L, h)$ is \emph{positive} if the real $(1,1)$-form $\frac{i}{2\pi}F$ is positive definite, that is, if it is the fundamental form of a Hermitian metric on $X$
+(Chapter~\ref{kahler}); $L$ is positive if it admits such a metric. A line bundle is \emph{ample} if a power of it gives an embedding of $X$ in projective space
+(Chapter~\ref{kodaira}).
+\end{definition}
+
+\begin{example}\label{holomorphic-bundles:example-fubini-study}
+On $\CC\PP^n$, give $\mathcal{O}(-1)$ the metric induced from the standard Hermitian metric of $\CC^{n+1}$. On $U_0 = \{x_0 \neq 0\}$, with coordinates $w_j = x_j/x_0$, the section
+$\sigma(w) = (1, w_1, \ldots, w_n)$ is a holomorphic frame with $h(\sigma, \sigma) = 1 + |w|^2 = e^{-\varphi}$, so by Theorem~\ref{holomorphic-bundles:theorem-chern-connection}
+$\frac{i}{2\pi}F = -\frac{i}{2\pi}\partial\bar\partial\log(1 + |w|^2) = -\omega_{FS}$, where $\omega_{FS}$, the \emph{Fubini--Study form}, is the global $(1,1)$-form given on $U_0$ by
+$\frac{i}{2\pi}\partial\bar\partial\log(1 + |w|^2)$ (on $U_j$ one uses $\log(|x|^2/|x_j|^2)$ in place of $\log(1 + |w|^2) = \log(|x|^2/|x_0|^2)$; on overlaps these differ by $\log|x_k/x_j|^2$, the logarithm of the squared modulus of a nowhere
+vanishing holomorphic function, which $\partial\bar\partial$ kills); hence
+$\mathcal{O}(1)$ is positive, with $\frac{i}{2\pi}F = \omega_{FS}$ and $c_1(\mathcal{O}(1)) = [\omega_{FS}]$, the positive generator of $H^2(\CC\PP^n; \ZZ)$
+(Example~\ref{characteristic-classes:example-tautological}).
+\end{example}
+
+\section{The canonical bundle and adjunction}\label{holomorphic-bundles:section-adjunction}
+
+\begin{proposition}[Adjunction]\label{holomorphic-bundles:proposition-adjunction}
+Let $Z \subseteq X$ be a smooth hypersurface with associated line bundle $\mathcal{O}(Z)$. Then the normal bundle is $N_{Z/X} \cong \mathcal{O}(Z)|_Z$, and
+\[
+K_Z \cong \left(K_X \otimes \mathcal{O}(Z)\right)\big|_Z .
+\]
+For a smooth hypersurface of degree $d$ in $\CC\PP^n$ one gets $K_Z \cong \mathcal{O}(d - n - 1)|_Z$.
+\end{proposition}
+
+\begin{proof}
+A local defining function $f_i$ of $Z$ gives, by $df_i$, an isomorphism of the conormal bundle $N^\vee_{Z/X}$ with $\mathcal{O}(-Z)|_Z$: the transition functions of the conormal bundle are the
+$f_i/f_j$ restricted to $Z$, computed from $df_i = (f_i/f_j)\,df_j$ modulo $T^*Z$. Taking determinants in the exact sequence
+$0 \to N^\vee_{Z/X} \to \Omega^1_X|_Z \to \Omega^1_Z \to 0$ gives $K_X|_Z \cong K_Z \otimes N^\vee_{Z/X} \cong K_Z \otimes \mathcal{O}(-Z)|_Z$, which is the formula. For $\CC\PP^n$ use
+$K_{\CC\PP^n} \cong \mathcal{O}(-n-1)$, which follows from the Euler sequence (Example~\ref{vector-bundles:example-euler-sequence}) by taking determinants, and $\mathcal{O}(Z) = \mathcal{O}(d)$.
+\end{proof}
+
+\begin{example}\label{holomorphic-bundles:example-adjunction}
+A smooth plane curve of degree $d$ in $\CC\PP^2$ has $K_Z \cong \mathcal{O}(d - 3)|_Z$, whence genus $g = (d-1)(d-2)/2$ by Riemann--Roch (Chapter~\ref{curves}); a smooth quadric surface in $\CC\PP^3$ has
+$K \cong \mathcal{O}(-2)$ and is $\CC\PP^1 \times \CC\PP^1$; a smooth quartic surface in $\CC\PP^3$ has trivial canonical bundle and is a K3 surface, one of the basic examples in Hodge theory.
+\end{example}
+
+\section{Exercises}\label{holomorphic-bundles:section-exercises}
+
+\begin{exercise}\label{holomorphic-bundles:exercise-sections-ok}
+Show that the holomorphic sections of $\mathcal{O}(k)$ on $\CC\PP^n$ are the homogeneous polynomials of degree $k$ in the homogeneous coordinates, and that there are none for $k < 0$.
+\end{exercise}
+
+\begin{solution}
+A section is given by functions $s_i$ on $U_i$ with $s_i = (x_i/x_j)^{-k}s_j$; the function $F(x) = x_i^ks_i(x/x_i)$ is independent of $i$, holomorphic on $\CC^{n+1} \setminus \{0\}$ and homogeneous of degree
+$k$. By Hartogs' theorem (Theorem~\ref{several-complex-variables:theorem-hartogs}) it extends to $\CC^{n+1}$, and a homogeneous holomorphic function of degree $k$ is a polynomial for $k \geq 0$ and zero for
+$k < 0$, by looking at its power series.
+\end{solution}
+
+\begin{exercise}\label{holomorphic-bundles:exercise-degree-line-bundle}
+Let $X$ be a compact Riemann surface. Show that $\deg L = \int_Xc_1(L)$ defines a homomorphism $\Pic(X) \to \ZZ$, that $\deg\mathcal{O}(D) = \sum_pa_p$ for $D = \sum a_pp$, and that a line bundle of negative
+degree has no nonzero holomorphic sections.
+\end{exercise}
+
+\begin{exercise}\label{holomorphic-bundles:exercise-chern-connection-trivial}
+Compute the Chern connection and its curvature for the trivial line bundle with metric $e^{-|z|^2}$ on $\CC$, and verify that the curvature is a positive $(1,1)$-form.
+\end{exercise}
+
+\begin{exercise}\label{holomorphic-bundles:exercise-picard-torus}
+For a complex torus $X = \CC/\Lambda$ of dimension one, show that $H^1(X, \mathcal{O}_X) \cong \CC$ and deduce that $\Pic^0(X)$ is a complex torus of dimension one.
+\end{exercise}

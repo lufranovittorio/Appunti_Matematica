@@ -1,0 +1,247 @@
+\chapter{Dolbeault Cohomology}\label{dolbeault}
+\chapterstatus{complete}
+
+\section{Introduction}\label{dolbeault:section-introduction}
+
+Dolbeault cohomology is the cohomology of the $\bar\partial$-operator on forms of type $(p,q)$. By the Dolbeault theorem
+(Theorem~\ref{dolbeault:theorem-dolbeault}) it computes the sheaf cohomology of the holomorphic $p$-forms, and on a compact complex
+manifold harmonic theory for $\bar\partial$ makes it finite-dimensional and gives Serre duality
+(Theorem~\ref{dolbeault:theorem-serre-duality}). The numbers $h^{p,q} = \dim H^q(X, \Omega^p_X)$ are the \emph{Hodge numbers}; for
+compact K\"ahler manifolds they are the dimensions of the pieces of the Hodge decomposition (Chapter~\ref{hodge-decomposition}).
+References: \cite[Chapter 0]{griffiths-harris}, \cite[Chapter 4]{voisin-hodge-1}, \cite[Chapters 2--4]{huybrechts-complex},
+\cite{wells-differential-analysis}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{holomorphic-bundles} (Holomorphic Vector Bundles) and Chapter~\ref{elliptic-operators}
+(Elliptic Operators on Compact Manifolds).
+
+$X$ is a complex manifold of dimension $n$ and $E$ a holomorphic vector bundle on it.
+
+\section{The Dolbeault theorem}\label{dolbeault:section-dolbeault-theorem}
+
+\begin{definition}\label{dolbeault:definition-dolbeault}
+Let $\mathcal{A}^{p,q}(E)$ be the sheaf of smooth $E$-valued $(p,q)$-forms and $\mathcal{A}^{p,q}(X, E)$ its global sections. In a holomorphic frame of $E$ set $\bar\partial_E(\sum_j\alpha_j e_j) = \sum_j\bar\partial\alpha_j\,e_j$;
+this is independent of the frame because the transition functions are holomorphic, and $\bar\partial_E^2 = 0$. The \emph{Dolbeault cohomology} is
+$H^{p,q}_{\bar\partial}(X, E) = H^q(\mathcal{A}^{p,\bullet}(X, E), \bar\partial_E)$; for $E$ trivial we write $H^{p,q}_{\bar\partial}(X)$.
+\end{definition}
+
+\begin{lemma}\label{dolbeault:lemma-dbar-poincare-pq}
+Let $\Delta' \subseteq \Delta$ be polydiscs with $\overline{\Delta'} \subseteq \Delta$ and $\alpha$ a smooth $(p,q)$-form on $\Delta$ with $q \geq 1$ and $\bar\partial\alpha = 0$. Then $\alpha = \bar\partial\beta$ on $\Delta'$ for some
+smooth $(p, q-1)$-form $\beta$.
+\end{lemma}
+
+\begin{proof}
+Writing $\alpha = \sum_I dz^I \wedge \alpha_I$ with $\alpha_I$ of type $(0,q)$, the condition $\bar\partial\alpha = 0$ holds componentwise, since $\bar\partial(dz^I) = 0$; so we may assume $p = 0$. For $q = 1$ this is
+Theorem~\ref{several-complex-variables:theorem-dbar-poincare}. For general $q$ the same induction applies: if $\alpha$ involves only $d\bar z^1, \ldots, d\bar z^k$, write
+$\alpha = d\bar z^k \wedge \alpha_1 + \alpha_2$ with $\alpha_1, \alpha_2$ not involving $d\bar z^k, \ldots, d\bar z^n$; the equation $\bar\partial\alpha = 0$ implies that the coefficients of $\alpha_1$ are holomorphic in
+$z_{k+1}, \ldots, z_n$. Solving $\partial g/\partial\bar z_k = $ (coefficient of $\alpha_1$) with the Cauchy transform of Lemma~\ref{several-complex-variables:lemma-cauchy-transform}, after a cut-off in $z_k$
+alone, gives a form $\gamma$ with $\alpha - \bar\partial\gamma$ involving only $d\bar z^1, \ldots, d\bar z^{k-1}$ on a slightly smaller polydisc; by induction on $k$ we conclude. The details are exactly as in the proof of
+Theorem~\ref{several-complex-variables:theorem-dbar-poincare}; see \cite[Chapter 0, Section 2]{griffiths-harris}.
+\end{proof}
+
+\begin{theorem}[Dolbeault]\label{dolbeault:theorem-dolbeault}
+The sequence of sheaves $0 \to \Omega^p_X(E) \to \mathcal{A}^{p,0}(E) \xrightarrow{\bar\partial_E} \mathcal{A}^{p,1}(E) \xrightarrow{\bar\partial_E} \cdots$ is a fine resolution of the sheaf
+$\Omega^p_X(E) = \Omega^p_X \otimes E$ of holomorphic $E$-valued $p$-forms. Consequently
+\[
+H^{p,q}_{\bar\partial}(X, E) \cong H^q(X, \Omega^p_X \otimes E).
+\]
+\end{theorem}
+
+\begin{proof}
+Exactness at $\mathcal{A}^{p,0}$ says that the $E$-valued $(p,0)$-forms killed by $\bar\partial_E$ are the holomorphic ones (Proposition~\ref{complex-manifolds:proposition-dbar}), and exactness at
+$\mathcal{A}^{p,q}$ for $q \geq 1$ holds on stalks by Lemma~\ref{dolbeault:lemma-dbar-poincare-pq}, applied in a holomorphic frame of $E$ on small polydiscs. The sheaves $\mathcal{A}^{p,q}(E)$ are modules over the
+sheaf of smooth functions, hence fine and acyclic (Theorem~\ref{sheaf-cohomology:theorem-soft-acyclic}); apply Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}(3).
+\end{proof}
+
+\begin{theorem}[Holomorphic Poincar\'e lemma]\label{dolbeault:theorem-holomorphic-de-rham}
+The holomorphic de Rham complex $0 \to \CC_X \to \Omega^0_X \xrightarrow{\partial} \Omega^1_X \xrightarrow{\partial} \cdots \to \Omega^n_X \to 0$ is exact. Hence
+$H^k(X; \CC) \cong \mathbb{H}^k(X, \Omega^\bullet_X)$, and there is a spectral sequence (the \emph{Fr\"olicher} or \emph{Hodge-to-de Rham} spectral sequence)
+\[
+E_1^{p,q} = H^q(X, \Omega^p_X) \Rightarrow H^{p+q}(X; \CC).
+\]
+\end{theorem}
+
+\begin{proof}
+On holomorphic forms $d = \partial$. Consider the double complex of sheaves $\mathcal{A}^{p,q}$ with differentials $\partial$ and $\bar\partial$, whose total complex is the complexified de Rham complex. By
+Theorem~\ref{dolbeault:theorem-dolbeault} each column $(\mathcal{A}^{p,\bullet}, \bar\partial)$ is a resolution of $\Omega^p_X$; by Lemma~\ref{homological-algebra:lemma-acyclic-assembly}, applied to stalks, the
+inclusion $\Omega^\bullet_X \to \mathrm{Tot}(\mathcal{A}^{\bullet,\bullet}) = \mathcal{A}^\bullet_\CC$ is a quasi-isomorphism. The de Rham complex is a resolution of $\CC_X$
+(Theorem~\ref{de-rham:theorem-de-rham}), so $\Omega^\bullet_X$ has cohomology sheaf $\CC_X$ in degree $0$ and none elsewhere, which is the exactness. The isomorphism with $H^k(X; \CC)$ follows from
+Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}(1) and Theorem~\ref{de-rham:theorem-de-rham}, and the spectral sequence is the first one of
+Proposition~\ref{sheaf-cohomology:proposition-hypercohomology}(2).
+\end{proof}
+
+\begin{proposition}\label{dolbeault:proposition-functoriality}
+Let $f \colon X \to Y$ be a holomorphic map of complex manifolds. Pullback of forms maps $\mathcal{A}^{p,q}(Y)$ into $\mathcal{A}^{p,q}(X)$ and commutes with $\partial$ and $\bar\partial$, so it induces
+maps $f^* \colon H^{p,q}_{\bar\partial}(Y) \to H^{p,q}_{\bar\partial}(X)$, with $(g \circ f)^* = f^* \circ g^*$. The wedge product induces products
+$H^{p,q}_{\bar\partial}(X) \times H^{p',q'}_{\bar\partial}(X) \to H^{p+p',q+q'}_{\bar\partial}(X)$, making $\bigoplus_{p,q}H^{p,q}_{\bar\partial}(X)$ a graded-commutative algebra (for the total degree $p + q$), and
+$f^*$ is a homomorphism of algebras.
+\end{proposition}
+
+\begin{proof}
+In local holomorphic coordinates $w_j$ on $Y$, $f^*dw_j = d(w_j \circ f) = \partial(w_j \circ f)$ because $w_j \circ f$ is holomorphic, so $f^*dw_j$ has type $(1,0)$, and by conjugation $f^*d\bar w_j$ has type $(0,1)$;
+hence $f^*$ preserves types. Since $f^*d = df^*$ and $d = \partial + \bar\partial$ with $\partial$ of type $(1,0)$ and $\bar\partial$ of type $(0,1)$ (Proposition~\ref{complex-manifolds:proposition-dbar}), comparing the
+components of type $(p+1,q)$ and $(p,q+1)$ of $f^*d\alpha = df^*\alpha$ for $\alpha$ of type $(p,q)$ gives $f^*\partial\alpha = \partial f^*\alpha$ and $f^*\bar\partial\alpha = \bar\partial f^*\alpha$. So $f^*$ maps
+$\bar\partial$-closed forms to $\bar\partial$-closed forms and $\bar\partial$-exact forms to $\bar\partial$-exact forms. Functoriality holds already for forms.
+
+Similarly, taking the component of type $(p+p',q+q'+1)$ of the Leibniz rule $d(\alpha \wedge \beta) = d\alpha \wedge \beta + (-1)^{p+q}\alpha \wedge d\beta$ gives
+$\bar\partial(\alpha \wedge \beta) = \bar\partial\alpha \wedge \beta + (-1)^{p+q}\alpha \wedge \bar\partial\beta$. Hence the wedge product of $\bar\partial$-closed forms is $\bar\partial$-closed, and if $\bar\partial\beta = 0$
+then $\bar\partial\gamma \wedge \beta = \bar\partial(\gamma \wedge \beta)$ is exact; so the product is well defined on classes. Graded commutativity and compatibility with $f^*$ hold for forms.
+\end{proof}
+
+\begin{definition}\label{dolbeault:definition-bott-chern}
+The \emph{Bott--Chern} and \emph{Aeppli cohomology} groups of $X$ are
+\[
+H^{p,q}_{BC}(X) = \frac{\{\alpha \in \mathcal{A}^{p,q}(X) : \partial\alpha = \bar\partial\alpha = 0\}}{\partial\bar\partial\mathcal{A}^{p-1,q-1}(X)}, \qquad
+H^{p,q}_{A}(X) = \frac{\{\alpha \in \mathcal{A}^{p,q}(X) : \partial\bar\partial\alpha = 0\}}{\partial\mathcal{A}^{p-1,q}(X) + \bar\partial\mathcal{A}^{p,q-1}(X)}.
+\]
+\end{definition}
+
+\begin{lemma}\label{dolbeault:lemma-bott-chern-maps}
+The identity on forms induces natural linear maps
+\[
+H^{p,q}_{BC}(X) \to H^{p,q}_{\bar\partial}(X), \qquad H^{p,q}_{BC}(X) \to H^{p+q}_{\mathrm{dR}}(X; \CC), \qquad H^{p,q}_{\bar\partial}(X) \to H^{p,q}_{A}(X).
+\]
+Complex conjugation induces isomorphisms $H^{p,q}_{BC}(X) \cong H^{q,p}_{BC}(X)$ of real vector spaces, conjugate-linear over $\CC$.
+\end{lemma}
+
+\begin{proof}
+The quotients in Definition~\ref{dolbeault:definition-bott-chern} make sense because $\partial\bar\partial\beta$ is $\partial$- and $\bar\partial$-closed and $\partial\alpha = 0$, $\bar\partial\alpha = 0$ imply
+$\partial\bar\partial\alpha = 0$ (using $\partial^2 = \bar\partial^2 = 0$ and $\partial\bar\partial = -\bar\partial\partial$). If $\partial\alpha = \bar\partial\alpha = 0$, then $\alpha$ is $\bar\partial$-closed and
+$d\alpha = 0$; and $\partial\bar\partial\beta = -\bar\partial(\partial\beta)$ is $\bar\partial$-exact, while $\partial\bar\partial\beta = d(\bar\partial\beta)$ is $d$-exact because $\bar\partial^2\beta = 0$. This gives the first
+two maps. For the third, a $\bar\partial$-closed form is $\partial\bar\partial$-closed, and $\bar\partial$-exact forms lie in the denominator of $H_A$. Finally $\overline{\partial\alpha} = \bar\partial\bar\alpha$, so conjugation
+preserves the conditions defining $H_{BC}$ and maps $\partial\bar\partial\mathcal{A}^{p-1,q-1}$ onto $\bar\partial\partial\mathcal{A}^{q-1,p-1} = \partial\bar\partial\mathcal{A}^{q-1,p-1}$.
+\end{proof}
+
+\begin{remark}\label{dolbeault:remark-bott-chern}
+Unlike $H^{p,q}_{\bar\partial}$, the Bott--Chern groups have a definition symmetric in $p$ and $q$, and they map to de Rham cohomology. On a compact K\"ahler manifold the $\partial\bar\partial$-lemma
+(Chapter~\ref{hodge-decomposition}) says that a $d$-closed form of pure type which is $d$-exact or $\bar\partial$-exact is of the form $\partial\bar\partial\beta$; this is exactly the injectivity of the first two
+maps of Lemma~\ref{dolbeault:lemma-bott-chern-maps}. On general compact complex manifolds these maps need not be injective, and Bott--Chern cohomology is a finer invariant than Dolbeault or de Rham
+cohomology.
+\end{remark}
+
+\section{Harmonic theory for $\bar\partial$}\label{dolbeault:section-harmonic}
+
+\begin{definition}\label{dolbeault:definition-dbar-laplacian}
+Let $X$ be compact with a Hermitian metric and $E$ a Hermitian holomorphic bundle. With the $L^2$ inner products on $\mathcal{A}^{p,q}(X, E)$, let $\bar\partial_E^*$ be the formal adjoint of $\bar\partial_E$
+(Definition~\ref{elliptic-operators:definition-formal-adjoint}) and $\Box_E = \bar\partial_E\bar\partial_E^* + \bar\partial_E^*\bar\partial_E$, the \emph{$\bar\partial$-Laplacian}. The space of
+\emph{$\bar\partial$-harmonic forms} is $\mathcal{H}^{p,q}(X, E) = \ker\Box_E$.
+\end{definition}
+
+\begin{lemma}\label{dolbeault:lemma-harmonic-closed}
+In the situation of Definition~\ref{dolbeault:definition-dbar-laplacian}, a form $\alpha \in \mathcal{A}^{p,q}(X, E)$ is $\Box_E$-harmonic if and only if $\bar\partial_E\alpha = 0$ and $\bar\partial_E^*\alpha = 0$. In
+particular, for $q = 0$ the harmonic forms are exactly the holomorphic sections of $\Omega^p_X \otimes E$, for every choice of the metrics, and
+\[
+\mathcal{H}^{p,0}(X, E) = H^{p,0}_{\bar\partial}(X, E) = H^0(X, \Omega^p_X \otimes E).
+\]
+\end{lemma}
+
+\begin{proof}
+Since $X$ is compact, the defining property of formal adjoints gives $\langle\Box_E\alpha, \alpha\rangle = \|\bar\partial_E\alpha\|^2 + \|\bar\partial_E^*\alpha\|^2$ in $L^2$, so $\Box_E\alpha = 0$ forces
+$\bar\partial_E\alpha = \bar\partial_E^*\alpha = 0$; the converse is clear from the definition of $\Box_E$. For $q = 0$, $\bar\partial_E^*$ maps $\mathcal{A}^{p,0}$ to $\mathcal{A}^{p,-1} = 0$, so the harmonic
+$(p,0)$-forms are the $\bar\partial_E$-closed ones, which are the holomorphic sections of $\Omega^p_X \otimes E$ (Proposition~\ref{complex-manifolds:proposition-dbar}, in a holomorphic frame of $E$); and
+$H^{p,0}_{\bar\partial}(X, E)$ is the kernel of $\bar\partial_E$ on $\mathcal{A}^{p,0}(X, E)$, as there are no forms of type $(p,-1)$.
+\end{proof}
+
+\begin{theorem}\label{dolbeault:theorem-dbar-hodge}
+$\Box_E$ is elliptic, with principal symbol $\frac12|\xi|^2$. Consequently $\mathcal{H}^{p,q}(X, E)$ is finite-dimensional, there is an orthogonal decomposition
+$\mathcal{A}^{p,q}(X, E) = \mathcal{H}^{p,q}(X, E) \oplus \bar\partial_E\mathcal{A}^{p,q-1}(X, E) \oplus \bar\partial_E^*\mathcal{A}^{p,q+1}(X, E)$, and every Dolbeault class has a unique harmonic
+representative:
+\[
+H^q(X, \Omega^p_X \otimes E) \cong H^{p,q}_{\bar\partial}(X, E) \cong \mathcal{H}^{p,q}(X, E).
+\]
+In particular the Hodge numbers $h^{p,q}(X) = \dim H^q(X, \Omega^p_X)$ of a compact complex manifold are finite.
+\end{theorem}
+
+\begin{proof}
+The symbol of $\bar\partial$ is $i\xi^{0,1} \wedge -$ and that of $\bar\partial^*$ is $-i\iota_{\xi^{0,1}}$, so the symbol of $\Box_E$ is $\xi^{0,1} \wedge \iota + \iota\,\xi^{0,1} \wedge = |\xi^{0,1}|^2 = \frac12|\xi|^2$, by the
+same computation as in Exercise~\ref{elliptic-operators:exercise-symbol-laplacian}. The rest is the proof of Theorems~\ref{hodge-theorem:theorem-decomposition}
+and~\ref{hodge-theorem:theorem-hodge} with $d$, $\delta$ replaced by $\bar\partial_E$, $\bar\partial_E^*$ (Remark~\ref{hodge-theorem:remark-elliptic-complexes}): the only inputs were ellipticity, self-adjointness and
+$\bar\partial_E^2 = 0$. Combine with Theorem~\ref{dolbeault:theorem-dolbeault}.
+\end{proof}
+
+\begin{theorem}[Serre duality]\label{dolbeault:theorem-serre-duality}
+Let $X$ be a compact complex manifold of dimension $n$ and $E$ a holomorphic vector bundle. The pairing
+\[
+H^q(X, E) \times H^{n-q}(X, K_X \otimes E^\vee) \to H^n(X, K_X) \xrightarrow{\ \int\ } \CC, \qquad ([\alpha], [\beta]) \mapsto \int_X\alpha \wedge \beta,
+\]
+computed with Dolbeault representatives of types $(0,q)$ and $(n, n-q)$ and the evaluation $E \otimes E^\vee \to \CC$, is perfect. In particular $h^{p,q} = h^{n-p,n-q}$ for the Hodge numbers.
+\end{theorem}
+
+\begin{proof}
+The pairing is well defined by Stokes' theorem, since $\int_X\bar\partial(\alpha \wedge \gamma) = \int_Xd(\alpha \wedge \gamma) = 0$ for forms of total type $(n, n-1)$. Choose Hermitian metrics and define the conjugate-linear
+operator $\bar*_E \colon \mathcal{A}^{0,q}(E) \to \mathcal{A}^{n,n-q}(E^\vee)$ by $\alpha \wedge \bar*_E\beta = \langle\alpha, \beta\rangle\,\mathrm{vol}$, using the metric to identify $\overline{E}$ with $E^\vee$. As
+for the real Hodge star, $\bar\partial^* = -\bar*\bar\partial\bar*$, so $\bar*_E$ maps $\Box_E$-harmonic forms bijectively onto $\Box_{K \otimes E^\vee}$-harmonic forms. For a nonzero harmonic $\alpha$,
+$\int_X\alpha \wedge \bar*_E\alpha = \|\alpha\|^2 > 0$, so the pairing is nondegenerate on harmonic representatives, which by Theorem~\ref{dolbeault:theorem-dbar-hodge} represent all classes. For the Hodge
+numbers take $E = \Omega^p_X$, so $K_X \otimes E^\vee \cong \Omega^{n-p}_X$ by the perfect pairing $\Omega^p \otimes \Omega^{n-p} \to K_X$.
+\end{proof}
+
+\section{Examples and the Fr\"olicher inequality}\label{dolbeault:section-examples}
+
+\begin{proposition}\label{dolbeault:proposition-frolicher-inequality}
+For a compact complex manifold, $b_k(X) \leq \sum_{p+q=k}h^{p,q}(X)$, and $\chi(X) = \sum_{p,q}(-1)^{p+q}h^{p,q}(X)$. Equality holds for all $k$ if and only if the Fr\"olicher spectral sequence degenerates at
+$E_1$.
+\end{proposition}
+
+\begin{proof}
+In a spectral sequence of finite-dimensional vector spaces, $\dim E_{r+1}^{p,q} \leq \dim E_r^{p,q}$ and $\sum_{p+q=k}\dim E_\infty^{p,q} = b_k$ (Theorem~\ref{spectral-sequences:theorem-filtered-complex}), so
+$b_k \leq \sum_{p+q=k}h^{p,q}$, with equality for all $k$ if and only if all differentials $d_r$, $r \geq 1$, vanish. The Euler characteristic is unchanged when passing to cohomology of a differential of
+total degree one, so it is the same on every page.
+\end{proof}
+
+\begin{example}\label{dolbeault:example-hodge-numbers}
+\begin{enumerate}
+\item For a complex torus $X = \CC^n/\Lambda$, the forms $dz^I \wedge d\bar z^J$ with constant coefficients are harmonic for the flat metric and span each $\mathcal{H}^{p,q}$, so
+$h^{p,q} = \binom{n}{p}\binom{n}{q}$, and $\sum_{p+q=k}h^{p,q} = \binom{2n}{k} = b_k$: the Fr\"olicher spectral sequence degenerates.
+\item For $\CC\PP^n$, $h^{p,q} = 1$ if $p = q \leq n$ and $0$ otherwise. Since $b_{2k} = 1$ and $b_{2k+1} = 0$, this follows from the Hodge decomposition (Chapter~\ref{hodge-decomposition}) once one knows
+$h^{k,k} \geq 1$, which is witnessed by the class of $\omega_{FS}^k$; see \cite[Chapter 0, Section 7]{griffiths-harris}.
+\item For the Hopf surface of Exercise~\ref{complex-manifolds:exercise-hopf-surface}, $b_1 = 1$, $h^{0,1} = 1$ and $h^{1,0} = 0$. So $b_1 = h^{1,0} + h^{0,1}$ (the Fr\"olicher spectral sequence of a compact
+complex surface always degenerates), but $h^{1,0} \neq h^{0,1}$: the Hodge symmetry $h^{p,q} = h^{q,p}$ of compact K\"ahler manifolds fails \cite[Chapter IV]{bhpv}.
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{dolbeault:example-riemann-sphere}
+The Hodge numbers of $\CC\PP^1$ can be computed directly. First $h^{0,0} = 1$ by Proposition~\ref{complex-manifolds:proposition-no-functions}. A holomorphic $1$-form is $f(z)\,dz$ on the chart $\CC$, with $f$
+entire; in the chart $w = 1/z$ at infinity, $dz = -w^{-2}dw$, so $-f(1/w)w^{-2}$ must extend holomorphically to $w = 0$. Hence $|f(z)| \leq C|z|^{-2}$ for $|z| \geq 1$, so $f$ is bounded, hence constant by
+Liouville's theorem (Corollary~\ref{complex-analysis:corollary-liouville}), and the constant is $0$. So $h^{1,0} = 0$ by Lemma~\ref{dolbeault:lemma-harmonic-closed}. Serre duality
+(Theorem~\ref{dolbeault:theorem-serre-duality}, with $n = 1$ and $E = \mathcal{O}$ or $E = \Omega^1$) gives $h^{0,1} = h^{1,0} = 0$ and $h^{1,1} = h^{0,0} = 1$. Since $b_0 = b_2 = 1$ and $b_1 = 0$, equality
+holds in Proposition~\ref{dolbeault:proposition-frolicher-inequality}. Moreover $H^1(\CC\PP^1, \mathcal{O}) = 0$, and $H^2(\CC\PP^1, \mathcal{O}) = 0$ because there are no forms of type $(0,2)$ on a curve; by
+Theorem~\ref{holomorphic-bundles:theorem-exponential}, $c_1 \colon \Pic(\CC\PP^1) \to H^2(\CC\PP^1; \ZZ) \cong \ZZ$ is an isomorphism.
+\end{example}
+
+\begin{counterexample}\label{dolbeault:counterexample-not-homotopy-invariant}
+Dolbeault cohomology is not a homotopy invariant, unlike de Rham cohomology. The plane $\CC$ is contractible, so $H^k_{\mathrm{dR}}(\CC) = 0$ for $k > 0$ and $H^0_{\mathrm{dR}}(\CC) = \CC$. But
+$H^{0,0}_{\bar\partial}(\CC)$ and $H^{1,0}_{\bar\partial}(\CC)$ are the spaces of entire functions and of holomorphic $1$-forms $f(z)\,dz$ (there is nothing to divide by in type $(p,0)$), both
+infinite-dimensional: they contain the $z^k$ and the $z^k\,dz$. The two computations are reconciled by $\partial \colon H^{0,0}_{\bar\partial}(\CC) \to H^{1,0}_{\bar\partial}(\CC)$, $f \mapsto f'\,dz$, which is
+surjective, because every entire function has an entire primitive (Corollary~\ref{complex-analysis:corollary-primitive-convex}), and has kernel the constants. In the Fr\"olicher spectral sequence of Theorem~\ref{dolbeault:theorem-holomorphic-de-rham} the first differential is induced
+by $\partial$, and here it cancels the two infinite-dimensional groups against each other, leaving $H^0_{\mathrm{dR}}(\CC) = \CC$.
+\end{counterexample}
+
+\begin{remark}\label{dolbeault:remark-vanishing}
+Cohomology of line bundles on projective space is computed by Bott's formula: $H^q(\CC\PP^n, \mathcal{O}(k))$ vanishes for $0 < q < n$ and all $k$, $H^0 = $ homogeneous polynomials of degree $k$, and
+$H^n(\CC\PP^n, \mathcal{O}(k)) \cong H^0(\CC\PP^n, \mathcal{O}(-k-n-1))^\vee$ by Serre duality, since $K_{\CC\PP^n} = \mathcal{O}(-n-1)$ (Proposition~\ref{holomorphic-bundles:proposition-adjunction}).
+Vanishing theorems for positive bundles are the subject of Chapter~\ref{kodaira}; the algebraic computation is in Chapter~\ref{coherent-cohomology}.
+\end{remark}
+
+\section{Exercises}\label{dolbeault:section-exercises}
+
+\begin{exercise}\label{dolbeault:exercise-riemann-surface}
+Let $X$ be a compact Riemann surface of genus $g$. Using Serre duality and the Fr\"olicher inequality, show that $h^{0,0} = h^{1,1} = 1$ and $h^{1,0} = h^{0,1}$, and that $h^{1,0} + h^{0,1} \geq 2g$ with equality
+if and only if the Fr\"olicher spectral sequence degenerates (it always does in dimension one, by Chapter~\ref{hodge-decomposition}).
+\end{exercise}
+
+\begin{solution}
+$h^{0,0} = 1$ since holomorphic functions are constant (Proposition~\ref{complex-manifolds:proposition-no-functions}); Serre duality gives $h^{1,1} = h^{0,0}$ and $h^{1,0} = h^{0,1}$. The inequality is
+Proposition~\ref{dolbeault:proposition-frolicher-inequality} for $k = 1$, with $b_1 = 2g$.
+\end{solution}
+
+\begin{exercise}\label{dolbeault:exercise-dolbeault-plane}
+Show that $H^{0,1}_{\bar\partial}(\CC) = 0$, but that $H^{0,1}_{\bar\partial}(\CC^2 \setminus \{0\})$ is infinite-dimensional.
+\end{exercise}
+
+\begin{exercise}\label{dolbeault:exercise-serre-duality-curve}
+For a compact Riemann surface $X$ and a line bundle $L$, show that $H^1(X, L) \cong H^0(X, K_X \otimes L^\vee)^\vee$, and deduce that $H^1(X, L) = 0$ if $\deg L > 2g - 2$.
+\end{exercise}
+
+\begin{exercise}\label{dolbeault:exercise-euler-characteristic-bundle}
+Show that the holomorphic Euler characteristic $\chi(X, E) = \sum_q(-1)^q\dim H^q(X, E)$ of a compact complex manifold is the index of the elliptic operator
+$\bar\partial_E + \bar\partial_E^* \colon \mathcal{A}^{0,\mathrm{even}}(E) \to \mathcal{A}^{0,\mathrm{odd}}(E)$.
+\end{exercise}
