@@ -106,6 +106,29 @@ $c_1(\mathcal{O}(D)) + \frac12c_1(T_X)$. Now $\int_Xc_1(\mathcal{O}(D)) = \deg D
 (Theorem~\ref{cycle-class:theorem-cycle-class}); and $c_1(T_X) = -c_1(K_X)$ with $\deg K = 2g - 2$ (Corollary~\ref{curves:corollary-riemann-roch-consequences}). So the right side is $\deg D - (g - 1)$.
 \end{proof}
 
+\begin{corollary}\label{index-theorems:corollary-rr-bundles-curves}
+Let $E$ be a holomorphic vector bundle on a compact connected Riemann surface $C$ of genus $g$, and $\deg E = \int_Cc_1(E)$. Then
+\[
+\chi(C, E) = \deg E + \operatorname{rk}(E)\,(1 - g) .
+\]
+For a line bundle this reads $\chi(C, L) = \int_C\big(c_1(L) + \frac12c_1(C)\big) = \deg L + \frac12\deg K_C^\vee$, where $c_1(C) = c_1(T_C)$ and $T_C = K_C^\vee$, the dual of the canonical bundle.
+\end{corollary}
+
+\begin{proof}
+On a curve only classes of degree $0$ and $2$ survive, so $\mathrm{ch}(E) = \operatorname{rk}(E) + c_1(E)$ and $\mathrm{td}(T_C) = 1 + \frac12c_1(T_C)$ (Definition~\ref{characteristic-classes:definition-chern-character}), and the degree-$2$ part of their
+product is $c_1(E) + \frac12\operatorname{rk}(E)c_1(T_C)$. Since $T_C = K_C^\vee$ (both have the local frame $\partial/\partial z$, dual to $dz$), $\int_Cc_1(T_C) = -\deg K_C = 2 - 2g$
+(Proposition~\ref{characteristic-classes:proposition-chern-properties}(4) and Proposition~\ref{kodaira:proposition-positive-curves}). Theorem~\ref{index-theorems:theorem-atiyah-singer}(3) gives
+$\chi(C, E) = \deg E + \operatorname{rk}(E)(1 - g)$.
+\end{proof}
+
+\begin{remark}\label{index-theorems:remark-forms-of-riemann-roch}
+The same theorem appears in several guises, and it helps to translate between them. For a divisor $D$ on a curve, $\chi(C, \mathcal{O}(D)) = h^0 - h^1$, and Serre duality $h^1(\mathcal{O}(D)) = h^0(K_C - D)$ turns
+Corollary~\ref{index-theorems:corollary-rr-bundles-curves} into the classical form $l(D) - l(K - D) = \deg D + 1 - g$ of Theorem~\ref{curves:theorem-riemann-roch}. The Hirzebruch form $\int\mathrm{ch}(E)\,\mathrm{td}(X)$ writes the correction
+term through the Todd class of the tangent bundle, $c_1(X) := c_1(T_X) = -c_1(K_X)$; this is why $\frac12c_1(C)$, $\frac12\deg K_C^\vee = 1 - g$ and $-\frac12K$ appear, for instance in the surface formula
+$\chi(S, L) = \chi(S, \mathcal{O}_S) + \frac12L \cdot (L - K_S)$ of Corollary~\ref{index-theorems:corollary-noether}. In every form, the Euler characteristic depends only on topological data (degrees and Chern classes), while
+$h^0$ alone does not; vanishing theorems (Chapter~\ref{kodaira}) are what turn the formula into a computation of $h^0$.
+\end{remark}
+
 \begin{lemma}\label{index-theorems:lemma-todd-projective}
 On $\PP^n$ with hyperplane class $h$, $\mathrm{td}(T_{\PP^n}) = \big(h/(1 - e^{-h})\big)^{n+1}$ and $\mathrm{ch}(\mathcal{O}(k)) = e^{kh}$.
 \end{lemma}
@@ -140,12 +163,17 @@ $\frac{1}{2\pi i}\oint(1 - u)^{-k-1}u^{-n-1}\,du$, the coefficient of $u^n$ in $
 
 \begin{corollary}[Noether's formula]\label{index-theorems:corollary-noether}
 For a compact complex surface $S$, $\chi(S, \mathcal{O}_S) = \frac{1}{12}\int_S(c_1^2 + c_2)$, where $c_i = c_i(T_S)$. Consequently $\int_S(c_1^2 + c_2)$ is divisible by $12$, and for a line bundle $L$ with $l = c_1(L)$,
-$\chi(S, L) = \chi(S, \mathcal{O}_S) + \frac12\int_Sl(l + c_1)$.
+\[
+\chi(S, L) = \chi(S, \mathcal{O}_S) + \frac12\int_Sl(l + c_1) = \chi(S, \mathcal{O}_S) + \frac12L \cdot (L - K_S),
+\]
+where $L \cdot M = \int_Sc_1(L)c_1(M)$ is the intersection number and $K_S$ is the canonical bundle.
 \end{corollary}
 
 \begin{proof}
 By Definition~\ref{index-theorems:definition-genera}, the degree-$4$ part of the Todd class is $\frac{1}{12}(c_1^2 + c_2)$ (Definition~\ref{characteristic-classes:definition-chern-character}), and Theorem~\ref{index-theorems:theorem-atiyah-singer}(3) with
-$E = \mathcal{O}_S$ gives the formula; the left side is an integer. For $L$, the degree-$4$ part of $(1 + l + \frac12l^2)(1 + \frac12c_1 + \frac{1}{12}(c_1^2 + c_2))$ is $\frac12l^2 + \frac12lc_1 + \frac{1}{12}(c_1^2 + c_2)$.
+$E = \mathcal{O}_S$ gives the formula; the left side is an integer. For $L$, the degree-$4$ part of $(1 + l + \frac12l^2)(1 + \frac12c_1 + \frac{1}{12}(c_1^2 + c_2))$ is $\frac12l^2 + \frac12lc_1 + \frac{1}{12}(c_1^2 + c_2)$. Finally
+$K_S = \Lambda^2T_S^\vee$ and, with Chern roots $x_1$, $x_2$ of $T_S$ (Theorem~\ref{characteristic-classes:theorem-splitting}), $T_S^\vee$ has roots $-x_1$, $-x_2$
+(Proposition~\ref{characteristic-classes:proposition-chern-properties}(4)) and $\Lambda^2T_S^\vee$ has the single root $-x_1 - x_2$. So $c_1(K_S) = -c_1$, and $\int_Sl(l + c_1) = L \cdot L - L \cdot K_S$.
 \end{proof}
 
 \begin{lemma}\label{index-theorems:lemma-pontryagin-complex}

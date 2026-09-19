@@ -175,6 +175,9 @@ def scan_chapter(project, chapter):
         line = strip_comment(raw)
         where = f"{rel}:{lineno}"
         sectioning = None
+        for m in accent_macro_re().finditer(line):
+            project.errors.append(f"{where}: write \\{m.group(1)}{{\\{m.group(2)}}}: plasTeX expands the macro "
+                                  f"before MathJax sees it, and MathJax then misreads \\{m.group(0)[1:]}")
         for m in TOKEN_RE.finditer(line):
             if m.group("beginend") == "begin":
                 env = m.group("env")
@@ -232,6 +235,21 @@ def scan_chapter(project, chapter):
         project.errors.append(f"{rel}: the chapter must be labelled \\label{{{chapter.slug}}}")
     if not chapter.status:
         project.errors.append(f"{rel}: missing \\chapterstatus{{...}}")
+
+
+_ACCENT_MACRO_RE = None
+
+
+def accent_macro_re():
+    """Matches an accent applied to a macro of macros.tex without braces, e.g. \\bar\\QQ."""
+    global _ACCENT_MACRO_RE
+    if _ACCENT_MACRO_RE is None:
+        names = re.findall(r"\\newcommand\{\\([A-Za-z]+)\}(?!\[)", (ROOT / "macros.tex").read_text(encoding="utf-8"))
+        accents = ("bar", "hat", "tilde", "check", "vec", "dot", "ddot", "breve", "acute", "grave",
+                   "overline", "underline", "widehat", "widetilde", "mathring")
+        _ACCENT_MACRO_RE = re.compile(r"\\(" + "|".join(accents) + r")\\("
+                                      + "|".join(sorted(names, key=len, reverse=True)) + r")(?![A-Za-z])")
+    return _ACCENT_MACRO_RE
 
 
 def check_label(project, chapter, name, where, stack, sectioning):
