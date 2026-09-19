@@ -175,6 +175,23 @@ For a partition $P$ with mesh tending to $0$, the step functions $\sum_i\min_{[t
 the lower sums (Theorem~\ref{measure-theory:theorem-lebesgue-measure}). Apply dominated convergence, and treat the imaginary part in the same way.
 \end{proof}
 
+\begin{proposition}\label{measure-theory:proposition-riemann-integrable}
+Every bounded Riemann integrable function $f \colon [a, b] \to \RR$ (Definition~\ref{real-analysis:definition-riemann}) is Lebesgue measurable and Lebesgue integrable, with the same integral.
+\end{proposition}
+
+\begin{proof}
+Choose partitions $P_1, P_2, \ldots$, each refining the previous one, with $U(f, P_k) - L(f, P_k) < 1/k$ (Proposition~\ref{real-analysis:proposition-riemann}(1)). Let $\phi_k$ and $\psi_k$ be the step functions equal, on the interior of each interval of $P_k$,
+to the infimum and supremum of $f$ there, and to $f$ at the finitely many partition points. Then $\phi_k \leq f \leq \psi_k$, $\phi_k$ increases and $\psi_k$ decreases (refinement), and their Lebesgue integrals are $L(f, P_k)$ and $U(f, P_k)$,
+since points have measure zero. The limits $\phi = \lim\phi_k$ and $\psi = \lim\psi_k$ are measurable, $\phi \leq f \leq \psi$, and by monotone convergence $\int(\psi - \phi) = \lim(U(f, P_k) - L(f, P_k)) = 0$. So $\psi = \phi$ a.e.
+(Corollary~\ref{measure-theory:corollary-integral-properties}(4)), hence $f = \phi$ a.e., and $f$ is measurable because Lebesgue measure is complete. Finally $\int f\,d\lambda = \lim\int\phi_k\,d\lambda = \lim L(f, P_k)$, which is the Riemann integral.
+\end{proof}
+
+\begin{counterexample}\label{measure-theory:counterexample-dirichlet}
+The converse fails. The Dirichlet function $\mathbf{1}_\QQ$ on $[0, 1]$ is Lebesgue integrable with integral $0$, since $\QQ$ is countable and hence of measure zero. It is not Riemann integrable: every nondegenerate interval contains rational
+and irrational points, so $L(\mathbf{1}_\QQ, P) = 0$ and $U(\mathbf{1}_\QQ, P) = 1$ for every partition $P$. It is the increasing pointwise limit of the Riemann integrable functions $\mathbf{1}_{\{q_1, \ldots, q_n\}}$, each of integral $0$, for an
+enumeration of $\QQ \cap [0, 1]$: the Riemann integral does not behave well under monotone limits, which is what the Lebesgue integral repairs (Theorem~\ref{measure-theory:theorem-monotone-convergence}).
+\end{counterexample}
+
 \section{Lebesgue spaces}\label{measure-theory:section-lp}
 
 \begin{definition}\label{measure-theory:definition-lp}
@@ -213,6 +230,49 @@ By Proposition~\ref{measure-theory:proposition-measurable-functions}(4) and domi
 $\varepsilon > 0$, choose compact $K \subseteq E \subseteq U$ open with $\lambda(U \setminus K) < \varepsilon$ (Theorem~\ref{measure-theory:theorem-lebesgue-measure}) and, by
 Lemma~\ref{general-topology:lemma-lch-shrinking}, a continuous $\phi \colon \RR^n \to [0, 1]$ with compact support in $U$ and $\phi = 1$ on $K$. Then $\|\mathbf{1}_E - \phi\|_p^p \leq \lambda(U \setminus K) < \varepsilon$.
 \end{proof}
+
+\section{Modes of convergence}\label{measure-theory:section-modes}
+
+\begin{definition}\label{measure-theory:definition-modes}
+Let $f_n$, $f$ be measurable functions on a measure space $(X, \mu)$ with values in $\CC$. Then $f_n \to f$ \emph{almost everywhere} if $f_n(x) \to f(x)$ for $x$ outside a null set; \emph{in measure} if
+$\mu(\{|f_n - f| > \varepsilon\}) \to 0$ for every $\varepsilon > 0$; and \emph{in $L^p$} if $\|f_n - f\|_p \to 0$.
+\end{definition}
+
+\begin{theorem}[Egorov]\label{measure-theory:theorem-egorov}
+Let $\mu(X) < \infty$ and $f_n \to f$ almost everywhere. For every $\delta > 0$ there is a measurable $E$ with $\mu(X \setminus E) < \delta$ such that $f_n \to f$ uniformly on $E$.
+\end{theorem}
+
+\begin{proof}
+For $k, n \geq 1$ let $E_{k,n} = \bigcup_{m \geq n}\{|f_m - f| \geq 1/k\}$. For fixed $k$ these sets decrease in $n$, and their intersection consists of points where $|f_m - f| \geq 1/k$ for infinitely many $m$, a null set. As
+$\mu(X) < \infty$, $\mu(E_{k,n}) \to 0$ as $n \to \infty$ (Proposition~\ref{measure-theory:proposition-measure-properties}). Choose $n_k$ with $\mu(E_{k,n_k}) < \delta2^{-k}$ and let $E = X \setminus \bigcup_kE_{k,n_k}$. Then
+$\mu(X \setminus E) < \delta$, and on $E$, $|f_m - f| < 1/k$ for all $m \geq n_k$, for every $k$.
+\end{proof}
+
+\begin{proposition}\label{measure-theory:proposition-modes}
+\begin{enumerate}
+\item If $f_n \to f$ in $L^p$ for some $1 \leq p < \infty$, then $f_n \to f$ in measure.
+\item If $f_n \to f$ in measure, a subsequence converges to $f$ almost everywhere.
+\item If $\mu(X) < \infty$ and $f_n \to f$ almost everywhere, then $f_n \to f$ in measure.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Chebyshev's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)) applied to $|f_n - f|^p$, $\mu(\{|f_n - f| > \varepsilon\}) \leq \varepsilon^{-p}\|f_n - f\|_p^p$. (2) Choose $n_1 < n_2 < \cdots$ with
+$\mu(A_k) < 2^{-k}$, where $A_k = \{|f_{n_k} - f| > 2^{-k}\}$. The set $A$ of points lying in infinitely many $A_k$ is contained in $\bigcup_{k \geq K}A_k$ for every $K$, so $\mu(A) \leq \sum_{k \geq K}2^{-k} = 2^{1-K}$ for all $K$, and
+$\mu(A) = 0$. For $x \notin A$, $|f_{n_k}(x) - f(x)| \leq 2^{-k}$ for large $k$. (3) Given $\varepsilon, \delta > 0$, Egorov's theorem gives $E$ with $\mu(X \setminus E) < \delta$ and $|f_n - f| < \varepsilon$ on $E$ for large $n$, so
+$\mu(\{|f_n - f| > \varepsilon\}) < \delta$ for large $n$.
+\end{proof}
+
+\begin{counterexample}\label{measure-theory:counterexample-modes}
+No other implications hold in general. Take $X = [0, 1]$ or $\RR$ with Lebesgue measure.
+\begin{enumerate}
+\item $f_n = n\mathbf{1}_{(0, 1/n)}$ on $[0, 1]$ converges to $0$ everywhere, but $\int f_n = 1$: almost everywhere convergence and convergence in measure do not imply $L^1$ convergence, even on a finite measure space.
+\item $f_n = \mathbf{1}_{[n, n+1]}$ on $\RR$ converges to $0$ everywhere but not in measure, as $\lambda(\{f_n > \frac12\}) = 1$: part (3) of Proposition~\ref{measure-theory:proposition-modes} and Egorov's theorem need $\mu(X) < \infty$.
+\item (The typewriter sequence.) For $n = 2^k + j$ with $0 \leq j < 2^k$ let $f_n = \mathbf{1}_{[j2^{-k}, (j+1)2^{-k}]}$ on $[0, 1]$. Then $\|f_n\|_1 = 2^{-k} \to 0$, so $f_n \to 0$ in $L^1$ and in measure; but every $x \in [0, 1]$ lies in one of the
+intervals for each $k$ and outside most of them, so $f_n(x) = 1$ and $f_n(x) = 0$ both happen infinitely often, and $(f_n(x))$ converges for no $x$. The subsequence in part (2) of
+Proposition~\ref{measure-theory:proposition-modes} is necessary.
+\end{enumerate}
+\end{counterexample}
 
 \section{Product measures and Fubini's theorem}\label{measure-theory:section-fubini}
 

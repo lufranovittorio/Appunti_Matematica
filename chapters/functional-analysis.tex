@@ -130,6 +130,18 @@ $\sum x_k$ converges to some $x$ with $\|x\| < 2$ and $Tx = y$. So $T(B(0, 2)) \
 (3) The graph $G$ is a Banach space, and the projection $G \to X$ is bounded and bijective, so its inverse $x \mapsto (x, Tx)$ is bounded by (2).
 \end{proof}
 
+\begin{counterexample}\label{functional-analysis:counterexample-unbounded}
+\begin{enumerate}
+\item \emph{An unbounded operator.} Differentiation $D \colon C^1([0, 1]) \to C([0, 1])$, both with the supremum norm, is linear but not bounded: $\|x^n\|_\infty = 1$ and $\|D(x^n)\|_\infty = n$. It is closed (if $f_k \to f$ and $f_k' \to g$
+uniformly, then $f' = g$, Theorem~\ref{real-analysis:theorem-uniform-derivative}), which does not contradict the closed graph theorem because $C^1([0, 1])$ is not complete for the supremum norm.
+\item \emph{An incomplete normed space.} The polynomials, with the supremum norm on $[0, 1]$: the partial sums of $\sum x^k/k!$ form a Cauchy sequence whose uniform limit $e^x$ is not a polynomial, since all its derivatives are nonzero.
+\item \emph{Completeness is needed for uniform boundedness.} On the space $c_{00}$ of finitely supported sequences with the supremum norm, the functionals $T_n(x) = nx_n$ satisfy $\sup_n|T_nx| < \infty$ for each $x$, but $\|T_n\| = n$.
+\item \emph{Discontinuous linear functionals.} Every infinite-dimensional normed space $X$ has one. Choose linearly independent unit vectors $e_1, e_2, \ldots$ and extend them, by Zorn's lemma
+(Theorem~\ref{sets:theorem-choice-equivalents}), to a maximal linearly independent set $B$, which is a basis of $X$ as a vector space. The linear functional with $\ell(e_n) = n$ and $\ell = 0$ on $B \setminus \{e_1, e_2, \ldots\}$ is unbounded.
+In finite dimensions every linear functional is continuous (Lemma~\ref{real-analysis:lemma-norms}).
+\end{enumerate}
+\end{counterexample}
+
 \section{Compact operators}\label{functional-analysis:section-compact-operators}
 
 \begin{definition}\label{functional-analysis:definition-compact-operator}
@@ -206,6 +218,18 @@ $T \in B(X, Y)$ is \emph{Fredholm} if $\ker T$ and $\operatorname{coker}T = Y/\o
 $\operatorname{ind}T = \dim\ker T - \dim\operatorname{coker}T$ is unchanged by compact perturbations and is locally constant in $T$ \cite[Chapter 6]{brezis-functional}. Elliptic operators on compact
 manifolds are Fredholm (Chapter~\ref{elliptic-operators}); the index is then computed by the Atiyah--Singer theorem, and its vanishing for the Laplacian is what produces harmonic representatives.
 \end{remark}
+
+\begin{counterexample}\label{functional-analysis:counterexample-no-eigenvalues}
+Self-adjointness is needed in the spectral theorem.
+\begin{enumerate}
+\item The \emph{Volterra operator} $Vf(x) = \int_0^xf(t)\,dt$ on $L^2([0, 1])$ is compact but has no eigenvalues. It is compact: by the Cauchy--Schwarz inequality $|Vf(x) - Vf(y)| \leq |x - y|^{1/2}\|f\|_2$ and $|Vf(x)| \leq \|f\|_2$, so
+$V$ maps the unit ball to a bounded equicontinuous set of continuous functions, which is relatively compact in $C([0, 1])$ by the Arzel\`a--Ascoli theorem (Theorem~\ref{real-analysis:theorem-arzela-ascoli}), hence in $L^2$. If
+$Vf = \lambda f$ with $\lambda \neq 0$, then $f = \lambda^{-1}Vf$ is continuous, hence continuously differentiable, with $f' = \lambda^{-1}f$ and $f(0) = 0$, so $f = 0$; and $Vf = 0$ forces $\int_0^xf = 0$ for all $x$, hence $f = 0$ almost
+everywhere.
+\item The \emph{right shift} $S(x_1, x_2, \ldots) = (0, x_1, x_2, \ldots)$ on $\ell^2$ is an isometry without eigenvalues ($Sx = \lambda x$ gives $\lambda x_1 = 0$, $\lambda x_{k+1} = x_k$, hence $x = 0$), and it is not surjective. Its adjoint, the left shift, has
+every $\lambda$ with $|\lambda| < 1$ as an eigenvalue, with eigenvector $(1, \lambda, \lambda^2, \ldots)$. So an injective bounded operator on an infinite-dimensional space need not be surjective, unlike in finite dimensions.
+\end{enumerate}
+\end{counterexample}
 
 \section{Weak topologies}\label{functional-analysis:section-weak}
 

@@ -52,6 +52,23 @@ elliptic. Its index is the Euler characteristic (Chapter~\ref{hodge-theorem}).
 \end{enumerate}
 \end{example}
 
+\begin{proposition}[Fundamental solution of the Laplacian]\label{elliptic-operators:proposition-fundamental-solution}
+On $\RR^3$, the locally integrable function $E(x) = -\frac{1}{4\pi|x|}$ satisfies $\sum_i\partial_i^2E = \delta_0$ in $\mathcal{D}'(\RR^3)$. Consequently, for $f \in \mathcal{D}(\RR^3)$ the convolution $u = E * f$ solves $\sum_i\partial_i^2u = f$.
+\end{proposition}
+
+\begin{proof}
+$E$ is locally integrable, as $\int_{|x| \leq 1}|x|^{-1}\,dx = 4\pi\int_0^1r\,dr$ in spherical coordinates (Theorem~\ref{measure-theory:theorem-change-of-variables}). Away from $0$, a direct computation gives $\Delta E = 0$, where $\Delta = \sum_i\partial_i^2$ here. Let
+$\varphi \in \mathcal{D}(\RR^3)$ and $A_\varepsilon = \{\varepsilon \leq |x| \leq R\}$ with $R$ large. By the divergence theorem (Example~\ref{differential-forms:example-classical}) applied to $E\nabla\varphi - \varphi\nabla E$ on $A_\varepsilon$ (Green's
+identity), and since $\varphi$ vanishes near $|x| = R$,
+\[
+\int_{A_\varepsilon}E\,\Delta\varphi = \int_{A_\varepsilon}(E\,\Delta\varphi - \varphi\,\Delta E) = -\int_{|x| = \varepsilon}\big(E\,\partial_r\varphi - \varphi\,\partial_rE\big)\,dA,
+\]
+where $\partial_r$ is the radial derivative, the sign coming from the inner boundary sphere having outward normal $-x/|x|$. On $|x| = \varepsilon$, $E = -1/(4\pi\varepsilon)$ and $\partial_rE = 1/(4\pi\varepsilon^2)$; the area is $4\pi\varepsilon^2$. So the first term is
+at most $\varepsilon\sup|\nabla\varphi| \to 0$, and the second is $\frac{1}{4\pi\varepsilon^2}\int_{|x| = \varepsilon}\varphi\,dA \to \varphi(0)$ by continuity. Letting $\varepsilon \to 0$ (dominated convergence on the left),
+$(\Delta E)(\varphi) = \int E\,\Delta\varphi = \varphi(0)$. For the last statement, $\Delta(E * f) = E * \Delta f$ by differentiation under the integral sign, and $(E * \Delta f)(x) = \int E(y)\,\Delta_y f(x - y)\,dy = f(x)$ by the first part applied
+to $\varphi(y) = f(x - y)$.
+\end{proof}
+
 \section{Sobolev spaces of sections}\label{elliptic-operators:section-sobolev-sections}
 
 \begin{definition}\label{elliptic-operators:definition-sobolev-sections}
