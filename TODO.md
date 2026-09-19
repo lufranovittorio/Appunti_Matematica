@@ -12,6 +12,16 @@ references in proofs).
 
 ## Done
 
+- [x] **Complex projective space** (`homotopy`, `topological-manifolds`):
+  $\mathbb{CP}^n$ is compact Hausdorff with one cell in each even dimension,
+  $\mathbb{CP}^1 \cong S^2$ by an explicit map (the Riemann sphere, the Hopf
+  map), $\pi_1(\mathbb{CP}^n) = 1$ and $\pi_1(\mathbb{RP}^n) = \mathbb{Z}/2$ from
+  the cells.
+- [x] **Simply connected 4-manifolds** (`poincare-duality`): $S^2 \times S^2$
+  and $\mathbb{CP}^2 \# \overline{\mathbb{CP}^2}$ have the same homology but are
+  not homotopy equivalent; the Poincaré conjecture in dimension 4 (homology
+  4-spheres, Freedman) and the role of the intersection form.
+
 - [x] **Wu's formula** (`characteristic-classes`, section "Stiefel–Whitney
   classes and Wu's formula"): Thom's definition of the Stiefel–Whitney classes,
   Wu classes, Wu's formula $w(M) = \mathrm{Sq}(v)$, homotopy invariance of the
