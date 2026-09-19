@@ -857,6 +857,8 @@ def command_pages(args):
         index.unlink()
     try:
         git("add", "--all", "--force", ".")
+        # plasTeX's image cache and the local marker are not part of the website.
+        git("rm", "-r", "--cached", "--quiet", "--ignore-unmatch", ".cache", GENERATED_MARKER)
         tree = git("write-tree")
         parent = git("rev-parse", "--verify", "--quiet", "refs/heads/gh-pages", check=False)
         if parent and git("rev-parse", parent + "^{tree}") == tree:
