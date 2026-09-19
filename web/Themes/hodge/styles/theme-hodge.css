@@ -142,15 +142,15 @@ code { font-family: var(--mono); font-size: 0.875em; }
 
 .toc-button { display: none; }
 
-.tag-lookup { display: flex; align-items: center; }
-.tag-lookup input {
-  width: 4.75rem; height: 2rem; padding: 0 0.5rem;
+.site-search { display: flex; align-items: center; }
+.site-search input {
+  width: 11rem; height: 2rem; padding: 0 0.55rem;
   border: 1px solid var(--rule); border-right: 0; border-radius: 6px 0 0 6px;
   background: var(--bg); color: var(--ink);
-  font-family: var(--mono); font-size: 0.875rem; text-transform: uppercase;
+  font-family: var(--sans); font-size: 0.875rem;
 }
-.tag-lookup input::placeholder { text-transform: none; font-family: var(--sans); color: var(--muted); }
-.tag-lookup button {
+.site-search input::placeholder { color: var(--muted); }
+.site-search button {
   height: 2rem; padding: 0 0.6rem;
   border: 1px solid var(--rule); border-radius: 0 6px 6px 0;
   background: var(--surface-2); color: var(--ink-2);
@@ -483,6 +483,7 @@ a.tag:hover { color: var(--accent); border-color: var(--accent); text-decoration
 @media (max-width: 560px) {
   .site-header { gap: 0.4rem; padding: 0 0.5rem; }
   .header-link { display: none; }
+  .site-search input { width: 7rem; }
   .site-title { font-size: 1rem; }
   .main-text .proof_wrapper { margin-left: 0.5rem; }
   .main-text div[class*="_thmwrapper"] { padding-left: 0.75rem; }
@@ -491,3 +492,59 @@ a.tag:hover { color: var(--accent); border-color: var(--accent); text-decoration
 @media (prefers-reduced-motion: reduce) {
   nav.toc, .main-text .expand-proof { transition: none; }
 }
+
+/* ---------------------------------------------------------------- search page */
+
+.search-content { max-width: var(--measure); margin: 0 auto; }
+.search-content h1 { font-family: var(--serif); font-weight: 600; }
+.search-form { display: flex; gap: 0.5rem; margin: 1rem 0 0.75rem; }
+.search-form input {
+  flex: 1; min-width: 0; height: 2.5rem; padding: 0 0.75rem;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--surface); color: var(--ink);
+  font-family: var(--sans); font-size: 1rem;
+}
+.search-form button {
+  height: 2.5rem; padding: 0 1rem;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--surface-2); color: var(--ink-2);
+  font-family: var(--sans); font-size: 0.9375rem; cursor: pointer;
+}
+.search-filters { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.75rem; }
+.search-filters .filter {
+  padding: 0.2rem 0.65rem;
+  border: 1px solid var(--rule); border-radius: 999px;
+  background: transparent; color: var(--ink-2);
+  font-family: var(--sans); font-size: 0.8125rem; cursor: pointer;
+}
+.search-filters .filter[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.search-status { color: var(--muted); font-family: var(--sans); font-size: 0.875rem; }
+.search-help { color: var(--muted); font-family: var(--sans); font-size: 0.8125rem; }
+.search-results { list-style: none; margin: 0.5rem 0 0; padding: 0; }
+.search-result {
+  margin: 0; padding: 0.7rem 0 0.8rem 0.9rem;
+  border-left: 3px solid var(--env, var(--c-remark));
+  border-bottom: 1px solid var(--rule);
+}
+.search-result.kind-theorem, .search-result.kind-proposition,
+.search-result.kind-lemma, .search-result.kind-corollary,
+.search-result.kind-chapter, .search-result.kind-section { --env: var(--c-theorem); }
+.search-result.kind-definition, .search-result.kind-notation { --env: var(--c-definition); }
+.search-result.kind-conjecture { --env: var(--c-conjecture); }
+.search-result.kind-example { --env: var(--c-example); }
+.search-result.kind-counterexample { --env: var(--c-counterexample); }
+.search-result.kind-exercise { --env: var(--c-exercise); }
+.result-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem; font-family: var(--sans); }
+.result-head a.tag { margin-left: 0; }
+.result-title { font-weight: 600; color: var(--ink); }
+.result-name { font-weight: 400; color: var(--ink-2); }
+.result-where { color: var(--muted); font-family: var(--sans); font-size: 0.8125rem; margin-top: 0.1rem; }
+.result-snippet { margin-top: 0.3rem; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.5; overflow-wrap: anywhere; }
+.search-more {
+  display: block; margin: 1rem auto; padding: 0.4rem 1rem;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--surface-2); color: var(--ink-2);
+  font-family: var(--sans); cursor: pointer;
+}
+.search-more[hidden] { display: none; }
+.search-page .site-header { justify-content: flex-start; }

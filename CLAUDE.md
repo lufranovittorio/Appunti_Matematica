@@ -14,6 +14,9 @@ Language: English.
 - `tags/tags` — permanent tags, one `TAG,label` per line. Append-only.
 - `make.py` — checker and build tool (see README.md).
 - `web/Themes/hodge/` — plasTeX theme: layouts, `styles/theme-hodge.css`, `js/site.js`.
+  Every `.js` file in the theme is loaded on every page, so page-specific
+  scripts live elsewhere: `web/search.js` drives `search.html`, which
+  `make.py html` writes together with the index `search-index.js`.
 - `sources/` — reference material (e.g. the Hodge conjecture PDF the Part IX
   chapters are based on). Not part of the build.
 - `output/` — generated; never edit by hand.

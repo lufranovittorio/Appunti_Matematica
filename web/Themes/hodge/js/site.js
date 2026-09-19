@@ -58,19 +58,30 @@
     });
   });
 
-  // Tag lookup: every page lives at the root of the site.
-  var form = document.getElementById("tag-lookup");
+  // Search box. A four-character tag (tags start with a digit) goes straight
+  // to its item; anything else is looked up on search.html, which the form
+  // also reaches without JavaScript. Every page lives at the root of the site.
+  // Pressing "/" moves the focus to the box.
+  var form = document.getElementById("site-search");
   if (form) {
+    var searchInput = form.querySelector("input");
     form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      var input = form.querySelector("input");
-      var tag = input.value.trim().toUpperCase();
-      if (/^[0-9A-Z]{4}$/.test(tag)) {
-        window.location.href = "tag/" + tag + ".html";
-      } else {
-        input.setCustomValidity("A tag has four characters, for example 002A.");
-        input.reportValidity();
-        input.setCustomValidity("");
+      var query = searchInput.value.trim();
+      if (!query) {
+        event.preventDefault();
+        return;
+      }
+      if (/^[0-9][0-9A-Z]{3}$/i.test(query)) {
+        event.preventDefault();
+        window.location.href = "tag/" + query.toUpperCase() + ".html";
+      }
+    });
+    document.addEventListener("keydown", function (event) {
+      var active = document.activeElement;
+      if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey &&
+          !(active && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName))) {
+        event.preventDefault();
+        searchInput.focus();
       }
     });
   }

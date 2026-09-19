@@ -12,6 +12,7 @@
 
 import argparse
 import html
+import json
 import os
 import re
 import shutil
@@ -538,9 +539,11 @@ def postprocess_html(project):
     label_tag = {label: tag for tag, label in read_tags()}
     chapters = {c.slug: c for c in project.chapters}
     locations = {}
+    search_entries = []
 
     for path in sorted(HTML_DIR.glob("*.html")):
         text = path.read_text(encoding="utf-8")
+        collect_search_entries(project, text, path.name, search_entries)
 
         def thm(m):
             tag = label_tag.get(m.group(2))
@@ -591,6 +594,176 @@ def postprocess_html(project):
     missing = [label for label in label_tag if label in project.labels and label not in locations]
     if missing:
         print(f"html: {len(missing)} tagged label(s) not found in the website, e.g. {missing[0]}")
+    count = write_search_index(project, search_entries, label_tag)
+    print(f"html: search index with {count} entries")
+
+
+# ---------------------------------------------------------------------------
+# Website search index
+# ---------------------------------------------------------------------------
+
+SEARCH_KINDS = ["chapter", "section"] + sorted(THEOREM_ENVS)
+SEARCH_TEXT_LIMIT = 600
+HTML_TAG_RE = re.compile(r"<[^>]+>")
+BLOCK_TAG_RE = re.compile(r"</?(?:p|div|li|ol|ul|br|table|tr|td|th|h[1-6])\b[^>]*>")
+DIV_RE = re.compile(r"<div\b|</div>")
+THM_WRAPPER_RE = re.compile(r'<div class="(\w+)_thmwrapper[^"]*" id="([^"]+)">')
+ANY_HEADING_RE = re.compile(r'<h[1-6] id="([^"]+)">(.*?)</h[1-6]>', re.S)
+SPAN_RE = r'<span class="{env}_{part}">(.*?)</span>'
+
+
+def html_to_text(fragment):
+    """Plain text of an HTML fragment, keeping formulas as \\( ... \\)."""
+    fragment = re.sub(r'<a class="tag"[^>]*>.*?</a>', " ", fragment, flags=re.S)
+    fragment = BLOCK_TAG_RE.sub(" ", fragment)
+    text = html.unescape(HTML_TAG_RE.sub("", fragment))
+    text = text.replace("\\[", "\\(").replace("\\]", "\\)")
+    text = re.sub(r"\s+", " ", text)
+    return re.sub(r" ([,.;:)])", r"\1", text).strip()
+
+
+def element_end(text, start):
+    """End of the <div> element that starts at position start."""
+    depth = 0
+    for m in DIV_RE.finditer(text, start):
+        depth += -1 if m.group(0) == "</div>" else 1
+        if depth == 0:
+            return m.end()
+    return len(text)
+
+
+def cut_text(text, limit):
+    """Cut text after about limit characters, at a space outside formulas."""
+    if len(text) <= limit:
+        return text
+    depth, i = 0, 0
+    while i < len(text):
+        two = text[i:i + 2]
+        if two == "\\(":
+            depth, i = depth + 1, i + 2
+            continue
+        if two == "\\)":
+            depth, i = max(0, depth - 1), i + 2
+            continue
+        if depth == 0 and i >= limit and text[i] == " ":
+            return text[:i]
+        i += 1
+    return text
+
+
+def collect_search_entries(project, text, page, entries):
+    """Record the chapters, sections and numbered environments of one page.
+
+    Each entry is (position, kind, label, number, name, section label, url, text);
+    the section is the closest preceding section heading on the same page."""
+    events = []
+    for m in ANY_HEADING_RE.finditer(text):
+        label = m.group(1)
+        info = project.labels.get(label)
+        if info is None or not (label == info.chapter or ":section-" in label or ":subsection-" in label):
+            continue
+        title = html_to_text(m.group(2))
+        number, _, name = title.partition(" ")
+        kind = "chapter" if label == info.chapter else "section"
+        events.append((m.start(), kind, label, number, name, ""))
+    for m in THM_WRAPPER_RE.finditer(text):
+        env, label = m.group(1), m.group(2)
+        if env not in THEOREM_ENVS or label not in project.labels:
+            continue
+        end = element_end(text, m.start())
+        block = text[m.start():end]
+        number = re.search(SPAN_RE.format(env=env, part="thmlabel"), block, re.S)
+        name = re.search(SPAN_RE.format(env=env, part="thmtitle"), block, re.S)
+        content = block.find(f'<div class="{env}_thmcontent">')
+        body = block[content:element_end(block, content)] if content != -1 else ""
+        events.append((m.start(), env, label,
+                       html_to_text(number.group(1)) if number else "",
+                       html_to_text(name.group(1)) if name else "",
+                       cut_text(html_to_text(body), SEARCH_TEXT_LIMIT)))
+    section = None
+    for _, kind, label, number, name, body in sorted(events):
+        if kind == "section":
+            section = label
+        entries.append((project.labels[label].position, kind, label, number, name,
+                        section if kind != "section" else None, f"{page}#{label}", body))
+
+
+def write_search_index(project, entries, label_tag):
+    """Write search-index.js, the data used by search.html."""
+    entries.sort()
+    places, place_index = [], {}
+    for _, kind, label, number, name, _, url, _ in entries:
+        if kind in ("chapter", "section"):
+            place_index[label] = len(places)
+            places.append([number, name, url])
+    items = []
+    for _, kind, label, number, name, section, url, body in entries:
+        chapter = project.labels[label].chapter
+        items.append([SEARCH_KINDS.index(kind), label_tag.get(label, ""), label, number, name,
+                      place_index.get(chapter, -1), place_index.get(section, -1), url, body])
+    data = {"kinds": SEARCH_KINDS, "places": places, "items": items}
+    (HTML_DIR / "search-index.js").write_text(
+        "window.HODGE_SEARCH_INDEX = " + json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+        .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029") + ";\n",
+        encoding="utf-8")
+    (HTML_DIR / "js").mkdir(exist_ok=True)
+    shutil.copy2(ROOT / "web" / "search.js", HTML_DIR / "js" / "search.js")
+    (HTML_DIR / "search.html").write_text(SEARCH_PAGE.replace("@MATHJAX_URL@", MATHJAX_URL), encoding="utf-8")
+    return len(items)
+
+
+SEARCH_PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Search - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\\\(", "\\\\)"]], displayMath: [["\\\\[", "\\\\]"]], processEscapes: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"] },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  skipStartupTypeset: true,
+  messageStyle: "none"
+});
+</script>
+<script src="@MATHJAX_URL@"></script>
+<link rel="stylesheet" href="styles/theme-hodge.css" />
+</head>
+<body class="search-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+</header>
+<main class="content search-content" id="main">
+<h1>Search</h1>
+<form class="search-form" id="search-page-form" action="search.html" method="get" role="search">
+  <label class="visually-hidden" for="search-page-input">Search the statements of the project</label>
+  <input id="search-page-input" name="q" type="search" autocomplete="off" spellcheck="false"
+         placeholder="For example: Hodge decomposition, Kodaira vanishing, 02B9" />
+  <button type="submit">Search</button>
+</form>
+<div class="search-filters" id="search-filters" role="group" aria-label="Kind of result"></div>
+<p class="search-status" id="search-status" aria-live="polite">Loading the index&hellip;</p>
+<ol class="search-results" id="search-results"></ol>
+<button class="search-more" id="search-more" type="button" hidden>Show more results</button>
+<p class="search-help">The search looks for all the words you type in the statements, names and labels of the
+chapters, sections and numbered items of the project; put several words in quotes to search for them as a phrase.
+A four-character tag, such as <code>02B9</code>, or a label, such as <code>lefschetz-11:theorem-kahler</code>, finds
+that item directly. Only the beginning of each statement is indexed, and proofs are not.</p>
+<noscript><p>The search needs JavaScript. The <a href="tags.html">list of tags</a> and the
+<a href="index.html">table of contents</a> work without it.</p></noscript>
+</main>
+<script src="search-index.js"></script>
+<script src="js/search.js"></script>
+</body>
+</html>
+"""
 
 
 TAG_PAGE = """<!DOCTYPE html>
@@ -618,6 +791,11 @@ TAGS_PAGE = """<!DOCTYPE html>
 <body class="tags-page">
 <header class="site-header">
   <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
 </header>
 <main class="content tags-content">
 <h1>Tags</h1>

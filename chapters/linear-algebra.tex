@@ -527,6 +527,24 @@ $w^*Av = (U^*w)^* D (U^*v)$, which is positive definite iff all diagonal entries
 matrix of an inner product in the standard basis is Hermitian.
 \end{proof}
 
+\begin{proposition}[Singular value decomposition]\label{linear-algebra:proposition-svd}
+Let $f \colon V \to W$ be a linear map between finite-dimensional inner product spaces over $\mathbb{K} = \RR$ or $\CC$, of rank $r$. There are orthonormal bases $(v_1, \ldots, v_n)$ of $V$ and $(w_1, \ldots, w_m)$
+of $W$ and real numbers $\sigma_1 \geq \cdots \geq \sigma_r > 0$ with $f(v_i) = \sigma_iw_i$ for $i \leq r$ and $f(v_i) = 0$ for $i > r$. The $\sigma_i^2$ are the nonzero eigenvalues of $f^\dagger f$, so the
+\emph{singular values} $\sigma_i$ are determined by $f$; the largest one is the operator norm $\|f\| = \sup_{\|v\| = 1}\|f(v)\|$.
+\end{proposition}
+
+\begin{proof}
+The endomorphism $f^\dagger f$ of $V$ is self-adjoint and $\langle f^\dagger fv, v\rangle = \|f(v)\|^2 \geq 0$, so by Theorem~\ref{linear-algebra:theorem-spectral} there is an orthonormal basis $(v_i)$ of $V$ with $f^\dagger fv_i = \lambda_iv_i$
+and $\lambda_i \geq 0$; order it so that $\lambda_1 \geq \lambda_2 \geq \cdots$. Then $\langle f(v_i), f(v_j)\rangle = \langle f^\dagger fv_i, v_j\rangle = \lambda_i\delta_{ij}$, so the $f(v_i)$ are pairwise orthogonal, $f(v_i) = 0$ exactly when
+$\lambda_i = 0$, and the number of $i$ with $\lambda_i > 0$ is the rank $r$. Put $\sigma_i = \sqrt{\lambda_i}$ and $w_i = f(v_i)/\sigma_i$ for $i \leq r$; these are orthonormal, and we extend them to an orthonormal basis of
+$W$ (Theorem~\ref{linear-algebra:theorem-gram-schmidt}). For $v = \sum_ic_iv_i$ of norm one, $\|f(v)\|^2 = \sum_{i \leq r}\sigma_i^2|c_i|^2 \leq \sigma_1^2$, with equality at $v = v_1$.
+\end{proof}
+
+\begin{example}\label{linear-algebra:example-svd}
+For $f(x, y) = (x + y, 0)$ on $\RR^2$, $f^\dagger f$ has matrix $\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}$ with eigenvalues $2$ and $0$ and eigenvectors $(1, 1)/\sqrt2$ and $(1, -1)/\sqrt2$. So $\sigma_1 = \sqrt2$, $w_1 = (1, 0)$,
+and $\|f\| = \sqrt2$, although the eigenvalues of $f$ itself are $1$ and $0$: for non-normal maps the operator norm is not the largest absolute value of an eigenvalue.
+\end{example}
+
 \section{Complex structures}\label{linear-algebra:section-complex-structures}
 
 \begin{definition}\label{linear-algebra:definition-complex-structure}
