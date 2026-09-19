@@ -360,6 +360,153 @@ nilpotent operators, and their Jordan decompositions, organise the limiting beha
 variations of Hodge structure (Chapter~\ref{vhs}).
 \end{example}
 
+\begin{counterexample}\label{linear-algebra:counterexample-jordan-real}
+The hypothesis that $\chi_f$ splits cannot be dropped. Over $\RR$, the rotation matrix
+$A = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ is not similar to any block diagonal matrix of
+Jordan blocks. Such a matrix is upper triangular, and the determinant of an upper triangular
+matrix is the product of its diagonal entries (in the Leibniz expansion every other permutation
+meets an entry below the diagonal), so its characteristic polynomial is $\prod_i(x - a_{ii})$,
+which splits over $\RR$. But similar matrices have the same characteristic polynomial, and
+$\chi_A = x^2 + 1$ has no real root. The rational canonical form
+(Theorem~\ref{linear-algebra:theorem-rational-canonical-form}) of $A$ over $\RR$ is the companion
+matrix $C(x^2 + 1)$, which is $A$ itself; over $\CC$, where $x^2 + 1 = (x - i)(x + i)$, $A$ is
+similar to $J_1(i) \oplus J_1(-i)$.
+\end{counterexample}
+
+\begin{proposition}\label{linear-algebra:proposition-jordan-exists}
+An endomorphism $f$ has a block diagonal matrix of Jordan blocks in some basis if and only if
+$\chi_f$ splits into linear factors over $k$. Every square matrix over $k$ is similar to such a
+matrix if and only if $k$ is algebraically closed.
+\end{proposition}
+
+\begin{proof}
+If $\chi_f$ splits, use Theorem~\ref{linear-algebra:theorem-jordan}. Conversely, a block diagonal
+matrix of Jordan blocks $J_{e_i}(\lambda_i)$ is upper triangular, so its characteristic polynomial
+is $\prod_i(x - \lambda_i)^{e_i}$, as in Counterexample~\ref{linear-algebra:counterexample-jordan-real}; and
+$\chi_f$ is the characteristic polynomial of any matrix of $f$. For the second statement, if $k$
+is algebraically closed every $\chi_f$ splits. If $k$ is not, some monic polynomial $g$ of degree
+$d \geq 1$ does not split, and the companion matrix $C(g)$ has characteristic polynomial $g$
+(Lemma~\ref{linear-algebra:lemma-companion}), so it is not similar to a matrix of Jordan blocks.
+\end{proof}
+
+When $\chi_f$ does not split, the primary decomposition still gives a canonical form. By
+Corollary~\ref{rings:corollary-primary-decomposition}, $V_f \cong \bigoplus_ik[x]/(p_i^{e_i})$ with $p_i$
+monic irreducible, uniquely, so $f$ is similar to the block diagonal matrix
+$C(p_1^{e_1}) \oplus \cdots \oplus C(p_r^{e_r})$, the \emph{primary rational canonical form}; for
+$p_i = x - \lambda_i$ one may use $J_{e_i}(\lambda_i)$ instead of $C(p_i^{e_i})$. Over $\RR$ there is a
+convenient replacement for $C(p^e)$ as well.
+
+\begin{proposition}[Real Jordan form]\label{linear-algebra:proposition-real-jordan}
+For $a \in \RR$ and $b > 0$ let $R = \begin{pmatrix} a & -b \\ b & a \end{pmatrix}$ and let the
+\emph{real Jordan block} $J_e(a, b)$ be the $2e \times 2e$ block matrix with $R$ on the diagonal, the
+$2 \times 2$ identity matrix directly above the diagonal, and zeros elsewhere. Then $J_e(a, b)$ is
+similar to $C(p^e)$, where $p = (x - a)^2 + b^2$. Consequently every real square matrix is similar
+to a block diagonal matrix of blocks $J_e(\lambda)$ with $\lambda \in \RR$ and $J_e(a, b)$ with
+$b > 0$, and the multiset of these blocks is uniquely determined.
+\end{proposition}
+
+\begin{proof}
+Write $M = J_e(a, b) = D + N$, where $D$ is block diagonal with blocks $R$ and $N$ has the identity
+blocks above the diagonal. The matrices $D$ and $N$ commute, since both are built from $2 \times 2$
+blocks that commute with each other; $N^e = 0$ and $N^{e-1} \neq 0$. The characteristic polynomial of
+$R$ is $p$, so $p(R) = 0$ by Theorem~\ref{linear-algebra:theorem-cayley-hamilton} and $p(D) = 0$. Hence
+\[
+p(M) = (D - aI + N)^2 + b^2I = p(D) + 2(D - aI)N + N^2 = N\bigl(2(D - aI) + N\bigr).
+\]
+The matrix $D - aI$ is block diagonal with invertible blocks $\bigl(\begin{smallmatrix} 0 & -b \\ b & 0\end{smallmatrix}\bigr)$,
+and it commutes with the nilpotent matrix $N$; so $U = 2(D - aI) + N$ is invertible, with inverse
+$\sum_{j \geq 0}(-1)^j(2(D - aI))^{-j-1}N^j$, a finite sum. As $N$ and $U$ commute,
+$p(M)^j = N^jU^j$, which vanishes if and only if $j \geq e$. The minimal polynomial of $M$ divides
+a power of the irreducible $p$, so it is $p^e$; the characteristic polynomial is $\chi_R^e = p^e$,
+since $M$ is block upper triangular. By Theorem~\ref{linear-algebra:theorem-rational-canonical-form},
+the invariant factors of $M$ have product $p^e$ and the last one equals $p^e$, so there is only one,
+and $M$ is similar to $C(p^e)$. The monic irreducible real polynomials are the $x - \lambda$ and the
+$(x - a)^2 + b^2$ with $b > 0$ (Theorem~\ref{fields:theorem-fta}: a nonreal root $a + ib$ comes with its
+conjugate), so the last statement follows from the primary rational canonical form.
+\end{proof}
+
+For example, the rotation of Counterexample~\ref{linear-algebra:counterexample-jordan-real} is the real
+Jordan block $J_1(0, 1)$.
+
+We turn to a decomposition that makes sense without any splitting. An endomorphism $s$ is called
+\emph{semisimple} if its minimal polynomial is separable (Definition~\ref{fields:definition-separable}),
+that is, has no repeated roots in a splitting field. We need that the minimal polynomial does not
+change under extension of the field.
+
+\begin{lemma}\label{linear-algebra:lemma-minimal-polynomial-extension}
+Let $L/k$ be a field extension and $A \in M_n(k)$. The minimal polynomial of $A$ over $L$ equals its
+minimal polynomial over $k$. In particular $A$ is semisimple over $k$ if and only if it is semisimple
+over $L$, and $A$ is semisimple if and only if it is diagonalisable over a splitting field of $m_A$.
+\end{lemma}
+
+\begin{proof}
+Let $d$ be the least integer such that $I, A, \ldots, A^d$ are linearly dependent over $k$. Linear
+dependence of finitely many vectors of $k^{n^2}$ over $k$ or over $L$ means that the matrix having
+them as columns has rank less than the number of vectors, that is, that all its maximal minors
+vanish; this does not depend on the field. So $d$ is the same over $k$ and over $L$, and the
+relation $A^d = -\sum_{j<d}c_jA^j$ is unique over $L$, because $I, \ldots, A^{d-1}$ are independent
+over $L$; as it exists with $c_j \in k$, the minimal polynomials agree. The last statement follows
+from Theorem~\ref{linear-algebra:theorem-diagonalisable}, applied over the splitting field.
+\end{proof}
+
+\begin{theorem}[Jordan--Chevalley decomposition]\label{linear-algebra:theorem-jordan-chevalley}
+Let $k$ be a perfect field (Definition~\ref{fields:definition-perfect}) and $f$ an endomorphism of
+$V$. There are unique endomorphisms $s$ and $n$ of $V$ with $f = s + n$, $s$ semisimple, $n$
+nilpotent, and $sn = ns$. Moreover $s$ and $n$ are polynomials in $f$ with coefficients in $k$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: existence when $\chi_f$ splits}, over any field. Let $\chi_f = \prod_i(x - \lambda_i)^{e_i}$ with
+distinct $\lambda_i$. By the kernel lemma (Lemma~\ref{linear-algebra:lemma-kernel}), $V = \bigoplus_iV_i$
+with $V_i = \ker(f - \lambda_i)^{e_i}$, since $\chi_f(f) = 0$. The ideals $((x - \lambda_i)^{e_i})$ are
+pairwise coprime, so by the Chinese remainder theorem (Theorem~\ref{rings:theorem-chinese-remainder})
+there is $q \in k[x]$ with $q \equiv \lambda_i \bmod (x - \lambda_i)^{e_i}$ for all $i$. Then $s = q(f)$ acts on
+$V_i$ as $\lambda_i$, so it is diagonalisable, hence semisimple, and $n = f - s$ acts on $V_i$ as
+$f - \lambda_i$, which is nilpotent there; so $n$ is nilpotent. Both are polynomials in $f$, so they
+commute.
+
+\emph{Step 2: uniqueness}, over any field, for decompositions as in Step 1. Let $f = s' + n'$ be another
+decomposition. Then $s'$ and $n'$ commute with $f = s' + n'$, hence with the polynomials $s$ and $n$ in
+$f$. Now $s - s' = n' - n$. The right side is nilpotent: $n$ and $n'$ commute, so $(n' - n)^{2m}$ is a
+sum of terms $n'^jn^{2m-j}$ which vanish for $m$ large. The left side is semisimple: over a splitting
+field $L$ of $m_sm_{s'}$, the commuting endomorphisms $s$ and $s'$ are diagonalisable
+(Lemma~\ref{linear-algebra:lemma-minimal-polynomial-extension}), hence simultaneously diagonalisable
+(Theorem~\ref{linear-algebra:theorem-diagonalisable}), so $s - s'$ is diagonalisable over $L$. A
+diagonalisable nilpotent endomorphism is $0$, as its eigenvalues are $0$. So $s = s'$ and $n = n'$.
+
+\emph{Step 3: $k$ perfect.} Let $g$ be the product of the distinct monic irreducible factors of
+$\chi_f$. Each is separable because $k$ is perfect (Proposition~\ref{fields:proposition-perfect}), and
+distinct monic irreducible polynomials have no common root, so $g$ is separable. Let $L$ be a
+splitting field of $g$; then $\chi_f$ splits over $L$, and $L/k$ is Galois with group $G$ and
+$L^G = k$ (Theorem~\ref{fields:theorem-galois-characterisation}). Let $A \in M_n(k)$ be the matrix of
+$f$ in a basis. By Steps 1 and 2 over $L$, $A = S + N$ uniquely, with $S = q(A)$ for some
+$q \in L[x]$. For $\sigma \in G$, applying $\sigma$ to all entries is a ring automorphism of $M_n(L)$
+fixing $A$, so $A = \sigma(S) + \sigma(N)$, with $\sigma(N)$ nilpotent, $\sigma(S)\sigma(N) = \sigma(N)\sigma(S)$,
+and $\sigma(S)$ semisimple: its minimal polynomial is $\sigma(m_S)$, which is separable since
+$am_S + bm_S' = 1$ implies $\sigma(a)\sigma(m_S) + \sigma(b)\sigma(m_S)' = 1$
+(Proposition~\ref{fields:proposition-separable-criterion}). By uniqueness $\sigma(S) = S$, so the
+entries of $S$ lie in $L^G = k$. Then $S$ and $N = A - S$ have entries in $k$, and $S$ is semisimple
+over $k$ by Lemma~\ref{linear-algebra:lemma-minimal-polynomial-extension}. Any decomposition over $k$ is one
+over $L$, so uniqueness over $k$ follows from Step 2. Finally, with $d = \deg m_A$, the matrices
+$I, A, \ldots, A^{d-1}$ form a basis of $L[A]$ over $L$ (by the lemma, over $L$ too the minimal
+polynomial has degree $d$); writing $S = \sum_jc_jA^j$ and applying $\sigma$ shows $\sigma(c_j) = c_j$, so
+the $c_j$ lie in $k$.
+\end{proof}
+
+\begin{counterexample}\label{linear-algebra:counterexample-jordan-chevalley-imperfect}
+Perfectness cannot be dropped. Let $k = \mathbb{F}_p(t)$ and $f$ the endomorphism of $k^p$ with
+matrix $C(x^p - t)$, whose minimal polynomial is $x^p - t$ (Lemma~\ref{linear-algebra:lemma-companion}),
+irreducible but inseparable (Counterexample~\ref{fields:counterexample-inseparable}). As a
+$k[x]$-module, $V_f \cong k[x]/(x^p - t)$ is a field, so $f$ has no invariant subspaces other than $0$
+and $V$: it is ``irreducible'', the opposite of nilpotent. Yet $f$ is not semisimple, and it has no
+decomposition $f = s + n$ as in Theorem~\ref{linear-algebra:theorem-jordan-chevalley} with $s$ and $n$
+defined over $k$. Indeed, over $L = k(\beta)$ with $\beta^p = t$ we have $x^p - t = (x - \beta)^p$, so
+$\chi_f$ splits and $f - \beta$ is nilpotent. A decomposition over $k$ would be one over $L$, where
+by uniqueness (Steps 1 and 2 of the proof) $s = \beta I$; but $\beta \notin k$. So over imperfect
+fields ``irreducible'' and ``semisimple'' diverge, and the semisimple part of $f$ exists only after
+an inseparable extension.
+\end{counterexample}
+
 \section{Bilinear forms}\label{linear-algebra:section-bilinear}
 
 \begin{definition}\label{linear-algebra:definition-bilinear-form}

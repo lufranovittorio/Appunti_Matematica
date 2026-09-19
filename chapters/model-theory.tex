@@ -1,0 +1,533 @@
+\chapter{Model Theory}\label{model-theory}
+\chapterstatus{complete}
+
+\section{Introduction}\label{model-theory:section-introduction}
+
+Chapter~\ref{logic} proved the compactness and L\"owenheim--Skolem theorems for countable languages, as consequences of the completeness theorem, and
+without the axiom of choice. With the set theory of Chapter~\ref{sets} (cardinals and choice) we can now say how large the models of a first-order
+theory can be. The downward L\"owenheim--Skolem theorem (Theorem~\ref{model-theory:theorem-downward-lowenheim-skolem}) produces small elementary
+substructures; ultraproducts and Łoś's theorem (Theorem~\ref{model-theory:theorem-los}) give the compactness theorem for languages of any size
+(Theorem~\ref{model-theory:theorem-compactness}); and together they give the upward L\"owenheim--Skolem theorem
+(Theorem~\ref{model-theory:theorem-upward-lowenheim-skolem}): a first-order theory with an infinite model has models of every infinite cardinality at
+least that of the language. So first-order logic cannot pin down an infinite structure up to isomorphism.
+
+In the other direction, the Łoś--Vaught test (Theorem~\ref{model-theory:theorem-los-vaught}) shows that a theory with a unique model of some
+infinite cardinality is complete, and Cantor's back-and-forth argument (Theorem~\ref{model-theory:theorem-cantor}) supplies an example: the dense linear
+orders. Back-and-forth arguments are formalised by Ehrenfeucht--Fra\"iss\'e theory (Section~\ref{model-theory:section-ehrenfeucht-fraisse}), which
+leads to Lindstr\"om's theorem (Theorem~\ref{model-theory:theorem-lindstrom}): first-order logic is the strongest logic that has both the compactness
+and the L\"owenheim--Skolem property. References: \cite{chang-keisler}, \cite{marker-model-theory}, \cite[Chapters XII and XIII]{ebbinghaus-flum-thomas}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{logic} (Mathematical Logic), Chapter~\ref{sets} (Set Theory) and Chapter~\ref{number-systems} (Number
+Systems).
+
+\begin{notation}\label{model-theory:notation-conventions}
+We work in ZFC. Languages, formulas and structures are as in Chapter~\ref{logic}, but a language $\mathcal{L}$ may now have any cardinality; $|\mathcal{L}|$
+is the cardinality of its set of constant, function and relation symbols, and $\|\mathcal{L}\| = \max(|\mathcal{L}|, \aleph_0)$. If the free variables of a
+formula $\varphi$ are among the distinct variables $x_1, \ldots, x_n$, we write $\varphi(x_1, \ldots, x_n)$, and for elements $a_1, \ldots, a_n$ of a structure
+$\mathcal{A}$ we write $\mathcal{A} \models \varphi[a_1, \ldots, a_n]$ if $\mathcal{A} \models \varphi[s]$ for an assignment $s$ with $s(x_i) = a_i$; by the
+coincidence lemma (Lemma~\ref{logic:lemma-coincidence}) this does not depend on $s$. Tuples are written $\bar{a} = (a_1, \ldots, a_n)$, and $\mathcal{A}$ also
+denotes the universe of $\mathcal{A}$. If $\mathcal{L} \subseteq \mathcal{L}'$ and $\mathcal{A}'$ is an $\mathcal{L}'$-structure, its \emph{reduct}
+$\mathcal{A}'|_{\mathcal{L}}$ forgets the symbols not in $\mathcal{L}$, and $\mathcal{A}'$ is an \emph{expansion} of $\mathcal{A}'|_{\mathcal{L}}$; by induction on
+formulas, an $\mathcal{L}$-formula has the same truth value in $\mathcal{A}'$ and in $\mathcal{A}'|_{\mathcal{L}}$.
+\end{notation}
+
+\begin{lemma}\label{model-theory:lemma-counting-formulas}
+A language $\mathcal{L}$ has at most $\|\mathcal{L}\|$ terms and at most $\|\mathcal{L}\|$ formulas.
+\end{lemma}
+
+\begin{proof}
+Let $\kappa = \|\mathcal{L}\|$. Let $T_0$ be the set of variables and constant symbols, and $T_{k+1}$ the union of $T_k$ with the set of terms
+$f(t_1, \ldots, t_n)$ with $t_i \in T_k$. By induction $|T_k| \leq \kappa$: the new terms are indexed by the pairs of a function symbol and a finite tuple
+of elements of $T_k$, and there are at most $\kappa \cdot \kappa = \kappa$ of these, by Proposition~\ref{sets:proposition-union-bound} and
+Theorem~\ref{sets:theorem-hessenberg}. The union of the $T_k$ contains the variables and constants and is closed under the function symbols, so it contains
+every term, and it has cardinality at most $\kappa$ by Proposition~\ref{sets:proposition-union-bound}. The same argument, starting from the atomic formulas
+and closing under $\neg$, $\to$ and $\forall x$, bounds the formulas.
+\end{proof}
+
+\section{Elementary substructures}\label{model-theory:section-elementary}
+
+\begin{definition}\label{model-theory:definition-elementary}
+Let $\mathcal{A}$ and $\mathcal{B}$ be $\mathcal{L}$-structures.
+\begin{enumerate}
+\item An \emph{embedding} $h \colon \mathcal{A} \to \mathcal{B}$ is an injective map preserving constants, functions and relations as in
+Definition~\ref{logic:definition-isomorphism-structures} (relations in both directions), but not necessarily surjective. If $\mathcal{A} \subseteq \mathcal{B}$ as
+sets and the inclusion is an embedding, $\mathcal{A}$ is a \emph{substructure} of $\mathcal{B}$.
+\item An embedding $h$ is \emph{elementary} if $\mathcal{A} \models \varphi[\bar{a}]$ if and only if $\mathcal{B} \models \varphi[h(\bar{a})]$ for every formula
+$\varphi(x_1, \ldots, x_n)$ and every $\bar{a} \in \mathcal{A}^n$. A substructure whose inclusion is elementary is an \emph{elementary substructure}, written
+$\mathcal{A} \preceq \mathcal{B}$; then $\mathcal{B}$ is an \emph{elementary extension} of $\mathcal{A}$.
+\item $\mathcal{A}$ and $\mathcal{B}$ are \emph{elementarily equivalent}, $\mathcal{A} \equiv \mathcal{B}$, if they satisfy the same sentences, that is,
+$\Th(\mathcal{A}) = \Th(\mathcal{B})$.
+\end{enumerate}
+\end{definition}
+
+A subset of $\mathcal{B}$ is the universe of a substructure if and only if it is nonempty, contains the constants $c^{\mathcal{B}}$ and is closed under the
+functions $f^{\mathcal{B}}$; the substructure is then unique. Isomorphisms are elementary (Proposition~\ref{logic:proposition-isomorphism-invariance}), and
+$\mathcal{A} \preceq \mathcal{B}$ implies $\mathcal{A} \equiv \mathcal{B}$, by taking $n = 0$. By induction on terms, a substructure computes the values of
+terms at elements of $\mathcal{A}$ as $\mathcal{B}$ does, so quantifier-free formulas have the same truth values in $\mathcal{A}$ and $\mathcal{B}$; the
+difference is in the quantifiers.
+
+\begin{example}\label{model-theory:example-substructures}
+\begin{enumerate}
+\item In the language of orders, $(\NN, <)$ is a substructure of $(\ZZ, <)$ but not an elementary one: for $\varphi(x) = \exists y\,(y < x)$,
+$(\ZZ, <) \models \varphi[0]$ and $(\NN, <) \not\models \varphi[0]$.
+\item $\mathcal{A} \subseteq \mathcal{B}$ and $\mathcal{A} \equiv \mathcal{B}$ do not imply $\mathcal{A} \preceq \mathcal{B}$. The structure $(\NN_{>0}, <)$ is
+a substructure of $(\NN, <)$ and is isomorphic to it by $n \mapsto n - 1$, so the two are elementarily equivalent; but $1$ has a predecessor in $\NN$ and none
+in $\NN_{>0}$, so the same formula $\varphi$ shows that the inclusion is not elementary.
+\item In the language of rings, $\ZZ$ is a substructure of $\QQ$, and not even elementarily equivalent to it: the sentence $\exists y\,(y + y = 1)$ holds in $\QQ$
+and not in $\ZZ$.
+\end{enumerate}
+\end{example}
+
+The following test only involves truth in the larger structure.
+
+\begin{lemma}[Tarski--Vaught test]\label{model-theory:lemma-tarski-vaught}
+Let $\mathcal{A}$ be a substructure of $\mathcal{B}$. Then $\mathcal{A} \preceq \mathcal{B}$ if and only if, for every formula $\varphi$, every variable $x$
+and every assignment $s$ with values in $\mathcal{A}$ such that $\mathcal{B} \models \exists x\,\varphi[s]$, there is $a \in \mathcal{A}$ with
+$\mathcal{B} \models \varphi[s[x \mapsto a]]$.
+\end{lemma}
+
+\begin{proof}
+If $\mathcal{A} \preceq \mathcal{B}$ and $\mathcal{B} \models \exists x\,\varphi[s]$, then $\mathcal{A} \models \exists x\,\varphi[s]$, so there is $a \in \mathcal{A}$
+with $\mathcal{A} \models \varphi[s[x \mapsto a]]$, and then $\mathcal{B} \models \varphi[s[x \mapsto a]]$. Conversely, assume the condition. We show by
+induction on $\varphi$ that $\mathcal{A} \models \varphi[s]$ if and only if $\mathcal{B} \models \varphi[s]$ for every assignment $s$ with values in $\mathcal{A}$.
+Atomic formulas have the same truth values, as remarked above, and the cases $\neg$ and $\to$ follow from the induction hypothesis. Let
+$\varphi = \forall x\,\psi$. By induction, $\mathcal{A} \models \varphi[s]$ if and only if $\mathcal{B} \models \psi[s[x \mapsto a]]$ for all $a \in \mathcal{A}$.
+This holds if $\mathcal{B} \models \forall x\,\psi[s]$. If $\mathcal{B} \not\models \forall x\,\psi[s]$, then $\mathcal{B} \models \exists x\,\neg\psi[s]$, and the
+condition gives $a \in \mathcal{A}$ with $\mathcal{B} \models \neg\psi[s[x \mapsto a]]$; so both sides fail.
+\end{proof}
+
+\begin{example}\label{model-theory:example-rationals-reals}
+$(\QQ, <) \preceq (\RR, <)$. We check the Tarski--Vaught test. Let $s$ take values in $\QQ$, and suppose $(\RR, <) \models \varphi[s[x \mapsto b]]$ with
+$b \in \RR$. The free variables of $\exists x\,\varphi$ take finitely many values $q_1 < \cdots < q_m$ in $\QQ$. If $b$ is one of them we are done. Otherwise $b$
+lies in one of the open intervals into which the $q_j$ cut $\RR$, and this interval contains a rational $r$ (Proposition~\ref{number-systems:proposition-complete-archimedean}).
+There is an order-preserving bijection $\sigma \colon \RR \to \RR$ fixing all $q_j$ with $\sigma(b) = r$: on an interval $[q_j, q_{j+1}]$ take the map that is affine on
+$[q_j, b]$ and on $[b, q_{j+1}]$, sending $q_j, b, q_{j+1}$ to $q_j, r, q_{j+1}$, and the identity elsewhere; on an unbounded interval use an affine map of the
+half line fixing its endpoint, and if $m = 0$ a translation. By Proposition~\ref{logic:proposition-isomorphism-invariance} applied to the automorphism $\sigma$,
+$(\RR, <) \models \varphi[s[x \mapsto r]]$, since $\sigma \circ s[x \mapsto b]$ agrees with $s[x \mapsto r]$ on the free variables of $\varphi$. So
+$(\QQ, <) \equiv (\RR, <)$, although the two orders are not isomorphic, one being countable and the other not
+(Proposition~\ref{number-systems:proposition-reals-cardinality}).
+\end{example}
+
+\begin{theorem}[Downward L\"owenheim--Skolem]\label{model-theory:theorem-downward-lowenheim-skolem}
+Let $\mathcal{B}$ be an $\mathcal{L}$-structure, $X \subseteq \mathcal{B}$, and $\kappa$ a cardinal with $\|\mathcal{L}\| \leq \kappa$ and
+$|X| \leq \kappa \leq |\mathcal{B}|$. Then $\mathcal{B}$ has an elementary substructure $\mathcal{A}$ with $X \subseteq \mathcal{A}$ and $|\mathcal{A}| = \kappa$.
+\end{theorem}
+
+\begin{proof}
+Since $\kappa \leq |\mathcal{B}|$ there is a subset $Y \subseteq \mathcal{B}$ with $|Y| = \kappa$, and $X_0 = X \cup Y$ has cardinality $\kappa$
+(Corollary~\ref{sets:corollary-cardinal-arithmetic}). Consider the triples $(\varphi, x, \bar{b})$ of a formula $\varphi$, a variable $x$ and a tuple $\bar{b}$
+of elements of $\mathcal{B}$ whose length is the number of free variables $y_1, \ldots, y_n$ of $\exists x\,\varphi$, listed in the order of their indices, such
+that $\mathcal{B} \models \exists x\,\varphi[\bar{b}]$. By the axiom of choice there is a function $w$ choosing for each such triple a \emph{witness}
+$w(\varphi, x, \bar{b}) \in \mathcal{B}$ with $\mathcal{B} \models \varphi[s]$ for the assignment sending $x$ to the witness and $y_i$ to $b_i$. Define
+$X_{k+1}$ as the union of $X_k$ with the witnesses of all triples whose tuple $\bar{b}$ has entries in $X_k$. There are at most $\kappa$ such triples, by
+Lemma~\ref{model-theory:lemma-counting-formulas} and since $X_k$ has at most $\kappa$ finite tuples; so $|X_{k+1}| \leq \kappa$, and
+$A = \bigcup_kX_k$ has cardinality $\kappa$.
+
+The set $A$ is closed under the functions of $\mathcal{B}$: for $a_1, \ldots, a_n \in A$, all lying in some $X_k$, the formula $x = f(y_1, \ldots, y_n)$ has the
+unique witness $f^{\mathcal{B}}(a_1, \ldots, a_n)$, which lies in $X_{k+1}$. Likewise the witness of $x = c$ is $c^{\mathcal{B}} \in X_1$. So $A$ is the universe
+of a substructure $\mathcal{A}$. It satisfies the Tarski--Vaught test: if $s$ takes values in $A$ and $\mathcal{B} \models \exists x\,\varphi[s]$, the finitely
+many values of $s$ on the free variables of $\exists x\,\varphi$ lie in some $X_k$, and the corresponding witness lies in $X_{k+1} \subseteq A$. By
+Lemma~\ref{model-theory:lemma-tarski-vaught}, $\mathcal{A} \preceq \mathcal{B}$.
+\end{proof}
+
+For countable $\mathcal{L}$ and $\kappa = \aleph_0$ this refines Theorem~\ref{logic:theorem-lowenheim-skolem}: every infinite structure has a countable
+elementary substructure, which even contains any given countable subset. Some choice is necessary here: the proof chooses witnesses in an arbitrary
+structure $\mathcal{B}$, while the proof in Chapter~\ref{logic} built a model from the syntax.
+
+\section{Ultraproducts and compactness}\label{model-theory:section-ultraproducts}
+
+\begin{definition}\label{model-theory:definition-ultrafilter}
+A \emph{filter} on a set $I$ is a set $F$ of subsets of $I$ with $I \in F$, $\emptyset \notin F$, and closed under finite intersections and under taking
+supersets. It is an \emph{ultrafilter} if moreover, for every $X \subseteq I$, either $X \in F$ or $I \setminus X \in F$. For $i \in I$, the \emph{principal}
+ultrafilter at $i$ is $\{X \subseteq I : i \in X\}$. A family of subsets of $I$ has the \emph{finite intersection property} if all its finite intersections are
+nonempty.
+\end{definition}
+
+\begin{lemma}\label{model-theory:lemma-ultrafilters}
+\begin{enumerate}
+\item If $U$ is an ultrafilter, then $X \cup Y \in U$ if and only if $X \in U$ or $Y \in U$.
+\item Every family of subsets of $I$ with the finite intersection property is contained in an ultrafilter.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) If $X \in U$ then $X \cup Y \in U$. If $X, Y \notin U$, then $I \setminus X$ and $I \setminus Y$ lie in $U$, and so does their intersection, which is disjoint
+from $X \cup Y$; so $X \cup Y \notin U$, as $\emptyset \notin U$.
+
+(2) Let $\mathcal{S}$ be the family. The sets containing some finite intersection of members of $\mathcal{S}$ form a filter containing $\mathcal{S}$. Filters
+containing $\mathcal{S}$, ordered by inclusion, satisfy the hypothesis of Zorn's lemma (Theorem~\ref{sets:theorem-choice-equivalents}), since the union of a
+chain of filters is a filter. Let $U$ be a maximal one and $X \subseteq I$. If $X$ meets every member of $U$, the sets containing some $X \cap Y$ with $Y \in U$
+form a filter containing $U$ and $X$, so $X \in U$ by maximality. Otherwise $X \cap Y = \emptyset$ for some $Y \in U$, so $Y \subseteq I \setminus X$ and
+$I \setminus X \in U$. So $U$ is an ultrafilter.
+\end{proof}
+
+\begin{definition}\label{model-theory:definition-ultraproduct}
+Let $(\mathcal{A}_i)_{i \in I}$ be $\mathcal{L}$-structures and $U$ an ultrafilter on $I$. On the product $\prod_i\mathcal{A}_i$ of the universes (nonempty
+by the axiom of choice), let $g \sim g'$ if $\{i : g(i) = g'(i)\} \in U$; this is an equivalence relation, transitivity coming from closure under
+intersections. The \emph{ultraproduct} $\prod_i\mathcal{A}_i/U$ is the structure with universe the set of classes $[g]$, with
+$c = [(c^{\mathcal{A}_i})_i]$, $f([g_1], \ldots, [g_n]) = [(f^{\mathcal{A}_i}(g_1(i), \ldots, g_n(i)))_i]$, and $([g_1], \ldots, [g_n]) \in R$ if and only if
+$\{i : (g_1(i), \ldots, g_n(i)) \in R^{\mathcal{A}_i}\} \in U$. These are well defined: if $g_j \sim g'_j$ for all $j$, the set where $g_j(i) = g'_j(i)$ for all
+$j$ is in $U$, and on it the two definitions agree. If all $\mathcal{A}_i$ equal $\mathcal{A}$, the ultraproduct is the \emph{ultrapower} $\mathcal{A}^I/U$.
+\end{definition}
+
+\begin{theorem}[Łoś]\label{model-theory:theorem-los}
+Let $s_i$ be an assignment in $\mathcal{A}_i$ for each $i$, and let $s$ be the assignment in $\prod_i\mathcal{A}_i/U$ with $s(x) = [(s_i(x))_i]$. Then for every
+formula $\varphi$,
+\[
+\textstyle\prod_i\mathcal{A}_i/U \models \varphi[s] \iff \{i \in I : \mathcal{A}_i \models \varphi[s_i]\} \in U.
+\]
+Every assignment in the ultraproduct is of this form.
+\end{theorem}
+
+\begin{proof}
+Every assignment is of this form: choose a representative of each value (axiom of choice). Write $\mathcal{P} = \prod_i\mathcal{A}_i/U$ and
+$S_\varphi = \{i : \mathcal{A}_i \models \varphi[s_i]\}$. By induction on terms, $t^{\mathcal{P}}[s] = [(t^{\mathcal{A}_i}[s_i])_i]$. For atomic formulas the claim
+is then the definition of $\sim$ and of $R^{\mathcal{P}}$. Since $S_{\neg\varphi} = I \setminus S_\varphi$, the case of $\neg$ follows from the ultrafilter property.
+Since $S_{\varphi \to \psi} = (I \setminus S_\varphi) \cup S_\psi$, the case of $\to$ follows from Lemma~\ref{model-theory:lemma-ultrafilters}(1).
+
+Let $\varphi = \forall x\,\psi$. For $g \in \prod_i\mathcal{A}_i$, the assignment $s[x \mapsto [g]]$ is obtained from the assignments $s_i[x \mapsto g(i)]$, so by
+induction $\mathcal{P} \models \psi[s[x \mapsto [g]]]$ if and only if $T_g = \{i : \mathcal{A}_i \models \psi[s_i[x \mapsto g(i)]]\} \in U$. If $S_\varphi \in U$, then
+$T_g \supseteq S_\varphi$ is in $U$ for every $g$, so $\mathcal{P} \models \varphi[s]$. If $S_\varphi \notin U$, choose $g(i)$ with
+$\mathcal{A}_i \not\models \psi[s_i[x \mapsto g(i)]]$ for $i \notin S_\varphi$, and arbitrary for $i \in S_\varphi$. Then $T_g \subseteq S_\varphi$, so $T_g \notin U$ and
+$\mathcal{P} \not\models \varphi[s]$.
+\end{proof}
+
+In particular a structure $\mathcal{A}$ embeds elementarily into each of its ultrapowers, by $a \mapsto [(a)_i]$: for constant families the set in Łoś's
+theorem is $I$ or $\emptyset$.
+
+\begin{theorem}[Compactness theorem]\label{model-theory:theorem-compactness}
+Let $\mathcal{L}$ be any language and $\Gamma$ a set of $\mathcal{L}$-formulas. If every finite subset of $\Gamma$ is satisfiable, then $\Gamma$ is satisfiable.
+\end{theorem}
+
+\begin{proof}
+Let $I$ be the set of finite subsets of $\Gamma$, and for $\Delta \in I$ choose a structure $\mathcal{A}_\Delta$ and an assignment $s_\Delta$ satisfying $\Delta$.
+The sets $\widehat{\Delta} = \{\Delta' \in I : \Delta \subseteq \Delta'\}$ have the finite intersection property, since
+$\widehat{\Delta_1} \cap \cdots \cap \widehat{\Delta_r}$ contains $\Delta_1 \cup \cdots \cup \Delta_r$. Let $U$ be an ultrafilter containing them
+(Lemma~\ref{model-theory:lemma-ultrafilters}), and $s$ the assignment in $\prod_\Delta\mathcal{A}_\Delta/U$ obtained from the $s_\Delta$. For $\gamma \in \Gamma$,
+the set of $\Delta$ with $\mathcal{A}_\Delta \models \gamma[s_\Delta]$ contains $\widehat{\{\gamma\}} \in U$, so by Theorem~\ref{model-theory:theorem-los} the ultraproduct
+satisfies $\gamma$ under $s$.
+\end{proof}
+
+For countable languages this is Theorem~\ref{logic:theorem-compactness}, which was deduced from the completeness theorem; the proof above avoids formal
+deductions altogether, at the price of the axiom of choice.
+
+\section{Upward L\"owenheim--Skolem and categoricity}\label{model-theory:section-categoricity}
+
+\begin{theorem}[Upward L\"owenheim--Skolem]\label{model-theory:theorem-upward-lowenheim-skolem}
+Let $T$ be an $\mathcal{L}$-theory with an infinite model, and $\kappa \geq \|\mathcal{L}\|$ a cardinal. Then $T$ has a model of cardinality exactly $\kappa$.
+\end{theorem}
+
+\begin{proof}
+Add new constant symbols $c_\alpha$, $\alpha < \kappa$, to get a language $\mathcal{L}'$ with $\|\mathcal{L}'\| = \kappa$ (Corollary~\ref{sets:corollary-cardinal-arithmetic}),
+and let $\Gamma = T \cup \{c_\alpha \neq c_\beta : \alpha < \beta < \kappa\}$. A finite subset of $\Gamma$ mentions finitely many new constants; interpreting them
+as distinct elements of an infinite model of $T$ (and the other new constants arbitrarily) satisfies it. By Theorem~\ref{model-theory:theorem-compactness},
+$\Gamma$ has a model $\mathcal{B}$, and $\alpha \mapsto c_\alpha^{\mathcal{B}}$ is injective, so $|\mathcal{B}| \geq \kappa$. By
+Theorem~\ref{model-theory:theorem-downward-lowenheim-skolem} applied to $\mathcal{L}'$, $\mathcal{B}$ has an elementary substructure $\mathcal{A}$ of cardinality
+$\kappa$, which satisfies $\Gamma$ like $\mathcal{B}$; its reduct to $\mathcal{L}$ is a model of $T$ of cardinality $\kappa$.
+\end{proof}
+
+So a first-order theory with an infinite model never determines it up to isomorphism: it has models of arbitrarily large cardinality. Example~\ref{logic:example-nonstandard-arithmetic}
+exhibited a different phenomenon, a non-standard model of the same (countable) cardinality.
+
+\begin{definition}\label{model-theory:definition-categorical}
+Let $\kappa$ be an infinite cardinal. A theory $T$ is \emph{$\kappa$-categorical} if it has a model of cardinality $\kappa$ and any two models of cardinality
+$\kappa$ are isomorphic. It is \emph{complete} if for every sentence $\sigma$, either $\sigma$ is true in all models of $T$ or $\neg\sigma$ is. For countable
+languages this agrees with Definition~\ref{logic:definition-complete-theory}, by the completeness theorem (Corollary~\ref{logic:corollary-completeness}).
+\end{definition}
+
+\begin{theorem}[Łoś--Vaught test]\label{model-theory:theorem-los-vaught}
+Let $T$ be a satisfiable theory without finite models that is $\kappa$-categorical for some $\kappa \geq \|\mathcal{L}\|$. Then $T$ is complete.
+\end{theorem}
+
+\begin{proof}
+Suppose $\sigma$ is a sentence such that neither $\sigma$ nor $\neg\sigma$ holds in all models of $T$. Then $T \cup \{\neg\sigma\}$ and $T \cup \{\sigma\}$ have
+models, which are infinite, so by Theorem~\ref{model-theory:theorem-upward-lowenheim-skolem} they have models $\mathcal{A}$ and $\mathcal{B}$ of cardinality
+$\kappa$. These are models of $T$, hence isomorphic, but $\mathcal{B} \models \sigma$ and $\mathcal{A} \not\models \sigma$, contradicting
+Proposition~\ref{logic:proposition-isomorphism-invariance}.
+\end{proof}
+
+\begin{definition}\label{model-theory:definition-dlo}
+The theory $T_{\mathrm{DLO}}$ of \emph{dense linear orders without endpoints}, in the language of orders, consists of the sentences
+$\forall x\,\neg(x < x)$, $\forall x\forall y\forall z\,((x < y \wedge y < z) \to x < z)$, $\forall x\forall y\,(x < y \vee x = y \vee y < x)$,
+$\forall x\forall y\,(x < y \to \exists z\,(x < z \wedge z < y))$, $\forall x\exists y\,(y < x)$ and $\forall x\exists y\,(x < y)$.
+\end{definition}
+
+Its models are infinite: a model is nonempty and has no largest element. Examples are $(\QQ, <)$, $(\RR, <)$ and every open interval of $\RR$.
+
+\begin{theorem}[Cantor]\label{model-theory:theorem-cantor}
+Any two countable dense linear orders without endpoints are isomorphic.
+\end{theorem}
+
+\begin{proof}
+Let $A$ and $B$ be such orders, enumerated as $a_0, a_1, \ldots$ and $b_0, b_1, \ldots$ (they are countably infinite). \emph{Extension step}: if $p$ is an
+order-preserving bijection from a finite subset of $A$ onto a finite subset of $B$ and $a \in A$, there is $b \in B$ such that $p \cup \{(a, b)\}$ is still
+order-preserving and injective. Indeed, if $a \in \operatorname{dom}p$ take $b = p(a)$; otherwise the elements of $\operatorname{dom}p$ smaller than $a$ have
+images smaller than those of the elements larger than $a$, and we need $b$ strictly between these two finite sets of images, which exists because $B$ is
+dense and has no endpoints (and is arbitrary if $p = \emptyset$). The same holds with the roles of $A$ and $B$ exchanged. Starting from $p_0 = \emptyset$, let
+$p_{2k+1}$ extend $p_{2k}$ with $a_k$ in its domain, and $p_{2k+2}$ extend $p_{2k+1}$ with $b_k$ in its image (\emph{back and forth}). The union of the
+$p_k$ is an order-preserving bijection $A \to B$.
+\end{proof}
+
+\begin{corollary}\label{model-theory:corollary-dlo-complete}
+$T_{\mathrm{DLO}}$ is $\aleph_0$-categorical and complete. In particular $(\QQ, <) \equiv (\RR, <)$, and a sentence in the language of orders holds in $(\QQ, <)$
+if and only if it holds in every dense linear order without endpoints.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{model-theory:theorem-cantor}, $T_{\mathrm{DLO}}$ is $\aleph_0$-categorical, its language is finite, and it has no finite models; apply
+Theorem~\ref{model-theory:theorem-los-vaught} with $\kappa = \aleph_0$.
+\end{proof}
+
+\begin{counterexample}\label{model-theory:counterexample-dlo-continuum}
+$T_{\mathrm{DLO}}$ is not $2^{\aleph_0}$-categorical. The orders $(\RR, <)$ and $(\RR \setminus \{0\}, <)$ are dense without endpoints and have cardinality
+$2^{\aleph_0}$, but they are not isomorphic: in $\RR \setminus \{0\}$ the set of negative numbers is nonempty and bounded above (by $1$) but has no least upper
+bound, since every upper bound $u$ is positive and $u/2$ is a smaller one, while in $\RR$ every nonempty subset bounded above has a least upper bound
+(Theorem~\ref{number-systems:theorem-reals}); an order isomorphism would preserve this property. By contrast, the theory of algebraically closed fields of a
+fixed characteristic is $\kappa$-categorical for every uncountable $\kappa$ (such a field is determined by its transcendence degree, which equals its cardinality),
+hence complete by the Łoś--Vaught test; see \cite[Section 2.2]{marker-model-theory} and Chapter~\ref{fields}.
+\end{counterexample}
+
+\section{Ehrenfeucht--Fra\"iss\'e theory}\label{model-theory:section-ehrenfeucht-fraisse}
+
+The proof of Cantor's theorem used only one feature of the orders: finite partial isomorphisms can always be extended, forth and back. We now make this
+precise and relate it to the quantifier depth of formulas. In this section and the next, languages are \emph{relational}: they have no constant or function
+symbols. This is no real restriction, since an $n$-ary function can be replaced by its graph, an $(n+1)$-ary relation, and a constant by a unary relation
+holding at one point. In a relational language the terms are the variables.
+
+\begin{definition}\label{model-theory:definition-quantifier-rank}
+The \emph{quantifier rank} of a formula is defined by $\mathrm{qr}(\varphi) = 0$ for atomic $\varphi$, $\mathrm{qr}(\neg\varphi) = \mathrm{qr}(\varphi)$,
+$\mathrm{qr}(\varphi \to \psi) = \max(\mathrm{qr}(\varphi), \mathrm{qr}(\psi))$ and $\mathrm{qr}(\forall x\,\varphi) = \mathrm{qr}(\varphi) + 1$; so
+$\mathrm{qr}(\exists x\,\varphi) = \mathrm{qr}(\varphi) + 1$, and $\wedge$, $\vee$ take the maximum. For structures $\mathcal{A}$, $\mathcal{B}$, tuples
+$\bar{a} \in \mathcal{A}^m$, $\bar{b} \in \mathcal{B}^m$ and $n \geq 0$, write $(\mathcal{A}, \bar{a}) \equiv_n (\mathcal{B}, \bar{b})$ if
+$\mathcal{A} \models \varphi[\bar{a}] \iff \mathcal{B} \models \varphi[\bar{b}]$ for every formula $\varphi(x_1, \ldots, x_m)$ of quantifier rank at most $n$; for
+$m = 0$ write $\mathcal{A} \equiv_n \mathcal{B}$.
+\end{definition}
+
+\begin{definition}\label{model-theory:definition-partial-isomorphism}
+Let $\mathcal{A}$ and $\mathcal{B}$ be structures for a relational language. A \emph{partial isomorphism} from $\mathcal{A}$ to $\mathcal{B}$ is an injective map
+$p$ from a subset of $\mathcal{A}$ to $\mathcal{B}$ with $(a_1, \ldots, a_r) \in R^{\mathcal{A}} \iff (p(a_1), \ldots, p(a_r)) \in R^{\mathcal{B}}$ for every
+$r$-ary relation symbol $R$ and all $a_j \in \operatorname{dom}p$. A set $I$ of partial isomorphisms has the \emph{forth property} with respect to a set $J$ if for
+every $p \in I$ and $a \in \mathcal{A}$ there is $q \in J$ with $p \subseteq q$ and $a \in \operatorname{dom}q$, and the \emph{back property} if for every
+$p \in I$ and $b \in \mathcal{B}$ there is $q \in J$ with $p \subseteq q$ and $b$ in the image of $q$.
+\begin{enumerate}
+\item An \emph{$n$-back-and-forth system} is a sequence $(I_k)_{0 \leq k \leq n}$ of nonempty sets of partial isomorphisms such that $I_{k+1}$ has the forth and
+back properties with respect to $I_k$ for $k < n$. We write $\mathcal{A} \cong_n \mathcal{B}$ if one exists, and
+$(\mathcal{A}, \bar{a}) \cong_n (\mathcal{B}, \bar{b})$ if one exists with $\bar{a} \mapsto \bar{b}$ (the map $a_j \mapsto b_j$) in $I_n$.
+\item $\mathcal{A}$ and $\mathcal{B}$ are \emph{partially isomorphic}, $\mathcal{A} \cong_p \mathcal{B}$, if there is a nonempty set $I$ of partial isomorphisms
+with the forth and back properties with respect to itself.
+\end{enumerate}
+\end{definition}
+
+For example, the finite order-preserving injections between two dense linear orders without endpoints show that any two such orders are partially
+isomorphic: this is the extension step in the proof of Theorem~\ref{model-theory:theorem-cantor}.
+
+\begin{lemma}\label{model-theory:lemma-countable-partial-isomorphism}
+Countable partially isomorphic structures are isomorphic.
+\end{lemma}
+
+\begin{proof}
+Let $I$ be as in the definition, and enumerate $\mathcal{A} = \{a_0, a_1, \ldots\}$ and $\mathcal{B} = \{b_0, b_1, \ldots\}$, with repetitions if the structures
+are finite. Choose $p_0 \in I$, then $p_{2k+1} \in I$ extending $p_{2k}$ with $a_k$ in its domain, and $p_{2k+2} \in I$ extending $p_{2k+1}$ with $b_k$ in its
+image. The union of the chain $(p_k)$ is a bijection $\mathcal{A} \to \mathcal{B}$ which preserves the relations, since any finitely many elements lie in the
+domain of some $p_k$.
+\end{proof}
+
+\begin{theorem}[Fra\"iss\'e]\label{model-theory:theorem-fraisse}
+Let $(I_k)_{k \leq n}$ be an $n$-back-and-forth system from $\mathcal{A}$ to $\mathcal{B}$, let $k \leq n$, $p \in I_k$, $\varphi$ a formula with
+$\mathrm{qr}(\varphi) \leq k$, and $s$ an assignment in $\mathcal{A}$ whose values on the free variables of $\varphi$ lie in $\operatorname{dom}p$. Then
+$\mathcal{A} \models \varphi[s]$ if and only if $\mathcal{B} \models \varphi[t]$ for any assignment $t$ with $t(x) = p(s(x))$ for the free variables $x$ of
+$\varphi$. Consequently $\mathcal{A} \cong_n \mathcal{B}$ implies $\mathcal{A} \equiv_n \mathcal{B}$, the same holds with tuples, and
+$\mathcal{A} \cong_p \mathcal{B}$ implies $\mathcal{A} \equiv \mathcal{B}$.
+\end{theorem}
+
+\begin{proof}
+Induction on $\varphi$. An atomic formula is $y = z$ or $R(y_1, \ldots, y_r)$ with variables $y_j$, and the claim holds because $p$ is injective and
+preserves the relations. The cases $\neg$ and $\to$ follow from the induction hypothesis. Let $\varphi = \forall y\,\psi$, so $k \geq 1$ and
+$\mathrm{qr}(\psi) \leq k - 1$. Suppose $\mathcal{A} \models \varphi[s]$, and let $b \in \mathcal{B}$. By the back property there is $q \in I_{k-1}$ with
+$p \subseteq q$ and $b = q(a)$ for some $a$. Then $\mathcal{A} \models \psi[s[y \mapsto a]]$, the values of $s[y \mapsto a]$ on the free variables of $\psi$ lie in
+$\operatorname{dom}q$, and $q(s[y \mapsto a](x)) = t[y \mapsto b](x)$ for these variables; by induction $\mathcal{B} \models \psi[t[y \mapsto b]]$. As $b$ was
+arbitrary, $\mathcal{B} \models \varphi[t]$. The converse uses the forth property in the same way. For sentences the condition on $s$ is empty, which gives
+the consequences, taking $I_k = I$ for all $k$ in the last one.
+\end{proof}
+
+\begin{example}\label{model-theory:example-empty-language}
+Let $\mathcal{L}$ be the empty language, so structures are nonempty sets. If $|\mathcal{A}| = |\mathcal{B}|$, or both have at least $n$ elements, then
+$\mathcal{A} \cong_n \mathcal{B}$: let $I_k$ be the set of injections from subsets of $\mathcal{A}$ of size at most $n - k$ into $\mathcal{B}$ (all injections with
+finite domain, if $|\mathcal{A}| = |\mathcal{B}|$ is finite); an injection with at most $n - k - 1$ elements in its domain can be extended by any point, since the
+other set has more than $n - k - 1$ elements. So a sentence of quantifier rank $n$ cannot distinguish a set with $n$ elements from one with $n + 1$, and no
+sentence of the empty language is true exactly in the finite sets of even cardinality.
+\end{example}
+
+For a \emph{finite} relational language the converse of Fra\"iss\'e's theorem holds, and each class $\equiv_n$ is defined by one sentence. Fix an enumeration
+of all formulas of $\mathcal{L}$ (a countable set) and the variables $x_1, x_2, \ldots$; the conjunction $\bigwedge\Phi$ or disjunction $\bigvee\Phi$ of a finite
+nonempty set $\Phi$ of formulas is taken in the order of this enumeration.
+
+\begin{definition}\label{model-theory:definition-hintikka}
+Let $\mathcal{L}$ be a finite relational language. For a structure $\mathcal{A}$, a tuple $\bar{a} \in \mathcal{A}^m$ and $n$ with $m + n \geq 1$, the
+\emph{Hintikka formula} $\varphi^n_{\mathcal{A}, \bar{a}}(x_1, \ldots, x_m)$ is defined by recursion on $n$. For $m \geq 1$, $\varphi^0_{\mathcal{A}, \bar{a}}$ is
+the conjunction of the atomic formulas in the variables $x_1, \ldots, x_m$ that hold at $\bar{a}$ and the negations of those that do not; there are finitely
+many, as $\mathcal{L}$ is finite. Then
+\[
+\varphi^{n+1}_{\mathcal{A}, \bar{a}} = \varphi^0_{\mathcal{A}, \bar{a}} \wedge \bigwedge_{a \in \mathcal{A}}\exists x_{m+1}\,\varphi^n_{\mathcal{A}, \bar{a}a}
+\wedge \forall x_{m+1}\bigvee_{a \in \mathcal{A}}\varphi^n_{\mathcal{A}, \bar{a}a},
+\]
+where the conjunction and the disjunction are over the \emph{set} of formulas $\{\varphi^n_{\mathcal{A}, \bar{a}a} : a \in \mathcal{A}\}$, which is finite by
+Lemma~\ref{model-theory:lemma-hintikka}, and the first conjunct is omitted if $m = 0$.
+\end{definition}
+
+\begin{lemma}\label{model-theory:lemma-hintikka}
+Let $\mathcal{L}$ be a finite relational language and $m + n \geq 1$. The set $H^n_m$ of all formulas $\varphi^n_{\mathcal{A}, \bar{a}}$, for all structures
+$\mathcal{A}$ and $\bar{a} \in \mathcal{A}^m$, is finite. Each has quantifier rank $n$, and $\mathcal{A} \models \varphi^n_{\mathcal{A}, \bar{a}}[\bar{a}]$.
+\end{lemma}
+
+\begin{proof}
+Induction on $n$, for all $m$ at once; this also shows that Definition~\ref{model-theory:definition-hintikka} makes sense. The set $H^0_m$ ($m \geq 1$) is finite,
+since $\varphi^0_{\mathcal{A}, \bar{a}}$ is determined by the subset of the finitely many atomic formulas in $x_1, \ldots, x_m$ that hold at $\bar{a}$. The
+formula $\varphi^{n+1}_{\mathcal{A}, \bar{a}}$ is determined by $\varphi^0_{\mathcal{A}, \bar{a}}$ and by a subset of the finite set $H^n_{m+1}$, so $H^{n+1}_m$ is
+finite. The statements about quantifier rank and truth follow by the same induction.
+\end{proof}
+
+\begin{theorem}[Ehrenfeucht--Fra\"iss\'e]\label{model-theory:theorem-ehrenfeucht-fraisse}
+Let $\mathcal{L}$ be a finite relational language, $\bar{a} \in \mathcal{A}^m$, $\bar{b} \in \mathcal{B}^m$ and $m + n \geq 1$. The following are equivalent:
+\begin{enumerate}
+\item[(a)] $\mathcal{B} \models \varphi^n_{\mathcal{A}, \bar{a}}[\bar{b}]$;
+\item[(b)] $(\mathcal{A}, \bar{a}) \cong_n (\mathcal{B}, \bar{b})$;
+\item[(c)] $(\mathcal{A}, \bar{a}) \equiv_n (\mathcal{B}, \bar{b})$.
+\end{enumerate}
+In particular, for $n \geq 1$ the class of structures $\mathcal{B}$ with $\mathcal{B} \equiv_n \mathcal{A}$ is the class of models of the single sentence
+$\varphi^n_{\mathcal{A}}$, and there are finitely many such classes.
+\end{theorem}
+
+\begin{proof}
+(c) implies (a) by Lemma~\ref{model-theory:lemma-hintikka}, and (b) implies (c) by Theorem~\ref{model-theory:theorem-fraisse}. Assume (a). For $k \leq n$ let
+$I_k$ be the set of maps $\bar{c} \mapsto \bar{d}$, where $\bar{c} \in \mathcal{A}^{m+n-k}$ and $\bar{d} \in \mathcal{B}^{m+n-k}$ extend $\bar{a}$ and $\bar{b}$ and
+$\mathcal{B} \models \varphi^k_{\mathcal{A}, \bar{c}}[\bar{d}]$. Such a map is a well defined partial isomorphism: if the tuples are nonempty,
+$\varphi^k_{\mathcal{A}, \bar{c}}$ contains the conjunct $\varphi^0_{\mathcal{A}, \bar{c}}$, which records which equalities $x_i = x_j$ and which relations hold at
+$\bar{c}$, and these then hold at $\bar{d}$ as well; if they are empty, it is the empty map. By (a), $\bar{a} \mapsto \bar{b}$ lies in $I_n$. Let
+$\bar{c} \mapsto \bar{d}$ be in $I_{k+1}$. For $a \in \mathcal{A}$, the conjunct $\exists x\,\varphi^k_{\mathcal{A}, \bar{c}a}$ of
+$\varphi^{k+1}_{\mathcal{A}, \bar{c}}$ gives $b$ with $\mathcal{B} \models \varphi^k_{\mathcal{A}, \bar{c}a}[\bar{d}b]$, so $\bar{c}a \mapsto \bar{d}b$ is in $I_k$:
+this is the forth property. For $b \in \mathcal{B}$, the conjunct $\forall x\bigvee_a\varphi^k_{\mathcal{A}, \bar{c}a}$ gives $a$ with $\bar{c}a \mapsto \bar{d}b$ in
+$I_k$: the back property. The forth property also shows inductively that all $I_k$ are nonempty. So (b) holds. The last statement follows, with
+Lemma~\ref{model-theory:lemma-hintikka} for finiteness.
+\end{proof}
+
+\section{Lindstr\"om's theorem}\label{model-theory:section-lindstrom}
+
+First-order logic is one of many possible logics: one can allow infinite conjunctions, quantifiers such as ``there are uncountably many'', or quantification
+over subsets. Lindstr\"om's theorem says that none of these extensions keeps both the compactness theorem and the L\"owenheim--Skolem theorem.
+
+\begin{definition}\label{model-theory:definition-abstract-logic}
+A \emph{logic} $\mathcal{S}$ assigns to each finite relational language $\mathcal{L}$ a set $\mathcal{S}[\mathcal{L}]$, whose elements are called
+\emph{$\mathcal{S}$-sentences}, and a relation $\mathcal{A} \models_{\mathcal{S}} \psi$ between $\mathcal{L}$-structures and $\mathcal{S}$-sentences, such that:
+\begin{enumerate}
+\item (Isomorphism) isomorphic structures satisfy the same $\mathcal{S}$-sentences;
+\item (Expansion) if $\mathcal{L} \subseteq \mathcal{L}'$, then $\mathcal{S}[\mathcal{L}] \subseteq \mathcal{S}[\mathcal{L}']$, and an $\mathcal{L}'$-structure
+satisfies $\psi \in \mathcal{S}[\mathcal{L}]$ if and only if its reduct to $\mathcal{L}$ does;
+\item (Boolean operations) for $\psi, \chi \in \mathcal{S}[\mathcal{L}]$ there are $\neg\psi$ and $\psi \wedge \chi$ in $\mathcal{S}[\mathcal{L}]$ with the usual
+meaning;
+\item (Relativisation) for $\psi \in \mathcal{S}[\mathcal{L}]$ and a unary relation symbol $P \notin \mathcal{L}$ there is $\psi^P \in \mathcal{S}[\mathcal{L} \cup \{P\}]$
+such that an $(\mathcal{L} \cup \{P\})$-structure $\mathcal{A}$ with $P^{\mathcal{A}} \neq \emptyset$ satisfies $\psi^P$ if and only if
+$\mathcal{A}^{(P)} \models_{\mathcal{S}} \psi$, where $\mathcal{A}^{(P)}$ is the $\mathcal{L}$-structure with universe $P^{\mathcal{A}}$ and the restrictions of the
+relations of $\mathcal{A}$;
+\item (First-order logic) for every first-order $\mathcal{L}$-sentence $\sigma$ there is $\sigma' \in \mathcal{S}[\mathcal{L}]$ with the same models.
+\end{enumerate}
+The logic $\mathcal{S}$ has the \emph{compactness property} if every set of $\mathcal{S}[\mathcal{L}]$-sentences whose finite subsets have models has a model,
+and the \emph{L\"owenheim--Skolem property} if every $\mathcal{S}$-sentence with a model has a countable model.
+\end{definition}
+
+First-order logic is a logic in this sense, with relativisation defined by replacing each subformula $\forall x\,\varphi$ by $\forall x\,(P(x) \to \varphi)$;
+it has both properties, by Theorems~\ref{logic:theorem-compactness} and~\ref{logic:theorem-lowenheim-skolem}. Infinitary logic with countable conjunctions has
+the L\"owenheim--Skolem property but not the compactness property, and the logic with the quantifier ``there are uncountably many'' is compact for countable
+languages but fails the L\"owenheim--Skolem property \cite[Chapter XIII]{ebbinghaus-flum-thomas}.
+
+\begin{theorem}[Lindstr\"om]\label{model-theory:theorem-lindstrom}
+Let $\mathcal{S}$ be a logic with the compactness and the L\"owenheim--Skolem properties. Then for every finite relational language $\mathcal{L}$, every
+$\psi \in \mathcal{S}[\mathcal{L}]$ has the same models as some first-order $\mathcal{L}$-sentence.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1.} Suppose that $\psi \in \mathcal{S}[\mathcal{L}]$ has no first-order equivalent. We claim that for every $n \geq 1$ there are $\mathcal{L}$-structures
+$\mathcal{A}_n \models \psi$ and $\mathcal{B}_n \not\models \psi$ with $\mathcal{A}_n \cong_n \mathcal{B}_n$. Otherwise, for some $n$, every structure $\equiv_n$ to a
+model of $\psi$ is a model of $\psi$ (Theorem~\ref{model-theory:theorem-ehrenfeucht-fraisse}). Let $\sigma$ be the disjunction of the finitely many sentences
+$\varphi^n_{\mathcal{A}} \in H^n_0$ with $\mathcal{A} \models \psi$ (or $\exists x\,(x \neq x)$ if $\psi$ has no model). A model of $\psi$ satisfies its own Hintikka
+sentence, hence $\sigma$; a model of $\sigma$ is $\equiv_n$ to a model of $\psi$, hence a model of $\psi$. So $\psi$ has the same models as $\sigma$, a
+contradiction. Fix $n$-back-and-forth systems $(I^n_k)_{k \leq n}$ from $\mathcal{A}_n$ to $\mathcal{B}_n$.
+
+\emph{Step 2: coding.} Let $\mathcal{L}^+ = \mathcal{L} \cup \{P, Q, U, W, C, <, I, G\}$ with $P, Q, U, W, C$ unary, $<$ and $I$ binary and $G$ ternary. Let
+$\mathcal{M}_n$ be the $\mathcal{L}^+$-structure whose universe is the disjoint union of $\mathcal{A}_n$, $\mathcal{B}_n$, $\{0, 1, \ldots, n\}$ and
+$\bigcup_kI^n_k$, with $P$, $Q$, $U$, $W$ these four parts, $R^{\mathcal{M}_n} = R^{\mathcal{A}_n} \cup R^{\mathcal{B}_n}$ for $R \in \mathcal{L}$, $<$ the order of
+$\{0, \ldots, n\}$, $C = \{n\}$, $I = \{(k, w) : w \in I^n_k\}$ and $G = \{(w, a, b) : w(a) = b\}$. Consider the following first-order $\mathcal{L}^+$-sentences:
+\begin{enumerate}
+\item[(i)] $P$, $Q$, $U$ are nonempty, $W$ is disjoint from $P$, and $C$ holds at exactly one element, which lies in $U$;
+\item[(ii)] $<$ is a linear order on $U$ with a least element, and every other element of $U$ has an immediate predecessor in $U$;
+\item[(iii)] for every $k$ in $U$ there is $w$ with $I(k, w)$, and $I(k, w)$ implies $U(k)$ and $W(w)$;
+\item[(iv)] for every $w$ in $W$, the relation $G(w, x, y)$ is the graph of an injective partial map from $P$ to $Q$ which preserves each relation of
+$\mathcal{L}$ in both directions (a finite conjunction, as $\mathcal{L}$ is finite);
+\item[(v)] if $k'$ is the immediate predecessor of $k$ in $U$ and $I(k, w)$, then for every $a$ in $P$ there is $w'$ with $I(k', w')$,
+$\forall x\forall y\,(G(w, x, y) \to G(w', x, y))$ and $\exists y\,G(w', a, y)$; and symmetrically for every $b$ in $Q$ there is such a $w'$ with
+$\exists x\,G(w', x, b)$.
+\end{enumerate}
+Let $\chi \in \mathcal{S}[\mathcal{L}^+]$ be the conjunction of $\psi^P$, $(\neg\psi)^Q$ and the $\mathcal{S}$-versions of (i)--(v)
+(Definition~\ref{model-theory:definition-abstract-logic}(2)--(5)). Then $\mathcal{M}_n \models \chi$: the structures $\mathcal{M}_n^{(P)} = \mathcal{A}_n$ and
+$\mathcal{M}_n^{(Q)} = \mathcal{B}_n$ satisfy $\psi$ and $\neg\psi$, and (v) holds because $I^n_k$ has the forth and back properties with respect to $I^n_{k-1}$.
+
+\emph{Step 3: compactness.} For $j \in \NN$ let $\lambda_j$ be the first-order sentence saying that the element of $C$ has at least $j$ predecessors in $U$. A
+finite subset of $\{\chi\} \cup \{\lambda_j' : j \in \NN\}$ is satisfied by $\mathcal{M}_n$ for $n$ large, since $n$ has $n$ predecessors. By the compactness
+property there is a model $\mathcal{M}$. Call $k \in U^{\mathcal{M}}$ \emph{infinite} if it has infinitely many predecessors; the element of $C^{\mathcal{M}}$ is
+infinite. An infinite $k$ is not the least element, so it has an immediate predecessor $k'$ by (ii), and $k'$ is infinite, as every other predecessor of $k$ is a
+predecessor of $k'$.
+
+\emph{Step 4: L\"owenheim--Skolem.} Let $J$ be a new unary relation symbol, and expand $\mathcal{M}$ by
+$J = \{w : I(k, w) \text{ for some infinite } k\}$. Let $\theta$ be the first-order sentence saying that $J$ is nonempty and contained in $W$, and that for every
+$w$ in $J$ and every $a$ in $P$ (respectively $b$ in $Q$) there is $w'$ in $J$ with $G(w, x, y) \to G(w', x, y)$ for all $x, y$ and $a$ in the domain (respectively
+$b$ in the image) of $w'$. The expansion satisfies $\chi \wedge \theta'$: $J$ is nonempty by (iii) applied to the element of $C$, and the extensions required
+by $\theta$ exist by (v), since the immediate predecessor of an infinite element is infinite. By the L\"owenheim--Skolem property, $\chi \wedge \theta'$ has a
+countable model $\mathcal{N}$. Then $\mathcal{N}^{(P)}$ and $\mathcal{N}^{(Q)}$ are countable $\mathcal{L}$-structures with $\mathcal{N}^{(P)} \models \psi$ and
+$\mathcal{N}^{(Q)} \not\models \psi$, by relativisation, and by (iv) and $\theta$ the partial maps coded by the elements of $J^{\mathcal{N}}$ form a nonempty set
+of partial isomorphisms with the forth and back properties. By Lemma~\ref{model-theory:lemma-countable-partial-isomorphism},
+$\mathcal{N}^{(P)} \cong \mathcal{N}^{(Q)}$, which contradicts the isomorphism property of $\mathcal{S}$. So $\psi$ has a first-order equivalent.
+\end{proof}
+
+\begin{remark}\label{model-theory:remark-lindstrom}
+The theorem is from \cite{lindstrom-1969}; we followed \cite[Chapter XIII]{ebbinghaus-flum-thomas}. It explains why first-order logic is the logic of this
+project: its two basic metatheorems, compactness and L\"owenheim--Skolem, characterise it. The price is expressiveness: by
+Example~\ref{model-theory:example-empty-language} and Counterexample~\ref{logic:counterexample-finiteness}, finiteness and even cardinality are not first-order
+properties, and by Theorem~\ref{model-theory:theorem-upward-lowenheim-skolem} no infinite structure is characterised up to isomorphism.
+\end{remark}
+
+\section{Exercises}\label{model-theory:section-exercises}
+
+\begin{exercise}\label{model-theory:exercise-infinitesimals}
+Show that on an infinite set $I$ there is an ultrafilter containing all complements of finite sets, and that such an ultrafilter is not principal. For such an
+ultrafilter $U$ on $\NN$, show that the ultrapower of the ordered field $(\RR, 0, 1, +, \cdot, <)$ contains a positive element smaller than $1/n$ for every
+$n \in \NN_{>0}$, and that it satisfies the same first-order sentences as $\RR$.
+\end{exercise}
+
+\begin{solution}
+The complements of finite sets have the finite intersection property, since a finite union of finite sets is finite and $I$ is infinite; so they lie in an
+ultrafilter $U$ (Lemma~\ref{model-theory:lemma-ultrafilters}). It is not principal, as $I \setminus \{i\} \in U$ for each $i$. The element
+$\epsilon = [(1/(k + 1))_k]$ is positive, and for $n \geq 1$ the set $\{k : 1/(k + 1) < 1/n\}$ is cofinite, hence in $U$; by
+Theorem~\ref{model-theory:theorem-los}, $0 < \epsilon < 1/n$, where $1/n$ denotes the class of the constant family. The ultrapower is an elementary extension of
+$\RR$ by the remark after Theorem~\ref{model-theory:theorem-los}.
+\end{solution}
+
+\begin{exercise}\label{model-theory:exercise-dlo-endpoints}
+Show that the theory of dense linear orders with a least and a greatest element (and at least two elements) is $\aleph_0$-categorical and complete.
+\end{exercise}
+
+\begin{solution}
+Such an order is infinite, by density. Given two countable ones, the orders obtained by removing the endpoints are countable dense linear orders without
+endpoints, hence isomorphic (Theorem~\ref{model-theory:theorem-cantor}), and the isomorphism extends by sending endpoints to endpoints. The language is finite
+and there are no finite models, so Theorem~\ref{model-theory:theorem-los-vaught} applies.
+\end{solution}
+
+\begin{exercise}\label{model-theory:exercise-connectedness}
+Show that connectedness of graphs is not first-order: there is no set of sentences in the language with one binary relation $E$ whose models are exactly the
+connected graphs (symmetric irreflexive $E$ in which any two vertices are joined by a finite path).
+\end{exercise}
+
+\begin{solution}
+Suppose $T$ were such a set. Add constants $c$, $d$ and, for each $n$, the sentence $\delta_n$ saying that there is no path of length at most $n$ from $c$ to
+$d$. Every finite subset of $T \cup \{\delta_n : n\}$ is satisfied by a long path graph with $c$ and $d$ its endpoints, which is connected. By
+Theorem~\ref{model-theory:theorem-compactness} there is a model, a connected graph in which $c$ and $d$ are joined by no path, a contradiction.
+\end{solution}

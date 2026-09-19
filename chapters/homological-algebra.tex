@@ -156,7 +156,7 @@ $x = \alpha_3(y)$. Then $\beta_3(u - f_3(y)) = 0$, so $u - f_3(y) = \beta_2(v)$ 
 $u = f_3(y + \alpha_2(t))$.
 \end{proof}
 
-\begin{theorem}[Long exact sequence]\label{homological-algebra:theorem-long-exact-sequence}
+\begin{theorem}[Long exact sequence, or zig-zag lemma]\label{homological-algebra:theorem-long-exact-sequence}
 A short exact sequence $0 \to A^\bullet \xrightarrow{f} B^\bullet \xrightarrow{g} C^\bullet \to 0$ of complexes in an abelian category
 induces a long exact sequence
 \[
@@ -173,6 +173,22 @@ $0 \to Z^{n+1}(A) \to Z^{n+1}(B) \to Z^{n+1}(C)$ is exact. The differential $d^n
 to the second, whose kernels are the $H^n$ and whose cokernels are the $H^{n+1}$. Apply
 Lemma~\ref{homological-algebra:lemma-snake}. Naturality follows from the explicit formula for $\delta$.
 \end{proof}
+
+\begin{remark}\label{homological-algebra:remark-zig-zag}
+The name \emph{zig-zag lemma} comes from the path that defines the connecting map $\delta$. Start from a cocycle $c \in C^n$; go
+up to a preimage $b \in B^n$ with $g(b) = c$; go across by the differential to $d(b) \in B^{n+1}$, which satisfies
+$g(d(b)) = d(g(b)) = d(c) = 0$; and go down to the unique $a \in A^{n+1}$ with $f(a) = d(b)$. Then $\delta[c] = [a]$:
+\begin{center}
+\begin{tikzcd}
+& b \arrow[r, mapsto, "g"] \arrow[d, mapsto, "d"'] & c \arrow[d, mapsto, "d"] \\
+a \arrow[r, mapsto, "f"] & d(b) \arrow[r, mapsto, "g"] & 0
+\end{tikzcd}
+\end{center}
+The element $a$ depends on the choice of $b$, but its class does not; Exercise~\ref{homological-algebra:exercise-zig-zag} checks
+this and the exactness of the long sequence directly, by chasing elements through the diagram, without the snake lemma. In
+singular homology, where the short exact sequence is $0 \to C_\bullet(A) \to C_\bullet(X) \to C_\bullet(X, A) \to 0$, the recipe says:
+a relative cycle is a chain in $X$ whose boundary lies in $A$, and $\delta$ sends it to that boundary.
+\end{remark}
 
 \begin{proposition}\label{homological-algebra:proposition-cone}
 For $f \colon A^\bullet \to B^\bullet$ there is a short exact sequence
@@ -534,6 +550,32 @@ algebraic reason why $H^2(\RR\PP^2, \ZZ) \cong \ZZ/2\ZZ$ while $H_2(\RR\PP^2, \Z
 Prove the $3 \times 3$ lemma: in a commutative $3 \times 3$ diagram of modules with exact columns, if two of the rows are short exact
 sequences, so is the third.
 \end{exercise}
+
+\begin{exercise}\label{homological-algebra:exercise-zig-zag}
+Let $0 \to A^\bullet \xrightarrow{f} B^\bullet \xrightarrow{g} C^\bullet \to 0$ be a short exact sequence of complexes of modules.
+Prove Theorem~\ref{homological-algebra:theorem-long-exact-sequence} directly: show that the recipe of
+Remark~\ref{homological-algebra:remark-zig-zag} gives a well defined homomorphism $\delta \colon H^n(C) \to H^{n+1}(A)$, and that
+the long sequence is exact at $H^n(B)$, at $H^n(C)$ and at $H^{n+1}(A)$.
+\end{exercise}
+
+\begin{solution}
+\emph{$a$ is a cocycle:} $f(d(a)) = d(f(a)) = d(d(b)) = 0$ and $f$ is injective. \emph{Independence of $b$:} another preimage
+of $c$ is $b + f(a')$ with $a' \in A^n$, since $\ker g = \operatorname{im} f$; it gives $d(b) + f(d(a'))$, hence $a + d(a')$, which has
+the same class. \emph{Independence of $c$ in its class:} for $c + d(c')$, write $c' = g(b')$ and use the preimage $b + d(b')$, which
+gives the same $d(b)$ and the same $a$. So $\delta$ is well defined, and it is additive because sums of choices are choices for
+sums.
+
+\emph{Exactness at $H^n(B)$.} $g_*f_* = (gf)_* = 0$. If $b$ is a cocycle with $g_*[b] = 0$, then $g(b) = d(c')$ with $c' = g(b')$,
+so $g(b - d(b')) = 0$ and $b - d(b') = f(a)$ for some $a$; then $f(d(a)) = d(b) = 0$, so $a$ is a cocycle and
+$[b] = [b - d(b')] = f_*[a]$.
+
+\emph{Exactness at $H^n(C)$.} If $c = g(b)$ with $b$ a cocycle, use this $b$: $d(b) = 0$, so $\delta[c] = 0$. Conversely, if
+$\delta[c] = 0$, then $a = d(a')$ and $b - f(a')$ is a cocycle, since $d(b - f(a')) = f(a) - f(d(a')) = 0$, with
+$g(b - f(a')) = c$; so $[c] \in \operatorname{im} g_*$.
+
+\emph{Exactness at $H^{n+1}(A)$.} $f_*\delta[c] = [f(a)] = [d(b)] = 0$. Conversely, if $a$ is a cocycle with $f(a) = d(b)$ for some
+$b$, then $c = g(b)$ is a cocycle, since $d(c) = g(d(b)) = g(f(a)) = 0$, and by construction $\delta[c] = [a]$.
+\end{solution}
 
 \begin{exercise}\label{homological-algebra:exercise-ext-divisible}
 Show that $\Ext^1_\ZZ(\QQ, \ZZ) \neq 0$. (Hint: use $0 \to \ZZ \to \QQ \to \QQ/\ZZ \to 0$.)

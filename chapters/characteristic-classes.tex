@@ -286,6 +286,129 @@ On a smooth projective complex variety, the Chern classes of an algebraic vector
 conjecture, and it is the only case known in general.
 \end{example}
 
+\section{Stiefel--Whitney classes and Wu's formula}\label{characteristic-classes:section-wu}
+
+With coefficients in $\mathbb{F}_2$ no orientations are needed, and the Steenrod squares
+(Theorem~\ref{cohomology-operations:theorem-steenrod-squares}) produce the Stiefel--Whitney classes directly from the Thom class. For the tangent
+bundle of a closed manifold this has a striking consequence, Wu's formula: the Stiefel--Whitney classes of $TM$ are determined by the cohomology
+ring $H^*(M; \mathbb{F}_2)$ with its Steenrod squares, so they are homotopy invariants, although $TM$ is not. In this section $H^*$ means
+$H^*(-; \mathbb{F}_2)$, and $\mathrm{Sq} = \sum_i\mathrm{Sq}^i$.
+
+\begin{theorem}[Thom]\label{characteristic-classes:theorem-stiefel-whitney-thom}
+Let $\pi \colon E \to M$ be a real vector bundle of rank $n$ over a manifold, and $E_0$ the complement of the zero section.
+\begin{enumerate}
+\item (Thom isomorphism mod $2$) There is a unique class $u \in H^n(E, E_0)$ restricting to the nonzero class on every fibre, and
+$\Phi(x) = \pi^*(x) \smile u$ is an isomorphism $H^k(M) \to H^{k+n}(E, E_0)$ for all $k$.
+\item The classes $w_i(E) = \Phi^{-1}(\mathrm{Sq}^i u) \in H^i(M)$ are the Stiefel--Whitney classes of
+Definition~\ref{characteristic-classes:definition-pontryagin}: $w_0 = 1$, $w_i = 0$ for $i > n$, they are natural, the total class
+$w = \sum_iw_i$ satisfies $w(E \oplus E') = w(E)w(E')$, and $w_1$ of the tautological line bundle on $\RR\PP^1$ is nonzero. Equivalently,
+$\mathrm{Sq}(u) = \pi^*w(E) \smile u$.
+\end{enumerate}
+\end{theorem}
+
+This is \cite[Chapters 8 and 10]{milnor-stasheff}; it is Thom's definition of the Stiefel--Whitney classes. The properties in (2) follow from the
+axioms of Theorem~\ref{cohomology-operations:theorem-steenrod-squares}: $w_0 = 1$ from $\mathrm{Sq}^0 = \id$, $w_i = 0$ for $i > n$ from
+$\mathrm{Sq}^iu = 0$ for $i > \deg u$, and the Whitney formula from the Cartan formula, as the Thom class of $E \oplus E'$ is the cross product of
+the Thom classes.
+
+\begin{definition}\label{characteristic-classes:definition-wu-classes}
+Let $M$ be a closed $n$-manifold and $[M] \in H_n(M)$ its fundamental class (every manifold is $\mathbb{F}_2$-oriented,
+Proposition~\ref{poincare-duality:proposition-orientation-covering}(3)). For each $i$, the map $H^{n-i}(M) \to \mathbb{F}_2$,
+$x \mapsto \langle\mathrm{Sq}^i(x), [M]\rangle$, is linear, so by Poincar\'e duality (Corollary~\ref{poincare-duality:corollary-cup-pairing}) there is a
+unique class $v_i \in H^i(M)$ with
+\[
+\langle v_i \smile x, [M]\rangle = \langle\mathrm{Sq}^i(x), [M]\rangle \quad \text{for all } x \in H^{n-i}(M).
+\]
+The $v_i$ are the \emph{Wu classes} of $M$, and $v = 1 + v_1 + v_2 + \cdots$ is the \emph{total Wu class}.
+\end{definition}
+
+Since $\mathrm{Sq}^0 = \id$, $v_0 = 1$. If $2i > n$, then $\mathrm{Sq}^i(x) = 0$ for $x$ of degree $n - i < i$, so $v_i = 0$: only
+$v_0, \ldots, v_{\lfloor n/2\rfloor}$ can be nonzero.
+
+\begin{theorem}[Wu's formula]\label{characteristic-classes:theorem-wu}
+Let $M$ be a closed smooth $n$-manifold. Then $w(TM) = \mathrm{Sq}(v)$, that is, $w_k(TM) = \sum_i\mathrm{Sq}^{k-i}(v_i)$ for every $k$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Choose a basis $(b_j)$ of $H^*(M)$ and the dual basis $(b_j^\#)$ for the cup pairing, $\langle b_j \smile b_l^\#, [M]\rangle = \delta_{jl}$
+(Corollary~\ref{poincare-duality:corollary-cup-pairing}); then every $y \in H^*(M)$ is $y = \sum_j\langle y \smile b_j, [M]\rangle\,b_j^\#$. We quote two
+geometric facts \cite[Chapter 11]{milnor-stasheff}, which are the omitted verifications. First, the class $U = \sum_jb_j \times b_j^\# \in H^n(M \times M)$
+(K\"unneth, Theorem~\ref{singular-cohomology:theorem-kunneth}) is the Poincar\'e dual of the diagonal. Second, a tubular neighbourhood of the diagonal is
+isomorphic to $TM$, and under this isomorphism and excision $U$ corresponds to the Thom class of $TM$; with
+Theorem~\ref{characteristic-classes:theorem-stiefel-whitney-thom}(2) this gives $\mathrm{Sq}(U) = (1 \times w(TM)) \smile U$.
+
+The rest is algebra. Let $\Theta \colon H^*(M \times M) \to H^*(M)$ be the linear map with $\Theta(a \times b) = \langle a, [M]\rangle\,b$ (the slant
+product with $[M]$ in the first factor), so that $\Theta((1 \times w) \smile Z) = w \smile \Theta(Z)$. Since $\langle b_j, [M]\rangle = \langle 1 \smile b_j, [M]\rangle$,
+$\Theta(U) = \sum_j\langle 1 \smile b_j, [M]\rangle b_j^\# = 1$, so $\Theta(\mathrm{Sq}(U)) = w(TM)$. On the other hand, by the Cartan formula
+$\mathrm{Sq}(U) = \sum_j\mathrm{Sq}(b_j) \times \mathrm{Sq}(b_j^\#)$, and $\langle\mathrm{Sq}(b_j), [M]\rangle = \langle\mathrm{Sq}^{n - \deg b_j}(b_j), [M]\rangle
+= \langle v \smile b_j, [M]\rangle$ by the definition of the Wu classes; so
+$\Theta(\mathrm{Sq}(U)) = \sum_j\langle v \smile b_j, [M]\rangle\,\mathrm{Sq}(b_j^\#) = \mathrm{Sq}\bigl(\sum_j\langle v \smile b_j, [M]\rangle b_j^\#\bigr) = \mathrm{Sq}(v)$.
+\end{proof}
+
+\begin{corollary}\label{characteristic-classes:corollary-wu-invariance}
+Let $M$ and $N$ be closed connected smooth $n$-manifolds and $h \colon M \to N$ a homotopy equivalence. Then $h^*w(TN) = w(TM)$, and $M$ and $N$
+have the same Stiefel--Whitney numbers $\langle w_{i_1}(T-) \cdots w_{i_r}(T-), [-]\rangle$. Moreover $w_1(TM) = v_1$, so $M$ is orientable if and only if
+$\mathrm{Sq}^1 \colon H^{n-1}(M) \to H^n(M)$ is zero.
+\end{corollary}
+
+\begin{proof}
+The map $h^*$ is an isomorphism of rings commuting with the Steenrod squares (naturality), and $h_*[M] = [N]$, because $h_*$ is an isomorphism
+$H_n(M) \cong \mathbb{F}_2 \to H_n(N) \cong \mathbb{F}_2$ (Theorem~\ref{poincare-duality:theorem-fundamental-class}). For $x \in H^{n-i}(N)$,
+$\langle h^*(v_i(N)) \smile h^*x, [M]\rangle = \langle v_i(N) \smile x, [N]\rangle = \langle\mathrm{Sq}^i(x), [N]\rangle = \langle\mathrm{Sq}^i(h^*x), [M]\rangle$, and $h^*$ is
+surjective; so $h^*v(N) = v(M)$, and $h^*w(TN) = h^*\mathrm{Sq}(v(N)) = \mathrm{Sq}(v(M)) = w(TM)$ by Theorem~\ref{characteristic-classes:theorem-wu}. The
+Stiefel--Whitney numbers agree because $\langle h^*y, [M]\rangle = \langle y, h_*[M]\rangle$. Next, $w_1 = \mathrm{Sq}^1(v_0) + \mathrm{Sq}^0(v_1) = v_1$, as
+$\mathrm{Sq}^1(1) = 0$. By definition $v_1 = 0$ if and only if $\langle\mathrm{Sq}^1(x), [M]\rangle = 0$ for all $x \in H^{n-1}(M)$, that is, since
+$\langle -, [M]\rangle$ is an isomorphism $H^n(M) \to \mathbb{F}_2$, if and only if $\mathrm{Sq}^1 = 0$ on $H^{n-1}(M)$; and $w_1(TM) = 0$ if and only if $TM$,
+equivalently $M$, is orientable (Definition~\ref{characteristic-classes:definition-pontryagin}).
+\end{proof}
+
+\begin{lemma}\label{characteristic-classes:lemma-characteristic-element}
+Let $V$ be a finite-dimensional vector space over $\mathbb{F}_2$ with a nondegenerate symmetric bilinear form $B$. There is a unique $c \in V$ with
+$B(x, x) = B(c, x)$ for all $x$, and $B(c, c) \equiv \dim V \pmod 2$.
+\end{lemma}
+
+\begin{proof}
+The map $x \mapsto B(x, x)$ is linear, because $B(x + y, x + y) = B(x, x) + B(y, y) + 2B(x, y)$, so $c$ exists and is unique by nondegeneracy. We
+argue by induction on $\dim V$, the case $V = 0$ being trivial. If $B(x, x) = 0$ for all $x$, then $c = 0$ and $B$ is alternating. Choose $x \neq 0$ and
+$y$ with $B(x, y) = 1$; the plane $P$ spanned by $x$ and $y$ has Gram matrix $\bigl(\begin{smallmatrix}0 & 1\\ 1 & 0\end{smallmatrix}\bigr)$, so $B$ is
+nondegenerate on $P$, $V = P \oplus P^{\perp_B}$ (Lemma~\ref{linear-algebra:lemma-orthogonal-complement}), $B$ is nondegenerate and alternating on
+$P^{\perp_B}$, and by induction $\dim V$ is even, as required. Otherwise choose $x$ with $B(x, x) = 1$; then $V = \mathbb{F}_2x \oplus W$ with
+$W = x^{\perp_B}$, $B$ is nondegenerate on $W$, and if $c'$ is the element of $W$ given by induction, $c = x + c'$ works: for $y = \lambda x + w$,
+$B(y, y) = \lambda + B(w, w) = \lambda + B(c', w) = B(x + c', y)$. Then $B(c, c) = 1 + B(c', c') \equiv 1 + \dim W = \dim V$.
+\end{proof}
+
+\begin{corollary}\label{characteristic-classes:corollary-top-stiefel-whitney}
+For a closed smooth $n$-manifold $M$, $\langle w_n(TM), [M]\rangle \equiv \chi(M) \pmod 2$.
+\end{corollary}
+
+\begin{proof}
+We may assume $M$ connected. By Theorem~\ref{characteristic-classes:theorem-wu}, $w_n = \sum_i\mathrm{Sq}^{n-i}(v_i)$. For $i < n/2$ the term vanishes,
+because $n - i > i = \deg v_i$, and for $i > n/2$ we have $v_i = 0$. If $n$ is odd nothing remains, so $w_n = 0$, and $\chi(M) = 0$ by
+Corollary~\ref{poincare-duality:corollary-euler-odd} (closed manifolds have finitely generated homology \cite[Appendix]{hatcher-at}). If $n = 2k$, then
+$w_n = \mathrm{Sq}^k(v_k) = v_k^2$. The cup pairing $B(x, y) = \langle x \smile y, [M]\rangle$ on $V = H^k(M)$ is symmetric (mod $2$ there are no signs) and
+nondegenerate, and $B(x, x) = \langle\mathrm{Sq}^k(x), [M]\rangle = B(v_k, x)$; so $v_k$ is the element $c$ of
+Lemma~\ref{characteristic-classes:lemma-characteristic-element}, and $\langle w_n, [M]\rangle = B(v_k, v_k) \equiv \dim H^k(M)$. Finally
+$\chi(M) = \sum_i(-1)^i\dim H^i(M)$ (Corollary~\ref{poincare-duality:corollary-euler-odd} and universal coefficients over a field), and
+$\dim H^i(M) = \dim H^{n-i}(M)$ by Poincar\'e duality; so the terms with $i \neq k$ cancel in pairs modulo $2$, and $\chi(M) \equiv \dim H^k(M)$.
+\end{proof}
+
+\begin{example}\label{characteristic-classes:example-wu-projective}
+Let $M = \RR\PP^n$, with $H^*(M) = \mathbb{F}_2[\alpha]/(\alpha^{n+1})$, $[M]$ pairing to $1$ with $\alpha^n$, and $\mathrm{Sq}^i(\alpha^m) = \binom{m}{i}\alpha^{m+i}$
+(Proposition~\ref{cohomology-operations:proposition-squares-projective}, restricted from $\RR\PP^\infty$). Then $v_i = \binom{n-i}{i}\alpha^i$, since
+$\mathrm{Sq}^i(\alpha^{n-i}) = \binom{n-i}{i}\alpha^n$, and $\mathrm{Sq}(\alpha^i) = \alpha^i(1 + \alpha)^i$.
+\begin{enumerate}
+\item $n = 2$: $v = 1 + \alpha$ and $w = 1 + \alpha(1 + \alpha) = 1 + \alpha + \alpha^2$. So $\RR\PP^2$ is not orientable ($w_1 \neq 0$), and
+$w_2 \neq 0$ matches $\chi(\RR\PP^2) = 1$.
+\item $n = 3$: $v_1 = \binom{2}{1}\alpha = 0$, so $v = 1$ and $w = 1$: all Stiefel--Whitney classes of $\RR\PP^3$ vanish. This is consistent with
+$\RR\PP^3 \cong \mathrm{SO}(3)$ being a Lie group, hence parallelisable.
+\item $n = 4$: $v = 1 + \alpha + \alpha^2$ and $w = 1 + \alpha(1 + \alpha) + \alpha^2(1 + \alpha)^2 = 1 + \alpha + \alpha^4$. So $w_4[\RR\PP^4] = 1$, and
+$\RR\PP^4$ has a nonzero Stiefel--Whitney number; by a theorem of Pontryagin, the Stiefel--Whitney numbers of a boundary vanish, so
+$\RR\PP^4$ is not the boundary of any compact $5$-manifold \cite[Chapter 4]{milnor-stasheff}. (Thom proved the converse: a closed manifold whose
+Stiefel--Whitney numbers all vanish is a boundary \cite{thom-1954}.)
+\end{enumerate}
+In all three cases $w = (1 + \alpha)^{n+1}$, which is the general formula for $\RR\PP^n$ \cite[Chapter 4]{milnor-stasheff}.
+\end{example}
+
 \section{Exercises}\label{characteristic-classes:section-exercises}
 
 \begin{exercise}\label{characteristic-classes:exercise-chern-projective}

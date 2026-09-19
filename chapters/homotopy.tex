@@ -63,6 +63,76 @@ $(y_0, k_0) \in q(U') \times N \subseteq W$. Hence $W$ is open. For the second s
 open in $X$, so $V$ is open in $Y$.
 \end{proof}
 
+\begin{remark}\label{homotopy:remark-deformations}
+A \emph{deformation} of a space $X$ is a homotopy $H \colon X \times I \to X$ starting at $H_0 = \id_X$: we watch $X$ move continuously inside itself.
+By Definition~\ref{homotopy:definition-homotopy}, $A \subseteq X$ is a deformation retract if and only if there is a deformation $H$ of $X$ that ends in
+$A$ ($H_1(X) \subseteq A$) and keeps every point of $A$ fixed at all times ($H_t(a) = a$ for $a \in A$ and $t \in I$); then $r = H_1$, viewed as a map
+$X \to A$, is a retraction, and $H$ is called a \emph{deformation retraction}. Terminology varies: what we call a deformation retract is also called a
+\emph{strong} deformation retract, and some authors call $A$ a deformation retract as soon as there is a retraction $r$ with $ir \simeq \id_X$, the homotopy
+not being required to fix $A$; we call this a \emph{weak} deformation retract. Counterexample~\ref{homotopy:counterexample-comb} shows that the two notions
+differ.
+\end{remark}
+
+\begin{lemma}\label{homotopy:lemma-deformation-retract}
+\begin{enumerate}
+\item If $A$ is a deformation retract of $X$ with retraction $r$, then the inclusion $i \colon A \to X$ and $r$ are mutually inverse homotopy equivalences.
+\item (Transitivity) If $A \subseteq B \subseteq X$, $B$ is a deformation retract of $X$ and $A$ is a deformation retract of $B$, then $A$ is a deformation
+retract of $X$.
+\item (Products) If $A$ is a deformation retract of $X$ and $B$ one of $Y$, then $A \times B$ is a deformation retract of $X \times Y$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) $ri = \id_A$ and $ir \simeq \id_X$. (2) Let $H$ be a deformation retraction of $X$ onto $B$ with retraction $r_B$, and $K$ one of $B$ onto $A$ with
+retraction $r_A$. Let $F(x, t) = H(x, 2t)$ for $t \leq 1/2$ and $F(x, t) = K(r_B(x), 2t - 1)$ for $t \geq 1/2$; the two formulas agree at $t = 1/2$, where both
+give $r_B(x)$, so $F$ is continuous by the pasting lemma (Lemma~\ref{general-topology:lemma-pasting}). It starts at $\id_X$, ends at $r_Ar_B(x) \in A$, and
+fixes every $a \in A$ at all times, since $H$ fixes $B \supseteq A$, $r_B(a) = a$ and $K$ fixes $A$. (3) If $H$ and $K$ are deformation retractions, so is
+$((x, y), t) \mapsto (H(x, t), K(y, t))$.
+\end{proof}
+
+\begin{definition}\label{homotopy:definition-mapping-cylinder}
+The \emph{mapping cylinder} of a map $f \colon X \to Y$ is the quotient $M_f = ((X \times I) \sqcup Y)/\sim$, where $(x, 1) \sim f(x)$ for $x \in X$. We write
+$[x, s]$ for the class of $(x, s)$ and $[y]$ for that of $y$, and $j \colon X \to M_f$, $j(x) = [x, 0]$.
+\end{definition}
+
+\begin{example}\label{homotopy:example-deformation-retracts}
+\begin{enumerate}
+\item The cylinder $X \times I$ deformation retracts onto $X \times \{0\}$, by $H((x, s), t) = (x, (1 - t)s)$.
+\item \emph{The M\"obius band onto its core circle.} Let $M = ([0, 1] \times [-1, 1])/\sim$ with $(0, y) \sim (1, -y)$, and let $C$ be the image of
+$[0, 1] \times \{0\}$, a circle. The homotopy $([x, y], t) \mapsto [x, (1 - t)y]$ is well defined, because $(0, (1 - t)y) \sim (1, -(1 - t)y)$, and continuous,
+because the product of the quotient map with $\id_I$ is a quotient map (Lemma~\ref{homotopy:lemma-quotient-times-interval}). It fixes $C$ and ends in $C$, so
+$C$ is a deformation retract of $M$ and $M \simeq S^1$.
+\item \emph{Every map is an inclusion up to homotopy.} Let $f \colon X \to Y$ be a map. The maps $i \colon Y \to M_f$, $y \mapsto [y]$, and
+$r \colon M_f \to Y$, $[x, s] \mapsto f(x)$, $[y] \mapsto y$, are well defined and continuous, and $ri = \id_Y$, so $i$ is a homeomorphism onto its image, which
+we identify with $Y$. The homotopy $H([x, s], t) = [x, s + t(1 - s)]$, $H([y], t) = [y]$ is well defined (at $s = 1$ both formulas give $[f(x)]$), continuous
+by Lemma~\ref{homotopy:lemma-quotient-times-interval}, starts at the identity, fixes $Y$ and ends at $ir$. So $Y$ is a deformation retract of $M_f$, $r$ is a
+homotopy equivalence by Lemma~\ref{homotopy:lemma-deformation-retract}, and $f = r \circ j$: every map factors as a map $j$ into a larger space followed by a
+homotopy equivalence.
+\item \emph{The punctured torus onto two circles.} Let $T = [0, 1]^2/\sim$ be the torus, with $(x, 0) \sim (x, 1)$ and $(0, y) \sim (1, y)$, let $c = (1/2, 1/2)$,
+and let $p \in T$ be its image. For $z \in Q = [0, 1]^2 \setminus \{c\}$ let $\rho(z) = c + (z - c)/(2\|z - c\|_\infty)$, the point where the ray from $c$
+through $z$ leaves the square, and $H(z, t) = (1 - t)z + t\rho(z)$, which stays on that ray, hence in $Q$. Since $H$ fixes the boundary of the square
+pointwise, it respects the identifications, and it induces a deformation retraction of $T \setminus \{p\}$ onto the image of the boundary; it is continuous
+because $Q \to T \setminus \{p\}$ is a quotient map (the second statement of Lemma~\ref{homotopy:lemma-quotient-times-interval}, as $Q$ is open and
+saturated), and so is its product with $\id_I$. The image of the boundary is the union of the two circles given by the bottom and the left side, meeting in one
+point: a wedge of two circles (Example~\ref{homotopy:example-wedge}). The same argument shows that a closed orientable surface of genus $g$ minus a point
+deformation retracts onto a wedge of $2g$ circles.
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{homotopy:counterexample-comb}
+\emph{A weak deformation retract that is not a deformation retract.} Let $C \subseteq \RR^2$ be the \emph{comb space}
+\[
+C = ([0, 1] \times \{0\}) \cup (\{0\} \times [0, 1]) \cup \textstyle\bigcup_{n \geq 1}(\{1/n\} \times [0, 1]),
+\]
+and $p = (0, 1)$. The space $C$ is contractible: $(x, y, t) \mapsto (x, (1 - t)y)$ deforms it into the segment $[0, 1] \times \{0\}$, which contracts to $(0, 0)$,
+and the constant map at $(0, 0)$ is homotopic to the constant map at $p$ along the path $\{0\} \times [0, 1]$. So $\{p\}$ is a weak deformation retract of $C$. But
+it is not a deformation retract. Suppose $H$ is a deformation of $C$ fixing $p$ at all times and ending at the constant map $p$. Let
+$U = \{z \in C : \|z - p\| < 1/2\}$. Since $H(p, t) = p$ for all $t$ and $I$ is compact, there is a neighbourhood $V$ of $p$ in $C$ with $H(V \times I) \subseteq U$
+(as in the proof of Lemma~\ref{homotopy:lemma-quotient-times-interval}). Choose $n$ with $q = (1/n, 1) \in V$. Then $t \mapsto H(q, t)$ is a path in $U$ from
+$q$ to $p$. But $U \subseteq (\{0\} \cup \{1/n : n \geq 1\}) \times (1/2, 1]$, and the first coordinate of a path in $U$ is a continuous map from $I$ into the set
+$\{0\} \cup \{1/n : n \geq 1\}$, which contains no interval, so it is constant by the intermediate value theorem. This contradicts that the path joins $q$ to $p$.
+\end{counterexample}
+
 \section{The fundamental group}\label{homotopy:section-fundamental-group}
 
 \begin{definition}\label{homotopy:definition-paths}
@@ -232,6 +302,16 @@ is the non-negative solution of $\|x + \lambda u\|^2 = 1$. The square root is co
 is continuous, and $r(x) \in S^1$. If $\|x\| = 1$, then $\langle x, u \rangle = 1 - \langle x, f(x) \rangle \geq 0$ by Cauchy--Schwarz, so $\lambda(x) = 0$ and
 $r(x) = x$. This contradicts the first statement.
 \end{proof}
+
+\begin{counterexample}\label{homotopy:counterexample-retract-not-deformation}
+A retract need not be a deformation retract, not even a weak one. A point $\{b\}$ of $S^1$ is a retract (take the constant map), but not a weak deformation
+retract: otherwise the inclusion would be a homotopy equivalence (as in Lemma~\ref{homotopy:lemma-deformation-retract}(1)), so
+$\pi_1(S^1) \cong \pi_1(\{b\}) = 0$ by Lemma~\ref{homotopy:lemma-change-basepoint}, contradicting Theorem~\ref{homotopy:theorem-circle}. Likewise the circle
+$S^1 \times \{b\}$ is a retract of the torus $S^1 \times S^1$ (via the first projection), but not a weak deformation retract, since
+$\pi_1(S^1 \times S^1) \cong \ZZ^2$ (Proposition~\ref{homotopy:proposition-product}) is not isomorphic to $\ZZ$ ($\ZZ^2/2\ZZ^2$ has four elements and
+$\ZZ/2\ZZ$ two). And by Corollary~\ref{homotopy:corollary-brouwer}, $S^1$ is not even a retract of $D^2$, although it is a deformation retract of
+$D^2 \setminus \{0\}$ (Example~\ref{homotopy:example-contractible}(2)).
+\end{counterexample}
 
 \begin{example}\label{homotopy:example-coverings}
 \begin{enumerate}
