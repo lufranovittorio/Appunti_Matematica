@@ -1,15 +1,401 @@
 \chapter{The Standard Conjectures and Motives}\label{standard-conjectures}
-\chapterstatus{planned}
+\chapterstatus{complete}
 
-The conjectural framework in which the Hodge conjecture lives.
+\section{Introduction}\label{standard-conjectures:section-introduction}
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{intersection-theory} (Algebraic Cycles and Chow Groups), Chapter~\ref{lefschetz-theorems} (Hard Lefschetz and the Hodge--Riemann Relations) and Chapter~\ref{tate-conjecture} (The Tate Conjecture).
+In the 1960s Grothendieck proposed a small set of conjectures about algebraic cycles, the \emph{standard conjectures}, designed to prove the Weil conjectures and to build a category of
+\emph{motives}: a universal cohomology theory through which every Weil cohomology factors. Deligne proved the Weil conjectures by other means, and the standard conjectures remain open. They
+are much weaker than the Hodge conjecture, which implies them in characteristic $0$ (Theorem~\ref{standard-conjectures:theorem-hodge-implies-standard}), yet even the Lefschetz standard
+conjecture, which asks for one explicit class to be algebraic, is open in general. This chapter states the conjectures, proves the implications among them, constructs pure motives, proves Jannsen's
+semisimplicity theorem, reformulates the Hodge conjecture motivically, and describes the conjectures of Bloch and Beilinson on the kernel of the cycle class map, the other half of the theory of
+algebraic cycles. References: \cite{grothendieck-standard}, \cite{kleiman-1968}, \cite{kleiman-1994}, \cite{scholl-1994}, \cite{andre-motifs}, \cite{jannsen-1994}, and the source
+\emph{The Hodge Conjecture} (Chapters 8 and 9).
 
-\noindent\textbf{Planned contents.}
-\begin{itemize}
-\item Weil cohomology theories.
-\item Grothendieck's standard conjectures.
-\item The Hodge conjecture implies the Lefschetz standard conjecture in characteristic zero.
-\item Pure motives and Jannsen's semisimplicity theorem.
-\item The Bloch--Beilinson conjectures.
-\end{itemize}
+\noindent\textbf{Prerequisites.} Chapter~\ref{intersection-theory} (Algebraic Cycles and Chow Groups), Chapter~\ref{lefschetz-theorems} (Hard Lefschetz and the Hodge--Riemann Relations) and
+Chapter~\ref{tate-conjecture} (The Tate Conjecture).
+
+\noindent\textbf{Conventions.} $k$ is a field, and varieties are nonsingular projective over $k$; $X$ has pure dimension $n$ unless stated otherwise. We fix a Weil cohomology theory $H^\bullet$ with
+coefficients in a field $K$ of characteristic $0$ (Definition~\ref{etale-cohomology:definition-weil-cohomology}): $\ell$-adic cohomology of $X \times_k\bar k$ in general, or Betti cohomology of $X_\CC$ with
+$K = \QQ$ when $k \subseteq \CC$. Tate twists are suppressed from the notation. For $\sim$ one of rational, homological (with respect to $H^\bullet$) or numerical equivalence
+(Definition~\ref{intersection-theory:definition-equivalences}) we write
+\[
+A^p_\sim(X) = (Z^p(X) \otimes_\ZZ\QQ)/\!\sim, \qquad A^\bullet_\sim(X) = \bigoplus_pA^p_\sim(X),
+\]
+so that $A^p_{\mathrm{rat}}(X) = \CH^p(X)_\QQ$ and $A^p_{\mathrm{hom}}(X)$ is the $\QQ$-span of the image of the cycle class map in $H^{2p}(X)$, whose elements we call \emph{algebraic classes}. We fix an ample divisor on
+$X$ with class $h \in A^1_{\mathrm{hom}}(X)$ and write $L = h \cup - \colon H^i(X) \to H^{i+2}(X)$.
+
+\section{Correspondences in cohomology}\label{standard-conjectures:section-correspondences}
+
+\begin{proposition}\label{standard-conjectures:proposition-cohomological-correspondences}
+Let $X$, $Y$, $W$ be varieties, $X$ of dimension $n$.
+\begin{enumerate}
+\item A class $\gamma \in H^{2n+2r}(X \times Y)$ acts by $\gamma_*(x) = \mathrm{pr}_{2*}(\mathrm{pr}_1^*x \cup \gamma)$, which maps $H^i(X)$ to $H^{i+2r}(Y)$, and the K\"unneth formula together with Poincar\'e duality
+give an isomorphism $H^{2n+2r}(X \times Y) \cong \bigoplus_i\Hom_K(H^i(X), H^{i+2r}(Y))$, $\gamma \mapsto (\gamma_*|_{H^i(X)})_i$.
+\item For $\gamma \in H^\bullet(X \times Y)$ and $\delta \in H^\bullet(Y \times W)$, the class $\delta \circ \gamma = \mathrm{pr}_{13*}(\mathrm{pr}_{12}^*\gamma \cup \mathrm{pr}_{23}^*\delta)$ satisfies
+$(\delta \circ \gamma)_* = \delta_* \circ \gamma_*$, the class of the diagonal acts as the identity, and $\mathrm{cl}(\Gamma' \circ \Gamma) = \mathrm{cl}(\Gamma') \circ \mathrm{cl}(\Gamma)$ for algebraic correspondences
+(Definition~\ref{intersection-theory:definition-correspondence}).
+\item (Lefschetz trace formula) For $\alpha, \beta \in H^{2n}(X \times X)$, $\int_{X \times X}\alpha \cup {}^t\beta = \sum_i(-1)^i\operatorname{tr}\big((\beta \circ \alpha)_* \mid H^i(X)\big)$, where ${}^t\beta$ is the pullback of
+$\beta$ under the exchange of the factors. The right side is the \emph{supertrace} $\operatorname{str}((\beta \circ \alpha)_*)$.
+\end{enumerate}
+\end{proposition}
+
+These are formal consequences of the axioms of a Weil cohomology \cite{kleiman-1968}; (2) is the cohomological version of Proposition~\ref{intersection-theory:proposition-correspondences}, and (3)
+for $\beta = \Delta_X$ is the Lefschetz trace formula of Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(5). By (2), an algebraic correspondence maps algebraic classes to algebraic classes:
+$\mathrm{cl}(\Gamma)_*\mathrm{cl}(Z) = \mathrm{cl}(\Gamma_*Z)$. We call a $K$-linear endomorphism of $H^\bullet(X)$ \emph{algebraic} if it is $\gamma_*$ for $\gamma$ in the $\QQ$-span of classes of algebraic cycles on
+$X \times X$. Sums and composites of algebraic endomorphisms are algebraic, and $L = (\Delta_*h)_*$ is algebraic.
+
+\begin{lemma}\label{standard-conjectures:lemma-finite-dimensional}
+$A^p_{\mathrm{num}}(X)$ is a finite-dimensional $\QQ$-vector space of dimension at most $\dim_KH^{2p}(X)$, and the pairing $A^p_{\mathrm{num}}(X) \times A^{n-p}_{\mathrm{num}}(X) \to \QQ$,
+$(\alpha, \beta) \mapsto \deg(\alpha \cdot \beta)$, is perfect. If $K = \QQ$, then $A^p_{\mathrm{hom}}(X)$ is finite-dimensional too.
+\end{lemma}
+
+\begin{proof}
+Homological equivalence implies numerical equivalence (Proposition~\ref{intersection-theory:proposition-equivalences}), and $\deg(\alpha \cdot \beta) = \int\mathrm{cl}(\alpha) \cup \mathrm{cl}(\beta)$. Let
+$\alpha_1, \ldots, \alpha_N \in A^p_{\mathrm{num}}(X)$ be linearly independent. The map $A^{n-p}_{\mathrm{num}}(X) \to \QQ^N$, $\beta \mapsto (\deg(\alpha_i \cdot \beta))_i$, is surjective: otherwise a nonzero linear form on $\QQ^N$
+vanishes on its image, which gives a nontrivial combination of the $\alpha_i$ that pairs to zero with every cycle, that is, is zero in $A^p_{\mathrm{num}}$. Choose $\beta_j$ with $\deg(\alpha_i \cdot \beta_j) = \delta_{ij}$. If
+$\sum_ic_i\mathrm{cl}(\alpha_i) = 0$ with $c_i \in K$, cupping with $\mathrm{cl}(\beta_j)$ and integrating gives $c_j = 0$. So the $\mathrm{cl}(\alpha_i)$ are $K$-linearly independent in $H^{2p}(X)$ and
+$N \leq \dim_KH^{2p}(X)$. The pairing is nondegenerate by definition, hence perfect between finite-dimensional spaces. If $K = \QQ$, $A^p_{\mathrm{hom}}(X)$ is a subspace of $H^{2p}(X)$.
+\end{proof}
+
+\begin{remark}\label{standard-conjectures:remark-hom-finite}
+For $\ell$-adic cohomology, $A^p_{\mathrm{hom}}(X)$ is a $\QQ$-subspace of a $\QQ_\ell$-vector space, and it is not known in general that it is finite-dimensional over $\QQ$, or that
+$A^p_{\mathrm{hom}}(X) \otimes_\QQ\QQ_\ell \to H^{2p}(X)$ is injective. Both follow from the equality of homological and numerical equivalence (Conjecture~\ref{standard-conjectures:conjecture-d} below), by the
+proof of Lemma~\ref{standard-conjectures:lemma-finite-dimensional}.
+\end{remark}
+
+\section{The standard conjectures}\label{standard-conjectures:section-conjectures}
+
+By hard Lefschetz (an axiom of Weil cohomologies; for $\ell$-adic cohomology a theorem of Deligne, Theorem~\ref{etale-cohomology:theorem-l-adic-properties}(6)), $L^{n-i} \colon H^i(X) \to H^{2n-i}(X)$ is an
+isomorphism for $i \leq n$. As in Chapter~\ref{lefschetz-theorems}, this gives the Lefschetz decomposition $H^i = \bigoplus_jL^jP^{i-2j}$, with $P^j = \ker(L^{n-j+1} \colon H^j \to H^{2n-j+2})$ for $j \leq n$, and a unique
+operator $\Lambda$ with $[L, \Lambda] = h_{\deg}$ and $[h_{\deg}, \Lambda] = -2\Lambda$, where $h_{\deg}$ acts on $H^i$ by $i - n$ (Proposition~\ref{lefschetz-theorems:proposition-lambda-unique}); explicitly
+$\Lambda(L^rx) = r(n - j - r + 1)L^{r-1}x$ for $x \in P^j$. So $H^\bullet(X)$ is a representation of $\mathfrak{sl}_2$ with $e = L$, $f = \Lambda$, $h = h_{\deg}$, in which $H^i$ is the weight space of weight $i - n$ and
+$P^j$ consists of lowest weight vectors of weight $j - n$.
+
+\begin{conjecture}[Lefschetz standard conjecture $B(X)$]\label{standard-conjectures:conjecture-b}
+The operator $\Lambda$ is algebraic.
+\end{conjecture}
+
+\begin{conjecture}[K\"unneth standard conjecture $C(X)$]\label{standard-conjectures:conjecture-c}
+The K\"unneth components $\pi_i \in H^{2n-i}(X) \otimes H^i(X) \subseteq H^{2n}(X \times X)$ of the class of the diagonal are algebraic; equivalently, the projectors of $H^\bullet(X)$ onto the summands $H^i(X)$
+are algebraic.
+\end{conjecture}
+
+\begin{conjecture}[Standard conjecture $D(X)$]\label{standard-conjectures:conjecture-d}
+Homological and numerical equivalence coincide on $Z^\bullet(X) \otimes \QQ$: $A^\bullet_{\mathrm{hom}}(X) = A^\bullet_{\mathrm{num}}(X)$.
+\end{conjecture}
+
+\begin{conjecture}[Hodge standard conjecture $\mathrm{Hdg}(X)$]\label{standard-conjectures:conjecture-hdg}
+For $p \leq n/2$, the symmetric bilinear form $(x, y) \mapsto (-1)^p\int_XL^{n-2p}(x \cup y)$ is positive definite on the $\QQ$-space $A^p_{\mathrm{hom}}(X) \cap P^{2p}(X)$ of primitive algebraic classes.
+\end{conjecture}
+
+The equivalence in $C(X)$ is Proposition~\ref{standard-conjectures:proposition-cohomological-correspondences}(1): $(\pi_i)_*$ is the projector onto $H^i(X)$.
+
+\begin{lemma}\label{standard-conjectures:lemma-sl2-polynomials}
+Let $V$ be a finite-dimensional representation of $\mathfrak{sl}_2$ over a field of characteristic $0$, with weight spaces $V_w$ for $h$.
+\begin{enumerate}
+\item The projector of $V$ onto $V_w$, along the other weight spaces, is a polynomial in $h$.
+\item The projector onto the isotypic component of $V(m)$ is a polynomial in the Casimir element $c = ef + fe + \frac12h^2$, which acts on $V(m)$ by $\frac12m(m + 2)$.
+\item For $j \geq 0$, $e^j \colon V_{-j} \to V_j$ is bijective, and its inverse is the restriction to $V_j$ of $P(f^je^j)f^j$ for a polynomial $P$.
+\item If $v$ is a lowest weight vector of weight $-m$ and $0 \leq j \leq m$, then $f^je^jv = c_{m,j}v$ with $c_{m,j}$ a nonzero integer.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We use the basis $v_0, \ldots, v_m$ of $V(m)$ from Theorem~\ref{representation-theory:theorem-sl2-irreducibles}, with $hv_i = (m - 2i)v_i$, $fv_i = (i + 1)v_{i+1}$, $ev_i = (m - i + 1)v_{i-1}$, and the decomposition of $V$
+into irreducibles. (1) $h$ is diagonalisable with finitely many eigenvalues $w_1, \ldots, w_s$, and the projector onto $V_{w_a}$ is $\prod_{b \neq a}(h - w_b)/(w_a - w_b)$. (2) On $v_0$, $ev_0 = 0$ gives
+$efv_0 = [e, f]v_0 = hv_0 = mv_0$ and $fev_0 = 0$, so $cv_0 = (m + \frac12m^2)v_0$; as $c$ commutes with $e$, $f$, $h$, it acts on $V(m)$ by this scalar. The scalars $\frac12m(m + 2)$ are distinct for distinct
+$m \geq 0$, so the projectors are Lagrange polynomials in $c$. (4) The lowest weight vector of $V(m)$ is $v_m$. Applying $e^j$ multiplies it by $\prod_{s=0}^{j-1}(s + 1) = j!$ and gives $v_{m-j}$; applying $f^j$ multiplies by
+$\prod_{t=0}^{j-1}(m - j + t + 1)$ and returns to $v_m$. All factors are positive. (3) The weight $-j$ vector of $V(m)$, when it exists ($m \geq j$, $m \equiv j \bmod 2$), is $v_i$ with $i = (m + j)/2$; applying $e^j$ and
+then $f^j$ multiplies it by $\prod_{s=0}^{j-1}(m - i + s + 1)\prod_{t=0}^{j-1}(i - j + t + 1)$, a product of integers $\geq (m - j)/2 + 1 \geq 1$. So $f^je^j$ acts on $V_{-j}$ diagonalisably with finitely many nonzero eigenvalues
+$c_1, \ldots, c_r$, and $P(f^je^j)$ inverts it for the Lagrange polynomial with $P(c_a) = c_a^{-1}$. Then $P(f^je^j)f^j \circ e^j$ is the identity of $V_{-j}$, so $e^j$ is injective there; as $\dim V_{-j} = \dim V_j$, it is
+bijective, with inverse $P(f^je^j)f^j|_{V_j}$.
+\end{proof}
+
+\begin{proposition}\label{standard-conjectures:proposition-b-implies}
+Assume $B(X)$. Then:
+\begin{enumerate}
+\item $C(X)$ holds;
+\item for $p \leq n/2$, $L^{n-2p} \colon A^p_{\mathrm{hom}}(X) \to A^{n-p}_{\mathrm{hom}}(X)$ is bijective (\emph{Grothendieck's conjecture $A(X, L)$});
+\item if $x = \sum_jL^jx_j$ is the Lefschetz decomposition of an algebraic class, with $x_j$ primitive, then every $x_j$ is algebraic.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+By $B(X)$, $L$ and $\Lambda$ are algebraic, hence so is every noncommutative polynomial in them, in particular $h_{\deg} = [L, \Lambda]$ and the Casimir element. (1) By
+Lemma~\ref{standard-conjectures:lemma-sl2-polynomials}(1), the projector onto $H^i$ is a polynomial in $h_{\deg}$. (2) $L^{n-2p}$ maps algebraic classes to algebraic classes and is injective on $H^{2p}$ by hard
+Lefschetz. By Lemma~\ref{standard-conjectures:lemma-sl2-polynomials}(3), its inverse $H^{2n-2p} \to H^{2p}$ is the restriction of an algebraic endomorphism, so it maps algebraic classes to algebraic classes.
+(3) The summand $L^jP^{i-2j}$ of $H^i$ is the intersection of $H^i$ with the isotypic component of $V(n - i + 2j)$, since a primitive class in $P^{i-2j}$ is a lowest weight vector of weight $i - 2j - n$. By
+Lemma~\ref{standard-conjectures:lemma-sl2-polynomials}(1),(2) the projector onto $L^jP^{i-2j}$ is algebraic, so $L^jx_j$ is algebraic. By Lemma~\ref{standard-conjectures:lemma-sl2-polynomials}(4),
+$x_j = c^{-1}\Lambda^jL^jx_j$ for a nonzero integer $c$, so $x_j$ is algebraic.
+\end{proof}
+
+\begin{proposition}\label{standard-conjectures:proposition-hdg-char-zero}
+If $k \subseteq \CC$ and $H^\bullet$ is Betti cohomology, then $\mathrm{Hdg}(X)$ holds.
+\end{proposition}
+
+\begin{proof}
+Algebraic classes in $H^{2p}(X_\CC; \QQ)$ are rational classes of type $(p,p)$ (Corollary~\ref{cycle-class:corollary-hodge-classes}). The class $h$ is represented by a K\"ahler form $\omega$, the restriction of a
+multiple of the Fubini--Study form. For a nonzero primitive rational class $x$ of type $(p,p)$, the Hodge--Riemann relation (Theorem~\ref{lefschetz-theorems:theorem-hodge-riemann}(4)) with $k = 2p$ and $\bar x = x$ reads
+$Q(x, x) > 0$, where $Q(x, x) = (-1)^{2p(2p-1)/2}\int x \cup x \cup [\omega]^{n-2p} = (-1)^p\int L^{n-2p}(x \cup x)$, since $p(2p - 1) \equiv p \pmod 2$.
+\end{proof}
+
+\begin{proposition}\label{standard-conjectures:proposition-b-hdg-d}
+$B(X)$ and $\mathrm{Hdg}(X)$ together imply $D(X)$.
+\end{proposition}
+
+\begin{proof}
+First let $p \leq n/2$, and put $\langle x, y\rangle = \int L^{n-2p}(x \cup y)$ on $H^{2p}$. The Lefschetz decomposition is orthogonal for $\langle\ ,\ \rangle$: for $a \in P^{2p-2j}$, $b \in P^{2p-2j'}$ and $j < j'$,
+$\langle L^ja, L^{j'}b\rangle = \int b \cup L^{n-2p+j+j'}a$ vanishes because $n - 2p + j + j' \geq n - (2p - 2j) + 1$, so $L^{n-2p+j+j'}a = 0$ by primitivity. Let $x \in A^p_{\mathrm{hom}}(X)$ with $\langle x, y\rangle = 0$ for every
+$y \in A^p_{\mathrm{hom}}(X)$, and write $x = \sum_jL^jx_j$. By Proposition~\ref{standard-conjectures:proposition-b-implies}(3) the $x_j$ are algebraic, so $y = L^jx_j$ is allowed, and
+$0 = \langle x, L^jx_j\rangle = \langle L^jx_j, L^jx_j\rangle = \int L^{n-2(p-j)}(x_j \cup x_j)$. By $\mathrm{Hdg}(X)$ in codimension $p - j$, $x_j = 0$. Hence $\langle\ ,\ \rangle$ is nondegenerate on $A^p_{\mathrm{hom}}(X)$.
+Now if $x \in A^p_{\mathrm{hom}}(X)$ is numerically trivial, then $\langle x, y\rangle = \deg(x \cdot h^{n-2p} \cdot y) = 0$ for all algebraic $y$, so $x = 0$.
+
+Now let $p > n/2$ and let $x \in A^p_{\mathrm{hom}}(X)$ be numerically trivial. By Proposition~\ref{standard-conjectures:proposition-b-implies}(2) applied to $n - p < n/2$, $L^{2p-n} \colon A^{n-p}_{\mathrm{hom}} \to A^p_{\mathrm{hom}}$ is
+bijective, so $x = L^{2p-n}y$ with $y$ algebraic, and every algebraic class of codimension $p$ is $L^{2p-n}u$ with $u \in A^{n-p}_{\mathrm{hom}}$. Then $\deg(y \cdot L^{2p-n}u) = \deg(x \cdot u) = 0$ for all such $u$, so $y$ is
+numerically trivial, hence $y = 0$ by the first case, and $x = 0$.
+\end{proof}
+
+\begin{theorem}\label{standard-conjectures:theorem-hodge-implies-standard}
+Let $k \subseteq \CC$ and let $H^\bullet$ be Betti cohomology. If the Hodge conjecture holds for $X \times X$, then $B(X)$, $C(X)$ and $D(X)$ hold.
+\end{theorem}
+
+\begin{proof}
+The operator $\Lambda$ is defined over $\QQ$ and is a morphism of Hodge structures of type $(-1,-1)$ (see the proof of Corollary~\ref{absolute-hodge:corollary-lambda}), so its class in
+$H^{2n-2}(X \times X; \QQ)$ is a Hodge class (Proposition~\ref{hodge-structures:proposition-hodge-classes-morphisms}). By the Hodge conjecture it is algebraic, which is $B(X)$. Then $C(X)$ follows from
+Proposition~\ref{standard-conjectures:proposition-b-implies}, and $D(X)$ from Propositions~\ref{standard-conjectures:proposition-hdg-char-zero} and~\ref{standard-conjectures:proposition-b-hdg-d}.
+\end{proof}
+
+\begin{remark}\label{standard-conjectures:remark-grothendieck-plan}
+Grothendieck showed that the standard conjectures for $X$ and $X \times X$ over a finite field imply the Riemann hypothesis part of the Weil conjectures, by an argument modelled on Serre's K\"ahler analogue:
+the graph of Frobenius is an algebraic correspondence, and the positivity of $\mathrm{Hdg}(X \times X)$ bounds its eigenvalues \cite{grothendieck-standard}, \cite{kleiman-1968}. Deligne's proof
+\cite{deligne-weil-1} avoided the standard conjectures. Katz and Messing then deduced $C(X)$ over finite fields from Deligne's theorem \cite{katz-messing-1974}. In positive characteristic,
+$\mathrm{Hdg}(X)$ is known in general only for surfaces, where it is the Hodge index theorem \cite[Theorem V.1.9]{hartshorne-ag}.
+\end{remark}
+
+\begin{theorem}[Known cases]\label{standard-conjectures:theorem-known}
+\begin{enumerate}
+\item $B(X)$ holds if $\dim X \leq 2$, if $X$ is an abelian variety \cite{lieberman-1968}, for products of varieties for which it holds \cite{kleiman-1968}, for varieties whose cohomology is spanned by algebraic
+classes (projective spaces, Grassmannians, flag varieties), for smooth hypersurfaces and complete intersections in projective space (Exercise~\ref{standard-conjectures:exercise-hypersurface}), and for hyper-K\"ahler varieties
+deformation equivalent to Hilbert schemes of points on K3 surfaces \cite{charles-markman-2013}.
+\item $C(X)$ holds over finite fields \cite{katz-messing-1974}, and whenever $B(X)$ holds.
+\item $D(X)$ holds for divisors in any characteristic, and in characteristic $0$ for abelian varieties \cite{lieberman-1968}.
+\item $\mathrm{Hdg}(X)$ holds in characteristic $0$ (Proposition~\ref{standard-conjectures:proposition-hdg-char-zero}) and for surfaces in any characteristic.
+\end{enumerate}
+\end{theorem}
+
+See \cite{kleiman-1994} for a survey and for the classical cases. For a surface, the components of $\Lambda$ on $H^2 \to H^0$ and $H^4 \to H^2$ are expressed through $h$ and the class of a point, and
+the component $H^3 \to H^1$, the inverse of $L \colon H^1 \to H^3$, is induced by a divisorial correspondence built from the Picard and Albanese varieties. Milne showed that $\mathrm{Hdg}$ for abelian
+varieties in positive characteristic would follow from the Hodge conjecture for complex abelian varieties of CM type \cite{milne-2002}.
+
+\begin{remark}\label{standard-conjectures:remark-weakness}
+$B(X)$ asks for the algebraicity of one specific Hodge class on $X \times X$, while the Hodge conjecture asks for all of them, and still $B(X)$ is open for most varieties of dimension $\geq 3$. For a
+threefold, $B(X)$ essentially amounts to the algebraicity of the inverse of $L \colon H^2(X) \to H^4(X)$, a class in $H^2(X) \otimes H^2(X)$ whose transcendental part is not accessible by divisors. The class of $\Lambda$ is absolute
+Hodge (Corollary~\ref{absolute-hodge:corollary-lambda}), but no algebraic cycle representing it is known in general.
+\end{remark}
+
+\section{Pure motives}\label{standard-conjectures:section-motives}
+
+\begin{definition}\label{standard-conjectures:definition-motives}
+Let $\sim$ be rational, homological or numerical equivalence. The category $\mathcal{M}_\sim(k)$ of \emph{pure motives} over $k$ (with $\QQ$-coefficients) has as objects triples $(X, e, m)$ with $X$ a
+nonsingular projective variety of pure dimension, $e \in A^{\dim X}_\sim(X \times X)$ an idempotent, $e \circ e = e$, and $m \in \ZZ$, together with their finite formal direct sums. Morphisms between triples are
+\[
+\Hom\big((X, e, m), (Y, f, m')\big) = f \circ A^{\dim X + m' - m}_\sim(X \times Y) \circ e,
+\]
+with composition of correspondences, and are extended to direct sums by matrices. The \emph{motive} of $X$ is $h(X) = (X, \Delta_X, 0)$, and a morphism $\phi \colon X \to Y$ gives
+$h(\phi) = {}^t\Gamma_\phi \colon h(Y) \to h(X)$. The \emph{unit motive} is $\mathbf{1} = h(\Spec k)$, the \emph{Lefschetz motive} is $\mathbb{L} = (\Spec k, \mathrm{id}, -1)$, and the \emph{Tate twist} is
+$(X, e, m)(r) = (X, e, m + r)$.
+\end{definition}
+
+Composition is well defined because $\sim$ is compatible with pushforward, pullback and intersection product (Proposition~\ref{intersection-theory:proposition-correspondences}). The category
+$\mathcal{M}_\sim(k)$ is $\QQ$-linear and additive, and \emph{pseudo-abelian}: an idempotent endomorphism $\phi = f \circ \phi \circ f$ of $(X, f, m)$ has image $(X, \phi, m)$. The product
+$(X, e, m) \otimes (Y, f, m') = (X \times Y, e \times f, m + m')$ makes it a tensor category, with $(X, e, m) \otimes \mathbb{L} = (X, e, m - 1)$ \cite{scholl-1994}.
+
+\begin{example}\label{standard-conjectures:example-projective-line}
+In $\mathcal{M}_{\mathrm{rat}}(k)$, $h(\PP^1) \cong \mathbf{1} \oplus \mathbb{L}$. Let $x$ be a $k$-point of $\PP^1$, and put $e_0 = [x \times \PP^1]$ and $e_2 = [\PP^1 \times x]$ in $\CH^1(\PP^1 \times \PP^1)$. The diagonal has
+bidegree $(1,1)$ and $\CH^1(\PP^1 \times \PP^1)$ is free on $e_0$ and $e_2$, so $\Delta = e_0 + e_2$. By the composition formula of Definition~\ref{intersection-theory:definition-correspondence}, on
+$\PP^1 \times \PP^1 \times \PP^1$:
+\begin{enumerate}
+\item $e_0 \circ e_0 = \mathrm{pr}_{13*}([x \times \PP^1 \times \PP^1] \cdot [\PP^1 \times x \times \PP^1]) = \mathrm{pr}_{13*}[x \times x \times \PP^1] = e_0$;
+\item $e_2 \circ e_2 = \mathrm{pr}_{13*}([\PP^1 \times x \times \PP^1] \cdot [\PP^1 \times \PP^1 \times x]) = \mathrm{pr}_{13*}[\PP^1 \times x \times x] = e_2$;
+\item $e_2 \circ e_0 = \mathrm{pr}_{13*}([x \times \PP^1 \times \PP^1] \cdot [\PP^1 \times \PP^1 \times x]) = \mathrm{pr}_{13*}[x \times \PP^1 \times x] = 0$, since $\mathrm{pr}_{13}$ contracts the middle factor;
+\item $e_0 \circ e_2 = \mathrm{pr}_{13*}([\PP^1 \times x \times \PP^1]^2) = 0$, since $[x]^2 = 0$ in $\CH^\bullet(\PP^1)$.
+\end{enumerate}
+So $e_0$, $e_2$ are orthogonal idempotents with sum $\Delta$, and $h(\PP^1) = (\PP^1, e_0, 0) \oplus (\PP^1, e_2, 0)$. The correspondences $a = [\PP^1] \in \CH^0(\Spec k \times \PP^1)$ and $b = [x] \in \CH^1(\PP^1 \times \Spec k)$
+satisfy $b \circ a = \mathrm{id}_{\mathbf{1}}$ and $a \circ b = e_0$, so $(\PP^1, e_0, 0) \cong \mathbf{1}$. Similarly $a' = [x] \in \CH^1(\Spec k \times \PP^1)$, a morphism $\mathbb{L} \to h(\PP^1)$, and $b' = [\PP^1] \in \CH^0(\PP^1 \times \Spec k)$,
+a morphism $h(\PP^1) \to \mathbb{L}$, satisfy $b' \circ a' = \mathrm{id}_{\mathbb{L}}$ and $a' \circ b' = e_2$, so $(\PP^1, e_2, 0) \cong \mathbb{L}$. In cohomology, $e_0$ and $e_2$ are the K\"unneth components $\pi_0$ and $\pi_2$.
+\end{example}
+
+\begin{theorem}[Jannsen]\label{standard-conjectures:theorem-jannsen}
+$\mathcal{M}_{\mathrm{num}}(k)$ is a semisimple abelian category. Conversely, if $\sim$ is an adequate equivalence relation such that $\mathcal{M}_\sim(k)$ is semisimple abelian, then $\sim$ is numerical
+equivalence.
+\end{theorem}
+
+\begin{proof}[Proof of the first statement]
+\emph{Step 1: for every $X$ of dimension $n$, the algebra $E = A^n_{\mathrm{num}}(X \times X)$, with composition of correspondences, is semisimple.} It is finite-dimensional over $\QQ$ by
+Lemma~\ref{standard-conjectures:lemma-finite-dimensional}, so its Jacobson radical $R$ is a nilpotent two-sided ideal. Let $\alpha \in Z^n(X \times X) \otimes \QQ$ have image in $R$, and let $\beta$ be any cycle of
+dimension $n$ on $X \times X$. Put $\gamma = \beta \circ \alpha$. Its image lies in $R$, so the image of $\gamma^{\circ s}$ in $E$ is $0$ for some $s \geq 1$, and then so is the image of $\gamma^{\circ t}$ for all $t \geq s$.
+By Proposition~\ref{standard-conjectures:proposition-cohomological-correspondences}(3) with ${}^t\Delta = \Delta$,
+\[
+\operatorname{str}((\gamma_*)^t) = \int\mathrm{cl}(\gamma^{\circ t}) \cup \mathrm{cl}(\Delta) = \deg(\gamma^{\circ t} \cdot \Delta) = 0 \qquad (t \geq s),
+\]
+because $\gamma^{\circ t}$ is numerically trivial. Let $\lambda_1, \ldots, \lambda_a$ and $\mu_1, \ldots, \mu_b$ be the eigenvalues, with multiplicity, of $\gamma_*$ on $H^{\mathrm{even}}$ and on $H^{\mathrm{odd}}$, in an algebraic closure of $K$.
+Then $\sum_i\lambda_i^t - \sum_j\mu_j^t = 0$ for $t \geq s$, so the rational function
+\[
+R(z) = \sum_i\frac{\lambda_iz}{1 - \lambda_iz} - \sum_j\frac{\mu_jz}{1 - \mu_jz} = \sum_{t \geq 1}\Big(\sum_i\lambda_i^t - \sum_j\mu_j^t\Big)z^t
+\]
+is a polynomial. Its poles at the points $1/\lambda$, for nonzero eigenvalues $\lambda$, must therefore cancel, which means that every nonzero value occurs equally often among the $\lambda_i$ and the $\mu_j$. Hence
+$\sum_i\lambda_i^t = \sum_j\mu_j^t$ for all $t \geq 1$, and in particular $\operatorname{str}(\gamma_*) = 0$. By the trace formula again, $\deg(\alpha \cdot {}^t\beta) = \operatorname{str}((\beta \circ \alpha)_*) = 0$. As
+$\beta$ was arbitrary and every cycle of dimension $n$ on $X \times X$ is of the form ${}^t\beta$, $\alpha$ is numerically trivial. So $R = 0$, and $E$ is semisimple.
+
+\emph{Step 2: every object is a direct summand of some $h(Y)(m)$.} The triple $(X, e, m)$ is the image of the idempotent $e$ of $h(X)(m)$. Given finitely many triples $(X_i, e_i, m_i)$, choose $m \geq \max m_i$. Then
+$(X_i, e_i, m_i) = (X_i, e_i, m) \otimes \mathbb{L}^{\otimes(m - m_i)}$, and $\mathbb{L}^{\otimes r}$ is a summand of $h(\PP^1)^{\otimes r} = h((\PP^1)^r)$ by Example~\ref{standard-conjectures:example-projective-line} (which
+holds modulo numerical equivalence as well). So each $(X_i, e_i, m_i)$ is a summand of $h(X_i \times (\PP^1)^{m-m_i})(m)$, and their direct sum is a summand of $h(Y)(m)$ with $Y$ the disjoint union of the
+$X_i \times (\PP^1)^{m-m_i}$.
+
+\emph{Step 3: conclusion.} By Step 2, the endomorphism algebra of an object $M$ is $\varepsilon E\varepsilon$ for an idempotent $\varepsilon$ of $E = \End(h(Y)(m)) = A^{\dim Y}_{\mathrm{num}}(Y \times Y)$ (for disconnected $Y$,
+a product of such algebras over pairs of components, with the same argument). A corner $\varepsilon E\varepsilon$ of a finite-dimensional semisimple algebra is semisimple. Finally, a $\QQ$-linear additive pseudo-abelian
+category in which every object has a finite-dimensional semisimple endomorphism algebra is abelian and semisimple \cite{jannsen-1992}.
+\end{proof}
+
+The converse statement is also in \cite{jannsen-1992}. Jannsen's theorem was a surprise: Grothendieck expected semisimplicity to require the standard conjectures.
+
+\begin{remark}\label{standard-conjectures:remark-tannakian}
+What the standard conjectures are still needed for is the \emph{Tannakian} structure. The natural commutativity constraint on $\mathcal{M}_{\mathrm{num}}(k)$ gives $h(X)$ the wrong dimension (the
+supertrace $\sum(-1)^ib_i$, which can be negative); to correct it one changes the sign of the constraint on the odd part, which requires the K\"unneth projectors to be algebraic modulo numerical
+equivalence. With $C$ and $D$, $\mathcal{M}_{\mathrm{num}}(k) = \mathcal{M}_{\mathrm{hom}}(k)$ is a semisimple Tannakian category, the realisation $H^\bullet$ is a fibre functor, and $\mathcal{M}_{\mathrm{num}}(k)$ is the category of
+representations of a pro-reductive group, the \emph{motivic Galois group} \cite{jannsen-1992}, \cite{andre-motifs}, \cite{deligne-milne}. Unconditional substitutes exist: Deligne's motives for absolute Hodge
+cycles \cite{deligne-milne} and Andr\'e's motives for motivated cycles \cite{andre-1996-motifs} are Tannakian and contain the motives of abelian varieties.
+\end{remark}
+
+\begin{proposition}[The Hodge conjecture, motivically]\label{standard-conjectures:proposition-motivic-hodge}
+Let $k = \CC$ and let $\sim$ be homological equivalence for Betti cohomology. The Hodge realisation, which sends $(X, e, m)$ to the graded polarisable $\QQ$-Hodge structure $e_*H^\bullet(X; \QQ)(m)$, with
+$H^i(X)(m)$ placed in degree $i - 2m$, is a faithful functor from $\mathcal{M}_{\mathrm{hom}}(\CC)$ to graded polarisable $\QQ$-Hodge structures. It is full if and only if the Hodge conjecture holds for all
+nonsingular complex projective varieties.
+\end{proposition}
+
+\begin{proof}
+A morphism $h(X)(m) \to h(Y)(m')$ is an element $\gamma \in A^{n+r}_{\mathrm{hom}}(X \times Y)$ with $n = \dim X$, $r = m' - m$, and it acts by $\gamma_* \colon H^i(X)(m) \to H^{i+2r}(Y)(m')$, which preserves the grading.
+Faithfulness is Proposition~\ref{standard-conjectures:proposition-cohomological-correspondences}(1): an element of $A_{\mathrm{hom}}$ is determined by its class, which is determined by its action. Under the
+isomorphism of Proposition~\ref{standard-conjectures:proposition-cohomological-correspondences}(1), which is compatible with Hodge structures up to the Tate twist, the grading-preserving morphisms of Hodge
+structures $\bigoplus_iH^i(X)(m) \to \bigoplus_iH^{i+2r}(Y)(m')$ correspond to the Hodge classes in $H^{2n+2r}(X \times Y; \QQ)$ (Proposition~\ref{hodge-structures:proposition-hodge-classes-morphisms}), and the
+morphisms of motives to the algebraic classes. So the realisation is full on the objects $h(X)(m)$ if and only if $\mathrm{Hdg}^{n+r}(X \times Y) = Z^{n+r}_{\mathrm{alg}}(X \times Y)$ for all $X$, $Y$, $r$. Taking $X = \Spec\CC$
+gives the Hodge conjecture for $Y$; conversely the Hodge conjecture for all varieties includes $X \times Y$. Fullness for general objects follows, since they are summands of the $h(X)(m)$ and morphisms between
+summands are cut out by the idempotents.
+\end{proof}
+
+\begin{remark}\label{standard-conjectures:remark-motivic-galois}
+Proposition~\ref{standard-conjectures:proposition-motivic-hodge} is the cleanest statement of what the Hodge conjecture is \emph{for}: the Hodge structure of a variety would determine its motive, and every
+Hodge-theoretic relation between varieties would be realised by correspondences. Under the Hodge conjecture, the standard conjectures hold (Theorem~\ref{standard-conjectures:theorem-hodge-implies-standard}),
+$\mathcal{M}_{\mathrm{hom}}(\CC)$ is Tannakian, and the motivic Galois group of the Tannakian subcategory generated by $h(X)$ is the Mumford--Tate group of $H^\bullet(X; \QQ)$
+(Chapter~\ref{mumford-tate}), an identification of a geometric object with a Hodge-theoretic one. If the Hodge conjecture were false, the motives for absolute Hodge cycles
+(Remark~\ref{standard-conjectures:remark-tannakian}) would survive, but they would no longer be built out of subvarieties.
+\end{remark}
+
+\section{The Bloch--Beilinson conjectures}\label{standard-conjectures:section-bloch-beilinson}
+
+The Hodge conjecture concerns the image of the cycle class map. Its kernel, $\CH^p(X)_{\mathrm{hom}} = \ker(\mathrm{cl})$, is governed by a separate set of conjectures.
+
+\begin{theorem}[Mumford]\label{standard-conjectures:theorem-mumford}
+Let $S$ be a nonsingular complex projective surface with $h^{2,0}(S) > 0$. Then the group $\CH_0(S)_{\deg 0}$ of $0$-cycles of degree $0$ modulo rational equivalence is \emph{infinite-dimensional}: for no
+variety $T$ and cycle $Z$ on $T \times S$ is the map $T \to \CH_0(S)_{\deg 0}$, $t \mapsto Z_t - Z_{t_0}$, surjective.
+\end{theorem}
+
+This is \cite{mumford-1968}; compare Example~\ref{intersection-theory:example-chow-zero-surfaces}. The proof shows that a surjective family would force every holomorphic $2$-form to vanish, by pulling
+it back along the family. Chow groups thus see Hodge-theoretic information that cohomology classes of cycles do not.
+
+\begin{conjecture}[Bloch]\label{standard-conjectures:conjecture-bloch}
+If $S$ is a nonsingular complex projective surface with $h^{2,0}(S) = 0$, then the Albanese map $\CH_0(S)_{\deg 0} \to \mathrm{Alb}(S)$ is an isomorphism.
+\end{conjecture}
+
+Bloch's conjecture is known for surfaces not of general type \cite{bloch-kas-lieberman-1976} and in scattered cases of general type, and open in general \cite{bloch-lectures}. By the Bloch--Srinivas method
+(Theorem~\ref{known-cases:theorem-bloch-srinivas}), its conclusion implies a decomposition of the diagonal, and conversely the conclusion of Mumford's theorem is the Hodge-theoretic obstruction to one.
+
+\begin{conjecture}[Bloch--Beilinson filtration]\label{standard-conjectures:conjecture-bloch-beilinson}
+For every nonsingular projective variety $X$ over a field of characteristic $0$ and every $p$, there is a finite decreasing filtration $F^\bullet$ on $\CH^p(X)_\QQ$ such that:
+\begin{enumerate}
+\item $F^0 = \CH^p(X)_\QQ$, $F^1 = \CH^p(X)_{\mathrm{hom},\QQ}$ and $F^{p+1} = 0$;
+\item the filtrations are compatible with intersection products, $F^i \cdot F^j \subseteq F^{i+j}$, and with the action of correspondences;
+\item a correspondence $\Gamma \in \CH^{\dim X + r}(X \times Y)_\QQ$ acts on $\mathrm{Gr}^\nu_F\CH^p(X)_\QQ$ through its cohomology class, and it acts by $0$ if $\Gamma_* \colon H^{2p-\nu}(X) \to H^{2p-\nu+2r}(Y)$ vanishes.
+\end{enumerate}
+\end{conjecture}
+
+See \cite{jannsen-1994} and \cite{bloch-lectures}; the formulation is due to Beilinson and Bloch, and Murre gave an equivalent one in terms of a decomposition of the diagonal into orthogonal idempotents
+lifting the K\"unneth components to Chow groups \cite{murre-1993}. On $\mathrm{Gr}^1_F$ the filtration is expected to be detected by the Abel--Jacobi map (Chapter~\ref{intermediate-jacobians}), and
+$\mathrm{Gr}^\nu_F$ is expected to be an $\mathrm{Ext}^\nu$ in a category of mixed motives. Beilinson and Bloch conjectured moreover that for $X$ defined over a number field, $F^2\CH^p(X_{\bar\QQ})_\QQ = 0$,
+so that the Abel--Jacobi map is injective on $\CH^p(X_{\bar\QQ})_{\mathrm{hom},\QQ}$ \cite{beilinson-1987}.
+
+\begin{remark}\label{standard-conjectures:remark-bb-bloch}
+Conjecture~\ref{standard-conjectures:conjecture-bloch-beilinson} gives Bloch's conjecture up to torsion. Let $S$ be a surface with $h^{2,0}(S) = 0$. By the Lefschetz $(1,1)$-theorem, $H^2(S; \QQ)$ is spanned by
+classes of divisors, so there is a correspondence $\Gamma = \sum a_{ij}D_i \times D_j$, with divisors $D_i$ and $a_{ij} \in \QQ$, that acts on $H^2(S)$ as the identity. On $0$-cycles $\Gamma_* = 0$, since
+$(D_i \times D_j) \cdot (z \times S) = 0$ for a $0$-cycle $z$ in general position. The diagonal also acts on $H^2$ as the identity, so by (3) with $p = \nu = 2$, the identity of $\mathrm{Gr}^2_F\CH_0(S)_\QQ$ equals $\Gamma_* = 0$, and
+$F^2\CH_0(S)_\QQ = 0$. The Albanese kernel is expected to lie in $F^2$, which is the case when the K\"unneth component $\pi_3$ is realised, as Murre showed it can be, by a correspondence acting through the
+Albanese variety \cite{murre-1993}; then the Albanese kernel is torsion. Kimura's notion of \emph{finite-dimensional} motives gives another route: motives of curves and abelian varieties are
+finite-dimensional, and finite-dimensionality of the motive of $S$ would imply Bloch's conjecture for $S$ \cite{kimura-2005}.
+\end{remark}
+
+\begin{remark}\label{standard-conjectures:remark-two-halves}
+The Hodge conjecture describes $\mathrm{Gr}^0_F$: the image of the cycle class map is as large as Hodge theory permits. The Bloch--Beilinson conjectures describe $F^1$: the kernel is as structured as
+motivic expectations require. Neither is known to imply the other, but a complete theory of algebraic cycles needs both, and both are expected to come from a category of mixed motives. The absolute Hodge
+classes of Chapter~\ref{absolute-hodge}, the motivated cycles of Andr\'e and the unconditional results of this chapter all live on the cohomological side; on the side of cycles, the Lefschetz $(1,1)$-theorem
+(Chapter~\ref{lefschetz-11}) remains the only general method for producing an algebraic cycle from a cohomology class.
+\end{remark}
+
+\section{Exercises}\label{standard-conjectures:section-exercises}
+
+\begin{exercise}\label{standard-conjectures:exercise-kunneth-hodge}
+Let $X$ be a nonsingular complex projective variety. Show that the K\"unneth components $\pi_i$ of the class of the diagonal are Hodge classes on $X \times X$, and deduce $C(X)$ from the Hodge conjecture
+for $X \times X$ without using $B(X)$.
+\end{exercise}
+
+\begin{solution}
+The class of the diagonal is algebraic, hence a Hodge class. The K\"unneth decomposition $H^{2n}(X \times X) = \bigoplus_iH^{2n-i}(X) \otimes H^i(X)$ is a decomposition into sub-Hodge structures, and the components
+of a Hodge class along such a decomposition are Hodge classes (the components of a rational class of type $(n,n)$ are rational and of type $(n,n)$). The Hodge conjecture for $X \times X$ makes each $\pi_i$
+algebraic.
+\end{solution}
+
+\begin{exercise}\label{standard-conjectures:exercise-projective-space}
+Show that $h(\PP^n) \cong \bigoplus_{i=0}^n\mathbb{L}^{\otimes i}$ in $\mathcal{M}_{\mathrm{rat}}(k)$, and that $B(\PP^n)$ holds, by writing $\Lambda$ explicitly as a correspondence.
+\end{exercise}
+
+\begin{solution}
+Let $h_1, h_2$ be the pullbacks of the hyperplane class to $\PP^n \times \PP^n$ and $p_i = h_1^{n-i}h_2^i \in \CH^n(\PP^n \times \PP^n)$. Then $(p_i)_*(h^j) = \mathrm{pr}_{2*}(h_1^{j+n-i}h_2^i) = \deg(h^{j+n-i})h^i = \delta_{ij}h^i$, and
+$p_a \circ p_b = \mathrm{pr}_{13*}(h_1^{n-b}h_2^{b}h_2^{n-a}h_3^a) = \deg(h^{n+b-a})h_1^{n-b}h_3^a = \delta_{ab}p_a$. The group $\CH^n(\PP^n \times \PP^n)$ is free on the classes $h_1^{n-i}h_2^i$, and
+$\gamma = \sum_ia_ih_1^{n-i}h_2^i$ acts by $\gamma_*(h^j) = a_jh^j$; as $\Delta$ acts as the identity, $\Delta = \sum_ip_i$. The correspondences $a = h^i \in \CH^i(\Spec k \times \PP^n)$, a morphism $\mathbb{L}^{\otimes i} \to h(\PP^n)$,
+and $b = h^{n-i} \in \CH^{n-i}(\PP^n \times \Spec k)$, a morphism $h(\PP^n) \to \mathbb{L}^{\otimes i}$, satisfy $b \circ a = \deg(h^n) = 1$ and $a \circ b = h_1^{n-i}h_2^i = p_i$, so $(\PP^n, p_i, 0) \cong \mathbb{L}^{\otimes i}$. For $B$: the
+only primitive class is $1 \in P^0$, so $\Lambda(h^j) = j(n - j + 1)h^{j-1}$. The correspondence $\lambda = \sum_{i=1}^ni(n - i + 1)h_1^{n-i}h_2^{i-1}$ satisfies
+$\lambda_*(h^j) = \sum_ii(n - i + 1)\deg(h^{j+n-i})h^{i-1} = j(n - j + 1)h^{j-1}$, so $\lambda_* = \Lambda$ and $\Lambda$ is algebraic.
+\end{solution}
+
+\begin{exercise}\label{standard-conjectures:exercise-hypersurface}
+Let $X \subseteq \PP^{n+1}$ be a nonsingular hypersurface over $\CC$. Show that $B(X)$ holds.
+\end{exercise}
+
+\begin{solution}
+By the Lefschetz hyperplane theorem and Poincar\'e duality, $H^i(X; \QQ)$ is $\QQ h^{i/2}$ for $i \neq n$ even, $0$ for $i \neq n$ odd, and $H^n = \QQ h^{n/2} \oplus H^n_{\mathrm{prim}}$ (with the first summand only for $n$ even),
+where $H^n_{\mathrm{prim}} = P^n$. The operator $\Lambda$ kills $P^n$ and acts on the powers of $h$ by $\Lambda(h^i) = i(n - i + 1)h^{i-1}$. Let $d = \deg X = \int h^n$, and consider the algebraic class
+$\lambda = \frac1d\sum_{j=1}^nj(n - j + 1)h_1^{n-j}h_2^{j-1} \in H^{2n-2}(X \times X)$, where $h_1$, $h_2$ are the pullbacks of $h$. It acts by $\lambda_*(x) = \frac1d\sum_jj(n - j + 1)\big(\int_Xx \cup h^{n-j}\big)h^{j-1}$, and for
+$x \in H^i$ only the term with $i = 2j$ can contribute. On $h^j$ it gives $j(n - j + 1)h^{j-1} = \Lambda(h^j)$, because $\int h^n = d$. For $x \in P^n$, the only possible term has $j = n/2$ (so $n$ is even), and
+$\int x \cup h^{n/2} = \int L^{n/2}x = 0$ because $Lx = 0$ by primitivity (if $n \geq 2$; the case $n = 0$ is trivial). So $\lambda_*$ and $\Lambda$ agree on a basis, and $\Lambda$ is algebraic. The same argument applies to
+smooth complete intersections, whose cohomology has the same shape.
+\end{solution}
+
+\begin{exercise}\label{standard-conjectures:exercise-jannsen-not-d}
+Explain why Jannsen's theorem does not imply the standard conjecture $D$, although both concern numerical equivalence. Show, using the converse part of Theorem~\ref{standard-conjectures:theorem-jannsen},
+that $D(X)$ for all $X$ is equivalent to the semisimplicity of $\mathcal{M}_{\mathrm{hom}}(k)$.
+\end{exercise}
+
+\begin{solution}
+Jannsen's theorem is a statement about the quotient $A_{\mathrm{num}}$ of $A_{\mathrm{hom}}$; $D$ says that the kernel of $A_{\mathrm{hom}} \to A_{\mathrm{num}}$ vanishes. A quotient algebra can be semisimple whatever the kernel is, so
+the first says nothing about the second. If $D$ holds for all varieties, then $\mathcal{M}_{\mathrm{hom}}(k) = \mathcal{M}_{\mathrm{num}}(k)$, which is semisimple abelian by Jannsen. Conversely, if
+$\mathcal{M}_{\mathrm{hom}}(k)$ is semisimple abelian, the converse part of the theorem says that homological equivalence is numerical equivalence, which is $D$ for all varieties.
+\end{solution}
+
+\begin{exercise}\label{standard-conjectures:exercise-chow-plane}
+Show that $\CH_0(\PP^2) = \ZZ$, via the degree, and $\CH_0(\PP^1 \times \PP^1) = \ZZ$, in accordance with Bloch's conjecture.
+\end{exercise}
+
+\begin{solution}
+Two points of $\PP^2$ lie on a line $\ell \cong \PP^1$, and any two points of $\PP^1$ are rationally equivalent, being the zero and the pole of a rational function; pushing forward along $\ell \to \PP^2$, the two points are
+rationally equivalent on $\PP^2$. So $\CH_0(\PP^2)$ is generated by the class of one point, and the degree shows it is $\ZZ$. On $\PP^1 \times \PP^1$, the points $(a, b)$ and $(a', b')$ are joined by the chain
+$(a, b), (a', b), (a', b')$, whose consecutive points lie on a fibre $\cong \PP^1$. Both surfaces have $h^{2,0} = 0$ and trivial Albanese, so this is Bloch's conjecture for them.
+\end{solution}
