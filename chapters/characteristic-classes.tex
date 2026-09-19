@@ -126,6 +126,124 @@ $c_1(L \otimes L') = c_1(L) + c_1(L')$ (Theorem~\ref{vector-bundles:theorem-line
 sequences of bundles split topologically (Proposition~\ref{vector-bundles:proposition-metrics}), which gives the last statements.
 \end{proof}
 
+\section{The Thom isomorphism in de Rham cohomology}\label{characteristic-classes:section-thom}
+
+In this section $\pi \colon E \to M$ is a smooth real vector bundle of rank $n$ over a manifold $M$ of dimension $m$. It is \emph{oriented} if it has an atlas of local trivialisations $E|_U \cong U \times \RR^n$ whose transition
+functions take values in $\GL_n^+(\RR)$, the matrices of positive determinant; such trivialisations are called oriented.
+
+\begin{definition}\label{characteristic-classes:definition-vertical-support}
+A form $\omega$ on $E$ has \emph{compact vertical support} if $\operatorname{supp}\omega \cap \pi^{-1}(K)$ is compact for every compact $K \subseteq M$. These forms form a subcomplex $\Omega^\bullet_{\mathrm{cv}}(E)$ of $\Omega^\bullet(E)$,
+whose cohomology is written $H^\bullet_{\mathrm{cv}}(E)$. Restriction to $E|_U$ for $U \subseteq M$ open preserves compact vertical support.
+\end{definition}
+
+Let $t = (t_1, \ldots, t_n)$ be the fibre coordinates of an oriented trivialisation $E|_U \cong U \times \RR^n$. Every $\omega \in \Omega^k_{\mathrm{cv}}(E|_U)$ is uniquely a sum $\omega = \omega' + \omega''$, where $\omega''$ is the part containing
+$dt_1 \wedge \cdots \wedge dt_n$ and $\omega'$ contains fewer than $n$ of the $dt_j$. Locally on $U$, in coordinates $x$ of $M$, $\omega'' = \sum_If_I(x, t)\,dx^I \wedge dt_1 \wedge \cdots \wedge dt_n$.
+
+\begin{definition}\label{characteristic-classes:definition-fibre-integration}
+For an oriented bundle, \emph{integration along the fibres} $\pi_* \colon \Omega^k_{\mathrm{cv}}(E) \to \Omega^{k-n}(M)$ is defined in an oriented trivialisation by $\pi_*\omega' = 0$ and
+\[
+\pi_*\Big(\sum_If_I(x, t)\,dx^I \wedge dt_1 \wedge \cdots \wedge dt_n\Big) = \sum_I\Big(\int_{\RR^n}f_I(x, t)\,dt\Big)dx^I.
+\]
+\end{definition}
+
+\begin{proposition}\label{characteristic-classes:proposition-fibre-integration}
+Integration along the fibres is well defined, commutes with restriction to open subsets of $M$ and with $d$, $d\pi_* = \pi_*d$, and satisfies the \emph{projection formula} $\pi_*(\pi^*\alpha \wedge \omega) = \alpha \wedge \pi_*\omega$ for
+$\alpha \in \Omega^\bullet(M)$ and $\omega \in \Omega^\bullet_{\mathrm{cv}}(E)$. Reversing the orientation of $E$ changes the sign of $\pi_*$.
+\end{proposition}
+
+\begin{proof}
+The integrals converge, since $f_I(x, -)$ has compact support, locally uniformly in $x$. A change of oriented trivialisation $t' = g(x)t$ with $\det g > 0$ gives $dt'_1 \wedge \cdots \wedge dt'_n = \det g(x)\,dt_1 \wedge \cdots \wedge dt_n$
+plus terms containing some $dx^i$ and fewer $dt_j$; so the parts $\omega'$ and $\omega''$ are the same in both trivialisations, and the integrals agree by the change of variables formula
+(Theorem~\ref{measure-theory:theorem-change-of-variables}), with Jacobian $\det g(x) = |\det g(x)|$. A change of coordinates in $M$ does not affect the fibre integrals. So $\pi_*$ is well defined, and it clearly commutes with
+restrictions. For the projection formula, $\pi^*\alpha \wedge \omega'$ has fewer than $n$ factors $dt_j$, and $\pi^*(dx^K) \wedge f\,dx^I \wedge dt_1 \wedge \cdots \wedge dt_n = f\,dx^K \wedge dx^I \wedge dt_1 \wedge \cdots \wedge dt_n$; by linearity
+in $\alpha$ over $C^\infty(M)$ this gives the formula. For $d$: if $\omega = f\,dx^I \wedge dt_J$ with $|J| < n$, the part of $d\omega$ with $n$ factors $dt$ is a sum of terms $\pm\partial_{t_j}f\,dx^I \wedge dt_1 \wedge \cdots \wedge dt_n$, whose fibre
+integrals vanish because $\int_\RR\partial_{t_j}f\,dt_j = 0$ for compactly supported $f$ (Theorem~\ref{real-analysis:theorem-ftc}); so $\pi_*d\omega = 0 = d\pi_*\omega$. If $\omega = f\,dx^I \wedge dt_1 \wedge \cdots \wedge dt_n$, then
+$d\omega = \sum_i\partial_{x_i}f\,dx^i \wedge dx^I \wedge dt_1 \wedge \cdots \wedge dt_n$, and $\pi_*d\omega = \sum_i(\int\partial_{x_i}f\,dt)\,dx^i \wedge dx^I = d\pi_*\omega$ by differentiation under the integral sign
+(Proposition~\ref{real-analysis:proposition-parameter-integrals}). Reversing the orientation replaces $dt_1 \wedge \cdots \wedge dt_n$ by $-dt_1 \wedge \cdots \wedge dt_n$ in an oriented trivialisation.
+\end{proof}
+
+\begin{lemma}\label{characteristic-classes:lemma-thom-trivial}
+For every manifold $N$ and $n \geq 0$, integration along the fibres of the trivial bundle $N \times \RR^n \to N$ induces isomorphisms $H^k_{\mathrm{cv}}(N \times \RR^n) \to H^{k-n}(N)$.
+\end{lemma}
+
+\begin{proof}
+We treat $n = 1$ in a form that allows induction. Let $N' = N \times \RR^{n-1}$ and consider the projection $p \colon N' \times \RR \to N'$ with fibre coordinate $t$, and the subcomplexes $C^\bullet \subseteq \Omega^\bullet(N' \times \RR)$ and
+$C'^\bullet \subseteq \Omega^\bullet(N')$ of forms whose supports meet the preimage of every compact subset of $N$ in a compact set. Every $\omega \in C^k$ is uniquely $\omega = \alpha_t + \beta_t \wedge dt$, with $\alpha_t$, $\beta_t$ families of
+forms on $N'$ depending smoothly on $t$ and without $dt$, and $p_*\omega = \int_\RR\beta_t\,dt$, which lies in $C'^{k-1}$. Choose $e \in C^\infty_c(\RR)$ with $\int e = 1$, let $E(t) = \int_{-\infty}^te$, and define
+\[
+e_*(\beta) = p^*\beta \wedge e(t)\,dt, \qquad K\omega = \int_{-\infty}^t\beta_u\,du - E(t)\int_{-\infty}^\infty\beta_u\,du.
+\]
+Then $e_* \colon C'^{k-1} \to C^k$ commutes with $d$ (as $d(e\,dt) = 0$), $p_*e_* = \mathrm{id}$, and $K\omega$ lies in $C^{k-1}$: it vanishes for $t$ below the support of $\omega$, and also above it, where $\int_{-\infty}^t\beta_u\,du = \int_{-\infty}^\infty\beta_u\,du$
+and $E(t) = 1$ (using that the $t$-supports are uniformly bounded over compact subsets of $N$). We claim that on $C^k$,
+\[
+dK\omega - Kd\omega = (-1)^{k-1}(\omega - e_*p_*\omega).
+\]
+If $\omega = \alpha_t$ has no $dt$, then $K\omega = 0$, $e_*p_*\omega = 0$, and the $dt$-part of $d\omega$ is $(-1)^k\partial_t\alpha_t \wedge dt$, so $Kd\omega = (-1)^k\int_{-\infty}^t\partial_u\alpha_u\,du = (-1)^k\alpha_t$ (the second term vanishes as
+$\int_\RR\partial_u\alpha_u\,du = 0$), which gives the claim. If $\omega = \beta_t \wedge dt$, write $d_{N'}$ for the exterior derivative along $N'$ and $g_t = K\omega$. Then $d\omega = d_{N'}\beta_t \wedge dt$, so
+$Kd\omega = d_{N'}g_t$ by differentiation under the integral sign, while $dK\omega = d_{N'}g_t + (-1)^{k-1}\partial_tg_t \wedge dt$ with $\partial_tg_t = \beta_t - e(t)\int_\RR\beta_u\,du$. Hence
+$dK\omega - Kd\omega = (-1)^{k-1}(\beta_t \wedge dt - e(t)(\int_\RR\beta_u\,du) \wedge dt) = (-1)^{k-1}(\omega - e_*p_*\omega)$, proving the claim. So $p_*$ and $e_*$ are inverse isomorphisms on cohomology.
+
+For $n = 1$ this is the lemma. For general $n$, integration over $\RR^n$ is the composite of integration over the last coordinate, which maps the complex of forms on $N \times \RR^n$ with compact vertical support over $N$ to
+the corresponding complex on $N \times \RR^{n-1}$, and integration over $\RR^{n-1}$; by Fubini's theorem (in the form of Proposition~\ref{real-analysis:proposition-parameter-integrals}) and the orientation convention
+$dt_1 \wedge \cdots \wedge dt_n = (dt_1 \wedge \cdots \wedge dt_{n-1}) \wedge dt_n$, and induction on $n$, the lemma follows.
+\end{proof}
+
+\begin{theorem}[Thom isomorphism]\label{characteristic-classes:theorem-thom-de-rham}
+Let $\pi \colon E \to M$ be an oriented vector bundle of rank $n$ over a manifold with a finite good cover (for instance a compact manifold). Then $\pi_* \colon H^k_{\mathrm{cv}}(E) \to H^{k-n}(M)$ is an isomorphism for every $k$. There is a
+unique class $\Phi \in H^n_{\mathrm{cv}}(E)$ with $\pi_*\Phi = 1$, the \emph{Thom class}, and the inverse isomorphism is $\alpha \mapsto \pi^*\alpha \wedge \Phi$.
+\end{theorem}
+
+\begin{proof}
+For open $U, V \subseteq M$ and a partition of unity $\{\rho_U, \rho_V\}$ subordinate to $\{U, V\}$ on $U \cup V$, the sequence
+$0 \to \Omega_{\mathrm{cv}}(E|_{U \cup V}) \to \Omega_{\mathrm{cv}}(E|_U) \oplus \Omega_{\mathrm{cv}}(E|_V) \to \Omega_{\mathrm{cv}}(E|_{U \cap V}) \to 0$ is exact, exactly as in Theorem~\ref{de-rham:theorem-mayer-vietoris}, using the functions
+$\pi^*\rho_U$, $\pi^*\rho_V$: multiplying a form on $E|_{U \cap V}$ with compact vertical support by $\pi^*\rho_V$ and extending by zero gives a form on $E|_U$ with compact vertical support, because a compact $K \subseteq U$ meets
+$\operatorname{supp}\rho_V$ in a compact subset of $U \cap V$. By Proposition~\ref{characteristic-classes:proposition-fibre-integration}, $\pi_*$ maps this sequence to the Mayer--Vietoris sequence of $U$, $V$ in de Rham
+cohomology, commuting with restrictions, and it commutes with the connecting maps, which are given on both sides by $\omega \mapsto d(\pi^*\rho_V\,\omega)$ and $\beta \mapsto d(\rho_V\beta)$, since
+$\pi_*d(\pi^*\rho_V\,\omega) = d(\rho_V\pi_*\omega)$ by the projection formula. So the long exact sequences form a commutative ladder.
+
+Choose a finite good cover $\{U_1, \ldots, U_N\}$ of $M$ subordinate to a cover by trivialising open sets (possible by \cite[Chapter I, Section 5]{bott-tu}): all nonempty finite intersections of the $U_i$ are diffeomorphic to $\RR^m$ and
+$E$ is trivial over each. We show by induction on $k$ that $\pi_*$ is an isomorphism over any union of $k$ open sets forming such a good cover. For $k = 1$ this is Lemma~\ref{characteristic-classes:lemma-thom-trivial}. For the
+induction step write the union as $W \cup U$ with $W$ a union of $k - 1$ of the sets; then $W \cap U$ is the union of the $k - 1$ sets $U_i \cap U$, which again form such a cover. By induction $\pi_*$ is an isomorphism over $W$, $U$ and
+$W \cap U$, and by the five lemma (Lemma~\ref{homological-algebra:lemma-five}) over $W \cup U$.
+
+The class $\Phi = \pi_*^{-1}(1)$ is unique. By the projection formula $\pi_*(\pi^*\alpha \wedge \Phi) = \alpha \wedge \pi_*\Phi = \alpha$, so $\alpha \mapsto \pi^*\alpha \wedge \Phi$ is the inverse of $\pi_*$.
+\end{proof}
+
+\begin{definition}\label{characteristic-classes:definition-euler-de-rham}
+For $E$ and $M$ as in Theorem~\ref{characteristic-classes:theorem-thom-de-rham}, the \emph{Euler class} of $E$ in de Rham cohomology is $e(E) = s^*\Phi \in H^n(M)$, where $s \colon M \to E$ is the zero section and $\Phi$ is viewed as a class in
+$H^n(E)$.
+\end{definition}
+
+\begin{proposition}\label{characteristic-classes:proposition-euler-de-rham}
+Let $M$ be compact and $E$, $F$ oriented bundles over $M$ of ranks $n$, $n'$.
+\begin{enumerate}
+\item $e(f^*E) = f^*e(E)$ for a smooth map $f \colon N \to M$ of compact manifolds, and reversing the orientation of $E$ changes the sign of $e(E)$.
+\item If $n$ is odd, $e(E) = 0$.
+\item If $E$ has a nowhere vanishing section, $e(E) = 0$.
+\item $e(E \oplus F) = e(E) \wedge e(F)$, with $E \oplus F$ oriented by an oriented frame of $E$ followed by one of $F$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We use that a closed form $\phi \in \Omega^n_{\mathrm{cv}}(E)$ represents $\Phi$ if and only if $\pi_*\phi = 1$: $\pi_*\phi$ is a closed $0$-form, that is, locally constant, and it represents $\pi_*[\phi]$. (1) The bundle map
+$\tilde f \colon f^*E \to E$ is an orientation-preserving isomorphism on fibres, so $\tilde f^*\phi$ has compact vertical support and, computing in pulled back trivialisations, fibre integral $f^*\pi_*\phi = 1$; hence it represents
+the Thom class of $f^*E$, and $s_N^*\tilde f^*\phi = f^*s^*\phi$. The orientation statement follows from the last statement of Proposition~\ref{characteristic-classes:proposition-fibre-integration}.
+(2) Let $a(v) = -v$. In oriented trivialisations the change of variables $t \mapsto -t$ has Jacobian $(-1)^n = -1$, so $\pi_*a^*\phi = -\pi_*\phi = -1$, and $a^*\phi$ represents $-\Phi$. As $a \circ s = s$,
+$e(E) = [s^*\phi] = [s^*a^*\phi] = -e(E)$.
+(3) Choose a metric on $E$ and let $\sigma$ be a section with $|\sigma| \geq c > 0$ (by compactness). For $\lambda > 0$ let $m_\lambda(v) = \lambda v$; then $m_\lambda^*\phi$ has fibre integral $1$ (Jacobian $\lambda^n > 0$), so it represents $\Phi$, and its support is
+$\lambda^{-1}\operatorname{supp}\phi$. As $\operatorname{supp}\phi$ lies in some $\{|v| \leq R\}$, for $\lambda > R/c$ the form $m_\lambda^*\phi$ vanishes along $\sigma(M)$, so $\sigma^*m_\lambda^*\phi = 0$. The sections $s$ and $\sigma$ are homotopic
+through $t\sigma$, so $e(E) = s^*[m_\lambda^*\phi] = \sigma^*[m_\lambda^*\phi] = 0$ by homotopy invariance (Theorem~\ref{de-rham:theorem-homotopy-invariance}).
+(4) Let $p_1 \colon E \oplus F \to E$ and $p_2 \colon E \oplus F \to F$ be the projections and $\phi$, $\psi$ Thom forms. Then $p_1^*\phi \wedge p_2^*\psi$ has compact vertical support, and in product trivialisations with fibre coordinates
+$(t, u)$ its component containing $dt_1 \wedge \cdots \wedge dt_n \wedge du_1 \wedge \cdots \wedge du_{n'}$ is the product of the components of $\phi$ and $\psi$ of top vertical degree, so by Fubini its fibre integral is
+$\pi_*\phi \cdot \pi_*\psi = 1$. Hence it represents the Thom class of $E \oplus F$, and pulling back by the zero section, which is $(s_E, s_F)$, gives $e(E \oplus F) = e(E) \wedge e(F)$.
+\end{proof}
+
+\begin{remark}\label{characteristic-classes:remark-thom-poincare-dual}
+The Thom class links Poincar\'e duality and characteristic classes. If $S \subseteq M$ is a compact oriented submanifold of a compact oriented manifold, with normal bundle $\nu$ identified with a tubular neighbourhood of $S$, the
+Thom form of $\nu$, extended by zero, represents the Poincar\'e dual of $S$ in $M$; restricted to $S$ it gives $e(\nu)$, the \emph{self-intersection} of $S$. Applied to the diagonal of $M \times M$, whose normal bundle is $TM$, this
+yields $\int_Me(TM) = \chi(M)$, part (3) of Theorem~\ref{characteristic-classes:theorem-euler} \cite{bott-tu}.
+\end{remark}
+
 \section{Euler, Pontryagin and Stiefel--Whitney classes}\label{characteristic-classes:section-euler}
 
 \begin{theorem}\label{characteristic-classes:theorem-euler}
@@ -138,7 +256,9 @@ a complex bundle of rank $r$ one has $e(E) = c_r(E)$.
 \end{enumerate}
 \end{theorem}
 
-These are \cite[Chapters 9--11]{milnor-stasheff} and \cite[Chapter 6]{bott-tu}; in the Chern--Weil picture, $e(TM)$ is represented by the Pfaffian of the curvature of a metric connection divided by
+These are \cite[Chapters 9--11]{milnor-stasheff} and \cite[Chapter 6]{bott-tu}. With real coefficients, (1) is Theorem~\ref{characteristic-classes:theorem-thom-de-rham} (whose proof works over
+any manifold with a finite good cover), and the de Rham image of the Euler class is the class of Definition~\ref{characteristic-classes:definition-euler-de-rham}, whose
+properties were proved in Proposition~\ref{characteristic-classes:proposition-euler-de-rham}. In the Chern--Weil picture, $e(TM)$ is represented by the Pfaffian of the curvature of a metric connection divided by
 $(2\pi)^{n/2}$, which is Chern's proof of the Gauss--Bonnet theorem.
 
 \begin{definition}\label{characteristic-classes:definition-pontryagin}
