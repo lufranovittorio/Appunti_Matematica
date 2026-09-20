@@ -729,6 +729,32 @@ $\pi^{-1}(U)$. Otherwise $\pi(v)$ and $\pi(w)$ have disjoint open neighbourhoods
 $\pi$ is $(x, \xi) \mapsto x$, which is smooth.
 \end{proof}
 
+The differentials of a smooth map at all points fit together into one smooth map, and the chain rule of
+Proposition~\ref{smooth-manifolds:proposition-tangent-space}(3) becomes a statement about these maps.
+
+\begin{proposition}\label{smooth-manifolds:proposition-tangent-map}
+Let $f \colon M \to N$ be smooth. The \emph{tangent map} $df \colon TM \to TN$, $df(v) = d_{\pi(v)}f(v)$, is smooth. In charts $\varphi$ of $M$ and $\psi$ of $N$,
+with local representative $F = \psi \circ f \circ \varphi^{-1}$, and the corresponding bundle charts, it is
+\[
+(x, \xi) \mapsto \bigl(F(x), DF(x)\xi\bigr).
+\]
+The chain rule holds globally: $d(g \circ f) = dg \circ df$ for smooth $g \colon N \to P$, and $d(\id_M) = \id_{TM}$. So $M \mapsto TM$, $f \mapsto df$ is a functor
+from smooth manifolds to smooth manifolds, the \emph{tangent functor}, and if $f$ is a diffeomorphism, so is $df$, with inverse $d(f^{-1})$.
+\end{proposition}
+
+\begin{proof}
+Let $v \in T_pM$ with $p$ in the domain $U$ of $\varphi$ and $f(p)$ in the domain $V$ of $\psi$, and let $x = \varphi(p)$ and $\xi = (v(x^1), \ldots, v(x^m))$ be the
+coordinates of $v$ in the bundle chart. Then $\psi(f(p)) = F(x)$, and by Proposition~\ref{smooth-manifolds:proposition-tangent-space}(3) the components of
+$d_pf(v)$ in the basis $\partial/\partial y^i|_{f(p)}$ are the entries of $DF(x)\xi$. So on the open set $\pi^{-1}(U \cap f^{-1}(V))$ the map $df$ is
+$\widetilde{\psi}^{-1} \circ G \circ \widetilde{\varphi}$ with $G(x, \xi) = (F(x), DF(x)\xi)$, which is smooth because the entries of $DF$ are smooth. These open
+sets cover $TM$, so $df$ is continuous, and smooth by Lemma~\ref{smooth-manifolds:lemma-smooth-independent}. The chain rule and $d(\id_M) = \id_{TM}$ hold at
+every point by Proposition~\ref{smooth-manifolds:proposition-tangent-space}(3), hence globally; for a diffeomorphism $f$ they give
+$d(f^{-1}) \circ df = \id_{TM}$ and $df \circ d(f^{-1}) = \id_{TN}$.
+\end{proof}
+
+In the charts of the proposition, the global chain rule for $d(g \circ f)$ is the chain rule of calculus: the local representative of $g \circ f$ is $G \circ F$, and
+$D(G \circ F)(x) = DG(F(x))\,DF(x)$ is the product of the Jacobian matrices (Proposition~\ref{real-analysis:proposition-derivative-basic}(2)).
+
 \begin{definition}\label{smooth-manifolds:definition-vector-field}
 A \emph{vector field} on $M$ is a smooth map $X \colon M \to TM$ with $\pi \circ X = \id_M$; we write $X_p = X(p) \in T_pM$. The set of vector fields is
 $\mathfrak{X}(M)$. A vector field acts on functions by $(Xf)(p) = X_p(f)$. In a chart, $X = \sum_iX^i\,\partial/\partial x^i$ on $U$, with component functions

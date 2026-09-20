@@ -12,6 +12,18 @@ references in proofs).
 
 ## Done
 
+- [x] **More measure theory** (`measure-theory`): Littlewood's three
+  principles, approximation of measurable sets by finite unions of boxes,
+  Lusin's theorem (with the extension to $C_c$), Vitali's covering lemma, the
+  Hardy–Littlewood maximal inequality, the Lebesgue differentiation theorem,
+  the density theorem, the fundamental theorem of calculus for Lebesgue
+  integrals, the Cantor function, and a Lebesgue measurable set that is not
+  Borel.
+- [x] **Chain rule on manifolds** (`smooth-manifolds`): it was already in the
+  proposition on tangent spaces (tag 017S); added the global form, the tangent
+  map $df \colon TM \to TN$ with $d(g \circ f) = dg \circ df$ (the tangent
+  functor).
+
 - [x] **Complex projective space** (`homotopy`, `topological-manifolds`):
   $\mathbb{CP}^n$ is compact Hausdorff with one cell in each even dimension,
   $\mathbb{CP}^1 \cong S^2$ by an explicit map (the Riemann sphere, the Hopf
