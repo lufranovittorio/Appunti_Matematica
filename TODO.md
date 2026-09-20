@@ -12,6 +12,20 @@ references in proofs).
 
 ## Done
 
+- [x] **Naturality of integral curves** (`smooth-manifolds`): $F$-related
+  fields, $F \circ \Phi_t = \Psi_t \circ F$, and $\Psi_t = F \Phi_t F^{-1}$ for a
+  diffeomorphism.
+- [x] **Fibre products** (`smooth-manifolds`, `vector-bundles`): the fibre
+  product of manifolds along a submersion, with its tangent space and universal
+  property, and the identification $f^*E \cong N \times_M E$ of the pullback
+  bundle.
+- [x] **Whitney's theorem, general case** (`smooth-manifolds`): proper
+  embedding in $\mathbb{R}^{2n+1}$ and immersion in $\mathbb{R}^{2n}$, sketched.
+- [x] **Regular surfaces** (`smooth-manifolds`): four equivalent local
+  descriptions of a submanifold of $\mathbb{R}^N$ (slice, graph,
+  parametrisation, regular level set), and a remark identifying do Carmo's
+  regular surfaces with the 2-dimensional submanifolds of $\mathbb{R}^3$.
+
 - [x] **More measure theory** (`measure-theory`): Littlewood's three
   principles, approximation of measurable sets by finite unions of boxes,
   Lusin's theorem (with the extension to $C_c$), Vitali's covering lemma, the

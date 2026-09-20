@@ -952,6 +952,30 @@ If $q$ is not in the image of $f$, it is a regular value and $f^{-1}(q) = \empty
 identifies $T_pS \subseteq T_p\RR^N = \RR^N$ with the set of velocities $\gamma'(0)$ of smooth curves $\gamma$ in $S$ with $\gamma(0) = p$, which is the tangent
 space of elementary geometry.
 
+\begin{proposition}[Fibre products]\label{smooth-manifolds:proposition-fibre-product}
+Let $f \colon M \to P$ and $g \colon N \to P$ be smooth with $g$ a submersion. Then
+\[
+M \times_PN = \{(m, n) \in M \times N : f(m) = g(n)\}
+\]
+is a submanifold of $M \times N$ of dimension $\dim M + \dim N - \dim P$, with
+$T_{(m,n)}(M \times_PN) = \{(u, v) \in T_mM \oplus T_nN : d_mf(u) = d_ng(v)\}$. The projections to $M$ and $N$ are smooth, the projection to $M$ is a submersion,
+and for every manifold $L$ the smooth maps $L \to M \times_PN$ correspond to pairs of smooth maps $a \colon L \to M$, $b \colon L \to N$ with $f \circ a = g \circ b$.
+\end{proposition}
+
+\begin{proof}
+Let $(m, n) \in M \times_PN$ and $p = g(n)$. By Proposition~\ref{smooth-manifolds:proposition-local-forms}(1) there are charts in which $g$ is the projection
+$(x, y) \mapsto x$ from an open subset of $\RR^{\dim P} \times \RR^{\dim N - \dim P}$, and a chart $(U, \varphi)$ at $m$ with $f(U)$ inside the chart of $P$; write
+$\tilde{f}$ for the local representative of $f$. In these coordinates the fibre product is
+$\{(z, (x, y)) : x = \tilde{f}(z)\}$, which after reordering the factors as $(z, y, x)$ is the graph of the smooth map $(z, y) \mapsto \tilde{f}(z)$. By
+Proposition~\ref{smooth-manifolds:proposition-graph-submanifold} a graph is a slice in suitable coordinates, so these coordinates give a slice chart of
+$M \times N$ at $(m, n)$, and $M \times_PN$ is a submanifold of dimension $\dim M + (\dim N - \dim P)$. In the corresponding chart of $M \times_PN$ the projection
+to $M$ is $(z, y) \mapsto z$, a submersion. Differentiating $f \circ \mathrm{pr}_M = g \circ \mathrm{pr}_N$ on $M \times_PN$ shows that its tangent space is
+contained in the space described, which has the same dimension, because $(u, v) \mapsto d_mf(u) - d_ng(v)$ is a surjective linear map $T_mM \oplus T_nN \to T_pP$
+(already $v \mapsto -d_ng(v)$ is surjective). The universal property follows from
+Proposition~\ref{smooth-manifolds:proposition-restrict-codomain}: a pair $(a, b)$ with $f \circ a = g \circ b$ is a smooth map $L \to M \times N$ with image in the
+submanifold $M \times_PN$.
+\end{proof}
+
 \begin{example}\label{smooth-manifolds:example-regular-value}
 \begin{enumerate}
 \item \emph{Spheres and quadrics.} $S^n = f^{-1}(1)$ for $f(x) = \|x\|^2$, with $d_xf(v) = 2\langle x, v\rangle \neq 0$ on $S^n$; so
@@ -1016,6 +1040,47 @@ not a submanifold near $0$: by Lemma~\ref{smooth-manifolds:lemma-curve-graph} it
 $x = y^{2/3}$, which is not differentiable at $0$.
 \end{enumerate}
 \end{counterexample}
+
+\begin{proposition}\label{smooth-manifolds:proposition-submanifold-criteria}
+Let $S \subseteq \RR^N$ and $p \in S$, and let $0 \leq k \leq N$. The following are equivalent.
+\begin{enumerate}
+\item (Slice) There is a chart $(U, \varphi)$ of $\RR^N$ at $p$ with $\varphi(U \cap S) = \varphi(U) \cap (\RR^k \times \{0\})$.
+\item (Graph) After permuting the coordinates of $\RR^N$ there are open sets $\Omega \subseteq \RR^k$ and $W \ni p$ in $\RR^N$ and a smooth
+$g \colon \Omega \to \RR^{N-k}$ with $W \cap S = \{(u, g(u)) : u \in \Omega\}$.
+\item (Parametrisation) There are an open $\Omega \subseteq \RR^k$, an open $W \ni p$ in $\RR^N$ and a smooth $x \colon \Omega \to \RR^N$ with $x(\Omega) = W \cap S$,
+such that $x$ is a homeomorphism onto $W \cap S$ with the subspace topology and $d_ux$ is injective for every $u \in \Omega$.
+\item (Regular level set) There are an open $W \ni p$ in $\RR^N$ and a smooth $F \colon W \to \RR^{N-k}$ with $W \cap S = F^{-1}(0)$ and $d_qF$ surjective for every
+$q \in W \cap S$.
+\end{enumerate}
+So $S$ is a $k$-dimensional submanifold of $\RR^N$ if and only if one of these holds at every point of $S$.
+\end{proposition}
+
+\begin{proof}
+(1) $\Rightarrow$ (4). Let $F$ be the last $N - k$ coordinates of $\varphi$ on $W = U$; then $F^{-1}(0) = U \cap S$ and $d_qF$ is surjective, being the last $N - k$
+rows of the invertible matrix of $d_q\varphi$.
+
+(4) $\Rightarrow$ (2). By the implicit function theorem (Theorem~\ref{real-analysis:theorem-implicit-function}), applied after permuting coordinates so that the
+last $N - k$ columns of $DF(p)$ are independent, there are open sets $\Omega \times B \ni p$ inside $W$ and a smooth $g \colon \Omega \to B$ such that, for
+$(u, v) \in \Omega \times B$, $F(u, v) = 0$ if and only if $v = g(u)$.
+
+(2) $\Rightarrow$ (3). Take $x(u) = (u, g(u))$, whose differential is injective and whose inverse is the projection to the first $k$ coordinates, a continuous
+map.
+
+(3) $\Rightarrow$ (1). The map $x \colon \Omega \to \RR^N$ is an injective immersion and a homeomorphism onto its image, so it is an embedding, and its image
+$W \cap S$ is a $k$-dimensional submanifold of $\RR^N$ (Proposition~\ref{smooth-manifolds:proposition-local-forms}(2)); a slice chart at $p$ for $W \cap S$,
+intersected with $W$, is one for $S$.
+\end{proof}
+
+\begin{remark}\label{smooth-manifolds:remark-do-carmo}
+A \emph{regular surface} in $\RR^3$, in the sense of do Carmo \cite[Section 2.2]{do-carmo-curves-surfaces}, is a subset $S \subseteq \RR^3$ such that every
+$p \in S$ has a \emph{parametrisation}: an open $\Omega \subseteq \RR^2$, a neighbourhood $W$ of $p$ in $\RR^3$ and a smooth $x \colon \Omega \to \RR^3$ with
+image $W \cap S$, which is a homeomorphism onto $W \cap S$ and has injective differential everywhere. This is condition (3) of
+Proposition~\ref{smooth-manifolds:proposition-submanifold-criteria} with $k = 2$ and $N = 3$, so regular surfaces are exactly the $2$-dimensional submanifolds
+of $\RR^3$, and the charts of the submanifold structure are the inverses $x^{-1}$ of the parametrisations (Lemma~\ref{smooth-manifolds:lemma-submanifold-structure});
+the change of parameters between two parametrisations is the transition map of these charts, and is smooth. Both conditions on $x$ are needed: dropping
+injectivity of $d_ux$ allows the cusp, and dropping the requirement that $x$ be a homeomorphism onto its image allows the figure eight, neither of which is a
+submanifold (Counterexample~\ref{smooth-manifolds:counterexample-immersions}).
+\end{remark}
 
 \begin{definition}\label{smooth-manifolds:definition-measure-zero}
 A subset $A$ of a smooth $n$-manifold has \emph{measure zero} if $\varphi(A \cap U)$ has Lebesgue measure zero for every chart; by the change of variables formula
@@ -1238,6 +1303,20 @@ The Hausdorff condition was used for uniqueness, and it is needed: on the line w
 the field $d/dx$, defined in both charts, has two different integral curves starting at $-1$, one through each origin.
 \end{remark}
 
+\begin{proposition}[Naturality of integral curves and flows]\label{smooth-manifolds:proposition-naturality-flows}
+Let $F \colon M \to N$ be smooth and let $X \in \mathfrak{X}(M)$, $Y \in \mathfrak{X}(N)$ satisfy $d_pF(X_p) = Y_{F(p)}$ for all $p$ (they are \emph{$F$-related}).
+Then $F$ maps integral curves of $X$ to integral curves of $Y$: if $\gamma$ is an integral curve of $X$, then $F \circ \gamma$ is one of $Y$. Consequently
+$F(\Phi_t(p)) = \Psi_t(F(p))$ whenever $\Phi_t(p)$ is defined, where $\Phi$ and $\Psi$ are the flows of $X$ and $Y$; in particular, if $F$ is a diffeomorphism and
+$Y = F_*X$, then $\Psi_t = F \circ \Phi_t \circ F^{-1}$.
+\end{proposition}
+
+\begin{proof}
+By the chain rule (Proposition~\ref{smooth-manifolds:proposition-velocity}), $(F \circ \gamma)'(t) = d_{\gamma(t)}F(\gamma'(t)) = d_{\gamma(t)}F(X_{\gamma(t)}) = Y_{F(\gamma(t))}$,
+so $F \circ \gamma$ is an integral curve of $Y$. Applying this to $\gamma_p$ gives an integral curve of $Y$ through $F(p)$ at time $0$, which is therefore the
+restriction of $\gamma_{F(p)}$ (Theorem~\ref{smooth-manifolds:theorem-flow}); evaluating at $t$ gives $F(\Phi_t(p)) = \Psi_t(F(p))$. If $F$ is a diffeomorphism,
+$X$ and $F_*X$ are $F$-related by definition, and the formula reads $\Psi_t = F \circ \Phi_t \circ F^{-1}$.
+\end{proof}
+
 For two vector fields $X$ and $Y$, the composite $f \mapsto X(Yf)$ is not a vector field: in coordinates it involves second derivatives of $f$. But the second
 derivatives cancel in the commutator.
 
@@ -1306,6 +1385,22 @@ Cover $M$ by finitely many charts $\varphi_i \colon U_i \to \RR^n$, $i = 1, \ldo
 (Corollary~\ref{smooth-manifolds:corollary-partition-applications}). The map $F = (\chi_1\varphi_1, \ldots, \chi_m\varphi_m, \chi_1, \ldots, \chi_m) \colon M \to \RR^{mn + m}$ is smooth; it is an immersion,
 since on $V_i$ the component $\chi_i\varphi_i = \varphi_i$ has injective differential, and it is injective: if $F(p) = F(q)$, choose $i$ with $p \in V_i$; then $\chi_i(q) = \chi_i(p) = 1$, so $q \in U_i$ and
 $\varphi_i(q) = \varphi_i(p)$, whence $p = q$. By Proposition~\ref{smooth-manifolds:proposition-local-forms}(3) it is an embedding.
+\end{proof}
+
+\begin{theorem}[Whitney]\label{smooth-manifolds:theorem-whitney-general}
+Every smooth $n$-manifold admits a proper embedding into $\RR^{2n+1}$ and an immersion into $\RR^{2n}$; for $n > 0$ it even embeds into $\RR^{2n}$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+First one embeds $M$ properly into some $\RR^N$: take a countable locally finite atlas with charts $\varphi_i$ and a subordinate partition of unity $\psi_i$
+(Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}), and use the maps $\psi_i\varphi_i$ and $\psi_i$ as in the proof of
+Theorem~\ref{smooth-manifolds:theorem-whitney}, together with a proper function $M \to \RR$
+(Corollary~\ref{smooth-manifolds:corollary-partition-applications}(3)) as one more coordinate; properness of that coordinate makes the embedding proper. Then one
+lowers the dimension: if $N > 2n + 1$, the set of directions $v \in S^{N-1}$ for which the orthogonal projection along $v$ fails to be an injective immersion is
+the image of two smooth maps from manifolds of dimensions $2n$ and $2n - 1$ (pairs of distinct points, and nonzero tangent vectors), hence has measure zero by
+Sard's theorem (Theorem~\ref{smooth-manifolds:theorem-sard}); so a good direction exists, and the projection of a proper embedding along it is again one. The
+omitted verifications are that the projected map is again proper and an embedding, and the harder statement that $\RR^{2n}$ suffices; see
+\cite[Chapter 1]{hirsch-differential-topology} and \cite[Chapter 6]{lee-smooth-manifolds}.
 \end{proof}
 
 \section{Exercises}\label{smooth-manifolds:section-exercises}
