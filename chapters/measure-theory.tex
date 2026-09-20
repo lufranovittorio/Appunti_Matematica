@@ -7,8 +7,10 @@ The Lebesgue integral extends the Riemann integral to a class of functions that 
 monotone and dominated convergence theorems (Theorems~\ref{measure-theory:theorem-monotone-convergence}
 and~\ref{measure-theory:theorem-dominated-convergence}) and the completeness of the spaces $L^p$
 (Theorem~\ref{measure-theory:theorem-riesz-fischer}) are the basis of the functional analysis used to prove the Hodge theorem. This
-chapter constructs Lebesgue measure, proves the convergence theorems, Fubini's theorem and the change of variables formula, and the
-Radon--Nikodym theorem. References: \cite{rudin-rca} and \cite{folland-real}.
+chapter constructs Lebesgue measure, proves the convergence theorems, Littlewood's three principles (approximation of sets by boxes, Lusin's
+theorem, Egorov's theorem), the Lebesgue differentiation theorem with its consequences (the density theorem and the fundamental theorem of calculus for
+Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theorem and the change of variables formula, and the Radon--Nikodym theorem.
+References: \cite{rudin-rca} and \cite{folland-real}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{real-analysis} (Real Analysis).
 
@@ -274,6 +276,206 @@ Proposition~\ref{measure-theory:proposition-modes} is necessary.
 \end{enumerate}
 \end{counterexample}
 
+\section{Littlewood's principles and Lusin's theorem}\label{measure-theory:section-lusin}
+
+Littlewood summarised the theory of Lebesgue measure on $\RR^n$ in three principles: every measurable set of finite measure is nearly a finite union of boxes;
+every measurable function is nearly continuous; every convergent sequence of measurable functions is nearly uniformly convergent. The third is Egorov's
+theorem (Theorem~\ref{measure-theory:theorem-egorov}); this section makes the first two precise. Throughout, $\lambda$ is Lebesgue measure on $\RR^n$ and
+$E \mathbin{\triangle} A = (E \setminus A) \cup (A \setminus E)$ is the symmetric difference.
+
+\begin{lemma}\label{measure-theory:lemma-dyadic-cubes}
+Every open set $W \subseteq \RR^n$ is a countable union of closed \emph{dyadic cubes} $\prod_i[k_i2^{-j}, (k_i + 1)2^{-j}]$ ($j \in \NN$, $k_i \in \ZZ$) with pairwise
+disjoint interiors, and $\lambda(W)$ is the sum of their volumes.
+\end{lemma}
+
+\begin{proof}
+Two dyadic cubes of side at most $1$ are either nested or have disjoint interiors, and a dyadic cube of side at most $1$ is contained in only finitely many
+dyadic cubes of side at most $1$. Every $x \in W$ lies in a dyadic cube of side at most $1$ contained in $W$, since $W$ contains a ball around $x$. Let
+$(Q_k)$ be the dyadic cubes of side at most $1$ contained in $W$ that are maximal for inclusion among these; every dyadic cube of side at most $1$ in $W$ lies in
+one of them, so they cover $W$, and distinct maximal cubes have disjoint interiors. There are countably many dyadic cubes. The boundary of a cube is a
+finite union of boxes of volume $0$, a null set (Theorem~\ref{measure-theory:theorem-lebesgue-measure}), so the interiors, which are disjoint, have the same
+measures as the cubes, and $\lambda(W) = \sum_k\lambda(Q_k)$ by countable additivity.
+\end{proof}
+
+\begin{proposition}[First principle]\label{measure-theory:proposition-approximation-boxes}
+Let $E \subseteq \RR^n$ be Lebesgue measurable with $\lambda(E) < \infty$, and $\varepsilon > 0$. There is a finite union $A$ of boxes with
+$\lambda(E \mathbin{\triangle} A) < \varepsilon$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{measure-theory:theorem-lebesgue-measure} there is an open $W \supseteq E$ with $\lambda(W \setminus E) < \varepsilon/2$. Write $W = \bigcup_kQ_k$ as in
+Lemma~\ref{measure-theory:lemma-dyadic-cubes}. Since $\sum_k\lambda(Q_k) = \lambda(W) < \infty$, there is $N$ with $\sum_{k > N}\lambda(Q_k) < \varepsilon/2$. Let
+$A = Q_1 \cup \cdots \cup Q_N$. Then $\lambda(A \setminus E) \leq \lambda(W \setminus E) < \varepsilon/2$ and
+$\lambda(E \setminus A) \leq \lambda(W \setminus A) \leq \sum_{k > N}\lambda(Q_k) < \varepsilon/2$.
+\end{proof}
+
+\begin{theorem}[Lusin]\label{measure-theory:theorem-lusin}
+Let $E \subseteq \RR^n$ be Lebesgue measurable with $\lambda(E) < \infty$, let $f \colon E \to \CC$ be measurable, and $\varepsilon > 0$. There is a compact set
+$K \subseteq E$ with $\lambda(E \setminus K) < \varepsilon$ such that the restriction $f|_K$ is continuous. Moreover there is $g \in C_c(\RR^n)$ with $g = f$ on $K$,
+and if $|f| \leq c$ on $E$ we can take $|g| \leq c$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: indicator functions.} Let $f = \mathbf{1}_A$ with $A \subseteq E$ measurable. By inner regularity
+(Theorem~\ref{measure-theory:theorem-lebesgue-measure}) there are compact sets $K_1 \subseteq A$ and $K_2 \subseteq E \setminus A$ with
+$\lambda(A \setminus K_1) < \varepsilon/2$ and $\lambda((E \setminus A) \setminus K_2) < \varepsilon/2$. Then $K = K_1 \cup K_2$ is compact with $\lambda(E \setminus K) < \varepsilon$.
+As $K_1$ and $K_2$ are disjoint and closed, each is open in $K$, and $f|_K$ is constant on each, hence continuous.
+
+\emph{Step 2: simple functions.} If $f = \sum_{i=1}^ma_i\mathbf{1}_{A_i}$, apply Step 1 to each $A_i$ with $\varepsilon/m$ and intersect the compact sets.
+
+\emph{Step 3: real functions.} By Proposition~\ref{measure-theory:proposition-measurable-functions}(4), applied to $f^+$ and $f^-$, there are simple functions
+$s_k$ with $s_k \to f$ pointwise on $E$. By Step 2 there are compact $K_k \subseteq E$ with $\lambda(E \setminus K_k) < \varepsilon2^{-k-2}$ and $s_k|_{K_k}$
+continuous. By Egorov's theorem (Theorem~\ref{measure-theory:theorem-egorov}, on the finite measure space $E$) there is a measurable $F \subseteq E$ with
+$\lambda(E \setminus F) < \varepsilon/4$ on which $s_k \to f$ uniformly, and by inner regularity a compact $K_0 \subseteq F$ with $\lambda(F \setminus K_0) < \varepsilon/4$.
+The compact set $K = K_0 \cap \bigcap_kK_k$ satisfies $\lambda(E \setminus K) < \varepsilon/4 + \varepsilon/4 + \sum_k\varepsilon2^{-k-2} \leq \varepsilon$, and on it the
+continuous functions $s_k|_K$ converge uniformly to $f|_K$, which is therefore continuous (Proposition~\ref{general-topology:proposition-uniform-limit}). For
+complex $f$, treat the real and imaginary parts with $\varepsilon/2$ each and intersect.
+
+\emph{Extension.} The space $\RR^n$ is metric, hence normal (Proposition~\ref{general-topology:proposition-normal-examples}), and $K$ is closed, so by the Tietze
+extension theorem (Theorem~\ref{general-topology:theorem-tietze}) the real and imaginary parts of $f|_K$ extend to continuous functions on $\RR^n$; let $h$ be the
+resulting extension of $f|_K$. If $|f| \leq c$, replace $h$ by $r \circ h$, where $r(z) = z$ for $|z| \leq c$ and $r(z) = cz/|z|$ otherwise is a continuous retraction
+of $\CC$ onto the closed disc of radius $c$. Finally choose $\phi \in C_c(\RR^n)$ with values in $[0, 1]$ and $\phi = 1$ on $K$
+(Lemma~\ref{general-topology:lemma-lch-shrinking}), and let $g = \phi h$.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-lusin-dirichlet}
+Lusin's theorem says that the \emph{restriction} of $f$ to $K$ is continuous, not that $f$ is continuous at the points of $K$. The Dirichlet function
+$\mathbf{1}_\QQ$ on $[0, 1]$ is discontinuous at every point. Enumerate $\QQ \cap [0, 1] = \{q_1, q_2, \ldots\}$ and let $U$ be the union of the intervals
+$(q_k - \varepsilon2^{-k-2}, q_k + \varepsilon2^{-k-2})$. Then $\lambda(U) \leq \varepsilon/2$, the set $K = [0, 1] \setminus U$ is compact with
+$\lambda([0, 1] \setminus K) < \varepsilon$, and $\mathbf{1}_\QQ$ vanishes on $K$, so its restriction to $K$ is continuous.
+\end{example}
+
+\begin{corollary}\label{measure-theory:corollary-lusin-limit}
+Every measurable function $f \colon \RR^n \to \CC$ is the almost everywhere limit of a sequence of continuous functions.
+\end{corollary}
+
+\begin{proof}
+For $k \geq 1$ apply Theorem~\ref{measure-theory:theorem-lusin} to the restriction of $f$ to the ball $B(0, k)$ with $\varepsilon = 2^{-k}$, to get
+$g_k \in C_c(\RR^n)$ equal to $f$ on $B(0, k)$ outside a set $N_k$ of measure less than $2^{-k}$. By monotone convergence,
+$\int\sum_k\mathbf{1}_{N_k} = \sum_k\lambda(N_k) < \infty$, so $\sum_k\mathbf{1}_{N_k} < \infty$ almost everywhere: almost every $x$ lies in only finitely many $N_k$.
+For such $x$ and all large $k > \|x\|$, $g_k(x) = f(x)$.
+\end{proof}
+
+\section{Differentiation of integrals}\label{measure-theory:section-differentiation}
+
+For a continuous function $f$ on $\RR$, the fundamental theorem of calculus says that $\frac{1}{2r}\int_{x-r}^{x+r}f \to f(x)$. We show that the averages of
+an integrable function over small balls converge to the function almost everywhere. Let $B(x, r)$ be the open Euclidean ball. The map $y \mapsto x + ry$ multiplies
+the volume of boxes by $r^n$, hence Lebesgue measure by $r^n$, so $\lambda(B(x, r)) = r^n\lambda(B(0, 1))$. A measurable function is \emph{locally integrable},
+$f \in L^1_{\mathrm{loc}}(\RR^n)$, if $\int_K|f| < \infty$ for every compact $K$.
+
+\begin{lemma}[Vitali covering lemma]\label{measure-theory:lemma-vitali-covering}
+Every finite family of open balls $B_1, \ldots, B_m$ in $\RR^n$ has a pairwise disjoint subfamily $B_{i_1}, \ldots, B_{i_k}$ with
+$\bigcup_iB_i \subseteq \bigcup_j3B_{i_j}$, where $3B(x, r) = B(x, 3r)$. Consequently $\lambda(\bigcup_iB_i) \leq 3^n\sum_j\lambda(B_{i_j})$.
+\end{lemma}
+
+\begin{proof}
+Choose a ball of largest radius, discard all the balls that meet it, choose a ball of largest radius among the remaining ones, and so on. The chosen balls are
+pairwise disjoint. A discarded ball $B = B(c, r)$ meets a chosen ball $B' = B(c', r')$ with $r' \geq r$, namely the one chosen at the step where $B$ was discarded.
+If $z \in B \cap B'$ and $y \in B$, then $\|y - c'\| \leq \|y - c\| + \|c - z\| + \|z - c'\| < r + r + r' \leq 3r'$, so $B \subseteq 3B'$. The inequality follows from
+$\lambda(3B') = 3^n\lambda(B')$ and subadditivity.
+\end{proof}
+
+\begin{definition}\label{measure-theory:definition-maximal-function}
+For $f \in L^1_{\mathrm{loc}}(\RR^n)$, $x \in \RR^n$ and $r > 0$, the \emph{average} of $f$ over $B(x, r)$ is
+$A_rf(x) = \frac{1}{\lambda(B(x, r))}\int_{B(x, r)}f\,d\lambda$, and the \emph{Hardy--Littlewood maximal function} is $Mf(x) = \sup_{r > 0}A_r|f|(x) \in [0, \infty]$.
+\end{definition}
+
+\begin{theorem}[Hardy--Littlewood maximal inequality]\label{measure-theory:theorem-maximal-inequality}
+Let $f \in L^1(\RR^n)$ and $t > 0$. The set $\{Mf > t\}$ is open, and $\lambda(\{Mf > t\}) \leq \frac{3^n}{t}\|f\|_1$.
+\end{theorem}
+
+\begin{proof}
+If $A_r|f|(x) > t$, choose $s > r$ with $(r/s)^nA_r|f|(x) > t$. For $\|x' - x\| < s - r$ we have $B(x', s) \supseteq B(x, r)$, so
+$A_s|f|(x') \geq (r/s)^nA_r|f|(x) > t$; hence $\{Mf > t\}$ is open. Let $K \subseteq \{Mf > t\}$ be compact. Every $x \in K$ is the centre of a ball $B_x$ with
+$\int_{B_x}|f| > t\lambda(B_x)$, and finitely many of these balls cover $K$. By Lemma~\ref{measure-theory:lemma-vitali-covering} they contain disjoint balls
+$B_1, \ldots, B_k$ with
+\[
+\lambda(K) \leq 3^n\sum_j\lambda(B_j) < \frac{3^n}{t}\sum_j\int_{B_j}|f| \leq \frac{3^n}{t}\|f\|_1.
+\]
+By inner regularity (Theorem~\ref{measure-theory:theorem-lebesgue-measure}), the same bound holds for $\{Mf > t\}$.
+\end{proof}
+
+\begin{theorem}[Lebesgue differentiation theorem]\label{measure-theory:theorem-lebesgue-differentiation}
+Let $f \in L^1_{\mathrm{loc}}(\RR^n)$. For almost every $x \in \RR^n$,
+\[
+\lim_{r \to 0}\frac{1}{\lambda(B(x, r))}\int_{B(x, r)}|f(y) - f(x)|\,d\lambda(y) = 0,
+\]
+and in particular $A_rf(x) \to f(x)$ as $r \to 0$.
+\end{theorem}
+
+\begin{proof}
+For $x \in B(0, R)$ and $r < 1$ the quantity only involves $f$ on $B(0, R + 1)$, so, replacing $f$ by $f\mathbf{1}_{B(0, R+1)}$ and letting $R$ run through $\NN$, we
+may assume $f \in L^1(\RR^n)$. Let $\Omega_f(x) = \limsup_{r \to 0}A_r|f - f(x)|(x)$. Fix $t > 0$ and $\varepsilon > 0$, and choose $g \in C_c(\RR^n)$ with
+$\|f - g\|_1 < \varepsilon$ (Proposition~\ref{measure-theory:proposition-density}). For the continuous $g$, $A_r|g - g(x)|(x) \leq \sup_{B(x, r)}|g - g(x)| \to 0$, so
+$\Omega_g = 0$. With $h = f - g$ we have $|f(y) - f(x)| \leq |h(y)| + |h(x)| + |g(y) - g(x)|$, hence $\Omega_f(x) \leq Mh(x) + |h(x)|$, and
+\[
+\{\Omega_f > 2t\} \subseteq \{Mh > t\} \cup \{|h| > t\}.
+\]
+By Theorem~\ref{measure-theory:theorem-maximal-inequality} and Chebyshev's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)), the right
+side has measure at most $3^n\varepsilon/t + \varepsilon/t$. As $\varepsilon$ is arbitrary, $\{\Omega_f > 2t\}$ has outer measure $0$, so it is a null set (Lebesgue
+measure is complete), and so is the union of these sets for $t = 1/k$, $k \geq 1$. Finally $|A_rf(x) - f(x)| \leq A_r|f - f(x)|(x)$.
+\end{proof}
+
+The points where the conclusion holds are the \emph{Lebesgue points} of $f$; changing $f$ on a null set does not change the averages, so almost every point is
+a Lebesgue point of every representative.
+
+\begin{corollary}[Lebesgue density theorem]\label{measure-theory:corollary-density}
+Let $A \subseteq \RR^n$ be Lebesgue measurable. Then $\lambda(A \cap B(x, r))/\lambda(B(x, r)) \to 1$ as $r \to 0$ for almost every $x \in A$, and $\to 0$ for almost
+every $x \notin A$.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{measure-theory:theorem-lebesgue-differentiation} to the bounded, hence locally integrable, function $\mathbf{1}_A$, whose average over $B(x, r)$ is
+the ratio in question.
+\end{proof}
+
+\begin{corollary}[Fundamental theorem of calculus for Lebesgue integrals]\label{measure-theory:corollary-ftc-lebesgue}
+Let $f \in L^1([a, b])$ and $F(x) = \int_{[a, x]}f\,d\lambda$. Then $F$ is continuous, and at almost every $x \in (a, b)$ it is differentiable with $F'(x) = f(x)$.
+\end{corollary}
+
+\begin{proof}
+Extend $f$ by $0$ to $\RR$. For $y \to x$, $|F(y) - F(x)| \leq \int\mathbf{1}_{[x, y]}|f| \to 0$ by dominated convergence, where $[x, y]$ means the interval between
+$x$ and $y$. For $h \neq 0$ let $I_h$ be the closed interval between $x$ and $x + h$, of length $|h|$. Then $F(x + h) - F(x) = \pm\int_{I_h}f$, with the sign of
+$h$, so in both cases $\frac{F(x + h) - F(x)}{h} - f(x) = \frac{1}{|h|}\int_{I_h}(f - f(x))$. As $I_h \subseteq \overline{B}(x, |h|)$, an interval of length $2|h|$
+whose endpoints are null,
+\[
+\Bigl|\frac{F(x + h) - F(x)}{h} - f(x)\Bigr| \leq \frac{1}{|h|}\int_{B(x, |h|)}|f - f(x)| = 2A_{|h|}|f - f(x)|(x),
+\]
+which tends to $0$ at every Lebesgue point of $f$.
+\end{proof}
+
+\begin{counterexample}\label{measure-theory:counterexample-cantor-function}
+\emph{The Cantor function.} A continuous nondecreasing function can have derivative $0$ almost everywhere without being constant, so the formula
+$F(b) - F(a) = \int_a^bF'$ fails for such functions. Let $C \subseteq [0, 1]$ be the Cantor set, the set of numbers $\sum_{k \geq 1}a_k3^{-k}$ with all
+$a_k \in \{0, 2\}$; these expansions are unique, and $C$ is compact of measure zero, being covered, for each $k$, by $2^k$ intervals of length $3^{-k}$
+(Exercise~\ref{measure-theory:exercise-cantor}). Define $c \colon C \to [0, 1]$ by $c(\sum_ka_k3^{-k}) = \sum_k(a_k/2)2^{-k}$.
+\begin{enumerate}
+\item $c$ is nondecreasing and surjective. If $x < y$ in $C$, their digits first differ at some $k$ with $a_k = 0$ and $b_k = 2$ (a difference $2 \cdot 3^{-k}$ in
+position $k$ cannot be compensated by the later digits, which contribute at most $\sum_{j > k}2 \cdot 3^{-j} = 3^{-k}$); then $c(y) - c(x) \geq 2^{-k} - \sum_{j > k}2^{-j} = 0$.
+Every $t \in [0, 1]$ has a binary expansion $\sum_kb_k2^{-k}$, and $t = c(\sum_k2b_k3^{-k})$.
+\item Let $F(x) = \sup\{c(y) : y \in C, y \leq x\}$ for $x \in [0, 1]$. Then $F$ is nondecreasing, $F = c$ on $C$, and $F([0, 1]) = [0, 1]$. A nondecreasing function
+whose image is an interval has no jumps, so $F$ is continuous.
+\item The complement $[0, 1] \setminus C$ is a countable union of open intervals $(\alpha, \beta)$ with $\alpha \in C$, removed in the construction; on each of them
+$F = c(\alpha)$ is constant, as $C$ has no point in $(\alpha, \beta)$. So $F' = 0$ on $[0, 1] \setminus C$, that is, almost everywhere, while $F(1) - F(0) = 1$.
+\end{enumerate}
+So $F$ is not the integral of its derivative. The functions that are integrals of their derivatives are exactly the \emph{absolutely continuous} ones
+\cite[Chapter 7]{rudin-rca}. Note also that the continuous map $F$ sends the null set $C$ onto $[0, 1]$.
+\end{counterexample}
+
+\begin{counterexample}\label{measure-theory:counterexample-non-borel}
+\emph{A Lebesgue measurable set that is not a Borel set.} First, every $A \subseteq \RR$ with $\lambda^*(A) > 0$ contains a non-measurable subset. Let $V$ be as in
+Counterexample~\ref{measure-theory:counterexample-vitali}. If $S$ is a measurable subset of a translate $V + q$, $q \in \QQ$, then the sets $S - q + q'$,
+$q' \in \QQ \cap [-1, 1]$, are pairwise disjoint (they lie in the disjoint translates $V + q'$), contained in $[-1, 2]$, and all of measure $\lambda(S)$; so
+$\lambda(S) = 0$. The sets $A \cap (V + q)$, $q \in \QQ$, cover $A$, since every real number differs from an element of $V$ by a rational; if they were all
+measurable, $A$ would be a countable union of null sets.
+
+Now let $F$ be the Cantor function and $h(x) = x + F(x)$ on $[0, 1]$. It is continuous and strictly increasing from $[0, 1]$ onto $[0, 2]$, hence a
+homeomorphism. It maps each interval $(\alpha, \beta)$ of $[0, 1] \setminus C$ onto an interval of the same length, since $F$ is constant there; these images are
+disjoint, so $\lambda(h([0, 1] \setminus C)) = 1$ and $\lambda(h(C)) = 1$. Choose a non-measurable $N \subseteq h(C)$. Then $h^{-1}(N) \subseteq C$ is a subset of a
+null set, hence Lebesgue measurable. It is not a Borel set: otherwise $N$, its preimage under the continuous map $h^{-1}$, would be Borel, hence measurable.
+In particular, a composite of a Lebesgue measurable function with a continuous one need not be Lebesgue measurable: $\mathbf{1}_{h^{-1}(N)} \circ h^{-1} = \mathbf{1}_N$.
+\end{counterexample}
+
 \section{Product measures and Fubini's theorem}\label{measure-theory:section-fubini}
 
 \begin{definition}\label{measure-theory:definition-product-measure}
@@ -418,6 +620,27 @@ $\sum_k a_k3^{-k}$ with $a_k \in \{0, 2\}$, and distinct sequences give distinct
 
 \begin{solution}
 By monotone convergence $\int\sum_k\mathbf{1}_{A_k} = \sum_k\mu(A_k) < \infty$, so $\sum_k\mathbf{1}_{A_k} < \infty$ a.e.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-no-half-density}
+Show that there is no Lebesgue measurable $A \subseteq \RR$ with $\lambda(A \cap I) = \frac12\lambda(I)$ for every bounded interval $I$.
+\end{exercise}
+
+\begin{solution}
+For such $A$, $\lambda(A \cap B(x, r))/\lambda(B(x, r)) = \frac12$ for all $x$ and $r$. By Corollary~\ref{measure-theory:corollary-density} this ratio tends to $1$ at
+almost every point of $A$ and to $0$ at almost every point outside $A$; so $A$ and $\RR \setminus A$ are both null, which is impossible.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-maximal-not-integrable}
+Show that $Mf \notin L^1(\RR^n)$ for every $f \in L^1(\RR^n)$ that is not zero almost everywhere; so the maximal inequality cannot be improved to
+$\|Mf\|_1 \leq C\|f\|_1$.
+\end{exercise}
+
+\begin{solution}
+Choose $R$ with $a = \int_{B(0, R)}|f| > 0$. For $\|x\| \geq R$, the ball $B(x, 2\|x\|)$ contains $B(0, R)$, so
+$Mf(x) \geq a/\lambda(B(x, 2\|x\|)) = a/(2^n\|x\|^n\lambda(B(0, 1)))$. The function $\|x\|^{-n}$ is not integrable on $\{\|x\| \geq R\}$: the shells
+$2^kR \leq \|x\| < 2^{k+1}R$ have measure $(2^n - 1)2^{kn}R^n\lambda(B(0, 1))$, and on each of them $\|x\|^{-n} \geq 2^{-(k+1)n}R^{-n}$, so each contributes at least the
+positive constant $(1 - 2^{-n})\lambda(B(0, 1))$ to the integral.
 \end{solution}
 
 \begin{exercise}\label{measure-theory:exercise-lp-inclusions}
