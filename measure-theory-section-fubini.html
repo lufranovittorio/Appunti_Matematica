@@ -175,7 +175,10 @@ MathJax.Hub.Config({
   <a href="measure-theory-section-radon-nikodym.html"><span class="toc_ref">27.11</span> <span class="toc_entry">The Radon–Nikodym and Riesz representation theorems</span></a>
 </li>
 <li class="level-3">
-  <a href="measure-theory-section-exercises.html"><span class="toc_ref">27.12</span> <span class="toc_entry">Exercises</span></a>
+  <a href="measure-theory-section-absolutely-continuous.html"><span class="toc_ref">27.12</span> <span class="toc_entry">Absolutely continuous functions</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-exercises.html"><span class="toc_ref">27.13</span> <span class="toc_entry">Exercises</span></a>
 </li>
 </ul>
 </li>
@@ -448,6 +451,65 @@ MathJax.Hub.Config({
   </div>
   <div class="remark_thmcontent">
   <p> \(\lambda ^{m+n}\) and \(\lambda ^m \times \lambda ^n\) agree on boxes, hence on Borel sets by Lemma&#160;<a href="measure-theory-section-lebesgue.html#measure-theory:lemma-dynkin">27.3.6</a>, and \(\lambda ^{m+n}\) is the completion of \(\lambda ^m \times \lambda ^n\). So Fubini’s theorem applies to Lebesgue measure on \(\mathbb {R}^{m+n} = \mathbb {R}^m \times \mathbb {R}^n\) for Borel functions, and for Lebesgue measurable functions with “for almost every \(x\)” qualifications. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-layer-cake">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02HY.html" title="Permanent link: tag 02HY">02HY</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">27.9.6</span>
+    <span class="proposition_thmtitle">Layer cake formula</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(\mu \) be a \(\sigma \)-finite measure on \(X\) and \(f \colon X \to [0, \infty ]\) measurable. Then </p>
+<div class="displaymath" id="a0000000768">
+  \[  \int _Xf\, d\mu = \int _0^\infty \mu (\{ f {\gt} t\} )\, dt.  \]
+</div>
+<p> More generally, if \(\psi \colon [0, \infty ) \to [0, \infty )\) is Borel measurable and \(\phi (s) = \int _0^s\psi (t)\, dt\) (with \(\phi (\infty ) = \int _0^\infty \psi \)), then \(\int _X\phi \circ f\, d\mu = \int _0^\infty \psi (t)\, \mu (\{ f {\gt} t\} )\, dt\); in particular \(\int _Xf^p\, d\mu = p\int _0^\infty t^{p-1}\mu (\{ f {\gt} t\} )\, dt\) for \(p {\gt} 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000769">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The set \(E = \{ (x, t) \in X \times [0, \infty ) : t {\lt} f(x)\} \) is measurable for the product \(\sigma \)-algebra, because \(t {\lt} f(x)\) holds exactly when \(t {\lt} q {\lt} f(x)\) for some rational \(q\), so \(E = \bigcup _{q \in \mathbb {Q}_{{\gt}0}}\{ f {\gt} q\}  \times [0, q)\). Apply Tonelli’s theorem (Theorem&#160;<a href="measure-theory-section-fubini.html#measure-theory:theorem-fubini">27.9.3</a>(1)) to the non-negative measurable function \((x, t) \mapsto \psi (t)\mathbf{1}_E(x, t)\) on \(X \times [0, \infty )\) with \(\mu \times \lambda \). Integrating first in \(t\) gives \(\int _0^{f(x)}\psi (t)\, dt = \phi (f(x))\), integrating first in \(x\) gives \(\psi (t)\mu (\{ f {\gt} t\} )\). The first formula is the case \(\psi = 1\), and the last one the case \(\psi (t) = pt^{p-1}\). </p>
+
+  </div>
+</div>
+<p>The name describes the picture: the region under the graph of \(f\) is cut into horizontal layers \(\{ f {\gt} t\} \) of thickness \(dt\). As an application we show that the maximal function of an \(L^p\) function is in \(L^p\) for \(p {\gt} 1\), although it is never in \(L^1\) (Exercise&#160;<a href="measure-theory-section-exercises.html#measure-theory:exercise-maximal-not-integrable">27.13.4</a>). </p>
+<div class="corollary_thmwrapper theorem-style-plain" id="measure-theory:corollary-maximal-lp">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02HZ.html" title="Permanent link: tag 02HZ">02HZ</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">27.9.7</span>
+    <span class="corollary_thmtitle">Hardy–Littlewood maximal theorem</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> For \(1 {\lt} p \leq \infty \) and \(f \in L^p(\mathbb {R}^n)\), \(\| Mf\| _p \leq C_{n,p}\| f\| _p\), with \(C_{n,\infty } = 1\) and \(C_{n,p}^p = 2^p3^np/(p - 1)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000770">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(p = \infty \), every average of \(|f|\) is at most \(\| f\| _\infty \). Let \(p {\lt} \infty \) and \(t {\gt} 0\), and split \(f = f_1 + f_2\) with \(f_1 = f\mathbf{1}_{\{ |f| {\gt} t/2\} }\). Then \(f_1 \in L^1\), since \(|f_1| \leq (2/t)^{p-1}|f|^p\), and \(Mf \leq Mf_1 + Mf_2 \leq Mf_1 + t/2\), so \(\{ Mf {\gt} t\}  \subseteq \{ Mf_1 {\gt} t/2\} \), and by Theorem&#160;<a href="measure-theory-section-differentiation.html#measure-theory:theorem-maximal-inequality">27.8.3</a>, \(\lambda (\{ Mf {\gt} t\} ) \leq \frac{2 \cdot 3^n}{t}\int _{\{ |f| {\gt} t/2\} }|f|\). By Proposition&#160;<a href="measure-theory-section-fubini.html#measure-theory:proposition-layer-cake">27.9.6</a> and Tonelli’s theorem, </p>
+<div class="displaymath" id="a0000000771">
+  \[  \int (Mf)^p = p\int _0^\infty t^{p-1}\lambda (\{ Mf {\gt} t\} )\, dt \leq 2 \cdot 3^np\int |f(x)|\int _0^{2|f(x)|}t^{p-2}\, dt\, d\lambda (x) = \frac{2 \cdot 3^np}{p - 1}\int |f|(2|f|)^{p-1},  \]
+</div>
+<p> which is \(\frac{2^p3^np}{p - 1}\| f\| _p^p\). </p>
 
   </div>
 </div>
