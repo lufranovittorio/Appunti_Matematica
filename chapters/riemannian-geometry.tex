@@ -448,6 +448,163 @@ Let $\Sigma_g$ be the closed orientable surface of genus $g$, so that $\chi(\Sig
 $g \leq 1$, and $2 - 2g < 0$ forces $g \geq 2$. (3) The torus has $\chi = 0$, so $K$ cannot have constant nonzero sign, while the flat metric induced from $\RR^2$ has $K = 0$ (Example~\ref{riemannian-geometry:example-curvature}).
 \end{proof}
 
+\section{Submanifolds and the second fundamental form}\label{riemannian-geometry:section-submanifolds}
+
+Classical differential geometry studies curves and surfaces in $\RR^3$ through two quadratic forms: the \emph{first fundamental form}, the metric induced from
+$\RR^3$, and the \emph{second fundamental form}, which measures how the surface bends in the ambient space. This section develops both for a submanifold of
+any Riemannian manifold, proves the equations of Gauss and Codazzi that relate them to the curvature, and then specialises to surfaces in $\RR^3$, where Gauss's
+equation becomes the Theorema Egregium.
+
+Throughout, $(\overline{M}, \bar{g})$ is a Riemannian manifold with Levi-Civita connection $\overline{\nabla}$ and curvature $\overline{R}$, and
+$M \subseteq \overline{M}$ is a submanifold with the induced metric $g = \bar{g}|_{TM}$, the \emph{first fundamental form}; we write $\langle -, - \rangle$ for
+both. For $p \in M$, $T_p\overline{M} = T_pM \oplus N_pM$ with $N_pM = (T_pM)^\perp$, the \emph{normal space}, and $v = v^\top + v^\perp$ is the corresponding
+decomposition. The normal spaces form the \emph{normal bundle} $NM$, a vector bundle over $M$: near each point it has a smooth frame, obtained by applying
+Gram--Schmidt to a frame of $T\overline{M}$ extending one of $TM$. For $\overline{M} = \RR^N$ with the Euclidean metric, $\overline{\nabla}_XY$ is the directional
+derivative of the components of $Y$, and $\overline{R} = 0$.
+
+\begin{lemma}\label{riemannian-geometry:lemma-ambient-derivative}
+Every vector field on an open subset of $M$ extends, near each point, to a vector field on an open subset of $\overline{M}$. For vector fields $X$, $Y$ on $M$ and
+extensions $\overline{X}$, $\overline{Y}$, the value of $\overline{\nabla}_{\overline{X}}\overline{Y}$ at $p \in M$ depends only on $X$ and $Y$, and we denote it by
+$\overline{\nabla}_XY$. Moreover $[\overline{X}, \overline{Y}]$ restricts on $M$ to $[X, Y]$.
+\end{lemma}
+
+\begin{proof}
+In a slice chart $(x^1, \ldots, x^k, y^1, \ldots, y^m)$ of $\overline{M}$, in which $M$ is $\{y = 0\}$, a vector field $\sum_iY^i(x)\partial/\partial x^i$ on $M$ extends by
+the same formula, with coefficients independent of $y$. The value of $\overline{\nabla}_{\overline{X}}\overline{Y}$ at $p$ depends only on $\overline{X}_p = X_p$, since a
+connection is $C^\infty$-linear in its first argument, and it equals $D_t(\overline{Y} \circ \gamma)(0)$ for any curve $\gamma$ with $\dot\gamma(0) = X_p$
+(Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}); taking $\gamma$ in $M$, $\overline{Y} \circ \gamma = Y \circ \gamma$. Finally $X$ and
+$\overline{X}$ are related by the inclusion $\iota$, and so are $Y$ and $\overline{Y}$, so $[X, Y]$ and $[\overline{X}, \overline{Y}]$ are $\iota$-related
+(Lemma~\ref{lie-groups:lemma-related-fields}).
+\end{proof}
+
+\begin{theorem}[Gauss formula]\label{riemannian-geometry:theorem-gauss-formula}
+For vector fields $X$, $Y$ tangent to $M$,
+\[
+\overline{\nabla}_XY = \nabla_XY + \mathrm{II}(X, Y),
+\]
+where $\nabla_XY = (\overline{\nabla}_XY)^\top$ is the Levi-Civita connection of $(M, g)$, and $\mathrm{II}(X, Y) = (\overline{\nabla}_XY)^\perp$, the \emph{second fundamental
+form}, is a symmetric $C^\infty(M)$-bilinear map with values in the normal bundle.
+\end{theorem}
+
+\begin{proof}
+The operator $\nabla^\top_XY = (\overline{\nabla}_XY)^\top$ is a connection on $TM$: it is $C^\infty$-linear in $X$, and
+$\overline{\nabla}_X(fY) = (Xf)Y + f\overline{\nabla}_XY$ with $Y$ tangent gives the Leibniz rule. It is metric: for tangent $Y$ and $Z$,
+$X\langle Y, Z\rangle = \langle\overline{\nabla}_XY, Z\rangle + \langle Y, \overline{\nabla}_XZ\rangle = \langle\nabla^\top_XY, Z\rangle + \langle Y, \nabla^\top_XZ\rangle$, as the normal parts are orthogonal to
+$Y$ and $Z$. By Lemma~\ref{riemannian-geometry:lemma-ambient-derivative} and the torsion-freeness of $\overline{\nabla}$,
+$\overline{\nabla}_XY - \overline{\nabla}_YX = [X, Y]$, which is tangent. Its tangent part says that $\nabla^\top$ is torsion-free, so $\nabla^\top = \nabla$ by the uniqueness in
+Theorem~\ref{riemannian-geometry:theorem-levi-civita}; its normal part says $\mathrm{II}(X, Y) = \mathrm{II}(Y, X)$. Finally $\mathrm{II}$ is $C^\infty$-linear in $X$, and in $Y$
+because $\mathrm{II}(X, fY) = ((Xf)Y + f\overline{\nabla}_XY)^\perp = f\,\mathrm{II}(X, Y)$.
+\end{proof}
+
+So the intrinsic connection of $M$ is the tangential part of the ambient one: for a surface in $\RR^3$, $\nabla_XY$ is the derivative of $Y$ in $\RR^3$ projected
+back onto the tangent plane. A curve in $M$ is a geodesic of $M$ exactly when its acceleration in $\overline{M}$ is normal to $M$; for instance great circles
+on the sphere (Exercise~\ref{riemannian-geometry:exercise-great-circles}).
+
+\begin{definition}\label{riemannian-geometry:definition-shape-operator}
+For a normal vector field $\nu$ along $M$, the \emph{shape operator} (or \emph{Weingarten map}) is $S_\nu(X) = -(\overline{\nabla}_X\nu)^\top$, and the \emph{normal
+connection} is $\nabla^\perp_X\nu = (\overline{\nabla}_X\nu)^\perp$.
+\end{definition}
+
+\begin{proposition}[Weingarten equation]\label{riemannian-geometry:proposition-weingarten}
+For tangent $X$, $Y$ and normal $\nu$, $\langle S_\nu X, Y\rangle = \langle\mathrm{II}(X, Y), \nu\rangle$. In particular $S_\nu$ is self-adjoint on each tangent space, and
+$\overline{\nabla}_X\nu = -S_\nu X + \nabla^\perp_X\nu$.
+\end{proposition}
+
+\begin{proof}
+Differentiate $\langle Y, \nu\rangle = 0$: $0 = \langle\overline{\nabla}_XY, \nu\rangle + \langle Y, \overline{\nabla}_X\nu\rangle = \langle\mathrm{II}(X, Y), \nu\rangle - \langle Y, S_\nu X\rangle$. Self-adjointness
+follows from the symmetry of $\mathrm{II}$, and the last formula is the decomposition of $\overline{\nabla}_X\nu$ into its two parts.
+\end{proof}
+
+\begin{theorem}[Gauss and Codazzi equations]\label{riemannian-geometry:theorem-gauss-codazzi}
+For vector fields $X, Y, Z, W$ tangent to $M$:
+\begin{enumerate}
+\item (Gauss) $R(X, Y, Z, W) = \overline{R}(X, Y, Z, W) + \langle\mathrm{II}(Y, Z), \mathrm{II}(X, W)\rangle - \langle\mathrm{II}(X, Z), \mathrm{II}(Y, W)\rangle$;
+\item (Codazzi) $(\overline{R}(X, Y)Z)^\perp = (\nabla_X\mathrm{II})(Y, Z) - (\nabla_Y\mathrm{II})(X, Z)$, where
+$(\nabla_X\mathrm{II})(Y, Z) = \nabla^\perp_X(\mathrm{II}(Y, Z)) - \mathrm{II}(\nabla_XY, Z) - \mathrm{II}(Y, \nabla_XZ)$.
+\end{enumerate}
+In particular, for orthonormal $u, v \in T_pM$ the sectional curvatures of the plane they span satisfy
+$K(u, v) = \overline{K}(u, v) + \langle\mathrm{II}(u, u), \mathrm{II}(v, v)\rangle - |\mathrm{II}(u, v)|^2$.
+\end{theorem}
+
+\begin{proof}
+By the Gauss formula, $\overline{\nabla}_X\overline{\nabla}_YZ = \overline{\nabla}_X(\nabla_YZ) + \overline{\nabla}_X(\mathrm{II}(Y, Z))$, and applying the Gauss formula again to the tangent field
+$\nabla_YZ$ and the Weingarten equation to the normal field $\mathrm{II}(Y, Z)$,
+\[
+\overline{\nabla}_X\overline{\nabla}_YZ = \nabla_X\nabla_YZ + \mathrm{II}(X, \nabla_YZ) - S_{\mathrm{II}(Y, Z)}X + \nabla^\perp_X(\mathrm{II}(Y, Z)).
+\]
+Also $\overline{\nabla}_{[X,Y]}Z = \nabla_{[X,Y]}Z + \mathrm{II}([X, Y], Z)$. Subtract the same expressions with $X$ and $Y$ exchanged, and use $[X, Y] = \nabla_XY - \nabla_YX$.
+The tangential part gives $(\overline{R}(X, Y)Z)^\top = R(X, Y)Z - S_{\mathrm{II}(Y, Z)}X + S_{\mathrm{II}(X, Z)}Y$; pairing with $W$ and using the Weingarten equation gives (1). The
+normal part gives
+\[
+(\overline{R}(X, Y)Z)^\perp = \nabla^\perp_X(\mathrm{II}(Y, Z)) + \mathrm{II}(X, \nabla_YZ) - \nabla^\perp_Y(\mathrm{II}(X, Z)) - \mathrm{II}(Y, \nabla_XZ) - \mathrm{II}(\nabla_XY - \nabla_YX, Z),
+\]
+which is (2) after regrouping. For the last statement take $X = W = u$ and $Y = Z = v$ in (1), recalling $K(u, v) = R(u, v, v, u)$.
+\end{proof}
+
+\begin{definition}\label{riemannian-geometry:definition-hypersurface-curvatures}
+Let $M$ be a hypersurface ($\dim\overline{M} = \dim M + 1$) with a unit normal field $\nu$, which exists locally, and globally if $M$ and $\overline{M}$ are orientable.
+The \emph{scalar second fundamental form} is $h(X, Y) = \langle\mathrm{II}(X, Y), \nu\rangle$, so $\mathrm{II} = h\,\nu$, and the shape operator $S = S_\nu$ satisfies
+$\langle SX, Y\rangle = h(X, Y)$. The eigenvalues $\kappa_1, \ldots, \kappa_n$ of the self-adjoint map $S$ on $T_pM$ are the \emph{principal curvatures}, its eigenvectors the
+\emph{principal directions}, $H = \frac1n\operatorname{tr}S$ is the \emph{mean curvature}, and $\det S = \kappa_1 \cdots \kappa_n$ the \emph{Gauss--Kronecker
+curvature}. Changing $\nu$ to $-\nu$ changes the signs of $h$, $S$, the $\kappa_i$ and $H$.
+\end{definition}
+
+\begin{corollary}[Theorema Egregium]\label{riemannian-geometry:corollary-theorema-egregium}
+Let $M^n \subseteq \RR^{n+1}$ be a hypersurface with unit normal $\nu$. Then
+$R(X, Y, Z, W) = h(Y, Z)h(X, W) - h(X, Z)h(Y, W)$, and for orthonormal principal directions $e_i$, $e_j$ the sectional curvature is $K(e_i, e_j) = \kappa_i\kappa_j$. In
+particular, for a surface in $\RR^3$ the Gaussian curvature is $K = \kappa_1\kappa_2 = \det S$: a quantity defined through the embedding is determined by the metric
+alone, and so is preserved by isometries between surfaces.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{riemannian-geometry:theorem-gauss-codazzi}(1) with $\overline{R} = 0$ and $\mathrm{II} = h\nu$, $|\nu| = 1$. For principal directions,
+$h(e_i, e_i) = \kappa_i$ and $h(e_i, e_j) = 0$ for $i \neq j$. For a surface the only plane is the tangent plane, and $\kappa_1\kappa_2$ is the determinant of $S$.
+\end{proof}
+
+Codazzi's equation for a hypersurface of $\RR^{n+1}$ says that $(\nabla_Xh)(Y, Z)$ is symmetric in all three arguments. Gauss's and Codazzi's equations are the
+integrability conditions for the embedding: by Bonnet's theorem, a metric and a symmetric form on a simply connected surface satisfying them come from a surface
+in $\RR^3$, unique up to rigid motions \cite[Chapter 4]{do-carmo-curves-surfaces}.
+
+\begin{proposition}[Surfaces in coordinates]\label{riemannian-geometry:proposition-surface-coordinates}
+Let $x \colon \Omega \to \RR^3$ be a parametrisation of a surface $S$ (Remark~\ref{smooth-manifolds:remark-do-carmo}), with coordinates $(u^1, u^2) = (u, v)$,
+$x_i = \partial x/\partial u^i$, and unit normal $\nu = x_1 \times x_2/|x_1 \times x_2|$. Let
+\[
+g_{ij} = \langle x_i, x_j\rangle = \begin{pmatrix} E & F\\ F & G\end{pmatrix}, \qquad h_{ij} = \langle\partial_i\partial_jx, \nu\rangle = -\langle x_i, \partial_j\nu\rangle.
+\]
+Then the first and second fundamental forms are $E\,du^2 + 2F\,du\,dv + G\,dv^2$ and $h_{11}\,du^2 + 2h_{12}\,du\,dv + h_{22}\,dv^2$, the matrix of $S$ in the basis
+$(x_1, x_2)$ is $(g_{ij})^{-1}(h_{ij})$, and
+\[
+K = \frac{h_{11}h_{22} - h_{12}^2}{EG - F^2}, \qquad H = \frac{Eh_{22} - 2Fh_{12} + Gh_{11}}{2(EG - F^2)}.
+\]
+More generally, for a submanifold of $\RR^N$ parametrised by $x(u^1, \ldots, u^n)$, the decomposition
+$\partial_i\partial_jx = \Gamma^k_{ij}x_k + \mathrm{II}(x_i, x_j)$ of the second derivatives into tangent and normal parts gives the Christoffel symbols and the second
+fundamental form, and $R_{ijkl} = R(x_i, x_j, x_k, x_l) = \langle\mathrm{II}_{jk}, \mathrm{II}_{il}\rangle - \langle\mathrm{II}_{ik}, \mathrm{II}_{jl}\rangle$ with
+$\mathrm{II}_{ij} = \mathrm{II}(x_i, x_j)$.
+\end{proposition}
+
+\begin{proof}
+In $\RR^N$, $\overline{\nabla}$ is the directional derivative, and the coordinate field $\partial/\partial u^j$ is $x_j$ along $S$, so
+$\overline{\nabla}_{x_i}x_j = \partial_i\partial_jx$. The Gauss formula splits it as $\nabla_{x_i}x_j + \mathrm{II}(x_i, x_j)$, which gives the general statement, the tangent part
+being $\Gamma^k_{ij}x_k$, and for surfaces $h_{ij} = \langle\partial_i\partial_jx, \nu\rangle$; differentiating $\langle x_i, \nu\rangle = 0$ gives the second expression. From
+$\langle Sx_i, x_j\rangle = h_{ij}$, the matrix $A$ of $S$ satisfies $(g_{ij})A = (h_{ij})$. So $K = \det S = \det(h_{ij})/\det(g_{ij})$ and
+$2H = \operatorname{tr}((g_{ij})^{-1}(h_{ij}))$, which are the formulas stated, using $(g_{ij})^{-1} = \frac{1}{EG - F^2}\bigl(\begin{smallmatrix} G & -F\\ -F & E\end{smallmatrix}\bigr)$. The
+formula for $R_{ijkl}$ is Theorem~\ref{riemannian-geometry:theorem-gauss-codazzi}(1) with $\overline{R} = 0$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-surfaces}
+\begin{enumerate}
+\item \emph{Spheres.} For the sphere of radius $r$ in $\RR^{n+1}$ with outward normal $\nu(p) = p/r$, $\overline{\nabla}_X\nu = X/r$, so $S = -\frac1r\id$, $h = -\frac1rg$, every
+direction is principal with $\kappa = -1/r$, and all sectional curvatures are $\kappa_i\kappa_j = 1/r^2$, as in Example~\ref{riemannian-geometry:example-curvature}.
+\item \emph{Cylinders.} For $\{x^2 + y^2 = 1\} \subseteq \RR^3$ with $\nu = (x, y, 0)$, $\overline{\nabla}_X\nu$ is the horizontal part of $X$, so the principal curvatures are
+$-1$ (horizontal circles) and $0$ (vertical lines), $K = 0$ and $H = -\frac12$. The cylinder is locally isometric to the plane (unroll it), in accordance with the Theorema
+Egregium, although it bends in $\RR^3$.
+\item \emph{Graphs.} Let $S$ be the graph of $z = \phi(u, v)$ with $\phi(0) = 0$ and $d\phi(0) = 0$, parametrised by $x(u, v) = (u, v, \phi(u, v))$. At the origin
+$x_1 = e_1$, $x_2 = e_2$, $\nu = e_3$, so $g_{ij} = \delta_{ij}$ and $h_{ij} = \partial_i\partial_j\phi(0)$: the second fundamental form is the Hessian of $\phi$, the principal
+curvatures are its eigenvalues, and $K(0) = \det\operatorname{Hess}\phi(0)$. The paraboloid $z = u^2 + v^2$ has $K(0) = 4$, the saddle $z = u^2 - v^2$ has $K(0) = -4$: positive
+curvature means that the surface lies locally on one side of its tangent plane, negative curvature that it crosses it.
+\end{enumerate}
+\end{example}
+
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 
 \begin{definition}\label{riemannian-geometry:definition-hodge-star}

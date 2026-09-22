@@ -12,6 +12,25 @@ references in proofs).
 
 ## Done
 
+- [x] **Differential forms, slower** (`differential-forms`): the three
+  descriptions of a $k$-form (sections, alternating maps, coefficients) with the
+  change of chart $\omega^{(y)}_J = \sum_I \omega^{(x)}_I \det(\partial x^I/\partial y^J)$;
+  the exterior derivative proved step by step (coefficients
+  $\sum_m (-1)^m \partial_{j_m}\omega_{J \setminus j_m}$, locality, agreement on
+  overlaps, naturality, invariant formula); $dr$ versus $\partial/\partial r$ and
+  $dx \wedge dy = r\,dr \wedge d\theta$; orientation of hypersurfaces by a unit
+  normal, the Möbius band.
+- [x] **Top de Rham cohomology per component** (`de-rham`): the isomorphism
+  $H^n_{\mathrm{dR}}(M) \cong \mathbb{R}^c$ made explicit.
+- [x] **Layer cake, maximal theorem, absolutely continuous functions**
+  (`measure-theory`): $\int f = \int_0^\infty \mu(f > t)\,dt$, $\|Mf\|_p \le C\|f\|_p$,
+  and $F(x) = F(a) + \int_a^x F'$ for absolutely continuous $F$.
+- [x] **Submanifold geometry** (`riemannian-geometry`): first and second
+  fundamental forms, Gauss formula, shape operator, Gauss and Codazzi
+  equations, principal and mean curvature, Theorema Egregium, surfaces in
+  $\mathbb{R}^3$ with $E, F, G$ and $h_{ij}$, the general computation for
+  submanifolds of $\mathbb{R}^N$, spheres, cylinders, graphs.
+
 - [x] **Naturality of integral curves** (`smooth-manifolds`): $F$-related
   fields, $F \circ \Phi_t = \Psi_t \circ F$, and $\Psi_t = F \Phi_t F^{-1}$ for a
   diffeomorphism.

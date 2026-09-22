@@ -16,11 +16,75 @@ types (Chapter~\ref{dolbeault}). References: \cite{lee-smooth-manifolds}, \cite{
 
 \begin{definition}\label{differential-forms:definition-forms}
 A \emph{differential $k$-form} on a smooth manifold $M$ is a smooth section of $\Lambda^kT^*M$; the space of $k$-forms is $\Omega^k(M)$, and $\Omega^\bullet(M) = \bigoplus_k\Omega^k(M)$ with the wedge
-product (Proposition~\ref{multilinear-algebra:proposition-exterior-properties}) is a graded-commutative algebra over $C^\infty(M)$. Equivalently, a $k$-form assigns to each $p$ an alternating $k$-linear map
-$(T_pM)^k \to \RR$, smoothly in $p$. In a chart $(x^1, \ldots, x^n)$ every $k$-form is uniquely $\omega = \sum_{i_1 < \cdots < i_k}\omega_{i_1 \cdots i_k}\,dx^{i_1} \wedge \cdots \wedge dx^{i_k}$ with smooth
-coefficients. For $f \colon N \to M$ smooth, the \emph{pullback} $f^*\omega$ is defined by $(f^*\omega)_p(v_1, \ldots, v_k) = \omega_{f(p)}(d_pf\,v_1, \ldots, d_pf\,v_k)$; it is an algebra homomorphism and
-$(g \circ f)^* = f^*g^*$.
+product (Proposition~\ref{multilinear-algebra:proposition-exterior-properties}) is a graded-commutative algebra over $C^\infty(M)$. By
+Proposition~\ref{differential-forms:proposition-forms-descriptions} below, a $k$-form is the same as a smoothly varying family of alternating $k$-linear maps
+$(T_pM)^k \to \RR$, or as a family of coefficient functions in charts transforming in a prescribed way. For $f \colon N \to M$ smooth, the \emph{pullback} $f^*\omega$ is defined by
+$(f^*\omega)_p(v_1, \ldots, v_k) = \omega_{f(p)}(d_pf\,v_1, \ldots, d_pf\,v_k)$; it is an algebra homomorphism and $(g \circ f)^* = f^*g^*$.
 \end{definition}
+
+In a chart $(U, (x^1, \ldots, x^n))$, $dx^i$ is the differential of the coordinate function $x^i$, so $dx^i(\partial/\partial x^j) = \partial x^i/\partial x^j = \delta_{ij}$: the
+$dx^i|_p$ form the basis of $T_p^*M$ dual to the basis $\partial/\partial x^j|_p$ of $T_pM$. For a multi-index $I = (i_1 < \cdots < i_k)$ we write
+$dx^I = dx^{i_1} \wedge \cdots \wedge dx^{i_k}$; for a sequence $(i_1, \ldots, i_k)$ that is not increasing, $dx^{i_1} \wedge \cdots \wedge dx^{i_k}$ is $0$ if two indices coincide
+and $\pm dx^I$ otherwise, with the sign of the permutation that sorts the indices.
+
+\begin{proposition}\label{differential-forms:proposition-forms-descriptions}
+Let $M$ be a smooth $n$-manifold. For each $p$, the fibre $\Lambda^kT_p^*M$ is the space of alternating $k$-linear maps $(T_pM)^k \to \RR$
+(Proposition~\ref{multilinear-algebra:proposition-dual-exterior} and Notation~\ref{multilinear-algebra:notation-forms}). For a family $\omega = (\omega_p)_{p \in M}$ of such maps the
+following are equivalent:
+\begin{enumerate}
+\item $\omega$ is a smooth section of $\Lambda^kT^*M$, that is, a $k$-form;
+\item for all smooth vector fields $X_1, \ldots, X_k$ on an open set $U$, the function $p \mapsto \omega_p(X_1(p), \ldots, X_k(p))$ is smooth on $U$;
+\item in every chart of some atlas, the \emph{coefficients} $\omega_I(p) = \omega_p(\partial/\partial x^{i_1}|_p, \ldots, \partial/\partial x^{i_k}|_p)$ are smooth.
+\end{enumerate}
+In a chart $\omega = \sum_I\omega_I\,dx^I$, uniquely. If $(y^1, \ldots, y^n)$ is a second chart, then on the overlap
+\[
+dx^I = \sum_J\det\Bigl(\frac{\partial x^I}{\partial y^J}\Bigr)dy^J, \qquad \omega^{(y)}_J = \sum_I\omega^{(x)}_I\det\Bigl(\frac{\partial x^I}{\partial y^J}\Bigr),
+\]
+where $\partial x^I/\partial y^J$ is the $k \times k$ matrix $(\partial x^{i_a}/\partial y^{j_b})_{a,b}$ and the superscripts indicate the chart. For $k = n$ this reads
+$\omega^{(y)} = \omega^{(x)}\det(\partial x/\partial y)$, with the Jacobian determinant of the transition map. Conversely, functions $\omega^{(x)}_I$ given on the charts of an atlas
+and satisfying this rule on all overlaps come from a unique $k$-form.
+\end{proposition}
+
+\begin{proof}
+\emph{The expression in a chart.} Since the $dx^i|_p$ are the basis dual to the $\partial/\partial x^i|_p$, the $dx^I|_p$ form a basis of $\Lambda^kT_p^*M$
+(Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(3)), and for increasing $I$ and $J$,
+$dx^I(\partial/\partial x^{j_1}, \ldots, \partial/\partial x^{j_k}) = \det(dx^{i_a}(\partial/\partial x^{j_b}))_{a,b}$, which is $1$ if $I = J$ and $0$ otherwise
+(Notation~\ref{multilinear-algebra:notation-forms}). Evaluating $\omega_p = \sum_Ic_I\,dx^I|_p$ on $(\partial/\partial x^{j_1}, \ldots, \partial/\partial x^{j_k})$ therefore gives
+$c_J = \omega_J(p)$: the coefficients are the $\omega_J$, and they are unique.
+
+(1) $\Leftrightarrow$ (3). The smooth structure of $\Lambda^kT^*M$ (Proposition~\ref{vector-bundles:proposition-operations}) is the one for which the frames $(dx^I)$ of charts are
+local trivialisations; a section is smooth if and only if its coefficients in these frames are smooth. (3) $\Rightarrow$ (2). On a chart domain write
+$X_b = \sum_jX_b^j\,\partial/\partial x^j$. By multilinearity $\omega(X_1, \ldots, X_k) = \sum_I\omega_I\,dx^I(X_1, \ldots, X_k)$, and
+$dx^I(X_1, \ldots, X_k) = \det(X_b^{i_a})_{a,b}$ is a polynomial in the smooth functions $X_b^j$. (2) $\Rightarrow$ (3). Take the $X_b$ to be coordinate vector fields.
+
+\emph{Change of chart.} By the first part applied to the chart $y$, the coefficient of $dy^J$ in $dx^I$ is
+$dx^I(\partial/\partial y^{j_1}, \ldots, \partial/\partial y^{j_k}) = \det(dx^{i_a}(\partial/\partial y^{j_b})) = \det(\partial x^{i_a}/\partial y^{j_b})$, since
+$dx^i(\partial/\partial y^j) = \partial x^i/\partial y^j$ is the derivative of the function $x^i$ in the direction $\partial/\partial y^j$. Substituting into
+$\omega = \sum_I\omega^{(x)}_I\,dx^I$ and comparing coefficients gives the rule for $\omega^{(y)}_J$. For $k = n$ there is one multi-index, $(1, \ldots, n)$. Conversely, if
+coefficients satisfying the rule are given on the charts of an atlas, define $\omega_p = \sum_I\omega^{(x)}_I(p)\,dx^I|_p$ using any chart at $p$; the rule says exactly
+that this does not depend on the chart, and $\omega$ is smooth by (3).
+\end{proof}
+
+\begin{example}\label{differential-forms:example-polar-forms}
+In the polar coordinates $(r, \theta)$ of Example~\ref{smooth-manifolds:example-polar}, with $x = r\cos\theta$ and $y = r\sin\theta$, the rule of
+Proposition~\ref{differential-forms:proposition-forms-descriptions} for $k = 1$ gives $dx = \cos\theta\,dr - r\sin\theta\,d\theta$ and $dy = \sin\theta\,dr + r\cos\theta\,d\theta$.
+Solving,
+\[
+dr = \cos\theta\,dx + \sin\theta\,dy = \frac{x\,dx + y\,dy}{r}, \qquad d\theta = \frac{-\sin\theta\,dx + \cos\theta\,dy}{r} = \frac{x\,dy - y\,dx}{x^2 + y^2},
+\]
+the second being the angle form of Counterexample~\ref{differential-forms:counterexample-closed-not-exact}. Compare with the tangent vectors
+$\partial/\partial r = \cos\theta\,\partial/\partial x + \sin\theta\,\partial/\partial y$ and $\partial/\partial\theta = -r\sin\theta\,\partial/\partial x + r\cos\theta\,\partial/\partial y$.
+The formula $dr = \cos\theta\,dx + \sin\theta\,dy$ found in many texts is about the covector $dr$, not the vector $\partial/\partial r$: vectors change by the Jacobian matrix
+$P = \partial(x, y)/\partial(r, \theta)$ (its columns give $\partial/\partial r$ and $\partial/\partial\theta$), and covectors by its inverse (the rows of $P^{-1}$ give $dr$ and $d\theta$).
+The coefficients agree for $r$ and not for $\theta$ because $P$ is a rotation followed by $\operatorname{diag}(1, r)$: $\partial/\partial r$ is a unit vector orthogonal to the
+circles $r = \text{const}$, so the Euclidean metric identifies it with $dr$, while $\partial/\partial\theta$ has length $r$ and corresponds to $r^2\,d\theta$. For $2$-forms the rule
+gives
+\[
+dx \wedge dy = \det\frac{\partial(x, y)}{\partial(r, \theta)}\,dr \wedge d\theta = r\,dr \wedge d\theta,
+\]
+which is the change of variables $\int f\,dx\,dy = \int f\,r\,dr\,d\theta$ of Example~\ref{measure-theory:example-gaussian}, in the language of forms
+(Proposition~\ref{differential-forms:proposition-integral-well-defined}).
+\end{example}
 
 \begin{theorem}\label{differential-forms:theorem-exterior-derivative}
 There is a unique family of linear maps $d \colon \Omega^k(M) \to \Omega^{k+1}(M)$, for all $M$ and $k$, such that:
@@ -32,18 +96,64 @@ d\omega(X_0, \ldots, X_k) = \sum_i(-1)^i X_i\left(\omega(X_0, \ldots, \widehat{X
 \end{theorem}
 
 \begin{proof}
-\emph{Uniqueness and locality.} If $\omega$ vanishes on an open set $U$ and $p \in U$, choose a bump function $\chi$ supported in $U$ with $\chi(p) = 1$
-(Corollary~\ref{smooth-manifolds:corollary-partition-applications}); then $\chi\omega = 0$, so $0 = d(\chi\omega) = d\chi \wedge \omega + \chi\,d\omega$, and evaluating at $p$ gives $d\omega_p = 0$. Hence $d$ is
-local and may be computed in charts, where the three rules force the coordinate formula, using $d(dx^I) = 0$.
+We write $\partial_l = \partial/\partial x^l$ in a chart, and $J \setminus j_m$ for the multi-index $J = (j_0 < \cdots < j_k)$ with $j_m$ removed.
 
-\emph{Existence.} Define $d$ in each chart by the coordinate formula. It satisfies the three rules there: the Leibniz rule is a computation with the product rule, and $dd = 0$ follows from the symmetry of
-second partial derivatives (Theorem~\ref{real-analysis:theorem-schwarz}) together with the antisymmetry of $dx^i \wedge dx^j$. By uniqueness, the definitions in two charts agree on the overlap, so they define
-a global operator.
+\emph{Step 1: the formula in a chart and its coefficients.} On a chart domain $U$ define
+\[
+d_U\Bigl(\sum_I\omega_I\,dx^I\Bigr) = \sum_Id\omega_I \wedge dx^I = \sum_I\sum_{l=1}^n\partial_l\omega_I\,dx^l \wedge dx^I.
+\]
+Then $d_U(f\,dx^{i_1} \wedge \cdots \wedge dx^{i_k}) = df \wedge dx^{i_1} \wedge \cdots \wedge dx^{i_k}$ also for sequences that are not increasing, since both sides vanish for repeated
+indices and change by the same sign when the indices are sorted. We compute the coefficients of $d_U\omega$: for $J = (j_0 < \cdots < j_k)$,
+\[
+(d_U\omega)(\partial_{j_0}, \ldots, \partial_{j_k}) = \sum_{m=0}^k(-1)^m\,\partial_{j_m}\omega_{J \setminus j_m}.
+\]
+Indeed the form $dx^l \wedge dx^I$ vanishes on $(\partial_{j_0}, \ldots, \partial_{j_k})$ unless $l \notin I$ and $\{l\} \cup I = J$ as sets, that is, unless $l = j_m$ and
+$I = J \setminus j_m$ for some $m$; and then $dx^{j_m} \wedge dx^{J \setminus j_m} = (-1)^m\,dx^J$, moving $dx^{j_m}$ past the $m$ forms $dx^{j_0}, \ldots, dx^{j_{m-1}}$, which takes
+the value $(-1)^m$. Conversely, collecting the terms, $\sum_J\bigl(\sum_m(-1)^m\partial_{j_m}\omega_{J \setminus j_m}\bigr)dx^J = \sum_I\sum_l\partial_l\omega_I\,dx^l \wedge dx^I$.
 
-\emph{Naturality} holds for $0$-forms by the chain rule, hence for $df$ and for wedge products of such, hence in general by the coordinate formula. The invariant formula is checked by expanding both sides in
-a chart: both are $C^\infty$-multilinear and alternating in the $X_i$ (the bracket terms cancel the derivatives of the coefficients), so it suffices to verify it on coordinate fields, where all brackets
-vanish and it reduces to the coordinate formula.
+\emph{Step 2: the three rules hold in a chart.} For a function, $d_Uf = \sum_l\partial_lf\,dx^l$ is the differential $df$, by the dual basis property. For the Leibniz rule it suffices by
+linearity to take $\alpha = f\,dx^I$ with $|I| = k$ and $\beta = g\,dx^J$; then $\alpha \wedge \beta = fg\,dx^I \wedge dx^J$ and
+\[
+d_U(\alpha \wedge \beta) = (g\,df + f\,dg) \wedge dx^I \wedge dx^J = (df \wedge dx^I) \wedge (g\,dx^J) + (-1)^k(f\,dx^I) \wedge (dg \wedge dx^J),
+\]
+moving the $1$-form $dg$ past the $k$-form $dx^I$. Finally
+$d_Ud_U(f\,dx^I) = \sum_{m,l}\partial_m\partial_lf\,dx^m \wedge dx^l \wedge dx^I = 0$: the terms $(m, l)$ and $(l, m)$ cancel because $\partial_m\partial_lf = \partial_l\partial_mf$
+(Theorem~\ref{real-analysis:theorem-schwarz}) while $dx^m \wedge dx^l = -dx^l \wedge dx^m$, and the terms with $m = l$ vanish.
+
+\emph{Step 3: uniqueness and locality.} Let $D$ be any family of linear maps with the three properties. If $\omega$ vanishes on an open set $U \ni p$, choose a bump function
+$\chi$ with support in $U$ and $\chi(p) = 1$ (Lemma~\ref{smooth-manifolds:lemma-bump-manifold}); then $\chi\omega = 0$, so $0 = D(\chi\omega) = d\chi \wedge \omega + \chi\,D\omega$, and at
+$p$ this gives $(D\omega)_p = 0$. So $D\omega$ near $p$ depends only on $\omega$ near $p$. Now let $p$ lie in a chart domain $U$, choose bump functions $\chi$ and $\tilde\chi$ with
+support in $U$, with $\chi = 1$ near $p$ and $\tilde\chi = 1$ near the support of $\chi$
+(Corollary~\ref{smooth-manifolds:corollary-partition-applications}(1), applied to a compact neighbourhood of $\operatorname{supp}\chi$ in $U$). Then $\chi\omega = \sum_I(\chi\omega_I)\,d(\tilde\chi x^{i_1}) \wedge \cdots \wedge d(\tilde\chi x^{i_k})$
+is a form on $M$ built from global functions, and the Leibniz rule and $D \circ D = 0$ give $D(\chi\omega) = \sum_Id(\chi\omega_I) \wedge d(\tilde\chi x^{i_1}) \wedge \cdots \wedge d(\tilde\chi x^{i_k})$, since
+$D(d(\tilde\chi x^i)) = DD(\tilde\chi x^i) = 0$. Near $p$ this is $\sum_Id\omega_I \wedge dx^I$, and $D\omega = D(\chi\omega)$ near $p$ by locality. So $D$ is given by the coordinate formula
+in every chart, and is unique.
+
+\emph{Step 4: existence, and what happens on the intersection of two charts.} Define $d\omega$ on each chart domain $U$ by $d_U$. On the intersection of two chart domains $U$ and $V$,
+the operator $d_V$ satisfies the three rules (Step 2, on the manifold $U \cap V$), so, writing $\omega = \sum_I\omega_I\,dx^I$ in the coordinates of $U$ and using
+$d_V(dx^i) = d_V(d_Vx^i) = 0$ and the Leibniz rule,
+\[
+d_V\Bigl(\sum_I\omega_I\,dx^I\Bigr) = \sum_Id_V\omega_I \wedge dx^I = \sum_Id\omega_I \wedge dx^I = d_U\Bigl(\sum_I\omega_I\,dx^I\Bigr).
+\]
+So the local definitions agree on overlaps and glue to an operator $d$ on $M$, which satisfies the three rules because they are local.
+
+\emph{Step 5: naturality.} For a function $g$ on $M$, $f^*(dg) = d(g \circ f)$ by the chain rule. Locally $\omega = \sum_I\omega_I\,dx^{i_1} \wedge \cdots \wedge dx^{i_k}$, so
+$f^*\omega = \sum_I(\omega_I \circ f)\,d(x^{i_1} \circ f) \wedge \cdots \wedge d(x^{i_k} \circ f)$, and by the Leibniz rule and $d \circ d = 0$ on $N$,
+$d(f^*\omega) = \sum_Id(\omega_I \circ f) \wedge d(x^{i_1} \circ f) \wedge \cdots \wedge d(x^{i_k} \circ f) = f^*\bigl(\sum_Id\omega_I \wedge dx^I\bigr) = f^*(d\omega)$.
+
+\emph{Step 6: the invariant formula.} Call the right-hand side $T(X_0, \ldots, X_k)$. It is local in the $X_i$. It is $C^\infty(M)$-linear in $X_0$: replacing $X_0$ by $fX_0$, the
+term $i = 0$ becomes $f$ times itself; the terms $i \geq 1$ acquire the extra summands $(-1)^i(X_if)\,\omega(X_0, \ldots, \widehat{X_i}, \ldots, X_k)$; and the bracket terms with
+$i = 0$ acquire, since $[fX_0, X_j] = f[X_0, X_j] - (X_jf)X_0$, the extra summands $-(-1)^j(X_jf)\,\omega(X_0, X_1, \ldots, \widehat{X_j}, \ldots, X_k)$, which cancel the previous ones.
+A similar check shows that $T$ changes sign when two arguments are exchanged, so it is $C^\infty(M)$-linear in every argument, like $d\omega$. Two such expressions agree if they
+agree on coordinate fields, and by alternation it suffices to take $\partial_{j_0}, \ldots, \partial_{j_k}$ with $j_0 < \cdots < j_k$. For coordinate fields all brackets vanish,
+and $T(\partial_{j_0}, \ldots, \partial_{j_k}) = \sum_m(-1)^m\partial_{j_m}\omega_{J \setminus j_m}$, which is $d\omega(\partial_{j_0}, \ldots, \partial_{j_k})$ by Step 1.
 \end{proof}
+
+\begin{example}\label{differential-forms:example-exterior-derivative-low}
+For $k = 1$ the invariant formula reads $d\omega(X, Y) = X\omega(Y) - Y\omega(X) - \omega([X, Y])$, and in coordinates on $\RR^2$, for $\omega = P\,dx + Q\,dy$,
+$d\omega = (\partial_xQ - \partial_yP)\,dx \wedge dy$: Step 1 with $J = (1, 2)$ gives the coefficient $\partial_1\omega_2 - \partial_2\omega_1$. This is the integrand of Green's theorem,
+which is Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}) for a domain in the plane.
+\end{example}
 
 \begin{definition}\label{differential-forms:definition-interior-lie}
 For $X \in \mathfrak{X}(M)$ the \emph{interior product} $\iota_X \colon \Omega^k \to \Omega^{k-1}$ is $(\iota_X\omega)(X_1, \ldots, X_{k-1}) = \omega(X, X_1, \ldots, X_{k-1})$
@@ -122,6 +232,39 @@ The open M\"obius band is not orientable. Let $\ZZ$ act on $\RR \times (-1, 1)$ 
 nowhere vanishing $2$-form $\mu$ on $B$ would pull back to a nowhere vanishing form $f\,dx \wedge dt$ on $\RR \times (-1, 1)$ invariant under $g$. As $g^*(f\,dx \wedge dt) = (f \circ g)\,dx \wedge d(-t) = -(f \circ g)\,dx \wedge dt$,
 invariance means $f \circ g = -f$. But $f$ is continuous and nowhere zero on the connected set $\RR \times (-1, 1)$, hence of constant sign (Corollary~\ref{general-topology:corollary-ivt}), which contradicts $f(g(x, t)) = -f(x, t)$.
 \end{counterexample}
+
+For surfaces in $\RR^3$ one usually thinks of an orientation as a choice of side, that is, of a unit normal vector varying continuously along the surface. This is
+the same notion.
+
+\begin{proposition}\label{differential-forms:proposition-orientation-normal}
+Let $S \subseteq \RR^{n+1}$ be an $n$-dimensional submanifold. A \emph{unit normal field} is a continuous map $\nu \colon S \to \RR^{n+1}$ with $|\nu(p)| = 1$ and
+$\nu(p) \perp T_pS$ for all $p$. Unit normal fields correspond bijectively to orientations of $S$: to $\nu$ corresponds the orientation of the nowhere vanishing
+$n$-form $\mu_p(v_1, \ldots, v_n) = \det(\nu(p), v_1, \ldots, v_n)$, for which a basis $(v_1, \ldots, v_n)$ of $T_pS$ is positive exactly when $(\nu(p), v_1, \ldots, v_n)$ is a
+positive basis of $\RR^{n+1}$. In particular $S$ is orientable if and only if it has a unit normal field, and every unit normal field is smooth. For a surface in $\RR^3$, a
+basis $(v, w)$ of $T_pS$ is positive exactly when $v \times w$ is a positive multiple of $\nu(p)$.
+\end{proposition}
+
+\begin{proof}
+Near a point of $S$ write $S$ as a regular level set $F^{-1}(0)$ with $F$ real valued (Proposition~\ref{smooth-manifolds:proposition-submanifold-criteria}(4)). Then
+$T_pS = \ker d_pF = \nabla F(p)^\perp$ (Theorem~\ref{smooth-manifolds:theorem-regular-value}), so the normal line at $p$ is spanned by $\nabla F(p) \neq 0$, and a unit normal field
+is there $\varepsilon\,\nabla F/|\nabla F|$ with $\varepsilon = \pm1$ continuous, hence locally constant; so $\nu$ is smooth. Given $\nu$, $\mu$ is a smooth $n$-form on $S$ (in a
+parametrisation its coefficient is $\det(\nu, x_1, \ldots, x_n)$), and it vanishes nowhere, because $\nu(p) \notin T_pS$, so $(\nu(p), v_1, \ldots, v_n)$ is a basis of $\RR^{n+1}$
+whenever $(v_i)$ is one of $T_pS$. Conversely, given an orientation, exactly one of the two unit normals $\pm\nu(p)$ makes $\det(\nu(p), v_1, \ldots, v_n) > 0$ for positive bases
+$(v_i)$, the choice not depending on the positive basis, as two positive bases differ by a matrix of positive determinant. Near a point, in the notation above,
+$\nu = \varepsilon\nabla F/|\nabla F|$ with $\varepsilon$ the sign of $\det(\nabla F, \partial_1, \ldots, \partial_n)$ for the coordinate fields of a positive chart, a continuous nowhere zero
+function; so $\nu$ is continuous. The two constructions are inverse to each other. For $n = 2$, $\det(\nu, v, w) = \langle\nu, v \times w\rangle$ and $v \times w$ is normal to
+$T_pS$.
+\end{proof}
+
+\begin{remark}\label{differential-forms:remark-moving-normal}
+So a hypersurface is orientable when a unit normal can be carried continuously around every closed curve and comes back to itself. The regular level sets
+$F^{-1}(c) \subseteq \RR^{n+1}$ are orientable, with $\nu = \nabla F/|\nabla F|$; for instance spheres, with the outward normal. For the M\"obius band embedded in
+$\RR^3$ as the image of $x(s, t) = ((1 + t\cos\frac s2)\cos s, (1 + t\cos\frac s2)\sin s, t\sin\frac s2)$, $|t| < \frac12$, the normal along the central circle $t = 0$ is
+$x_s \times x_t = (\cos s\sin\frac s2, \sin s\sin\frac s2, -\cos\frac s2)$, which is $(0, 0, -1)$ at $s = 0$ and $(0, 0, 1)$ at $s = 2\pi$, at the same point $(1, 0, 0)$: going once
+around reverses the normal, so there is no unit normal field, in accordance with Counterexample~\ref{differential-forms:counterexample-mobius}. The induced orientation of a
+boundary (Definition~\ref{differential-forms:definition-manifold-with-boundary} below) is the same idea with the outward normal: for a domain in $\RR^3$ bounded by a surface, the boundary
+is oriented by the outward unit normal, which is the convention of the divergence theorem.
+\end{remark}
 
 \section{Integration and Stokes' theorem}\label{differential-forms:section-integration}
 

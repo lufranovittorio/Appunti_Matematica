@@ -9,7 +9,8 @@ and~\ref{measure-theory:theorem-dominated-convergence}) and the completeness of 
 (Theorem~\ref{measure-theory:theorem-riesz-fischer}) are the basis of the functional analysis used to prove the Hodge theorem. This
 chapter constructs Lebesgue measure, proves the convergence theorems, Littlewood's three principles (approximation of sets by boxes, Lusin's
 theorem, Egorov's theorem), the Lebesgue differentiation theorem with its consequences (the density theorem and the fundamental theorem of calculus for
-Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theorem and the change of variables formula, and the Radon--Nikodym theorem.
+Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
+change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions.
 References: \cite{rudin-rca} and \cite{folland-real}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{real-analysis} (Real Analysis).
@@ -522,6 +523,40 @@ $\lambda^{m+n}$ and $\lambda^m \times \lambda^n$ agree on boxes, hence on Borel 
 Fubini's theorem applies to Lebesgue measure on $\RR^{m+n} = \RR^m \times \RR^n$ for Borel functions, and for Lebesgue measurable functions with ``for almost every $x$'' qualifications.
 \end{remark}
 
+\begin{proposition}[Layer cake formula]\label{measure-theory:proposition-layer-cake}
+Let $\mu$ be a $\sigma$-finite measure on $X$ and $f \colon X \to [0, \infty]$ measurable. Then
+\[
+\int_Xf\,d\mu = \int_0^\infty\mu(\{f > t\})\,dt.
+\]
+More generally, if $\psi \colon [0, \infty) \to [0, \infty)$ is Borel measurable and $\phi(s) = \int_0^s\psi(t)\,dt$ (with $\phi(\infty) = \int_0^\infty\psi$), then
+$\int_X\phi \circ f\,d\mu = \int_0^\infty\psi(t)\,\mu(\{f > t\})\,dt$; in particular $\int_Xf^p\,d\mu = p\int_0^\infty t^{p-1}\mu(\{f > t\})\,dt$ for $p > 0$.
+\end{proposition}
+
+\begin{proof}
+The set $E = \{(x, t) \in X \times [0, \infty) : t < f(x)\}$ is measurable for the product $\sigma$-algebra, because $t < f(x)$ holds exactly when $t < q < f(x)$ for some rational
+$q$, so $E = \bigcup_{q \in \QQ_{>0}}\{f > q\} \times [0, q)$. Apply Tonelli's theorem (Theorem~\ref{measure-theory:theorem-fubini}(1)) to the non-negative measurable function
+$(x, t) \mapsto \psi(t)\mathbf{1}_E(x, t)$ on $X \times [0, \infty)$ with $\mu \times \lambda$. Integrating first in $t$ gives $\int_0^{f(x)}\psi(t)\,dt = \phi(f(x))$, integrating first in
+$x$ gives $\psi(t)\mu(\{f > t\})$. The first formula is the case $\psi = 1$, and the last one the case $\psi(t) = pt^{p-1}$.
+\end{proof}
+
+The name describes the picture: the region under the graph of $f$ is cut into horizontal layers $\{f > t\}$ of thickness $dt$. As an application we show that the maximal
+function of an $L^p$ function is in $L^p$ for $p > 1$, although it is never in $L^1$ (Exercise~\ref{measure-theory:exercise-maximal-not-integrable}).
+
+\begin{corollary}[Hardy--Littlewood maximal theorem]\label{measure-theory:corollary-maximal-lp}
+For $1 < p \leq \infty$ and $f \in L^p(\RR^n)$, $\|Mf\|_p \leq C_{n,p}\|f\|_p$, with $C_{n,\infty} = 1$ and $C_{n,p}^p = 2^p3^np/(p - 1)$.
+\end{corollary}
+
+\begin{proof}
+For $p = \infty$, every average of $|f|$ is at most $\|f\|_\infty$. Let $p < \infty$ and $t > 0$, and split $f = f_1 + f_2$ with $f_1 = f\mathbf{1}_{\{|f| > t/2\}}$. Then $f_1 \in L^1$,
+since $|f_1| \leq (2/t)^{p-1}|f|^p$, and $Mf \leq Mf_1 + Mf_2 \leq Mf_1 + t/2$, so $\{Mf > t\} \subseteq \{Mf_1 > t/2\}$, and by
+Theorem~\ref{measure-theory:theorem-maximal-inequality}, $\lambda(\{Mf > t\}) \leq \frac{2 \cdot 3^n}{t}\int_{\{|f| > t/2\}}|f|$. By
+Proposition~\ref{measure-theory:proposition-layer-cake} and Tonelli's theorem,
+\[
+\int(Mf)^p = p\int_0^\infty t^{p-1}\lambda(\{Mf > t\})\,dt \leq 2 \cdot 3^np\int|f(x)|\int_0^{2|f(x)|}t^{p-2}\,dt\,d\lambda(x) = \frac{2 \cdot 3^np}{p - 1}\int|f|(2|f|)^{p-1},
+\]
+which is $\frac{2^p3^np}{p - 1}\|f\|_p^p$.
+\end{proof}
+
 \section{Change of variables}\label{measure-theory:section-change-of-variables}
 
 \begin{lemma}\label{measure-theory:lemma-linear-change}
@@ -602,6 +637,80 @@ $\Lambda(f) = \int f\,d\mu$ for all $f \in C_c(X, \RR)$.
 
 This is \cite[Theorem 2.14]{rudin-rca}. For $X = \RR^n$ and $\Lambda$ the Riemann integral of continuous functions with compact support, $\mu$ is Lebesgue measure restricted to Borel sets. On a smooth manifold,
 a volume form defines such a functional, and hence a measure (Chapter~\ref{differential-forms}).
+
+\section{Absolutely continuous functions}\label{measure-theory:section-absolutely-continuous}
+
+By Corollary~\ref{measure-theory:corollary-ftc-lebesgue}, an indefinite integral $F(x) = F(a) + \int_a^xf$ of an integrable function satisfies $F' = f$ almost everywhere.
+Conversely, when is a function the integral of its derivative? Continuity and differentiability almost everywhere are not enough, by the Cantor function
+(Counterexample~\ref{measure-theory:counterexample-cantor-function}). The right condition is absolute continuity.
+
+\begin{definition}\label{measure-theory:definition-absolutely-continuous}
+A function $F \colon [a, b] \to \CC$ is \emph{absolutely continuous} if for every $\varepsilon > 0$ there is $\delta > 0$ such that $\sum_k|F(b_k) - F(a_k)| < \varepsilon$ for every finite
+family of pairwise disjoint intervals $(a_k, b_k) \subseteq [a, b]$ with $\sum_k(b_k - a_k) < \delta$. For real $F$, the \emph{total variation} of $F$ on $[a, x]$ is
+$V_F(x) = \sup\sum_i|F(t_i) - F(t_{i-1})|$, the supremum over the partitions $a = t_0 < \cdots < t_m = x$.
+\end{definition}
+
+\begin{lemma}\label{measure-theory:lemma-absolutely-continuous}
+\begin{enumerate}
+\item For $f \in L^1([a, b])$, $F(x) = \int_{[a,x]}f\,d\lambda$ is absolutely continuous; more precisely, for every $\varepsilon > 0$ there is $\delta > 0$ with $\int_E|f| < \varepsilon$
+whenever $\lambda(E) < \delta$.
+\item If $F$ is real and absolutely continuous, then $V_F$ is finite, nondecreasing and absolutely continuous, and so is $V_F - F$. So $F = V_F - (V_F - F)$ is a difference of
+nondecreasing absolutely continuous functions.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) By monotone convergence $\int_{\{|f| > N\}}|f| \to 0$ as $N \to \infty$; choose $N$ with $\int_{\{|f| > N\}}|f| < \varepsilon/2$ and $\delta = \varepsilon/(2N)$. Then
+$\int_E|f| \leq \int_{\{|f| > N\}}|f| + N\lambda(E) < \varepsilon$. For disjoint intervals of total length $< \delta$, $\sum_k|F(b_k) - F(a_k)| \leq \int_{\bigcup_k(a_k, b_k)}|f| < \varepsilon$.
+
+(2) Take $\delta$ for $\varepsilon = 1$ and cut $[a, b]$ into $N$ intervals of length $< \delta$; refining a partition by these cut points does not decrease the sum, and the sum
+over each of the $N$ intervals is $< 1$, so $V_F(b) \leq N$. For $x < y$, $V_F(y) - V_F(x)$ is the total variation of $F$ on $[x, y]$ (a partition of $[a, y]$ refined by $x$ splits
+into partitions of $[a, x]$ and $[x, y]$), so $V_F$ is nondecreasing and $V_F(y) - V_F(x) \geq |F(y) - F(x)| \geq F(y) - F(x)$, which makes $V_F - F$ nondecreasing. If
+$(a_k, b_k)$ are disjoint with $\sum_k(b_k - a_k) < \delta$ for the $\delta$ of $\varepsilon$, then any partitions of the intervals $[a_k, b_k]$ together give disjoint intervals of total
+length $< \delta$, so $\sum_k(V_F(b_k) - V_F(a_k)) \leq \varepsilon$: $V_F$ is absolutely continuous, and so is $V_F - F$.
+\end{proof}
+
+\begin{lemma}\label{measure-theory:lemma-stieltjes}
+Let $F \colon [a, b] \to \RR$ be continuous and nondecreasing. There is a finite Borel measure $\mu_F$ on $[a, b]$ with $\mu_F([a, x]) = F(x) - F(a)$ for all $x$; so
+$\mu_F((x, y]) = F(y) - F(x)$ and points have measure $0$. If $F$ is absolutely continuous, then $\mu_F$ is absolutely continuous with respect to $\lambda$.
+\end{lemma}
+
+\begin{proof}
+Let $c = F(a)$ and $d = F(b)$. For $t \in [c, d]$ the set $\{x : F(x) = t\}$ is nonempty by the intermediate value theorem and closed, so it has a least element $G(t)$. The map
+$G \colon [c, d] \to [a, b]$ is nondecreasing, hence Borel measurable (preimages of intervals are intervals), and $G(t) \leq x$ if and only if $t \leq F(x)$: if $t \leq F(x)$ some
+$y \leq x$ has $F(y) = t$, and if $G(t) \leq x$ then $t = F(G(t)) \leq F(x)$. Let $\mu_F(E) = \lambda(\{t \in [c, d] : G(t) \in E\})$ for Borel $E \subseteq [a, b]$, the image of
+Lebesgue measure under $G$. Then $\mu_F([a, x]) = \lambda([c, F(x)]) = F(x) - c$.
+
+Let $F$ be absolutely continuous and $E$ a Borel set with $\lambda(E) = 0$. Given $\varepsilon > 0$, take $\delta$ from the definition and an open $U \supseteq E$ with $\lambda(U) < \delta$
+(Theorem~\ref{measure-theory:theorem-lebesgue-measure}). The open set $U \cap (a, b)$ is the disjoint union of countably many open intervals $(a_k, b_k)$, its connected components,
+with $\sum_k(b_k - a_k) < \delta$. For every $N$, $\sum_{k \leq N}\mu_F((a_k, b_k)) = \sum_{k \leq N}(F(b_k) - F(a_k)) < \varepsilon$, so $\mu_F(U \cap (a, b)) \leq \varepsilon$ and
+$\mu_F(E) \leq \varepsilon$, the endpoints $a$, $b$ having measure $0$. As $\varepsilon$ is arbitrary, $\mu_F(E) = 0$.
+\end{proof}
+
+\begin{theorem}[Fundamental theorem of calculus for absolutely continuous functions]\label{measure-theory:theorem-absolutely-continuous}
+Let $F \colon [a, b] \to \CC$ be absolutely continuous. Then $F$ is differentiable almost everywhere, $F' \in L^1([a, b])$, and
+\[
+F(x) = F(a) + \int_a^xF'(t)\,dt \qquad \text{for all } x \in [a, b].
+\]
+Conversely, every function of the form $F(a) + \int_a^xf$ with $f \in L^1([a, b])$ is absolutely continuous. So the absolutely continuous functions are exactly the indefinite
+Lebesgue integrals.
+\end{theorem}
+
+\begin{proof}
+The converse is Lemma~\ref{measure-theory:lemma-absolutely-continuous}(1). For the direct statement, treat real and imaginary parts separately, and by
+Lemma~\ref{measure-theory:lemma-absolutely-continuous}(2) assume that $F$ is nondecreasing, the statement being linear in $F$. By
+Lemma~\ref{measure-theory:lemma-stieltjes}, $\mu_F$ is a finite measure with $\mu_F \ll \lambda$ on the Borel sets of $[a, b]$, so by the Radon--Nikodym theorem
+(Theorem~\ref{measure-theory:theorem-radon-nikodym}) there is an integrable $h \geq 0$ with $\mu_F(E) = \int_Eh\,d\lambda$. Hence $F(x) - F(a) = \mu_F([a, x]) = \int_a^xh$, and by
+Corollary~\ref{measure-theory:corollary-ftc-lebesgue}, $F$ is differentiable almost everywhere with $F' = h$.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-absolutely-continuous}
+A Lipschitz function, $|F(x) - F(y)| \leq L|x - y|$, is absolutely continuous (take $\delta = \varepsilon/L$), so it is differentiable almost everywhere and is the integral of its
+derivative; for instance $|x| = \int_0^x\operatorname{sgn}$. The Cantor function is continuous and nondecreasing but not absolutely continuous: it maps the Cantor set, of measure
+$0$, onto $[0, 1]$, whereas the proof of Lemma~\ref{measure-theory:lemma-stieltjes} shows that an absolutely continuous nondecreasing function gives measure $0$ to null sets, and
+$\mu_F(C) = F(1) - F(0) = 1$ for the Cantor function because $F$ is constant on the complement of $C$. The function $x\sin(1/x)$ (and $0$ at $0$) on $[0, 1]$ is continuous but not
+of bounded variation, hence not absolutely continuous.
+\end{example}
 
 \section{Exercises}\label{measure-theory:section-exercises}
 
