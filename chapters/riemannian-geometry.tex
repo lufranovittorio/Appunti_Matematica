@@ -8,7 +8,9 @@ and, together with an orientation, defines the Hodge star, the codifferential an
 (Definition~\ref{riemannian-geometry:definition-laplacian}). Harmonic forms are the kernel of that Laplacian, and the Hodge theorem
 (Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
-theorems of Ambrose--Singer, de Rham and Berger; and Jacobi fields, conjugate points and the first comparison theorems. References:
+theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the geometry of submanifolds, with the
+first and second fundamental forms and the equations of Gauss and Codazzi; and the classical global theorems on surfaces: Gauss--Bonnet for regions with boundary,
+and the theorems of Minding, Hadamard, Liebmann and Hilbert. References:
 \cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{kobayashi-nomizu}, \cite{joyce-special-holonomy}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature).
@@ -604,6 +606,196 @@ curvatures are its eigenvalues, and $K(0) = \det\operatorname{Hess}\phi(0)$. The
 curvature means that the surface lies locally on one side of its tangent plane, negative curvature that it crosses it.
 \end{enumerate}
 \end{example}
+
+\section{Global theorems on surfaces}\label{riemannian-geometry:section-surfaces-global}
+
+This section collects the classical global theorems on surfaces, in the form in which they appear in \cite[Chapters 4 and 5]{do-carmo-curves-surfaces}:
+the Gauss--Bonnet theorem for regions with boundary, Minding's theorem on surfaces of constant curvature, and the theorems of Hadamard, Liebmann and Hilbert on
+surfaces in $\RR^3$. Throughout, $M$ is an oriented Riemannian surface and $J$ is the rotation by $+\pi/2$ in its tangent planes, as in the proof of
+Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}; for a surface in $\RR^3$ oriented by a unit normal $\nu$, $Jv = \nu \times v$
+(Proposition~\ref{differential-forms:proposition-orientation-normal}).
+
+\begin{definition}\label{riemannian-geometry:definition-geodesic-curvature}
+Let $\alpha$ be a curve in $M$ parametrised by arc length, $|\alpha'| = 1$. Since $\langle D_s\alpha', \alpha'\rangle = \frac12\frac{d}{ds}|\alpha'|^2 = 0$, the covariant acceleration is
+$D_s\alpha' = k_g\,J\alpha'$ for a function $k_g$, the \emph{geodesic curvature} of $\alpha$. So $\alpha$ is a geodesic if and only if $k_g = 0$. For a surface in $\RR^3$,
+$D_s\alpha'$ is the tangential part of the acceleration $\alpha''$ (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}), and $k_g = \langle\alpha'', \nu \times \alpha'\rangle$.
+\end{definition}
+
+For example, a circle of latitude at height $z_0 \in (-1, 1)$ on the unit sphere has geodesic curvature $\pm z_0/(1 - z_0^2)^{1/2}$, and the equator, $z_0 = 0$, is a geodesic.
+
+A \emph{simple region} is a compact set $R \subseteq M$ contained in the domain of a positively oriented chart $x \colon \Omega \to M$, whose preimage is homeomorphic to a closed
+disc and bounded by a simple closed curve that is piecewise smooth with nonvanishing velocity. Its boundary $\partial R$ is parametrised by arc length so that $R$ lies on the left
+(that is, $J\alpha'$ points into $R$), and at a vertex where the smooth arcs meet, the \emph{exterior angle} $\theta_i \in (-\pi, \pi)$ is the oriented angle from the incoming to the
+outgoing velocity; the \emph{interior angle} is $\pi - \theta_i$.
+
+\begin{theorem}[Theorem of turning tangents]\label{riemannian-geometry:theorem-turning-tangents}
+Let $R$ be a simple region, $(e_1, e_2)$ a positively oriented orthonormal frame on a neighbourhood of $R$, and write the unit tangent of $\partial R$ on each smooth arc as
+$\alpha' = \cos\varphi\,e_1 + \sin\varphi\,e_2$ with $\varphi$ continuous on the arc. Then the sum over the arcs of the changes of $\varphi$, plus the sum of the exterior angles,
+equals $2\pi$.
+\end{theorem}
+
+This is Hopf's Umlaufsatz \cite{hopf-1935}; see \cite[Chapters 4 and 5]{do-carmo-curves-surfaces}. For a smooth convex curve in the Euclidean plane it says that the tangent turns
+exactly once.
+
+\begin{theorem}[Local Gauss--Bonnet theorem]\label{riemannian-geometry:theorem-local-gauss-bonnet}
+Let $R$ be a simple region with smooth boundary arcs $\alpha_i$ and exterior angles $\theta_1, \ldots, \theta_k$. Then
+\[
+\sum_i\int_{\alpha_i}k_g\,ds + \iint_RK\,dA + \sum_{j=1}^k\theta_j = 2\pi.
+\]
+\end{theorem}
+
+\begin{proof}
+Applying Gram--Schmidt to the coordinate fields of the chart gives a positively oriented orthonormal frame $(e_1, e_2)$ near $R$. Define the $1$-form $\omega$ by
+$\nabla_Xe_1 = \omega(X)e_2$; then $\nabla_Xe_2 = -\omega(X)e_1$, and the computation in the proof of Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet} gives
+$d\omega = -K\,dA$. On a smooth arc, $\alpha' = \cos\varphi\,e_1 + \sin\varphi\,e_2$ with $\varphi$ smooth (lift the map to the circle through the covering $\RR \to S^1$,
+Proposition~\ref{homotopy:proposition-homotopy-lifting}), and $J\alpha' = -\sin\varphi\,e_1 + \cos\varphi\,e_2$. Differentiating,
+\[
+D_s\alpha' = \varphi'J\alpha' + \cos\varphi\,\nabla_{\alpha'}e_1 + \sin\varphi\,\nabla_{\alpha'}e_2 = \varphi'J\alpha' + \omega(\alpha')J\alpha',
+\]
+so $k_g = \varphi' + \omega(\alpha')$. Summing over the arcs, $\sum_i\int_{\alpha_i}k_g\,ds = \sum_i(\text{change of }\varphi\text{ on }\alpha_i) + \int_{\partial R}\omega$. The first sum is
+$2\pi - \sum_j\theta_j$ by Theorem~\ref{riemannian-geometry:theorem-turning-tangents}, and $\int_{\partial R}\omega = \iint_Rd\omega = -\iint_RK\,dA$ by Stokes' theorem in the chart, that
+is, Green's theorem for a plane region bounded by a piecewise smooth simple closed curve \cite[Chapter 4]{do-carmo-curves-surfaces}
+(Theorem~\ref{differential-forms:theorem-stokes} in the smooth case).
+\end{proof}
+
+\begin{corollary}\label{riemannian-geometry:corollary-geodesic-triangles}
+Let $T$ be a \emph{geodesic triangle}: a simple region bounded by three geodesic arcs, with interior angles $\phi_1, \phi_2, \phi_3$. Then
+\[
+\phi_1 + \phi_2 + \phi_3 - \pi = \iint_TK\,dA.
+\]
+So the angles of a geodesic triangle add up to more than $\pi$ where $K > 0$, to $\pi$ where $K = 0$, and to less than $\pi$ where $K < 0$. On the unit sphere the area of a geodesic
+triangle is its angle excess; for instance the octant bounded by the three coordinate planes has three right angles and area $\frac{3\pi}{2} - \pi = \frac{\pi}{2}$, one eighth of $4\pi$.
+\end{corollary}
+
+\begin{proof}
+Here $k_g = 0$ on the sides and $\theta_j = \pi - \phi_j$, so Theorem~\ref{riemannian-geometry:theorem-local-gauss-bonnet} gives
+$\iint_TK\,dA + 3\pi - (\phi_1 + \phi_2 + \phi_3) = 2\pi$.
+\end{proof}
+
+\begin{theorem}[Global Gauss--Bonnet theorem]\label{riemannian-geometry:theorem-global-gauss-bonnet}
+Let $R \subseteq M$ be a compact region whose boundary consists of finitely many simple closed piecewise smooth curves $C_1, \ldots, C_m$, oriented with $R$ on the left, with
+exterior angles $\theta_1, \ldots, \theta_k$ at their vertices. Then
+\[
+\iint_RK\,dA + \sum_i\int_{C_i}k_g\,ds + \sum_j\theta_j = 2\pi\chi(R).
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Choose a triangulation of $R$ fine enough that every triangle is a simple region, with $F$ triangles, $E$ edges and $V$ vertices, so that $\chi(R) = V - E + F$. Apply
+Theorem~\ref{riemannian-geometry:theorem-local-gauss-bonnet} to each triangle and add. Every interior edge is traversed twice in opposite directions, so the integrals of $k_g$ over
+interior edges cancel, and those over boundary edges give the boundary term. The exterior angles of a triangle are $\pi$ minus its interior angles, and the interior
+angles of all triangles add up to $2\pi$ at each of the $V_{\mathrm{int}}$ interior vertices, to $\pi - \theta_j$ at a corner of $\partial R$, and to $\pi$ at the other boundary
+vertices. So the sum of all exterior angles of the triangles is $3\pi F - 2\pi V_{\mathrm{int}} - \pi V_\partial + \sum_j\theta_j$, where $V_\partial$ is the number of boundary
+vertices, and adding the local formulas gives
+$\iint_RK\,dA + \sum_i\int_{C_i}k_g\,ds + \sum_j\theta_j = -\pi F + 2\pi V_{\mathrm{int}} + \pi V_\partial$. Each triangle has three edges, each interior edge lies in two triangles
+and each boundary edge in one, so $3F = 2E_{\mathrm{int}} + E_\partial$, and $E_\partial = V_\partial$ because the boundary is a union of closed curves; with these relations the right
+side equals $2\pi(V - E + F)$. The omitted verification is the existence of such triangulations \cite[Chapter 4]{do-carmo-curves-surfaces}.
+\end{proof}
+
+For $R = M$ a closed surface there is no boundary, and the formula is Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}, $\iint_MK\,dA = 2\pi\chi(M)$. For a disc in the
+plane bounded by a smooth convex curve, $K = 0$ and $\chi = 1$, and the formula says that the total geodesic curvature of the boundary is $2\pi$: the tangent turns once. For the
+northern cap of the unit sphere above the latitude $z_0$, the area $2\pi(1 - z_0)$ plus the total geodesic curvature $2\pi(1 - z_0^2)^{1/2} \cdot z_0/(1 - z_0^2)^{1/2} = 2\pi z_0$ of
+the boundary circle gives $2\pi = 2\pi\chi(\text{disc})$.
+
+\begin{theorem}[Minding; Cartan]\label{riemannian-geometry:theorem-minding}
+Let $(M, g)$ and $(N, h)$ be Riemannian manifolds of the same dimension $n$ with the same constant sectional curvature $\kappa$, and let $p \in M$, $q \in N$ and a linear isometry
+$I \colon T_pM \to T_qN$ be given. Then there are neighbourhoods $U \ni p$ and $V \ni q$ and an isometry $F \colon U \to V$ with $F(p) = q$ and $d_pF = I$. In particular two surfaces
+with the same constant Gaussian curvature are locally isometric, and every surface of constant curvature $0$, $1$ or $-1$ is locally isometric to the plane, the unit sphere or the
+hyperbolic plane.
+\end{theorem}
+
+\begin{proof}
+Let $s_\kappa$ be the solution of $s'' + \kappa s = 0$ with $s(0) = 0$ and $s'(0) = 1$ (so $s_\kappa(t) = t$, $\sin(\sqrt\kappa t)/\sqrt\kappa$ or $\sinh(\sqrt{-\kappa}t)/\sqrt{-\kappa}$). We
+first compute the differential of $\exp_p$. Let $v \in T_pM$ be in the domain of $\exp_p$, $v \neq 0$, $\ell = |v|$, $u = v/\ell$, and $\gamma(t) = \exp_p(tv)$; for $w \in T_pM$ write
+$w = w_\parallel + w_\perp$ with $w_\parallel$ a multiple of $u$ and $w_\perp \perp u$, and let $P_t$ be parallel transport along $\gamma$. By
+Proposition~\ref{riemannian-geometry:proposition-jacobi}(2), $J(t) = d_{tv}\exp_p(tw)$ is the Jacobi field along $\gamma$ with $J(0) = 0$ and $D_tJ(0) = w$. The fields
+$J_1(t) = tP_t(w_\parallel)$ and $J_2(t) = \ell^{-1}s_\kappa(\ell t)P_t(w_\perp)$ are Jacobi fields: $P_t(u) = \dot\gamma(t)/\ell$, so $J_1$ is a multiple of $t\dot\gamma$, with $D_t^2J_1 = 0$ and
+$R(J_1, \dot\gamma)\dot\gamma = 0$; and $P_t(w_\perp) \perp \dot\gamma$, so by the curvature formula of Example~\ref{riemannian-geometry:example-curvature},
+$R(J_2, \dot\gamma)\dot\gamma = \kappa|\dot\gamma|^2J_2 = \kappa\ell^2J_2$, while $D_t^2J_2 = \ell s_\kappa''(\ell t)P_t(w_\perp) = -\kappa\ell^2J_2$. They have the initial values $J_1(0) = J_2(0) = 0$,
+$D_tJ_1(0) = w_\parallel$ and $D_tJ_2(0) = w_\perp$, so $J = J_1 + J_2$ by uniqueness, and since $P_1$ is an isometry and $P_1(w_\parallel) \perp P_1(w_\perp)$,
+\[
+|d_v\exp_p(w)|^2 = |J(1)|^2 = |w_\parallel|^2 + \Bigl(\frac{s_\kappa(\ell)}{\ell}\Bigr)^2|w_\perp|^2.
+\]
+The same formula holds on $N$. Now choose $\varepsilon > 0$ such that $\exp_p$ and $\exp_q$ map the balls of radius $\varepsilon$ diffeomorphically onto open sets $U$ and $V$
+(Proposition~\ref{riemannian-geometry:proposition-exponential}), and let $F = \exp_q \circ I \circ (\exp_p|_{B_\varepsilon})^{-1} \colon U \to V$, a diffeomorphism with $F(p) = q$ and $d_pF = I$.
+For $x = \exp_p(v)$ and $w \in T_pM$, the chain rule gives $d_xF(d_v\exp_p(w)) = d_{Iv}\exp_q(Iw)$, and since $I$ preserves lengths and orthogonality, the formula above gives the same
+length for $d_v\exp_p(w)$ and $d_{Iv}\exp_q(Iw)$ (for $v = 0$ both differentials are the identity). As the $d_v\exp_p(w)$ fill $T_xM$, $d_xF$ preserves lengths, hence inner products, so $F$
+is an isometry.
+\end{proof}
+
+For instance the cylinder and the cone (without its vertex) are locally isometric to the plane, and the pseudosphere, the surface of revolution of the tractrix, to the hyperbolic
+plane. Minding's theorem is local: the flat torus $\RR^2/\ZZ^2$ is locally but not globally isometric to the plane.
+
+\begin{lemma}\label{riemannian-geometry:lemma-elliptic-point}
+A compact surface $S \subseteq \RR^3$ has a point where $K > 0$. More precisely, if $p_0 \in S$ maximises the distance $R$ to the origin, then $K(p_0) \geq 1/R^2$.
+\end{lemma}
+
+\begin{proof}
+The function $|x|^2$ on $S$ has a maximum $R^2 > 0$ at some $p_0$, since $S$ is compact (and not a point). Its differential $2\langle p_0, -\rangle$ vanishes on $T_{p_0}S$, so
+$\nu = p_0/R$ is a unit normal at $p_0$. For a unit-speed curve $\alpha$ in $S$ with $\alpha(0) = p_0$, the function $|\alpha|^2$ has a maximum at $0$, so
+$0 \geq (|\alpha|^2)''(0) = 2\langle\alpha''(0), p_0\rangle + 2|\alpha'(0)|^2$, that is, $\langle\alpha''(0), \nu\rangle \leq -1/R$. The normal part of $\alpha''(0)$ is
+$\mathrm{II}(\alpha'(0), \alpha'(0))$ (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}, applied to the covariant acceleration of $\alpha$ in $\RR^3$), so
+$h(w, w) \leq -1/R$ for every unit tangent vector $w$ at $p_0$. Both principal curvatures are therefore $\leq -1/R$, and $K(p_0) = \kappa_1\kappa_2 \geq 1/R^2$
+(Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}).
+\end{proof}
+
+So there is no compact surface in $\RR^3$ with $K \leq 0$ everywhere; in particular the flat torus cannot be embedded isometrically in $\RR^3$ as a smooth surface.
+
+\begin{lemma}\label{riemannian-geometry:lemma-proper-covering}
+Let $f \colon X \to Y$ be a local homeomorphism from a compact Hausdorff space to a connected Hausdorff space. Then $f$ is surjective and a covering map with finite fibres.
+\end{lemma}
+
+\begin{proof}
+A local homeomorphism is open, and a continuous map from a compact space to a Hausdorff space is closed (Proposition~\ref{general-topology:proposition-compact-basic}); so $f(X)$ is
+open, closed and nonempty, hence equal to $Y$. A fibre $f^{-1}(y)$ is discrete, because $f$ is injective near each point, and closed in the compact $X$, hence finite, say
+$\{x_1, \ldots, x_k\}$. Choose pairwise disjoint open sets $U_i \ni x_i$ mapped homeomorphically onto open sets $V_i \ni y$. The set $f(X \setminus \bigcup_iU_i)$ is compact, hence
+closed, and does not contain $y$, so $V = \bigcap_iV_i \setminus f(X \setminus \bigcup_iU_i)$ is an open neighbourhood of $y$ with $f^{-1}(V) = \bigsqcup_i(U_i \cap f^{-1}(V))$, each piece
+mapped homeomorphically onto $V$.
+\end{proof}
+
+\begin{theorem}[Hadamard]\label{riemannian-geometry:theorem-hadamard}
+Let $S \subseteq \RR^3$ be a compact connected surface with Gaussian curvature $K > 0$ everywhere. Then $S$ is orientable, its Gauss map $\nu \colon S \to S^2$ (for the unit normal
+making the second fundamental form negative definite) is a diffeomorphism, $S$ is diffeomorphic to $S^2$, and $\iint_SK\,dA = 4\pi$.
+\end{theorem}
+
+\begin{proof}
+At each point $K = \det S_\nu > 0$, so the self-adjoint shape operator is definite, and exactly one of the two unit normals makes it negative definite; near each point this normal is
+$\pm$ a smooth local normal with a locally constant sign, so it is a unit normal field, and $S$ is orientable (Proposition~\ref{differential-forms:proposition-orientation-normal}). For
+tangent $X$, $\overline{\nabla}_X\nu$ is tangent, because $\langle\nu, \nu\rangle = 1$, so $d_p\nu(X) = \overline{\nabla}_X\nu = -S_\nu X$
+(Proposition~\ref{riemannian-geometry:proposition-weingarten}); as $T_{\nu(p)}S^2 = \nu(p)^\perp = T_pS$ and $\det(-S_\nu) = K > 0$, $d_p\nu$ is an isomorphism, and $\nu$ is a local
+diffeomorphism (Theorem~\ref{smooth-manifolds:theorem-inverse-function-manifolds}). By Lemma~\ref{riemannian-geometry:lemma-proper-covering} it is a covering map, and since $S^2$ is simply
+connected (Corollary~\ref{homotopy:corollary-spheres}) and $S$ connected, it has one sheet (Corollary~\ref{homotopy:corollary-lifting-consequences}(3)): $\nu$ is a bijective local
+diffeomorphism, hence a diffeomorphism. Orient $S$ by $\nu$ and $S^2$ by its outward normal; then $T_pS$ and $T_{\nu(p)}S^2$ are the same oriented plane, $\nu^*(dA_{S^2}) = \det(d\nu)\,dA_S = K\,dA_S$,
+and $\iint_SK\,dA = \int_{S^2}dA = 4\pi$ (Proposition~\ref{differential-forms:proposition-integral-well-defined}).
+\end{proof}
+
+The value $4\pi$ agrees with the Gauss--Bonnet theorem, $2\pi\chi(S^2)$. Hadamard also proved that such a surface is the boundary of a convex body: it lies on one side of each
+of its tangent planes \cite[Chapter 5]{do-carmo-curves-surfaces}.
+
+\begin{theorem}[Liebmann]\label{riemannian-geometry:theorem-liebmann}
+A compact connected surface in $\RR^3$ with constant Gaussian curvature $K$ is a round sphere of radius $1/\sqrt{K}$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+By Lemma~\ref{riemannian-geometry:lemma-elliptic-point} the constant $K$ is positive. With the unit normal $\nu$ of Theorem~\ref{riemannian-geometry:theorem-hadamard} the
+principal curvatures are negative; write them as $-\lambda_1 \leq -\lambda_2$, so that $\lambda_1 \geq \lambda_2 > 0$ and $\lambda_1\lambda_2 = K$. The continuous function $\lambda_1$
+attains its maximum at some $p$, where $\lambda_2 = K/\lambda_1$ attains its minimum. \emph{Hilbert's lemma}, a computation with the Codazzi equation in principal coordinates, says
+that at a non-umbilic point ($\lambda_1 > \lambda_2$) where $\lambda_1$ has a local maximum and $\lambda_2$ a local minimum, $K \leq 0$. So $p$ is umbilic and
+$\lambda_1(p) = \sqrt K$. Hence $\lambda_1 \leq \sqrt K$ everywhere, while $\lambda_1^2 \geq \lambda_1\lambda_2 = K$; so $\lambda_1 = \lambda_2 = \sqrt K$ everywhere, every point is umbilic,
+and $S_\nu = -\sqrt K\,\id$. Then $d\nu = -S_\nu = \sqrt K\,\id$, so $x - \nu/\sqrt K$ is constant on the connected surface $S$: every point lies at distance $1/\sqrt K$ from this
+fixed point. The omitted verification is Hilbert's lemma \cite[Chapter 5]{do-carmo-curves-surfaces}.
+\end{proof}
+
+\begin{theorem}[Hilbert]\label{riemannian-geometry:theorem-hilbert}
+There is no complete surface of constant negative Gaussian curvature isometrically immersed in $\RR^3$. In particular the hyperbolic plane cannot be realised as a complete
+surface in $\RR^3$.
+\end{theorem}
+
+This is \cite{hilbert-1901}; see \cite[Chapter 5]{do-carmo-curves-surfaces} for a complete proof. In outline: on such a surface the asymptotic directions (where $h(w, w) = 0$) give
+coordinates in which the metric has the form $du^2 + 2\cos\theta\,du\,dv + dv^2$, and the Gauss equation becomes the sine-Gordon equation $\theta_{uv} = \sin\theta$; these
+coordinates cover the whole hyperbolic plane, whose area is infinite, while the Gauss--Bonnet theorem bounds the area of every coordinate quadrilateral by $2\pi$, a contradiction.
+Incomplete surfaces of constant negative curvature do exist, such as the pseudosphere; and by Theorem~\ref{riemannian-geometry:theorem-minding} each is locally isometric to
+the hyperbolic plane.
 
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 

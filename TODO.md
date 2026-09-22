@@ -12,6 +12,14 @@ references in proofs).
 
 ## Done
 
+- [x] **Global theorems on surfaces** (`riemannian-geometry`, following
+  do Carmo): geodesic curvature, theorem of turning tangents (quoted), local
+  and global Gauss–Bonnet with boundary, geodesic triangles and angle excess,
+  Minding's theorem (in any dimension, via Jacobi fields), a compact surface
+  in $\mathbb{R}^3$ has a point with $K > 0$, Hadamard's theorem (Gauss map is a
+  diffeomorphism when $K > 0$), Liebmann's theorem (sketched), Hilbert's
+  theorem (quoted).
+
 - [x] **Differential forms, slower** (`differential-forms`): the three
   descriptions of a $k$-form (sections, alternating maps, coefficients) with the
   change of chart $\omega^{(y)}_J = \sum_I \omega^{(x)}_I \det(\partial x^I/\partial y^J)$;
