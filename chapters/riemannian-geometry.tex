@@ -10,7 +10,7 @@ and, together with an orientation, defines the Hodge star, the codifferential an
 manifolds; the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
 theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the first and second variation of energy, with Jacobi's theorem that
-geodesics stop minimising after a conjugate point, a complete proof of the Bonnet--Myers theorem, and the theorems of Weinstein and Synge on manifolds of positive curvature; the geometry of submanifolds, with the
+geodesics stop minimising after a conjugate point, a complete proof of the Bonnet--Myers theorem, the theorems of Weinstein and Synge on manifolds of positive curvature, and the splitting theorem; the geometry of submanifolds, with the
 first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi; the classical global theorems on surfaces: Gauss--Bonnet for
 regions with boundary, the curvature of conformal metrics, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
 area-minimising property of minimal graphs and Bernstein's theorem; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
@@ -810,6 +810,18 @@ For example the round sphere of radius $1/\sqrt\kappa$ has $\mathrm{Ric} = (n - 
 $z = x^2 + y^2$ is complete, being closed in $\RR^3$, and has Gaussian curvature $4/(1 + 4x^2 + 4y^2)^2 > 0$
 (Section~\ref{riemannian-geometry:section-submanifolds}), but it is not compact; its curvature tends to $0$ at infinity.
 
+\begin{remark}\label{riemannian-geometry:remark-noncompact-positive}
+Compactness in Theorem~\ref{riemannian-geometry:theorem-bonnet-myers} comes from the \emph{uniform} bound $\mathrm{Ric} \geq (n - 1)\kappa g$ with $\kappa > 0$, not from
+positivity alone: a non-compact manifold can carry complete metrics with $K > 0$, such as the paraboloid, but no complete metric with $\mathrm{Ric} \geq \delta g$ for a
+constant $\delta > 0$. On a compact manifold, positive curvature is automatically bounded below by a positive constant. Complete non-compact manifolds with $K > 0$ are
+nevertheless very restricted: by the theorem of Gromoll and Meyer \cite{gromoll-meyer-1969} they are diffeomorphic to $\RR^n$, in particular contractible and simply
+connected. More generally, by the soul theorem of Cheeger and Gromoll \cite{cheeger-gromoll-1972}, a complete non-compact manifold with $K \geq 0$ is diffeomorphic to the
+normal bundle of a compact totally geodesic submanifold, its \emph{soul}, and Perelman \cite{perelman-1994} proved that the soul is a point as soon as all sectional
+curvatures are positive at one point. Neither completeness nor strict positivity can be dropped: the sphere minus two antipodal points has $K = 1$ and $\pi_1 = \ZZ$
+(Counterexample~\ref{riemannian-geometry:counterexample-synge} below), and the flat cylinder $S^1 \times \RR$ is complete with $K = 0$ and $\pi_1 = \ZZ$; its soul is a circle.
+\end{remark}
+
+
 The second variation formula also controls the topology of compact manifolds of positive curvature through their isometries. The key step is a fixed point theorem.
 
 \begin{theorem}[Weinstein]\label{riemannian-geometry:theorem-weinstein}
@@ -911,6 +923,62 @@ through its Jacobi fields. The Rauch comparison theorem \cite[Chapter 10]{do-car
 Gromov's compactness theorem.
 \end{remark}
 
+A different kind of rigidity concerns straight lines. A \emph{ray} in a Riemannian manifold is a unit speed geodesic $\gamma \colon [0, \infty) \to M$ with
+$d(\gamma(s), \gamma(t)) = |s - t|$ for all $s, t$, and a \emph{line} is a unit speed geodesic $\gamma \colon \RR \to M$ with the same property for all $s, t \in \RR$: it
+minimises length between any two of its points.
+
+\begin{proposition}\label{riemannian-geometry:proposition-rays-lines}
+Let $M$ be complete and connected.
+\begin{enumerate}
+\item If $M$ is not compact, every point is the starting point of a ray.
+\item If there are a compact $C \subseteq M$ and points $p_k$, $q_k$ with $d(p_k, C) \to \infty$ and $d(q_k, C) \to \infty$ such that every curve from $p_k$ to $q_k$ meets
+$C$, then $M$ contains a line.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Theorem~\ref{riemannian-geometry:theorem-hopf-rinow} closed bounded sets are compact, so $M$ is unbounded: choose $q_k$ with $L_k = d(p, q_k) \to \infty$ and minimising
+unit speed geodesics $\gamma_k(t) = \exp_p(tv_k)$, $t \in [0, L_k]$, $|v_k| = 1$. By compactness of the unit sphere a subsequence has $v_k \to v$; let $\gamma(t) = \exp_p(tv)$, defined for
+all $t$. For fixed $s, t \geq 0$ and $k$ large, $d(\gamma_k(s), \gamma_k(t)) = |s - t|$, since a subarc of a minimising curve is minimising; by continuity of $\exp$ and of $d$,
+$d(\gamma(s), \gamma(t)) = |s - t|$.
+
+(2) Let $\sigma_k$ be a minimising unit speed geodesic from $p_k$ to $q_k$. It meets $C$; shift its parameter so that $\sigma_k(0) \in C$, and $\sigma_k$ is defined on
+$[-a_k, b_k]$ with $a_k = d(p_k, \sigma_k(0)) \geq d(p_k, C)$ and $b_k \geq d(q_k, C)$, both tending to $\infty$. The unit tangent vectors at points of the compact $C$ form a compact
+set, so a subsequence has $\dot\sigma_k(0) \to v \in T_xM$, $x \in C$. As in (1), $\gamma(t) = \exp_x(tv)$ satisfies $d(\gamma(s), \gamma(t)) = |s - t|$ for all $s, t \in \RR$.
+\end{proof}
+
+For example, on the flat cylinder $S^{n-1} \times \RR$ the curves $\{x\} \times \RR$ are lines, and (2) applies with $C = S^{n-1} \times \{0\}$. On the hyperbolic plane every
+geodesic is a line: it is complete (see the discussion after Definition~\ref{riemannian-geometry:definition-model-spaces}) with $K = -1$
+(Example~\ref{riemannian-geometry:example-conformal-metrics}(1)), so by Theorem~\ref{riemannian-geometry:theorem-cartan-hadamard} each $\exp_p$ is a diffeomorphism, so the geodesic from $\gamma(s)$ through $\gamma(t)$ is the only one joining them, and the minimising geodesic given by
+Theorem~\ref{riemannian-geometry:theorem-hopf-rinow} must be it.
+
+\begin{theorem}[Cheeger--Gromoll splitting theorem]\label{riemannian-geometry:theorem-splitting}
+Let $M$ be a complete connected Riemannian manifold with $\mathrm{Ric} \geq 0$ that contains a line. Then $M$ is isometric to a Riemannian product $N \times \RR$, where $N$ is a
+complete manifold with $\mathrm{Ric} \geq 0$, and the line corresponds to a curve $\{x\} \times \RR$.
+\end{theorem}
+
+This is \cite{cheeger-gromoll-1971}. The proof uses the \emph{Busemann functions} $b^\pm(x) = \lim_{t \to \infty}\bigl(t - d(x, \gamma(\pm t))\bigr)$ of the line $\gamma$. The
+triangle inequality gives $b^+ + b^- \leq 0$, with equality on $\gamma$. The condition $\mathrm{Ric} \geq 0$ gives, through the comparison of the Laplacian of distance functions
+with the Euclidean one, that $b^+$ and $b^-$ are subharmonic in a weak sense; so $b^+ + b^-$ is subharmonic, and by the maximum principle it vanishes identically. Hence
+$b^+ = -b^-$ is harmonic and smooth, with $|\nabla b^+| = 1$, and the Bochner formula $0 = \frac12\Delta|\nabla b^+|^2 = |\mathrm{Hess}\,b^+|^2 + \mathrm{Ric}(\nabla b^+, \nabla b^+)$
+(with the analysts' sign of the Laplacian) forces $\mathrm{Hess}\,b^+ = 0$: the gradient of $b^+$ is a parallel unit vector field, and its flow splits off the factor $\RR$.
+The same paper shows that the universal covering of a compact manifold with $\mathrm{Ric} \geq 0$ is isometric to $N \times \RR^k$ with $N$ compact.
+
+\begin{corollary}\label{riemannian-geometry:corollary-no-lines}
+A complete connected manifold with positive definite Ricci curvature, for instance with $K > 0$, contains no line. In particular it satisfies the hypothesis of
+Proposition~\ref{riemannian-geometry:proposition-rays-lines}(2) for no compact $C$: outside a large compact set it cannot be separated into two unbounded pieces.
+\end{corollary}
+
+\begin{proof}
+If it contained a line, it would be isometric to $N \times \RR$ by Theorem~\ref{riemannian-geometry:theorem-splitting}. In coordinates $(x, t)$ adapted to the product, the
+metric is $g_N + dt^2$, and the Christoffel symbols with an index $t$ vanish (Theorem~\ref{riemannian-geometry:theorem-levi-civita}); so $\nabla\partial_t = 0$,
+$R(X, \partial_t)\partial_t = 0$ for all $X$, and $\mathrm{Ric}(\partial_t, \partial_t) = 0$, a contradiction. The second statement follows from
+Proposition~\ref{riemannian-geometry:proposition-rays-lines}(2).
+\end{proof}
+
+Both hypotheses of the splitting theorem are needed: the hyperbolic plane contains lines but is not a product, since a product $N \times \RR$ of dimension $2$ is flat, and
+the flat cylinder shows that the factor $N$ need not be $\RR^{n-1}$. The paraboloid $z = x^2 + y^2$, which has $K > 0$, contains rays from every point but no line.
+
 \section{Submanifolds and the second fundamental form}\label{riemannian-geometry:section-submanifolds}
 
 Classical differential geometry studies curves and surfaces in $\RR^3$ through two quadratic forms: the \emph{first fundamental form}, the metric induced from
@@ -962,6 +1030,43 @@ because $\mathrm{II}(X, fY) = ((Xf)Y + f\overline{\nabla}_XY)^\perp = f\,\mathrm
 So the intrinsic connection of $M$ is the tangential part of the ambient one: for a surface in $\RR^3$, $\nabla_XY$ is the derivative of $Y$ in $\RR^3$ projected
 back onto the tangent plane. A curve in $M$ is a geodesic of $M$ exactly when its acceleration in $\overline{M}$ is normal to $M$; for instance great circles
 on the sphere (Exercise~\ref{riemannian-geometry:exercise-great-circles}).
+
+The Gauss formula does not need the ambient extensions of Lemma~\ref{riemannian-geometry:lemma-ambient-derivative}, and it holds for immersions that are not injective, such
+as a curve with self-intersections. Let $f \colon M \to \overline{M}$ be an immersion with the induced metric $g = f^*\bar g$, and let $\overline{\nabla}^f = f^*\overline{\nabla}$ be the
+pullback connection on $f^*T\overline{M}$ (Proposition~\ref{connections:proposition-pullback-tensor}(1)): it differentiates sections of $f^*T\overline{M}$, such as $df(Y)$ for a
+vector field $Y$ on $M$, in the direction of tangent vectors of $M$, and $\overline{\nabla}^f_X(s \circ f) = \overline{\nabla}_{df(X)}s$ for a vector field $s$ on $\overline{M}$.
+The differential identifies $TM$ with the subbundle $df(TM)$ of $f^*T\overline{M}$, whose orthogonal complement $N_f$ is the normal bundle of $f$.
+
+\begin{proposition}[Gauss formula for immersions]\label{riemannian-geometry:proposition-gauss-immersion}
+For vector fields $X$, $Y$ on $M$,
+\[
+\overline{\nabla}^f_X\bigl(df(Y)\bigr) = df(\nabla_XY) + \mathrm{II}(X, Y),
+\]
+where $\nabla$ is the Levi-Civita connection of $g$ and $\mathrm{II}(X, Y) = (\overline{\nabla}^f_X(df(Y)))^\perp$ is a symmetric $C^\infty(M)$-bilinear map with values in $N_f$.
+In particular $df(\nabla_XY) = (\overline{\nabla}^f_X(df(Y)))^\top$. For an embedding this is Theorem~\ref{riemannian-geometry:theorem-gauss-formula}, and for
+$\overline{M} = \RR^N$, $\overline{\nabla}^f_X(df(Y))$ is the derivative $X(df(Y))$ of the $\RR^N$-valued function $df(Y)$.
+\end{proposition}
+
+\begin{proof}
+\emph{$\overline{\nabla}^f$ is metric:} $X\langle\sigma, \tau\rangle = \langle\overline{\nabla}^f_X\sigma, \tau\rangle + \langle\sigma, \overline{\nabla}^f_X\tau\rangle$ for sections
+$\sigma$, $\tau$ of $f^*T\overline{M}$. Both sides satisfy the same Leibniz rule when $\sigma$ or $\tau$ is multiplied by a function, and locally $f^*T\overline{M}$ has frames
+$s_a \circ f$ pulled back from frames of $T\overline{M}$; for $\sigma = s \circ f$ and $\tau = t \circ f$ the identity is
+$df(X)\langle s, t\rangle = \langle\overline{\nabla}_{df(X)}s, t\rangle + \langle s, \overline{\nabla}_{df(X)}t\rangle$ at $f(p)$.
+
+\emph{Symmetry:} $\overline{\nabla}^f_X(df(Y)) - \overline{\nabla}^f_Y(df(X)) = df([X, Y])$. The difference of the two sides is $C^\infty(M)$-bilinear in $X$ and $Y$ (the terms with
+derivatives of a function cancel, as for the torsion), so it suffices to take coordinate fields $X = \partial_i$, $Y = \partial_j$ of a chart $u$ of $M$. With a chart $y$ of
+$\overline{M}$ and $f^a = y^a \circ f$, $df(\partial_j) = \sum_a\partial_jf^a\,(\partial_a \circ f)$ and
+\[
+\overline{\nabla}^f_{\partial_i}\bigl(df(\partial_j)\bigr) = \sum_a\Bigl(\partial_i\partial_jf^a + \sum_{b,c}\overline{\Gamma}^a_{bc}(f)\,\partial_if^b\,\partial_jf^c\Bigr)(\partial_a \circ f),
+\]
+which is symmetric in $i$ and $j$ since $\overline{\Gamma}^a_{bc} = \overline{\Gamma}^a_{cb}$; and $[\partial_i, \partial_j] = 0$.
+
+\emph{Conclusion:} as in the proof of Theorem~\ref{riemannian-geometry:theorem-gauss-formula}, $\nabla^{\prime}_XY = df^{-1}\bigl((\overline{\nabla}^f_X(df(Y)))^\top\bigr)$ is a connection
+on $TM$; it is metric for $g$ because $\overline{\nabla}^f$ is metric and $N_f \perp df(TM)$, and torsion-free by the tangential part of the symmetry. So $\nabla^{\prime} = \nabla$
+(Theorem~\ref{riemannian-geometry:theorem-levi-civita}); the normal part of the symmetry gives $\mathrm{II}(X, Y) = \mathrm{II}(Y, X)$, and $\mathrm{II}$ is $C^\infty$-linear in $X$ and
+in $Y$ as before. For an embedding and an extension $\overline{Y}$ of $Y$, $df(Y) = \overline{Y} \circ f$, so $\overline{\nabla}^f_X(df(Y)) = \overline{\nabla}_X\overline{Y}$. For
+$\overline{M} = \RR^N$ the Christoffel symbols vanish.
+\end{proof}
 
 \begin{definition}\label{riemannian-geometry:definition-shape-operator}
 For a normal vector field $\nu$ along $M$, the \emph{shape operator} (or \emph{Weingarten map}) is $S_\nu(X) = -(\overline{\nabla}_X\nu)^\top$, and the \emph{normal

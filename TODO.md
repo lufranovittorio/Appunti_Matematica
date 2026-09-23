@@ -12,6 +12,16 @@ references in proofs).
 
 ## Done
 
+- [x] **Positive curvature on non-compact manifolds, rays, lines, splitting**
+  (`riemannian-geometry`): why Bonnet–Myers needs a uniform bound, the
+  theorems of Gromoll–Meyer, Cheeger–Gromoll (soul) and Perelman (quoted),
+  existence of rays and of lines, the Cheeger–Gromoll splitting theorem
+  (quoted, with an outline), complete manifolds with $\mathrm{Ric} > 0$
+  contain no line.
+- [x] **Gauss formula for immersions** (`riemannian-geometry`): with the
+  pullback connection, $df(\nabla_XY) = (\overline{\nabla}^f_X\,df(Y))^\top$,
+  without extending vector fields.
+
 - [x] **Weinstein and Synge** (`riemannian-geometry`, variation section):
   Weinstein's fixed point theorem, Synge's theorem (even dimension: simply
   connected; odd dimension: orientable), a counterexample for every
