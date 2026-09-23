@@ -17,7 +17,7 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="connections-section-connections.html" /><link rel="next" href="connections-section-metric.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="prev" href="connections-section-curvature.html" /><link rel="next" href="connections-section-metric.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
 </head>
 
@@ -179,19 +179,25 @@ MathJax.Hub.Config({
   <a href="connections-section-introduction.html"><span class="toc_ref">37.1</span> <span class="toc_entry">Introduction</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-connections.html"><span class="toc_ref">37.2</span> <span class="toc_entry">Connections</span></a>
+  <a href="connections-section-bundle-valued-forms.html"><span class="toc_ref">37.2</span> <span class="toc_entry">Bundle-valued forms</span></a>
+</li>
+<li class="level-3">
+  <a href="connections-section-connections.html"><span class="toc_ref">37.3</span> <span class="toc_entry">Connections</span></a>
+</li>
+<li class="level-3">
+  <a href="connections-section-curvature.html"><span class="toc_ref">37.4</span> <span class="toc_entry">Curvature</span></a>
 </li>
 <li class="level-3 active current">
-  <a href="connections-section-parallel-transport.html"><span class="toc_ref">37.3</span> <span class="toc_entry">Parallel transport, holonomy and flatness</span></a>
+  <a href="connections-section-parallel-transport.html"><span class="toc_ref">37.5</span> <span class="toc_entry">Parallel transport, holonomy and flatness</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-metric.html"><span class="toc_ref">37.4</span> <span class="toc_entry">Metric connections</span></a>
+  <a href="connections-section-metric.html"><span class="toc_ref">37.6</span> <span class="toc_entry">Metric connections</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-principal.html"><span class="toc_ref">37.5</span> <span class="toc_entry">Principal bundles</span></a>
+  <a href="connections-section-principal.html"><span class="toc_ref">37.7</span> <span class="toc_entry">Principal bundles</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-exercises.html"><span class="toc_ref">37.6</span> <span class="toc_entry">Exercises</span></a>
+  <a href="connections-section-exercises.html"><span class="toc_ref">37.8</span> <span class="toc_entry">Exercises</span></a>
 </li>
 </ul>
 </li>
@@ -335,28 +341,29 @@ MathJax.Hub.Config({
 <li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="connections.html">37 Connections and Curvature</a></li></ol>
 
 <article class="main-text">
-<h1 id="connections:section-parallel-transport">37.3 Parallel transport, holonomy and flatness<a class="tag" href="tag/01B2.html" title="Permanent link: tag 01B2">01B2</a></h1>
+<h1 id="connections:section-parallel-transport">37.5 Parallel transport, holonomy and flatness<a class="tag" href="tag/01B2.html" title="Permanent link: tag 01B2">01B2</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
+<p>A connection lets us say when a section is “constant” along a curve: when its covariant derivative in the direction of the curve vanishes. Solving this differential equation moves vectors from one fibre to another along the curve. First we make precise what the derivative along a curve means. </p>
 <div class="remark_thmwrapper theorem-style-remark" id="connections:remark-along-curves">
   <div class="remark_thmheading"><a class="tag" href="tag/02K8.html" title="Permanent link: tag 02K8">02K8</a>
     <span class="remark_thmcaption">
     Remark
     </span>
-    <span class="remark_thmlabel">37.3.1</span>
+    <span class="remark_thmlabel">37.5.1</span>
   </div>
   <div class="remark_thmcontent">
   <p> A connection differentiates sections of \(E\) over \(M\) in the direction of vector fields on \(M\), while along a curve \(\gamma \colon I \to M\) the direction \(\dot\gamma \) and the section to be differentiated are only defined along the curve. The notation \(\nabla _{\dot\gamma }s\) is justified as follows. </p>
 <ol class="enumerate">
   <li><p><em>The direction may be a single vector.</em> For a section \(s\) of \(E\), \(\nabla s\) is an \(E\)-valued \(1\)-form, so \(\nabla _vs = (\nabla s)_p(v) \in E_p\) is defined for every tangent vector \(v \in T_pM\); equivalently, \(\nabla _Xs\) at \(p\) depends only on \(X_p\), because \(\nabla _{fX}s = f\nabla _Xs\). So for a section \(s\) defined near \(\gamma (I)\), \(\nabla _{\dot\gamma (t)}s\) makes sense without extending \(\dot\gamma \) to a vector field. </p>
 </li>
-  <li><p><em>Only the values of \(s\) along a curve matter.</em> In a local frame, \(\nabla _vs = \sum _i\bigl(v(s^i) + \sum _j\theta ^i_j(v)s^j\bigr)e_i\) (Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.2.2</a>), and \(v(s^i) = (s^i \circ c)^{\prime }(0)\) for any curve \(c\) with \(\dot c(0) = v\). So \(\nabla _vs\) depends only on the values of \(s\) along such a curve. </p>
+  <li><p><em>Only the values of \(s\) along a curve matter.</em> In a local frame, \(\nabla _vs = \sum _i\bigl(v(s^i) + \sum _j\theta ^i_j(v)s^j\bigr)e_i\) (Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.3.4</a>), and \(v(s^i) = (s^i \circ c)^{\prime }(0)\) for any curve \(c\) with \(\dot c(0) = v\). So \(\nabla _vs\) depends only on the values of \(s\) along such a curve. </p>
 </li>
   <li><p><em>Sections along a curve need not extend.</em> A <em>section along \(\gamma \)</em> is a section of \(\gamma ^*E\), that is, a smooth map \(t \mapsto s(t) \in E_{\gamma (t)}\); for instance the velocity \(\dot\gamma \) is a section of \(\gamma ^*TM\). It need not be of the form \(S \circ \gamma \) for a section \(S\) of \(E\), even near one point. For \(\gamma (t) = (t^2, 0)\) in \(\mathbb {R}^2\) we have \(\gamma (t) = \gamma (-t)\) but \(\dot\gamma (t) = (2t, 0) \neq \dot\gamma (-t)\) for \(t \neq 0\), so no vector field \(X\) near the origin satisfies \(X(\gamma (t)) = \dot\gamma (t)\); the same happens at every self-intersection of a curve, where two velocities sit at one point. </p>
 </li>
 </ol>
-<p> The precise definition therefore uses the pullback connection of Proposition&#160;<a href="connections-section-connections.html#connections:proposition-pullback-tensor">37.2.6</a>(1): for a section \(s\) along \(\gamma \), </p>
-<div class="displaymath" id="a0000001043">
+<p> The precise definition therefore uses the pullback connection of Proposition&#160;<a href="connections-section-curvature.html#connections:proposition-pullback-tensor">37.4.5</a>(1): for a section \(s\) along \(\gamma \), </p>
+<div class="displaymath" id="a0000001066">
   \[  \nabla _{\dot\gamma }s = (\gamma ^*\nabla )_{d/dt}\, s ,  \]
 </div>
 <p> a derivative on the interval \(I\), where \(d/dt\) is a genuine vector field. By the defining property \((\gamma ^*\nabla )(\gamma ^*S) = \gamma ^*(\nabla S)\), \((\gamma ^*\nabla )_{d/dt}(S \circ \gamma ) = (\nabla S)(\dot\gamma ) = \nabla _{\dot\gamma }S\) in the sense of (1), and in a local frame \((\gamma ^*\nabla )_{d/dt}s = \sum _i\bigl(\dot s^i + \sum _j\theta ^i_j(\dot\gamma )s^j\bigr)e_i\). When \(s\) does extend to a section \(S\) near \(\gamma (t)\), the two meanings of \(\nabla _{\dot\gamma }s\) agree, whatever the extension, by (2). </p>
@@ -368,10 +375,10 @@ MathJax.Hub.Config({
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">37.3.2</span>
+    <span class="definition_thmlabel">37.5.2</span>
   </div>
   <div class="definition_thmcontent">
-  <p> A section \(s\) along a smooth curve \(\gamma \colon [0, 1] \to M\), that is, a section of \(\gamma ^*E\), is <em>parallel</em> if \(\nabla _{\dot\gamma }s = 0\), in the sense of Remark&#160;<a href="connections-section-parallel-transport.html#connections:remark-along-curves">37.3.1</a>. <em>Parallel transport</em> along \(\gamma \) is the map \(P_\gamma \colon E_{\gamma (0)} \to E_{\gamma (1)}\) sending \(v\) to \(s(1)\), where \(s\) is the parallel section with \(s(0) = v\). </p>
+  <p> A section \(s\) along a smooth curve \(\gamma \colon [0, 1] \to M\), that is, a section of \(\gamma ^*E\), is <em>parallel</em> if \(\nabla _{\dot\gamma }s = 0\), in the sense of Remark&#160;<a href="connections-section-parallel-transport.html#connections:remark-along-curves">37.5.1</a>. <em>Parallel transport</em> along \(\gamma \) is the map \(P_\gamma \colon E_{\gamma (0)} \to E_{\gamma (1)}\) sending \(v\) to \(s(1)\), where \(s\) is the parallel section with \(s(0) = v\). For piecewise smooth curves, transport along the smooth pieces is composed. </p>
 
   </div>
 </div>
@@ -380,14 +387,14 @@ MathJax.Hub.Config({
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">37.3.3</span>
+    <span class="proposition_thmlabel">37.5.3</span>
   </div>
   <div class="proposition_thmcontent">
   <p> Parallel sections along \(\gamma \) exist and are unique for each initial value, so \(P_\gamma \) is a well-defined linear isomorphism, depending smoothly on the data and satisfying \(P_{\gamma \ast \delta } = P_\delta \circ P_\gamma \) and \(P_{\bar\gamma } = P_\gamma ^{-1}\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001044">
+<div class="proof_wrapper" id="a0000001067">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -395,7 +402,11 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>In a local frame the equation \(\nabla _{\dot\gamma }s = 0\) reads \(\dot s^i + \sum _j\theta ^i_j(\dot\gamma )s^j = 0\), a linear system of ordinary differential equations with smooth coefficients; by Proposition&#160;<a href="real-analysis-section-ode.html#real-analysis:proposition-ode-dependence">26.12.5</a>(2) its solutions exist on the whole interval, are unique, and depend linearly on the initial value, smoothly on parameters (Theorem&#160;<a href="real-analysis-section-ode.html#real-analysis:theorem-smooth-dependence">26.12.6</a>). Linearity gives invertibility, with inverse the transport along the reversed curve, and the composition rule follows from uniqueness. </p>
+  <p>In a local frame the equation \(\nabla _{\dot\gamma }s = 0\) reads </p>
+<div class="displaymath" id="a0000001068">
+  \[  \dot s^i(t) + \sum _j\theta ^i_j(\dot\gamma (t))\, s^j(t) = 0, \qquad i = 1, \ldots , r,  \]
+</div>
+<p> a linear system of ordinary differential equations with smooth coefficients. By Proposition&#160;<a href="real-analysis-section-ode.html#real-analysis:proposition-ode-dependence">26.12.5</a>(2) its solutions exist on the whole interval on which \(\gamma \) stays in the frame domain, are unique, and depend linearly on the initial value, and smoothly on parameters (Theorem&#160;<a href="real-analysis-section-ode.html#real-analysis:theorem-smooth-dependence">26.12.6</a>). The interval \([0, 1]\) is covered by finitely many subintervals on each of which \(\gamma \) stays in one frame domain; solving successively on them, using the end value of one piece as initial value of the next, gives a unique parallel section on \([0, 1]\). Uniqueness does not depend on the frames, because the equation \(\nabla _{\dot\gamma }s = 0\) does not. So \(P_\gamma \) is well defined and linear. Running the curve backwards, \(\bar\gamma (t) = \gamma (1 - t)\), the section \(t \mapsto s(1 - t)\) is parallel along \(\bar\gamma \) (the equation is linear in \(\dot\gamma \)), so \(P_{\bar\gamma }P_\gamma = \mathrm{id}\) and \(P_\gamma \) is invertible; the composition rule follows from uniqueness. The same argument shows that \(P_\gamma \) does not change under an increasing reparametrisation of \(\gamma \). </p>
 
   </div>
 </div>
@@ -404,7 +415,7 @@ MathJax.Hub.Config({
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">37.3.4</span>
+    <span class="proposition_thmlabel">37.5.4</span>
     <span class="proposition_thmtitle">Homotopy invariance of pullbacks</span>
   </div>
   <div class="proposition_thmcontent">
@@ -412,7 +423,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001045">
+<div class="proof_wrapper" id="a0000001069">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -420,7 +431,90 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>Choose a connection on \(E' = F^*E\) (Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.2.2</a>). For \(x \in M\) let \(\gamma _x(t) = (x, t)\), \(0 \leq t \leq 1\), and let \(P_x \colon E'_{(x,0)} \to E'_{(x,1)}\) be parallel transport along \(\gamma _x\). Since \(E'_{(x,0)} = E_{f(x)} = (f^*E)_x\) and \(E'_{(x,1)} = (g^*E)_x\), the \(P_x\) are linear isomorphisms \((f^*E)_x \to (g^*E)_x\), and they depend smoothly on \(x\) (Proposition&#160;<a href="connections-section-parallel-transport.html#connections:proposition-parallel-transport">37.3.3</a>), so they form an isomorphism of vector bundles \(f^*E \to g^*E\). For a star-shaped \(U\), with centre \(p\), apply this to \(F(x, t) = p + t(x - p)\) and \(N = U\): then \(g = \mathrm{id}\) and \(f\) is constant, so \(E = \mathrm{id}^*E \cong f^*E = U \times E_p\) is trivial. </p>
+  <p>Choose a connection on \(E' = F^*E\) (Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.3.4</a>). For \(x \in M\) let \(\gamma _x(t) = (x, t)\), \(0 \leq t \leq 1\), and let \(P_x \colon E'_{(x,0)} \to E'_{(x,1)}\) be parallel transport along \(\gamma _x\). Since \(E'_{(x,0)} = E_{f(x)} = (f^*E)_x\) and \(E'_{(x,1)} = (g^*E)_x\), the \(P_x\) are linear isomorphisms \((f^*E)_x \to (g^*E)_x\), and they depend smoothly on \(x\) (Proposition&#160;<a href="connections-section-parallel-transport.html#connections:proposition-parallel-transport">37.5.3</a>), so they form an isomorphism of vector bundles \(f^*E \to g^*E\). For a star-shaped \(U\), with centre \(p\), apply this to \(F(x, t) = p + t(x - p)\) and \(N = U\): then \(g = \mathrm{id}\) and \(f\) is constant, so \(E = \mathrm{id}^*E \cong f^*E = U \times E_p\) is trivial. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="connections:example-transport">
+  <div class="example_thmheading"><a class="tag" href="tag/02LO.html" title="Permanent link: tag 02LO">02LO</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">37.5.5</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>For the trivial connection \(d\) on \(M \times \mathbb {K}^r\) the parallel sections along any curve are the constant ones, and \(P_\gamma = \mathrm{id}\). </p>
+</li>
+  <li><p><em>Around a latitude of the sphere.</em> Let \(c(\varphi ) = x(\vartheta _0, \varphi )\), \(\varphi \in [0, 2\pi ]\), be the circle of latitude at polar angle \(\vartheta _0\), with the frame and connection form of Example&#160;<a href="connections-section-connections.html#connections:example-connection-forms">37.3.5</a>(1). For \(V = ae_1 + be_2\), \(\nabla _{\dot c}e_1 = \cos \vartheta _0\, e_2\) and \(\nabla _{\dot c}e_2 = -\cos \vartheta _0\, e_1\), so \(\nabla _{\dot c}V = (a^{\prime } - b\cos \vartheta _0)e_1 + (b^{\prime } + a\cos \vartheta _0)e_2\). With \(\kappa = \cos \vartheta _0\) the parallel fields are </p>
+<div class="displaymath" id="a0000001070">
+  \[  a(\varphi ) = a_0\cos (\kappa \varphi ) + b_0\sin (\kappa \varphi ), \qquad b(\varphi ) = -a_0\sin (\kappa \varphi ) + b_0\cos (\kappa \varphi ):  \]
+</div>
+<p> relative to the frame \((e_1, e_2)\), which itself comes back to its initial value, the vector rotates by the angle \(-\kappa \varphi \). After one turn it is rotated by \(-2\pi \cos \vartheta _0\), which modulo \(2\pi \) equals \(2\pi (1 - \cos \vartheta _0)\), the area of the spherical cap \(\{ \vartheta {\lt} \vartheta _0\} \) enclosed by the circle. On the equator, \(\vartheta _0 = \pi /2\), the transport is trivial, and near the north pole the rotation is small, as the enclosed area is. This is the Gauss–Bonnet theorem in its simplest form (Chapter&#160;<a href="riemannian-geometry.html">39</a>), and an instance of the next proposition. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>The next result is the geometric meaning of curvature: transport around a small loop differs from the identity by the curvature times the enclosed area. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="connections:proposition-small-loops">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02LP.html" title="Permanent link: tag 02LP">02LP</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">37.5.6</span>
+    <span class="proposition_thmtitle">Holonomy of small loops</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(x^1, \ldots , x^n\) be coordinates centred at \(p\), and for small \(\varepsilon {\gt} 0\) let \(\gamma _\varepsilon \) be the loop at \(p\) that runs around the square with vertices \(0\), \(\varepsilon e_1\), \(\varepsilon (e_1 + e_2)\), \(\varepsilon e_2\) in the \((x^1, x^2)\)-plane, in this order. Then </p>
+<div class="displaymath" id="a0000001071">
+  \[  P_{\gamma _\varepsilon } = \mathrm{id}- \varepsilon ^2F(\partial _1, \partial _2)_p + O(\varepsilon ^3).  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001072">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Work in a frame near \(p\), with \(\theta = \sum _i\theta _i\, dx^i\), and write \(\theta _i\), \(\partial _j\theta _i\) for the values at \(p\). Transport along a segment \(t \mapsto q + tu\), \(u\) a unit coordinate vector \(\pm e_k\), solves \(\dot s = -\theta (u)s\) with \(\theta (u) = \pm \theta _k(q + tu)\). Differentiating the equation, \(\ddot s = -(\partial _u\theta (u))s + \theta (u)^2s\), so by Taylor’s formula (the solution depends smoothly on \(q\) and \(\varepsilon \)) transport along the segment of length \(\varepsilon \) is \(T = \mathrm{id}- \varepsilon \theta (u)(q) + \frac{\varepsilon ^2}2\bigl(\theta (u)^2 - \partial _u\theta (u)\bigr)(q) + O(\varepsilon ^3)\). For the four sides, expanding the values at the starting points \(0\), \(\varepsilon e_1\), \(\varepsilon (e_1 + e_2)\), \(\varepsilon e_2\) around \(p\) to first order, </p>
+<div class="displaymath" id="a0000001073">
+  \[  \begin{aligned}  T_1 & = \mathrm{id}- \varepsilon \theta _1 + \tfrac {\varepsilon ^2}2(\theta _1^2 - \partial _1\theta _1),\\ T_2 & = \mathrm{id}- \varepsilon \theta _2 - \varepsilon ^2\partial _1\theta _2 + \tfrac {\varepsilon ^2}2(\theta _2^2 - \partial _2\theta _2),\\ T_3 & = \mathrm{id}+ \varepsilon \theta _1 + \varepsilon ^2(\partial _1\theta _1 + \partial _2\theta _1) + \tfrac {\varepsilon ^2}2(\theta _1^2 - \partial _1\theta _1),\\ T_4 & = \mathrm{id}+ \varepsilon \theta _2 + \varepsilon ^2\partial _2\theta _2 + \tfrac {\varepsilon ^2}2(\theta _2^2 - \partial _2\theta _2), \end{aligned}  \]
+</div>
+<p> up to \(O(\varepsilon ^3)\); for \(T_3\) and \(T_4\) the direction is \(-e_1\), \(-e_2\), so \(\theta (u) = -\theta _1\), \(-\theta _2\) and \(\partial _u\theta (u) = \partial _1\theta _1\), \(\partial _2\theta _2\). In \(P_{\gamma _\varepsilon } = T_4T_3T_2T_1\) the terms of order \(\varepsilon \) cancel. The terms of order \(\varepsilon ^2\) coming from a single factor add up to \(\theta _1^2 + \theta _2^2 - \partial _1\theta _2 + \partial _2\theta _1\), and the products of two first-order terms, taken in the order of the factors, add up to \(\theta _2\theta _1 - \theta _2^2 - \theta _2\theta _1 - \theta _1\theta _2 - \theta _1^2 + \theta _2\theta _1 = -\theta _1^2 - \theta _2^2 - \theta _1\theta _2 + \theta _2\theta _1\). The total coefficient of \(\varepsilon ^2\) is \(-(\partial _1\theta _2 - \partial _2\theta _1 + \theta _1\theta _2 - \theta _2\theta _1) = -F(\partial _1, \partial _2)_p\), by the coordinate formula for \(F\) after Proposition&#160;<a href="connections-section-curvature.html#connections:proposition-curvature">37.4.3</a>. </p>
+
+  </div>
+</div>
+<p>For a line bundle the formula is exact and global in the following sense. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="connections:proposition-line-holonomy">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02LQ.html" title="Permanent link: tag 02LQ">02LQ</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">37.5.7</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(L\) be a line bundle with connection \(\nabla \) and curvature \(F\) (a closed \(2\)-form), let \(\bar D\) be the closed unit disc, \(h \colon B \to M\) a smooth map defined on an open disc \(B \supseteq \bar D\), and let \(\gamma \) be the loop \(h|_{\partial \bar D}\), traversed counterclockwise. Then parallel transport around \(\gamma \) is multiplication by </p>
+<div class="displaymath" id="a0000001074">
+  \[  P_\gamma = \exp \Bigl(-\int _{\bar D}h^*F\Bigr).  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001075">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The bundle \(h^*L\) over the star-shaped \(B\) is trivial (Proposition&#160;<a href="connections-section-parallel-transport.html#connections:proposition-homotopy-invariance">37.5.4</a>), and parallel transport along \(\gamma \) for \(\nabla \) is parallel transport along the boundary circle for \(h^*\nabla \), because \((h \circ c)^*\nabla = c^*(h^*\nabla )\) for curves \(c\) in the disc (both satisfy the characterisation of Proposition&#160;<a href="connections-section-curvature.html#connections:proposition-pullback-tensor">37.4.5</a>(1)). In a frame over \(B\), \(h^*\nabla = d + \alpha \) for a \(1\)-form \(\alpha \), and a parallel section along the boundary circle \(c\) solves the scalar equation \(\dot s + \alpha (\dot c)s = 0\), so \(s(1) = \exp (-\int _c\alpha )\, s(0)\). By Stokes’ theorem (Theorem&#160;<a href="differential-forms-section-integration.html#differential-forms:theorem-stokes">35.4.4</a>), \(\int _c\alpha = \int _{\bar D}d\alpha = \int _{\bar D}h^*F\), as \(h^*F = d\alpha \) by Proposition&#160;<a href="connections-section-curvature.html#connections:proposition-pullback-tensor">37.4.5</a>(1),(3). </p>
 
   </div>
 </div>
@@ -429,19 +523,20 @@ MathJax.Hub.Config({
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">37.3.5</span>
+    <span class="definition_thmlabel">37.5.8</span>
   </div>
   <div class="definition_thmcontent">
   <p> The <em>holonomy group</em> of \(\nabla \) at \(p\) is \(\mathrm{Hol}_p(\nabla ) = \{ P_\gamma : \gamma \text{ a loop at } p\}  \subseteq \mathrm{GL}(E_p)\), a subgroup. A connection is <em>flat</em> if \(F_\nabla = 0\). </p>
 
   </div>
 </div>
+<p>It is a subgroup by Proposition&#160;<a href="connections-section-parallel-transport.html#connections:proposition-parallel-transport">37.5.3</a>: the product of \(P_\gamma \) and \(P_\delta \) is transport along the concatenated loop, and the inverse is transport along the reversed loop. If \(\sigma \) is a path from \(p\) to \(q\), then \(\mathrm{Hol}_q = P_\sigma \mathrm{Hol}_pP_\sigma ^{-1}\), so on a connected manifold the holonomy groups at different points are conjugate. For the sphere, Example&#160;<a href="connections-section-parallel-transport.html#connections:example-transport">37.5.5</a>(2) shows that the holonomy contains rotations by all angles \(2\pi (1 - \cos \vartheta _0)\), hence it is the whole rotation group \(\mathrm{SO}(2)\) of the tangent plane. </p>
 <div class="theorem_thmwrapper theorem-style-plain" id="connections:theorem-flat-local-systems">
   <div class="theorem_thmheading"><a class="tag" href="tag/01B6.html" title="Permanent link: tag 01B6">01B6</a>
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">37.3.6</span>
+    <span class="theorem_thmlabel">37.5.9</span>
   </div>
   <div class="theorem_thmcontent">
   <p> For a connection \(\nabla \) on \(E \to M\) the following are equivalent: </p>
@@ -454,13 +549,13 @@ MathJax.Hub.Config({
 </li>
 </ol>
 <p> In that case the sheaf \(\mathcal{E}^\nabla \) of parallel sections is a local system of rank \(r\) with \(\mathcal{E}^\nabla \otimes _{\mathbb {R}_M} C^\infty _M \cong \mathcal{E}\), and on a connected \(M\) this gives an equivalence between flat bundles and representations of \(\pi _1(M, p)\), the representation being the holonomy </p>
-<div class="displaymath" id="a0000001046">
+<div class="displaymath" id="a0000001076">
   \[  \pi _1(M, p) \to \mathrm{GL}(E_p), \qquad [\gamma ] \mapsto P_\gamma ^{-1}.  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001047">
+<div class="proof_wrapper" id="a0000001077">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -469,22 +564,51 @@ MathJax.Hub.Config({
   </div>
   <div class="proof_content">
   <p>(2)\(\Rightarrow \)(1) is clear, since \(d\) has zero curvature, and curvature is local. </p>
-<p>(1)\(\Rightarrow \)(2). Work over a coordinate ball \(U\) with a frame, so that \(E|_U = U \times \mathbb {R}^r\) and \(\nabla = d + \theta \) with \(\theta = \sum _i\theta _i\, dx^i\), a matrix of \(1\)-forms. On \(U \times \mathbb {R}^r\) consider the rank \(n\) distribution spanned by the vector fields \(X_i = \partial /\partial x^i - \sum _{j,k}(\theta _i)^k_jv^j\, \partial /\partial v^k\). A computation gives \([X_i, X_j] = -\sum _{k,l}(F_{ij})^k_lv^l\, \partial /\partial v^k\), where \(F = \sum _{i{\lt}j}F_{ij}\, dx^i \wedge dx^j\); so the distribution is involutive if and only if \(F = 0\). If \(F = 0\), the Frobenius theorem (Theorem&#160;<a href="smooth-manifolds-section-flows.html#smooth-manifolds:theorem-frobenius">32.9.8</a>) gives integral manifolds; each is transverse to the fibres \(\{ x\}  \times \mathbb {R}^r\), hence locally the graph of a map \(s \colon U' \to \mathbb {R}^r\), and the condition that the graph is an integral manifold is exactly \(\partial _is + \theta _is = 0\), that is, \(\nabla s = 0\). Taking the integral manifolds through \((p, v_1), \ldots , (p, v_r)\) for a basis \((v_i)\) gives \(r\) parallel sections near \(p\), which form a frame because they are linearly independent at \(p\), hence nearby. </p>
+<p>(1)\(\Rightarrow \)(2). Work over a coordinate ball \(U\) with a frame, so that \(E|_U = U \times \mathbb {K}^r\) and \(\nabla = d + \theta \) with \(\theta = \sum _i\theta _i\, dx^i\), a matrix of \(1\)-forms. We look for sections \(s \colon U \to \mathbb {K}^r\) with \(\partial _is + \theta _is = 0\) for all \(i\). Their graphs are submanifolds of \(U \times \mathbb {K}^r\) whose tangent spaces are spanned by the vector fields </p>
+<div class="displaymath" id="a0000001078">
+  \[  X_i = \frac{\partial }{\partial x^i} - \sum _{j,k}(\theta _i)^k_jv^j\, \frac{\partial }{\partial v^k}, \qquad i = 1, \ldots , n,  \]
+</div>
+<p> where \(v^1, \ldots , v^r\) are the coordinates of \(\mathbb {K}^r\) (real and imaginary parts separately if \(\mathbb {K} = \mathbb {C}\)). These span a distribution of rank \(n\). The coefficients of \(X_j\) in the \(\partial /\partial v\) directions are linear in \(v\), and a direct computation of the brackets gives </p>
+<div class="displaymath" id="a0000001079">
+  \[  [X_i, X_j] = -\sum _{k,l}\bigl(\partial _i\theta _j - \partial _j\theta _i + \theta _i\theta _j - \theta _j\theta _i\bigr)^k_lv^l\, \frac{\partial }{\partial v^k} = -\sum _{k,l}(F_{ij})^k_lv^l\, \frac{\partial }{\partial v^k},  \]
+</div>
+<p> with \(F_{ij} = F(\partial _i, \partial _j)\), where \(F = \sum _{i{\lt}j}F_{ij}\, dx^i \wedge dx^j\): the terms \(\partial _i\) applied to the coefficients of \(X_j\) give \(-\partial _i\theta _j\), and the bracket of the two vertical parts gives the commutator of the matrices. So the distribution is involutive if and only if \(F = 0\). If \(F = 0\), the Frobenius theorem (Theorem&#160;<a href="smooth-manifolds-section-flows.html#smooth-manifolds:theorem-frobenius">32.9.8</a>) gives integral manifolds; each is transverse to the fibres \(\{ x\}  \times \mathbb {K}^r\), hence locally the graph of a map \(s \colon U' \to \mathbb {K}^r\), and the condition that the graph is an integral manifold is exactly \(\partial _is + \theta _is = 0\), that is, \(\nabla s = 0\). Taking the integral manifolds through \((p, v_1), \ldots , (p, v_r)\) for a basis \((v_i)\) gives \(r\) parallel sections near \(p\), which form a frame because they are linearly independent at \(p\), hence nearby. </p>
 <p>(2)\(\Rightarrow \)(3). Let \(H \colon [0,1]^2 \to M\) be a homotopy with fixed endpoints from \(\gamma _0\) to \(\gamma _1\). Cover the square by finitely many small squares each mapped by \(H\) into a neighbourhood carrying a flat frame, as in the proof of Theorem&#160;<a href="complex-analysis-section-cauchy.html#complex-analysis:theorem-cauchy-homotopy">28.3.3</a>. In a flat frame parallel transport along any path is the identity matrix, so the transport along the two edge paths of each small square agree; moving across the squares one at a time shows that the transports along \(\gamma _0\) and \(\gamma _1\) coincide. </p>
 <p>(3)\(\Rightarrow \)(2). On a simply connected neighbourhood \(U\) of a point \(p\), define \(s_i(q) = P_\gamma (v_i)\) for a path \(\gamma \) from \(p\) to \(q\) in \(U\) and a basis \((v_i)\) of \(E_p\); this is well defined by (3), smooth by smooth dependence of solutions of differential equations, and gives a frame of parallel sections, in which the connection form vanishes. </p>
 <p>For the last statement, parallel sections form a sheaf that is locally constant by (2), hence a local system, and a local frame of parallel sections is a frame of \(E\), which gives the isomorphism with \(\mathcal{E}\). Conversely a local system \(\mathcal{L}\) determines the bundle \(E = \mathcal{L} \otimes _{\mathbb {R}_M} C^\infty _M\) with the connection \(d\) in any flat frame; these constructions are inverse to each other. The correspondence with representations of \(\pi _1\) is Theorem&#160;<a href="sheaves-section-local-systems.html#sheaves:theorem-local-systems-representations">24.5.3</a>, and the monodromy of the local system of parallel sections is given by parallel transport; the inverse appears because monodromy was defined as a right action. </p>
 
   </div>
 </div>
+<p>In a flat frame the transition functions between two flat frames are locally constant (both are parallel), so a flat bundle is one whose cocycle can be chosen locally constant; this is the situation of Remark&#160;<a href="connections-section-bundle-valued-forms.html#connections:remark-no-canonical-d">37.2.5</a>, in which componentwise differentiation is well defined. </p>
 <div class="example_thmwrapper theorem-style-definition" id="connections:example-flat-circle">
   <div class="example_thmheading"><a class="tag" href="tag/02A5.html" title="Permanent link: tag 02A5">02A5</a>
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">37.3.7</span>
+    <span class="example_thmlabel">37.5.10</span>
   </div>
   <div class="example_thmcontent">
-  <p> Flat connections on the trivial line bundle over \(S^1 = \mathbb {R}/2\pi \mathbb {Z}\): every connection is \(d + a(\theta )\, d\theta \), it is flat, and parallel transport around the circle is multiplication by \(\exp (-\int _0^{2\pi }a)\). Two such connections are isomorphic (by a gauge transformation \(g \colon S^1 \to \mathbb {C}^\times \), which changes \(a\, d\theta \) by \(g^{-1}dg\)) if and only if their holonomies agree, because the \(1\)-forms \(g^{-1}dg\) are exactly those with \(\int _{S^1}g^{-1}dg \in 2\pi i\mathbb {Z}\) (a nonvanishing function has a continuous logarithm along the circle whose increase is \(2\pi i\) times its winding number). So flat line bundles with connection on \(S^1\) are classified by the holonomy in \(\mathbb {C}^\times \), in accordance with Theorem&#160;<a href="connections-section-parallel-transport.html#connections:theorem-flat-local-systems">37.3.6</a>, since \(\pi _1(S^1) = \mathbb {Z}\). </p>
+  <p> Flat connections on the trivial line bundle over \(S^1 = \mathbb {R}/2\pi \mathbb {Z}\): every connection is \(d + a(\theta )\, d\theta \), it is flat, and parallel transport around the circle is multiplication by \(\exp (-\int _0^{2\pi }a)\). Two such connections are isomorphic (by a gauge transformation \(g \colon S^1 \to \mathbb {C}^\times \), which changes \(a\, d\theta \) by \(g^{-1}dg\)) if and only if their holonomies agree, because the \(1\)-forms \(g^{-1}dg\) are exactly those with \(\int _{S^1}g^{-1}dg \in 2\pi i\mathbb {Z}\) (a nonvanishing function has a continuous logarithm along the circle whose increase is \(2\pi i\) times its winding number). So flat line bundles with connection on \(S^1\) are classified by the holonomy in \(\mathbb {C}^\times \), in accordance with Theorem&#160;<a href="connections-section-parallel-transport.html#connections:theorem-flat-local-systems">37.5.9</a>, since \(\pi _1(S^1) = \mathbb {Z}\). </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="connections:counterexample-flat-holonomy">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/02LR.html" title="Permanent link: tag 02LR">02LR</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">37.5.11</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> A flat connection can have nontrivial holonomy, and a bundle with trivial holonomy around contractible loops need not be trivial. </p>
+<ol class="enumerate">
+  <li><p>In Example&#160;<a href="connections-section-parallel-transport.html#connections:example-flat-circle">37.5.10</a>, \(d + a\, d\theta \) with \(\int _0^{2\pi }a \notin 2\pi i\mathbb {Z}\) is flat but has no global parallel section: the holonomy is not \(1\). Flatness only gives parallel frames <em>locally</em>. </p>
+</li>
+  <li><p>The Möbius bundle over \(S^1\) (Example&#160;<a href="vector-bundles-section-definition.html#vector-bundles:example-bundles">34.2.2</a>) has a flat connection, as its transition function \(-1\) is locally constant, with holonomy \(-1\) around the circle; it is not trivial. </p>
+</li>
+  <li><p>Curvature is a property of the connection, not of the bundle: the trivial line bundle on \(\mathbb {R}^2\) carries the flat connection \(d\) and the connection \(d + x\, dy\) of curvature \(dx \wedge dy\). Only the topology of the bundle constrains the curvature, through characteristic classes (Chapter&#160;<a href="characteristic-classes.html">38</a>); for instance the tautological bundle of \(\mathbb {C}\mathbb {P}^1\) admits no flat connection (Exercise&#160;<a href="connections-section-exercises.html#connections:exercise-flat-not-trivial">37.8.2</a>). </p>
+</li>
+</ol>
 
   </div>
 </div>
@@ -494,7 +618,7 @@ MathJax.Hub.Config({
 
 
 <nav class="page-nav" aria-label="Previous and next">
-<a class="prev" href="connections-section-connections.html"><span class="dir">Previous</span> Connections</a><a class="next" href="connections-section-metric.html"><span class="dir">Next</span> Metric connections</a></nav>
+<a class="prev" href="connections-section-curvature.html"><span class="dir">Previous</span> Curvature</a><a class="next" href="connections-section-metric.html"><span class="dir">Next</span> Metric connections</a></nav>
 </main>
 </div>
 

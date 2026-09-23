@@ -17,7 +17,7 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="connections.html" /><link rel="next" href="connections-section-connections.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="prev" href="connections.html" /><link rel="next" href="connections-section-bundle-valued-forms.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
 </head>
 
@@ -179,19 +179,25 @@ MathJax.Hub.Config({
   <a href="connections-section-introduction.html"><span class="toc_ref">37.1</span> <span class="toc_entry">Introduction</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-connections.html"><span class="toc_ref">37.2</span> <span class="toc_entry">Connections</span></a>
+  <a href="connections-section-bundle-valued-forms.html"><span class="toc_ref">37.2</span> <span class="toc_entry">Bundle-valued forms</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-parallel-transport.html"><span class="toc_ref">37.3</span> <span class="toc_entry">Parallel transport, holonomy and flatness</span></a>
+  <a href="connections-section-connections.html"><span class="toc_ref">37.3</span> <span class="toc_entry">Connections</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-metric.html"><span class="toc_ref">37.4</span> <span class="toc_entry">Metric connections</span></a>
+  <a href="connections-section-curvature.html"><span class="toc_ref">37.4</span> <span class="toc_entry">Curvature</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-principal.html"><span class="toc_ref">37.5</span> <span class="toc_entry">Principal bundles</span></a>
+  <a href="connections-section-parallel-transport.html"><span class="toc_ref">37.5</span> <span class="toc_entry">Parallel transport, holonomy and flatness</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-exercises.html"><span class="toc_ref">37.6</span> <span class="toc_entry">Exercises</span></a>
+  <a href="connections-section-metric.html"><span class="toc_ref">37.6</span> <span class="toc_entry">Metric connections</span></a>
+</li>
+<li class="level-3">
+  <a href="connections-section-principal.html"><span class="toc_ref">37.7</span> <span class="toc_entry">Principal bundles</span></a>
+</li>
+<li class="level-3">
+  <a href="connections-section-exercises.html"><span class="toc_ref">37.8</span> <span class="toc_entry">Exercises</span></a>
 </li>
 </ul>
 </li>
@@ -338,16 +344,31 @@ MathJax.Hub.Config({
 <h1 id="connections:section-introduction">37.1 Introduction<a class="tag" href="tag/01AV.html" title="Permanent link: tag 01AV">01AV</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
-<p>A connection is a way of differentiating sections of a vector bundle; its curvature measures the failure of second derivatives to commute, and is the source of characteristic classes (Chapter&#160;<a href="characteristic-classes.html">38</a>). Flat connections are the same as local systems (Theorem&#160;<a href="connections-section-parallel-transport.html#connections:theorem-flat-local-systems">37.3.6</a>), which is the differential-geometric form of the monodromy correspondence of Chapter&#160;<a href="sheaves.html">24</a> and the starting point of the theory of variations of Hodge structure (Chapter&#160;<a href="vhs.html">67</a>), where the Gauss–Manin connection appears. References: <span class="cite">[<a href="Bibliography.html#kobayashi-nomizu" >KN63</a>]</span>, <span class="cite">[<a href="Bibliography.html#milnor-stasheff" >MS74</a>]</span>, <span class="cite">[<a href="Bibliography.html#griffiths-harris" >GH78</a>, Chapter 0]</span>. </p>
+<p>To differentiate a function \(f\) on a manifold along a curve \(\gamma \) one compares the values \(f(\gamma (t))\) and \(f(\gamma (0))\), which are numbers. For a section \(s\) of a vector bundle \(E\) the values \(s(\gamma (t)) \in E_{\gamma (t)}\) and \(s(\gamma (0)) \in E_{\gamma (0)}\) lie in <em>different</em> vector spaces, and there is no canonical way to subtract them. A local trivialisation identifies nearby fibres with \(\mathbb {K}^r\), and then one can differentiate the components of \(s\); but the result depends on the trivialisation, because changing it multiplies the components by a matrix of functions, whose derivative enters the answer. The simplest example is a vector field \(Y\) on the sphere \(S^2 \subseteq \mathbb {R}^3\): its derivative in \(\mathbb {R}^3\) along a curve on the sphere is in general not tangent to the sphere, so it is not a candidate for a derivative of \(Y\) within the tangent bundle of \(S^2\). </p>
+<p>A <em>connection</em> is the extra structure that removes this ambiguity: a rule \(\nabla \) that assigns to a section \(s\) and a tangent vector \(v\) a derivative \(\nabla _vs\) in the same fibre, subject to the Leibniz rule. Everything else follows from it. Solving \(\nabla _{\dot\gamma }s = 0\) along curves gives <em>parallel transport</em>, a way of moving vectors from fibre to fibre along a path, which in general depends on the path; going around loops gives the <em>holonomy group</em>. The <em>curvature</em> measures the failure of covariant derivatives to commute, \(F(X, Y) = \nabla _X\nabla _Y - \nabla _Y\nabla _X - \nabla _{[X, Y]}\); unlike the connection itself it is a tensor, an \(\operatorname {End}(E)\)-valued \(2\)-form, and it is the infinitesimal form of the holonomy around small loops (Proposition&#160;<a href="connections-section-parallel-transport.html#connections:proposition-small-loops">37.5.6</a>). Connections with zero curvature are the same as local systems (Theorem&#160;<a href="connections-section-parallel-transport.html#connections:theorem-flat-local-systems">37.5.9</a>), which is the differential-geometric form of the monodromy correspondence of Chapter&#160;<a href="sheaves.html">24</a> and the starting point of the theory of variations of Hodge structure (Chapter&#160;<a href="vhs.html">67</a>), where the Gauss–Manin connection appears. The curvature is also the source of the characteristic classes of Chapter&#160;<a href="characteristic-classes.html">38</a>, and for the tangent bundle of a Riemannian manifold it is the Riemann curvature tensor of Chapter&#160;<a href="riemannian-geometry.html">39</a>. </p>
+<p>The chapter goes as follows. </p>
+<ol class="enumerate">
+  <li><p>Forms with values in a vector bundle, the objects in which connections and curvature take their values; the tensoriality lemma, which says when an operator on sections is given pointwise (Section&#160;<a href="connections-section-bundle-valued-forms.html">37.2</a>). </p>
+</li>
+  <li><p>Connections, in the two equivalent languages \(\nabla \colon \Gamma (E) \to \Omega ^1(M, E)\) and \((X, s) \mapsto \nabla _Xs\); connection forms in local frames and how they change; existence; the basic examples, among them the connection of a subbundle of a trivial bundle; induced connections on duals, tensor products and \(\operatorname {Hom}\) bundles (Section&#160;<a href="connections-section-connections.html">37.3</a>). </p>
+</li>
+  <li><p>The exterior covariant derivative and the curvature, with complete computations for the sphere and for the tautological line bundle of \(\mathbb {C}\mathbb {P}^1\) (Section&#160;<a href="connections-section-curvature.html">37.4</a>). </p>
+</li>
+  <li><p>Parallel transport, holonomy, the geometric meaning of curvature, and flat connections (Section&#160;<a href="connections-section-parallel-transport.html">37.5</a>). </p>
+</li>
+  <li><p>Metric connections and principal bundles (Sections&#160;<a href="connections-section-metric.html">37.6</a> and&#160;<a href="connections-section-principal.html">37.7</a>). </p>
+</li>
+</ol>
+<p> References: <span class="cite">[<a href="Bibliography.html#kobayashi-nomizu" >KN63</a>]</span>, <span class="cite">[<a href="Bibliography.html#milnor-stasheff" >MS74</a>]</span>, <span class="cite">[<a href="Bibliography.html#griffiths-harris" >GH78</a>, Chapter 0]</span>. </p>
 <p><b class="bfseries">Prerequisites.</b> Chapter&#160;<a href="vector-bundles.html">34</a> (Vector Bundles), Chapter&#160;<a href="differential-forms.html">35</a> (Differential Forms and Integration) and Chapter&#160;<a href="lie-groups.html">33</a> (Lie Groups). </p>
-<p>For a vector bundle \(E \to M\) we write \(\Omega ^k(M, E) = \Gamma (M, \Lambda ^kT^*M \otimes E)\) for the \(E\)-valued \(k\)-forms, so that \(\Omega ^0(M, E) = \Gamma (M, E)\). </p>
+<p><b class="bfseries">Conventions.</b> \(\mathbb {K}\) is \(\mathbb {R}\) or \(\mathbb {C}\), \(M\) is a smooth manifold of dimension \(n\), and \(E \to M\) is a \(\mathbb {K}\)-vector bundle of rank \(r\). For an open \(U \subseteq M\), \(\Gamma (U, E)\) is the space of smooth sections over \(U\), and \(\Gamma (E) = \Gamma (M, E)\); \(\mathfrak {X}(M)\) is the space of vector fields. A <em>frame</em> of \(E\) over \(U\) is a tuple \(e = (e_1, \ldots , e_r)\) of sections that is a basis of every fibre (Definition&#160;<a href="vector-bundles-section-definition.html#vector-bundles:definition-sections">34.2.6</a>). When \(\mathbb {K} = \mathbb {C}\), differential forms have complex values: \(\Omega ^k(M)\) then means \(\Omega ^k(M) \otimes _\mathbb {R}\mathbb {C}\), and \(d\) is extended \(\mathbb {C}\)-linearly. We write sums explicitly, and in computations with frames we use matrix notation: a section \(s = \sum _js^je_j\) is identified with the column vector \((s^1, \ldots , s^r)^T\) of its components. </p>
 
 </article>
 
 
 
 <nav class="page-nav" aria-label="Previous and next">
-<a class="prev" href="connections.html"><span class="dir">Previous</span> Connections and Curvature</a><a class="next" href="connections-section-connections.html"><span class="dir">Next</span> Connections</a></nav>
+<a class="prev" href="connections.html"><span class="dir">Previous</span> Connections and Curvature</a><a class="next" href="connections-section-bundle-valued-forms.html"><span class="dir">Next</span> Bundle-valued forms</a></nav>
 </main>
 </div>
 
