@@ -9,8 +9,25 @@ references in proofs).
 
 - Small results worth adding whenever they come up while reading: write them
   here with the chapter they belong to.
+- **Slower rewrite, chapter by chapter** (the user finds the text rushed):
+  after `connections`, continue with `vector-bundles`, `differential-forms`,
+  `de-rham`, `characteristic-classes`, then the other parts; more
+  explanations, examples, remarks and exercises everywhere.
 
 ## Done
+
+- [x] **Connections, rewritten slowly** (`connections`): bundle-valued forms
+  and what they are concretely, the tensoriality lemma, the two languages
+  ($\nabla \colon \Gamma(E) \to \Omega^1(M, E)$ and $\nabla_Xs$), projection
+  connections on subbundles, connection forms of the sphere and of the
+  tautological bundle of $\mathbb{CP}^1$, induced connections, the exterior
+  covariant derivative with complete proofs, curvature computations
+  ($\int\frac{i}{2\pi}F = -1$ on $\mathbb{CP}^1$), transport around a latitude,
+  holonomy of small loops, holonomy of line bundles, counterexamples, new
+  exercises.
+- [x] **"On a first reading" notes** (`introduction`, `logic`,
+  `model-theory`, `cohomology-operations`, `riemannian-geometry`,
+  `complex-manifolds`).
 
 - [x] **Positive curvature on non-compact manifolds, rays, lines, splitting**
   (`riemannian-geometry`): why Bonnet–Myers needs a uniform bound, the

@@ -3,46 +3,382 @@
 
 \section{Introduction}\label{connections:section-introduction}
 
-A connection is a way of differentiating sections of a vector bundle; its curvature measures the failure of second derivatives to
-commute, and is the source of characteristic classes (Chapter~\ref{characteristic-classes}). Flat connections are the same as local
-systems (Theorem~\ref{connections:theorem-flat-local-systems}), which is the differential-geometric form of the monodromy
-correspondence of Chapter~\ref{sheaves} and the starting point of the theory of variations of Hodge structure
-(Chapter~\ref{vhs}), where the Gauss--Manin connection appears. References: \cite{kobayashi-nomizu}, \cite{milnor-stasheff},
-\cite[Chapter 0]{griffiths-harris}.
+To differentiate a function $f$ on a manifold along a curve $\gamma$ one compares the values $f(\gamma(t))$ and $f(\gamma(0))$, which are numbers. For a section $s$ of a vector
+bundle $E$ the values $s(\gamma(t)) \in E_{\gamma(t)}$ and $s(\gamma(0)) \in E_{\gamma(0)}$ lie in \emph{different} vector spaces, and there is no canonical way to subtract
+them. A local trivialisation identifies nearby fibres with $\mathbb{K}^r$, and then one can differentiate the components of $s$; but the result depends on the trivialisation,
+because changing it multiplies the components by a matrix of functions, whose derivative enters the answer. The simplest example is a vector field $Y$ on the sphere
+$S^2 \subseteq \RR^3$: its derivative in $\RR^3$ along a curve on the sphere is in general not tangent to the sphere, so it is not a candidate for a derivative of $Y$ within
+the tangent bundle of $S^2$.
+
+A \emph{connection} is the extra structure that removes this ambiguity: a rule $\nabla$ that assigns to a section $s$ and a tangent vector $v$ a derivative $\nabla_vs$ in the
+same fibre, subject to the Leibniz rule. Everything else follows from it. Solving $\nabla_{\dot\gamma}s = 0$ along curves gives \emph{parallel transport}, a way of moving
+vectors from fibre to fibre along a path, which in general depends on the path; going around loops gives the \emph{holonomy group}. The \emph{curvature} measures the failure
+of covariant derivatives to commute, $F(X, Y) = \nabla_X\nabla_Y - \nabla_Y\nabla_X - \nabla_{[X, Y]}$; unlike the connection itself it is a tensor, an $\End(E)$-valued
+$2$-form, and it is the infinitesimal form of the holonomy around small loops (Proposition~\ref{connections:proposition-small-loops}). Connections with zero curvature are the
+same as local systems (Theorem~\ref{connections:theorem-flat-local-systems}), which is the differential-geometric form of the monodromy correspondence of
+Chapter~\ref{sheaves} and the starting point of the theory of variations of Hodge structure (Chapter~\ref{vhs}), where the Gauss--Manin connection appears. The curvature is
+also the source of the characteristic classes of Chapter~\ref{characteristic-classes}, and for the tangent bundle of a Riemannian manifold it is the Riemann curvature tensor
+of Chapter~\ref{riemannian-geometry}.
+
+The chapter goes as follows.
+\begin{enumerate}
+\item Forms with values in a vector bundle, the objects in which connections and curvature take their values; the tensoriality lemma, which says when an operator on
+sections is given pointwise (Section~\ref{connections:section-bundle-valued-forms}).
+\item Connections, in the two equivalent languages $\nabla \colon \Gamma(E) \to \Omega^1(M, E)$ and $(X, s) \mapsto \nabla_Xs$; connection forms in local frames and how they
+change; existence; the basic examples, among them the connection of a subbundle of a trivial bundle; induced connections on duals, tensor products and
+$\Hom$ bundles (Section~\ref{connections:section-connections}).
+\item The exterior covariant derivative and the curvature, with complete computations for the sphere and for the tautological line bundle of $\CC\PP^1$
+(Section~\ref{connections:section-curvature}).
+\item Parallel transport, holonomy, the geometric meaning of curvature, and flat connections (Section~\ref{connections:section-parallel-transport}).
+\item Metric connections and principal bundles (Sections~\ref{connections:section-metric} and~\ref{connections:section-principal}).
+\end{enumerate}
+References: \cite{kobayashi-nomizu}, \cite{milnor-stasheff}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{vector-bundles} (Vector Bundles), Chapter~\ref{differential-forms} (Differential Forms
 and Integration) and Chapter~\ref{lie-groups} (Lie Groups).
 
-For a vector bundle $E \to M$ we write $\Omega^k(M, E) = \Gamma(M, \Lambda^kT^*M \otimes E)$ for the $E$-valued $k$-forms, so that
-$\Omega^0(M, E) = \Gamma(M, E)$.
+\noindent\textbf{Conventions.} $\mathbb{K}$ is $\RR$ or $\CC$, $M$ is a smooth manifold of dimension $n$, and $E \to M$ is a $\mathbb{K}$-vector bundle of rank $r$. For an open
+$U \subseteq M$, $\Gamma(U, E)$ is the space of smooth sections over $U$, and $\Gamma(E) = \Gamma(M, E)$; $\mathfrak{X}(M)$ is the space of vector fields. A \emph{frame} of $E$
+over $U$ is a tuple $e = (e_1, \ldots, e_r)$ of sections that is a basis of every fibre (Definition~\ref{vector-bundles:definition-sections}). When $\mathbb{K} = \CC$,
+differential forms have complex values: $\Omega^k(M)$ then means $\Omega^k(M) \otimes_\RR \CC$, and $d$ is extended $\CC$-linearly. We write sums explicitly, and in
+computations with frames we use matrix notation: a section $s = \sum_js^je_j$ is identified with the column vector $(s^1, \ldots, s^r)^T$ of its components.
+
+\section{Bundle-valued forms}\label{connections:section-bundle-valued-forms}
+
+A connection takes a section $s$ and produces, at each point $p$, a linear map $T_pM \to E_p$, $v \mapsto \nabla_vs$, the derivative of $s$ in the direction $v$; the curvature
+takes two tangent vectors and produces an endomorphism of $E_p$. Such objects are forms with values in a vector bundle, and this section explains what they are, in several
+equivalent ways.
+
+\begin{definition}\label{connections:definition-bundle-valued-forms}
+The space of \emph{$E$-valued $k$-forms} on $M$ is
+\[
+\Omega^k(M, E) = \Gamma(M, \Lambda^kT^*M \otimes E),
+\]
+the smooth sections of the tensor product of the bundle of $k$-forms with $E$ (Proposition~\ref{vector-bundles:proposition-operations}). So $\Omega^0(M, E) = \Gamma(M, E)$,
+and for the trivial line bundle $\Omega^k(M, M \times \mathbb{K}) = \Omega^k(M)$. We write $\Omega^k(U, E)$ for the forms over an open set $U$.
+\end{definition}
+
+The following lemma is used constantly. It explains when an operator that takes sections to sections is really a pointwise, linear algebra operation.
+
+\begin{lemma}[Tensoriality]\label{connections:lemma-tensoriality}
+Let $E_1, \ldots, E_k$ and $F$ be vector bundles over $M$, and let $A \colon \Gamma(E_1) \times \cdots \times \Gamma(E_k) \to \Gamma(F)$ be $C^\infty(M)$-linear in each
+argument: $A(\ldots, fs + gt, \ldots) = fA(\ldots, s, \ldots) + gA(\ldots, t, \ldots)$ for functions $f$, $g$. Then the value $A(s_1, \ldots, s_k)(p)$ depends only on the
+vectors $s_1(p), \ldots, s_k(p)$. So there are multilinear maps $A_p \colon (E_1)_p \times \cdots \times (E_k)_p \to F_p$ with $A(s_1, \ldots, s_k)(p) = A_p(s_1(p), \ldots, s_k(p))$,
+and they form a smooth section of $\Hom(E_1 \otimes \cdots \otimes E_k, F)$.
+\end{lemma}
+
+\begin{proof}
+\emph{Locality.} Suppose $s_1$ vanishes on an open set $U \ni p$. By Lemma~\ref{smooth-manifolds:lemma-bump-manifold} there is a function $\chi$ with $\chi(p) = 1$ and support
+in $U$. Then $\chi s_1 = 0$, so $0 = A(\chi s_1, s_2, \ldots) = \chi A(s_1, s_2, \ldots)$, and evaluating at $p$ gives $A(s_1, \ldots)(p) = 0$.
+
+\emph{Pointwise dependence.} Suppose $s_1(p) = 0$. Let $(e_1, \ldots, e_m)$ be a frame of $E_1$ on a neighbourhood $U$ of $p$, and write $s_1 = \sum_ja^je_j$ on $U$ with smooth
+$a^j$ vanishing at $p$. Choose $\chi$ as above, equal to $1$ on a neighbourhood $V$ of $p$, with support in $U$. The sections $\tilde e_j = \chi e_j$ and the functions
+$\tilde a^j = \chi a^j$, extended by $0$ outside $U$, are smooth on $M$, and $\sum_j\tilde a^j\tilde e_j = \chi^2s_1$ agrees with $s_1$ on $V$. By locality and linearity,
+$A(s_1, \ldots)(p) = A(\sum_j\tilde a^j\tilde e_j, \ldots)(p) = \sum_j\tilde a^j(p)A(\tilde e_j, \ldots)(p) = 0$. By linearity in each argument, $A(s_1, \ldots, s_k)(p)$ depends only
+on the values $s_i(p)$.
+
+\emph{The maps $A_p$.} Every vector $v \in (E_i)_p$ is the value at $p$ of a global section, for instance of $\chi\sum_jv^je_j$ with constant coefficients $v^j$. So
+$A_p(v_1, \ldots, v_k) = A(s_1, \ldots, s_k)(p)$, for any sections with $s_i(p) = v_i$, is well defined and multilinear. In local frames of the $E_i$ and of $F$, the matrix
+coefficients of $A_p$ are the components of $A$ applied to (cut-off) frame sections, which are smooth; so $p \mapsto A_p$ is a smooth section of
+$\Hom(E_1 \otimes \cdots \otimes E_k, F)$.
+\end{proof}
+
+\begin{proposition}\label{connections:proposition-bundle-valued-forms}
+For an $E$-valued $k$-form $\omega$ and a point $p$, the value $\omega_p \in \Lambda^kT_p^*M \otimes E_p$ is the same as an alternating $k$-linear map $(T_pM)^k \to E_p$, by
+$(\alpha \otimes e)(v_1, \ldots, v_k) = \alpha(v_1, \ldots, v_k)\,e$. Moreover the following descriptions of $\Omega^k(M, E)$ are equivalent.
+\begin{enumerate}
+\item Smooth sections $\omega$ of $\Lambda^kT^*M \otimes E$.
+\item Families of alternating $k$-linear maps $\omega_p \colon (T_pM)^k \to E_p$ such that, for all vector fields $X_1, \ldots, X_k$ on an open set $U$, the section
+$p \mapsto \omega_p(X_1(p), \ldots, X_k(p))$ of $E$ over $U$ is smooth.
+\item Maps $\omega \colon \mathfrak{X}(M)^k \to \Gamma(E)$ that are alternating and $C^\infty(M)$-linear in each argument.
+\item Locally, for a frame $(e_1, \ldots, e_r)$ of $E$ over $U$: expressions $\omega|_U = \sum_i\omega^i \otimes e_i$ with ordinary $k$-forms $\omega^i \in \Omega^k(U)$, which
+are uniquely determined by $\omega$ and are smooth exactly when $\omega$ is. Equivalently $\omega(X_1, \ldots, X_k) = \sum_i\omega^i(X_1, \ldots, X_k)\,e_i$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\emph{Pointwise.} For finite-dimensional $V$ and $W$, $\Lambda^kV^* \otimes W \cong \Hom(\Lambda^kV, W)$ by Propositions~\ref{multilinear-algebra:proposition-dual-exterior}
+and~\ref{multilinear-algebra:proposition-hom-tensor}, and linear maps $\Lambda^kV \to W$ are the same as alternating $k$-linear maps $V^k \to W$ by the universal property of
+the exterior power (Proposition~\ref{multilinear-algebra:proposition-universal-algebras}). With the convention of Notation~\ref{multilinear-algebra:notation-forms}, $\alpha \otimes e$
+corresponds to $(v_1, \ldots, v_k) \mapsto \alpha(v_1, \ldots, v_k)e$.
+
+(1) $\Leftrightarrow$ (4). If $(e_i)$ is a frame of $E$ over $U$ and $(dx^I)$ the frame of $\Lambda^kT^*M$ given by a chart on $U$, the products $dx^I \otimes e_i$ form a frame
+of $\Lambda^kT^*M \otimes E$ over $U$ (Proposition~\ref{vector-bundles:proposition-operations}), and a section is smooth if and only if its coefficients $\omega^i_I$ in this frame are smooth.
+Grouping, $\omega = \sum_i\omega^i \otimes e_i$ with $\omega^i = \sum_I\omega^i_I\,dx^I$; the $\omega^i$ are unique because at each point
+$\Lambda^kT_p^*M \otimes E_p = \bigoplus_i\Lambda^kT_p^*M \otimes \mathbb{K}e_i(p)$, and $\omega$ is smooth exactly when all the $\omega^i$ are.
+
+(2) $\Leftrightarrow$ (4). In a frame, $\omega(X_1, \ldots, X_k) = \sum_i\omega^i(X_1, \ldots, X_k)e_i$, which is smooth for all vector fields if and only if every
+$\omega^i(X_1, \ldots, X_k)$ is; by Proposition~\ref{differential-forms:proposition-forms-descriptions} this holds if and only if the $\omega^i$ are smooth forms.
+
+(1) $\Leftrightarrow$ (3). A form $\omega$ gives $(X_1, \ldots, X_k) \mapsto \omega(X_1, \ldots, X_k)$, which is alternating and $C^\infty(M)$-linear because it is computed
+pointwise. Conversely, a map as in (3) is given pointwise by alternating multilinear maps $\omega_p$ (Lemma~\ref{connections:lemma-tensoriality}, applied with $E_i = TM$),
+which satisfy (2).
+\end{proof}
+
+\begin{example}\label{connections:example-bundle-valued-forms}
+\begin{enumerate}
+\item On the trivial bundle $M \times \mathbb{K}^r$ with its standard frame, an $E$-valued $k$-form is a column vector $(\omega^1, \ldots, \omega^r)^T$ of ordinary $k$-forms.
+\item A $TM$-valued $1$-form is at each point a linear map $T_pM \to T_pM$: $\Omega^1(M, TM)$ is the space of endomorphisms of the tangent bundle. The identity is the
+$TM$-valued $1$-form $\sum_idx^i \otimes \partial/\partial x^i$ in every chart; the shape operator of a hypersurface (Chapter~\ref{riemannian-geometry}) is another example.
+\item An $\End(E)$-valued $k$-form takes $k$ tangent vectors to an endomorphism of the fibre. In a frame $(e_i)$ it is an $r \times r$ matrix $(\omega^i_j)$ of $k$-forms, with
+$\omega(X_1, \ldots, X_k)e_j = \sum_i\omega^i_j(X_1, \ldots, X_k)e_i$. The curvature of a connection will be such a form with $k = 2$.
+\item The differential of a smooth map $f \colon N \to M$ is at each point a linear map $T_qN \to T_{f(q)}M = (f^*TM)_q$, so $df$ is an $f^*TM$-valued $1$-form on $N$.
+\end{enumerate}
+\end{example}
+
+\emph{Products.} Forms with values in bundles can be multiplied whenever the values can: the wedge product of an ordinary $k$-form and an $E$-valued $l$-form is the $E$-valued
+$(k + l)$-form given by $\alpha \wedge (\beta \otimes s) = (\alpha \wedge \beta) \otimes s$; an $\End(E)$-valued form acts on an $E$-valued form by
+$(\alpha \otimes A) \wedge (\beta \otimes s) = (\alpha \wedge \beta) \otimes As$; and two $\End(E)$-valued forms multiply by
+$(\alpha \otimes A) \wedge (\beta \otimes B) = (\alpha \wedge \beta) \otimes AB$. These formulas define bilinear maps fibre by fibre, hence operations on forms. In a frame they are
+matrix products in which the entries are multiplied with the wedge product:
+\[
+(\theta \wedge \omega)^i = \sum_j\theta^i_j \wedge \omega^j, \qquad (\theta \wedge \eta)^i_j = \sum_k\theta^i_k \wedge \eta^k_j .
+\]
+We also write $\alpha \wedge s = \alpha \otimes s$ for $s \in \Omega^0(M, E)$. On vectors, by Proposition~\ref{multilinear-algebra:proposition-wedge-formula}, for $1$-forms
+$\theta \in \Omega^1(M, \End E)$ and $\omega \in \Omega^1(M, E)$,
+\[
+(\theta \wedge \omega)(X, Y) = \theta(X)\omega(Y) - \theta(Y)\omega(X), \qquad (\theta \wedge \theta)(X, Y) = \theta(X)\theta(Y) - \theta(Y)\theta(X) = [\theta(X), \theta(Y)] .
+\]
+In particular, for a matrix $\theta$ of $1$-forms, $\theta \wedge \theta$ need not vanish: for $\theta = \bigl(\begin{smallmatrix} 0 & dx\\ dy & 0\end{smallmatrix}\bigr)$,
+$\theta \wedge \theta = \bigl(\begin{smallmatrix} dx \wedge dy & 0\\ 0 & dy \wedge dx\end{smallmatrix}\bigr)$. For a single $1$-form ($r = 1$), $\theta \wedge \theta = 0$. The graded
+commutativity of ordinary forms, $\alpha \wedge \beta = (-1)^{kl}\beta \wedge \alpha$, holds for an ordinary form $\alpha$ against any bundle-valued form $\beta$, but not for two
+matrix-valued forms.
+
+\begin{remark}\label{connections:remark-no-canonical-d}
+There is no canonical exterior derivative on $\Omega^k(M, E)$. On a trivial bundle one can differentiate components, $d(\sum_i\omega^ie_i) = \sum_id\omega^i\,e_i$; but this
+depends on the frame. If $e^{\prime} = eg$ is another frame, that is $e^{\prime}_j = \sum_ie_ig^i_j$ for a smooth $g \colon U \to \GL_r(\mathbb{K})$, then the components are
+related by $\omega = g\omega^{\prime}$ (as columns: $\omega^i = \sum_jg^i_j\omega^{\prime j}$), and
+\[
+\sum_id\omega^i\,e_i = \sum_jd\omega^{\prime j}\,e^{\prime}_j + \sum_{i,j}(dg^i_j \wedge \omega^{\prime j})\,e_i .
+\]
+The two ``derivatives'' agree for all $\omega$ only if $dg = 0$, that is, if the change of frame is locally constant. A connection supplies the missing correction term, and it
+does so consistently for all frames.
+\end{remark}
 
 \section{Connections}\label{connections:section-connections}
 
 \begin{definition}\label{connections:definition-connection}
-A \emph{connection} on a vector bundle $E \to M$ is a map $\nabla \colon \Gamma(M, E) \to \Omega^1(M, E)$ that is $\RR$-linear and satisfies the Leibniz rule
+A \emph{connection} (or \emph{covariant derivative}) on a vector bundle $E \to M$ is a map $\nabla \colon \Gamma(M, E) \to \Omega^1(M, E)$ that is $\mathbb{K}$-linear and satisfies
+the Leibniz rule
 \[
 \nabla(fs) = df \otimes s + f\nabla s, \qquad f \in C^\infty(M),\ s \in \Gamma(M, E).
 \]
 For a vector field $X$ we write $\nabla_Xs = (\nabla s)(X)$, so $\nabla_{fX}s = f\nabla_Xs$ and $\nabla_X(fs) = (Xf)s + f\nabla_Xs$.
 \end{definition}
 
-\begin{proposition}\label{connections:proposition-connections-exist}
-Connections are local operators, and in a local frame $(e_1, \ldots, e_r)$ over $U$ a connection is given by
-$\nabla e_j = \sum_i\theta^i_j \otimes e_i$ for a matrix $\theta = (\theta^i_j)$ of $1$-forms, the \emph{connection form}; then $\nabla(\sum_js^je_j) = \sum_i(ds^i + \sum_j\theta^i_js^j)e_i$. Under a change of
-frame $e' = eg$ with $g \colon U \to \GL_r$, the connection form transforms as $\theta' = g^{-1}\theta g + g^{-1}dg$. Every vector bundle over a manifold admits a connection, and the set of connections is an
-affine space over $\Omega^1(M, \End E)$.
+So $\nabla s$ is an $E$-valued $1$-form: at each point it is the linear map $T_pM \to E_p$, $v \mapsto \nabla_vs = (\nabla s)_p(v)$, the \emph{covariant derivative} of $s$ in the
+direction $v$. In Riemannian geometry and in many books a connection is introduced instead as an operation $(X, s) \mapsto \nabla_Xs$, and for $E = TM$ one writes
+$\nabla_XY$. The two points of view are equivalent.
+
+\begin{proposition}\label{connections:proposition-connection-operators}
+Let $\nabla$ be a connection. The map $\mathfrak{X}(M) \times \Gamma(E) \to \Gamma(E)$, $(X, s) \mapsto \nabla_Xs$, has the properties
+\begin{enumerate}
+\item $\nabla_{fX + gY}s = f\nabla_Xs + g\nabla_Ys$ for functions $f$, $g$: it is $C^\infty(M)$-linear in $X$;
+\item $\nabla_X(s + t) = \nabla_Xs + \nabla_Xt$ and $\nabla_X(cs) = c\nabla_Xs$ for $c \in \mathbb{K}$;
+\item $\nabla_X(fs) = (Xf)s + f\nabla_Xs$.
+\end{enumerate}
+Conversely, every map $(X, s) \mapsto D_Xs$ with these three properties is $D_Xs = \nabla_Xs$ for a unique connection $\nabla$. In particular $(\nabla_Xs)(p)$ depends only on
+$X(p)$, so $\nabla_vs$ is defined for a single tangent vector $v$.
 \end{proposition}
 
 \begin{proof}
-Locality follows from the Leibniz rule with a bump function, as in Theorem~\ref{differential-forms:theorem-exterior-derivative}. The formulas in a frame are immediate from the Leibniz rule, and the
-transformation rule follows by expanding $\nabla(e_kg^k_j)$. The trivial bundle $U \times \RR^r$ has the connection $d$; patching the pullbacks of such connections with a partition of unity
-(Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}) gives a connection, because the Leibniz rule is preserved by convex combinations: if $\nabla = \sum_i\psi_i\nabla^i$ with $\sum\psi_i = 1$, then
-$\nabla(fs) = \sum_i\psi_i(df \otimes s + f\nabla^is) = df \otimes s + f\nabla s$. The difference of two connections is $C^\infty$-linear, hence a bundle map $E \to T^*M \otimes E$.
+(1) holds because $\nabla s$ is a $1$-form, (2) is the linearity of $\nabla$, and (3) is the Leibniz rule evaluated on $X$, since $(df \otimes s)(X) = df(X)s = (Xf)s$.
+Conversely, for fixed $s$ the map $X \mapsto D_Xs$ is $C^\infty(M)$-linear by (1), so by Proposition~\ref{connections:proposition-bundle-valued-forms}(3) it is an $E$-valued
+$1$-form $\nabla s$ with $(\nabla s)(X) = D_Xs$. The map $s \mapsto \nabla s$ is linear by (2), and (3) says $\nabla(fs)(X) = (df \otimes s + f\nabla s)(X)$ for all $X$. The last
+statement is Lemma~\ref{connections:lemma-tensoriality} for $X \mapsto \nabla_Xs$.
+\end{proof}
+
+Note the asymmetry: $\nabla_Xs$ is $C^\infty$-linear in $X$ but not in $s$. It depends only on the value of $X$ at a point, but on the values of $s$ near the point (in fact, on
+its values along a curve with velocity $X(p)$; Remark~\ref{connections:remark-along-curves}).
+
+\begin{example}\label{connections:example-connections}
+\begin{enumerate}
+\item \emph{The trivial connection.} On the trivial bundle $M \times \mathbb{K}^r$ a section is a vector-valued function $s = (s^1, \ldots, s^r)^T$, and
+$ds = (ds^1, \ldots, ds^r)^T$ is a connection: $d(fs) = df\,s + f\,ds$. Here $\nabla_Xs = X(s)$ is the componentwise derivative.
+\item \emph{Adding a matrix of $1$-forms.} For an $r \times r$ matrix $A$ of $1$-forms on $M$, $\nabla s = ds + As$ is a connection on $M \times \mathbb{K}^r$, since the extra term
+is $C^\infty(M)$-linear in $s$: $A(fs) = fAs$. We will see that every connection on a trivial bundle has this form.
+\item \emph{The Euclidean connection.} On $T\RR^n = \RR^n \times \RR^n$ the trivial connection is $\nabla_XY = DY(X) = \sum_iX(Y^i)\partial_i$, the directional derivative of
+the components of $Y$.
+\item \emph{Subbundles of trivial bundles.} Let $E \subseteq M \times \RR^N$ be a subbundle, so each $E_p$ is a subspace of $\RR^N$, and let $P_p \colon \RR^N \to E_p$ be the
+orthogonal projection. Locally $E$ has a frame, and Gram--Schmidt turns it into an orthonormal frame $(u_1, \ldots, u_r)$; then $P = \sum_iu_iu_i^T$, so $P$ is a smooth
+matrix-valued function. A section of $E$ is a function $s \colon M \to \RR^N$ with $s(p) \in E_p$, and
+\[
+\nabla s = P(ds), \qquad\text{that is,}\qquad \nabla_Xs = P(X(s)),
+\]
+is a connection: $\nabla(fs) = P(df\,s + f\,ds) = df \otimes s + fP(ds)$, since $Ps = s$. For the tangent bundle $TS^n \subseteq S^n \times \RR^{n+1}$ this says: differentiate
+the vector field in $\RR^{n+1}$ and project back onto the tangent space. This is the Levi-Civita connection of the round sphere (Chapter~\ref{riemannian-geometry}). The same
+construction applies to the tautological line bundles of $\RR\PP^n$ and $\CC\PP^n$ (with the Hermitian projection $P(w) = \sum_i\langle w, u_i\rangle u_i$ in the complex case),
+to the tangent and normal bundles of any submanifold of $\RR^N$, and to the tautological bundles of Grassmannians.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{connections:proposition-connections-exist}
+Let $\nabla$ be a connection on $E$.
+\begin{enumerate}
+\item \emph{Locality.} If $s$ vanishes on an open set $U$, so does $\nabla s$. Consequently $\nabla$ induces a connection on $E|_U$ for every open $U$, with
+$(\nabla s)|_U = \nabla(s|_U)$.
+\item \emph{Connection forms.} If $e = (e_1, \ldots, e_r)$ is a frame over $U$, there is a unique matrix $\theta = (\theta^i_j)$ of $1$-forms on $U$, the \emph{connection form} of
+$\nabla$ in the frame $e$, with $\nabla e_j = \sum_i\theta^i_j \otimes e_i$. For $s = \sum_js^je_j$,
+\[
+\nabla s = \sum_i\Bigl(ds^i + \sum_j\theta^i_js^j\Bigr) \otimes e_i, \qquad\text{in vector notation}\quad \nabla s = ds + \theta s .
+\]
+\item \emph{Change of frame.} If $e^{\prime} = eg$ is another frame over $U$, with $g \colon U \to \GL_r(\mathbb{K})$ smooth, then
+\[
+\theta^{\prime} = g^{-1}\theta g + g^{-1}dg .
+\]
+\item \emph{Existence.} Every vector bundle over a manifold admits a connection.
+\item \emph{The space of connections.} If $\nabla$ is a connection and $A \in \Omega^1(M, \End E)$, then $\nabla + A$ is a connection, and every connection is $\nabla + A$ for a
+unique $A$: the connections form an affine space over $\Omega^1(M, \End E)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Let $s = 0$ on $U$, $p \in U$, and $\chi$ a bump function with $\chi = 1$ near $p$ and support in $U$ (Lemma~\ref{smooth-manifolds:lemma-bump-manifold}). Then $\chi s = 0$, and
+$0 = \nabla(\chi s) = d\chi \otimes s + \chi\nabla s$; at $p$, $s(p) = 0$ and $\chi(p) = 1$, so $(\nabla s)_p = 0$. For a section $s$ over $U$ and $p \in U$ define
+$(\nabla^Us)_p = (\nabla(\chi s))_p$, where $\chi s$ is extended by $0$ outside $U$ and $\chi$ is as above; by locality this does not depend on $\chi$, it is smooth (near $p$ one
+$\chi$ works for all nearby points), and it satisfies the Leibniz rule. It is the only connection on $E|_U$ compatible with restriction, again by locality.
+
+(2) By (1) we may work on $U$. Each $\nabla e_j$ is an $E$-valued $1$-form, so by Proposition~\ref{connections:proposition-bundle-valued-forms}(4) it is uniquely
+$\sum_i\theta^i_j \otimes e_i$ with $1$-forms $\theta^i_j$. By linearity and the Leibniz rule,
+$\nabla(\sum_js^je_j) = \sum_j(ds^j \otimes e_j + s^j\sum_i\theta^i_j \otimes e_i)$, which is the formula.
+
+(3) On the one hand, by the Leibniz rule,
+$\nabla e^{\prime}_j = \nabla(\sum_ke_kg^k_j) = \sum_k(dg^k_j \otimes e_k + g^k_j\sum_i\theta^i_k \otimes e_i) = \sum_i(dg + \theta g)^i_j \otimes e_i$. On the other hand, by definition of
+$\theta^{\prime}$, $\nabla e^{\prime}_j = \sum_l\theta^{\prime l}_j \otimes e^{\prime}_l = \sum_i(g\theta^{\prime})^i_j \otimes e_i$. Comparing, $g\theta^{\prime} = dg + \theta g$.
+
+(4) Choose an open cover $(U_\alpha)$ of $M$ by sets over which $E$ has a frame $e_\alpha$, and a partition of unity $(\psi_\alpha)$ subordinate to it
+(Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}). On $U_\alpha$ let $\nabla^\alpha$ be the connection with connection form $0$ in the frame $e_\alpha$, that is,
+$\nabla^\alpha(\sum_js^je_{\alpha,j}) = \sum_jds^j \otimes e_{\alpha,j}$. Put $\nabla s = \sum_\alpha\psi_\alpha\nabla^\alpha(s|_{U_\alpha})$, each term extended by $0$ outside the support
+of $\psi_\alpha$; the sum is locally finite. It is linear, and
+$\nabla(fs) = \sum_\alpha\psi_\alpha(df \otimes s + f\nabla^\alpha s) = df \otimes s + f\nabla s$, because $\sum_\alpha\psi_\alpha = 1$. (A general affine combination of connections
+fails the Leibniz rule; the coefficients must add up to $1$.)
+
+(5) $(\nabla + A)(fs) = df \otimes s + f\nabla s + fAs$, so $\nabla + A$ is a connection. If $\nabla^{\prime}$ is another connection, $D = \nabla^{\prime} - \nabla$ satisfies
+$D(fs) = fD(s)$: the terms $df \otimes s$ cancel. So $(X, s) \mapsto D(s)(X)$ is $C^\infty(M)$-linear in both arguments, and by Lemma~\ref{connections:lemma-tensoriality} it is given
+by a section of $\Hom(TM \otimes E, E) = T^*M \otimes \End E$, that is, by some $A \in \Omega^1(M, \End E)$.
+\end{proof}
+
+By (2) and (5), a connection on a trivial bundle $M \times \mathbb{K}^r$ is $d + \theta$ for a matrix $\theta$ of $1$-forms on $M$, its connection form in the standard frame.
+The connection form is not intrinsic: the transformation rule (3) shows that the same connection can have connection form $0$ in one frame and $g^{-1}dg \neq 0$ in another. For
+instance, on the trivial line bundle over $\RR$ with the connection $d$, the frame $e^{\prime} = e^xe$ has connection form $e^{-x}d(e^x) = dx$. Changing frames is a \emph{gauge
+transformation} in the language of physics.
+
+\begin{example}\label{connections:example-connection-forms}
+\begin{enumerate}
+\item \emph{The sphere.} On $S^2$ minus the poles use the spherical coordinates $x(\vartheta, \varphi) = (\sin\vartheta\cos\varphi, \sin\vartheta\sin\varphi, \cos\vartheta)$ and the
+orthonormal frame $e_1 = x_\vartheta = (\cos\vartheta\cos\varphi, \cos\vartheta\sin\varphi, -\sin\vartheta)$, $e_2 = x_\varphi/\sin\vartheta = (-\sin\varphi, \cos\varphi, 0)$ of $TS^2$.
+For the projection connection of Example~\ref{connections:example-connections}(4) we differentiate in $\RR^3$ and project onto the tangent plane, which amounts to dropping
+the component along the normal $x$. Since $\partial_\vartheta e_1 = -x$, $\partial_\varphi e_1 = \cos\vartheta\,e_2$ and $\partial_\varphi e_2 = -(\cos\varphi, \sin\varphi, 0)
+= -(\sin\vartheta\,x + \cos\vartheta\,e_1)$,
+\[
+de_1 = -x\,d\vartheta + \cos\vartheta\,e_2\,d\varphi, \qquad de_2 = -(\sin\vartheta\,x + \cos\vartheta\,e_1)\,d\varphi,
+\]
+and dropping the terms along $x$,
+\[
+\nabla e_1 = \cos\vartheta\,d\varphi \otimes e_2, \qquad \nabla e_2 = -\cos\vartheta\,d\varphi \otimes e_1 .
+\]
+So the connection form is $\theta = \bigl(\begin{smallmatrix} 0 & -\cos\vartheta\,d\varphi\\ \cos\vartheta\,d\varphi & 0\end{smallmatrix}\bigr)$, a skew-symmetric matrix, in
+accordance with Proposition~\ref{connections:proposition-metric-connections} below.
+\item \emph{The tautological line bundle of $\CC\PP^1$.} Let $L \subseteq \CC\PP^1 \times \CC^2$ have fibre $L_\ell = \ell$ over the line $\ell$, with the Hermitian inner product of
+$\CC^2$ and the projection connection. Over $U_0 = \{[1 : z]\}$ the section $s(z) = (1, z)$ is a frame, $ds = (0, 1)\,dz$, and projecting onto the line spanned by $s$,
+\[
+\nabla s = \frac{\langle(0, 1), s\rangle}{|s|^2}\,dz \otimes s = \frac{\bar z\,dz}{1 + |z|^2} \otimes s, \qquad \theta = \frac{\bar z\,dz}{1 + |z|^2} .
+\]
+\end{enumerate}
+\end{example}
+
+A connection on $E$ induces connections on all the bundles built from $E$ by linear algebra, by requiring the Leibniz rule for the natural pairings and products.
+
+\begin{proposition}\label{connections:proposition-induced-connections}
+Let $\nabla$ and $\nabla^{\prime}$ be connections on $E$ and $E^{\prime}$. The following formulas define connections, uniquely characterised by the Leibniz rules they express.
+\begin{enumerate}
+\item On $E^\vee$: $(\nabla_X\phi)(s) = X(\phi(s)) - \phi(\nabla_Xs)$. In the dual frame $(e^1, \ldots, e^r)$ of a frame $e$ the connection form is $-\theta^T$.
+\item On $E \oplus E^{\prime}$: $\nabla_X(s, s^{\prime}) = (\nabla_Xs, \nabla^{\prime}_Xs^{\prime})$, with connection form $\bigl(\begin{smallmatrix}\theta & 0\\ 0 & \theta^{\prime}\end{smallmatrix}\bigr)$.
+\item On $E \otimes E^{\prime}$: $\nabla_X(s \otimes s^{\prime}) = \nabla_Xs \otimes s^{\prime} + s \otimes \nabla^{\prime}_Xs^{\prime}$, with connection form $\theta \otimes 1 + 1 \otimes \theta^{\prime}$
+in the frame $(e_i \otimes e^{\prime}_k)$.
+\item On $\Hom(E, E^{\prime})$: $(\nabla_XA)(s) = \nabla^{\prime}_X(As) - A(\nabla_Xs)$; in frames, the matrix of $\nabla A$ is $dA + \theta^{\prime}A - A\theta$. On $\End E$ this is
+$\nabla A = dA + [\theta, A]$ in matrix form, that is, $\nabla_XA = [\nabla_X, A]$.
+\item On $\Lambda^kE$: $\nabla_X(s_1 \wedge \cdots \wedge s_k) = \sum_is_1 \wedge \cdots \wedge \nabla_Xs_i \wedge \cdots \wedge s_k$; on the determinant line bundle $\det E = \Lambda^rE$ the
+connection form in the frame $e_1 \wedge \cdots \wedge e_r$ is $\operatorname{tr}\theta$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The right side is $C^\infty(M)$-linear in $X$, and in $s$: replacing $s$ by $fs$ gives $X(f\phi(s)) - \phi((Xf)s + f\nabla_Xs) = f(X(\phi(s)) - \phi(\nabla_Xs))$. By
+Lemma~\ref{connections:lemma-tensoriality} it defines a section $\nabla_X\phi$ of $E^\vee$, and the three properties of
+Proposition~\ref{connections:proposition-connection-operators} are checked directly; for instance $(\nabla_X(f\phi))(s) = X(f\phi(s)) - f\phi(\nabla_Xs) = (Xf)\phi(s) + f(\nabla_X\phi)(s)$.
+In the dual frame, $(\nabla e^j)(e_k) = d(\delta^j_k) - e^j(\nabla e_k) = -\theta^j_k$, so $\nabla e^j = -\sum_k\theta^j_k \otimes e^k$, whose matrix is $-\theta^T$. (2) is clear.
+
+(3) Define $\nabla$ on $E \otimes E^{\prime}$ over a set with frames $e$, $e^{\prime}$ by the connection form $\theta \otimes 1 + 1 \otimes \theta^{\prime}$, that is, by
+$\nabla(e_i \otimes e^{\prime}_k) = \nabla e_i \otimes e^{\prime}_k + e_i \otimes \nabla^{\prime}e^{\prime}_k$ and the Leibniz rule. For sections $s = \sum_is^ie_i$ and
+$s^{\prime} = \sum_ks^{\prime k}e^{\prime}_k$, expanding $\nabla(\sum_{i,k}s^is^{\prime k}e_i \otimes e^{\prime}_k)$ with $d(s^is^{\prime k}) = ds^i\,s^{\prime k} + s^i\,ds^{\prime k}$ gives
+$\nabla s \otimes s^{\prime} + s \otimes \nabla^{\prime}s^{\prime}$. So the product rule holds, and since it determines $\nabla$ on the products of frame sections, which span the fibres,
+the local definitions do not depend on the frames and glue.
+
+(4) $\Hom(E, E^{\prime}) = E^\vee \otimes E^{\prime}$, and the connection of (1) and (3) gives the stated formula: for $A = \phi \otimes s^{\prime}$,
+$\nabla_X(A)(s) = (\nabla_X\phi)(s)s^{\prime} + \phi(s)\nabla^{\prime}_Xs^{\prime} = \nabla^{\prime}_X(\phi(s)s^{\prime}) - \phi(\nabla_Xs)s^{\prime}$. In frames, $A$ is a matrix of functions,
+$As = A\sigma$ for the component vector $\sigma$ of $s$, and $\nabla^{\prime}(A\sigma) - A(d\sigma + \theta\sigma) = (dA)\sigma + A\,d\sigma + \theta^{\prime}A\sigma - A\,d\sigma - A\theta\sigma$.
+
+(5) As in (3), define $\nabla$ on $\Lambda^kE$ in the frame $(e_{i_1} \wedge \cdots \wedge e_{i_k})$ by the stated formula on the frame elements and the Leibniz rule; expanding
+$s_1 \wedge \cdots \wedge s_k$ in the frame shows that the formula holds for all sections, so the definition does not depend on the frame. For $k = r$,
+$\nabla(e_1 \wedge \cdots \wedge e_r) = \sum_ie_1 \wedge \cdots \wedge (\sum_l\theta^l_ie_l) \wedge \cdots \wedge e_r = (\sum_i\theta^i_i)\,e_1 \wedge \cdots \wedge e_r$, since the terms with
+$l \neq i$ contain a repeated factor.
+\end{proof}
+
+\section{Curvature}\label{connections:section-curvature}
+
+For the trivial connection on a trivial bundle, second derivatives commute: $X(Y(s)) - Y(X(s)) = [X, Y](s)$, the Lie bracket measuring exactly the failure of $X$ and $Y$ to commute
+as derivations. For a general connection the difference $\nabla_X\nabla_Ys - \nabla_Y\nabla_Xs - \nabla_{[X, Y]}s$ need not vanish, and it turns out to be a tensor: the curvature.
+The cleanest way to see this is to extend $\nabla$ to bundle-valued forms, as $d$ extends from functions to forms, and to observe that the extension does not square to zero.
+
+\begin{proposition}[Exterior covariant derivative]\label{connections:proposition-exterior-covariant}
+Let $\nabla$ be a connection on $E$. There is a unique family of $\mathbb{K}$-linear maps $d_\nabla \colon \Omega^k(M, E) \to \Omega^{k+1}(M, E)$, $k \geq 0$, such that
+$d_\nabla = \nabla$ on $\Omega^0(M, E) = \Gamma(E)$ and
+\[
+d_\nabla(\alpha \wedge \omega) = d\alpha \wedge \omega + (-1)^k\alpha \wedge d_\nabla\omega \qquad (\alpha \in \Omega^k(M),\ \omega \in \Omega^l(M, E)).
+\]
+In a frame with connection form $\theta$, writing $\omega = \sum_i\omega^i \otimes e_i$,
+\[
+d_\nabla\omega = \sum_i\Bigl(d\omega^i + \sum_j\theta^i_j \wedge \omega^j\Bigr) \otimes e_i, \qquad\text{in vector notation}\quad d_\nabla\omega = d\omega + \theta \wedge \omega .
+\]
+On vector fields, for $\omega \in \Omega^k(M, E)$,
+\[
+(d_\nabla\omega)(X_0, \ldots, X_k) = \sum_i(-1)^i\nabla_{X_i}\bigl(\omega(X_0, \ldots, \widehat{X_i}, \ldots, X_k)\bigr) + \sum_{i<j}(-1)^{i+j}\omega([X_i, X_j], X_0, \ldots, \widehat{X_i}, \ldots, \widehat{X_j}, \ldots, X_k);
+\]
+for $k = 1$, $(d_\nabla\omega)(X, Y) = \nabla_X(\omega(Y)) - \nabla_Y(\omega(X)) - \omega([X, Y])$.
+\end{proposition}
+
+\begin{proof}
+\emph{Uniqueness.} As for the exterior derivative (Theorem~\ref{differential-forms:theorem-exterior-derivative}), the Leibniz rule makes $d_\nabla$ local: if $\omega = 0$ near $p$,
+choose a bump $\chi$ equal to $1$ near $p$ with $\chi\omega = 0$; then $0 = d_\nabla(\chi\omega) = d\chi \wedge \omega + \chi d_\nabla\omega$, and at $p$ this is $(d_\nabla\omega)_p$. So it
+suffices to compute in a frame, where $\omega = \sum_i\omega^i \wedge e_i$ with the $e_i$ viewed as $E$-valued $0$-forms. The Leibniz rule forces
+\[
+d_\nabla\omega = \sum_i\bigl(d\omega^i \wedge e_i + (-1)^k\omega^i \wedge \nabla e_i\bigr) = \sum_id\omega^i\,e_i + \sum_{i,j}(-1)^k\omega^i \wedge \theta^j_i\,e_j
+= \sum_j\Bigl(d\omega^j + \sum_i\theta^j_i \wedge \omega^i\Bigr)e_j,
+\]
+using $\omega^i \wedge \theta^j_i = (-1)^k\theta^j_i \wedge \omega^i$ for the $k$-form $\omega^i$ and the $1$-form $\theta^j_i$.
+
+\emph{Existence.} Define $d_\nabla$ on a frame domain by the formula $d\omega + \theta \wedge \omega$. It does not depend on the frame: if $e^{\prime} = eg$, then $\omega = g\omega^{\prime}$ and
+$\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ (Proposition~\ref{connections:proposition-connections-exist}(3)), and
+\[
+g(d\omega^{\prime} + \theta^{\prime} \wedge \omega^{\prime}) = g\,d\omega^{\prime} + \theta \wedge g\omega^{\prime} + dg \wedge \omega^{\prime} = d(g\omega^{\prime}) + \theta \wedge (g\omega^{\prime}) = d\omega + \theta \wedge \omega,
+\]
+which says that the two definitions give the same $E$-valued form. So the local definitions glue. For $k = 0$ the formula is that of $\nabla$
+(Proposition~\ref{connections:proposition-connections-exist}(2)), and the Leibniz rule holds in a frame: $d(\alpha\omega^i) + \sum_j\theta^i_j \wedge \alpha\omega^j
+= d\alpha \wedge \omega^i + (-1)^k\alpha \wedge (d\omega^i + \sum_j\theta^i_j \wedge \omega^j)$, since $\theta^i_j \wedge \alpha = (-1)^k\alpha \wedge \theta^i_j$.
+
+\emph{The formula with vector fields.} Both sides are local and $\mathbb{K}$-linear in $\omega$, and locally $\omega$ is a sum of forms $\beta \otimes s$ with $\beta \in \Omega^k$ and $s$ a
+section. For such a form, the left side is $(d\beta \otimes s + (-1)^k\beta \wedge \nabla s)(X_0, \ldots, X_k)$. On the right side,
+$\nabla_{X_i}(\beta(\ldots)s) = X_i(\beta(\ldots))s + \beta(\ldots)\nabla_{X_i}s$; the terms of the first kind, together with the bracket terms, give $d\beta(X_0, \ldots, X_k)\,s$ by the
+formula of Theorem~\ref{differential-forms:theorem-exterior-derivative}. The remaining terms $\sum_i(-1)^i\beta(X_0, \ldots, \widehat{X_i}, \ldots, X_k)\nabla_{X_i}s$ equal
+$(-1)^k(\beta \wedge \nabla s)(X_0, \ldots, X_k)$: by Proposition~\ref{multilinear-algebra:proposition-wedge-formula}, the shuffle that moves $X_i$ to the last place has sign
+$(-1)^{k-i}$, and $(-1)^k(-1)^{k-i} = (-1)^i$.
 \end{proof}
 
 \begin{definition}\label{connections:definition-curvature}
-The \emph{exterior covariant derivative} $d_\nabla \colon \Omega^k(M, E) \to \Omega^{k+1}(M, E)$ is determined by $d_\nabla(\alpha \otimes s) = d\alpha \otimes s + (-1)^k\alpha \wedge \nabla s$, and the
-\emph{curvature} is $F_\nabla = d_\nabla \circ \nabla \colon \Gamma(M, E) \to \Omega^2(M, E)$.
+The \emph{exterior covariant derivative} of $\nabla$ is the operator $d_\nabla$ of Proposition~\ref{connections:proposition-exterior-covariant}; it is determined by
+$d_\nabla(\alpha \otimes s) = d\alpha \otimes s + (-1)^k\alpha \wedge \nabla s$ for $\alpha \in \Omega^k(M)$ and $s \in \Gamma(E)$. The \emph{curvature} of $\nabla$ is
+$F_\nabla = d_\nabla \circ \nabla \colon \Gamma(M, E) \to \Omega^2(M, E)$, also written $F$ or $R$.
 \end{definition}
 
 \begin{proposition}\label{connections:proposition-curvature}
@@ -55,16 +391,55 @@ $dF + \theta \wedge F - F \wedge \theta = 0$ (the \emph{Bianchi identity}), and 
 \end{proposition}
 
 \begin{proof}
-For $f \in C^\infty(M)$, $F_\nabla(fs) = d_\nabla(df \otimes s + f\nabla s) = -df \wedge \nabla s + df \wedge \nabla s + fd_\nabla\nabla s = fF_\nabla(s)$, so $F_\nabla$ is tensorial. The formula in terms of vector
-fields follows by evaluating on $X, Y$ and using $d\alpha(X, Y) = X\alpha(Y) - Y\alpha(X) - \alpha([X, Y])$ (Theorem~\ref{differential-forms:theorem-exterior-derivative}). In a frame,
-$F(e_j) = d_\nabla(\sum_i\theta^i_j \otimes e_i) = \sum_i(d\theta^i_j)e_i - \sum_i\theta^i_j \wedge \nabla e_i = \sum_i(d\theta^i_j + \sum_k\theta^i_k \wedge \theta^k_j)e_i$. The transformation rule follows
-from that of $\theta$ by a computation, and differentiating $F = d\theta + \theta \wedge \theta$ gives $dF = d\theta \wedge \theta - \theta \wedge d\theta = F \wedge \theta - \theta \wedge F$. The last identity is
-checked on $\alpha \otimes s$.
+\emph{Tensoriality.} Using the Leibniz rules of $\nabla$ and $d_\nabla$ and $d(df) = 0$,
+\[
+F(fs) = d_\nabla(df \otimes s + f\nabla s) = \bigl(d(df) \otimes s - df \wedge \nabla s\bigr) + \bigl(df \wedge \nabla s + f\,d_\nabla\nabla s\bigr) = fF(s).
+\]
+So $(X, Y, s) \mapsto F(s)(X, Y)$ is $C^\infty(M)$-linear in all three arguments, and by Lemma~\ref{connections:lemma-tensoriality} it is given by an element of
+$\Omega^2(M, \End E)$: at each point, $F(v, w)$ is an endomorphism of $E_p$, alternating in $v$ and $w$.
+
+\emph{The formula with vector fields} is the case $k = 1$ of Proposition~\ref{connections:proposition-exterior-covariant} applied to $\omega = \nabla s$:
+$F(s)(X, Y) = \nabla_X((\nabla s)(Y)) - \nabla_Y((\nabla s)(X)) - (\nabla s)([X, Y])$.
+
+\emph{In a frame,} $Fe_j = d_\nabla(\sum_i\theta^i_j \otimes e_i) = \sum_i(d\theta^i_j + \sum_k\theta^i_k \wedge \theta^k_j) \otimes e_i$ by the frame formula for $d_\nabla$, so the matrix of $F$
+(with $Fe_j = \sum_iF^i_je_i$) is $d\theta + \theta \wedge \theta$. Since $F$ is a tensor, its matrices in two frames are related as the matrices of any endomorphism:
+$Fe^{\prime}_j = \sum_kg^k_jFe_k$, so $F^{\prime} = g^{-1}Fg$. (This can also be checked from the transformation rule of $\theta$.)
+
+\emph{Bianchi.} For matrices of $1$-forms, $d(\theta \wedge \theta) = d\theta \wedge \theta - \theta \wedge d\theta$, so
+$dF = d\theta \wedge \theta - \theta \wedge d\theta = (F - \theta \wedge \theta) \wedge \theta - \theta \wedge (F - \theta \wedge \theta) = F \wedge \theta - \theta \wedge F$. The induced
+connection on $\End E$ (Proposition~\ref{connections:proposition-induced-connections}(4)) has exterior derivative $d_\nabla A = dA + \theta \wedge A - (-1)^kA \wedge \theta$ on
+$\End E$-valued $k$-forms, by the same argument as in Proposition~\ref{connections:proposition-exterior-covariant}; for $k = 2$ the Bianchi identity says $d_\nabla F = 0$.
+
+\emph{$d_\nabla^2$.} In a frame, $d_\nabla d_\nabla\omega = d(d\omega + \theta \wedge \omega) + \theta \wedge (d\omega + \theta \wedge \omega) = d\theta \wedge \omega - \theta \wedge d\omega + \theta \wedge d\omega
++ \theta \wedge \theta \wedge \omega = F \wedge \omega$.
 \end{proof}
 
-\begin{example}\label{connections:example-connections}
-On the trivial bundle, $\nabla = d + \theta$ for a matrix of $1$-forms $\theta$, with curvature $d\theta + \theta \wedge \theta$; for a line bundle $\theta$ is a single $1$-form and $F = d\theta$ is closed. A
-connection on $E$ induces connections on $E^\vee$, $E \otimes F$, $\Lambda^kE$ and $\End E$ by the Leibniz rule, with the corresponding curvatures; for instance $\nabla^{\End}(A) = \nabla \circ A - A \circ \nabla$.
+So $d_\nabla$ is a ``derivative'' on bundle-valued forms that squares to zero exactly when the curvature vanishes; the de Rham complex of a flat bundle (Chapter~\ref{de-rham})
+is built from it. The term $\nabla_{[X, Y]}$ in the curvature is what makes it a tensor: for coordinate vector fields, $[\partial_i, \partial_j] = 0$ and
+$F(\partial_i, \partial_j) = \nabla_i\nabla_j - \nabla_j\nabla_i$ is the commutator of covariant partial derivatives; in coordinates
+$F(\partial_i, \partial_j) = \partial_i\theta_j - \partial_j\theta_i + [\theta_i, \theta_j]$, where $\theta = \sum_i\theta_i\,dx^i$ with matrix-valued functions $\theta_i$.
+
+\begin{example}\label{connections:example-curvature-computations}
+\begin{enumerate}
+\item \emph{Trivial bundles and line bundles.} The trivial connection $d$ has $F = 0$. The connection $d + A$ on $M \times \mathbb{K}^r$ has $F = dA + A \wedge A$; for a line bundle
+the connection form is a single $1$-form $A$, and $F = dA$. On a manifold of dimension $1$ every connection is flat, since there are no nonzero $2$-forms.
+\item \emph{The sphere.} With the connection form of Example~\ref{connections:example-connection-forms}(1), all entries of $\theta$ are multiples of $d\varphi$, so $\theta \wedge \theta = 0$, and
+$d(\cos\vartheta\,d\varphi) = -\sin\vartheta\,d\vartheta \wedge d\varphi$. With the area form $dA = \sin\vartheta\,d\vartheta \wedge d\varphi$ (for which $dA(e_1, e_2) = 1$),
+\[
+F = d\theta = \begin{pmatrix} 0 & dA\\ -dA & 0\end{pmatrix}, \qquad F(e_1, e_2)e_1 = -e_2, \quad F(e_1, e_2)e_2 = e_1 .
+\]
+So $F = dA \otimes J$, where $J$ is the rotation of each tangent plane by $-\pi/2$ ($Je_1 = -e_2$, $Je_2 = e_1$). Although $\theta$ was only defined away from the poles, $F$ is
+a global tensor, and $dA \otimes J$ is indeed defined on all of $S^2$. The number $\langle F(e_1, e_2)e_2, e_1\rangle = 1$ is the Gaussian curvature of the unit sphere
+(Chapter~\ref{riemannian-geometry}); since $F \neq 0$, no neighbourhood of any point of $S^2$ has a frame of parallel vector fields.
+\item \emph{The tautological line bundle of $\CC\PP^1$.} With $\theta = \bar z\,dz/(1 + |z|^2)$ from Example~\ref{connections:example-connection-forms}(2), and writing $z = x + iy$,
+\[
+F = d\theta = \frac{\partial}{\partial\bar z}\Bigl(\frac{\bar z}{1 + |z|^2}\Bigr)\,d\bar z \wedge dz = \frac{d\bar z \wedge dz}{(1 + |z|^2)^2} = \frac{2i\,dx \wedge dy}{(1 + x^2 + y^2)^2},
+\]
+using $\partial_{\bar z}(\bar z(1 + z\bar z)^{-1}) = (1 + |z|^2)^{-2}$ and $d\bar z \wedge dz = 2i\,dx \wedge dy$. The real $2$-form $\frac{i}{2\pi}F = -\frac1\pi\,dx \wedge dy/(1 + x^2 + y^2)^2$
+integrates over $U_0 \cong \CC$, which is $\CC\PP^1$ minus a point, to $-\frac1\pi\int_0^\infty\frac{2\pi r\,dr}{(1 + r^2)^2} = -1$. This integer is the first Chern class of the
+tautological bundle (Chapter~\ref{characteristic-classes}); that the integral of a curvature form is an integer independent of the connection is the beginning of Chern--Weil
+theory.
+\end{enumerate}
 \end{example}
 
 \begin{proposition}\label{connections:proposition-pullback-tensor}
@@ -76,16 +451,32 @@ Let $\nabla$ be a connection on $E \to M$ with curvature $F$, and $\nabla'$ a co
 \end{enumerate}
 \end{proposition}
 
+Here $f^*s = s \circ f$ is the pulled back section (Proposition~\ref{vector-bundles:proposition-pullback-fibre-product}), and $f^*(\nabla s)$ is the $f^*E$-valued $1$-form
+$v \mapsto (\nabla s)(df(v))$ on $N$. Concretely, $(f^*\nabla)_v(s \circ f) = \nabla_{df(v)}s$ for $v \in T_qN$: the pullback connection differentiates in the direction of the image
+vector. In a frame $e$ of $E$ with connection form $\theta$, the pulled back frame $e \circ f$ has connection form $f^*\theta$.
+
 \begin{proof}
-(1) In a local frame $(e_j)$ of $E$ with connection form $\theta$, the pullback frame $(f^*e_j)$ of $f^*E$ and the form $f^*\theta$ define a connection, and the transformation rule of
-Proposition~\ref{connections:proposition-connections-exist} is preserved by pullback, so these local connections glue. The condition determines $f^*\nabla$ on the pulled back frames, hence everywhere by the Leibniz rule. The curvature is
-$d(f^*\theta) + f^*\theta \wedge f^*\theta = f^*(d\theta + \theta \wedge \theta)$ (Proposition~\ref{connections:proposition-curvature}). (2) In frames $(e_j)$, $(e'_k)$ with connection forms $\theta$, $\theta'$, the frame $(e_j \otimes e'_k)$ has
-connection form $\theta \otimes 1 + 1 \otimes \theta'$, and as the two summands commute (they act on different factors), $d$ of it plus its square is $(d\theta + \theta \wedge \theta) \otimes 1 + 1 \otimes (d\theta' + \theta' \wedge \theta')$, the cross
-terms cancelling by graded commutativity. The dual frame has connection form $-\theta^T$, and $d(-\theta^T) + \theta^T \wedge \theta^T = -(d\theta + \theta \wedge \theta)^T$, as $(\theta \wedge \theta)^T = -\theta^T \wedge \theta^T$ for matrices of
-$1$-forms. (3) For rank one, $\theta$ is a $1$-form and $\theta \wedge \theta = 0$, so $F = d\theta$, and replacing $\theta$ by $\theta + \alpha$ adds $d\alpha$. Closedness is the Bianchi identity.
+(1) Over a frame domain $U$ of $E$ with connection form $\theta$, define a connection on $f^*E|_{f^{-1}U}$ by the connection form $f^*\theta$ in the frame $(e_j \circ f)$. If
+$e^{\prime} = eg$ is another frame, the pulled back frames are related by $g \circ f$, and pulling back the transformation rule gives
+$f^*\theta^{\prime} = (g \circ f)^{-1}(f^*\theta)(g \circ f) + (g \circ f)^{-1}d(g \circ f)$, since $f^*$ commutes with $d$ and with products. So the local connections agree on overlaps
+and glue. For $s = \sum_js^je_j$, $f^*s = \sum_j(s^j \circ f)(e_j \circ f)$, and $(f^*\nabla)(f^*s) = \sum_i(d(s^i \circ f) + \sum_j(f^*\theta^i_j)(s^j \circ f)) \otimes (e_i \circ f)
+= f^*(\nabla s)$. Uniqueness holds because the condition fixes $f^*\nabla$ on the pulled back frames, which span $f^*E$ locally over $C^\infty(N)$. The curvature, computed in the
+pulled back frame, is $d(f^*\theta) + f^*\theta \wedge f^*\theta = f^*(d\theta + \theta \wedge \theta) = f^*F$.
+
+(2) In frames $(e_j)$, $(e'_k)$ with connection forms $\theta$, $\theta'$, the frame $(e_j \otimes e'_k)$ has connection form $\theta \otimes 1 + 1 \otimes \theta'$
+(Proposition~\ref{connections:proposition-induced-connections}), and as the two summands act on different factors, they commute:
+$(\theta \otimes 1) \wedge (1 \otimes \theta^{\prime}) + (1 \otimes \theta^{\prime}) \wedge (\theta \otimes 1) = 0$ by graded commutativity of the $1$-form entries. So $d$ of the connection form plus its
+square is $(d\theta + \theta \wedge \theta) \otimes 1 + 1 \otimes (d\theta' + \theta' \wedge \theta')$. The dual frame has connection form $-\theta^T$, and
+$d(-\theta^T) + \theta^T \wedge \theta^T = -(d\theta + \theta \wedge \theta)^T$, as $(\theta \wedge \theta)^T = -\theta^T \wedge \theta^T$ for matrices of $1$-forms.
+
+(3) For rank one, $\theta$ is a $1$-form and $\theta \wedge \theta = 0$, so $F = d\theta$ in every frame, and replacing $\theta$ by $\theta + \alpha$ adds $d\alpha$. Closedness is $dF = F \wedge \theta - \theta \wedge F = 0$, the
+Bianchi identity for commuting $1 \times 1$ matrices.
 \end{proof}
 
 \section{Parallel transport, holonomy and flatness}\label{connections:section-parallel-transport}
+
+A connection lets us say when a section is ``constant'' along a curve: when its covariant derivative in the direction of the curve vanishes. Solving this differential
+equation moves vectors from one fibre to another along the curve. First we make precise what the derivative along a curve means.
 
 \begin{remark}\label{connections:remark-along-curves}
 A connection differentiates sections of $E$ over $M$ in the direction of vector fields on $M$, while along a curve $\gamma \colon I \to M$ the direction $\dot\gamma$ and
@@ -115,7 +506,7 @@ $\nabla_{\dot\gamma}s$ agree, whatever the extension, by (2).
 \begin{definition}\label{connections:definition-parallel}
 A section $s$ along a smooth curve $\gamma \colon [0, 1] \to M$, that is, a section of $\gamma^*E$, is \emph{parallel} if $\nabla_{\dot\gamma}s = 0$, in the sense of
 Remark~\ref{connections:remark-along-curves}. \emph{Parallel transport} along $\gamma$ is the map $P_\gamma \colon E_{\gamma(0)} \to E_{\gamma(1)}$
-sending $v$ to $s(1)$, where $s$ is the parallel section with $s(0) = v$.
+sending $v$ to $s(1)$, where $s$ is the parallel section with $s(0) = v$. For piecewise smooth curves, transport along the smooth pieces is composed.
 \end{definition}
 
 \begin{proposition}\label{connections:proposition-parallel-transport}
@@ -124,9 +515,17 @@ $P_{\gamma \ast \delta} = P_\delta \circ P_\gamma$ and $P_{\bar\gamma} = P_\gamm
 \end{proposition}
 
 \begin{proof}
-In a local frame the equation $\nabla_{\dot\gamma}s = 0$ reads $\dot s^i + \sum_j\theta^i_j(\dot\gamma)s^j = 0$, a linear system of ordinary differential equations with smooth coefficients; by
-Proposition~\ref{real-analysis:proposition-ode-dependence}(2) its solutions exist on the whole interval, are unique, and depend linearly on the initial value, smoothly on parameters
-(Theorem~\ref{real-analysis:theorem-smooth-dependence}). Linearity gives invertibility, with inverse the transport along the reversed curve, and the composition rule follows from uniqueness.
+In a local frame the equation $\nabla_{\dot\gamma}s = 0$ reads
+\[
+\dot s^i(t) + \sum_j\theta^i_j(\dot\gamma(t))\,s^j(t) = 0, \qquad i = 1, \ldots, r,
+\]
+a linear system of ordinary differential equations with smooth coefficients. By Proposition~\ref{real-analysis:proposition-ode-dependence}(2) its solutions exist on the whole
+interval on which $\gamma$ stays in the frame domain, are unique, and depend linearly on the initial value, and smoothly on parameters
+(Theorem~\ref{real-analysis:theorem-smooth-dependence}). The interval $[0, 1]$ is covered by finitely many subintervals on each of which $\gamma$ stays in one frame domain; solving
+successively on them, using the end value of one piece as initial value of the next, gives a unique parallel section on $[0, 1]$. Uniqueness does not depend on the frames,
+because the equation $\nabla_{\dot\gamma}s = 0$ does not. So $P_\gamma$ is well defined and linear. Running the curve backwards, $\bar\gamma(t) = \gamma(1 - t)$, the section
+$t \mapsto s(1 - t)$ is parallel along $\bar\gamma$ (the equation is linear in $\dot\gamma$), so $P_{\bar\gamma}P_\gamma = \id$ and $P_\gamma$ is invertible; the composition rule follows
+from uniqueness. The same argument shows that $P_\gamma$ does not change under an increasing reparametrisation of $\gamma$.
 \end{proof}
 
 \begin{proposition}[Homotopy invariance of pullbacks]\label{connections:proposition-homotopy-invariance}
@@ -141,9 +540,82 @@ transport along $\gamma_x$. Since $E'_{(x,0)} = E_{f(x)} = (f^*E)_x$ and $E'_{(x
 $N = U$: then $g = \id$ and $f$ is constant, so $E = \id^*E \cong f^*E = U \times E_p$ is trivial.
 \end{proof}
 
+\begin{example}\label{connections:example-transport}
+\begin{enumerate}
+\item For the trivial connection $d$ on $M \times \mathbb{K}^r$ the parallel sections along any curve are the constant ones, and $P_\gamma = \id$.
+\item \emph{Around a latitude of the sphere.} Let $c(\varphi) = x(\vartheta_0, \varphi)$, $\varphi \in [0, 2\pi]$, be the circle of latitude at polar angle $\vartheta_0$, with the frame
+and connection form of Example~\ref{connections:example-connection-forms}(1). For $V = ae_1 + be_2$, $\nabla_{\dot c}e_1 = \cos\vartheta_0\,e_2$ and
+$\nabla_{\dot c}e_2 = -\cos\vartheta_0\,e_1$, so $\nabla_{\dot c}V = (a^{\prime} - b\cos\vartheta_0)e_1 + (b^{\prime} + a\cos\vartheta_0)e_2$. With $\kappa = \cos\vartheta_0$ the parallel
+fields are
+\[
+a(\varphi) = a_0\cos(\kappa\varphi) + b_0\sin(\kappa\varphi), \qquad b(\varphi) = -a_0\sin(\kappa\varphi) + b_0\cos(\kappa\varphi):
+\]
+relative to the frame $(e_1, e_2)$, which itself comes back to its initial value, the vector rotates by the angle $-\kappa\varphi$. After one turn it is rotated by
+$-2\pi\cos\vartheta_0$, which modulo $2\pi$ equals $2\pi(1 - \cos\vartheta_0)$, the area of the spherical cap $\{\vartheta < \vartheta_0\}$ enclosed by the circle. On the equator,
+$\vartheta_0 = \pi/2$, the transport is trivial, and near the north pole the rotation is small, as the enclosed area is. This is the Gauss--Bonnet theorem in its simplest form
+(Chapter~\ref{riemannian-geometry}), and an instance of the next proposition.
+\end{enumerate}
+\end{example}
+
+The next result is the geometric meaning of curvature: transport around a small loop differs from the identity by the curvature times the enclosed area.
+
+\begin{proposition}[Holonomy of small loops]\label{connections:proposition-small-loops}
+Let $x^1, \ldots, x^n$ be coordinates centred at $p$, and for small $\varepsilon > 0$ let $\gamma_\varepsilon$ be the loop at $p$ that runs around the square with vertices $0$,
+$\varepsilon e_1$, $\varepsilon(e_1 + e_2)$, $\varepsilon e_2$ in the $(x^1, x^2)$-plane, in this order. Then
+\[
+P_{\gamma_\varepsilon} = \id - \varepsilon^2F(\partial_1, \partial_2)_p + O(\varepsilon^3).
+\]
+\end{proposition}
+
+\begin{proof}
+Work in a frame near $p$, with $\theta = \sum_i\theta_i\,dx^i$, and write $\theta_i$, $\partial_j\theta_i$ for the values at $p$. Transport along a segment $t \mapsto q + tu$, $u$ a unit
+coordinate vector $\pm e_k$, solves $\dot s = -\theta(u)s$ with $\theta(u) = \pm\theta_k(q + tu)$. Differentiating the equation, $\ddot s = -(\partial_u\theta(u))s + \theta(u)^2s$, so by
+Taylor's formula (the solution depends smoothly on $q$ and $\varepsilon$) transport along the segment of length $\varepsilon$ is
+$T = \id - \varepsilon\theta(u)(q) + \frac{\varepsilon^2}2\bigl(\theta(u)^2 - \partial_u\theta(u)\bigr)(q) + O(\varepsilon^3)$. For the four sides, expanding the values at the starting
+points $0$, $\varepsilon e_1$, $\varepsilon(e_1 + e_2)$, $\varepsilon e_2$ around $p$ to first order,
+\[
+\begin{aligned}
+T_1 &= \id - \varepsilon\theta_1 + \tfrac{\varepsilon^2}2(\theta_1^2 - \partial_1\theta_1),\\
+T_2 &= \id - \varepsilon\theta_2 - \varepsilon^2\partial_1\theta_2 + \tfrac{\varepsilon^2}2(\theta_2^2 - \partial_2\theta_2),\\
+T_3 &= \id + \varepsilon\theta_1 + \varepsilon^2(\partial_1\theta_1 + \partial_2\theta_1) + \tfrac{\varepsilon^2}2(\theta_1^2 - \partial_1\theta_1),\\
+T_4 &= \id + \varepsilon\theta_2 + \varepsilon^2\partial_2\theta_2 + \tfrac{\varepsilon^2}2(\theta_2^2 - \partial_2\theta_2),
+\end{aligned}
+\]
+up to $O(\varepsilon^3)$; for $T_3$ and $T_4$ the direction is $-e_1$, $-e_2$, so $\theta(u) = -\theta_1$, $-\theta_2$ and $\partial_u\theta(u) = \partial_1\theta_1$, $\partial_2\theta_2$. In
+$P_{\gamma_\varepsilon} = T_4T_3T_2T_1$ the terms of order $\varepsilon$ cancel. The terms of order $\varepsilon^2$ coming from a single factor add up to
+$\theta_1^2 + \theta_2^2 - \partial_1\theta_2 + \partial_2\theta_1$, and the products of two first-order terms, taken in the order of the factors, add up to
+$\theta_2\theta_1 - \theta_2^2 - \theta_2\theta_1 - \theta_1\theta_2 - \theta_1^2 + \theta_2\theta_1 = -\theta_1^2 - \theta_2^2 - \theta_1\theta_2 + \theta_2\theta_1$. The total coefficient
+of $\varepsilon^2$ is $-(\partial_1\theta_2 - \partial_2\theta_1 + \theta_1\theta_2 - \theta_2\theta_1) = -F(\partial_1, \partial_2)_p$, by the coordinate formula for $F$ after
+Proposition~\ref{connections:proposition-curvature}.
+\end{proof}
+
+For a line bundle the formula is exact and global in the following sense.
+
+\begin{proposition}\label{connections:proposition-line-holonomy}
+Let $L$ be a line bundle with connection $\nabla$ and curvature $F$ (a closed $2$-form), let $\bar D$ be the closed unit disc, $h \colon B \to M$ a smooth map defined on an
+open disc $B \supseteq \bar D$, and let $\gamma$ be the loop $h|_{\partial\bar D}$, traversed counterclockwise. Then parallel transport around $\gamma$ is multiplication by
+\[
+P_\gamma = \exp\Bigl(-\int_{\bar D}h^*F\Bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+The bundle $h^*L$ over the star-shaped $B$ is trivial (Proposition~\ref{connections:proposition-homotopy-invariance}), and
+parallel transport along $\gamma$ for $\nabla$ is parallel transport along the boundary circle for $h^*\nabla$, because $(h \circ c)^*\nabla = c^*(h^*\nabla)$ for curves $c$ in the
+disc (both satisfy the characterisation of Proposition~\ref{connections:proposition-pullback-tensor}(1)). In a frame over $B$, $h^*\nabla = d + \alpha$ for a $1$-form $\alpha$, and a
+parallel section along the boundary circle $c$ solves the scalar equation $\dot s + \alpha(\dot c)s = 0$, so $s(1) = \exp(-\int_c\alpha)\,s(0)$. By Stokes' theorem
+(Theorem~\ref{differential-forms:theorem-stokes}), $\int_c\alpha = \int_{\bar D}d\alpha = \int_{\bar D}h^*F$, as $h^*F = d\alpha$ by
+Proposition~\ref{connections:proposition-pullback-tensor}(1),(3).
+\end{proof}
+
 \begin{definition}\label{connections:definition-holonomy}
 The \emph{holonomy group} of $\nabla$ at $p$ is $\mathrm{Hol}_p(\nabla) = \{P_\gamma : \gamma \text{ a loop at } p\} \subseteq \GL(E_p)$, a subgroup. A connection is \emph{flat} if $F_\nabla = 0$.
 \end{definition}
+
+It is a subgroup by Proposition~\ref{connections:proposition-parallel-transport}: the product of $P_\gamma$ and $P_\delta$ is transport along the concatenated loop, and the inverse is
+transport along the reversed loop. If $\sigma$ is a path from $p$ to $q$, then $\mathrm{Hol}_q = P_\sigma\mathrm{Hol}_pP_\sigma^{-1}$, so on a connected manifold the holonomy groups at
+different points are conjugate. For the sphere, Example~\ref{connections:example-transport}(2) shows that the holonomy contains rotations by all angles $2\pi(1 - \cos\vartheta_0)$,
+hence it is the whole rotation group $\mathrm{SO}(2)$ of the tangent plane.
 
 \begin{theorem}\label{connections:theorem-flat-local-systems}
 For a connection $\nabla$ on $E \to M$ the following are equivalent:
@@ -162,10 +634,20 @@ equivalence between flat bundles and representations of $\pi_1(M, p)$, the repre
 \begin{proof}
 (2)$\Rightarrow$(1) is clear, since $d$ has zero curvature, and curvature is local.
 
-(1)$\Rightarrow$(2). Work over a coordinate ball $U$ with a frame, so that $E|_U = U \times \RR^r$ and $\nabla = d + \theta$ with $\theta = \sum_i\theta_i\,dx^i$, a matrix of $1$-forms. On $U \times \RR^r$ consider
-the rank $n$ distribution spanned by the vector fields $X_i = \partial/\partial x^i - \sum_{j,k}(\theta_i)^k_jv^j\,\partial/\partial v^k$. A computation gives
-$[X_i, X_j] = -\sum_{k,l}(F_{ij})^k_lv^l\,\partial/\partial v^k$, where $F = \sum_{i<j}F_{ij}\,dx^i \wedge dx^j$; so the distribution is involutive if and only if $F = 0$. If $F = 0$, the Frobenius theorem
-(Theorem~\ref{smooth-manifolds:theorem-frobenius}) gives integral manifolds; each is transverse to the fibres $\{x\} \times \RR^r$, hence locally the graph of a map $s \colon U' \to \RR^r$, and the condition
+(1)$\Rightarrow$(2). Work over a coordinate ball $U$ with a frame, so that $E|_U = U \times \mathbb{K}^r$ and $\nabla = d + \theta$ with $\theta = \sum_i\theta_i\,dx^i$, a matrix of $1$-forms. We look
+for sections $s \colon U \to \mathbb{K}^r$ with $\partial_is + \theta_is = 0$ for all $i$. Their graphs are submanifolds of $U \times \mathbb{K}^r$ whose tangent spaces are spanned by the
+vector fields
+\[
+X_i = \frac{\partial}{\partial x^i} - \sum_{j,k}(\theta_i)^k_jv^j\,\frac{\partial}{\partial v^k}, \qquad i = 1, \ldots, n,
+\]
+where $v^1, \ldots, v^r$ are the coordinates of $\mathbb{K}^r$ (real and imaginary parts separately if $\mathbb{K} = \CC$). These span a distribution of rank $n$. The coefficients of
+$X_j$ in the $\partial/\partial v$ directions are linear in $v$, and a direct computation of the brackets gives
+\[
+[X_i, X_j] = -\sum_{k,l}\bigl(\partial_i\theta_j - \partial_j\theta_i + \theta_i\theta_j - \theta_j\theta_i\bigr)^k_lv^l\,\frac{\partial}{\partial v^k} = -\sum_{k,l}(F_{ij})^k_lv^l\,\frac{\partial}{\partial v^k},
+\]
+with $F_{ij} = F(\partial_i, \partial_j)$, where $F = \sum_{i<j}F_{ij}\,dx^i \wedge dx^j$: the terms $\partial_i$ applied to the coefficients of $X_j$ give $-\partial_i\theta_j$, and the
+bracket of the two vertical parts gives the commutator of the matrices. So the distribution is involutive if and only if $F = 0$. If $F = 0$, the Frobenius theorem
+(Theorem~\ref{smooth-manifolds:theorem-frobenius}) gives integral manifolds; each is transverse to the fibres $\{x\} \times \mathbb{K}^r$, hence locally the graph of a map $s \colon U' \to \mathbb{K}^r$, and the condition
 that the graph is an integral manifold is exactly $\partial_is + \theta_is = 0$, that is, $\nabla s = 0$. Taking the integral manifolds through $(p, v_1), \ldots, (p, v_r)$ for a basis $(v_i)$ gives $r$ parallel
 sections near $p$, which form a frame because they are linearly independent at $p$, hence nearby.
 
@@ -182,6 +664,9 @@ other. The correspondence with representations of $\pi_1$ is Theorem~\ref{sheave
 transport; the inverse appears because monodromy was defined as a right action.
 \end{proof}
 
+In a flat frame the transition functions between two flat frames are locally constant (both are parallel), so a flat bundle is one whose cocycle can be chosen locally
+constant; this is the situation of Remark~\ref{connections:remark-no-canonical-d}, in which componentwise differentiation is well defined.
+
 \begin{example}\label{connections:example-flat-circle}
 Flat connections on the trivial line bundle over $S^1 = \RR/2\pi\ZZ$: every connection is $d + a(\theta)\,d\theta$, it is flat, and parallel transport around the circle is multiplication by $\exp(-\int_0^{2\pi}a)$. Two such connections are
 isomorphic (by a gauge transformation $g \colon S^1 \to \CC^\times$, which changes $a\,d\theta$ by $g^{-1}dg$) if and only if their holonomies agree, because the $1$-forms $g^{-1}dg$ are exactly those with $\int_{S^1}g^{-1}dg \in 2\pi i\ZZ$
@@ -189,11 +674,25 @@ isomorphic (by a gauge transformation $g \colon S^1 \to \CC^\times$, which chang
 Theorem~\ref{connections:theorem-flat-local-systems}, since $\pi_1(S^1) = \ZZ$.
 \end{example}
 
+\begin{counterexample}\label{connections:counterexample-flat-holonomy}
+A flat connection can have nontrivial holonomy, and a bundle with trivial holonomy around contractible loops need not be trivial.
+\begin{enumerate}
+\item In Example~\ref{connections:example-flat-circle}, $d + a\,d\theta$ with $\int_0^{2\pi}a \notin 2\pi i\ZZ$ is flat but has no global parallel section: the holonomy is not $1$. Flatness
+only gives parallel frames \emph{locally}.
+\item The M\"obius bundle over $S^1$ (Example~\ref{vector-bundles:example-bundles}) has a flat connection, as its transition function $-1$ is locally constant, with holonomy $-1$
+around the circle; it is not trivial.
+\item Curvature is a property of the connection, not of the bundle: the trivial line bundle on $\RR^2$ carries the flat connection $d$ and the connection $d + x\,dy$ of
+curvature $dx \wedge dy$. Only the topology of the bundle constrains the curvature, through characteristic classes (Chapter~\ref{characteristic-classes}); for instance the
+tautological bundle of $\CC\PP^1$ admits no flat connection (Exercise~\ref{connections:exercise-flat-not-trivial}).
+\end{enumerate}
+\end{counterexample}
+
 \section{Metric connections}\label{connections:section-metric}
 
 \begin{definition}\label{connections:definition-metric-connection}
 Let $E$ carry a Euclidean metric $\langle -, - \rangle$ (or a Hermitian metric in the complex case). A connection is \emph{metric} if
-$d\langle s, t \rangle = \langle \nabla s, t \rangle + \langle s, \nabla t \rangle$.
+$d\langle s, t \rangle = \langle \nabla s, t \rangle + \langle s, \nabla t \rangle$, that is, $X\langle s, t\rangle = \langle\nabla_Xs, t\rangle + \langle s, \nabla_Xt\rangle$ for all
+vector fields $X$ and sections $s$, $t$.
 \end{definition}
 
 \begin{proposition}\label{connections:proposition-metric-connections}
@@ -202,18 +701,37 @@ the complex case); then the curvature takes values in the skew-symmetric (skew-H
 \end{proposition}
 
 \begin{proof}
-Existence: patch the standard connections of orthonormal local frames with a partition of unity, as in Proposition~\ref{connections:proposition-connections-exist}; the metric condition is preserved by convex
-combinations. If $\nabla$ is metric and $s$, $t$ are parallel along $\gamma$, then $\frac{d}{dt}\langle s, t \rangle = 0$, so transport is an isometry; conversely differentiate. In an orthonormal frame the
-metric condition reads $0 = \theta^i_j + \theta^j_i$ (respectively $\theta^i_j + \overline{\theta^j_i}$), and the statement about curvature follows from $F = d\theta + \theta \wedge \theta$.
+Existence: patch the connections with connection form $0$ in orthonormal local frames with a partition of unity, as in Proposition~\ref{connections:proposition-connections-exist}(4); each of them is
+metric, since in an orthonormal frame $\langle s, t\rangle = \sum_is^i\bar t^i$ and $d\langle s, t\rangle = \sum_i(ds^i\,\bar t^i + s^i\,d\bar t^i)$, and the metric condition is preserved by
+combinations with coefficients adding up to $1$. If $\nabla$ is metric and $s$, $t$ are parallel along $\gamma$, then
+$\frac{d}{dt}\langle s, t \rangle = \langle\nabla_{\dot\gamma}s, t\rangle + \langle s, \nabla_{\dot\gamma}t\rangle = 0$ (the metric condition along the curve follows from the one on $M$ by
+pulling back), so transport is an isometry. Conversely, suppose transport is an isometry, and let $v \in T_pM$, $\gamma$ a curve with $\dot\gamma(0) = v$, and $(u_i)$ a parallel frame along $\gamma$; the
+$\langle u_i, u_j\rangle$ are constant. Writing $s \circ \gamma = \sum_ia^iu_i$ and $t \circ \gamma = \sum_jb^ju_j$, we get $\nabla_{\dot\gamma}s = \sum_i\dot a^iu_i$, and
+$\frac{d}{dt}\langle s, t\rangle = \sum_{i,j}(\dot a^i\bar b^j + a^i\dot{\bar b}^j)\langle u_i, u_j\rangle = \langle\nabla_{\dot\gamma}s, t\rangle + \langle s, \nabla_{\dot\gamma}t\rangle$, which at
+$t = 0$ is the metric condition in the direction $v$. In an orthonormal frame, $\langle e_i, e_j\rangle = \delta_{ij}$, and the
+metric condition for $s = e_j$, $t = e_i$ reads $0 = \theta^i_j + \overline{\theta^j_i}$. Finally, if $\theta$ is skew-symmetric (skew-Hermitian), so are $d\theta$ and
+$\theta \wedge \theta$, as $(\theta \wedge \theta)^T = -\theta^T \wedge \theta^T$; hence so is $F = d\theta + \theta \wedge \theta$.
 \end{proof}
+
+\begin{example}\label{connections:example-metric-projection}
+The projection connection $\nabla s = P(ds)$ of a subbundle $E \subseteq M \times \RR^N$ (Example~\ref{connections:example-connections}(4)) is metric for the metric induced from $\RR^N$:
+for sections $s$, $t$ of $E$, $d\langle s, t\rangle = \langle ds, t\rangle + \langle s, dt\rangle = \langle P\,ds, t\rangle + \langle s, P\,dt\rangle$, because $t = Pt$, $s = Ps$ and $P$ is
+self-adjoint. So parallel transport on the sphere is by rotations, as in Example~\ref{connections:example-transport}(2), and the connection form of
+Example~\ref{connections:example-connection-forms}(1) is skew-symmetric. On the tangent bundle of a Riemannian manifold there are many metric connections; among them exactly one is
+\emph{torsion-free}, $\nabla_XY - \nabla_YX = [X, Y]$, the Levi-Civita connection (Chapter~\ref{riemannian-geometry}).
+\end{example}
 
 \begin{example}\label{connections:example-chern-connection}
 On a complex vector bundle with a Hermitian metric over a complex manifold, there is a unique connection that is metric and compatible with the holomorphic structure ($\nabla^{0,1} = \bar\partial$): the
 \emph{Chern connection} (Chapter~\ref{holomorphic-bundles}). Its curvature is a $(1,1)$-form, and for line bundles $\frac{i}{2\pi}F$ represents the first Chern class in de Rham cohomology, which is the
-differential-geometric form of Theorem~\ref{vector-bundles:theorem-line-bundles}.
+differential-geometric form of Theorem~\ref{vector-bundles:theorem-line-bundles}. The projection connection on the tautological line bundle of $\CC\PP^1$
+(Example~\ref{connections:example-curvature-computations}(3)) is of this kind.
 \end{example}
 
 \section{Principal bundles}\label{connections:section-principal}
+
+Vector bundles are often better understood through their bundles of frames, on which the structure group acts. This point of view is used in Chern--Weil theory and in gauge
+theory; we only sketch it.
 
 \begin{definition}\label{connections:definition-principal-bundle}
 Let $G$ be a Lie group. A \emph{principal $G$-bundle} is a smooth surjection $\pi \colon P \to M$ with a free right action of $G$ preserving the fibres and acting simply transitively on them, which is locally
@@ -224,22 +742,33 @@ $g_{ij} \colon U_i \cap U_j \to G$, that is, by $\check{H}^1(M, \underline{G})$.
 \begin{example}\label{connections:example-principal}
 The frame bundle $\mathrm{Fr}(E)$ of a rank $r$ real vector bundle, whose fibre over $p$ is the set of bases of $E_p$, is a principal $\GL_r(\RR)$-bundle, and $E$ is recovered as the associated bundle
 $\mathrm{Fr}(E) \times_{\GL_r}\RR^r$; a metric reduces the structure group to $O(r)$, an orientation to $\GL_r^+$, and a complex structure to $\GL_{r/2}(\CC)$. Covering spaces are principal bundles with
-discrete structure group.
+discrete structure group. The oriented orthonormal frames of $TS^2$ form a principal $\mathrm{SO}(2)$-bundle which is diffeomorphic to $\mathrm{SO}(3)$: an oriented orthonormal
+frame $(v, w)$ at $x \in S^2$ is the same as the rotation matrix with columns $x, v, w$. The Hopf map $S^3 \to S^2 = \CC\PP^1$, $(z_0, z_1) \mapsto [z_0 : z_1]$, is a principal
+$U(1)$-bundle, the unit circle bundle of the tautological line bundle.
 \end{example}
 
 \begin{remark}\label{connections:remark-principal-connections}
 A connection on a principal bundle is a $G$-equivariant splitting of $0 \to \ker d\pi \to TP \to \pi^*TM \to 0$, equivalently a $\mathfrak{g}$-valued $1$-form $\omega$ on $P$ restricting to the
 Maurer--Cartan form on fibres and satisfying $R_g^*\omega = \Ad(g^{-1})\omega$. Its curvature is $\Omega = d\omega + \frac12[\omega, \omega]$, and connections on $P$ correspond to connections on all
 associated vector bundles, compatible with the structure group. This is the framework of gauge theory and of Chern--Weil theory, which we use in Chapter~\ref{characteristic-classes}; see
-\cite[Chapters I--II]{kobayashi-nomizu}.
+\cite[Chapters I--II]{kobayashi-nomizu}. For a vector bundle, a local frame is a local section of the frame bundle, and pulling back $\omega$ by it gives the connection form
+$\theta$ of Proposition~\ref{connections:proposition-connections-exist}; the transformation rule $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ is the pullback of the equivariance of
+$\omega$.
 \end{remark}
 
 \section{Exercises}\label{connections:section-exercises}
 
 \begin{exercise}\label{connections:exercise-curvature-sphere}
-Compute the connection and curvature forms of the Levi-Civita connection of the round sphere $S^2$ in a local orthonormal frame, and verify that the curvature is $F = \mathrm{vol}$ times a skew-symmetric
-matrix, of total integral $4\pi$ (compare the Gauss--Bonnet theorem, Chapter~\ref{characteristic-classes}).
+Compute the connection and curvature forms of the Levi-Civita connection of the sphere of radius $\rho$ in $\RR^3$, that is, of the projection connection of its tangent
+bundle, in the frame of Example~\ref{connections:example-connection-forms}(1), and verify that the curvature is $F = \rho^{-2}\,dA \otimes J$, where $dA$ is the area form, so that
+the integral of the Gaussian curvature $\rho^{-2}$ is $4\pi$ (compare the Gauss--Bonnet theorem, Chapter~\ref{characteristic-classes}).
 \end{exercise}
+
+\begin{solution}
+Scaling by $\rho$ does not change the unit vectors $e_1$, $e_2$ or the normal, so the computation of Example~\ref{connections:example-connection-forms}(1) is unchanged:
+$\theta^2_1 = \cos\vartheta\,d\varphi$ and $F^1_2 = \sin\vartheta\,d\vartheta \wedge d\varphi$. The area form is now $dA = \rho^2\sin\vartheta\,d\vartheta \wedge d\varphi$, so
+$F = \rho^{-2}dA \otimes J$, and $\int\rho^{-2}\,dA = \rho^{-2} \cdot 4\pi\rho^2 = 4\pi$.
+\end{solution}
 
 \begin{exercise}\label{connections:exercise-flat-not-trivial}
 Give an example of a flat bundle that is not trivial, and of a bundle admitting no flat connection.
@@ -257,6 +786,65 @@ Show that for a line bundle with connection, the holonomy is given by $\exp(-\in
 trivial.
 \end{exercise}
 
+\begin{solution}
+For a disc this is Proposition~\ref{connections:proposition-line-holonomy}; for a surface $\Sigma$ with one boundary circle over which the pulled back bundle is trivial the same
+proof applies. If $F = 0$ and $M$ is simply connected, the holonomy is trivial, since every loop bounds a disc (up to homotopy, which does not change the transport of a flat
+connection by Theorem~\ref{connections:theorem-flat-local-systems}); so transport from a fixed point along any path gives a well-defined nowhere vanishing parallel section, which
+trivialises the bundle.
+\end{solution}
+
 \begin{exercise}\label{connections:exercise-induced-connections}
 Verify that a connection on $E$ induces connections on $E^\vee$ and $E \otimes F$, and that the curvature of $E \otimes F$ is $F_E \otimes 1 + 1 \otimes F_F$.
 \end{exercise}
+
+\begin{solution}
+This is Proposition~\ref{connections:proposition-induced-connections}(1),(3) and Proposition~\ref{connections:proposition-pullback-tensor}(2). With vector fields, for
+$s \otimes s^{\prime}$: $\nabla_X\nabla_Y(s \otimes s^{\prime}) = \nabla_X\nabla_Ys \otimes s^{\prime} + \nabla_Ys \otimes \nabla_Xs^{\prime} + \nabla_Xs \otimes \nabla_Ys^{\prime} + s \otimes \nabla_X\nabla_Ys^{\prime}$; the
+middle terms are symmetric in $X$ and $Y$ and cancel in $F(X, Y)$, which leaves $F_E(X, Y)s \otimes s^{\prime} + s \otimes F_F(X, Y)s^{\prime}$.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-projection-curvature}
+Let $E \subseteq M \times \RR^N$ be a subbundle with orthogonal projection $P$ and the projection connection $\nabla s = P\,ds$. Show that $P\,dP\,P = 0$ and that the curvature is
+$F(s) = P\,dP \wedge dP\,s$ for sections $s$ of $E$, where $dP$ is the matrix of $1$-forms of the derivatives of $P$. Recover Example~\ref{connections:example-curvature-computations}(2).
+\end{exercise}
+
+\begin{solution}
+Differentiating $P^2 = P$ gives $dP = dP\,P + P\,dP$; multiplying by $P$ on both sides gives $P\,dP\,P = 2P\,dP\,P$, so $P\,dP\,P = 0$. For a section $s = Ps$, extend $\nabla$ to
+$E$-valued $1$-forms by $d_\nabla\omega = P\,d\omega$; then $F(s) = P\,d(P\,ds) = P\,dP \wedge ds$, and $ds = d(Ps) = dP\,s + P\,ds$, so
+$F(s) = P\,dP \wedge dP\,s + P\,dP\,P \wedge ds = P\,dP \wedge dP\,s$. For the sphere, $P = I - xx^T$ and $dP = -dx\,x^T - x\,dx^T$, and evaluating on $e_1$, $e_2$ gives the
+formula of the example.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-gauge-plane}
+On the trivial real line bundle over $\RR^2$, show that the connections $d + x\,dy$ and $d - y\,dx$ have the same curvature, and find a function $g \colon \RR^2 \to \RR_{>0}$
+such that the frame $e^{\prime} = ge$ transforms one connection form into the other.
+\end{exercise}
+
+\begin{solution}
+Both curvatures are $d(x\,dy) = dx \wedge dy = d(-y\,dx)$. In the frame $e^{\prime} = ge$ the connection form $x\,dy$ becomes $x\,dy + g^{-1}dg = x\,dy + d\log g$
+(Proposition~\ref{connections:proposition-connections-exist}(3), with commuting $1 \times 1$ matrices). We need $d\log g = -y\,dx - x\,dy = -d(xy)$, so $g = e^{-xy}$.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-torsion}
+For a connection $\nabla$ on $TM$ define the \emph{torsion} $T(X, Y) = \nabla_XY - \nabla_YX - [X, Y]$. Show that $T$ is a tensor, a $TM$-valued $2$-form, and that in coordinates,
+with $\nabla_{\partial_i}\partial_j = \sum_k\Gamma^k_{ij}\partial_k$, it vanishes if and only if $\Gamma^k_{ij} = \Gamma^k_{ji}$. Show that the projection connection on $TS^n$ is
+torsion-free.
+\end{exercise}
+
+\begin{solution}
+$T(fX, Y) = f\nabla_XY - (Yf)X - f\nabla_YX - f[X, Y] + (Yf)X = fT(X, Y)$, and $T$ is antisymmetric, so it is $C^\infty$-linear in both arguments and is a tensor by
+Lemma~\ref{connections:lemma-tensoriality}. On coordinate fields $[\partial_i, \partial_j] = 0$ and $T(\partial_i, \partial_j) = \sum_k(\Gamma^k_{ij} - \Gamma^k_{ji})\partial_k$. For $TS^n$,
+$\nabla_XY - \nabla_YX = P(X(Y) - Y(X)) = P([X, Y]) = [X, Y]$, where $X(Y)$ is the derivative in $\RR^{n+1}$ of the extended fields and the bracket of fields tangent to $S^n$ is
+tangent to it.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-connections-on-intervals}
+Show that every vector bundle with connection over an interval $I \subseteq \RR$ has a frame of parallel sections, and deduce again that every vector bundle over an interval
+is trivial.
+\end{exercise}
+
+\begin{solution}
+Fix $t_0 \in I$ and a basis $(v_i)$ of the fibre over $t_0$. The parallel sections along the curve $t \mapsto t$ with initial values $v_i$ exist on all of $I$
+(Proposition~\ref{connections:proposition-parallel-transport}, applied on compact subintervals) and are linearly independent everywhere, since parallel transport is an isomorphism;
+so they form a global frame. The curvature plays no role: on a $1$-dimensional base every connection is flat.
+\end{solution}
