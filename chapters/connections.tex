@@ -87,8 +87,34 @@ $1$-forms. (3) For rank one, $\theta$ is a $1$-form and $\theta \wedge \theta = 
 
 \section{Parallel transport, holonomy and flatness}\label{connections:section-parallel-transport}
 
+\begin{remark}\label{connections:remark-along-curves}
+A connection differentiates sections of $E$ over $M$ in the direction of vector fields on $M$, while along a curve $\gamma \colon I \to M$ the direction $\dot\gamma$ and
+the section to be differentiated are only defined along the curve. The notation $\nabla_{\dot\gamma}s$ is justified as follows.
+\begin{enumerate}
+\item \emph{The direction may be a single vector.} For a section $s$ of $E$, $\nabla s$ is an $E$-valued $1$-form, so $\nabla_vs = (\nabla s)_p(v) \in E_p$ is defined for
+every tangent vector $v \in T_pM$; equivalently, $\nabla_Xs$ at $p$ depends only on $X_p$, because $\nabla_{fX}s = f\nabla_Xs$. So for a section $s$ defined near
+$\gamma(I)$, $\nabla_{\dot\gamma(t)}s$ makes sense without extending $\dot\gamma$ to a vector field.
+\item \emph{Only the values of $s$ along a curve matter.} In a local frame, $\nabla_vs = \sum_i\bigl(v(s^i) + \sum_j\theta^i_j(v)s^j\bigr)e_i$
+(Proposition~\ref{connections:proposition-connections-exist}), and $v(s^i) = (s^i \circ c)^{\prime}(0)$ for any curve $c$ with $\dot c(0) = v$. So $\nabla_vs$ depends
+only on the values of $s$ along such a curve.
+\item \emph{Sections along a curve need not extend.} A \emph{section along $\gamma$} is a section of $\gamma^*E$, that is, a smooth map $t \mapsto s(t) \in E_{\gamma(t)}$;
+for instance the velocity $\dot\gamma$ is a section of $\gamma^*TM$. It need not be of the form $S \circ \gamma$ for a section $S$ of $E$, even near one point. For
+$\gamma(t) = (t^2, 0)$ in $\RR^2$ we have $\gamma(t) = \gamma(-t)$ but $\dot\gamma(t) = (2t, 0) \neq \dot\gamma(-t)$ for $t \neq 0$, so no vector field $X$ near the origin
+satisfies $X(\gamma(t)) = \dot\gamma(t)$; the same happens at every self-intersection of a curve, where two velocities sit at one point.
+\end{enumerate}
+The precise definition therefore uses the pullback connection of Proposition~\ref{connections:proposition-pullback-tensor}(1): for a section $s$ along $\gamma$,
+\[
+\nabla_{\dot\gamma}s = (\gamma^*\nabla)_{d/dt}\,s ,
+\]
+a derivative on the interval $I$, where $d/dt$ is a genuine vector field. By the defining property $(\gamma^*\nabla)(\gamma^*S) = \gamma^*(\nabla S)$,
+$(\gamma^*\nabla)_{d/dt}(S \circ \gamma) = (\nabla S)(\dot\gamma) = \nabla_{\dot\gamma}S$ in the sense of (1), and in a local frame
+$(\gamma^*\nabla)_{d/dt}s = \sum_i\bigl(\dot s^i + \sum_j\theta^i_j(\dot\gamma)s^j\bigr)e_i$. When $s$ does extend to a section $S$ near $\gamma(t)$, the two meanings of
+$\nabla_{\dot\gamma}s$ agree, whatever the extension, by (2).
+\end{remark}
+
 \begin{definition}\label{connections:definition-parallel}
-A section $s$ along a smooth curve $\gamma \colon [0, 1] \to M$ is \emph{parallel} if $\nabla_{\dot\gamma}s = 0$. \emph{Parallel transport} along $\gamma$ is the map $P_\gamma \colon E_{\gamma(0)} \to E_{\gamma(1)}$
+A section $s$ along a smooth curve $\gamma \colon [0, 1] \to M$, that is, a section of $\gamma^*E$, is \emph{parallel} if $\nabla_{\dot\gamma}s = 0$, in the sense of
+Remark~\ref{connections:remark-along-curves}. \emph{Parallel transport} along $\gamma$ is the map $P_\gamma \colon E_{\gamma(0)} \to E_{\gamma(1)}$
 sending $v$ to $s(1)$, where $s$ is the parallel section with $s(0) = v$.
 \end{definition}
 

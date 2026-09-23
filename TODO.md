@@ -12,6 +12,20 @@ references in proofs).
 
 ## Done
 
+- [x] **First and second variation of energy** (`riemannian-geometry`, new
+  section): variations and variation fields, energy versus length, the first
+  variation formula (geodesics are the critical points), the index form and
+  the second variation formula, Jacobi's theorem on conjugate points, and a
+  complete proof of the Bonnet–Myers theorem (previously only quoted).
+- [x] **Minimal surfaces** (`riemannian-geometry`, new section): first and
+  second variation of area, catenoid, helicoid, Scherk's surface, the minimal
+  surface equation, minimal graphs minimise area (calibration), Jörgens'
+  lemma and Bernstein's theorem with Nitsche's proof, the Bernstein problem in
+  higher dimensions (quoted).
+- [x] **Derivatives along curves** (`connections`, `riemannian-geometry`): why
+  $\nabla_{\dot\gamma}s$ makes sense although $\dot\gamma$ need not extend to a
+  vector field; it is the pullback connection $(\gamma^*\nabla)_{d/dt}$.
+
 - [x] **Volume and surface integrals** (`riemannian-geometry`, new section
   "Volume and integration"): the Riemannian measure (also on non-orientable
   manifolds), the volume form $\sqrt{\det g}\,dx^1 \wedge \cdots \wedge dx^n$,

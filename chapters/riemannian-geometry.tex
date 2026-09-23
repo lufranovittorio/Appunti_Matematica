@@ -9,9 +9,11 @@ and, together with an orientation, defines the Hodge star, the codifferential an
 (Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the Riemannian measure and the volume form, which make surface integrals and the divergence theorem instances of integration on
 manifolds; the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
-theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the geometry of submanifolds, with the
+theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the first and second variation of energy, with Jacobi's theorem that
+geodesics stop minimising after a conjugate point and a complete proof of the Bonnet--Myers theorem; the geometry of submanifolds, with the
 first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi; the classical global theorems on surfaces: Gauss--Bonnet for
-regions with boundary, and the theorems of Minding, Hadamard, Liebmann and Hilbert; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
+regions with boundary, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
+area-minimising property of minimal graphs and Bernstein's theorem; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
 and Hopf classifying the spaces of constant curvature, and the statements of Cheng's maximal diameter theorem and of the sphere theorem. References:
 \cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{kobayashi-nomizu}, \cite{joyce-special-holonomy}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
@@ -81,7 +83,9 @@ In coordinates, torsion-freeness says $\Gamma^k_{ij} = \Gamma^k_{ji}$, and the m
 \]
 
 \begin{definition}\label{riemannian-geometry:definition-geodesic}
-A \emph{geodesic} is a curve with $\nabla_{\dot\gamma}\dot\gamma = 0$; in coordinates, $\ddot\gamma^k + \sum_{i,j}\Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$. By
+A \emph{geodesic} is a curve with $\nabla_{\dot\gamma}\dot\gamma = 0$, where the velocity $\dot\gamma$ is differentiated along $\gamma$ as in
+Remark~\ref{connections:remark-along-curves} (it need not extend to a vector field on $M$; see
+Remark~\ref{riemannian-geometry:remark-derivative-along-curves}); in coordinates, $\ddot\gamma^k + \sum_{i,j}\Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$. By
 Theorem~\ref{real-analysis:theorem-picard-lindelof} there is a unique maximal geodesic with given initial position and velocity, depending smoothly on them; the \emph{exponential map}
 $\exp_p(v) = \gamma_v(1)$ is defined on a neighbourhood of $0 \in T_pM$.
 \end{definition}
@@ -298,6 +302,18 @@ proves uniqueness. Conversely, the formula satisfies the axioms in each chart (f
 local definitions agree on overlaps. For the metric property, differentiate $\langle V, W\rangle = g_{jk}(\gamma)V^jW^k$: the derivative of $g_{jk}(\gamma)$ is $\dot\gamma^i\partial_ig_{jk}$, and by $(*)$ the result equals
 $\langle D_tV, W\rangle + \langle V, D_tW\rangle$. The last statement is the local expression of $\nabla_{\dot\gamma}s = 0$ in the coordinate frame.
 \end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-derivative-along-curves}
+In the language of Chapter~\ref{connections}, $D_t$ is the pullback connection $\gamma^*\nabla$ on the bundle $\gamma^*TM$ over $I$, differentiated in the direction of
+the vector field $d/dt$ on $I$. Indeed $(\gamma^*\nabla)_{d/dt}$ is $\RR$-linear, satisfies the Leibniz rule for functions of $t$, and sends $Y \circ \gamma$ to
+$(\nabla Y)(\dot\gamma) = \nabla_{\dot\gamma}Y$ (Proposition~\ref{connections:proposition-pullback-tensor}(1)), so it equals $D_t$ by the uniqueness in
+Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}. This is the meaning of $\nabla_{\dot\gamma}\dot\gamma$ in
+Definition~\ref{riemannian-geometry:definition-geodesic}: it is $D_t\dot\gamma$. It could not be defined as $\nabla_XX$ for a vector field $X$, because the velocity
+need not be the restriction of a vector field on $M$: the curve $\gamma(t) = (t^2, 0)$ passes through each point $(t^2, 0)$ twice, with the opposite velocities $(\pm2t, 0)$
+(Remark~\ref{connections:remark-along-curves}). When $\dot\gamma$ does extend near $\gamma(t_0)$ to a vector field $X$, that is $X(\gamma(t)) = \dot\gamma(t)$ for $t$ near
+$t_0$, then $D_t\dot\gamma = D_t(X \circ \gamma) = \nabla_{\dot\gamma}X = (\nabla_XX)(\gamma(t))$ there, whichever extension is chosen. For example, a unit speed great circle
+$c$ on $S^2$ is the integral curve of the rotation field $X(x) = a \times x$ about its axis $a$, and $D_t\dot c = (\nabla_XX)(c)$.
+\end{remark}
 
 \begin{lemma}[Symmetry lemma]\label{riemannian-geometry:lemma-symmetry}
 Let $f \colon (-\varepsilon, \varepsilon) \times (a, b) \to M$ be smooth, and write $D_s$, $D_t$ for the covariant derivatives along the curves $s \mapsto f(s, t)$ and $t \mapsto f(s, t)$. Then $D_s\partial_tf = D_t\partial_sf$.
@@ -592,20 +608,6 @@ Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}) by Proposition~\ref{rieman
 pulled back metric, whose radial lines are geodesics) that is a local isometry is a covering map \cite[Chapter 7]{do-carmo-riemannian}.
 \end{proof}
 
-\begin{theorem}[Bonnet--Myers]\label{riemannian-geometry:theorem-bonnet-myers}
-Let $(M, g)$ be complete and connected with $\mathrm{Ric} \geq (n - 1)\kappa g$ for some $\kappa > 0$. Then $M$ has diameter at most $\pi/\sqrt\kappa$; hence $M$ is compact, and $\pi_1(M)$ is finite.
-\end{theorem}
-
-This is \cite[Chapter 9]{do-carmo-riemannian}. The proof computes the second variation of length along a minimising geodesic of length $L > \pi/\sqrt\kappa$ in the directions $\sin(\pi t/L)E_i(t)$, for a parallel orthonormal frame
-$E_i \perp \dot\gamma$, and finds that their sum is negative, contradicting minimality. Finiteness of $\pi_1$ follows by applying the diameter bound to the universal cover with the pulled back metric, which is compact, so the
-fibres of the covering are finite.
-
-\begin{remark}\label{riemannian-geometry:remark-comparison}
-Theorems~\ref{riemannian-geometry:theorem-cartan-hadamard} and~\ref{riemannian-geometry:theorem-bonnet-myers} are the simplest \emph{comparison theorems}, which compare a manifold with a space of constant curvature
-through its Jacobi fields. The Rauch comparison theorem \cite[Chapter 10]{do-carmo-riemannian} and the Bishop--Gromov volume comparison \cite{lee-riemannian} are their refinements, and they lead to the sphere theorems and to
-Gromov's compactness theorem.
-\end{remark}
-
 \begin{theorem}[Gauss--Bonnet]\label{riemannian-geometry:theorem-gauss-bonnet}
 Let $M$ be a compact oriented Riemannian surface, with Gaussian curvature $K$ (the sectional curvature of its tangent planes) and area form $dA$
 (Proposition~\ref{riemannian-geometry:proposition-volume-form}). Then
@@ -645,6 +647,173 @@ Let $\Sigma_g$ be the closed orientable surface of genus $g$, so that $\chi(\Sig
 (1) is Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}. (2) The sign of $\int_MK\,dA = 2\pi(2 - 2g)$ is positive, non-negative or negative accordingly, and $2 - 2g > 0$ forces $g = 0$, $2 - 2g \geq 0$ forces
 $g \leq 1$, and $2 - 2g < 0$ forces $g \geq 2$. (3) The torus has $\chi = 0$, so $K$ cannot have constant nonzero sign, while the flat metric induced from $\RR^2$ has $K = 0$ (Example~\ref{riemannian-geometry:example-curvature}).
 \end{proof}
+
+\section{The first and second variation of energy}\label{riemannian-geometry:section-variation}
+
+Geodesics are the critical points of the energy of curves, and the second derivative of the energy along a geodesic is a quadratic form, the index form, in which
+the curvature appears. This section proves both variation formulas and uses the second one to show that geodesics stop minimising after a conjugate point
+(Jacobi's theorem) and that positive Ricci curvature bounds the diameter (the Bonnet--Myers theorem).
+
+Let $\gamma \colon [a, b] \to M$ be a piecewise smooth curve. A \emph{variation} of $\gamma$ is a continuous map $f \colon (-\varepsilon, \varepsilon) \times [a, b] \to M$
+with $f(0, t) = \gamma(t)$, together with a partition $a = t_0 < t_1 < \cdots < t_k = b$ such that $f$ is smooth on each $(-\varepsilon, \varepsilon) \times [t_{i-1}, t_i]$;
+it is \emph{proper} if $f(s, a) = \gamma(a)$ and $f(s, b) = \gamma(b)$ for all $s$. We write $f_s = f(s, -)$, and $V(t) = \partial_sf(0, t)$ for the \emph{variation field},
+a continuous vector field along $\gamma$, smooth on each $[t_{i-1}, t_i]$ (\emph{piecewise smooth}); it vanishes at $a$ and $b$ if $f$ is proper. The \emph{energy} of a
+piecewise smooth curve $c \colon [a, b] \to M$ is $E(c) = \frac12\int_a^b|\dot c|^2\,dt$. On each piece we use the covariant derivatives $D_s$ and $D_t$ of
+Lemma~\ref{riemannian-geometry:lemma-symmetry}.
+
+Every piecewise smooth field $V$ along $\gamma$ is the variation field of a variation, for instance of
+\[
+f(s, t) = \exp_{\gamma(t)}(sV(t)) .
+\]
+Indeed the set of $(s, t)$ with $sV(t)$ in the domain $\mathcal{E}$ of $\exp$ is open and contains $\{0\} \times [a, b]$, so by compactness it contains
+$(-\varepsilon, \varepsilon) \times [a, b]$ for some $\varepsilon > 0$; and $\partial_sf(0, t) = d_0\exp_{\gamma(t)}(V(t)) = V(t)$. This variation is proper if $V(a) = V(b) = 0$, and
+its curves $s \mapsto f(s, t)$ are geodesics, so $D_s\partial_sf = 0$.
+
+\begin{lemma}\label{riemannian-geometry:lemma-energy-length}
+For a piecewise smooth curve $c \colon [a, b] \to M$, $L(c)^2 \leq 2(b - a)E(c)$, with equality if and only if $c$ has constant speed. Consequently, if $\gamma$ has constant
+speed and $E(c) < E(\gamma)$ for a curve $c$ with the same interval, then $L(c) < L(\gamma)$.
+\end{lemma}
+
+\begin{proof}
+By the Cauchy--Schwarz inequality, $L(c)^2 = \bigl(\int_a^b1 \cdot |\dot c|\,dt\bigr)^2 \leq (b - a)\int_a^b|\dot c|^2\,dt = 2(b - a)E(c)$, with equality if and only if $|\dot c|$ is
+constant. If $\gamma$ has constant speed and $E(c) < E(\gamma)$, then $L(c)^2 \leq 2(b - a)E(c) < 2(b - a)E(\gamma) = L(\gamma)^2$.
+\end{proof}
+
+\begin{proposition}[First variation formula]\label{riemannian-geometry:proposition-first-variation}
+Let $f$ be a variation of a piecewise smooth curve $\gamma$, with variation field $V$, and suppose that $\gamma$ is smooth on each $[t_{i-1}, t_i]$. Write
+$\Delta_i\dot\gamma = \dot\gamma(t_i^+) - \dot\gamma(t_i^-)$ for the jump of the velocity at $t_i$, $0 < i < k$. Then $s \mapsto E(f_s)$ is smooth, and
+\[
+\frac{d}{ds}\Big|_{s=0}E(f_s) = \langle V, \dot\gamma\rangle\Big|_a^b - \sum_{i=1}^{k-1}\langle V(t_i), \Delta_i\dot\gamma\rangle - \int_a^b\langle V, D_t\dot\gamma\rangle\,dt .
+\]
+Consequently $\gamma$ is a critical point of the energy for all proper variations, that is, $\frac{d}{ds}|_{s=0}E(f_s) = 0$ for every proper $f$, if and only if $\gamma$ is a
+geodesic.
+\end{proposition}
+
+\begin{proof}
+On each piece the integrand of $E(f_s) = \sum_i\frac12\int_{t_{i-1}}^{t_i}|\partial_tf|^2\,dt$ is smooth on a compact set, so we may differentiate under the integral sign.
+By Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves} and Lemma~\ref{riemannian-geometry:lemma-symmetry},
+\[
+\frac{\partial}{\partial s}\frac12|\partial_tf|^2 = \langle D_s\partial_tf, \partial_tf\rangle = \langle D_t\partial_sf, \partial_tf\rangle
+= \frac{\partial}{\partial t}\langle\partial_sf, \partial_tf\rangle - \langle\partial_sf, D_t\partial_tf\rangle .
+\]
+At $s = 0$ this is $\partial_t\langle V, \dot\gamma\rangle - \langle V, D_t\dot\gamma\rangle$. Integrating over $[t_{i-1}, t_i]$ gives
+$\langle V(t_i), \dot\gamma(t_i^-)\rangle - \langle V(t_{i-1}), \dot\gamma(t_{i-1}^+)\rangle - \int_{t_{i-1}}^{t_i}\langle V, D_t\dot\gamma\rangle\,dt$, and summing over $i$ gives the
+formula, since $V$ is continuous.
+
+If $\gamma$ is a geodesic, it is smooth, so there are no jumps, $D_t\dot\gamma = 0$, and $V(a) = V(b) = 0$ for proper variations; so the derivative vanishes. Conversely,
+suppose it vanishes for all proper variations. The function $\phi(t) = \prod_i(t - t_i)^2$ is smooth, positive except at the $t_i$, and $V = \phi\,D_t\dot\gamma$ is a
+piecewise smooth field vanishing at all the $t_i$; for the variation $\exp_{\gamma(t)}(sV(t))$ the formula gives $0 = -\int_a^b\phi|D_t\dot\gamma|^2\,dt$, so $D_t\dot\gamma = 0$ on
+each piece. Next choose a piecewise smooth $V$ with $V(a) = V(b) = 0$ and $V(t_i) = \Delta_i\dot\gamma$, for instance a sum of products of bump functions with parallel
+fields along $\gamma$; then $0 = -\sum_i|\Delta_i\dot\gamma|^2$. So $\dot\gamma$ is continuous, and $\gamma$ is a geodesic on each piece whose velocities match at the $t_i$; by
+uniqueness of geodesics with given initial velocity, $\gamma$ is a single geodesic.
+\end{proof}
+
+In particular a curve of constant speed that minimises length between its endpoints minimises energy (Lemma~\ref{riemannian-geometry:lemma-energy-length}), hence is a
+geodesic, which is Lemma~\ref{riemannian-geometry:lemma-minimising-geodesic} again.
+
+\begin{definition}\label{riemannian-geometry:definition-index-form}
+Let $\gamma \colon [a, b] \to M$ be a geodesic. The \emph{index form} of $\gamma$ is the symmetric bilinear form on piecewise smooth vector fields along $\gamma$
+\[
+I(V, W) = \int_a^b\bigl(\langle D_tV, D_tW\rangle - R(V, \dot\gamma, \dot\gamma, W)\bigr)\,dt .
+\]
+\end{definition}
+
+It is symmetric because $R(V, \dot\gamma, \dot\gamma, W) = R(\dot\gamma, W, V, \dot\gamma) = R(W, \dot\gamma, \dot\gamma, V)$ by
+Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries}. If $V$ is smooth on the pieces $[t_{i-1}, t_i]$, integrating
+$\frac{d}{dt}\langle D_tV, W\rangle = \langle D_t^2V, W\rangle + \langle D_tV, D_tW\rangle$ over each piece gives
+\[
+I(V, W) = \langle D_tV, W\rangle\Big|_a^b - \sum_{i=1}^{k-1}\langle\Delta_iD_tV, W(t_i)\rangle - \int_a^b\langle D_t^2V + R(V, \dot\gamma)\dot\gamma, W\rangle\,dt, \tag{$\ddagger$}
+\]
+with $\Delta_iD_tV = D_tV(t_i^+) - D_tV(t_i^-)$. In particular $I(J, W) = 0$ for a Jacobi field $J$ and every $W$ vanishing at $a$ and $b$.
+
+\begin{proposition}[Second variation formula]\label{riemannian-geometry:proposition-second-variation}
+Let $\gamma \colon [a, b] \to M$ be a geodesic and $f$ a proper variation of $\gamma$ with variation field $V$. Then
+\[
+\frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = I(V, V) = \int_a^b\bigl(|D_tV|^2 - R(V, \dot\gamma, \dot\gamma, V)\bigr)\,dt .
+\]
+\end{proposition}
+
+\begin{proof}
+As in the proof of Proposition~\ref{riemannian-geometry:proposition-first-variation}, on each piece $\frac{d}{ds}E = \int\langle D_t\partial_sf, \partial_tf\rangle\,dt$, and
+differentiating again,
+\[
+\frac{d^2}{ds^2}E(f_s) = \sum_i\int_{t_{i-1}}^{t_i}\bigl(\langle D_sD_t\partial_sf, \partial_tf\rangle + \langle D_t\partial_sf, D_s\partial_tf\rangle\bigr)\,dt .
+\]
+At $s = 0$, $D_s\partial_tf = D_t\partial_sf = D_tV$, so the second term is $|D_tV|^2$. By Lemma~\ref{riemannian-geometry:lemma-curvature-families},
+$D_sD_t\partial_sf = D_tD_s\partial_sf + R(\partial_sf, \partial_tf)\partial_sf$, and at $s = 0$, using $D_t\dot\gamma = 0$,
+\[
+\langle D_sD_t\partial_sf, \dot\gamma\rangle = \frac{\partial}{\partial t}\langle D_s\partial_sf, \dot\gamma\rangle + R(V, \dot\gamma, V, \dot\gamma)
+= \frac{\partial}{\partial t}\langle D_s\partial_sf, \dot\gamma\rangle - R(V, \dot\gamma, \dot\gamma, V).
+\]
+The field $A(t) = D_s\partial_sf(0, t)$ is the acceleration at $s = 0$ of the curve $s \mapsto f(s, t)$, which is the same curve for both pieces meeting at $t_i$; so $A$
+is continuous, and so is $\dot\gamma$. Hence the integrals of $\partial_t\langle A, \dot\gamma\rangle$ add up to $\langle A, \dot\gamma\rangle|_a^b$, which vanishes: the curves
+$s \mapsto f(s, a)$ and $s \mapsto f(s, b)$ are constant, so $A(a) = A(b) = 0$.
+\end{proof}
+
+\begin{theorem}[Jacobi]\label{riemannian-geometry:theorem-jacobi-conjugate}
+Let $\gamma \colon [0, L] \to M$ be a geodesic, and suppose that $\gamma(t_0)$ is conjugate to $\gamma(0)$ along $\gamma$ for some $0 < t_0 < L$. Then there are piecewise
+smooth curves from $\gamma(0)$ to $\gamma(L)$, arbitrarily close to $\gamma$, that are shorter than $\gamma$. In particular $\gamma$ is not a minimising geodesic.
+\end{theorem}
+
+\begin{proof}
+Let $J$ be a nonzero Jacobi field on $[0, t_0]$ with $J(0) = J(t_0) = 0$. Then $D_tJ(t_0) \neq 0$, as a Jacobi field is determined by its value and derivative at one
+point. Let $V = J$ on $[0, t_0]$ and $V = 0$ on $[t_0, L]$, a piecewise smooth field vanishing at $0$ and $L$. In $(\ddagger)$ for $V$ and a piecewise smooth $U$ vanishing at $0$
+and $L$, the integral vanishes, because $J$ satisfies the Jacobi equation on $[0, t_0]$ and $V = 0$ on $[t_0, L]$, and the only remaining term comes from the jump
+$\Delta D_tV = -D_tJ(t_0)$ at $t_0$; so $I(V, U) = \langle D_tJ(t_0), U(t_0)\rangle$. In particular $I(V, V) = \langle D_tJ(t_0), J(t_0)\rangle = 0$. Let $P$ be the parallel field
+along $\gamma$ with $P(t_0) = -D_tJ(t_0)$, and $W = \sin(\pi t/L)P/\sin(\pi t_0/L)$, which vanishes at $0$ and $L$ and equals $-D_tJ(t_0)$ at $t_0$. Then
+$I(V, W) = -|D_tJ(t_0)|^2 < 0$. Hence for small $\delta > 0$,
+\[
+I(V + \delta W, V + \delta W) = 2\delta I(V, W) + \delta^2I(W, W) < 0 .
+\]
+The proper variation $f(s, t) = \exp_{\gamma(t)}(s(V + \delta W)(t))$ has $\frac{d}{ds}E(f_s) = 0$ at $s = 0$ (Proposition~\ref{riemannian-geometry:proposition-first-variation})
+and $\frac{d^2}{ds^2}E(f_s) < 0$ at $s = 0$ (Proposition~\ref{riemannian-geometry:proposition-second-variation}), so $E(f_s) < E(\gamma)$ for all small $s \neq 0$, and
+$L(f_s) < L(\gamma)$ by Lemma~\ref{riemannian-geometry:lemma-energy-length}, as the geodesic $\gamma$ has constant speed.
+\end{proof}
+
+For example, a great circle on the unit sphere $S^n$ starting at $p$ meets the conjugate point $-p$ at time $\pi$ (Example~\ref{riemannian-geometry:example-jacobi-constant}),
+and so it stops minimising after time $\pi$, in accordance with Remark~\ref{riemannian-geometry:remark-non-unique-geodesics}.
+
+\begin{theorem}[Bonnet--Myers]\label{riemannian-geometry:theorem-bonnet-myers}
+Let $(M, g)$ be complete and connected with $\mathrm{Ric} \geq (n - 1)\kappa g$ for some $\kappa > 0$. Then $M$ has diameter at most $\pi/\sqrt\kappa$; hence $M$ is compact, and $\pi_1(M)$ is finite.
+\end{theorem}
+
+\begin{proof}
+Let $p, q \in M$ and $L = d(p, q)$, and suppose $L > \pi/\sqrt\kappa$. By Theorem~\ref{riemannian-geometry:theorem-hopf-rinow} there is a minimising geodesic
+$\gamma \colon [0, L] \to M$ of unit speed from $p$ to $q$. Let $E_1, \ldots, E_{n-1}$ be parallel fields along $\gamma$ that together with $\dot\gamma$ form an orthonormal basis
+at one point, hence at every point (Proposition~\ref{riemannian-geometry:proposition-geodesic-speed}), and put $V_i(t) = \sin(\pi t/L)E_i(t)$. Then $D_tV_i = (\pi/L)\cos(\pi t/L)E_i$,
+and since $\sum_iR(E_i, \dot\gamma, \dot\gamma, E_i) = \mathrm{Ric}(\dot\gamma, \dot\gamma) \geq (n - 1)\kappa$ (Definition~\ref{riemannian-geometry:definition-curvature-tensor}),
+\[
+\sum_{i=1}^{n-1}I(V_i, V_i) = \int_0^L\Bigl((n - 1)\frac{\pi^2}{L^2}\cos^2\frac{\pi t}{L} - \sin^2\frac{\pi t}{L}\,\mathrm{Ric}(\dot\gamma, \dot\gamma)\Bigr)dt
+\leq (n - 1)\frac L2\Bigl(\frac{\pi^2}{L^2} - \kappa\Bigr) < 0,
+\]
+using $\int_0^L\cos^2(\pi t/L)\,dt = \int_0^L\sin^2(\pi t/L)\,dt = L/2$. So $I(V_i, V_i) < 0$ for some $i$, and as in the proof of
+Theorem~\ref{riemannian-geometry:theorem-jacobi-conjugate} the proper variation $\exp_{\gamma(t)}(sV_i(t))$ gives curves from $p$ to $q$ shorter than $L = d(p, q)$, which is
+absurd. Hence every two points have distance at most $\pi/\sqrt\kappa$, and $M$, being closed and bounded in itself, is compact by
+Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}.
+
+For the fundamental group, let $\pi \colon \widetilde{M} \to M$ be a universal covering (Theorem~\ref{homotopy:theorem-universal-cover}). It is a manifold
+(Proposition~\ref{topological-manifolds:proposition-constructions}(4)) with a unique smooth structure making $\pi$ a local diffeomorphism
+(Example~\ref{smooth-manifolds:example-smooth-quotients}), and $\tilde g = \pi^*g$ makes $\pi$ a local isometry, so $\widetilde{M}$ satisfies the same bound on the Ricci
+curvature. In charts $y$ of $M$ and $y \circ \pi$ of $\widetilde{M}$ the metrics have the same coefficients, hence the same geodesic equations; so $\pi$ and its local inverses
+map geodesics to geodesics. Consequently $\widetilde{M}$ is complete: if $\tilde\gamma$ is a geodesic of $\widetilde{M}$, the geodesic $\pi \circ \tilde\gamma$ extends to $\RR$
+by completeness of $M$, its lift through $\tilde\gamma(0)$ (Proposition~\ref{homotopy:proposition-homotopy-lifting}) is locally a geodesic followed by a local inverse of $\pi$,
+hence a geodesic, and it extends $\tilde\gamma$ to $\RR$. By the first part $\widetilde{M}$ is compact, so the fibre $\pi^{-1}(p)$, which is closed and discrete, is finite. By
+Corollary~\ref{homotopy:corollary-lifting-consequences}(3), $\pi_1(M, p)$ acts on this fibre transitively with trivial stabiliser, since $\widetilde{M}$ is simply connected;
+so $\pi_1(M, p)$ is finite.
+\end{proof}
+
+For example the round sphere of radius $1/\sqrt\kappa$ has $\mathrm{Ric} = (n - 1)\kappa g$ and diameter exactly $\pi/\sqrt\kappa$, so the bound is sharp; Cheng's theorem
+(Theorem~\ref{riemannian-geometry:theorem-maximal-diameter}) says that it is the only case of equality. The hypothesis cannot be weakened to $\mathrm{Ric} > 0$: the paraboloid
+$z = x^2 + y^2$ is complete, being closed in $\RR^3$, and has Gaussian curvature $4/(1 + 4x^2 + 4y^2)^2 > 0$
+(Section~\ref{riemannian-geometry:section-submanifolds}), but it is not compact; its curvature tends to $0$ at infinity. A related
+application of the second variation formula is Synge's theorem: a compact orientable Riemannian manifold of even dimension with positive sectional curvature is simply
+connected \cite[Chapter 9]{do-carmo-riemannian}.
+
+\begin{remark}\label{riemannian-geometry:remark-comparison}
+Theorems~\ref{riemannian-geometry:theorem-cartan-hadamard} and~\ref{riemannian-geometry:theorem-bonnet-myers} are the simplest \emph{comparison theorems}, which compare a manifold with a space of constant curvature
+through its Jacobi fields. The Rauch comparison theorem \cite[Chapter 10]{do-carmo-riemannian} and the Bishop--Gromov volume comparison \cite{lee-riemannian} are their refinements, and they lead to the sphere theorems and to
+Gromov's compactness theorem.
+\end{remark}
 
 \section{Submanifolds and the second fundamental form}\label{riemannian-geometry:section-submanifolds}
 
@@ -1040,6 +1209,178 @@ coordinates in which the metric has the form $du^2 + 2\cos\theta\,du\,dv + dv^2$
 coordinates cover the whole hyperbolic plane, whose area is infinite, while the Gauss--Bonnet theorem bounds the area of every coordinate quadrilateral by $2\pi$, a contradiction.
 Incomplete surfaces of constant negative curvature do exist, such as the pseudosphere; and by Theorem~\ref{riemannian-geometry:theorem-minding} each is locally isometric to
 the hyperbolic plane.
+
+\section{Minimal surfaces}\label{riemannian-geometry:section-minimal}
+
+A soap film spanning a wire takes the shape that minimises its area. Its surface is therefore a critical point of the area, and the first variation formula below
+identifies these critical points: they are the hypersurfaces with mean curvature $H = 0$, the \emph{minimal} ones. We give the classical examples, show that a minimal
+graph has the least area among all surfaces with the same boundary, compute the second variation, and prove Bernstein's theorem: a minimal graph over the whole plane is
+a plane. Throughout, $M \subseteq \RR^{n+1}$ is a hypersurface with unit normal $\nu$, shape operator $S = -d\nu$ and mean curvature $H = \frac1n\operatorname{tr}S$
+(Definition~\ref{riemannian-geometry:definition-hypersurface-curvatures} and Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}), and we write
+$|S|^2 = \operatorname{tr}(S^2) = \sum_i\kappa_i^2$.
+
+\begin{proposition}[First and second variation of area]\label{riemannian-geometry:proposition-variation-area}
+Let $x \colon \Omega \to \RR^{n+1}$ be a parametrisation of $M$, $\phi$ a smooth function with compact support $K \subseteq \Omega$, and $x_s = x + s\phi\nu$ (with
+$\nu = \nu \circ x$). For small $|s|$ the matrix $g(s)_{ij} = \langle\partial_ix_s, \partial_jx_s\rangle$ is positive definite on $K$; let
+$A(s) = \int_K\sqrt{\det g(s)}\,du$, the area of the piece $x_s(K)$. Then, with $dA = \sqrt{\det g}\,du$ and $|\nabla\phi|^2 = \sum_{i,j}g^{ij}\partial_i\phi\,\partial_j\phi$,
+\[
+A^{\prime}(0) = -n\int_KH\phi\,dA, \qquad\text{and, if } H = 0, \qquad A^{\prime\prime}(0) = \int_K\bigl(|\nabla\phi|^2 - |S|^2\phi^2\bigr)\,dA .
+\]
+\end{proposition}
+
+\begin{proof}
+Write $x_i = \partial_ix$ and $\nu_i = \partial_i\nu$. Then $\partial_ix_s = x_i + s(\partial_i\phi\,\nu + \phi\nu_i)$. Since $\langle x_i, \nu\rangle = 0$, $\langle\nu_i, \nu\rangle = 0$
+and $|\nu| = 1$,
+\[
+g(s)_{ij} = g_{ij} + s\phi\bigl(\langle x_i, \nu_j\rangle + \langle\nu_i, x_j\rangle\bigr) + s^2\bigl(\partial_i\phi\,\partial_j\phi + \phi^2\langle\nu_i, \nu_j\rangle\bigr).
+\]
+By Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}, $\langle x_i, \nu_j\rangle = -h_{ij}$, and $\nu_i = -\sum_kS^k_ix_k$ with $(S^k_i) = g^{-1}h$ the
+matrix of $S$, so $\langle\nu_i, \nu_j\rangle = (S^Tg\,S)_{ij} = (hg^{-1}h)_{ij}$. Hence $g(s) = g(I + sY + s^2Z)$ with $Y = -2\phi\,g^{-1}h$ and
+$Z = g^{-1}(\nabla\phi\,\nabla\phi^T) + \phi^2(g^{-1}h)^2$, where $\nabla\phi$ is the column $(\partial_i\phi)$; in particular $g(s)$ is positive definite on $K$ for small $|s|$. For a
+matrix $X$, $\det(I + X) = 1 + \operatorname{tr}X + \frac12\bigl((\operatorname{tr}X)^2 - \operatorname{tr}(X^2)\bigr) + O(|X|^3)$ (expand the characteristic polynomial, or use
+the eigenvalues), and $\sqrt{1 + \epsilon} = 1 + \frac\epsilon2 - \frac{\epsilon^2}8 + O(\epsilon^3)$. With $X = sY + s^2Z$ this gives
+\[
+\sqrt{\det g(s)} = \sqrt{\det g}\,\Bigl(1 + \frac s2\operatorname{tr}Y + s^2\Bigl(\frac12\operatorname{tr}Z + \frac18(\operatorname{tr}Y)^2 - \frac14\operatorname{tr}(Y^2)\Bigr) + O(s^3)\Bigr),
+\]
+uniformly on $K$. Now $\operatorname{tr}Y = -2\phi\operatorname{tr}S = -2nH\phi$, $\operatorname{tr}(Y^2) = 4\phi^2|S|^2$ and $\operatorname{tr}Z = |\nabla\phi|^2 + \phi^2|S|^2$. So the
+coefficient of $s$ is $-nH\phi$, and if $H = 0$ the coefficient of $s^2$ is $\frac12(|\nabla\phi|^2 + \phi^2|S|^2) - \phi^2|S|^2 = \frac12(|\nabla\phi|^2 - |S|^2\phi^2)$. Integrating
+over $K$ gives $A^{\prime}(0)$ and $A^{\prime\prime}(0)$.
+\end{proof}
+
+\begin{definition}\label{riemannian-geometry:definition-minimal}
+A hypersurface $M \subseteq \RR^{n+1}$ is \emph{minimal} if $H = 0$ everywhere. A minimal hypersurface is \emph{stable} if $A^{\prime\prime}(0) \geq 0$ for all variations as in
+Proposition~\ref{riemannian-geometry:proposition-variation-area}.
+\end{definition}
+
+By the proposition, $M$ is minimal if and only if $A^{\prime}(0) = 0$ for every such variation: if $H(u_0) \neq 0$, a function $\phi \geq 0$ supported where $H$ has the sign of
+$H(u_0)$, with $\phi(u_0) > 0$, gives $A^{\prime}(0) \neq 0$. The word ``minimal'' refers to this critical point property; a minimal surface need not minimise area. For a
+minimal surface in $\RR^3$ the principal curvatures are $\pm\kappa$, so $|S|^2 = 2\kappa^2 = -2K$, and the second variation is $\int_K(|\nabla\phi|^2 + 2K\phi^2)\,dA$.
+
+\begin{example}\label{riemannian-geometry:example-minimal-surfaces}
+We use Proposition~\ref{riemannian-geometry:proposition-surface-coordinates}.
+\begin{enumerate}
+\item \emph{Planes} are minimal, with $S = 0$.
+\item \emph{The catenoid}, the surface of revolution of the catenary, $x(u, v) = (\cosh v\cos u, \cosh v\sin u, v)$. Here $E = G = \cosh^2v$, $F = 0$, the unit normal is
+$\nu = (\cos u, \sin u, -\sinh v)/\cosh v$, and $h_{11} = -1$, $h_{12} = 0$, $h_{22} = 1$. So $H = (Eh_{22} + Gh_{11})/(2EG) = 0$, and $K = -1/\cosh^4v$.
+\item \emph{The helicoid}, swept out by a line rotating about an axis while moving along it, $x(u, v) = (v\cos u, v\sin u, u)$. Here $E = 1 + v^2$, $F = 0$, $G = 1$,
+$\nu = (-\sin u, \cos u, -v)/\sqrt{1 + v^2}$, and $h_{11} = h_{22} = 0$, $h_{12} = 1/\sqrt{1 + v^2}$. So $H = 0$ and $K = -1/(1 + v^2)^2$.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}[Minimal surface equation]\label{riemannian-geometry:proposition-minimal-surface-equation}
+Let $u \colon \Omega \to \RR$ be smooth on an open $\Omega \subseteq \RR^2$, write $p = u_x$, $q = u_y$ and $W = \sqrt{1 + p^2 + q^2}$, and give the graph of $u$ the upward unit
+normal $\nu = (-p, -q, 1)/W$. Then its mean curvature is
+\[
+2H = \frac{(1 + q^2)u_{xx} - 2pq\,u_{xy} + (1 + p^2)u_{yy}}{W^3} = \frac{\partial}{\partial x}\Bigl(\frac pW\Bigr) + \frac{\partial}{\partial y}\Bigl(\frac qW\Bigr).
+\]
+So the graph is minimal if and only if $u$ solves the \emph{minimal surface equation} $(1 + q^2)u_{xx} - 2pq\,u_{xy} + (1 + p^2)u_{yy} = 0$.
+\end{proposition}
+
+\begin{proof}
+For $x(x, y) = (x, y, u(x, y))$: $E = 1 + p^2$, $F = pq$, $G = 1 + q^2$, $EG - F^2 = W^2$, and $h_{11} = u_{xx}/W$, $h_{12} = u_{xy}/W$, $h_{22} = u_{yy}/W$, since the second
+derivatives of $x$ are $(0, 0, u_{xx})$, $(0, 0, u_{xy})$, $(0, 0, u_{yy})$. The formula for $H$ in
+Proposition~\ref{riemannian-geometry:proposition-surface-coordinates} gives the first expression. For the second,
+$\partial_x(p/W) = (u_{xx}W^2 - p(pu_{xx} + qu_{xy}))/W^3$ and $\partial_y(q/W) = (u_{yy}W^2 - q(pu_{xy} + qu_{yy}))/W^3$, whose sum is the first expression, as
+$W^2 - p^2 = 1 + q^2$ and $W^2 - q^2 = 1 + p^2$.
+\end{proof}
+
+For example \emph{Scherk's surface}, the graph of $u = \log\cos y - \log\cos x$ over the square $|x|, |y| < \pi/2$, is minimal: $p = \tan x$, $q = -\tan y$, $u_{xy} = 0$, and
+$(1 + q^2)u_{xx} + (1 + p^2)u_{yy} = \sec^2y\sec^2x - \sec^2x\sec^2y = 0$. It tends to $\pm\infty$ on the sides of the square, and cannot be extended to a larger domain.
+
+\begin{proposition}[Minimal graphs minimise area]\label{riemannian-geometry:proposition-graphs-minimise}
+Let $\Omega \subseteq \RR^2$ be open and convex, $u \colon \Omega \to \RR$ a solution of the minimal surface equation, and $G \subseteq \Omega \times \RR$ a compact piece of its
+graph that is a surface with boundary, oriented by the upward normal. Let $\Sigma \subseteq \Omega \times \RR$ be a compact oriented surface with boundary
+(Definition~\ref{differential-forms:definition-manifold-with-boundary}) with $\partial\Sigma = \partial G$ as oriented curves. Then $\mathrm{Area}(\Sigma) \geq \mathrm{Area}(G)$.
+\end{proposition}
+
+\begin{proof}
+Extend the unit normal of the graph to the unit vector field $N(x, y, z) = (-p, -q, 1)/W$ on $\Omega \times \RR$, independent of $z$, and let
+$\omega = \iota_N(dx \wedge dy \wedge dz)$. As in the proof of Corollary~\ref{riemannian-geometry:corollary-divergence},
+$d\omega = (\operatorname{div}N)\,dx \wedge dy \wedge dz$, and $\operatorname{div}N = -\partial_x(p/W) - \partial_y(q/W) = -2H = 0$ by
+Proposition~\ref{riemannian-geometry:proposition-minimal-surface-equation}. The open set $\Omega \times \RR$ is convex, so $\omega = d\eta$ for a $1$-form $\eta$ by the Poincar\'e lemma
+(Theorem~\ref{de-rham:theorem-homotopy-invariance}). By Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}),
+$\int_\Sigma\omega = \int_{\partial\Sigma}\eta = \int_{\partial G}\eta = \int_G\omega$. By Proposition~\ref{riemannian-geometry:proposition-flux}, on a surface with unit normal $n$
+defining its orientation, $\omega$ restricts to $\langle N, n\rangle\,dA$. On $G$, $n = N$, so $\int_G\omega = \mathrm{Area}(G)$; on $\Sigma$, $\langle N, n\rangle \leq 1$, so
+$\int_\Sigma\omega \leq \mathrm{Area}(\Sigma)$.
+\end{proof}
+
+The form $\omega$ is a \emph{calibration}: a closed form whose restriction to every surface is at most the area form, with equality on the graph. In particular minimal graphs
+are stable, since the surfaces $x_s(K)$ of Proposition~\ref{riemannian-geometry:proposition-variation-area} stay in $\Omega \times \RR$ and have the same boundary as the graph for
+small $|s|$. The comparison only involves surfaces inside the cylinder $\Omega \times \RR$ over a convex domain, where the calibration is defined; a minimal surface
+that is not a graph, such as the catenoid, need not have this property.
+
+The minimal surface equation is a nonlinear elliptic equation, and its entire solutions are much more rigid than harmonic functions: $x^2 - y^2$ is harmonic on all of
+$\RR^2$ without being affine, but the only minimal graphs over the whole plane are planes. The proof below is Nitsche's \cite{nitsche-1957}; it reduces the statement to
+Liouville's theorem through a theorem of J\"orgens on the Monge--Amp\`ere equation.
+
+\begin{lemma}[J\"orgens]\label{riemannian-geometry:lemma-jorgens}
+Let $\varphi \colon \RR^2 \to \RR$ be smooth with $\varphi_{xx} > 0$ and $\varphi_{xx}\varphi_{yy} - \varphi_{xy}^2 = 1$ everywhere. Then the Hessian of $\varphi$ is constant.
+\end{lemma}
+
+\begin{proof}
+Write $a = \varphi_{xx}$, $b = \varphi_{xy}$, $c = \varphi_{yy}$, so $a > 0$ and $ac - b^2 = 1$; then $c > 0$, the Hessian $\mathcal{H}$ is positive definite, and
+$a + c \geq 2\sqrt{ac} \geq 2$.
+
+\emph{Step 1: the Lewy map.} Let $L \colon \RR^2 \to \RR^2$, $L(z) = z + \nabla\varphi(z)$. For $z_1, z_2 \in \RR^2$,
+$\langle\nabla\varphi(z_2) - \nabla\varphi(z_1), z_2 - z_1\rangle = \int_0^1\langle\mathcal{H}(z_1 + t(z_2 - z_1))(z_2 - z_1), z_2 - z_1\rangle\,dt \geq 0$, so
+\[
+|L(z_2) - L(z_1)|^2 = |z_2 - z_1|^2 + 2\langle\nabla\varphi(z_2) - \nabla\varphi(z_1), z_2 - z_1\rangle + |\nabla\varphi(z_2) - \nabla\varphi(z_1)|^2 \geq |z_2 - z_1|^2 .
+\]
+So $L$ is injective, and its image is closed: if $L(z_k) \to w$, then $(z_k)$ is a Cauchy sequence, $z_k \to z$ and $L(z) = w$. Its differential $I + \mathcal{H}$ is positive
+definite, hence invertible, so $L$ is a local diffeomorphism (Theorem~\ref{real-analysis:theorem-inverse-function}) and its image is open. As $\RR^2$ is connected, $L$ is a
+diffeomorphism of $\RR^2$ onto itself.
+
+\emph{Step 2: a holomorphic function.} Write $(\xi, \eta) = L(x, y)$ and $\zeta = \xi + i\eta$, and define $F(\zeta) = w + iv$ with $w = x - \varphi_x$ and $v = \varphi_y - y$,
+where $(x, y) = L^{-1}(\xi, \eta)$; $F$ is smooth. From $d(\xi, \eta) = (I + \mathcal{H})\,d(x, y)$ and $d(w, v) = N\,d(x, y)$ with
+$N = \bigl(\begin{smallmatrix} 1 - a & -b\\ b & c - 1\end{smallmatrix}\bigr)$, the Jacobian matrix of $(w, v)$ with respect to $(\xi, \eta)$ is
+\[
+N(I + \mathcal{H})^{-1} = \frac1{2 + a + c}\begin{pmatrix} 1 - a & -b\\ b & c - 1\end{pmatrix}\begin{pmatrix} 1 + c & -b\\ -b & 1 + a\end{pmatrix}
+= \frac1{2 + a + c}\begin{pmatrix} c - a & -2b\\ 2b & c - a\end{pmatrix},
+\]
+using $\det(I + \mathcal{H}) = 1 + a + c + ac - b^2 = 2 + a + c$ and $ac - b^2 = 1$ to simplify the entries. This matrix satisfies the Cauchy--Riemann equations, so $F$ is an
+entire function (Proposition~\ref{complex-analysis:proposition-cauchy-riemann}), with
+\[
+F^{\prime} = \frac{(c - a) + 2ib}{2 + a + c}, \qquad |F^{\prime}|^2 = \frac{(a + c)^2 - 4(ac - b^2)}{(a + c + 2)^2} = \frac{a + c - 2}{a + c + 2} < 1 .
+\]
+
+\emph{Step 3: Liouville.} The derivative $F^{\prime}$ is entire (Theorem~\ref{complex-analysis:theorem-analytic}) and bounded, hence constant
+(Corollary~\ref{complex-analysis:corollary-liouville}). So $\rho = |F^{\prime}|^2 < 1$ is constant, hence so is $a + c = 2(1 + \rho)/(1 - \rho)$, and then the real and imaginary parts
+of $F^{\prime}$ show that $c - a$ and $b$ are constant. So $a$, $b$ and $c$ are constant.
+\end{proof}
+
+\begin{theorem}[Bernstein]\label{riemannian-geometry:theorem-bernstein}
+Let $u \colon \RR^2 \to \RR$ be a smooth solution of the minimal surface equation on the whole plane. Then $u$ is affine, $u(x, y) = \alpha x + \beta y + \gamma$: an entire
+minimal graph is a plane.
+\end{theorem}
+
+\begin{proof}
+With the notation of Proposition~\ref{riemannian-geometry:proposition-minimal-surface-equation}, write $\mathcal{M} = (1 + q^2)u_{xx} - 2pq\,u_{xy} + (1 + p^2)u_{yy}$, and
+consider the smooth functions
+\[
+A = \frac{1 + p^2}{W}, \qquad B = \frac{pq}{W}, \qquad C = \frac{1 + q^2}{W}.
+\]
+A direct computation, using $p_x = u_{xx}$, $p_y = q_x = u_{xy}$ and $q_y = u_{yy}$, gives
+\[
+\frac{\partial A}{\partial y} - \frac{\partial B}{\partial x} = -\frac{q\mathcal{M}}{W^3}, \qquad \frac{\partial C}{\partial x} - \frac{\partial B}{\partial y} = -\frac{p\mathcal{M}}{W^3}
+\]
+(for the first, both $W^3\partial_yA$ and $W^3\partial_xB$ are polynomials in $p, q, u_{xx}, u_{xy}, u_{yy}$, and their difference is $-q\mathcal{M}$; the second follows by
+exchanging $x$ and $y$). As $\mathcal{M} = 0$, the $1$-forms $A\,dx + B\,dy$ and $B\,dx + C\,dy$ are closed on $\RR^2$, hence exact by the Poincar\'e lemma
+(Theorem~\ref{de-rham:theorem-homotopy-invariance}): there are smooth $P$, $Q$ with $dP = A\,dx + B\,dy$ and $dQ = B\,dx + C\,dy$. Then $P\,dx + Q\,dy$ is closed, since
+$P_y = B = Q_x$, so it is $d\varphi$ for a smooth $\varphi$. Its Hessian is
+\[
+\varphi_{xx} = A = \frac{1 + p^2}{W} > 0, \qquad \varphi_{xy} = B, \qquad \varphi_{yy} = C, \qquad \varphi_{xx}\varphi_{yy} - \varphi_{xy}^2 = \frac{(1 + p^2)(1 + q^2) - p^2q^2}{W^2} = 1 .
+\]
+By Lemma~\ref{riemannian-geometry:lemma-jorgens}, $A$, $B$ and $C$ are constant. Then $A + C = (2 + p^2 + q^2)/W = W + 1/W$ is constant, and so is $W \geq 1$, since
+$t \mapsto t + 1/t$ is injective on $[1, \infty)$. Hence $p^2 = AW - 1$ and $q^2 = CW - 1$ are constant, and so are $p$ and $q$, being continuous on the connected plane with
+constant square. So $u$ has constant gradient and is affine.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-bernstein-problem}
+The \emph{Bernstein problem} asks whether an entire minimal graph over $\RR^n$, a solution of $\operatorname{div}(\nabla u/\sqrt{1 + |\nabla u|^2}) = 0$ on $\RR^n$, must be
+affine. The answer is yes for $n \leq 7$ (De Giorgi for $n = 3$, Almgren for $n = 4$, Simons \cite{simons-1968} for $n \leq 7$) and no for $n \geq 8$: Bombieri, De Giorgi and
+Giusti \cite{bombieri-de-giorgi-giusti-1969} constructed a non-affine entire minimal graph over $\RR^8$, related to the area-minimising cone over
+$S^3 \times S^3 \subseteq \RR^8$. The existence of minimal surfaces spanning a given curve, Plateau's problem, is a separate and deep theory.
+\end{remark}
 
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 
@@ -1521,4 +1862,25 @@ The hyperbolic length of $v \in T_zH$ is $|v|/y$, and that of its image is $|\ph
 $z \mapsto z + t$, $z \mapsto e^tz$ and $z \mapsto z/(1 - tz)$ (for $z/(1 - tz)$, the derivative in $t$ at $t = 0$ is $z^2 = (x^2 - y^2) + 2ixy$), which are of the form above
 (for the last one, with $a = d = 1$, $b = 0$, $c = -t$, defined on all of $H$ since $1 - tz \neq 0$ for $y > 0$); so they are Killing fields. They are linearly independent,
 and by Theorem~\ref{riemannian-geometry:theorem-killing-algebra} the Killing algebra has dimension at most $2 \cdot 3/2 = 3$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-catenoid-helicoid}
+Show that the helicoid and the catenoid of Example~\ref{riemannian-geometry:example-minimal-surfaces} are locally isometric: in the parameters $(u, w)$, with $v = \sinh w$ on the
+helicoid, both metrics are $\cosh^2w\,(du^2 + dw^2)$.
+\end{exercise}
+
+\begin{solution}
+The helicoid has the metric $(1 + v^2)\,du^2 + dv^2$. Substituting $v = \sinh w$, $dv = \cosh w\,dw$ and $1 + v^2 = \cosh^2w$ gives $\cosh^2w\,(du^2 + dw^2)$. The catenoid,
+with $v$ renamed $w$, has $E = G = \cosh^2w$ and $F = 0$. So the map sending the point with parameters $(u, \sinh w)$ on the helicoid to the point with parameters $(u, w)$ on
+the catenoid preserves the metric: it is a local isometry from the helicoid onto the catenoid, which winds the helicoid infinitely often around the catenoid, as the catenoid is
+$2\pi$-periodic in $u$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-no-compact-minimal}
+Show that a minimal surface in $\RR^3$ has Gaussian curvature $K \leq 0$, and deduce that there is no compact minimal surface in $\RR^3$.
+\end{exercise}
+
+\begin{solution}
+If $H = 0$, the principal curvatures are $\kappa$ and $-\kappa$, so $K = -\kappa^2 \leq 0$ (Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}). A compact surface in
+$\RR^3$ has a point with $K > 0$ by Lemma~\ref{riemannian-geometry:lemma-elliptic-point}.
 \end{solution}
