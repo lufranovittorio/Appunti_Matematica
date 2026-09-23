@@ -12,6 +12,20 @@ references in proofs).
 
 ## Done
 
+- [x] **Weinstein and Synge** (`riemannian-geometry`, variation section):
+  Weinstein's fixed point theorem, Synge's theorem (even dimension: simply
+  connected; odd dimension: orientable), a counterexample for every
+  hypothesis, and $\mathbb{RP}^2 \times \mathbb{RP}^2$ has no metric of
+  positive curvature. The second variation formula now has its boundary term.
+- [x] **Conformal metrics** (`riemannian-geometry`): $K = -e^{-2u}\Delta u$;
+  the hyperbolic plane, the Poincaré disc and the Cayley map, the sphere.
+- [x] **Uniformisation** (`complex-manifolds`, new section): coverings and
+  quotients of Riemann surfaces, the uniformisation theorem (quoted),
+  automorphisms of $\mathbb{CP}^1$, $\mathbb{C}$, $\mathbb{D}$, the Poincaré
+  metric and Schwarz–Pick, classification of Riemann surfaces by their
+  universal covering, compact surfaces of genus $\geq 2$ are hyperbolic with
+  area $4\pi(g-1)$, the little Picard theorem.
+
 - [x] **First and second variation of energy** (`riemannian-geometry`, new
   section): variations and variation fields, energy versus length, the first
   variation formula (geodesics are the critical points), the index form and

@@ -6,7 +6,8 @@
 A complex manifold is a manifold with holomorphic transition functions. The rigidity of holomorphic functions makes these spaces
 very different from smooth manifolds: compact complex manifolds have only constant holomorphic functions, and their geometry is
 recorded instead by the cohomology of holomorphic bundles and by the decomposition of differential forms into types, which is the
-subject of Hodge theory. This chapter sets up complex manifolds, the operators $\partial$ and $\bar\partial$, analytic subvarieties and
+subject of Hodge theory. This chapter sets up complex manifolds, the uniformisation of Riemann surfaces with its consequences (the hyperbolic metric, Picard's theorem),
+the operators $\partial$ and $\bar\partial$, analytic subvarieties and
 blow-ups. References: \cite[Chapter 0]{griffiths-harris}, \cite[Chapter 2]{huybrechts-complex},
 \cite[Chapter 3]{voisin-hodge-1}.
 
@@ -122,6 +123,152 @@ Let $f \colon X \to T = \CC^m/\Lambda$. The projection $\CC^m \to T$ is a coveri
 Proposition~\ref{complex-manifolds:proposition-no-functions} each component of $F$ is constant, so $f$ is constant. The projective line is covered by the two charts $U_0$, $U_1$, each homeomorphic to $\CC$, with
 path-connected intersection $\CC^\times$; by the Seifert--van Kampen theorem (Theorem~\ref{homotopy:theorem-van-kampen}) $\pi_1(\CC\PP^1)$ is a quotient of the free product of two trivial groups, hence trivial.
 \end{proof}
+
+\section{Uniformisation of Riemann surfaces}\label{complex-manifolds:section-uniformisation}
+
+A \emph{Riemann surface} is a connected complex manifold of dimension $1$. The uniformisation theorem reduces the study of all Riemann surfaces to three simply connected
+ones, the sphere, the plane and the disc, and to groups of automorphisms acting on them. Combined with the hyperbolic metric of the disc it shows that most Riemann surfaces,
+among them all compact ones of genus at least $2$, carry a natural metric of constant curvature $-1$; and it gives a short proof of Picard's theorem. Throughout,
+$\mathbb{D} = \{|z| < 1\}$ and $\mathrm{Aut}(X)$ is the group of biholomorphisms of $X$ to itself.
+
+\begin{lemma}\label{complex-manifolds:lemma-coverings}
+Let $X$ be a Riemann surface.
+\begin{enumerate}
+\item If $p \colon Y \to X$ is a covering map with $Y$ connected, then $Y$ has a unique structure of Riemann surface for which $p$ is a local biholomorphism, and the deck
+transformations are biholomorphisms.
+\item If a group $\Gamma$ acts on $X$ freely and properly by biholomorphisms, then $X/\Gamma$ has a unique structure of Riemann surface for which $X \to X/\Gamma$ is a local
+biholomorphism, and a map $f \colon X/\Gamma \to Z$ to a Riemann surface is holomorphic if and only if its composite with the projection is.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+These are the proofs of Theorem~\ref{smooth-manifolds:theorem-smooth-quotient} and Example~\ref{smooth-manifolds:example-smooth-quotients}, with ``holomorphic'' in place of
+``smooth'': the charts of $Y$ (of $X/\Gamma$) are the charts of $X$ composed with $p$ on sheets over evenly covered chart domains (with local inverses of the projection), and their
+transition maps are transition maps of $X$, composed with the biholomorphisms of $\Gamma$ in the case of $X/\Gamma$. Topologically, $Y$ is a surface by
+Proposition~\ref{topological-manifolds:proposition-constructions}(4), and $X/\Gamma$ one by (3). A deck transformation $\tau$ satisfies $p \circ \tau = p$, so in these charts it is
+the identity map of coordinates.
+\end{proof}
+
+In particular the universal covering $\widetilde{X}$ of a Riemann surface (Theorem~\ref{homotopy:theorem-universal-cover}) is a simply connected Riemann surface, $\pi_1(X)$ acts
+on it freely and properly by biholomorphisms as the deck group (Proposition~\ref{homotopy:proposition-deck}), and $X \cong \widetilde{X}/\pi_1(X)$.
+
+\begin{theorem}[Uniformisation theorem]\label{complex-manifolds:theorem-uniformisation}
+Every simply connected Riemann surface is biholomorphic to exactly one of $\CC\PP^1$, $\CC$ and $\mathbb{D}$.
+\end{theorem}
+
+This is due to Koebe and Poincar\'e (1907); see \cite{forster-riemann-surfaces}. The three surfaces are pairwise non-biholomorphic: $\CC\PP^1$ is compact and the others are not,
+and a biholomorphism $\CC \to \mathbb{D}$ would be a bounded nonconstant entire function (Exercise~\ref{complex-analysis:exercise-disc-not-plane}). For open subsets of $\CC$ the
+theorem is the Riemann mapping theorem (Theorem~\ref{complex-analysis:theorem-riemann-mapping}); the general case constructs the biholomorphism from Green's functions, using
+Perron's method to solve the Dirichlet problem on the surface.
+
+\begin{lemma}\label{complex-manifolds:lemma-automorphisms}
+\begin{enumerate}
+\item $\mathrm{Aut}(\CC\PP^1)$ consists of the M\"obius maps $z \mapsto (az + b)/(cz + d)$, $ad - bc \neq 0$, and each of them has a fixed point.
+\item $\mathrm{Aut}(\CC)$ consists of the maps $z \mapsto az + b$, $a \neq 0$; those without fixed points are the translations $z \mapsto z + b$, $b \neq 0$.
+\item $\mathrm{Aut}(\mathbb{D})$ consists of the maps $z \mapsto \lambda(z - a)/(1 - \bar az)$ with $|\lambda| = 1$ and $a \in \mathbb{D}$, and acts transitively on $\mathbb{D}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(2) is Exercise~\ref{complex-analysis:exercise-automorphisms-plane}, and $az + b = z$ has the solution $b/(1 - a)$ when $a \neq 1$. (3) is
+Proposition~\ref{complex-analysis:proposition-disc-automorphisms}; the map $\phi_{-a}$ sends $0$ to $a$. (1) A M\"obius map is holomorphic in the charts of $\CC\PP^1$, with the
+M\"obius inverse $z \mapsto (dz - b)/(-cz + a)$, so it is an automorphism, and the M\"obius maps act transitively ($z \mapsto z + b$ and $z \mapsto 1/z$ move any point to any
+other). Given $f \in \mathrm{Aut}(\CC\PP^1)$, choose a M\"obius $m$ with $m(f(\infty)) = \infty$; then $m \circ f$ restricts to an automorphism of $\CC = \CC\PP^1 \setminus \{\infty\}$,
+hence is $z \mapsto az + b$ by (2), and $f = m^{-1} \circ (m \circ f)$ is M\"obius. If $c = 0$, $\infty$ is a fixed point; if $c \neq 0$, the equation $cz^2 + (d - a)z - b = 0$ has a
+root $z_0 \in \CC$ (Corollary~\ref{complex-analysis:corollary-liouville}(2)), and $cz_0 + d \neq 0$, since at $z_0 = -d/c$ the left side is $(ad - bc)/c \neq 0$; so $z_0$ is a fixed point.
+\end{proof}
+
+\begin{proposition}[The Poincar\'e metric]\label{complex-manifolds:proposition-poincare-metric}
+Let $g_{\mathbb{D}} = 4|dz|^2/(1 - |z|^2)^2$ on $\mathbb{D}$, that is $4(dx^2 + dy^2)/(1 - x^2 - y^2)^2$.
+\begin{enumerate}
+\item (Schwarz--Pick) For every holomorphic $f \colon \mathbb{D} \to \mathbb{D}$,
+\[
+\frac{|f^{\prime}(z)|}{1 - |f(z)|^2} \leq \frac1{1 - |z|^2},
+\]
+that is, $f^*g_{\mathbb{D}} \leq g_{\mathbb{D}}$: holomorphic self-maps of the disc do not increase lengths of curves, hence distances.
+\item Every automorphism of $\mathbb{D}$ is an isometry of $g_{\mathbb{D}}$.
+\item $g_{\mathbb{D}}$ is complete, with constant curvature $-1$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Fix $a \in \mathbb{D}$, let $b = f(a)$ and $\phi_a(z) = (z - a)/(1 - \bar az)$. A computation gives $\phi_a^{\prime}(z) = (1 - |a|^2)/(1 - \bar az)^2$, so
+$\phi_{-a}^{\prime}(0) = 1 - |a|^2$ and $\phi_b^{\prime}(b) = 1/(1 - |b|^2)$. The map $h = \phi_b \circ f \circ \phi_{-a}$ sends $\mathbb{D}$ to $\mathbb{D}$ and $0$ to $0$, so
+$|h^{\prime}(0)| \leq 1$ by Schwarz's lemma (Lemma~\ref{complex-analysis:lemma-schwarz}), and by the chain rule $h^{\prime}(0) = f^{\prime}(a)(1 - |a|^2)/(1 - |b|^2)$. At a point
+$z$, $f^*g_{\mathbb{D}}$ is $4|f^{\prime}(z)|^2|dz|^2/(1 - |f(z)|^2)^2$, so the inequality says $f^*g_{\mathbb{D}} \leq g_{\mathbb{D}}$, and lengths of curves decrease.
+
+(2) Apply (1) to an automorphism and to its inverse: $f^*g_{\mathbb{D}} \leq g_{\mathbb{D}}$ and $g_{\mathbb{D}} = (f^{-1})^*f^*g_{\mathbb{D}}$ force equality.
+
+(3) The curvature is $-1$ by Proposition~\ref{riemannian-geometry:proposition-conformal-curvature} (Example~\ref{riemannian-geometry:example-conformal-metrics}(2)). For
+completeness, choose $\varepsilon > 0$ such that $\exp_0$ is defined on the ball of radius $\varepsilon$ in $T_0\mathbb{D}$. Since $\mathrm{Aut}(\mathbb{D})$ acts transitively
+by isometries, and isometries map geodesics to geodesics, the same $\varepsilon$ works at every point: every geodesic of unit speed is defined on an interval of length
+$\varepsilon$ around each of its times. So a maximal unit speed geodesic defined on $[0, T)$ with $T < \infty$ could be continued beyond $T$ from its point at time
+$T - \varepsilon/2$, a contradiction. Geodesics are defined for all time, and $g_{\mathbb{D}}$ is complete by Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}.
+\end{proof}
+
+\begin{theorem}\label{complex-manifolds:theorem-riemann-surfaces-classification}
+Every Riemann surface $X$ is biholomorphic to $\widetilde{X}/\Gamma$, where $\widetilde{X} \in \{\CC\PP^1, \CC, \mathbb{D}\}$ is its universal covering and $\Gamma \cong \pi_1(X)$ is
+a group of automorphisms of $\widetilde{X}$ acting freely and properly. Moreover:
+\begin{enumerate}
+\item $\widetilde{X} = \CC\PP^1$ if and only if $X \cong \CC\PP^1$;
+\item $\widetilde{X} = \CC$ if and only if $X$ is biholomorphic to $\CC$, to $\CC^\times$ or to a complex torus $\CC/\Lambda$;
+\item in all other cases $\widetilde{X} = \mathbb{D}$, and $X$ carries a unique complete metric of constant curvature $-1$ for which the projection $\mathbb{D} \to X$ is a local
+isometry; in holomorphic coordinates it has the form $\lambda(z)|dz|^2$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The first statement is Theorem~\ref{complex-manifolds:theorem-uniformisation} and the remark after Lemma~\ref{complex-manifolds:lemma-coverings}. (1) By
+Lemma~\ref{complex-manifolds:lemma-automorphisms}(1) every automorphism of $\CC\PP^1$ has a fixed point, so a group acting freely on it is trivial. (2) By
+Lemma~\ref{complex-manifolds:lemma-automorphisms}(2), $\Gamma$ consists of translations $z \mapsto z + \lambda$, and $\Lambda = \{\lambda\}$ is a subgroup of $\CC = \RR^2$. It is
+discrete: it is the orbit of $0$, which is a fibre of the covering $\CC \to X$. By Lemma~\ref{lie-groups:lemma-discrete-subgroups}, $\Lambda$ is $0$, $\ZZ\omega$ with
+$\omega \neq 0$, or a lattice. In the first case $X \cong \CC$; in the second, $z \mapsto e^{2\pi iz/\omega}$ is a covering $\CC \to \CC^\times$ whose fibres are the cosets of
+$\ZZ\omega$, so it induces a bijective local biholomorphism $\CC/\ZZ\omega \to \CC^\times$; in the third $X$ is a complex torus. Conversely these surfaces have universal covering
+$\CC$. (3) The group $\Gamma \subseteq \mathrm{Aut}(\mathbb{D})$ acts by isometries of $g_{\mathbb{D}}$ (Proposition~\ref{complex-manifolds:proposition-poincare-metric}), so
+$g_{\mathbb{D}}$ descends to a metric on $X$ making the projection a local isometry (Proposition~\ref{riemannian-geometry:proposition-quotient-metric}), of curvature $-1$; it is
+complete because geodesics of $X$ lift to geodesics of the complete $\mathbb{D}$ (as in the proof of Theorem~\ref{riemannian-geometry:theorem-bonnet-myers}), and in the
+holomorphic coordinates given by local inverses of the projection it is $4|dz|^2/(1 - |z|^2)^2$. It is unique because the projection is a local diffeomorphism, so the metric on
+$X$ is determined by its pullback $g_{\mathbb{D}}$.
+\end{proof}
+
+\begin{corollary}\label{complex-manifolds:corollary-compact-uniformisation}
+Let $X$ be a compact Riemann surface of genus $g$ (Theorem~\ref{topological-manifolds:theorem-classification-surfaces}; $X$ is orientable). If $g = 0$ then $X \cong \CC\PP^1$; if
+$g = 1$ then $X$ is a complex torus $\CC/\Lambda$; and if $g \geq 2$ then $X \cong \mathbb{D}/\Gamma$, and $X$ carries a metric of constant curvature $-1$, compatible with its
+complex structure, with area $4\pi(g - 1)$.
+\end{corollary}
+
+\begin{proof}
+If $g = 0$, $X$ is simply connected (Corollary~\ref{homotopy:corollary-spheres}), so $X$ is its own universal covering, compact, hence $\CC\PP^1$. If $g \geq 1$, $\pi_1(X)$ is
+nontrivial, as its abelianisation $H_1(X; \ZZ)$ (Theorem~\ref{singular-homology:theorem-hurewicz}) is $\ZZ^{2g}$
+(Example~\ref{singular-homology:example-cellular-computations}), so $\widetilde{X} \neq \CC\PP^1$ by
+Theorem~\ref{complex-manifolds:theorem-riemann-surfaces-classification}(1). If $\widetilde{X} = \mathbb{D}$, the metric of curvature $-1$ has area $A$ with $-A = 2\pi(2 - 2g)$ by
+the Gauss--Bonnet theorem (Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}), so $A = 4\pi(g - 1)$ and $g \geq 2$. If $\widetilde{X} = \CC$, then $X$ is compact among
+$\CC$, $\CC^\times$ and the tori, so it is a torus, of genus $1$. Hence $g = 1$ forces $\widetilde{X} = \CC$ and $g \geq 2$ forces $\widetilde{X} = \mathbb{D}$.
+\end{proof}
+
+\begin{corollary}[Little Picard theorem]\label{complex-manifolds:corollary-picard}
+A nonconstant entire function takes every complex value with at most one exception.
+\end{corollary}
+
+\begin{proof}
+Suppose the entire function $f$ omits two values; composing with an affine map we may assume they are $0$ and $1$, so $f \colon \CC \to X = \CC \setminus \{0, 1\}$. The fundamental
+group of $X$ is not abelian: $X = U \cup V$ with $U = \{\operatorname{Re}z < \frac34\} \setminus \{0\}$ and $V = \{\operatorname{Re}z > \frac14\} \setminus \{1\}$, where
+$U \cap V$ is a convex strip, hence simply connected, and $U$, $V$ deformation retract onto the circles of radius $\frac14$ around $0$ and $1$ (radially, along segments
+that stay in the convex half planes), so $\pi_1(U) \cong \pi_1(V) \cong \ZZ$ (Lemma~\ref{homotopy:lemma-deformation-retract} and Theorem~\ref{homotopy:theorem-circle}) and
+$\pi_1(X) \cong \ZZ * \ZZ$ by Corollary~\ref{homotopy:corollary-spheres}, a non-abelian group (Example~\ref{homotopy:example-wedge}). Since $X$ is not compact and $\pi_1(X)$ is not abelian, while
+$\CC$, $\CC^\times$ and the tori have abelian fundamental groups $0$, $\ZZ$ and $\ZZ^2$, Theorem~\ref{complex-manifolds:theorem-riemann-surfaces-classification} gives a covering
+map $p \colon \mathbb{D} \to X$ that is a local biholomorphism. As $\CC$ is simply connected, $f$ lifts to a continuous $\tilde f \colon \CC \to \mathbb{D}$ with $p \circ \tilde f = f$
+(Proposition~\ref{homotopy:proposition-lifting-criterion}), which is holomorphic, being locally a local inverse of $p$ composed with $f$. Then $\tilde f$ is a bounded entire function,
+hence constant (Corollary~\ref{complex-analysis:corollary-liouville}), and so is $f$.
+\end{proof}
+
+\begin{remark}\label{complex-manifolds:remark-uniformisation-metrics}
+For compact surfaces the three cases match the sign of the Euler characteristic: $\CC\PP^1$ carries the round metric of curvature $1$ (Example~\ref{riemannian-geometry:example-conformal-metrics}(3)),
+complex tori the flat metric $|dz|^2$, and surfaces of genus $g \geq 2$ the hyperbolic metric, all compatible with the complex structure; the sign of the curvature is forced by the
+Gauss--Bonnet theorem. Schwarz--Pick also shows that the hyperbolic metric is intrinsic: a holomorphic map $f \colon X \to Y$ between Riemann surfaces covered by the disc
+lifts to a holomorphic map $\mathbb{D} \to \mathbb{D}$ of the universal coverings (Proposition~\ref{homotopy:proposition-lifting-criterion}), so it does not increase the lengths of
+curves for the hyperbolic metrics of Theorem~\ref{complex-manifolds:theorem-riemann-surfaces-classification}(3).
+\end{remark}
 
 \section{Almost complex structures and forms of type $(p,q)$}\label{complex-manifolds:section-pq}
 

@@ -10,9 +10,9 @@ and, together with an orientation, defines the Hodge star, the codifferential an
 manifolds; the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
 theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the first and second variation of energy, with Jacobi's theorem that
-geodesics stop minimising after a conjugate point and a complete proof of the Bonnet--Myers theorem; the geometry of submanifolds, with the
+geodesics stop minimising after a conjugate point, a complete proof of the Bonnet--Myers theorem, and the theorems of Weinstein and Synge on manifolds of positive curvature; the geometry of submanifolds, with the
 first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi; the classical global theorems on surfaces: Gauss--Bonnet for
-regions with boundary, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
+regions with boundary, the curvature of conformal metrics, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
 area-minimising property of minimal graphs and Bernstein's theorem; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
 and Hopf classifying the spaces of constant curvature, and the statements of Cheng's maximal diameter theorem and of the sphere theorem. References:
 \cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{kobayashi-nomizu}, \cite{joyce-special-holonomy}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
@@ -727,10 +727,13 @@ I(V, W) = \langle D_tV, W\rangle\Big|_a^b - \sum_{i=1}^{k-1}\langle\Delta_iD_tV,
 with $\Delta_iD_tV = D_tV(t_i^+) - D_tV(t_i^-)$. In particular $I(J, W) = 0$ for a Jacobi field $J$ and every $W$ vanishing at $a$ and $b$.
 
 \begin{proposition}[Second variation formula]\label{riemannian-geometry:proposition-second-variation}
-Let $\gamma \colon [a, b] \to M$ be a geodesic and $f$ a proper variation of $\gamma$ with variation field $V$. Then
+Let $\gamma \colon [a, b] \to M$ be a geodesic and $f$ a variation of $\gamma$ with variation field $V$, and let $A(t) = D_s\partial_sf(0, t)$, the acceleration at $s = 0$ of
+the curve $s \mapsto f(s, t)$. Then
 \[
-\frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = I(V, V) = \int_a^b\bigl(|D_tV|^2 - R(V, \dot\gamma, \dot\gamma, V)\bigr)\,dt .
+\frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = I(V, V) + \langle A, \dot\gamma\rangle\Big|_a^b = \int_a^b\bigl(|D_tV|^2 - R(V, \dot\gamma, \dot\gamma, V)\bigr)\,dt + \langle A, \dot\gamma\rangle\Big|_a^b .
 \]
+The boundary term vanishes if $f$ is proper, and also if the curves $s \mapsto f(s, a)$ and $s \mapsto f(s, b)$ are geodesics, for instance for
+$f(s, t) = \exp_{\gamma(t)}(sV(t))$.
 \end{proposition}
 
 \begin{proof}
@@ -745,9 +748,9 @@ $D_sD_t\partial_sf = D_tD_s\partial_sf + R(\partial_sf, \partial_tf)\partial_sf$
 \langle D_sD_t\partial_sf, \dot\gamma\rangle = \frac{\partial}{\partial t}\langle D_s\partial_sf, \dot\gamma\rangle + R(V, \dot\gamma, V, \dot\gamma)
 = \frac{\partial}{\partial t}\langle D_s\partial_sf, \dot\gamma\rangle - R(V, \dot\gamma, \dot\gamma, V).
 \]
-The field $A(t) = D_s\partial_sf(0, t)$ is the acceleration at $s = 0$ of the curve $s \mapsto f(s, t)$, which is the same curve for both pieces meeting at $t_i$; so $A$
-is continuous, and so is $\dot\gamma$. Hence the integrals of $\partial_t\langle A, \dot\gamma\rangle$ add up to $\langle A, \dot\gamma\rangle|_a^b$, which vanishes: the curves
-$s \mapsto f(s, a)$ and $s \mapsto f(s, b)$ are constant, so $A(a) = A(b) = 0$.
+The field $A$ at $t_i$ is the acceleration of the curve $s \mapsto f(s, t_i)$, which is the same curve for both pieces meeting at $t_i$; so $A$ is continuous, and so is
+$\dot\gamma$. Hence the integrals of $\partial_t\langle A, \dot\gamma\rangle$ add up to $\langle A, \dot\gamma\rangle|_a^b$. If $f$ is proper, the curves $s \mapsto f(s, a)$
+and $s \mapsto f(s, b)$ are constant, so $A(a) = A(b) = 0$; if they are geodesics, $A(a) = A(b) = 0$ by Proposition~\ref{riemannian-geometry:proposition-geodesic-speed}.
 \end{proof}
 
 \begin{theorem}[Jacobi]\label{riemannian-geometry:theorem-jacobi-conjugate}
@@ -805,9 +808,102 @@ so $\pi_1(M, p)$ is finite.
 For example the round sphere of radius $1/\sqrt\kappa$ has $\mathrm{Ric} = (n - 1)\kappa g$ and diameter exactly $\pi/\sqrt\kappa$, so the bound is sharp; Cheng's theorem
 (Theorem~\ref{riemannian-geometry:theorem-maximal-diameter}) says that it is the only case of equality. The hypothesis cannot be weakened to $\mathrm{Ric} > 0$: the paraboloid
 $z = x^2 + y^2$ is complete, being closed in $\RR^3$, and has Gaussian curvature $4/(1 + 4x^2 + 4y^2)^2 > 0$
-(Section~\ref{riemannian-geometry:section-submanifolds}), but it is not compact; its curvature tends to $0$ at infinity. A related
-application of the second variation formula is Synge's theorem: a compact orientable Riemannian manifold of even dimension with positive sectional curvature is simply
-connected \cite[Chapter 9]{do-carmo-riemannian}.
+(Section~\ref{riemannian-geometry:section-submanifolds}), but it is not compact; its curvature tends to $0$ at infinity.
+
+The second variation formula also controls the topology of compact manifolds of positive curvature through their isometries. The key step is a fixed point theorem.
+
+\begin{theorem}[Weinstein]\label{riemannian-geometry:theorem-weinstein}
+Let $M$ be a compact connected oriented Riemannian manifold of dimension $n$ with positive sectional curvature, and $F$ an isometry of $M$ that preserves the
+orientation if $n$ is even and reverses it if $n$ is odd. Then $F$ has a fixed point.
+\end{theorem}
+
+\begin{proof}
+Suppose not. The function $x \mapsto d(x, F(x))$ is continuous and positive on the compact $M$; let $x_0$ be a minimum point, $L = d(x_0, F(x_0)) > 0$, and
+$\gamma \colon [0, L] \to M$ a minimising geodesic of unit speed from $x_0$ to $F(x_0)$ (Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}). An isometry maps geodesics to
+geodesics, since in charts $y$ and $y \circ F$ the metric has the same coefficients (as in the proof of Theorem~\ref{riemannian-geometry:theorem-bonnet-myers}), and it
+preserves lengths of curves, hence distances.
+
+\emph{Step 1: $d_{x_0}F(\dot\gamma(0)) = \dot\gamma(L)$.} Let $m = \gamma(L/2)$. Then
+$d(m, F(m)) \leq d(m, F(x_0)) + d(F(x_0), F(m)) = L/2 + d(x_0, m) = L$, and $d(m, F(m)) \geq L$ by the choice of $x_0$. So the curve that follows $\gamma$ from $m$ to $F(x_0)$
+and then $F \circ \gamma$ from $F(x_0)$ to $F(m)$ has unit speed and length $d(m, F(m))$; by Lemma~\ref{riemannian-geometry:lemma-minimising-geodesic} it is a geodesic,
+hence smooth at $F(x_0)$, where its two velocities are $\dot\gamma(L)$ and $d_{x_0}F(\dot\gamma(0))$.
+
+\emph{Step 2: a closed-up parallel field.} Let $P \colon T_{x_0}M \to T_{F(x_0)}M$ be parallel transport along $\gamma$. It is a linear isometry
+(Proposition~\ref{riemannian-geometry:proposition-geodesic-speed}) and preserves orientations, as in the proof of
+Proposition~\ref{riemannian-geometry:proposition-holonomy-basic}(4). So $B = P^{-1} \circ d_{x_0}F$ is an orthogonal map of $T_{x_0}M$ with $\det B = 1$ if $F$ preserves the
+orientation and $\det B = -1$ if it reverses it; in both cases of the theorem $\det B = (-1)^n$. As $\dot\gamma$ is parallel, $P(\dot\gamma(0)) = \dot\gamma(L)$, so $B$ fixes
+$\dot\gamma(0)$ by Step 1, and preserves the orthogonal complement $E$ of $\dot\gamma(0)$, of dimension $m = n - 1$, with $\det(B|_E) = (-1)^{m+1}$. An orthogonal map $C$ of an
+$m$-dimensional space with $\det C = (-1)^{m+1}$ has the eigenvalue $1$:
+$\det(C - I) = \det C\,\det(I - C^T) = \det C\,\det(I - C) = (-1)^{m+1}(-1)^m\det(C - I) = -\det(C - I)$. So there is a unit vector $v \in E$ with $Bv = v$. Let $V$ be the parallel
+field along $\gamma$ with $V(0) = v$; then $|V| = 1$, $V \perp \dot\gamma$, and $V(L) = Pv = d_{x_0}F(v)$.
+
+\emph{Step 3: a shorter curve.} Let $f(s, t) = \exp_{\gamma(t)}(sV(t))$ and $x_s = \exp_{x_0}(sv)$. Then $f(s, 0) = x_s$ and, since $F$ maps geodesics to geodesics,
+$f(s, L) = \exp_{F(x_0)}(s\,d_{x_0}F(v)) = F(x_s)$. By Proposition~\ref{riemannian-geometry:proposition-first-variation} the first derivative of $E(f_s)$ at $s = 0$ is
+$\langle V, \dot\gamma\rangle|_0^L = 0$. By Proposition~\ref{riemannian-geometry:proposition-second-variation}, whose boundary term vanishes because the curves
+$s \mapsto f(s, t)$ are geodesics, and since $D_tV = 0$,
+\[
+\frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = -\int_0^LR(V, \dot\gamma, \dot\gamma, V)\,dt < 0,
+\]
+the integrand being the sectional curvature of the plane spanned by the orthonormal vectors $V$ and $\dot\gamma$. So $E(f_s) < E(\gamma)$ for small $s \neq 0$, and
+$L(f_s) < L$ by Lemma~\ref{riemannian-geometry:lemma-energy-length}. But $f_s$ joins $x_s$ to $F(x_s)$, so $L(f_s) \geq d(x_s, F(x_s)) \geq L$, a contradiction.
+\end{proof}
+
+\begin{corollary}[Synge]\label{riemannian-geometry:corollary-synge}
+Let $M$ be a compact connected Riemannian manifold with positive sectional curvature.
+\begin{enumerate}
+\item If $n$ is even and $M$ is orientable, then $M$ is simply connected.
+\item If $n$ is odd, then $M$ is orientable.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) The sectional curvature $K(u, v) = R(u, v, v, u)$ is continuous and positive on the compact set of orthonormal pairs of tangent vectors, so $K \geq k$ for some $k > 0$,
+and $\mathrm{Ric} \geq (n - 1)kg$. Let $\pi \colon \widetilde{M} \to M$ be a universal covering with the metric $\pi^*g$. As in the proof of
+Theorem~\ref{riemannian-geometry:theorem-bonnet-myers}, $\widetilde{M}$ is complete, hence compact by that theorem, and it has positive sectional curvature. Orient
+$\widetilde{M}$ by pulling back a volume form $\mu$ of $M$ by the local diffeomorphism $\pi$. A deck transformation $\tau$ satisfies $\pi \circ \tau = \pi$, so it is an isometry
+and $\tau^*\pi^*\mu = \pi^*\mu$: it preserves the orientation. By Theorem~\ref{riemannian-geometry:theorem-weinstein}, $\tau$ has a fixed point, so it is the identity, by the
+uniqueness of lifts (Proposition~\ref{homotopy:proposition-lifting-criterion}). Hence $\mathrm{Deck}(\pi)$ is trivial, and so is $\pi_1(M) \cong \mathrm{Deck}(\pi)$
+(Proposition~\ref{homotopy:proposition-deck}).
+
+(2) Suppose $M$ is not orientable, and let $p \colon \widehat{M} \to M$ be the orientation double covering (Definition~\ref{poincare-duality:definition-orientation-covering}),
+which is connected by Proposition~\ref{poincare-duality:proposition-orientation-covering}(1). It is compact, a smooth manifold for which $p$ is a local diffeomorphism
+(Example~\ref{smooth-manifolds:example-smooth-quotients}), and it has positive sectional curvature for $p^*g$. It is orientable: at a point $(x, \alpha)$, $p$ identifies the
+local homology of $\widehat{M}$ with $H_n(M \mid x; \ZZ)$ (a sheet over a coordinate ball is mapped homeomorphically), and $(x, \alpha) \mapsto \alpha$ is a continuous choice of
+generators, that is an orientation (Proposition~\ref{differential-forms:proposition-orientation}). The deck transformation $\tau(x, \alpha) = (x, -\alpha)$ is an isometry of
+$p^*g$ without fixed points, and it reverses this orientation, because $p \circ \tau = p$ carries the generator $\alpha$ at $(x, \alpha)$ to $\alpha$ at $(x, -\alpha)$, where the
+chosen generator is $-\alpha$. By Theorem~\ref{riemannian-geometry:theorem-weinstein} with $n$ odd, $\tau$ has a fixed point, a contradiction.
+\end{proof}
+
+\begin{counterexample}\label{riemannian-geometry:counterexample-synge}
+Every hypothesis of Theorem~\ref{riemannian-geometry:theorem-weinstein} and Corollary~\ref{riemannian-geometry:corollary-synge} is needed.
+\begin{enumerate}
+\item \emph{The parity conditions in Weinstein's theorem.} The antipodal map $x \mapsto -x$ of the unit sphere $S^n$ is an isometry without fixed points. It is the restriction
+of $-I$, of determinant $(-1)^{n+1}$, so it preserves the orientation of $S^n$ when $n$ is odd and reverses it when $n$ is even: exactly the cases excluded by the theorem.
+\item \emph{Orientability in (1).} $\RR\PP^n = S^n/\{\pm1\}$ with the round metric has $K = 1$ and $\pi_1 = \ZZ/2$. For $n$ even it is not orientable
+(Exercise~\ref{differential-forms:exercise-orientability-projective}).
+\item \emph{Even dimension in (1).} For $n$ odd, $\RR\PP^n$ is orientable with $K = 1$ and $\pi_1 = \ZZ/2$; so are the lens spaces $S^3/(\ZZ/p)$
+(Example~\ref{topological-manifolds:example-covering-actions}), with $\pi_1 = \ZZ/p$, as the group acts by unitary, hence orthogonal, maps.
+\item \emph{Odd dimension in (2).} $\RR\PP^2$ has $K = 1$ and is not orientable.
+\item \emph{Positive curvature, not just $K \geq 0$.} The flat torus $\RR^2/\ZZ^2$ is compact and orientable of even dimension, with $\pi_1 = \ZZ^2$. The product
+$\RR\PP^2 \times S^1$ of the round $\RR\PP^2$ and a circle is compact of dimension $3$ with $K \geq 0$ (the curvature tensor of a Riemannian product is the sum of those of the factors, and the circle is flat), and it is not
+orientable: by Exercise~\ref{riemannian-geometry:exercise-holonomy-product} its holonomy contains $h \times 1$ for $h \in \mathrm{Hol}(\RR\PP^2)$ with $\det h = -1$, which
+exists by Proposition~\ref{riemannian-geometry:proposition-holonomy-basic}(4).
+\item \emph{Compactness in (1).} The sphere minus two antipodal points, $S^2 \setminus \{\pm e_3\}$, has $K = 1$ and is orientable of even dimension, but by stereographic
+projection it is homeomorphic to $\RR^2 \setminus \{0\}$, with $\pi_1 = \ZZ$.
+\item \emph{Compactness in (2).} Let $A = \mathrm{diag}(-1, -1, -1, 1)$ acting on $U = S^3 \setminus \{\pm e_4\}$. Its fixed points on $S^3$ are $\pm e_4$, so the group
+$\{1, A\}$ acts freely, and properly as it is finite, by isometries; $\det A = -1$, so $A$ reverses the orientation of $S^3$ (defined by the outward normal, which $A$
+preserves). The quotient $U/\{1, A\}$ has $K = 1$ (Proposition~\ref{riemannian-geometry:proposition-quotient-metric}) and dimension $3$, and it is not orientable: an
+orientation would pull back to an orientation of the connected $U$ preserved by $A$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{example}\label{riemannian-geometry:example-synge}
+$\RR\PP^2 \times \RR\PP^2$ carries no metric of positive sectional curvature. Its fundamental group $\ZZ/2 \times \ZZ/2$ (Proposition~\ref{homotopy:proposition-product}) is
+nontrivial, so by Corollary~\ref{riemannian-geometry:corollary-synge}(1) it could only be non-orientable. But then its orientation double covering would be a compact
+orientable $4$-manifold of positive curvature whose fundamental group has order $2$, a subgroup of index $2$ of $\ZZ/2 \times \ZZ/2$
+(Corollary~\ref{homotopy:corollary-lifting-consequences}), contradicting (1). Whether $S^2 \times S^2$ carries a metric of positive sectional curvature is a famous open question
+of Hopf; Synge's theorem does not decide it, as $S^2 \times S^2$ is simply connected.
+\end{example}
 
 \begin{remark}\label{riemannian-geometry:remark-comparison}
 Theorems~\ref{riemannian-geometry:theorem-cartan-hadamard} and~\ref{riemannian-geometry:theorem-bonnet-myers} are the simplest \emph{comparison theorems}, which compare a manifold with a space of constant curvature
@@ -1109,6 +1205,39 @@ For $R = M$ a closed surface there is no boundary, and the formula is Theorem~\r
 plane bounded by a smooth convex curve, $K = 0$ and $\chi = 1$, and the formula says that the total geodesic curvature of the boundary is $2\pi$: the tangent turns once. For the
 northern cap of the unit sphere above the latitude $z_0$, the area $2\pi(1 - z_0)$ plus the total geodesic curvature $2\pi(1 - z_0^2)^{1/2} \cdot z_0/(1 - z_0^2)^{1/2} = 2\pi z_0$ of
 the boundary circle gives $2\pi = 2\pi\chi(\text{disc})$.
+
+Many metrics on surfaces are given as a function times the Euclidean metric, and for them the Gaussian curvature has a simple formula.
+
+\begin{proposition}[Conformal metrics on surfaces]\label{riemannian-geometry:proposition-conformal-curvature}
+Let $\Omega \subseteq \RR^2$ be open, $u \colon \Omega \to \RR$ smooth, and $g = e^{2u}(dx^2 + dy^2)$. Then the Gaussian curvature of $g$ is
+\[
+K = -e^{-2u}\Delta u, \qquad \Delta = \partial_x^2 + \partial_y^2 .
+\]
+\end{proposition}
+
+\begin{proof}
+Here $g_{ij} = e^{2u}\delta_{ij}$, and the formula of Theorem~\ref{riemannian-geometry:theorem-levi-civita} gives
+$\Gamma^k_{ij} = u_i\delta_{jk} + u_j\delta_{ik} - u_k\delta_{ij}$, where $u_1 = u_x$ and $u_2 = u_y$. So $\nabla_{\partial_x}\partial_x = u_x\partial_x - u_y\partial_y$ and
+$\nabla_{\partial_y}\partial_x = u_y\partial_x + u_x\partial_y$. The fields $e_1 = e^{-u}\partial_x$, $e_2 = e^{-u}\partial_y$ form a positively oriented orthonormal frame, and
+\[
+\nabla_{\partial_x}e_1 = -u_xe^{-u}\partial_x + e^{-u}(u_x\partial_x - u_y\partial_y) = -u_y\,e_2, \qquad
+\nabla_{\partial_y}e_1 = -u_ye^{-u}\partial_x + e^{-u}(u_y\partial_x + u_x\partial_y) = u_x\,e_2 .
+\]
+So the $1$-form $\omega$ with $\nabla_Xe_1 = \omega(X)e_2$ is $\omega = -u_y\,dx + u_x\,dy$, and $d\omega = \Delta u\,dx \wedge dy$. The computation in the proof of
+Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet} gives $d\omega = -K\,dA = -Ke^{2u}\,dx \wedge dy$, whence the formula.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-conformal-metrics}
+\begin{enumerate}
+\item \emph{The hyperbolic plane.} On $H = \{(x, y) : y > 0\}$ with $(dx^2 + dy^2)/y^2$, $u = -\log y$ and $\Delta u = 1/y^2$, so $K = -1$.
+\item \emph{The Poincar\'e disc.} On the unit disc $\mathbb{D}$ with $4(dx^2 + dy^2)/(1 - x^2 - y^2)^2$, $u = \log2 - \log(1 - r^2)$ with $r^2 = x^2 + y^2$. For a radial function
+$\Delta = \partial_r^2 + r^{-1}\partial_r$, and $\Delta\log(1 - r^2) = -4/(1 - r^2)^2$, so $K = -\frac{(1 - r^2)^2}4 \cdot \frac4{(1 - r^2)^2} = -1$. The \emph{Cayley map}
+$w = i(1 + z)/(1 - z)$ is an isometry from the disc onto $H$: with $z = x + iy$ and $w$ written as a complex number, $|dw/dz| = 2/|1 - z|^2$ and
+$\operatorname{Im}w = (1 - |z|^2)/|1 - z|^2$, so $|dw|/\operatorname{Im}w = 2|dz|/(1 - |z|^2)$.
+\item \emph{The sphere.} In the chart of stereographic projection (Example~\ref{general-topology:example-stereographic}) the round metric of $S^2$ is
+$4(dx^2 + dy^2)/(1 + x^2 + y^2)^2$, by a direct computation; here $\Delta\log(1 + r^2) = 4/(1 + r^2)^2$, and $K = 1$, as it should.
+\end{enumerate}
+\end{example}
 
 \begin{theorem}[Minding; Cartan]\label{riemannian-geometry:theorem-minding}
 Let $(M, g)$ and $(N, h)$ be Riemannian manifolds of the same dimension $n$ with the same constant sectional curvature $\kappa$, and let $p \in M$, $q \in N$ and a linear isometry
@@ -1637,7 +1766,8 @@ $|\kappa|^{-1}(dx_1^2 + \cdots + dx_n^2)/(x^n)^2$ if $\kappa < 0$.
 
 All three are complete, connected and simply connected with constant sectional curvature $\kappa$. For $\RR^n$ this is clear. The sphere $S^n(r)$ has curvature
 $1/r^2 = \kappa$ (Example~\ref{riemannian-geometry:example-surfaces}(1)), is complete, being compact (Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}), and is simply
-connected for $n \geq 2$ (Corollary~\ref{homotopy:corollary-spheres}). Hyperbolic space is simply connected, being a convex subset of $\RR^n$; that it is complete with
+connected for $n \geq 2$ (Corollary~\ref{homotopy:corollary-spheres}). Hyperbolic space is simply connected, being a convex subset of $\RR^n$ (for $n = 2$ its curvature is computed in
+Example~\ref{riemannian-geometry:example-conformal-metrics}(1)); that it is complete with
 curvature $-1$ for $\kappa = -1$ is computed in \cite[Chapter 8]{do-carmo-riemannian}, and the case of general $\kappa < 0$ follows by scaling.
 
 \begin{theorem}[Killing--Hopf]\label{riemannian-geometry:theorem-killing-hopf}
