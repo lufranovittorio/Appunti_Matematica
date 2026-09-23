@@ -4,7 +4,8 @@
 \section{Introduction}\label{representation-theory:section-introduction}
 
 A representation of a group or a Lie algebra is an action by linear maps. This chapter develops the
-basic theory: Schur's lemma, Maschke's theorem and character theory for finite groups, and the complete
+basic theory: Schur's lemma, Maschke's theorem and character theory for finite groups, nilpotent and solvable Lie algebras with the
+theorems of Engel and Lie, and the complete
 classification of the finite-dimensional representations of the Lie algebra $\mathfrak{sl}_2(\CC)$. The last
 result is used repeatedly in Hodge theory: on the cohomology of a compact K\"ahler manifold the
 Lefschetz operator, its adjoint and the degree operator span a copy of $\mathfrak{sl}_2$, and the hard
@@ -229,6 +230,212 @@ representations of a Lie group differentiate to representations of its Lie algeb
 product is the derivative of $g(v \otimes w) = gv \otimes gw$.
 \end{remark}
 
+\section{Nilpotent and solvable Lie algebras}\label{representation-theory:section-solvable}
+
+The Lie algebras of upper triangular and of strictly upper triangular matrices are the models of two classes of Lie algebras, the solvable and the nilpotent ones.
+The theorems of Engel and Lie say that, conversely, a Lie algebra of nilpotent matrices can be put in strictly upper triangular form, and a solvable Lie algebra of
+matrices over $\CC$ in upper triangular form, by one change of basis for all its elements at once. In this section all Lie algebras and representations are
+finite-dimensional. For subspaces $\mathfrak{a}, \mathfrak{b} \subseteq \mathfrak{g}$, $[\mathfrak{a}, \mathfrak{b}]$ is the subspace spanned by the brackets $[x, y]$
+with $x \in \mathfrak{a}$, $y \in \mathfrak{b}$, and the \emph{centre} of $\mathfrak{g}$ is $\mathfrak{z}(\mathfrak{g}) = \{x : [x, y] = 0 \text{ for all } y\}$. We write
+$\ad x \colon \mathfrak{g} \to \mathfrak{g}$ for $y \mapsto [x, y]$, the adjoint representation of Definition~\ref{representation-theory:definition-lie-representation}.
+
+\begin{definition}\label{representation-theory:definition-solvable}
+The \emph{derived series} of a Lie algebra $\mathfrak{g}$ is $D^0\mathfrak{g} = \mathfrak{g}$, $D^{i+1}\mathfrak{g} = [D^i\mathfrak{g}, D^i\mathfrak{g}]$, and its
+\emph{lower central series} is $C^1\mathfrak{g} = \mathfrak{g}$, $C^{i+1}\mathfrak{g} = [\mathfrak{g}, C^i\mathfrak{g}]$. The Lie algebra $\mathfrak{g}$ is \emph{solvable}
+if $D^m\mathfrak{g} = 0$ for some $m$, and \emph{nilpotent} if $C^m\mathfrak{g} = 0$ for some $m$.
+\end{definition}
+
+So $\mathfrak{g}$ is nilpotent when all iterated brackets $[x_1, [x_2, [\cdots, [x_{m-1}, x_m]\cdots]]]$ of a fixed length $m$ vanish; abelian Lie algebras are nilpotent
+with $m = 2$.
+
+\begin{lemma}\label{representation-theory:lemma-solvable}
+\begin{enumerate}
+\item If $\mathfrak{a}$ and $\mathfrak{b}$ are ideals, so is $[\mathfrak{a}, \mathfrak{b}]$. Hence all $D^i\mathfrak{g}$ and $C^i\mathfrak{g}$ are ideals, and
+$D^i\mathfrak{g} \subseteq C^{i+1}\mathfrak{g}$; in particular nilpotent Lie algebras are solvable.
+\item Subalgebras and homomorphic images of solvable (nilpotent) Lie algebras are solvable (nilpotent).
+\item If $\mathfrak{a}$ is a solvable ideal of $\mathfrak{g}$ and $\mathfrak{g}/\mathfrak{a}$ is solvable, then $\mathfrak{g}$ is solvable.
+\item A nonzero nilpotent Lie algebra has nonzero centre; and if $\mathfrak{g}/\mathfrak{z}(\mathfrak{g})$ is nilpotent, so is $\mathfrak{g}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) For $x \in \mathfrak{g}$, $a \in \mathfrak{a}$, $b \in \mathfrak{b}$ the Jacobi identity gives $[x, [a, b]] = [[x, a], b] + [a, [x, b]] \in [\mathfrak{a}, \mathfrak{b}]$.
+By induction the terms of both series are ideals. Also $D^0\mathfrak{g} = C^1\mathfrak{g}$, and if $D^i\mathfrak{g} \subseteq C^{i+1}\mathfrak{g}$ then
+$D^{i+1}\mathfrak{g} = [D^i\mathfrak{g}, D^i\mathfrak{g}] \subseteq [\mathfrak{g}, C^{i+1}\mathfrak{g}] = C^{i+2}\mathfrak{g}$.
+
+(2) For a subalgebra $\mathfrak{h}$, induction gives $D^i\mathfrak{h} \subseteq D^i\mathfrak{g}$ and $C^i\mathfrak{h} \subseteq C^i\mathfrak{g}$. For a surjective
+homomorphism $\varphi \colon \mathfrak{g} \to \mathfrak{g}^{\prime}$, $\varphi([\mathfrak{a}, \mathfrak{b}]) = [\varphi(\mathfrak{a}), \varphi(\mathfrak{b})]$, so
+$\varphi(D^i\mathfrak{g}) = D^i\mathfrak{g}^{\prime}$ and $\varphi(C^i\mathfrak{g}) = C^i\mathfrak{g}^{\prime}$.
+
+(3) If $D^m(\mathfrak{g}/\mathfrak{a}) = 0$, then $D^m\mathfrak{g} \subseteq \mathfrak{a}$ by (2) applied to the projection, and by induction
+$D^{m+l}\mathfrak{g} \subseteq D^l\mathfrak{a}$, which vanishes for large $l$.
+
+(4) Let $m$ be least with $C^m\mathfrak{g} = 0$; as $\mathfrak{g} \neq 0$, $m \geq 2$ and $C^{m-1}\mathfrak{g} \neq 0$. Since
+$[\mathfrak{g}, C^{m-1}\mathfrak{g}] = C^m\mathfrak{g} = 0$, $C^{m-1}\mathfrak{g} \subseteq \mathfrak{z}(\mathfrak{g})$. If $C^m(\mathfrak{g}/\mathfrak{z}(\mathfrak{g})) = 0$,
+then $C^m\mathfrak{g} \subseteq \mathfrak{z}(\mathfrak{g})$ and $C^{m+1}\mathfrak{g} = [\mathfrak{g}, C^m\mathfrak{g}] = 0$.
+\end{proof}
+
+\begin{example}\label{representation-theory:example-triangular}
+Let $\mathfrak{b}_n \subseteq \mathfrak{gl}_n(k)$ be the upper triangular matrices, $\mathfrak{n}_n$ the strictly upper triangular ones and $\mathfrak{d}_n$ the diagonal
+ones; all three are Lie subalgebras.
+\begin{enumerate}
+\item $\mathfrak{n}_n$ is nilpotent. Let $\mathfrak{n}^{(j)}$ be the matrices $(a_{il})$ with $a_{il} = 0$ unless $l - i \geq j$, so that
+$\mathfrak{n}_n = \mathfrak{n}^{(1)}$ and $\mathfrak{n}^{(n)} = 0$. The entry $(AB)_{il} = \sum_ma_{im}b_{ml}$ of a product of $A \in \mathfrak{n}^{(j)}$ and
+$B \in \mathfrak{n}^{(j^{\prime})}$ can be nonzero only if $m - i \geq j$ and $l - m \geq j^{\prime}$ for some $m$, so $AB \in \mathfrak{n}^{(j + j^{\prime})}$. Hence
+$[\mathfrak{n}^{(1)}, \mathfrak{n}^{(j)}] \subseteq \mathfrak{n}^{(j+1)}$, and $C^i\mathfrak{n}_n \subseteq \mathfrak{n}^{(i)}$ vanishes for $i \geq n$.
+\item $\mathfrak{b}_n$ is solvable: the diagonal of a product of upper triangular matrices is the product of the diagonals, so the diagonal of a commutator vanishes and
+$[\mathfrak{b}_n, \mathfrak{b}_n] \subseteq \mathfrak{n}_n$, which is solvable by (1) and Lemma~\ref{representation-theory:lemma-solvable}(1); so
+$D^{m+1}\mathfrak{b}_n \subseteq D^m\mathfrak{n}_n$ vanishes for large $m$. For $n \geq 2$ it is not nilpotent: with the matrix units $E_{il}$,
+$[E_{11}, E_{12}] = E_{12}$, so $E_{12} \in C^i\mathfrak{b}_n$ for all $i$.
+\item The two-dimensional Lie algebra with basis $x$, $y$ and $[x, y] = y$ (for instance $x = E_{11}$, $y = E_{12}$ in $\mathfrak{b}_2$) is solvable, with
+$D^1 = ky$ and $D^2 = 0$, but not nilpotent, since $C^i = ky$ for all $i \geq 2$. The \emph{Heisenberg algebra} $\mathfrak{n}_3$, with basis $E_{12}, E_{23}, E_{13}$
+and the only nonzero bracket $[E_{12}, E_{23}] = E_{13}$, is nilpotent but not abelian.
+\item If $2 \neq 0$ in $k$, $\mathfrak{sl}_2(k)$ is not solvable: its basis $e = E_{12}$, $f = E_{21}$, $h = E_{11} - E_{22}$ satisfies
+$[h, e] = 2e$, $[h, f] = -2f$ and $[e, f] = h$, so $[\mathfrak{sl}_2, \mathfrak{sl}_2] = \mathfrak{sl}_2$ and $D^i\mathfrak{sl}_2 = \mathfrak{sl}_2$ for all $i$.
+\end{enumerate}
+\end{example}
+
+\begin{lemma}\label{representation-theory:lemma-ad-nilpotent}
+If $x \in \mathfrak{gl}(V)$ is nilpotent, then $\ad x \colon \mathfrak{gl}(V) \to \mathfrak{gl}(V)$ is nilpotent.
+\end{lemma}
+
+\begin{proof}
+Write $\ad x = \lambda_x - \rho_x$ with $\lambda_x(y) = xy$ and $\rho_x(y) = yx$. These two linear maps commute, by associativity, and if $x^m = 0$ then
+$\lambda_x^m = \lambda_{x^m} = 0$ and $\rho_x^m = 0$. By the binomial formula for commuting maps, $(\lambda_x - \rho_x)^{2m} = \sum_i\binom{2m}{i}\lambda_x^i(-\rho_x)^{2m - i}$,
+and every term has $i \geq m$ or $2m - i \geq m$, hence vanishes.
+\end{proof}
+
+\begin{theorem}[Engel's theorem, linear form]\label{representation-theory:theorem-engel-linear}
+Let $V \neq 0$ be a finite-dimensional vector space over any field $k$, and $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ a Lie subalgebra consisting of nilpotent
+endomorphisms. Then there is $v \neq 0$ in $V$ with $xv = 0$ for all $x \in \mathfrak{g}$. Consequently $V$ has a basis in which every element of $\mathfrak{g}$ is
+strictly upper triangular.
+\end{theorem}
+
+\begin{proof}
+Induction on $\dim\mathfrak{g}$. If $\mathfrak{g} = 0$ any $v \neq 0$ works, and if $\dim\mathfrak{g} = 1$, $\mathfrak{g} = kx$ with $x$ nilpotent, and any nonzero
+$v \in \ker x$ works ($\ker x \neq 0$, as $x$ is not invertible). Let $\dim\mathfrak{g} \geq 2$ and let $\mathfrak{h}$ be a proper subalgebra of maximal dimension
+(for instance $0$ is proper).
+
+\emph{Step 1: $\mathfrak{h}$ is an ideal of codimension $1$.} Since $[\mathfrak{h}, \mathfrak{h}] \subseteq \mathfrak{h}$, each $\ad h$, $h \in \mathfrak{h}$, preserves
+$\mathfrak{h}$ and induces an endomorphism $\overline{\ad h}$ of the nonzero space $\mathfrak{g}/\mathfrak{h}$; by the Jacobi identity $h \mapsto \overline{\ad h}$ is a
+homomorphism of Lie algebras $\mathfrak{h} \to \mathfrak{gl}(\mathfrak{g}/\mathfrak{h})$. Each $\ad h$ is nilpotent on $\mathfrak{gl}(V)$
+(Lemma~\ref{representation-theory:lemma-ad-nilpotent}), hence on the invariant subspace $\mathfrak{g}$ and on the quotient $\mathfrak{g}/\mathfrak{h}$. So the image of
+$\mathfrak{h}$ is a Lie algebra of nilpotent endomorphisms of $\mathfrak{g}/\mathfrak{h}$ of dimension at most $\dim\mathfrak{h} < \dim\mathfrak{g}$, and by induction
+there is $y \in \mathfrak{g} \setminus \mathfrak{h}$ with $[h, y] \in \mathfrak{h}$ for all $h \in \mathfrak{h}$. Then $\mathfrak{h} + ky$ is a subalgebra strictly
+containing $\mathfrak{h}$, so it is $\mathfrak{g}$ by maximality; hence $\mathfrak{g} = \mathfrak{h} \oplus ky$ and $\mathfrak{h}$ is an ideal.
+
+\emph{Step 2: a common null vector.} By induction applied to $\mathfrak{h} \subseteq \mathfrak{gl}(V)$, the space $W = \{v \in V : hv = 0 \text{ for all } h \in \mathfrak{h}\}$
+is nonzero. It is stable under $y$: for $w \in W$ and $h \in \mathfrak{h}$, $h(yw) = y(hw) + [h, y]w = 0$, as $[h, y] \in \mathfrak{h}$. The restriction of the nilpotent
+$y$ to $W$ is nilpotent, so it kills some $v \neq 0$ in $W$, and then $xv = 0$ for all $x \in \mathfrak{h} + ky = \mathfrak{g}$.
+
+\emph{Step 3: the basis.} Let $v_1$ be as above. Each $x \in \mathfrak{g}$ induces a nilpotent endomorphism of $V/kv_1$, and these form a Lie algebra of nilpotent
+endomorphisms; by induction on $\dim V$, $V/kv_1$ has a basis $\bar v_2, \ldots, \bar v_d$ in which they are strictly upper triangular. Lifting it to $v_2, \ldots, v_d$,
+we get $xv_1 = 0$ and $xv_j \in \mathrm{span}(v_1, \ldots, v_{j-1})$, which is the claim.
+\end{proof}
+
+\begin{corollary}[Engel's theorem]\label{representation-theory:corollary-engel}
+A Lie algebra $\mathfrak{g}$ is nilpotent if and only if $\ad x$ is nilpotent for every $x \in \mathfrak{g}$.
+\end{corollary}
+
+\begin{proof}
+If $C^m\mathfrak{g} = 0$, then $\ad x$ maps $C^i\mathfrak{g}$ into $C^{i+1}\mathfrak{g}$, so $(\ad x)^{m-1}\mathfrak{g} \subseteq C^m\mathfrak{g} = 0$. Conversely, the image
+$\ad\mathfrak{g} \subseteq \mathfrak{gl}(\mathfrak{g})$ is a Lie algebra of nilpotent endomorphisms. Theorem~\ref{representation-theory:theorem-engel-linear} gives a basis
+$v_1, \ldots, v_d$ of $\mathfrak{g}$ such that, with $V_j = \mathrm{span}(v_1, \ldots, v_j)$, $[\mathfrak{g}, V_j] \subseteq V_{j-1}$. By induction
+$C^i\mathfrak{g} \subseteq V_{d - i + 1}$, since $C^1\mathfrak{g} = V_d$ and $C^{i+1}\mathfrak{g} = [\mathfrak{g}, C^i\mathfrak{g}] \subseteq [\mathfrak{g}, V_{d-i+1}] \subseteq V_{d-i}$.
+So $C^{d+1}\mathfrak{g} = 0$.
+\end{proof}
+
+\begin{counterexample}\label{representation-theory:counterexample-engel}
+\begin{enumerate}
+\item A nilpotent Lie algebra of matrices need not consist of nilpotent matrices: the diagonal matrices $\mathfrak{d}_n$ form an abelian, hence nilpotent, Lie algebra
+containing the identity. Engel's theorem is about the operators $\ad x$ on $\mathfrak{g}$, not about the matrices $x$ on $V$.
+\item In Theorem~\ref{representation-theory:theorem-engel-linear} it matters that $\mathfrak{g}$ is closed under brackets. The matrices $e = E_{12}$ and $f = E_{21}$ of
+$\mathfrak{sl}_2$ are nilpotent, but $\ker e = ke_1$ and $\ker f = ke_2$ meet only in $0$; the Lie algebra they generate contains $[e, f] = h$, which is not nilpotent.
+\end{enumerate}
+\end{counterexample}
+
+For Lie's theorem we need eigenvectors, hence an algebraically closed field, and characteristic $0$. The key step is the following lemma.
+
+\begin{lemma}[Invariance lemma]\label{representation-theory:lemma-invariance}
+Let $k$ have characteristic $0$, let $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ be a Lie subalgebra, $\mathfrak{a}$ an ideal of $\mathfrak{g}$ and
+$\lambda \colon \mathfrak{a} \to k$ a linear form. Then $W = \{v \in V : av = \lambda(a)v \text{ for all } a \in \mathfrak{a}\}$ is stable under $\mathfrak{g}$.
+\end{lemma}
+
+\begin{proof}
+Let $w \in W$ and $x \in \mathfrak{g}$. For $a \in \mathfrak{a}$, $a(xw) = x(aw) + [a, x]w = \lambda(a)xw + \lambda([a, x])w$, as $[a, x] \in \mathfrak{a}$. So it suffices
+to show $\lambda([a, x]) = 0$ for all $a$, when $W \neq 0$. Fix $w \neq 0$ in $W$, let $W_i = \mathrm{span}(w, xw, \ldots, x^{i-1}w)$ (with $W_0 = 0$), and let $m \geq 1$ be
+least with $W_{m+1} = W_m$; then $w, xw, \ldots, x^{m-1}w$ is a basis of $W_m$, and $xW_m \subseteq W_m$.
+
+We claim that $ax^iw \in \lambda(a)x^iw + W_i$ for all $a \in \mathfrak{a}$ and $i \geq 0$. For $i = 0$ this is $aw = \lambda(a)w$. If it holds for $i - 1$ and all
+$a$, then $ax^iw = x(ax^{i-1}w) + [a, x]x^{i-1}w$. By induction $ax^{i-1}w = \lambda(a)x^{i-1}w + u$ with $u \in W_{i-1}$, so
+$x(ax^{i-1}w) \in \lambda(a)x^iw + W_i$; and $[a, x]x^{i-1}w \in \lambda([a, x])x^{i-1}w + W_{i-1} \subseteq W_i$. This proves the claim.
+
+So each $a \in \mathfrak{a}$ maps $W_m$ into itself, by an upper triangular matrix in the basis $w, xw, \ldots, x^{m-1}w$ with all diagonal entries $\lambda(a)$, and
+$\operatorname{tr}(a|_{W_m}) = m\lambda(a)$. Apply this to $[a, x] \in \mathfrak{a}$: since $a$ and $x$ both preserve $W_m$, $[a, x]|_{W_m}$ is the commutator of
+$a|_{W_m}$ and $x|_{W_m}$, which has trace $0$. So $m\lambda([a, x]) = 0$, and $\lambda([a, x]) = 0$ as $m \neq 0$ in $k$.
+\end{proof}
+
+\begin{theorem}[Lie's theorem]\label{representation-theory:theorem-lie}
+Let $k$ be algebraically closed of characteristic $0$, $V \neq 0$ a finite-dimensional vector space and $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ a solvable Lie
+subalgebra. Then the elements of $\mathfrak{g}$ have a common eigenvector: there are $v \neq 0$ and a linear form $\lambda$ on $\mathfrak{g}$ with $xv = \lambda(x)v$ for
+all $x \in \mathfrak{g}$. Consequently $V$ has a basis in which every element of $\mathfrak{g}$ is upper triangular.
+\end{theorem}
+
+\begin{proof}
+Induction on $\dim\mathfrak{g}$; for $\mathfrak{g} = 0$ take any $v \neq 0$ and $\lambda = 0$. Let $\mathfrak{g} \neq 0$. Then $[\mathfrak{g}, \mathfrak{g}] \neq \mathfrak{g}$,
+since otherwise $D^i\mathfrak{g} = \mathfrak{g}$ for all $i$. Choose a subspace $\mathfrak{a}$ of codimension $1$ containing $[\mathfrak{g}, \mathfrak{g}]$. It is an ideal,
+as $[\mathfrak{g}, \mathfrak{a}] \subseteq [\mathfrak{g}, \mathfrak{g}] \subseteq \mathfrak{a}$, and it is solvable (Lemma~\ref{representation-theory:lemma-solvable}(2)). By
+induction there are $v_0 \neq 0$ and $\lambda \colon \mathfrak{a} \to k$ with $av_0 = \lambda(a)v_0$ for $a \in \mathfrak{a}$, so the space $W$ of
+Lemma~\ref{representation-theory:lemma-invariance} is nonzero, and it is stable under $\mathfrak{g}$. Write $\mathfrak{g} = \mathfrak{a} \oplus kz$. As $k$ is algebraically
+closed, $z|_W$ has an eigenvector $v \in W$, $zv = \mu v$. Then $v$ is an eigenvector of every element of $\mathfrak{g}$, with $\lambda$ extended by $\lambda(z) = \mu$.
+The basis is obtained as in Step 3 of the proof of Theorem~\ref{representation-theory:theorem-engel-linear}, applying the first part to $V/kv$.
+\end{proof}
+
+\begin{corollary}\label{representation-theory:corollary-lie}
+Let $k$ be algebraically closed of characteristic $0$ and $\mathfrak{g}$ solvable.
+\begin{enumerate}
+\item Every irreducible representation of $\mathfrak{g}$ is one-dimensional.
+\item There is a chain of ideals $0 = \mathfrak{g}_0 \subset \mathfrak{g}_1 \subset \cdots \subset \mathfrak{g}_d = \mathfrak{g}$ with $\dim\mathfrak{g}_i = i$.
+\item $[\mathfrak{g}, \mathfrak{g}]$ is nilpotent. Conversely, over any field, a Lie algebra $\mathfrak{g}$ with $[\mathfrak{g}, \mathfrak{g}]$ nilpotent is solvable.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) The image of $\mathfrak{g}$ in $\mathfrak{gl}(V)$ is solvable (Lemma~\ref{representation-theory:lemma-solvable}(2)), so it has a common eigenvector $v$, and $kv$ is a
+subrepresentation, hence equal to $V$. (2) Apply Theorem~\ref{representation-theory:theorem-lie} to $\ad\mathfrak{g} \subseteq \mathfrak{gl}(\mathfrak{g})$: in the
+resulting basis $v_1, \ldots, v_d$, the spans $\mathfrak{g}_i = \mathrm{span}(v_1, \ldots, v_i)$ satisfy $[\mathfrak{g}, \mathfrak{g}_i] \subseteq \mathfrak{g}_i$. (3) In
+the same basis every $\ad x$ is upper triangular, so every $\ad[x, y] = [\ad x, \ad y]$ is strictly upper triangular, as is every element of
+$\ad[\mathfrak{g}, \mathfrak{g}]$; hence for $z \in [\mathfrak{g}, \mathfrak{g}]$, $\ad z$ is nilpotent on $\mathfrak{g}$, and so on the invariant subspace
+$[\mathfrak{g}, \mathfrak{g}]$. By Corollary~\ref{representation-theory:corollary-engel}, $[\mathfrak{g}, \mathfrak{g}]$ is nilpotent. Conversely, if
+$[\mathfrak{g}, \mathfrak{g}]$ is nilpotent it is solvable, and $\mathfrak{g}/[\mathfrak{g}, \mathfrak{g}]$ is abelian, so $\mathfrak{g}$ is solvable by
+Lemma~\ref{representation-theory:lemma-solvable}(3).
+\end{proof}
+
+\begin{counterexample}\label{representation-theory:counterexample-lie}
+Both hypotheses on $k$ are needed in Theorem~\ref{representation-theory:theorem-lie}.
+\begin{enumerate}
+\item Over $\RR$, the abelian Lie algebra spanned by the rotation generator $\bigl(\begin{smallmatrix} 0 & -1\\ 1 & 0\end{smallmatrix}\bigr)$ has no eigenvector in
+$\RR^2$.
+\item Let $k$ be algebraically closed of characteristic $p > 0$, and $V = k^p$ with basis $e_0, \ldots, e_{p-1}$, indices modulo $p$. Let $xe_i = ie_i$ and
+$ye_i = e_{i+1}$. Then $[x, y]e_i = (i + 1)e_{i+1} - ie_{i+1} = ye_i$, so $[x, y] = y$ and $\mathfrak{g} = kx + ky$ is solvable
+(Example~\ref{representation-theory:example-triangular}(3)). But $x$ and $y$ have no common eigenvector. An eigenvector $v = \sum_ic_ie_i$ of $y$ with eigenvalue $\mu$
+satisfies $c_{i-1} = \mu c_i$ for all $i$, hence $c_i = \mu^{p}c_i$ and $\mu^p = 1$, that is $(\mu - 1)^p = 0$ and $\mu = 1$; so $v$ is a multiple of
+$\sum_ie_i$, and $xv = \sum_iie_i$ is not a multiple of $v$ since $p \geq 2$. In the proof of Lemma~\ref{representation-theory:lemma-invariance} the argument
+breaks down at $m\lambda([a, x]) = 0$, with $m = p$.
+\end{enumerate}
+\end{counterexample}
+
+\begin{remark}\label{representation-theory:remark-cartan-criterion}
+Every Lie algebra $\mathfrak{g}$ has a largest solvable ideal, the \emph{radical} (the sum of two solvable ideals is solvable by
+Lemma~\ref{representation-theory:lemma-solvable}(3), as $(\mathfrak{a} + \mathfrak{b})/\mathfrak{a} \cong \mathfrak{b}/(\mathfrak{a} \cap \mathfrak{b})$), and
+$\mathfrak{g}$ is \emph{semisimple} if its radical is $0$. Over a field of characteristic $0$, \emph{Cartan's criterion} characterises solvability by the trace form:
+$\mathfrak{g} \subseteq \mathfrak{gl}(V)$ is solvable if and only if $\operatorname{tr}(xy) = 0$ for all $x \in \mathfrak{g}$ and $y \in [\mathfrak{g}, \mathfrak{g}]$;
+and $\mathfrak{g}$ is semisimple if and only if its Killing form $\operatorname{tr}(\ad x\,\ad y)$ is nondegenerate. The proof of Cartan's criterion uses Lie's theorem
+and the Jordan--Chevalley decomposition (Theorem~\ref{linear-algebra:theorem-jordan-chevalley}); see \cite[Sections 3--5]{humphreys-lie}. For example $\mathfrak{sl}_2(\CC)$ is
+semisimple, and Theorem~\ref{representation-theory:theorem-sl2-semisimple} below is the first case of Weyl's theorem
+(Remark~\ref{representation-theory:remark-semisimple-lie-algebras}).
+\end{remark}
+
 \section{Representations of $\mathfrak{sl}_2$}\label{representation-theory:section-sl2}
 
 In this section $k = \CC$ and $\mathfrak{sl}_2 = \mathfrak{sl}_2(\CC)$, with basis
@@ -381,3 +588,35 @@ $\Lambda \colon V^k \to V^{k-2}$ such that, with $H = (k - n)\id$ on $V^k$, the 
 $[L, \Lambda] = H$ hold. Show that $L^j \colon V^{n-j} \to V^{n+j}$ is an isomorphism for all $j \geq 0$. (This is the algebraic form
 of the hard Lefschetz theorem.)
 \end{exercise}
+
+\begin{exercise}\label{representation-theory:exercise-two-dimensional}
+Show that every Lie algebra of dimension $2$ is either abelian or isomorphic to the Lie algebra with basis $x$, $y$ and $[x, y] = y$ of
+Example~\ref{representation-theory:example-triangular}(3).
+\end{exercise}
+
+\begin{solution}
+Let $u$, $v$ be a basis. The bracket is determined by $[u, v]$, as $[u, u] = [v, v] = 0$. If $[u, v] = 0$ the algebra is abelian. Otherwise $y = [u, v]$ spans
+$[\mathfrak{g}, \mathfrak{g}]$, which is one-dimensional. Complete $y$ to a basis $y$, $x^{\prime}$; then $[x^{\prime}, y] = cy$ for some $c \in k$, as $[x^{\prime}, y] \in [\mathfrak{g}, \mathfrak{g}]$,
+and $c \neq 0$ because $[x^{\prime}, y]$ spans $[\mathfrak{g}, \mathfrak{g}]$. So $x = x^{\prime}/c$ satisfies $[x, y] = y$.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-so3-not-solvable}
+Let $\mathfrak{g}$ be the real Lie algebra $\RR^3$ with the cross product as bracket (it is isomorphic to the Lie algebra $\mathfrak{so}(3)$ of the rotation group,
+Chapter~\ref{lie-groups}). Show that $[\mathfrak{g}, \mathfrak{g}] = \mathfrak{g}$, so that $\mathfrak{g}$ is not solvable, and that it has no ideals other than $0$ and itself.
+\end{exercise}
+
+\begin{solution}
+$e_1 \times e_2 = e_3$, $e_2 \times e_3 = e_1$ and $e_3 \times e_1 = e_2$, so the brackets span everything and $D^i\mathfrak{g} = \mathfrak{g}$ for all $i$. The cross product satisfies the Jacobi identity, so $\mathfrak{g}$ is a Lie algebra. If $\mathfrak{a}$ is an
+ideal containing some $a \neq 0$, then $\mathfrak{a} \supseteq a \times \RR^3$, and $a \times \RR^3 = a^\perp$, since $v \mapsto a \times v$ has kernel $\RR a$ and image in
+$a^\perp$. For an orthonormal basis $u, w$ of $a^\perp$, $u \times w$ is a unit vector orthogonal to $u$ and $w$, so $u \times w = \pm a/|a|$ lies in $\mathfrak{a}$. Hence
+$\mathfrak{a} \supseteq a^\perp + \RR a = \RR^3$.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-killing-form-nilpotent}
+Show that the Killing form $\operatorname{tr}(\ad x\,\ad y)$ of a nilpotent Lie algebra is zero.
+\end{exercise}
+
+\begin{solution}
+By Corollary~\ref{representation-theory:corollary-engel} and Theorem~\ref{representation-theory:theorem-engel-linear} applied to $\ad\mathfrak{g}$, there is a basis of
+$\mathfrak{g}$ in which every $\ad x$ is strictly upper triangular. A product of strictly upper triangular matrices is strictly upper triangular, so it has trace $0$.
+\end{solution}

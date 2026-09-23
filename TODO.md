@@ -12,6 +12,31 @@ references in proofs).
 
 ## Done
 
+- [x] **Volume and surface integrals** (`riemannian-geometry`, new section
+  "Volume and integration"): the Riemannian measure (also on non-orientable
+  manifolds), the volume form $\sqrt{\det g}\,dx^1 \wedge \cdots \wedge dx^n$,
+  the volume of parametrised submanifolds of $\mathbb{R}^N$ (sum of squares of
+  minors; curves, $|x_u \times x_v|$, hypersurfaces, graphs), do Carmo's
+  surface integrals as a special case, $\mathrm{vol}_M = \iota_\nu\Omega$ and
+  flux integrals, the divergence theorem, areas of spheres and tori,
+  Archimedes' theorem.
+- [x] **Weingarten equations in coordinates** (`riemannian-geometry`): for a
+  hypersurface of $\mathbb{R}^{n+1}$, $d\nu = -S$,
+  $h_{ij} = -\sum_k a_{ki}g_{kj}$, $A = -(g)^{-1}(h)$, do Carmo's formulas for
+  $a_{ij}$, and a remark on the sign conventions.
+- [x] **Killing fields and space forms** (`riemannian-geometry`, new section):
+  local isometries are determined by first-order data, Killing's equation,
+  Killing fields are Jacobi fields along geodesics, the Lie algebra of Killing
+  fields has dimension at most $n(n+1)/2$, Bochner's theorem, the
+  Killing–Hopf theorem, isometries of $\mathbb{R}^n$ and $S^n$, space forms,
+  even-dimensional spherical space forms; Cheng's maximal diameter theorem and
+  the sphere theorem (quoted).
+- [x] **Engel and Lie** (`representation-theory`, new section "Nilpotent and
+  solvable Lie algebras"): derived and lower central series, triangular
+  matrices, Engel's theorem (linear form and $\operatorname{ad}$-nilpotence),
+  the invariance lemma, Lie's theorem and its corollaries, counterexamples
+  over $\mathbb{R}$ and in characteristic $p$, Cartan's criterion (quoted).
+
 - [x] **Global theorems on surfaces** (`riemannian-geometry`, following
   do Carmo): geodesic curvature, theorem of turning tangents (quoted), local
   and global Gauss–Bonnet with boundary, geodesic triangles and angle excess,

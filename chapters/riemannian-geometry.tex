@@ -6,11 +6,13 @@
 A Riemannian metric turns a manifold into a metric space, produces a canonical connection (Theorem~\ref{riemannian-geometry:theorem-levi-civita})
 and, together with an orientation, defines the Hodge star, the codifferential and the Laplacian
 (Definition~\ref{riemannian-geometry:definition-laplacian}). Harmonic forms are the kernel of that Laplacian, and the Hodge theorem
-(Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the local and global theory of geodesics: covariant derivatives along curves,
+(Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the Riemannian measure and the volume form, which make surface integrals and the divergence theorem instances of integration on
+manifolds; the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
 theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the geometry of submanifolds, with the
-first and second fundamental forms and the equations of Gauss and Codazzi; and the classical global theorems on surfaces: Gauss--Bonnet for regions with boundary,
-and the theorems of Minding, Hadamard, Liebmann and Hilbert. References:
+first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi; the classical global theorems on surfaces: Gauss--Bonnet for
+regions with boundary, and the theorems of Minding, Hadamard, Liebmann and Hilbert; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
+and Hopf classifying the spaces of constant curvature, and the statements of Cheng's maximal diameter theorem and of the sphere theorem. References:
 \cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{kobayashi-nomizu}, \cite{joyce-special-holonomy}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature).
@@ -83,6 +85,199 @@ A \emph{geodesic} is a curve with $\nabla_{\dot\gamma}\dot\gamma = 0$; in coordi
 Theorem~\ref{real-analysis:theorem-picard-lindelof} there is a unique maximal geodesic with given initial position and velocity, depending smoothly on them; the \emph{exponential map}
 $\exp_p(v) = \gamma_v(1)$ is defined on a neighbourhood of $0 \in T_pM$.
 \end{definition}
+
+\section{Volume and integration}\label{riemannian-geometry:section-volume}
+
+A metric measures the lengths of tangent vectors, hence the volumes of small parallelepipeds, and so it determines how to integrate functions over the manifold.
+For a surface in $\RR^3$ this is the classical surface integral $\iint f\,dA$; the point of this section is that it is an instance of the integration of forms of
+Chapter~\ref{differential-forms}, and that the same formulas work for submanifolds of any dimension. In a chart $(U, \varphi)$ with coordinates $x^1, \ldots, x^n$ we write
+$g_{ij} = g(\partial_i, \partial_j)$ and $\det g$ for the determinant of the matrix $(g_{ij})$, a smooth positive function on $U$; $\lambda$ is Lebesgue measure.
+
+\begin{lemma}\label{riemannian-geometry:lemma-metric-change-of-chart}
+Let $y^1, \ldots, y^n$ be the coordinates of a second chart, with metric coefficients $\tilde g_{ab} = g(\partial/\partial y^a, \partial/\partial y^b)$. Then on the
+intersection of the two chart domains
+\[
+\tilde g_{ab} = \sum_{i,j}\frac{\partial x^i}{\partial y^a}\frac{\partial x^j}{\partial y^b}\,g_{ij}, \qquad
+\sqrt{\det\tilde g} = \Bigl|\det\Bigl(\frac{\partial x^i}{\partial y^a}\Bigr)\Bigr|\sqrt{\det g}.
+\]
+\end{lemma}
+
+\begin{proof}
+By Proposition~\ref{smooth-manifolds:proposition-change-of-coordinates}, $\partial/\partial y^a = \sum_i(\partial x^i/\partial y^a)\,\partial/\partial x^i$; expanding
+$g$ bilinearly gives the first formula. In matrices it reads $\tilde g = P^TgP$ with $P = (\partial x^i/\partial y^a)$, and taking determinants,
+$\det\tilde g = (\det P)^2\det g$.
+\end{proof}
+
+\begin{proposition}[Riemannian measure]\label{riemannian-geometry:proposition-riemannian-measure}
+Let $(M, g)$ be a Riemannian manifold. There is a unique measure $\mu_g$ on the Borel sets of $M$ such that for every chart $(U, \varphi)$ and every Borel set
+$A \subseteq U$,
+\[
+\mu_g(A) = \int_{\varphi(A)}\sqrt{\det g} \circ \varphi^{-1}\,d\lambda .
+\]
+Consequently $\int_Af\,d\mu_g = \int_{\varphi(A)}(f\sqrt{\det g}) \circ \varphi^{-1}\,d\lambda$ for every measurable $f \geq 0$ and every integrable $f$ on $A$. We write $dV$ for
+$\mu_g$, and $dA$ and $ds$ in dimensions $2$ and $1$ (the \emph{volume}, the \emph{area} and the \emph{arc length}), and $\mathrm{vol}(M) = \mu_g(M)$.
+\end{proposition}
+
+\begin{proof}
+For a chart $(U, \varphi)$ the formula defines a measure $\mu_U$ on the Borel subsets of $U$, the image under the homeomorphism $\varphi^{-1}$ of the measure with density
+$\sqrt{\det g} \circ \varphi^{-1}$ on $\varphi(U)$. Two such measures agree where both are defined: let $A$ be a Borel subset of $U \cap V$ for a second chart
+$(V, \psi)$ with coordinates $y$, and let $\tau = \varphi \circ \psi^{-1}$, whose Jacobian matrix is $(\partial x^i/\partial y^a)$. By
+Lemma~\ref{riemannian-geometry:lemma-metric-change-of-chart}, $\sqrt{\det\tilde g} \circ \psi^{-1} = (\sqrt{\det g} \circ \varphi^{-1} \circ \tau)\,|\det D\tau|$, so by
+the change of variables formula (Theorem~\ref{measure-theory:theorem-change-of-variables}) applied to $\tau \colon \psi(A) \to \varphi(A)$,
+\[
+\int_{\psi(A)}\sqrt{\det\tilde g} \circ \psi^{-1}\,d\lambda = \int_{\psi(A)}(\sqrt{\det g} \circ \varphi^{-1} \circ \tau)\,|\det D\tau|\,d\lambda
+= \int_{\varphi(A)}\sqrt{\det g} \circ \varphi^{-1}\,d\lambda .
+\]
+Cover $M$ by countably many chart domains $U_1, U_2, \ldots$ ($M$ is second countable), let $B_1 = U_1$ and $B_k = U_k \setminus (U_1 \cup \cdots \cup U_{k-1})$, and put
+$\mu_g(A) = \sum_k\mu_{U_k}(A \cap B_k)$. This is a measure, being a countable sum of measures. If $A$ is a Borel subset of a chart domain $U$, the
+compatibility just proved gives $\mu_{U_k}(A \cap B_k) = \mu_U(A \cap B_k)$, so $\mu_g(A) = \sum_k\mu_U(A \cap B_k) = \mu_U(A)$. Conversely, any measure with the
+stated property assigns to $A$ the value $\sum_k\mu_{U_k}(A \cap B_k)$, which proves uniqueness. The formula for integrals follows from the one for sets, first
+for simple functions, then by monotone convergence (Theorem~\ref{measure-theory:theorem-monotone-convergence}) for $f \geq 0$, and by linearity for integrable $f$.
+\end{proof}
+
+\begin{proposition}[Riemannian volume form]\label{riemannian-geometry:proposition-volume-form}
+Let $(M, g)$ be an oriented Riemannian $n$-manifold. There is a unique $n$-form $\mathrm{vol}_g$ with $\mathrm{vol}_g(e_1, \ldots, e_n) = 1$ for every positively
+oriented orthonormal basis $(e_1, \ldots, e_n)$ of a tangent space. In a positively oriented chart
+\[
+\mathrm{vol}_g = \sqrt{\det g}\;dx^1 \wedge \cdots \wedge dx^n,
+\]
+and $\int_Mf\,\mathrm{vol}_g = \int_Mf\,d\mu_g$ for every continuous function $f$ with compact support.
+\end{proposition}
+
+\begin{proof}
+Let $p$ lie in a positively oriented chart, and let $(e_1, \ldots, e_n)$ be a positively oriented orthonormal basis of $T_pM$. Write $e_a = \sum_iP^i_a\partial_i$ with an
+invertible matrix $P = (P^i_a)$. Then $\delta_{ab} = \langle e_a, e_b\rangle = (P^TgP)_{ab}$, so $(\det P)^2\det g = 1$, and $\det P > 0$ because both bases are
+positively oriented; hence $\det P = 1/\sqrt{\det g}$ and
+\[
+\bigl(\sqrt{\det g}\;dx^1 \wedge \cdots \wedge dx^n\bigr)(e_1, \ldots, e_n) = \sqrt{\det g}\,\det\bigl(dx^i(e_a)\bigr) = \sqrt{\det g}\,\det P = 1 .
+\]
+Since $\Lambda^nT^*_pM$ is one-dimensional, an $n$-form at $p$ is determined by its value on one basis. So on each positively oriented chart domain the smooth form
+$\sqrt{\det g}\,dx^1 \wedge \cdots \wedge dx^n$ is the only form with the required property; the forms of two charts therefore agree on the overlap, and together they
+define the smooth $n$-form $\mathrm{vol}_g$, which is unique. If $f$ is supported in a positively oriented chart, both integrals equal
+$\int(f\sqrt{\det g}) \circ \varphi^{-1}\,d\lambda$, by Definition~\ref{differential-forms:definition-integral} and
+Proposition~\ref{riemannian-geometry:proposition-riemannian-measure}; in general write $f = \sum_i\psi_if$ with a partition of unity subordinate to positively oriented
+charts and use linearity of both sides.
+\end{proof}
+
+For a surface $\mathrm{vol}_g$ is the \emph{area form} $dA$. By Proposition~\ref{differential-forms:proposition-orientation}, a non-orientable manifold, such as the
+M\"obius band or $\RR\PP^2$, has no nowhere vanishing $n$-form, hence no volume form; but it still has a Riemannian measure, so areas and integrals of functions make sense
+on it. The integral of a function needs a metric, the integral of an $n$-form needs an orientation, and the volume form converts one into the other.
+
+\begin{proposition}[Volume of parametrised submanifolds]\label{riemannian-geometry:proposition-parametrised-volume}
+Let $M \subseteq \RR^N$ be a $k$-dimensional submanifold with the induced metric, and $x \colon \Omega \to M$ a parametrisation
+(Proposition~\ref{smooth-manifolds:proposition-submanifold-criteria}(3)), with $x_i = \partial x/\partial u^i$. Then for every measurable $f \geq 0$ on $x(\Omega)$,
+\[
+\int_{x(\Omega)}f\,d\mu = \int_\Omega f(x(u))\,\mathcal{J}(u)\,du, \qquad
+\mathcal{J} = \sqrt{\det\bigl(\langle x_i, x_j\rangle\bigr)} = \Bigl(\sum_I\Bigl(\det\frac{\partial x^I}{\partial u}\Bigr)^2\Bigr)^{1/2},
+\]
+where $I$ runs over the subsets $\{i_1 < \cdots < i_k\}$ of $\{1, \ldots, N\}$, and $\partial x^I/\partial u$ is the $k \times k$ matrix formed by the rows
+$i_1, \ldots, i_k$ of the Jacobian matrix $Dx$. In particular:
+\begin{enumerate}
+\item for a curve ($k = 1$), $\mathcal{J} = |x^{\prime}(t)|$, and $\int f\,ds = \int f(x(t))\,|x^{\prime}(t)|\,dt$;
+\item for a surface in $\RR^3$, with $E = |x_u|^2$, $F = \langle x_u, x_v\rangle$ and $G = |x_v|^2$, $\mathcal{J} = \sqrt{EG - F^2} = |x_u \times x_v|$;
+\item for a hypersurface ($k = N - 1$) with unit normal $\nu$, $\mathcal{J} = |\det(\nu, x_1, \ldots, x_k)|$;
+\item for the graph of a smooth function $\phi \colon \Omega \to \RR$, parametrised by $x(u) = (u, \phi(u))$, $\mathcal{J} = \sqrt{1 + |\nabla\phi|^2}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The inverse $x^{-1}$ is a chart of $M$ (Lemma~\ref{smooth-manifolds:lemma-submanifold-structure}), whose coordinate vector field $\partial/\partial u^i$ is $x_i$;
+so $g_{ij} = \langle x_i, x_j\rangle$ and the formula is Proposition~\ref{riemannian-geometry:proposition-riemannian-measure}. For the second expression of
+$\mathcal{J}$, Proposition~\ref{multilinear-algebra:proposition-induced-inner-product} gives $\det(\langle x_i, x_j\rangle) = |x_1 \wedge \cdots \wedge x_k|^2$ in
+$\Lambda^k\RR^N$. Writing $x_j = \sum_i(\partial x^i/\partial u^j)e_i$ and expanding by multilinearity, the terms with a repeated $e_i$ vanish, and collecting the
+terms with the same set of indices $I$ (the Leibniz formula for the determinant) gives $x_1 \wedge \cdots \wedge x_k = \sum_I\det(\partial x^I/\partial u)\,e_I$; as the
+$e_I$ are orthonormal, $|x_1 \wedge \cdots \wedge x_k|^2 = \sum_I\det(\partial x^I/\partial u)^2$.
+
+(1) is the case of a single vector. (2) $EG - F^2 = |x_u|^2|x_v|^2 - \langle x_u, x_v\rangle^2 = |x_u \times x_v|^2$ (Lagrange's identity); equivalently, the three
+$2 \times 2$ minors of $Dx$ are, up to sign, the components of $x_u \times x_v$. (3) The matrix $P$ with columns $\nu, x_1, \ldots, x_k$ satisfies
+$P^TP = \bigl(\begin{smallmatrix} 1 & 0\\ 0 & (\langle x_i, x_j\rangle)\end{smallmatrix}\bigr)$, since $|\nu| = 1$ and $\langle\nu, x_i\rangle = 0$; so
+$(\det P)^2 = \det(\langle x_i, x_j\rangle)$. (4) Here $x_i = (e_i, \partial_i\phi)$, so $\langle x_i, x_j\rangle = \delta_{ij} + \partial_i\phi\,\partial_j\phi$: this is
+the matrix $I + ww^T$ with $w = \nabla\phi$, which is the identity on $w^\perp$ and multiplies $w$ by $1 + |w|^2$, so its determinant is $1 + |w|^2$.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-surface-integrals}
+In classical surface theory \cite[Chapter 2]{do-carmo-curves-surfaces} the area of a region $R$ contained in the image of a parametrisation $x$, and the integral of a
+function over it, are defined by
+\[
+\iint_Rf\,dA = \iint_{x^{-1}(R)}f(x(u, v))\,|x_u \times x_v|\,du\,dv,
+\]
+and one checks by hand that this does not depend on the parametrisation. By Proposition~\ref{riemannian-geometry:proposition-parametrised-volume}(2) this is the
+integral with respect to the Riemannian measure of the induced metric: surface integration is integration on a manifold, and nothing new. The independence of the
+parametrisation is Lemma~\ref{riemannian-geometry:lemma-metric-change-of-chart} together with the change of variables formula, and a region that is not contained in
+one parametrisation is cut into pieces, or treated with a partition of unity, as in Definition~\ref{differential-forms:definition-integral}. When the surface is oriented,
+$\iint_Rf\,dA = \int_Rf\,\mathrm{vol}_S$ is the integral of the $2$-form $f\,\mathrm{vol}_S$ (Proposition~\ref{riemannian-geometry:proposition-volume-form}). The same
+holds in every dimension and codimension: the length of a curve (Definition~\ref{riemannian-geometry:definition-metric}) is its one-dimensional volume, by (1), and the
+$k$-dimensional volume of a piece of a $k$-dimensional submanifold of $\RR^N$ is the integral of the square root of the sum of the squares of the $k \times k$ minors.
+\end{remark}
+
+For hypersurfaces of $\RR^{n+1}$ the volume form has a simple expression through the unit normal, and it turns integrals of $n$-forms into flux integrals. We write
+$\Omega = dx^1 \wedge \cdots \wedge dx^{n+1}$ for the standard volume form of $\RR^{n+1}$, and, for a vector field $F$ defined along $M$ (for instance the unit normal
+$\nu$), $(\iota_F\Omega)|_M$ for the $n$-form on $M$ whose value at $p$ is the restriction of $\iota_{F(p)}\Omega_p$ to $T_pM$.
+
+\begin{proposition}[Volume form of a hypersurface; flux]\label{riemannian-geometry:proposition-flux}
+Let $M \subseteq \RR^{n+1}$ be a hypersurface oriented by a unit normal field $\nu$ (Proposition~\ref{differential-forms:proposition-orientation-normal}). Then
+\[
+\mathrm{vol}_M = (\iota_\nu\Omega)|_M = \Bigl(\sum_{i=1}^{n+1}(-1)^{i-1}\nu^i\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^{n+1}\Bigr)\Big|_M,
+\]
+and for every vector field $F$ along $M$, $(\iota_F\Omega)|_M = \langle F, \nu\rangle\,\mathrm{vol}_M$. In $\RR^3$, for a surface $S$:
+$dA = (\nu^1\,dy \wedge dz + \nu^2\,dz \wedge dx + \nu^3\,dx \wedge dy)|_S$, and the \emph{flux} of $F$ through $S$ is
+\[
+\int_SF^1\,dy \wedge dz + F^2\,dz \wedge dx + F^3\,dx \wedge dy = \iint_S\langle F, \nu\rangle\,dA .
+\]
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{differential-forms:proposition-orientation-normal} the orientation of $M$ is that of the form
+$(v_1, \ldots, v_n) \mapsto \det(\nu, v_1, \ldots, v_n) = \Omega(\nu, v_1, \ldots, v_n) = (\iota_\nu\Omega)(v_1, \ldots, v_n)$. If $(e_1, \ldots, e_n)$ is a positively
+oriented orthonormal basis of $T_pM$, then $(\nu(p), e_1, \ldots, e_n)$ is an orthonormal basis of $\RR^{n+1}$, positive by the same proposition, so its determinant is
+$1$. By the uniqueness in Proposition~\ref{riemannian-geometry:proposition-volume-form}, $(\iota_\nu\Omega)|_M = \mathrm{vol}_M$. The coordinate expression is
+$\iota_\nu(dx^1 \wedge \cdots \wedge dx^{n+1}) = \sum_i(-1)^{i-1}dx^i(\nu)\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^{n+1}$, which follows from
+Proposition~\ref{multilinear-algebra:proposition-interior-antiderivation} by induction on the number of factors. For $F$, write $F = \langle F, \nu\rangle\nu + F^\top$
+with $F^\top$ tangent to $M$. For $v_1, \ldots, v_n \in T_pM$ the $n + 1$ vectors $F^\top, v_1, \ldots, v_n$ lie in the $n$-dimensional space $T_pM$, hence are
+linearly dependent, and $\Omega(F^\top, v_1, \ldots, v_n) = 0$; so $(\iota_F\Omega)|_M = \langle F, \nu\rangle(\iota_\nu\Omega)|_M$. In $\RR^3$,
+$\iota_\nu(dx \wedge dy \wedge dz) = \nu^1\,dy \wedge dz - \nu^2\,dx \wedge dz + \nu^3\,dx \wedge dy$ and $-dx \wedge dz = dz \wedge dx$; the flux formula is the integral
+of $(\iota_F\Omega)|_S = \langle F, \nu\rangle\,dA$, by Proposition~\ref{riemannian-geometry:proposition-volume-form}.
+\end{proof}
+
+\begin{corollary}[Divergence theorem]\label{riemannian-geometry:corollary-divergence}
+Let $D \subseteq \RR^{n+1}$ be a compact subset that is a smooth $(n+1)$-manifold with boundary (Definition~\ref{differential-forms:definition-manifold-with-boundary}),
+with the charts given by charts of $\RR^{n+1}$, for instance a closed ball. Let $\nu$ be the outward unit normal along $\partial D$, and $F$ a smooth vector field on a
+neighbourhood of $D$, with divergence $\operatorname{div}F = \sum_i\partial_iF^i$. Then
+\[
+\int_D\operatorname{div}F\,d\lambda = \int_{\partial D}\langle F, \nu\rangle\,dA .
+\]
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{multilinear-algebra:proposition-interior-antiderivation},
+$\iota_F\Omega = \sum_i(-1)^{i-1}F^i\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^{n+1}$, and
+$d(\iota_F\Omega) = \sum_i\partial_iF^i\,\Omega = (\operatorname{div}F)\,\Omega$, as in the proof of Theorem~\ref{differential-forms:theorem-stokes}. Stokes' theorem gives
+$\int_D(\operatorname{div}F)\,\Omega = \int_{\partial D}\iota_F\Omega$, where $D$ carries the standard orientation of $\RR^{n+1}$, so that the left side is
+$\int_D\operatorname{div}F\,d\lambda$, and $\partial D$ the induced orientation. We check that the induced orientation is the one defined by $\nu$; then the right side is
+$\int_{\partial D}\langle F, \nu\rangle\,dA$ by Proposition~\ref{riemannian-geometry:proposition-flux}. In a positively oriented chart in which $D$ is
+$\{x^{n+1} \geq 0\}$, the vector $w = -\partial_{n+1}$ points outward, and $\det(w, \partial_1, \ldots, \partial_n) = (-1)^{n+1}$ with respect to the chart; by
+Definition~\ref{differential-forms:definition-manifold-with-boundary}, $(x^1, \ldots, x^n)$ is positively oriented on $\partial D$ exactly when $(-1)^{n+1} = 1$. So a
+basis $(v_1, \ldots, v_n)$ of $T_p\partial D$ is positive for the induced orientation if and only if $(w, v_1, \ldots, v_n)$ is a positive basis of $\RR^{n+1}$. The same
+holds with $\nu$ in place of $w$, because $w = c\nu + t$ with $c > 0$ and $t$ tangent to $\partial D$, so that $\det(w, v_1, \ldots, v_n) = c\det(\nu, v_1, \ldots, v_n)$.
+By Proposition~\ref{differential-forms:proposition-orientation-normal} this is the orientation defined by $\nu$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-areas}
+\begin{enumerate}
+\item \emph{The sphere.} The map $x(\theta, \varphi) = r(\sin\theta\cos\varphi, \sin\theta\sin\varphi, \cos\theta)$ on $(0, \pi) \times (0, 2\pi)$ parametrises the sphere of
+radius $r$ minus a closed half great circle. That half circle has area $0$: without its two endpoints it is the segment $\varphi = 0$ for the same formula on
+$(0, \pi) \times (-\pi, \pi)$, a Lebesgue null set, and points have measure $0$. Here $E = r^2$, $F = 0$, $G = r^2\sin^2\theta$, so $dA = r^2\sin\theta\,d\theta\,d\varphi$
+and the area is $\int_0^{2\pi}\int_0^\pi r^2\sin\theta\,d\theta\,d\varphi = 4\pi r^2$.
+\item \emph{The torus of revolution.} For $0 < b < a$, $x(u, v) = ((a + b\cos u)\cos v, (a + b\cos u)\sin v, b\sin u)$ has $E = b^2$, $F = 0$ and
+$G = (a + b\cos u)^2$, so the area is $\int_0^{2\pi}\int_0^{2\pi}b(a + b\cos u)\,du\,dv = 4\pi^2ab$: the length $2\pi b$ of the rotated circle times the length $2\pi a$
+of the path of its centre.
+\item \emph{Graphs.} The upper hemisphere is the graph of $\phi = \sqrt{1 - u^2 - v^2}$ over the open unit disc, with $1 + |\nabla\phi|^2 = 1/(1 - u^2 - v^2)$. In polar
+coordinates its area is $\int_0^{2\pi}\int_0^1\rho(1 - \rho^2)^{-1/2}\,d\rho\,d\theta = 2\pi$, half of $4\pi$.
+\item \emph{Spheres and balls.} For $F(x) = x$ on $\RR^{n+1}$, $\operatorname{div}F = n + 1$, and on the unit sphere $\nu(x) = x$ and $\langle F, \nu\rangle = 1$. By
+Corollary~\ref{riemannian-geometry:corollary-divergence}, $\mathrm{vol}(S^n) = (n + 1)\,\lambda(B^{n+1})$: for instance $2\pi = 2 \cdot \pi$ and
+$4\pi = 3 \cdot \frac{4\pi}{3}$.
+\end{enumerate}
+\end{example}
 
 \section{Covariant derivatives along curves}\label{riemannian-geometry:section-along-curves}
 
@@ -412,7 +607,8 @@ Gromov's compactness theorem.
 \end{remark}
 
 \begin{theorem}[Gauss--Bonnet]\label{riemannian-geometry:theorem-gauss-bonnet}
-Let $M$ be a compact oriented Riemannian surface, with Gaussian curvature $K$ (the sectional curvature of its tangent planes) and area form $dA$. Then
+Let $M$ be a compact oriented Riemannian surface, with Gaussian curvature $K$ (the sectional curvature of its tangent planes) and area form $dA$
+(Proposition~\ref{riemannian-geometry:proposition-volume-form}). Then
 \[
 \int_MK\,dA = 2\pi\chi(M) .
 \]
@@ -592,6 +788,54 @@ $\langle Sx_i, x_j\rangle = h_{ij}$, the matrix $A$ of $S$ satisfies $(g_{ij})A 
 $2H = \operatorname{tr}((g_{ij})^{-1}(h_{ij}))$, which are the formulas stated, using $(g_{ij})^{-1} = \frac{1}{EG - F^2}\bigl(\begin{smallmatrix} G & -F\\ -F & E\end{smallmatrix}\bigr)$. The
 formula for $R_{ijkl}$ is Theorem~\ref{riemannian-geometry:theorem-gauss-codazzi}(1) with $\overline{R} = 0$.
 \end{proof}
+
+For a hypersurface of $\RR^{n+1}$ the unit normal is a map $\nu \colon M \to S^n$, the \emph{Gauss map}, and since $T_{\nu(p)}S^n = \nu(p)^\perp = T_pM$ its
+differential is an endomorphism of $T_pM$. The shape operator is \emph{minus} this differential, and the next proposition writes the relation between the matrices
+of $d\nu$, of the first fundamental form and of the second in coordinates.
+
+\begin{proposition}[Weingarten equations in coordinates]\label{riemannian-geometry:proposition-weingarten-coordinates}
+Let $M \subseteq \RR^{n+1}$ be a hypersurface with unit normal $\nu$ and shape operator $S = S_\nu$, parametrised by $x(u^1, \ldots, u^n)$, with $x_i = \partial x/\partial u^i$,
+$g_{ij} = \langle x_i, x_j\rangle$, $h_{ij} = h(x_i, x_j) = \langle\partial_i\partial_jx, \nu\rangle$, and $(g^{ij})$ the inverse matrix of $(g_{ij})$.
+\begin{enumerate}
+\item $d\nu = -S$: the derivative $\partial_i\nu = \partial(\nu \circ x)/\partial u^i$ is tangent to $M$ and equals $-S(x_i)$.
+\item Write $\partial_i\nu = \sum_ka_{ki}\,x_k$, so that $A = (a_{ki})$ is the matrix of $d\nu$ in the basis $(x_1, \ldots, x_n)$. Then
+\[
+h_{ij} = -\sum_{k=1}^na_{ki}\,g_{kj}, \qquad\text{that is,}\qquad (h_{ij}) = -A^T(g_{ij}), \qquad A = -(g_{ij})^{-1}(h_{ij}), \qquad a_{ki} = -\sum_lg^{kl}h_{li},
+\]
+and the matrix of $S$ in the same basis is $-A = (g_{ij})^{-1}(h_{ij})$.
+\item The Gauss--Kronecker curvature is $\det S = \det(h_{ij})/\det(g_{ij})$, and $\det(d\nu) = (-1)^n\det(h_{ij})/\det(g_{ij})$.
+\item For a surface in $\RR^3$, with $E, F, G$ as in Proposition~\ref{riemannian-geometry:proposition-surface-coordinates} and $\Delta = EG - F^2$,
+\[
+a_{11} = \frac{Fh_{12} - Gh_{11}}{\Delta}, \quad a_{12} = \frac{Fh_{22} - Gh_{12}}{\Delta}, \quad a_{21} = \frac{Fh_{11} - Eh_{12}}{\Delta}, \quad
+a_{22} = \frac{Fh_{12} - Eh_{22}}{\Delta},
+\]
+and $K = \det(d\nu) = \det S = (h_{11}h_{22} - h_{12}^2)/\Delta$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Differentiating $\langle\nu, \nu\rangle = 1$ gives $\langle\partial_i\nu, \nu\rangle = 0$, so $\partial_i\nu$ is tangent. In $\RR^{n+1}$, $\overline{\nabla}_{x_i}\nu$ is the
+derivative $\partial_i\nu$ of the components of $\nu$, and by Definition~\ref{riemannian-geometry:definition-shape-operator},
+$S(x_i) = -(\overline{\nabla}_{x_i}\nu)^\top = -\partial_i\nu$.
+
+(2) Differentiating $\langle x_j, \nu\rangle = 0$ in $u^i$ gives $h_{ij} = \langle\partial_i\partial_jx, \nu\rangle = -\langle x_j, \partial_i\nu\rangle$, and inserting
+$\partial_i\nu = \sum_ka_{ki}x_k$ gives $h_{ij} = -\sum_ka_{ki}g_{kj} = -(A^T(g_{ij}))_{ij}$. Transposing, and using that $(g_{ij})$ and $(h_{ij})$ are symmetric,
+$(h_{ij}) = -(g_{ij})A$, so $A = -(g_{ij})^{-1}(h_{ij})$. The matrix of $S = -d\nu$ is $-A$.
+
+(3) $\det S = \det\bigl((g_{ij})^{-1}(h_{ij})\bigr) = \det(h_{ij})/\det(g_{ij})$, and $\det(d\nu) = \det(-S) = (-1)^n\det S$.
+
+(4) Here $(g_{ij})^{-1} = \Delta^{-1}\bigl(\begin{smallmatrix} G & -F\\ -F & E\end{smallmatrix}\bigr)$, and multiplying out $-(g_{ij})^{-1}(h_{ij})$ gives the four entries.
+For $n = 2$ the sign $(-1)^n$ is $+1$, and $K = \det S$ by Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-sign-conventions}
+With $e = h_{11}$, $f = h_{12}$, $g = h_{22}$ (the letter $g$ here is not the metric), part (4) is the form in which the Weingarten equations appear in
+\cite[Chapter 3]{do-carmo-curves-surfaces}, where one works with $d\nu$ itself and $\mathrm{II}_p(v) = -\langle d\nu_p(v), v\rangle$. The two conventions differ by the
+sign $S = -d\nu$, which is the most common source of sign errors: if $a_{ki}$ denotes the matrix of $S$ instead of $d\nu$, the formula of (2) reads
+$h_{ij} = +\sum_ka_{ki}g_{kj}$. For surfaces the sign does not affect $K$, because $\det(-S) = \det S$ for $2 \times 2$ matrices, but it changes the sign of the mean
+curvature, and in odd dimension $n$ it changes the sign of the Gauss--Kronecker curvature. For example, for the unit sphere with the outward normal $\nu(p) = p$, the Gauss map
+is the identity, $d\nu = \id$, $S = -\id$, and $(h_{ij}) = -(g_{ij})$, as in Example~\ref{riemannian-geometry:example-surfaces}(1) below.
+\end{remark}
 
 \begin{example}\label{riemannian-geometry:example-surfaces}
 \begin{enumerate}
@@ -800,8 +1044,8 @@ the hyperbolic plane.
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 
 \begin{definition}\label{riemannian-geometry:definition-hodge-star}
-Let $(M, g)$ be an oriented Riemannian $n$-manifold. The metric induces inner products on $\Lambda^kT^*_pM$ (Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}), a volume form
-$\mathrm{vol}_g$, and the \emph{Hodge star} $* \colon \Omega^k(M) \to \Omega^{n-k}(M)$, characterised pointwise by $\alpha \wedge *\beta = \langle\alpha, \beta\rangle\,\mathrm{vol}_g$
+Let $(M, g)$ be an oriented Riemannian $n$-manifold. The metric induces inner products on $\Lambda^kT^*_pM$ (Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}), the volume form
+$\mathrm{vol}_g$ (Proposition~\ref{riemannian-geometry:proposition-volume-form}), and the \emph{Hodge star} $* \colon \Omega^k(M) \to \Omega^{n-k}(M)$, characterised pointwise by $\alpha \wedge *\beta = \langle\alpha, \beta\rangle\,\mathrm{vol}_g$
 (Theorem~\ref{multilinear-algebra:theorem-hodge-star}); it satisfies $** = (-1)^{k(n-k)}$ on $k$-forms. In coordinates $\mathrm{vol}_g = \sqrt{\det(g_{ij})}\,dx^1 \wedge \cdots \wedge dx^n$ in a positively
 oriented chart.
 \end{definition}
@@ -849,6 +1093,347 @@ On a compact connected oriented manifold the harmonic $0$-forms are the constant
 $\RR^n/\ZZ^n$, the harmonic forms are exactly the forms with constant coefficients in the coordinates $dx^i$, a space of dimension $\binom{n}{k}$, which matches $b_k(T^n)$
 (Exercise~\ref{de-rham:exercise-torus}).
 \end{example}
+
+\section{Isometries, Killing fields and space forms}\label{riemannian-geometry:section-killing}
+
+The symmetries of a Riemannian manifold are its isometries, and the infinitesimal symmetries are the vector fields whose flows consist of isometries, the Killing
+fields. This section shows that both are rigid: an isometry is determined by its value and its differential at one point, a Killing field by its value and its
+covariant derivative at one point, and so the Killing fields form a Lie algebra of dimension at most $n(n + 1)/2$. The spaces with the most symmetry are those of
+constant curvature, and the theorem of Killing and Hopf classifies them: a complete simply connected manifold of constant curvature is Euclidean space, a round
+sphere or hyperbolic space, and every complete manifold of constant curvature is a quotient of one of these. At the end we state two rigidity theorems of a more
+difficult kind, Cheng's maximal diameter theorem and the sphere theorem. Throughout, $M$ has dimension $n$.
+
+A smooth map $F \colon (N, h) \to (M, g)$ between Riemannian manifolds of the same dimension is a \emph{local isometry} if $F^*g = h$, that is, if every
+$d_xF$ is a linear isometry. By the inverse function theorem (Theorem~\ref{smooth-manifolds:theorem-inverse-function-manifolds}) it is then a local diffeomorphism,
+and it restricts to isometries between small open sets.
+
+\begin{lemma}\label{riemannian-geometry:lemma-local-isometries}
+Let $F \colon N \to M$ be a local isometry.
+\begin{enumerate}
+\item $F$ maps geodesics to geodesics: if $v \in T_xN$ is in the domain of $\exp_x$, then $d_xF(v)$ is in the domain of $\exp_{F(x)}$ and
+$F(\exp_x(v)) = \exp_{F(x)}(d_xF(v))$.
+\item If $N$ is connected and $F^{\prime} \colon N \to M$ is another local isometry with $F^{\prime}(x_0) = F(x_0)$ and $d_{x_0}F^{\prime} = d_{x_0}F$ at one point $x_0$, then
+$F^{\prime} = F$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Let $x \in N$, and choose an open $U \ni x$ that $F$ maps diffeomorphically onto an open $V$, and a chart $y$ on $V$. Then $y \circ F$ is a chart on $U$, and
+since $F^*g = h$, the coefficients of $h$ in the chart $y \circ F$ are the same functions as those of $g$ in the chart $y$. So the Christoffel symbols
+(Theorem~\ref{riemannian-geometry:theorem-levi-civita}) and the geodesic equations (Definition~\ref{riemannian-geometry:definition-geodesic}) are the same, and a curve
+$c$ in $U$ is a geodesic if and only if $F \circ c$ is one. Being a geodesic is a local condition, so $F \circ \gamma$ is a geodesic whenever $\gamma$ is. For $v$ in the
+domain of $\exp_x$, the curve $F \circ \gamma_v$ is a geodesic defined on $[0, 1]$ with initial velocity $d_xF(v)$; by uniqueness it is the geodesic
+$\gamma_{d_xF(v)}$, which is therefore defined on $[0, 1]$, and evaluating at $t = 1$ gives the formula.
+
+(2) Let $A = \{x \in N : F^{\prime}(x) = F(x),\ d_xF^{\prime} = d_xF\}$, which contains $x_0$. It is closed, as $F$, $F^{\prime}$ and their differentials are continuous (in charts,
+the Jacobian matrices are continuous). It is open: if $x \in A$ and $\exp_x$ maps a ball $B(0, \varepsilon)$ diffeomorphically onto a neighbourhood $W$ of $x$
+(Proposition~\ref{riemannian-geometry:proposition-exponential}), then by (1), $F(\exp_x v) = \exp_{F(x)}(d_xFv) = F^{\prime}(\exp_x v)$ for $|v| < \varepsilon$, so
+$F = F^{\prime}$ on $W$, and hence also $dF = dF^{\prime}$ on $W$. As $N$ is connected, $A = N$.
+\end{proof}
+
+For example, for a geodesic $\gamma$ and an isometry $F$, $F \circ \gamma$ is the geodesic with initial velocity $dF(\dot\gamma(0))$; this is the argument of
+Exercise~\ref{riemannian-geometry:exercise-great-circles}, which finds the geodesics of the sphere as fixed sets of reflections.
+
+\begin{definition}\label{riemannian-geometry:definition-killing}
+A vector field $X$ on $M$ with local flow $\Phi$ (Theorem~\ref{smooth-manifolds:theorem-flow}) is a \emph{Killing field} if every $\Phi_t$ is an isometry from its
+domain onto its image: $\langle d\Phi_t(v), d\Phi_t(w)\rangle = \langle v, w\rangle$ whenever $\Phi_t$ is defined at the base point of $v$ and $w$. For vector fields
+$X$, $Y$, $Z$ we put
+\[
+(L_Xg)(Y, Z) = X\langle Y, Z\rangle - \langle[X, Y], Z\rangle - \langle Y, [X, Z]\rangle .
+\]
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-killing}
+The expression $L_Xg$ is a symmetric tensor, and $(L_Xg)_p(v, w) = \frac{d}{dt}\big|_{t=0}\langle d_p\Phi_t(v), d_p\Phi_t(w)\rangle$ for $v, w \in T_pM$ (the \emph{Lie derivative}
+of $g$). Moreover $(L_Xg)(Y, Z) = \langle\nabla_YX, Z\rangle + \langle Y, \nabla_ZX\rangle$. Consequently the following are equivalent:
+\begin{enumerate}
+\item $X$ is a Killing field;
+\item $X\langle Y, Z\rangle = \langle[X, Y], Z\rangle + \langle Y, [X, Z]\rangle$ for all vector fields $Y$, $Z$;
+\item for every $p$, the endomorphism $v \mapsto \nabla_vX$ of $T_pM$ is skew-adjoint: $\langle\nabla_vX, w\rangle + \langle v, \nabla_wX\rangle = 0$.
+\end{enumerate}
+In coordinates, (3) reads $\nabla_iX_j + \nabla_jX_i = 0$, where $\nabla_iX_j = \langle\nabla_{\partial_i}X, \partial_j\rangle$ (\emph{Killing's equation}).
+\end{proposition}
+
+\begin{proof}
+Since $\nabla$ is metric and torsion-free, $X\langle Y, Z\rangle = \langle\nabla_XY, Z\rangle + \langle Y, \nabla_XZ\rangle$ and $[X, Y] = \nabla_XY - \nabla_YX$;
+substituting gives $(L_Xg)(Y, Z) = \langle\nabla_YX, Z\rangle + \langle Y, \nabla_ZX\rangle$. The right side depends only on the values of $Y$ and $Z$ at each point and
+is symmetric, so $L_Xg$ is a symmetric tensor.
+
+Fix $p$ and vector fields $Y$, $Z$ near $p$. Let $V(t) = d\Phi_{-t}(Y_{\Phi_t(p)})$ and $W(t) = d\Phi_{-t}(Z_{\Phi_t(p)})$, curves in $T_pM$ with $V(0) = Y_p$,
+$W(0) = Z_p$, and by Proposition~\ref{smooth-manifolds:proposition-bracket}, $V^{\prime}(0) = [X, Y]_p$ and $W^{\prime}(0) = [X, Z]_p$. For $a, b \in T_pM$ put
+$G(t, a, b) = \langle d_p\Phi_t(a), d_p\Phi_t(b)\rangle$, smooth in $t$ and bilinear in $(a, b)$. Since $d\Phi_t(V(t)) = Y_{\Phi_t(p)}$,
+\[
+\langle Y, Z\rangle(\Phi_t(p)) = G(t, V(t), W(t)),
+\]
+and differentiating at $t = 0$ (the derivative of $t \mapsto \Phi_t(p)$ is $X_p$),
+$X_p\langle Y, Z\rangle = \partial_tG(0, Y_p, Z_p) + \langle[X, Y]_p, Z_p\rangle + \langle Y_p, [X, Z]_p\rangle$. So $(L_Xg)_p(Y_p, Z_p) = \partial_tG(0, Y_p, Z_p)$, and
+every pair of tangent vectors at $p$ is of the form $(Y_p, Z_p)$.
+
+(1) $\Rightarrow$ (2): if $X$ is Killing, $G(t, a, b) = \langle a, b\rangle$ does not depend on $t$, so $L_Xg = 0$. (2) $\Rightarrow$ (1): let $v, w \in T_pM$ and
+$f(t) = G(t, v, w)$, on the interval of $t$ for which $\Phi_t(p)$ is defined. For $t_0$ in it, $\Phi_{t_0 + s} = \Phi_s \circ \Phi_{t_0}$ near $p$, so
+$f(t_0 + s) = \langle d\Phi_s(v^{\prime}), d\Phi_s(w^{\prime})\rangle$ with $v^{\prime} = d_p\Phi_{t_0}(v)$ and $w^{\prime} = d_p\Phi_{t_0}(w)$, and
+$f^{\prime}(t_0) = (L_Xg)(v^{\prime}, w^{\prime}) = 0$. So $f$ is constant, equal to $f(0) = \langle v, w\rangle$. (2) $\Leftrightarrow$ (3) is the formula
+$(L_Xg)(Y, Z) = \langle\nabla_YX, Z\rangle + \langle Y, \nabla_ZX\rangle$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-killing-fields}
+\begin{enumerate}
+\item \emph{Euclidean space.} On $\RR^n$, $\nabla_vX = DX(x)v$, so $X$ is a Killing field if and only if the matrix $DX(x)$ is skew-symmetric for every $x$. This holds for
+$X(x) = Ax + b$ with $A^T = -A$, whose flow $\Phi_t(x) = e^{tA}x + \int_0^te^{sA}b\,ds$ consists of rigid motions ($e^{tA}$ is orthogonal, since
+$(e^{tA})^Te^{tA} = e^{-tA}e^{tA} = I$). Conversely, if $\partial_iX^j + \partial_jX^i = 0$ everywhere, then $T_{kij} = \partial_k\partial_iX^j$ is symmetric in
+$k, i$ (Theorem~\ref{real-analysis:theorem-schwarz}) and antisymmetric in $i, j$, and a tensor with these two properties vanishes:
+$T_{kij} = -T_{kji} = -T_{jki} = T_{jik} = T_{ijk} = -T_{ikj} = -T_{kij}$. So $DX$ is constant and $X(x) = Ax + b$.
+\item \emph{Spheres.} For $A \in \mathfrak{so}(n + 1)$ the field $X(x) = Ax$ is tangent to $S^n$, as $\langle Ax, x\rangle = 0$, and its flow $e^{tA} \in \mathrm{SO}(n + 1)$
+restricts to isometries of $S^n$; so $X$ is a Killing field on $S^n$. For $n = 2$ and $A = L_a$ (Example~\ref{lie-groups:example-so3}) it is the field
+$x \mapsto a \times x$ of the rotations about the axis $a$.
+\item \emph{Lie groups.} On a Lie group with a bi-invariant metric (Example~\ref{riemannian-geometry:example-metrics}) the left-invariant fields are Killing fields: the
+flow of $X$ is $\Phi_t(g) = g\exp(tX)$ (Theorem~\ref{lie-groups:theorem-exponential}, translated by $L_g$), which is right multiplication by $\exp(tX)$, an isometry.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{riemannian-geometry:proposition-killing-jacobi}
+Let $X$ be a Killing field and $\gamma \colon I \to M$ a geodesic. Then $X \circ \gamma$ is a Jacobi field along $\gamma$, with $D_t(X \circ \gamma) = \nabla_{\dot\gamma}X$.
+\end{proposition}
+
+\begin{proof}
+Let $[a, b] \subseteq I$. The domain of the flow is open and contains $\{0\} \times M$ (Theorem~\ref{smooth-manifolds:theorem-flow}), so by compactness of
+$\gamma([a, b])$ there is $\varepsilon > 0$ such that $\Phi_s$ is defined on a neighbourhood of $\gamma([a, b])$ for $|s| < \varepsilon$. Each $\Phi_s$ is an isometry onto
+its image, so by Lemma~\ref{riemannian-geometry:lemma-local-isometries}(1), $f(s, t) = \Phi_s(\gamma(t))$ is a family of geodesics $t \mapsto f(s, t)$. By
+Proposition~\ref{riemannian-geometry:proposition-jacobi}(1), $\partial_sf(0, t) = X(\gamma(t))$ is a Jacobi field on $[a, b]$; as $[a, b]$ is arbitrary, it is one on $I$.
+The formula for $D_t$ is Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}.
+\end{proof}
+
+\begin{theorem}\label{riemannian-geometry:theorem-killing-algebra}
+Let $M$ be connected, and $p \in M$.
+\begin{enumerate}
+\item A Killing field $X$ with $X_p = 0$ and $\nabla_vX = 0$ for all $v \in T_pM$ vanishes identically.
+\item The Killing fields form a Lie subalgebra $\mathfrak{iso}(M, g)$ of the Lie algebra $\mathfrak{X}(M)$ of vector fields
+(Proposition~\ref{smooth-manifolds:proposition-bracket}), and the linear map $X \mapsto (X_p, \nabla X_p)$, where $\nabla X_p$ is the endomorphism $v \mapsto \nabla_vX$
+of $T_pM$, is injective with values in $T_pM \oplus \mathfrak{so}(T_pM)$. Hence $\dim\mathfrak{iso}(M, g) \leq n + \frac{n(n-1)}{2} = \frac{n(n + 1)}{2}$.
+\item The bound is attained by $\RR^n$ and by $S^n$, whose Killing fields are exactly those of Example~\ref{riemannian-geometry:example-killing-fields}.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Let $Z$ be the set of points $q$ with $X_q = 0$ and $\nabla X_q = 0$; it is closed and contains $p$. If $q \in Z$ and $\exp_q$ maps $B(0, \varepsilon)$
+diffeomorphically onto $W$, then for $|v| < \varepsilon$, $J(t) = X(\exp_q(tv))$ is a Jacobi field (Proposition~\ref{riemannian-geometry:proposition-killing-jacobi}) with
+$J(0) = X_q = 0$ and $D_tJ(0) = \nabla_vX = 0$, hence $J = 0$ and $X(\exp_qv) = J(1) = 0$. So $X = 0$ on $W$, hence also $\nabla X = 0$ on $W$, and $Z$ is open. As $M$
+is connected, $Z = M$.
+
+(2) The map is linear, and it takes values in $T_pM \oplus \mathfrak{so}(T_pM)$ by Proposition~\ref{riemannian-geometry:proposition-killing}(3); by (1) it is
+injective, which gives the dimension bound. Killing fields form a vector space, since $L_Xg$ is linear in $X$. For the bracket, let $X$ and $W$ satisfy
+Proposition~\ref{riemannian-geometry:proposition-killing}(2). Then for all $Y$, $Z$,
+\[
+\begin{aligned}
+XW\langle Y, Z\rangle &= X\langle[W, Y], Z\rangle + X\langle Y, [W, Z]\rangle \\
+&= \langle[X, [W, Y]], Z\rangle + \langle[W, Y], [X, Z]\rangle + \langle[X, Y], [W, Z]\rangle + \langle Y, [X, [W, Z]]\rangle .
+\end{aligned}
+\]
+Exchanging $X$ and $W$ and subtracting, the two middle terms cancel, and by the Jacobi identity $[X, [W, Y]] - [W, [X, Y]] = [[X, W], Y]$, so
+$[X, W]\langle Y, Z\rangle = \langle[[X, W], Y], Z\rangle + \langle Y, [[X, W], Z]\rangle$: $[X, W]$ is a Killing field.
+
+(3) On $\RR^n$ the fields $Ax + b$ with $A$ skew form a space of dimension $n(n - 1)/2 + n$, and by
+Example~\ref{riemannian-geometry:example-killing-fields}(1) they are all the Killing fields. On $S^n$ the fields $x \mapsto Ax$, $A \in \mathfrak{so}(n + 1)$, form a space of
+dimension $\dim\mathfrak{so}(n + 1) = n(n + 1)/2$: the map $A \mapsto (x \mapsto Ax)$ is injective because $S^n$ spans $\RR^{n+1}$. By (2) there are no other Killing
+fields on $S^n$.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-myers-steenrod}
+The isometries of $M$ form a group $\mathrm{Isom}(M, g)$. By the theorem of Myers and Steenrod it is a Lie group, compact if $M$ is compact, and its Lie algebra is
+identified with the Lie algebra of complete Killing fields (on a compact manifold every Killing field is complete); so
+$\dim\mathrm{Isom}(M, g) \leq n(n + 1)/2$ \cite[Chapter VI]{kobayashi-nomizu}. For instance $\mathrm{Isom}(\RR^n)$ is the group of rigid motions and
+$\mathrm{Isom}(S^n) = \mathrm{O}(n + 1)$ (Corollary~\ref{riemannian-geometry:corollary-model-isometries} below), both of the maximal dimension. A manifold whose isometry
+group has maximal dimension has constant curvature \cite[Chapter VI]{kobayashi-nomizu}.
+\end{remark}
+
+Curvature restricts the Killing fields of a compact manifold, by an integration argument of Bochner.
+
+\begin{theorem}[Bochner]\label{riemannian-geometry:theorem-bochner-killing}
+Let $M$ be compact and oriented, and $X$ a Killing field. Then, with $|\nabla X|^2 = \sum_i|\nabla_{e_i}X|^2$ for an orthonormal basis $(e_i)$,
+\[
+\int_M\bigl(|\nabla X|^2 - \mathrm{Ric}(X, X)\bigr)\,\mathrm{vol}_g = 0 .
+\]
+Hence if $\mathrm{Ric} \leq 0$ everywhere, every Killing field is parallel ($\nabla X = 0$); and if $\mathrm{Ric}$ is negative definite everywhere, every Killing field is zero,
+and $\mathrm{Isom}(M, g)$ is finite.
+\end{theorem}
+
+\begin{proof}
+Let $f = \frac12|X|^2$ and $p \in M$, and take normal coordinates at $p$ (Proposition~\ref{riemannian-geometry:proposition-exponential}), with
+$\partial_i = e_i$ orthonormal at $p$. The $i$-th coordinate line $\gamma_i(t) = \exp_p(te_i)$ is a unit speed geodesic, so $\partial_i^2f(p) = (f \circ \gamma_i)^{\prime\prime}(0)$,
+and $J = X \circ \gamma_i$ is a Jacobi field with $D_tJ(0) = \nabla_{e_i}X$ (Proposition~\ref{riemannian-geometry:proposition-killing-jacobi}). Hence
+\[
+(f \circ \gamma_i)^{\prime\prime} = \frac{d}{dt}\langle D_tJ, J\rangle = |D_tJ|^2 + \langle D_t^2J, J\rangle = |D_tJ|^2 - \langle R(J, \dot\gamma_i)\dot\gamma_i, J\rangle,
+\]
+which at $t = 0$ is $|\nabla_{e_i}X|^2 - R(X, e_i, e_i, X)$. Summing over $i$, and using $R(X, e_i, e_i, X) = R(e_i, X, X, e_i)$
+(Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries}) and Definition~\ref{riemannian-geometry:definition-curvature-tensor}, Proposition~\ref{riemannian-geometry:proposition-adjoint}(5)
+gives
+\[
+\Delta f(p) = -\sum_i\partial_i^2f(p) = \mathrm{Ric}(X, X) - |\nabla X|^2 .
+\]
+By Proposition~\ref{riemannian-geometry:proposition-adjoint}(2), $\int_M\Delta f\,\mathrm{vol}_g = (\Delta f, 1) = (f, \Delta1) = 0$, which is the integral formula. If
+$\mathrm{Ric} \leq 0$, the integrand $|\nabla X|^2 - \mathrm{Ric}(X, X)$ is a non-negative continuous function with integral $0$, so it vanishes: $\nabla X = 0$ and
+$\mathrm{Ric}(X, X) = 0$; if $\mathrm{Ric}$ is negative definite, the latter forces $X = 0$. Then the compact Lie group $\mathrm{Isom}(M, g)$ has Lie algebra $0$
+(Remark~\ref{riemannian-geometry:remark-myers-steenrod}), so it is discrete and compact, hence finite.
+\end{proof}
+
+For the flat torus $\RR^n/\ZZ^n$ the Killing fields are therefore the parallel fields, the constant fields $\sum_ic^i\partial_i$, whose flows are the translations; and a
+compact surface of constant curvature $-1$ has only finitely many isometries.
+
+We now turn to spaces of constant curvature. Recall that $s_\kappa(t)$ is $t$, $\sin(\sqrt\kappa t)/\sqrt\kappa$ or $\sinh(\sqrt{-\kappa}t)/\sqrt{-\kappa}$ for
+$\kappa = 0$, $\kappa > 0$ or $\kappa < 0$, and that the proof of Theorem~\ref{riemannian-geometry:theorem-minding} shows: if $M$ has constant sectional curvature $\kappa$,
+$v \neq 0$ lies in the domain of $\exp_p$ and $w = w_\parallel + w_\perp$ is the decomposition of $w \in T_pM$ into a multiple of $v$ and a vector orthogonal to $v$, then
+\[
+|d_v\exp_p(w)|^2 = |w_\parallel|^2 + \Bigl(\frac{s_\kappa(|v|)}{|v|}\Bigr)^2|w_\perp|^2. \tag{$\dagger$}
+\]
+Multiplying a metric by a constant $c > 0$ does not change the Levi-Civita connection (the Koszul formula is homogeneous) or $R(X, Y)Z$, and it multiplies the
+sectional curvatures by $1/c$, since an orthonormal basis for $cg$ is $(u, v)/\sqrt c$ for an orthonormal basis $(u, v)$ for $g$.
+
+\begin{definition}\label{riemannian-geometry:definition-model-spaces}
+For $n \geq 2$ and $\kappa \in \RR$ the \emph{model space} $M^n_\kappa$ is: Euclidean space $\RR^n$ if $\kappa = 0$; the sphere $S^n(r) = \{x \in \RR^{n+1} : |x| = r\}$ of
+radius $r = 1/\sqrt\kappa$ with the induced metric if $\kappa > 0$; and the \emph{hyperbolic space} $\{x \in \RR^n : x^n > 0\}$ with the metric
+$|\kappa|^{-1}(dx_1^2 + \cdots + dx_n^2)/(x^n)^2$ if $\kappa < 0$.
+\end{definition}
+
+All three are complete, connected and simply connected with constant sectional curvature $\kappa$. For $\RR^n$ this is clear. The sphere $S^n(r)$ has curvature
+$1/r^2 = \kappa$ (Example~\ref{riemannian-geometry:example-surfaces}(1)), is complete, being compact (Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}), and is simply
+connected for $n \geq 2$ (Corollary~\ref{homotopy:corollary-spheres}). Hyperbolic space is simply connected, being a convex subset of $\RR^n$; that it is complete with
+curvature $-1$ for $\kappa = -1$ is computed in \cite[Chapter 8]{do-carmo-riemannian}, and the case of general $\kappa < 0$ follows by scaling.
+
+\begin{theorem}[Killing--Hopf]\label{riemannian-geometry:theorem-killing-hopf}
+Let $M$ and $N$ be complete, connected and simply connected Riemannian manifolds of the same dimension $n \geq 2$, with the same constant sectional curvature
+$\kappa$. For $p \in M$, $q \in N$ and a linear isometry $I \colon T_pM \to T_qN$ there is a unique isometry $F \colon M \to N$ with $F(p) = q$ and $d_pF = I$.
+In particular $M$ is isometric to the model space $M^n_\kappa$.
+\end{theorem}
+
+\begin{proof}
+Uniqueness is Lemma~\ref{riemannian-geometry:lemma-local-isometries}(2). By Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}, $\exp_p$ and $\exp_q$ are defined on
+the whole tangent spaces. The key observation is the following. Let $U \subseteq T_pM$ be an open set on which $\exp_p$ is a local diffeomorphism, and
+$F = \exp_q \circ I \circ \psi$ for a smooth local inverse $\psi$ of $\exp_p|_U$. For $x = \exp_p(v)$, $v \in U$, and $w \in T_pM$ the chain rule gives
+$d_xF(d_v\exp_p(w)) = d_{Iv}\exp_q(Iw)$. The linear isometry $I$ preserves lengths and maps $w_\parallel$ and $w_\perp$ to the components of $Iw$ along and orthogonal to
+$Iv$, so by $(\dagger)$ on $M$ and on $N$ the vectors $d_v\exp_p(w)$ and $d_{Iv}\exp_q(Iw)$ have the same length (for $v = 0$ both differentials are the identity). As
+$d_v\exp_p$ is onto $T_xM$, $d_xF$ preserves lengths, hence inner products: $F$ is a local isometry.
+
+\emph{The case $\kappa \leq 0$.} By Theorem~\ref{riemannian-geometry:theorem-cartan-hadamard}, $\exp_p$ and $\exp_q$ are diffeomorphisms, so
+$F = \exp_q \circ I \circ \exp_p^{-1} \colon M \to N$ is a diffeomorphism, a local isometry by the observation, hence an isometry; and $F(p) = q$, $d_pF = I$ as
+$d_0\exp = \id$.
+
+\emph{The case $\kappa > 0$.} Multiplying both metrics by $\kappa$ we may assume $\kappa = 1$. Let $S = S^n$ be the unit sphere and $o \in S$. We show: for every linear
+isometry $J \colon T_oS \to T_pM$ there is an isometry $G \colon S \to M$ with $G(o) = p$ and $d_oG = J$. Applying this to $M$ with $J$ and to $N$ with $I \circ J$ gives
+isometries $G_M$ and $G_N$, and $F = G_N \circ G_M^{-1}$ has the required properties.
+
+For a unit vector $u \perp o$, the great circle $c(t) = \cos t\,o + \sin t\,u$ has acceleration $c^{\prime\prime} = -c$, which is normal to $S$, so
+$D_tc^{\prime} = (c^{\prime\prime})^\top = 0$ (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}): $c$ is the geodesic with initial velocity $u$. Hence
+$\exp_o(v) = \cos|v|\,o + \sin|v|\,v/|v|$ for $v \neq 0$. It maps $B = B(0, \pi)$ bijectively onto $S \setminus \{-o\}$:
+every $y \neq -o$ is uniquely $\cos\theta\,o + \sin\theta\,u$ with $\theta = \arccos\langle y, o\rangle \in [0, \pi)$ and, if $\theta > 0$, a unit vector $u \perp o$.
+By $(\dagger)$, with $s_1(\ell) = \sin\ell > 0$ for $0 < \ell < \pi$, $d_v\exp_o$ is injective for $v \in B$; so $\exp_o \colon B \to S \setminus \{-o\}$ is a bijective local
+diffeomorphism, hence a diffeomorphism. By the observation (with the roles of $M$ and $N$ played by $S$ and $M$),
+$G_1 = \exp_p \circ J \circ (\exp_o|_B)^{-1} \colon S \setminus \{-o\} \to M$ is a local isometry with $G_1(o) = p$ and $d_oG_1 = J$. Choose $o^{\prime} \in S$ with
+$o^{\prime} \neq \pm o$, and let $G_2 = \exp_{p^{\prime}} \circ J^{\prime} \circ (\exp_{o^{\prime}}|_B)^{-1} \colon S \setminus \{-o^{\prime}\} \to M$ with
+$p^{\prime} = G_1(o^{\prime})$ and $J^{\prime} = d_{o^{\prime}}G_1$, again a local isometry. The open set $W = S \setminus \{-o, -o^{\prime}\}$ contains $o^{\prime}$, and it
+is connected: stereographic projection from $-o$ (Example~\ref{general-topology:example-stereographic}) maps it homeomorphically onto $\RR^n$ minus a point, which is
+connected for $n \geq 2$ (Lemma~\ref{topological-manifolds:lemma-punctured-connected}). On $W$ the local isometries $G_1$ and $G_2$ agree at $o^{\prime}$ together with
+their differentials, so $G_1 = G_2$ on $W$ by Lemma~\ref{riemannian-geometry:lemma-local-isometries}(2). Since $-o \neq -o^{\prime}$, they glue to a local isometry
+$G \colon S \to M$. By Lemma~\ref{riemannian-geometry:lemma-proper-covering}, $G$ is a covering map ($S$ is compact and $M$ connected and Hausdorff). As $M$ is simply
+connected and $S$ is path-connected, the monodromy action on a fibre is transitive and $\pi_1(M)$ is trivial, so each fibre is a single point
+(Corollary~\ref{homotopy:corollary-lifting-consequences}(3)). So $G$ is a bijective local isometry, that is, an isometry, with $G(o) = p$ and $d_oG = J$.
+
+Finally, the model space $M^n_\kappa$ satisfies the hypotheses, so $M$ is isometric to it.
+\end{proof}
+
+\begin{corollary}\label{riemannian-geometry:corollary-model-isometries}
+\begin{enumerate}
+\item The model spaces are \emph{frame-homogeneous}: for any two points $p, q \in M^n_\kappa$ and any linear isometry $I \colon T_pM^n_\kappa \to T_qM^n_\kappa$ there is a
+unique isometry $F$ of $M^n_\kappa$ with $F(p) = q$ and $d_pF = I$.
+\item The isometries of $\RR^n$ are the maps $x \mapsto Ax + b$ with $A \in \mathrm{O}(n)$ and $b \in \RR^n$.
+\item The isometries of $S^n(r)$ are the restrictions of the maps $A \in \mathrm{O}(n + 1)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) is Theorem~\ref{riemannian-geometry:theorem-killing-hopf} with $M = N = M^n_\kappa$. (2) These maps are isometries, since $d(Ax + b) = A$ preserves lengths. Given
+an isometry $F$, $A = d_0F$ is an orthogonal matrix and $x \mapsto Ax + F(0)$ agrees with $F$ at $0$ together with its differential, so it equals $F$ by
+Lemma~\ref{riemannian-geometry:lemma-local-isometries}(2). (3) Restrictions of orthogonal maps are isometries of $S^n(r)$. Given an isometry $F$ and $o \in S^n(r)$,
+let $A$ be the linear map with $A(o) = F(o)$ and $A = d_oF$ on $T_oS^n(r) = o^\perp$; it maps the orthonormal basis formed by $o/r$ and an orthonormal basis of $o^\perp$
+to an orthonormal basis, since $d_oF$ is an isometry onto $F(o)^\perp$, so $A \in \mathrm{O}(n + 1)$. Then $A|_{S^n(r)}$ and $F$ agree at $o$ together with their
+differentials, so they are equal.
+\end{proof}
+
+\begin{corollary}[Space forms]\label{riemannian-geometry:corollary-space-forms}
+Let $M$ be a complete connected Riemannian manifold of dimension $n \geq 2$ with constant sectional curvature $\kappa$. Then $M$ is isometric to $M^n_\kappa/\Gamma$ for
+a group $\Gamma \cong \pi_1(M)$ of isometries of $M^n_\kappa$ acting freely, such that the projection $M^n_\kappa \to M^n_\kappa/\Gamma$ is a covering map, with the metric for
+which this projection is a local isometry.
+\end{corollary}
+
+\begin{proof}
+Let $\pi \colon \widetilde{M} \to M$ be a universal covering (Theorem~\ref{homotopy:theorem-universal-cover}; manifolds are locally path-connected and locally simply
+connected). $\widetilde{M}$ is a connected manifold (Proposition~\ref{topological-manifolds:proposition-constructions}(4)) with a unique smooth structure making $\pi$ a local
+diffeomorphism (Example~\ref{smooth-manifolds:example-smooth-quotients}), and $\tilde g = \pi^*g$ makes $\pi$ a local isometry, so $\widetilde{M}$ has constant curvature
+$\kappa$. It is complete: let $\tilde\gamma$ be a maximal geodesic of $\widetilde{M}$ with $\tilde\gamma(0) = \tilde x$. Then $\pi \circ \tilde\gamma$ is a geodesic
+(Lemma~\ref{riemannian-geometry:lemma-local-isometries}(1)), which extends to a geodesic $\gamma$ defined on $\RR$ by completeness of $M$. Let $\hat\gamma$ be the lift of
+$\gamma$ starting at $\tilde x$ (Proposition~\ref{homotopy:proposition-homotopy-lifting}). Near each time, $\hat\gamma$ is $\gamma$ followed by a local inverse of $\pi$, which is a
+local isometry, so $\hat\gamma$ is a geodesic; it has the initial velocity of $\tilde\gamma$, so it extends $\tilde\gamma$ to $\RR$, and $\tilde\gamma$ was defined on all of
+$\RR$. By Theorem~\ref{riemannian-geometry:theorem-killing-hopf} there is an isometry $\Theta \colon M^n_\kappa \to \widetilde{M}$.
+
+The deck transformations $\tau$ of $\pi$ satisfy $\pi \circ \tau = \pi$, so $\tau^*\tilde g = \tau^*\pi^*g = \pi^*g = \tilde g$: they are isometries. The group
+$\mathrm{Deck}(\pi)$ is isomorphic to $\pi_1(M)$ and acts transitively on each fibre of $\pi$ (Proposition~\ref{homotopy:proposition-deck}), and freely, since a deck
+transformation with a fixed point is a lift of $\pi$ agreeing with the identity at one point, hence the identity by the uniqueness in
+Proposition~\ref{homotopy:proposition-lifting-criterion}.
+So the fibres of $\pi$ are the orbits, and $\pi$ induces a bijection $\widetilde{M}/\mathrm{Deck}(\pi) \to M$, a homeomorphism because $\pi$ is open. The group
+$\Gamma = \Theta^{-1}\,\mathrm{Deck}(\pi)\,\Theta$ acts on $M^n_\kappa$ by isometries, freely, and $\pi \circ \Theta$ identifies $M^n_\kappa/\Gamma$ with $M$; the projection is the
+covering map $\pi \circ \Theta$, a local isometry.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-space-forms}
+\begin{enumerate}
+\item \emph{Flat manifolds.} The flat tori $\RR^n/\ZZ^n$ and the flat Klein bottle (Example~\ref{riemannian-geometry:example-quotient-metrics}) are complete flat manifolds,
+quotients of $\RR^n$.
+\item \emph{Spherical space forms.} $\RR\PP^n = S^n/\{\pm1\}$ and the lens spaces $L(p, q) = S^3/(\ZZ/p)$ (Example~\ref{topological-manifolds:example-covering-actions})
+have constant curvature $1$, because the maps $(z_1, z_2) \mapsto (\zeta^kz_1, \zeta^{qk}z_2)$ are unitary, hence orthogonal on $\RR^4 = \CC^2$, and so isometries of
+$S^3$. In particular, in dimension $3$ there are infinitely many spherical space forms, with fundamental groups $\ZZ/p$ for all $p$.
+\item \emph{Hyperbolic surfaces.} By the Gauss--Bonnet theorem (Corollary~\ref{riemannian-geometry:corollary-gauss-bonnet}) a compact orientable surface with a metric of
+constant curvature $-1$ has genus $g \geq 2$, and its area is $4\pi(g - 1)$; by Corollary~\ref{riemannian-geometry:corollary-space-forms} it is a quotient of the hyperbolic
+plane.
+\end{enumerate}
+\end{example}
+
+In even dimension the positive curvature case is very restricted.
+
+\begin{corollary}\label{riemannian-geometry:corollary-even-spherical}
+Let $n$ be even and $M$ complete and connected with constant curvature $\kappa > 0$. Then $M$ is isometric to $S^n(r)$ or to $\RR\PP^n(r) = S^n(r)/\{\pm1\}$, with
+$r = 1/\sqrt\kappa$.
+\end{corollary}
+
+\begin{proof}
+By Corollaries~\ref{riemannian-geometry:corollary-space-forms} and~\ref{riemannian-geometry:corollary-model-isometries}(3), $M = S^n(r)/\Gamma$ for a subgroup
+$\Gamma \subseteq \mathrm{O}(n + 1)$ acting freely on the sphere. Every $A \in \mathrm{SO}(n + 1)$ has the eigenvalue $1$, because $n + 1$ is odd:
+$\det(A - I) = \det(A - AA^T) = \det A\,\det(I - A^T) = \det(I - A) = (-1)^{n+1}\det(A - I) = -\det(A - I)$. A unit eigenvector, scaled to length $r$, is a fixed point of
+$A$ on $S^n(r)$, so $\Gamma \cap \mathrm{SO}(n + 1) = \{I\}$, and $\det \colon \Gamma \to \{\pm1\}$ is injective. If $\Gamma \neq \{I\}$ it is $\{I, A\}$ with
+$\det A = -1$ and $A^2 = I$; then $A$ is diagonalisable with eigenvalues $\pm1$ (its minimal polynomial divides $x^2 - 1$), and the eigenvalue $1$ is excluded since the
+action is free, so $A = -I$.
+\end{proof}
+
+Finally we state two rigidity theorems for positive curvature, whose proofs use comparison geometry beyond this chapter. The first says that the diameter bound of
+the Bonnet--Myers theorem (Theorem~\ref{riemannian-geometry:theorem-bonnet-myers}) is attained only by the round sphere.
+
+\begin{theorem}[Cheng's maximal diameter theorem]\label{riemannian-geometry:theorem-maximal-diameter}
+Let $M$ be complete and connected of dimension $n$, with $\mathrm{Ric} \geq (n - 1)\kappa g$ for some $\kappa > 0$, and with diameter $\pi/\sqrt\kappa$. Then $M$ is
+isometric to the sphere $S^n(1/\sqrt\kappa)$.
+\end{theorem}
+
+This is \cite{cheng-1975}. For example $\RR\PP^n$ with the metric of constant curvature $1$ has $\mathrm{Ric} = (n - 1)g$ but diameter $\pi/2$, and a product
+$S^2 \times S^2$ of unit spheres has $\mathrm{Ric} = g$ and diameter $\sqrt2\,\pi$, less than the bound $\pi/\sqrt{1/3} = \sqrt3\,\pi$ given by
+Theorem~\ref{riemannian-geometry:theorem-bonnet-myers} with $n = 4$ and $3\kappa = 1$.
+
+\begin{theorem}[Sphere theorem]\label{riemannian-geometry:theorem-sphere}
+Let $M$ be complete and simply connected with sectional curvatures in $(\frac14, 1]$. Then $M$ is homeomorphic to $S^n$ (Rauch, Berger, Klingenberg), and in fact
+diffeomorphic to $S^n$ (Brendle and Schoen).
+\end{theorem}
+
+The topological statement is \cite[Chapter 13]{do-carmo-riemannian}; the differentiable one is \cite{brendle-schoen-2009}, which proves more generally that a compact
+manifold with pointwise $\frac14$-pinched curvature is diffeomorphic to a spherical space form. The constant $\frac14$ is optimal: the complex projective space $\CC\PP^m$
+with the Fubini--Study metric (Chapter~\ref{kahler}) has sectional curvatures filling $[\frac14, 1]$ after scaling, it is compact and simply connected, and for $m \geq 2$
+it is not homeomorphic to a sphere, since $H^2(\CC\PP^m; \ZZ) \cong \ZZ$. By Theorem~\ref{riemannian-geometry:theorem-bonnet-myers}, the hypothesis of the sphere theorem
+already forces $M$ to be compact.
 
 \section{Exercises}\label{riemannian-geometry:section-exercises}
 
@@ -898,4 +1483,42 @@ Let $(M, g)$ be connected with $\mathrm{Hol}_p(g) = \{1\}$. Show that $M$ is fla
 \begin{solution}
 By Theorem~\ref{riemannian-geometry:theorem-holonomy-principle}, each vector of an orthonormal basis of $T_pM$ extends to a parallel vector field $E_i$; the $E_i$ are orthonormal everywhere (parallel transport is an isometry), so they
 trivialise $TM$. For parallel fields $R(X, Y)E_i = \nabla_X\nabla_YE_i - \nabla_Y\nabla_XE_i - \nabla_{[X,Y]}E_i = 0$, so $R = 0$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-surface-revolution-area}
+Let $f, h \colon (a, b) \to \RR$ be smooth with $f > 0$ and $(f^{\prime}, h^{\prime})$ nowhere zero, and let $S$ be the surface of revolution
+$x(t, \theta) = (f(t)\cos\theta, f(t)\sin\theta, h(t))$, assuming that the profile curve $t \mapsto (f(t), h(t))$ is injective and a homeomorphism onto its image. Show that the area of $S$ is $2\pi\int_a^bf(t)\sqrt{f^{\prime}(t)^2 + h^{\prime}(t)^2}\,dt$.
+\end{exercise}
+
+\begin{solution}
+Here $x_t = (f^{\prime}\cos\theta, f^{\prime}\sin\theta, h^{\prime})$ and $x_\theta = (-f\sin\theta, f\cos\theta, 0)$, so $E = f^{\prime 2} + h^{\prime 2}$, $F = 0$ and $G = f^2$.
+By Proposition~\ref{riemannian-geometry:proposition-parametrised-volume}(2), $dA = f\sqrt{f^{\prime 2} + h^{\prime 2}}\,dt\,d\theta$ on the image of
+$(a, b) \times (0, 2\pi)$, and the missing meridian $\theta = 0$ has area $0$ (it is a segment in the chart given by $\theta \in (-\pi, \pi)$). Integrating over $\theta$
+gives the formula.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-archimedes}
+Show that the area of the part of the unit sphere $S^2$ between the planes $z = c$ and $z = d$, for $-1 \leq c < d \leq 1$, is $2\pi(d - c)$: it depends only on the
+distance between the planes (Archimedes).
+\end{exercise}
+
+\begin{solution}
+Apart from the poles and a meridian, which have area $0$, the sphere is the surface of revolution of Exercise~\ref{riemannian-geometry:exercise-surface-revolution-area}
+with $t = z \in (-1, 1)$, $f(z) = \sqrt{1 - z^2}$ and $h(z) = z$. Then $f^{\prime} = -z/\sqrt{1 - z^2}$ and $f\sqrt{f^{\prime 2} + 1} = \sqrt{1 - z^2} \cdot (1 - z^2)^{-1/2} = 1$, so
+the area of the zone is $2\pi\int_c^d1\,dz = 2\pi(d - c)$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-killing-hyperbolic}
+On the upper half plane $H = \{z = x + iy : y > 0\}$ with the metric $(dx^2 + dy^2)/y^2$, show that the Killing fields form a Lie algebra of dimension $3$, spanned by
+$\partial_x$, $x\partial_x + y\partial_y$ and $(x^2 - y^2)\partial_x + 2xy\,\partial_y$. (Show first that the maps $z \mapsto (az + b)/(cz + d)$ with $a, b, c, d$ real and
+$ad - bc = 1$ are isometries of $H$.)
+\end{exercise}
+
+\begin{solution}
+For $\phi(z) = (az + b)/(cz + d)$ one computes $\operatorname{Im}\phi(z) = y/|cz + d|^2$ and $\phi^{\prime}(z) = 1/(cz + d)^2$, so $\phi$ maps $H$ to itself. As a map of
+$\RR^2 = \CC$, its differential at $z$ is multiplication by the complex number $\phi^{\prime}(z)$, which multiplies Euclidean lengths by $|\phi^{\prime}(z)| = 1/|cz + d|^2$.
+The hyperbolic length of $v \in T_zH$ is $|v|/y$, and that of its image is $|\phi^{\prime}(z)||v|/\operatorname{Im}\phi(z) = |v|/y$: $\phi$ is an isometry. The three fields generate the one-parameter groups
+$z \mapsto z + t$, $z \mapsto e^tz$ and $z \mapsto z/(1 - tz)$ (for $z/(1 - tz)$, the derivative in $t$ at $t = 0$ is $z^2 = (x^2 - y^2) + 2ixy$), which are of the form above
+(for the last one, with $a = d = 1$, $b = 0$, $c = -t$, defined on all of $H$ since $1 - tz \neq 0$ for $y > 0$); so they are Killing fields. They are linearly independent,
+and by Theorem~\ref{riemannian-geometry:theorem-killing-algebra} the Killing algebra has dimension at most $2 \cdot 3/2 = 3$.
 \end{solution}
