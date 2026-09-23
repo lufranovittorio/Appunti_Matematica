@@ -457,10 +457,11 @@ MathJax.Hub.Config({
     <span class="proposition_thmtitle">Second variation formula</span>
   </div>
   <div class="proposition_thmcontent">
-  <p> Let \(\gamma \colon [a, b] \to M\) be a geodesic and \(f\) a proper variation of \(\gamma \) with variation field \(V\). Then </p>
+  <p> Let \(\gamma \colon [a, b] \to M\) be a geodesic and \(f\) a variation of \(\gamma \) with variation field \(V\), and let \(A(t) = D_s\partial _sf(0, t)\), the acceleration at \(s = 0\) of the curve \(s \mapsto f(s, t)\). Then </p>
 <div class="displaymath" id="a0000001122">
-  \[  \frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = I(V, V) = \int _a^b\bigl(|D_tV|^2 - R(V, \dot\gamma , \dot\gamma , V)\bigr)\, dt .  \]
+  \[  \frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = I(V, V) + \langle A, \dot\gamma \rangle \Big|_a^b = \int _a^b\bigl(|D_tV|^2 - R(V, \dot\gamma , \dot\gamma , V)\bigr)\, dt + \langle A, \dot\gamma \rangle \Big|_a^b .  \]
 </div>
+<p> The boundary term vanishes if \(f\) is proper, and also if the curves \(s \mapsto f(s, a)\) and \(s \mapsto f(s, b)\) are geodesics, for instance for \(f(s, t) = \exp _{\gamma (t)}(sV(t))\). </p>
 
   </div>
 </div>
@@ -480,7 +481,7 @@ MathJax.Hub.Config({
 <div class="displaymath" id="a0000001125">
   \[  \langle D_sD_t\partial _sf, \dot\gamma \rangle = \frac{\partial }{\partial t}\langle D_s\partial _sf, \dot\gamma \rangle + R(V, \dot\gamma , V, \dot\gamma ) = \frac{\partial }{\partial t}\langle D_s\partial _sf, \dot\gamma \rangle - R(V, \dot\gamma , \dot\gamma , V).  \]
 </div>
-<p> The field \(A(t) = D_s\partial _sf(0, t)\) is the acceleration at \(s = 0\) of the curve \(s \mapsto f(s, t)\), which is the same curve for both pieces meeting at \(t_i\); so \(A\) is continuous, and so is \(\dot\gamma \). Hence the integrals of \(\partial _t\langle A, \dot\gamma \rangle \) add up to \(\langle A, \dot\gamma \rangle |_a^b\), which vanishes: the curves \(s \mapsto f(s, a)\) and \(s \mapsto f(s, b)\) are constant, so \(A(a) = A(b) = 0\). </p>
+<p> The field \(A\) at \(t_i\) is the acceleration of the curve \(s \mapsto f(s, t_i)\), which is the same curve for both pieces meeting at \(t_i\); so \(A\) is continuous, and so is \(\dot\gamma \). Hence the integrals of \(\partial _t\langle A, \dot\gamma \rangle \) add up to \(\langle A, \dot\gamma \rangle |_a^b\). If \(f\) is proper, the curves \(s \mapsto f(s, a)\) and \(s \mapsto f(s, b)\) are constant, so \(A(a) = A(b) = 0\); if they are geodesics, \(A(a) = A(b) = 0\) by Proposition&#160;<a href="riemannian-geometry-section-along-curves.html#riemannian-geometry:proposition-geodesic-speed">39.4.4</a>. </p>
 
   </div>
 </div>
@@ -544,13 +545,118 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<p>For example the round sphere of radius \(1/\sqrt\kappa \) has \(\mathrm{Ric} = (n - 1)\kappa g\) and diameter exactly \(\pi /\sqrt\kappa \), so the bound is sharp; Cheng’s theorem (Theorem&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:theorem-maximal-diameter">39.13.15</a>) says that it is the only case of equality. The hypothesis cannot be weakened to \(\mathrm{Ric} {\gt} 0\): the paraboloid \(z = x^2 + y^2\) is complete, being closed in \(\mathbb {R}^3\), and has Gaussian curvature \(4/(1 + 4x^2 + 4y^2)^2 {\gt} 0\) (Section&#160;<a href="riemannian-geometry-section-submanifolds.html">39.9</a>), but it is not compact; its curvature tends to \(0\) at infinity. A related application of the second variation formula is Synge’s theorem: a compact orientable Riemannian manifold of even dimension with positive sectional curvature is simply connected <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 9]</span>. </p>
+<p>For example the round sphere of radius \(1/\sqrt\kappa \) has \(\mathrm{Ric} = (n - 1)\kappa g\) and diameter exactly \(\pi /\sqrt\kappa \), so the bound is sharp; Cheng’s theorem (Theorem&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:theorem-maximal-diameter">39.13.15</a>) says that it is the only case of equality. The hypothesis cannot be weakened to \(\mathrm{Ric} {\gt} 0\): the paraboloid \(z = x^2 + y^2\) is complete, being closed in \(\mathbb {R}^3\), and has Gaussian curvature \(4/(1 + 4x^2 + 4y^2)^2 {\gt} 0\) (Section&#160;<a href="riemannian-geometry-section-submanifolds.html">39.9</a>), but it is not compact; its curvature tends to \(0\) at infinity. </p>
+<p>The second variation formula also controls the topology of compact manifolds of positive curvature through their isometries. The key step is a fixed point theorem. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-weinstein">
+  <div class="theorem_thmheading"><a class="tag" href="tag/02KR.html" title="Permanent link: tag 02KR">02KR</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">39.8.7</span>
+    <span class="theorem_thmtitle">Weinstein</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(M\) be a compact connected oriented Riemannian manifold of dimension \(n\) with positive sectional curvature, and \(F\) an isometry of \(M\) that preserves the orientation if \(n\) is even and reverses it if \(n\) is odd. Then \(F\) has a fixed point. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001130">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Suppose not. The function \(x \mapsto d(x, F(x))\) is continuous and positive on the compact \(M\); let \(x_0\) be a minimum point, \(L = d(x_0, F(x_0)) {\gt} 0\), and \(\gamma \colon [0, L] \to M\) a minimising geodesic of unit speed from \(x_0\) to \(F(x_0)\) (Theorem&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:theorem-hopf-rinow">39.5.7</a>). An isometry maps geodesics to geodesics, since in charts \(y\) and \(y \circ F\) the metric has the same coefficients (as in the proof of Theorem&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:theorem-bonnet-myers">39.8.6</a>), and it preserves lengths of curves, hence distances. </p>
+<p><em>Step 1: \(d_{x_0}F(\dot\gamma (0)) = \dot\gamma (L)\).</em> Let \(m = \gamma (L/2)\). Then \(d(m, F(m)) \leq d(m, F(x_0)) + d(F(x_0), F(m)) = L/2 + d(x_0, m) = L\), and \(d(m, F(m)) \geq L\) by the choice of \(x_0\). So the curve that follows \(\gamma \) from \(m\) to \(F(x_0)\) and then \(F \circ \gamma \) from \(F(x_0)\) to \(F(m)\) has unit speed and length \(d(m, F(m))\); by Lemma&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:lemma-minimising-geodesic">39.5.6</a> it is a geodesic, hence smooth at \(F(x_0)\), where its two velocities are \(\dot\gamma (L)\) and \(d_{x_0}F(\dot\gamma (0))\). </p>
+<p><em>Step 2: a closed-up parallel field.</em> Let \(P \colon T_{x_0}M \to T_{F(x_0)}M\) be parallel transport along \(\gamma \). It is a linear isometry (Proposition&#160;<a href="riemannian-geometry-section-along-curves.html#riemannian-geometry:proposition-geodesic-speed">39.4.4</a>) and preserves orientations, as in the proof of Proposition&#160;<a href="riemannian-geometry-section-holonomy.html#riemannian-geometry:proposition-holonomy-basic">39.6.1</a>(4). So \(B = P^{-1} \circ d_{x_0}F\) is an orthogonal map of \(T_{x_0}M\) with \(\det B = 1\) if \(F\) preserves the orientation and \(\det B = -1\) if it reverses it; in both cases of the theorem \(\det B = (-1)^n\). As \(\dot\gamma \) is parallel, \(P(\dot\gamma (0)) = \dot\gamma (L)\), so \(B\) fixes \(\dot\gamma (0)\) by Step 1, and preserves the orthogonal complement \(E\) of \(\dot\gamma (0)\), of dimension \(m = n - 1\), with \(\det (B|_E) = (-1)^{m+1}\). An orthogonal map \(C\) of an \(m\)-dimensional space with \(\det C = (-1)^{m+1}\) has the eigenvalue \(1\): \(\det (C - I) = \det C\, \det (I - C^T) = \det C\, \det (I - C) = (-1)^{m+1}(-1)^m\det (C - I) = -\det (C - I)\). So there is a unit vector \(v \in E\) with \(Bv = v\). Let \(V\) be the parallel field along \(\gamma \) with \(V(0) = v\); then \(|V| = 1\), \(V \perp \dot\gamma \), and \(V(L) = Pv = d_{x_0}F(v)\). </p>
+<p><em>Step 3: a shorter curve.</em> Let \(f(s, t) = \exp _{\gamma (t)}(sV(t))\) and \(x_s = \exp _{x_0}(sv)\). Then \(f(s, 0) = x_s\) and, since \(F\) maps geodesics to geodesics, \(f(s, L) = \exp _{F(x_0)}(s\, d_{x_0}F(v)) = F(x_s)\). By Proposition&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:proposition-first-variation">39.8.2</a> the first derivative of \(E(f_s)\) at \(s = 0\) is \(\langle V, \dot\gamma \rangle |_0^L = 0\). By Proposition&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:proposition-second-variation">39.8.4</a>, whose boundary term vanishes because the curves \(s \mapsto f(s, t)\) are geodesics, and since \(D_tV = 0\), </p>
+<div class="displaymath" id="a0000001131">
+  \[  \frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = -\int _0^LR(V, \dot\gamma , \dot\gamma , V)\, dt {\lt} 0,  \]
+</div>
+<p> the integrand being the sectional curvature of the plane spanned by the orthonormal vectors \(V\) and \(\dot\gamma \). So \(E(f_s) {\lt} E(\gamma )\) for small \(s \neq 0\), and \(L(f_s) {\lt} L\) by Lemma&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:lemma-energy-length">39.8.1</a>. But \(f_s\) joins \(x_s\) to \(F(x_s)\), so \(L(f_s) \geq d(x_s, F(x_s)) \geq L\), a contradiction. </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="riemannian-geometry:corollary-synge">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02KS.html" title="Permanent link: tag 02KS">02KS</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">39.8.8</span>
+    <span class="corollary_thmtitle">Synge</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(M\) be a compact connected Riemannian manifold with positive sectional curvature. </p>
+<ol class="enumerate">
+  <li><p>If \(n\) is even and \(M\) is orientable, then \(M\) is simply connected. </p>
+</li>
+  <li><p>If \(n\) is odd, then \(M\) is orientable. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001132">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) The sectional curvature \(K(u, v) = R(u, v, v, u)\) is continuous and positive on the compact set of orthonormal pairs of tangent vectors, so \(K \geq k\) for some \(k {\gt} 0\), and \(\mathrm{Ric} \geq (n - 1)kg\). Let \(\pi \colon \widetilde{M} \to M\) be a universal covering with the metric \(\pi ^*g\). As in the proof of Theorem&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:theorem-bonnet-myers">39.8.6</a>, \(\widetilde{M}\) is complete, hence compact by that theorem, and it has positive sectional curvature. Orient \(\widetilde{M}\) by pulling back a volume form \(\mu \) of \(M\) by the local diffeomorphism \(\pi \). A deck transformation \(\tau \) satisfies \(\pi \circ \tau = \pi \), so it is an isometry and \(\tau ^*\pi ^*\mu = \pi ^*\mu \): it preserves the orientation. By Theorem&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:theorem-weinstein">39.8.7</a>, \(\tau \) has a fixed point, so it is the identity, by the uniqueness of lifts (Proposition&#160;<a href="homotopy-section-classification.html#homotopy:proposition-lifting-criterion">18.6.1</a>). Hence \(\mathrm{Deck}(\pi )\) is trivial, and so is \(\pi _1(M) \cong \mathrm{Deck}(\pi )\) (Proposition&#160;<a href="homotopy-section-classification.html#homotopy:proposition-deck">18.6.3</a>). </p>
+<p>(2) Suppose \(M\) is not orientable, and let \(p \colon \widehat{M} \to M\) be the orientation double covering (Definition&#160;<a href="poincare-duality-section-orientations.html#poincare-duality:definition-orientation-covering">22.3.1</a>), which is connected by Proposition&#160;<a href="poincare-duality-section-orientations.html#poincare-duality:proposition-orientation-covering">22.3.2</a>(1). It is compact, a smooth manifold for which \(p\) is a local diffeomorphism (Example&#160;<a href="smooth-manifolds-section-constructions.html#smooth-manifolds:example-smooth-quotients">32.7.2</a>), and it has positive sectional curvature for \(p^*g\). It is orientable: at a point \((x, \alpha )\), \(p\) identifies the local homology of \(\widehat{M}\) with \(H_n(M \mid x; \mathbb {Z})\) (a sheet over a coordinate ball is mapped homeomorphically), and \((x, \alpha ) \mapsto \alpha \) is a continuous choice of generators, that is an orientation (Proposition&#160;<a href="differential-forms-section-orientations.html#differential-forms:proposition-orientation">35.3.2</a>). The deck transformation \(\tau (x, \alpha ) = (x, -\alpha )\) is an isometry of \(p^*g\) without fixed points, and it reverses this orientation, because \(p \circ \tau = p\) carries the generator \(\alpha \) at \((x, \alpha )\) to \(\alpha \) at \((x, -\alpha )\), where the chosen generator is \(-\alpha \). By Theorem&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:theorem-weinstein">39.8.7</a> with \(n\) odd, \(\tau \) has a fixed point, a contradiction. </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="riemannian-geometry:counterexample-synge">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/02KT.html" title="Permanent link: tag 02KT">02KT</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">39.8.9</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Every hypothesis of Theorem&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:theorem-weinstein">39.8.7</a> and Corollary&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:corollary-synge">39.8.8</a> is needed. </p>
+<ol class="enumerate">
+  <li><p><em>The parity conditions in Weinstein’s theorem.</em> The antipodal map \(x \mapsto -x\) of the unit sphere \(S^n\) is an isometry without fixed points. It is the restriction of \(-I\), of determinant \((-1)^{n+1}\), so it preserves the orientation of \(S^n\) when \(n\) is odd and reverses it when \(n\) is even: exactly the cases excluded by the theorem. </p>
+</li>
+  <li><p><em>Orientability in (1).</em> \(\mathbb {R}\mathbb {P}^n = S^n/\{ \pm 1\} \) with the round metric has \(K = 1\) and \(\pi _1 = \mathbb {Z}/2\). For \(n\) even it is not orientable (Exercise&#160;<a href="differential-forms-section-exercises.html#differential-forms:exercise-orientability-projective">35.5.2</a>). </p>
+</li>
+  <li><p><em>Even dimension in (1).</em> For \(n\) odd, \(\mathbb {R}\mathbb {P}^n\) is orientable with \(K = 1\) and \(\pi _1 = \mathbb {Z}/2\); so are the lens spaces \(S^3/(\mathbb {Z}/p)\) (Example&#160;<a href="topological-manifolds-section-quotients.html#topological-manifolds:example-covering-actions">19.4.5</a>), with \(\pi _1 = \mathbb {Z}/p\), as the group acts by unitary, hence orthogonal, maps. </p>
+</li>
+  <li><p><em>Odd dimension in (2).</em> \(\mathbb {R}\mathbb {P}^2\) has \(K = 1\) and is not orientable. </p>
+</li>
+  <li><p><em>Positive curvature, not just \(K \geq 0\).</em> The flat torus \(\mathbb {R}^2/\mathbb {Z}^2\) is compact and orientable of even dimension, with \(\pi _1 = \mathbb {Z}^2\). The product \(\mathbb {R}\mathbb {P}^2 \times S^1\) of the round \(\mathbb {R}\mathbb {P}^2\) and a circle is compact of dimension \(3\) with \(K \geq 0\) (the curvature tensor of a Riemannian product is the sum of those of the factors, and the circle is flat), and it is not orientable: by Exercise&#160;<a href="riemannian-geometry-section-exercises.html#riemannian-geometry:exercise-holonomy-product">39.14.6</a> its holonomy contains \(h \times 1\) for \(h \in \mathrm{Hol}(\mathbb {R}\mathbb {P}^2)\) with \(\det h = -1\), which exists by Proposition&#160;<a href="riemannian-geometry-section-holonomy.html#riemannian-geometry:proposition-holonomy-basic">39.6.1</a>(4). </p>
+</li>
+  <li><p><em>Compactness in (1).</em> The sphere minus two antipodal points, \(S^2 \setminus \{ \pm e_3\} \), has \(K = 1\) and is orientable of even dimension, but by stereographic projection it is homeomorphic to \(\mathbb {R}^2 \setminus \{ 0\} \), with \(\pi _1 = \mathbb {Z}\). </p>
+</li>
+  <li><p><em>Compactness in (2).</em> Let \(A = \mathrm{diag}(-1, -1, -1, 1)\) acting on \(U = S^3 \setminus \{ \pm e_4\} \). Its fixed points on \(S^3\) are \(\pm e_4\), so the group \(\{ 1, A\} \) acts freely, and properly as it is finite, by isometries; \(\det A = -1\), so \(A\) reverses the orientation of \(S^3\) (defined by the outward normal, which \(A\) preserves). The quotient \(U/\{ 1, A\} \) has \(K = 1\) (Proposition&#160;<a href="riemannian-geometry-section-levi-civita.html#riemannian-geometry:proposition-quotient-metric">39.2.4</a>) and dimension \(3\), and it is not orientable: an orientation would pull back to an orientation of the connected \(U\) preserved by \(A\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-synge">
+  <div class="example_thmheading"><a class="tag" href="tag/02KU.html" title="Permanent link: tag 02KU">02KU</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">39.8.10</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> \(\mathbb {R}\mathbb {P}^2 \times \mathbb {R}\mathbb {P}^2\) carries no metric of positive sectional curvature. Its fundamental group \(\mathbb {Z}/2 \times \mathbb {Z}/2\) (Proposition&#160;<a href="homotopy-section-fundamental-group.html#homotopy:proposition-product">18.3.5</a>) is nontrivial, so by Corollary&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:corollary-synge">39.8.8</a>(1) it could only be non-orientable. But then its orientation double covering would be a compact orientable \(4\)-manifold of positive curvature whose fundamental group has order \(2\), a subgroup of index \(2\) of \(\mathbb {Z}/2 \times \mathbb {Z}/2\) (Corollary&#160;<a href="homotopy-section-coverings.html#homotopy:corollary-lifting-consequences">18.4.4</a>), contradicting (1). Whether \(S^2 \times S^2\) carries a metric of positive sectional curvature is a famous open question of Hopf; Synge’s theorem does not decide it, as \(S^2 \times S^2\) is simply connected. </p>
+
+  </div>
+</div>
 <div class="remark_thmwrapper theorem-style-remark" id="riemannian-geometry:remark-comparison">
   <div class="remark_thmheading"><a class="tag" href="tag/028B.html" title="Permanent link: tag 028B">028B</a>
     <span class="remark_thmcaption">
     Remark
     </span>
-    <span class="remark_thmlabel">39.8.7</span>
+    <span class="remark_thmlabel">39.8.11</span>
   </div>
   <div class="remark_thmcontent">
   <p> Theorems&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:theorem-cartan-hadamard">39.7.8</a> and&#160;<a href="riemannian-geometry-section-variation.html#riemannian-geometry:theorem-bonnet-myers">39.8.6</a> are the simplest <em>comparison theorems</em>, which compare a manifold with a space of constant curvature through its Jacobi fields. The Rauch comparison theorem <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 10]</span> and the Bishop–Gromov volume comparison <span class="cite">[<a href="Bibliography.html#lee-riemannian" >Lee18</a>]</span> are their refinements, and they lead to the sphere theorems and to Gromov’s compactness theorem. </p>
