@@ -335,6 +335,7 @@ MathJax.Hub.Config({
 <h1 id="differential-forms:section-integration">35.4 Integration and Stokes’ theorem<a class="tag" href="tag/019Y.html" title="Permanent link: tag 019Y">019Y</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
+<p>Let \(\tau \colon V \to U\) be a diffeomorphism between open subsets of \(\mathbb {R}^n\), with coordinates \(y\) on \(V\) and \(x\) on \(U\). For a function \(f\) on \(U\), the change of variables formula (Theorem&#160;<a href="measure-theory-section-change-of-variables.html#measure-theory:theorem-change-of-variables">27.10.2</a>) says \(\int _Uf\, d\lambda = \int _V(f \circ \tau )\, |\det D\tau |\, d\lambda \), while the pullback of the \(n\)-form \(f\, dx^1 \wedge \cdots \wedge dx^n\) is \((f \circ \tau )\det D\tau \, dy^1 \wedge \cdots \wedge dy^n\) (Proposition&#160;<a href="differential-forms-section-forms.html#differential-forms:proposition-forms-descriptions">35.2.2</a>). So if we integrate an \(n\)-form by integrating its coefficient, the answer does not change under orientation-preserving changes of coordinates (\(\det D\tau {\gt} 0\)) and changes sign under orientation-reversing ones. This is the whole reason for the following definition. </p>
 <div class="definition_thmwrapper theorem-style-definition" id="differential-forms:definition-integral">
   <div class="definition_thmheading"><a class="tag" href="tag/019Z.html" title="Permanent link: tag 019Z">019Z</a>
     <span class="definition_thmcaption">
@@ -359,7 +360,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001009">
+<div class="proof_wrapper" id="a0000001025">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -367,7 +368,61 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>For \(\omega \) supported in two charts, the two definitions agree by the change of variables formula (Theorem&#160;<a href="measure-theory-section-change-of-variables.html#measure-theory:theorem-change-of-variables">27.10.2</a>): if \(\tau = \varphi \circ \psi ^{-1}\) is the transition map, then the coefficient functions are related by \(g = (f \circ \tau )\det D\tau \) with \(\det D\tau {\gt} 0\), so \(\int g = \int (f\circ \tau )|\det D\tau | = \int f\). The sum over a partition of unity is finite (compact support meets finitely many supports) and independent of the choices: for two partitions \((\psi _i)\), \((\chi _j)\), expand \(\sum _i\int \psi _i\omega = \sum _{i,j}\int \chi _j\psi _i\omega = \sum _j\int \chi _j\omega \). Linearity and the behaviour under diffeomorphisms follow, again by change of variables. </p>
+  <p><em>One chart.</em> Let \(\omega \) have compact support in the domains of two positively oriented charts \(\varphi \) and \(\psi \), and \(\tau = \varphi \circ \psi ^{-1}\), a diffeomorphism between open subsets of \(\mathbb {R}^n\) with \(\det D\tau {\gt} 0\). If \((\varphi ^{-1})^*\omega = f\, dx\), with \(dx = dx^1 \wedge \cdots \wedge dx^n\), then \((\psi ^{-1})^*\omega = \tau ^*(\varphi ^{-1})^*\omega = (f \circ \tau )\det D\tau \, dy\), and by the change of variables formula \(\int (f \circ \tau )\det D\tau \, d\lambda = \int (f \circ \tau )|\det D\tau |\, d\lambda = \int f\, d\lambda \). (The supports lie in the common domain, and the integrands vanish outside it.) </p>
+<p><em>Partitions of unity.</em> The sum in the definition is finite, because the compact support of \(\omega \) meets only finitely many supports of a locally finite partition of unity, and each term is defined by the first case. For two partitions \((\psi _i)\) and \((\chi _j)\), each \(\psi _i\chi _j\omega \) is supported in the domains of the charts of both, so \(\sum _i\int \psi _i\omega = \sum _{i,j}\int \chi _j\psi _i\omega = \sum _j\int \chi _j\omega \), using the linearity of the one-chart integral. </p>
+<p><em>Properties.</em> Linearity follows from that of the one-chart integral. If \(f \colon N \to M\) is an orientation-preserving diffeomorphism, compositions \(\varphi \circ f\) of positive charts of \(M\) with \(f\) are positive charts of \(N\), and \(\psi _i \circ f\) is a partition of unity; the coefficient of \(f^*\omega \) in the chart \(\varphi \circ f\) is that of \(\omega \) in \(\varphi \). So the defining sums agree. Reversing the orientation replaces each positive chart \(\varphi \) by \(r \circ \varphi \), with the reflection \(r(x^1, \ldots , x^n) = (-x^1, x^2, \ldots , x^n)\), which changes the sign of every one-chart integral. </p>
+
+  </div>
+</div>
+<p>In practice one does not use partitions of unity: one parametrises \(M\) up to a set of measure zero. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="differential-forms:proposition-integral-parametrisation">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02MC.html" title="Permanent link: tag 02MC">02MC</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">35.4.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(M\) be an oriented \(n\)-manifold, \(U \subseteq \mathbb {R}^n\) open and \(x \colon U \to M\) an orientation-preserving diffeomorphism onto an open subset whose complement \(M \setminus x(U)\) has measure zero, that is, its image in every chart has Lebesgue measure \(0\). For a compactly supported \(n\)-form \(\omega \) write \(x^*\omega = f\, du^1 \wedge \cdots \wedge du^n\). Then \(f\) is integrable and </p>
+<div class="displaymath" id="a0000001026">
+  \[  \int _M\omega = \int _Uf\, d\lambda .  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001027">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Choose a partition of unity \((\psi _i)\) subordinate to positively oriented charts \((U_i, \varphi _i)\); finitely many \(\psi _i\) meet the support of \(\omega \). In the one-chart integral of \(\psi _i\omega \) we may remove the null set \(\varphi _i(U_i \setminus x(U))\). On the rest, \(\tau _i = \varphi _i \circ x\) is an orientation-preserving diffeomorphism from \(x^{-1}(U_i)\) onto \(\varphi _i(U_i \cap x(U))\), so by the change of variables formula, as in the proof of Proposition&#160;<a href="differential-forms-section-integration.html#differential-forms:proposition-integral-well-defined">35.4.2</a>, \(\int _M\psi _i\omega = \int _{x^{-1}(U_i)}f_i\, d\lambda \), where \(x^*(\psi _i\omega ) = f_i\, du\). Summing over the finitely many \(i\), and using \(\sum _if_i = f\) on \(U\), gives the claim; each \(f_i\) is integrable, so \(f\) is. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="differential-forms:example-integrals">
+  <div class="example_thmheading"><a class="tag" href="tag/02MD.html" title="Permanent link: tag 02MD">02MD</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">35.4.4</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Curves.</em> If \(\gamma \colon (a, b) \to M\) is an embedding onto a curve \(C\), oriented by \(\gamma \), then \(\int _C\alpha = \int _a^b\alpha (\dot\gamma (t))\, dt\) is the line integral of Definition&#160;<a href="differential-forms-section-forms.html#differential-forms:definition-line-integral">35.2.12</a>. </p>
+</li>
+  <li><p><em>The sphere.</em> Orient \(S^2\) by its outward normal (Proposition&#160;<a href="differential-forms-section-orientations.html#differential-forms:proposition-orientation-normal">35.3.4</a>); the spherical coordinates \(x(\vartheta , \varphi )\) on \((0, \pi ) \times (0, 2\pi )\) are positively oriented, since \(x_\vartheta \times x_\varphi = \sin \vartheta \, x\) points outward, and they miss only a closed half great circle, which has measure zero (it is a segment in the chart given by \(\varphi \in (-\pi , \pi )\), together with two points). By Example&#160;<a href="differential-forms-section-forms.html#differential-forms:example-form-computations">35.2.3</a>(3) and Proposition&#160;<a href="differential-forms-section-integration.html#differential-forms:proposition-integral-parametrisation">35.4.3</a>, </p>
+<div class="displaymath" id="a0000001028">
+  \[  \int _{S^2}x\, dy \wedge dz + y\, dz \wedge dx + z\, dx \wedge dy = \int _0^{2\pi }\int _0^\pi \sin \vartheta \, d\vartheta \, d\varphi = 4\pi .  \]
+</div>
+<p> With the inner normal the same integral is \(-4\pi \). </p>
+</li>
+  <li><p><em>The angle form.</em> \(\int _{S^1}\alpha = 2\pi \) for \(\alpha = (x\, dy - y\, dx)/(x^2 + y^2)\) and the counterclockwise orientation of \(S^1 \subseteq \mathbb {R}^2\) (Counterexample&#160;<a href="differential-forms-section-forms.html#differential-forms:counterexample-closed-not-exact">35.2.14</a>). </p>
+</li>
+</ol>
 
   </div>
 </div>
@@ -376,10 +431,57 @@ MathJax.Hub.Config({
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">35.4.3</span>
+    <span class="definition_thmlabel">35.4.5</span>
   </div>
   <div class="definition_thmcontent">
   <p> A <em>smooth \(n\)-manifold with boundary</em> is defined as in Definition&#160;<a href="smooth-manifolds-section-manifolds.html#smooth-manifolds:definition-manifold">32.2.1</a> with charts taking values in open subsets of the half-space \(\mathbb {H}^n = \{ x \in \mathbb {R}^n : x^n \geq 0\} \); the <em>boundary</em> \(\partial M\) is the set of points corresponding to \(x^n = 0\), a smooth \((n-1)\)-manifold. If \(M\) is oriented, \(\partial M\) carries the <em>induced orientation</em>, defined by declaring a chart of \(\partial M\) positively oriented when the \(n\)-form \(dx^1 \wedge \cdots \wedge dx^n\) of a positively oriented chart of \(M\) is \((-1)^n\, \nu \wedge (dx^1 \wedge \cdots \wedge dx^{n-1})\) for an outward-pointing covector \(\nu \); concretely, \((x^1, \ldots , x^{n-1})\) is positively oriented on \(\partial M\) when \((-1)^n(x^1, \ldots , x^n)\) is on \(M\). </p>
+
+  </div>
+</div>
+<p>Here a map defined on an open subset of \(\mathbb {H}^n\) (open for the subspace topology) is <em>smooth</em> if near each point it is the restriction of a smooth map defined on an open subset of \(\mathbb {R}^n\); the transition maps between charts are required to be smooth in this sense. Tangent spaces, vector fields and forms are defined as for manifolds; at a boundary point the tangent space is still \(n\)-dimensional, and a tangent vector is <em>outward-pointing</em> if in a chart its \(n\)-th component is negative. The rule for the induced orientation says: a basis \((v_1, \ldots , v_{n-1})\) of \(T_p\partial M\) is positive if and only if \((w, v_1, \ldots , v_{n-1})\) is a positive basis of \(T_pM\) for an outward vector \(w\) (<em>outward vector first</em>). Indeed, in a positive chart \(w = -\partial _n\) is outward, and \(\det (-e_n, e_1, \ldots , e_{n-1}) = (-1)^n\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="differential-forms:lemma-boundary-well-defined">
+  <div class="lemma_thmheading"><a class="tag" href="tag/02ME.html" title="Permanent link: tag 02ME">02ME</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">35.4.6</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Whether a point of a manifold with boundary lies on the boundary does not depend on the chart. The restrictions of the charts to \(\partial M\) form an atlas of an \((n-1)\)-manifold without boundary, and \(M \setminus \partial M\) is an \(n\)-manifold without boundary. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001029">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Suppose a chart \(\varphi \) sends \(p\) to a point with \(x^n = 0\) and a chart \(\psi \) sends it to a point with \(x^n {\gt} 0\). Shrinking the domain, \(\psi \) maps onto an open subset \(W\) of \(\mathbb {R}^n\) contained in \(\{ x^n {\gt} 0\} \), and \(\tau = \varphi \circ \psi ^{-1} \colon W \to \mathbb {H}^n\) is smooth with a smooth inverse, which near \(\varphi (p)\) extends to a smooth map \(\sigma \) on an open subset of \(\mathbb {R}^n\). From \(\sigma \circ \tau = \mathrm{id}\) near \(\psi (p)\), the chain rule gives \(D\sigma (\varphi (p))D\tau (\psi (p)) = I\), so \(D\tau (\psi (p))\) is invertible. By the inverse function theorem (Theorem&#160;<a href="real-analysis-section-inverse-function.html#real-analysis:theorem-inverse-function">26.11.2</a>), \(\tau \) maps a neighbourhood of \(\psi (p)\) onto an open subset of \(\mathbb {R}^n\) containing \(\varphi (p)\); but every neighbourhood of \(\varphi (p)\) in \(\mathbb {R}^n\) contains points with \(x^n {\lt} 0\), which are not in \(\mathbb {H}^n\). This contradiction proves the first statement. The restrictions of the transition maps to \(\{ x^n = 0\}  = \mathbb {R}^{n-1}\) are smooth with smooth inverses, which gives the atlas of \(\partial M\), and the charts restricted to the interior points take values in the open set \(\{ x^n {\gt} 0\} \) of \(\mathbb {R}^n\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="differential-forms:example-boundaries">
+  <div class="example_thmheading"><a class="tag" href="tag/02MF.html" title="Permanent link: tag 02MF">02MF</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">35.4.7</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>\(M = [a, b]\), with the orientation of \(\mathbb {R}\). At \(b\) the outward direction is \(+\partial _t\) and at \(a\) it is \(-\partial _t\); a point is oriented by a sign, and “outward vector first” gives \(\partial [a, b] = \{ b\}  - \{ a\} \): the sign \(+1\) at \(b\) and \(-1\) at \(a\). </p>
+</li>
+  <li><p>The closed unit disc \(\bar D \subseteq \mathbb {R}^2\): at a boundary point \(x\) the vector \(x\) points outward, and \((x, v)\) is a positive basis of \(\mathbb {R}^2\) exactly when \(v\) is a positive multiple of \((-x_2, x_1)\). So the boundary circle is oriented counterclockwise: the disc is on the left. </p>
+</li>
+  <li><p>The closed ball in \(\mathbb {R}^3\): its boundary \(S^2\) is oriented by the outward normal, in the sense of Proposition&#160;<a href="differential-forms-section-orientations.html#differential-forms:proposition-orientation-normal">35.3.4</a>. </p>
+</li>
+  <li><p>The half-space \(\mathbb {H}^n\) itself: \(\partial \mathbb {H}^n = \mathbb {R}^{n-1}\) with \((-1)^n\) times its standard orientation; for \(n = 2\) the boundary of the upper half-plane is the real line oriented from left to right. </p>
+</li>
+</ol>
 
   </div>
 </div>
@@ -388,19 +490,19 @@ MathJax.Hub.Config({
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">35.4.4</span>
+    <span class="theorem_thmlabel">35.4.8</span>
     <span class="theorem_thmtitle">Stokes</span>
   </div>
   <div class="theorem_thmcontent">
   <p> Let \(M\) be an oriented \(n\)-manifold with boundary and \(\omega \) an \((n-1)\)-form with compact support. Then </p>
-<div class="displaymath" id="a0000001010">
+<div class="displaymath" id="a0000001030">
   \[  \int _Md\omega = \int _{\partial M}\omega ,  \]
 </div>
 <p> where \(\partial M\) has the induced orientation. If \(\partial M = \emptyset \), the integral of an exact compactly supported form vanishes. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001011">
+<div class="proof_wrapper" id="a0000001031">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -408,11 +510,12 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>By a partition of unity and linearity we may assume that \(\omega \) is supported in a single positively oriented chart, so that \(M\) is \(\mathbb {R}^n\) or \(\mathbb {H}^n\) and \(\omega \) has compact support. Write \(\omega = \sum _i(-1)^{i-1}f_i\, dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n\), so that \(d\omega = (\sum _i\partial _if_i)\, dx^1 \wedge \cdots \wedge dx^n\). By Fubini’s theorem (Theorem&#160;<a href="measure-theory-section-fubini.html#measure-theory:theorem-fubini">27.9.3</a>) and the fundamental theorem of calculus, \(\int \partial _if_i\, d\lambda = 0\) for \(i {\lt} n\) and also for \(i = n\) in the case of \(\mathbb {R}^n\), since \(f_i\) has compact support. In the case of \(\mathbb {H}^n\), the only surviving term is </p>
-<div class="displaymath" id="a0000001012">
-  \[  \int _{\mathbb {H}^n}\partial _nf_n\, d\lambda = \int _{\mathbb {R}^{n-1}}\left(\int _0^\infty \partial _nf_n\, dx^n\right)dx^1 \cdots dx^{n-1} = -\int _{\mathbb {R}^{n-1}}f_n(x', 0)\, dx',  \]
+  <p><em>Reduction to one chart.</em> Let \((\psi _i)\) be a partition of unity subordinate to positively oriented charts. Only finitely many \(\psi _i\omega \) are nonzero, \(\omega = \sum _i\psi _i\omega \) and \(d\omega = \sum _id(\psi _i\omega )\). Both sides of the formula are linear in \(\omega \), so it suffices to prove it for each \(\psi _i\omega \), that is, for \(\omega \) supported in a single positively oriented chart. Via the chart, \(M\) becomes an open subset of \(\mathbb {R}^n\) or of \(\mathbb {H}^n\), and extending \(\omega \) by \(0\), we may assume \(M = \mathbb {R}^n\) or \(M = \mathbb {H}^n\) and \(\omega \) has compact support. </p>
+<p><em>The computation.</em> Write \(\omega = \sum _i(-1)^{i-1}f_i\, dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n\); then \(d\omega = (\sum _i\partial _if_i)\, dx^1 \wedge \cdots \wedge dx^n\), because \(d f_i \wedge dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n = (-1)^{i-1}\partial _if_i\, dx^1 \wedge \cdots \wedge dx^n\). By Fubini’s theorem (Theorem&#160;<a href="measure-theory-section-fubini.html#measure-theory:theorem-fubini">27.9.3</a>) we may integrate \(\partial _if_i\) first in the variable \(x^i\). For \(i {\lt} n\), and also for \(i = n\) when \(M = \mathbb {R}^n\), the integral over the whole line vanishes by the fundamental theorem of calculus, as \(f_i\) has compact support. So \(\int _{\mathbb {R}^n}d\omega = 0 = \int _{\partial \mathbb {R}^n}\omega \). For \(M = \mathbb {H}^n\) the only surviving term is </p>
+<div class="displaymath" id="a0000001032">
+  \[  \int _{\mathbb {H}^n}\partial _nf_n\, d\lambda = \int _{\mathbb {R}^{n-1}}\left(\int _0^\infty \partial _nf_n\, dx^n\right)dx^1 \cdots dx^{n-1} = -\int _{\mathbb {R}^{n-1}}f_n(x', 0)\, dx' .  \]
 </div>
-<p> while \(\int _{\partial M}\omega = \int _{\mathbb {R}^{n-1}}(-1)^{n-1}f_n(x', 0)\, dx'\) computed with the induced orientation, which introduces the sign \((-1)^n\); the two agree. </p>
+<p> On \(\partial \mathbb {H}^n = \{ x^n = 0\} \) the forms containing \(dx^n\) restrict to \(0\), so \(\omega |_{\partial \mathbb {H}^n} = (-1)^{n-1}f_n\, dx^1 \wedge \cdots \wedge dx^{n-1}\), and the induced orientation is \((-1)^n\) times the standard one (Example&#160;<a href="differential-forms-section-integration.html#differential-forms:example-boundaries">35.4.7</a>(4)). Hence \(\int _{\partial \mathbb {H}^n}\omega = (-1)^n(-1)^{n-1}\int f_n(x', 0)\, dx' = -\int f_n(x', 0)\, dx'\), which is the left side. </p>
 
   </div>
 </div>
@@ -421,7 +524,7 @@ MathJax.Hub.Config({
     <span class="counterexample_thmcaption">
     Counterexample
     </span>
-    <span class="counterexample_thmlabel">35.4.5</span>
+    <span class="counterexample_thmlabel">35.4.9</span>
   </div>
   <div class="counterexample_thmcontent">
   <p> Stokes’ theorem needs compact support. On \(M = \mathbb {R}\), without boundary, the \(0\)-form \(\arctan \) has \(\int _\mathbb {R}d\arctan = \int _\mathbb {R}\frac{dx}{1 + x^2} = \pi \neq 0\). On \(M = [0, +\infty )\), with boundary the point \(0\) carrying the induced orientation \(-1\), the constant function \(1\) has \(\int _Md1 = 0\) while \(\int _{\partial M}1 = -1\). </p>
@@ -433,7 +536,7 @@ MathJax.Hub.Config({
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">35.4.6</span>
+    <span class="example_thmlabel">35.4.10</span>
   </div>
   <div class="example_thmcontent">
   <p> For \(M = [a, b]\) with its standard orientation, \(\partial M = \{ b\}  - \{ a\} \) with the induced orientation, and Stokes’ theorem for a function \(f\) is the fundamental theorem of calculus, \(\int _a^bf' = f(b) - f(a)\). For a compact region \(M \subseteq \mathbb {R}^2\) with smooth boundary and \(\omega = P\, dx + Q\, dy\), it is Green’s formula \(\int _M(\partial _xQ - \partial _yP)\, dx\, dy = \int _{\partial M}P\, dx + Q\, dy\), the boundary being traversed with \(M\) on the left. </p>
@@ -445,10 +548,30 @@ MathJax.Hub.Config({
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">35.4.7</span>
+    <span class="example_thmlabel">35.4.11</span>
   </div>
   <div class="example_thmcontent">
   <p> For \(M \subseteq \mathbb {R}^3\) a compact region with smooth boundary, Stokes’ theorem specialises to the divergence theorem \(\int _M\operatorname {div}F\, dV = \int _{\partial M}\langle F, \nu \rangle \, dA\) and to the classical Stokes and Green formulas, after identifying vector fields with \(1\)- or \(2\)-forms using the Euclidean metric and orientation (Theorem&#160;<a href="multilinear-algebra-section-hodge-star.html#multilinear-algebra:theorem-hodge-star">11.5.3</a>). On a compact oriented manifold without boundary, \(\int _M d\omega = 0\), so integration descends to de Rham cohomology (Chapter&#160;<a href="de-rham.html">36</a>). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="differential-forms:example-stokes-checks">
+  <div class="example_thmheading"><a class="tag" href="tag/02MG.html" title="Permanent link: tag 02MG">02MG</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">35.4.12</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Area by a line integral.</em> For the unit disc \(\bar D\) and \(\omega = x\, dy\), \(d\omega = dx \wedge dy\), so \(\int _{\partial \bar D}x\, dy = \int _{\bar D}dx \wedge dy = \pi \). Directly, with \(x = \cos t\), \(y = \sin t\): \(\int _0^{2\pi }\cos ^2t\, dt = \pi \). More generally the area of a plane region is \(\frac12\int _{\partial R}(x\, dy - y\, dx)\). </p>
+</li>
+  <li><p><em>Volume by a flux.</em> For the unit ball \(B\) and \(\omega = x\, dy \wedge dz + y\, dz \wedge dx + z\, dx \wedge dy\), \(d\omega = 3\, dx \wedge dy \wedge dz\), and Stokes’ theorem gives \(\int _{S^2}\omega = 3\operatorname {vol}(B) = 4\pi \), which is the value computed directly in Example&#160;<a href="differential-forms-section-integration.html#differential-forms:example-integrals">35.4.4</a>(2). So \(\operatorname {vol}(B) = 4\pi /3\). </p>
+</li>
+  <li><p><em>A closed form on an annulus.</em> For the annulus \(A = \{ 1 \leq |x| \leq 2\} \) and the angle form \(\alpha \), \(d\alpha = 0\) and \(\partial A\) is the outer circle counterclockwise and the inner circle clockwise, so \(\int _{\partial A}\alpha = 2\pi - 2\pi = 0\), as it must be. The punctured disc is not compact, and there Stokes’ theorem does not apply: the closed form \(\alpha \) has integral \(2\pi \) over the boundary circle. </p>
+</li>
+</ol>
 
   </div>
 </div>
@@ -457,14 +580,14 @@ MathJax.Hub.Config({
     <span class="corollary_thmcaption">
     Corollary
     </span>
-    <span class="corollary_thmlabel">35.4.8</span>
+    <span class="corollary_thmlabel">35.4.13</span>
   </div>
   <div class="corollary_thmcontent">
   <p> On a compact oriented \(n\)-manifold \(M\) without boundary, \(\int _M \colon \Omega ^n(M) \to \mathbb {R}\) is surjective, and \(\int _M\mu {\gt} 0\) for any \(\mu \) representing the orientation. Hence \(M\) carries a <em>volume form</em>, and any two differ by a positive function. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001013">
+<div class="proof_wrapper" id="a0000001033">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
