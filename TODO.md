@@ -16,6 +16,15 @@ references in proofs).
 
 ## Done
 
+- [x] **Characteristic classes, Chern–Weil part slower**
+  (`characteristic-classes`): motivation, examples of invariant polynomials
+  (traces, elementary symmetric functions, Pfaffian), the lemma turning
+  covariant derivatives into ordinary ones with proof, explicit $c_1$, $c_2$,
+  $c_r$ forms, Chern forms of $\mathcal{O}(-1)$ and of $TS^2$
+  ($\int c_1 = -1$ and $2$), Chern character and Todd class on
+  $\mathbb{CP}^1$ with the Riemann–Roch check; exercises ($\mathcal{O}(a) \oplus
+  \mathcal{O}(b)$, $c_1(E) = c_1(\det E)$, pullback by $z^k$, $c_2$ of a sum).
+
 - [x] **de Rham cohomology, slower** (`de-rham`): motivation by closed versus
   exact forms, first computations ($\mathbb{R}$, $S^1$, punctured plane), the
   homotopy operator derived line by line, the explicit Poincaré lemma

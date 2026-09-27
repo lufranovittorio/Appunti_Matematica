@@ -3,12 +3,29 @@
 
 \section{Introduction}\label{characteristic-classes:section-introduction}
 
-Characteristic classes measure how far a vector bundle is from being trivial. For complex bundles they are the Chern classes
-$c_k(E) \in H^{2k}(M; \ZZ)$, which can be constructed either topologically or, in de Rham cohomology, from the curvature of any
-connection by Chern--Weil theory (Theorem~\ref{characteristic-classes:theorem-chern-weil}). They are central to the Hodge
-conjecture: Chern classes of algebraic vector bundles are Hodge classes, the Chern character appears in the Riemann--Roch theorem,
-and the class of a divisor is the first Chern class of a line bundle (Chapter~\ref{divisors}). References: \cite{milnor-stasheff},
-\cite{bott-tu}, \cite{hirzebruch-topological}, \cite[Chapter 1]{griffiths-harris}.
+Characteristic classes measure how far a vector bundle is from being trivial. They are cohomology classes $c(E) \in H^\bullet(M)$ attached to vector bundles, natural
+under pullback ($c(f^*E) = f^*c(E)$) and trivial on trivial bundles; so a bundle with a nonzero characteristic class is not trivial, and in many cases the classes detect
+more precise obstructions, such as the impossibility of finding a nowhere vanishing section. The first example is the first Chern class of a complex line bundle
+(Theorem~\ref{vector-bundles:theorem-line-bundles}), which classifies line bundles completely.
+
+There are two ways to construct them. The topological way uses the Thom isomorphism or classifying spaces. The differential-geometric way, \emph{Chern--Weil theory}, starts
+from a connection: its curvature $F$ is a matrix of $2$-forms, and applying to it a polynomial that is invariant under conjugation gives a closed form whose cohomology class
+does not depend on the connection. For the tautological line bundle of $\CC\PP^1$ this was already visible in Chapter~\ref{connections}, where the curvature of a natural
+connection integrates to $\int\frac{i}{2\pi}F = -1$, a number that cannot change when the connection changes; and for the tangent bundle of a surface the same mechanism
+is the Gauss--Bonnet theorem, $\int K\,dA = 2\pi\chi$.
+
+Characteristic classes are central to the Hodge conjecture: Chern classes of algebraic vector bundles are Hodge classes, the Chern character appears in the Riemann--Roch
+theorem, and the class of a divisor is the first Chern class of a line bundle (Chapter~\ref{divisors}).
+
+The chapter goes as follows.
+\begin{enumerate}
+\item Chern--Weil theory: invariant polynomials, the closedness and independence of the Chern--Weil forms with complete proofs, Chern forms and Chern classes, computed
+for line bundles on $\CC\PP^1$ and for the tangent bundle of the sphere (Section~\ref{characteristic-classes:section-chern-weil}).
+\item The axioms for Chern classes, the splitting principle, the Chern character and the Todd class (Section~\ref{characteristic-classes:section-axioms}).
+\item The Thom isomorphism and the Euler class in de Rham cohomology (Section~\ref{characteristic-classes:section-thom}).
+\item Euler, Pontryagin and Stiefel--Whitney classes, and Wu's formula (Sections~\ref{characteristic-classes:section-euler} and~\ref{characteristic-classes:section-wu}).
+\end{enumerate}
+References: \cite{milnor-stasheff}, \cite{bott-tu}, \cite{hirzebruch-topological}, \cite[Chapter 1]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature), Chapter~\ref{de-rham} (de Rham Cohomology)
 and Chapter~\ref{cohomology-operations} (Cohomology Operations).
@@ -25,6 +42,41 @@ Multilinear forms are extended to matrices of differential forms by multiplying 
 symmetric in the graded sense.
 \end{definition}
 
+\begin{example}\label{characteristic-classes:example-invariant-polynomials}
+\begin{enumerate}
+\item The trace, $P(A) = \operatorname{tr}A$, of degree $1$, and more generally $P_k(A) = \operatorname{tr}(A^k)$, with polarisation
+$\tilde P_k(A_1, \ldots, A_k) = \frac1{k!}\sum_{\sigma \in S_k}\operatorname{tr}(A_{\sigma(1)} \cdots A_{\sigma(k)})$; invariance follows from $\operatorname{tr}(gBg^{-1}) = \operatorname{tr}B$.
+\item The determinant, of degree $r$, and more generally the coefficients $\sigma_k(A)$ of the characteristic polynomial,
+$\det(I + tA) = \sum_{k=0}^r\sigma_k(A)t^k$; they are invariant because $\det(I + tgAg^{-1}) = \det(g(I + tA)g^{-1}) = \det(I + tA)$. In terms of the eigenvalues $\lambda_j$ of $A$,
+$\sigma_k(A)$ is the $k$-th elementary symmetric function and $\operatorname{tr}(A^k) = \sum_j\lambda_j^k$, the $k$-th power sum. So $\sigma_1 = \operatorname{tr}$,
+$\sigma_2(A) = \frac12((\operatorname{tr}A)^2 - \operatorname{tr}(A^2))$, and every invariant polynomial is a polynomial in the $\sigma_k$ (a conjugation invariant function of a
+diagonalisable matrix is a symmetric function of its eigenvalues, and diagonalisable matrices are dense).
+\item On the Lie algebra $\mathfrak{so}(2m)$ of skew-symmetric matrices there is one more invariant for $\mathrm{SO}(2m)$ (not for $\GL$), the \emph{Pfaffian}, with
+$\mathrm{Pf}(A)^2 = \det A$; for $m = 1$, $\mathrm{Pf}\bigl(\begin{smallmatrix} 0 & -a\\ a & 0\end{smallmatrix}\bigr) = a$. It gives the Euler class.
+\end{enumerate}
+\end{example}
+
+The key computation in Chern--Weil theory is that invariant polynomials, applied to matrices of forms, turn covariant derivatives into ordinary ones.
+
+\begin{lemma}\label{characteristic-classes:lemma-invariant-derivative}
+Let $\tilde P$ be an invariant symmetric $k$-linear form, $\theta$ an $r \times r$ matrix of $1$-forms on an open set, and $\alpha_1, \ldots, \alpha_k$ matrices of forms of degrees
+$d_1, \ldots, d_k$. Put $D\alpha = d\alpha + \theta \wedge \alpha - (-1)^{\deg\alpha}\alpha \wedge \theta$. Then
+\[
+d\tilde P(\alpha_1, \ldots, \alpha_k) = \sum_{i=1}^k(-1)^{d_1 + \cdots + d_{i-1}}\tilde P(\alpha_1, \ldots, D\alpha_i, \ldots, \alpha_k).
+\]
+\end{lemma}
+
+\begin{proof}
+Since $\tilde P$ is multilinear in the matrix entries with constant coefficients, and the entries are multiplied with the wedge product, the Leibniz rule for $d$ gives
+$d\tilde P(\alpha_1, \ldots, \alpha_k) = \sum_i(-1)^{d_1 + \cdots + d_{i-1}}\tilde P(\alpha_1, \ldots, d\alpha_i, \ldots, \alpha_k)$. It remains to show that the terms with $\theta$ add up to zero.
+Write $\theta = \sum_jdx^j\,\theta_j$ with matrices of functions $\theta_j$. Then $\theta \wedge \alpha_i = \sum_jdx^j \wedge \theta_j\alpha_i$ and
+$(-1)^{d_i}\alpha_i \wedge \theta = \sum_j(-1)^{d_i}(-1)^{d_i}dx^j \wedge \alpha_i\theta_j = \sum_jdx^j \wedge \alpha_i\theta_j$, so the extra term in $D\alpha_i$ is $\sum_jdx^j \wedge [\theta_j, \alpha_i]$. Moving
+$dx^j$ in front of $\alpha_1, \ldots, \alpha_{i-1}$ produces exactly the sign $(-1)^{d_1 + \cdots + d_{i-1}}$, so the sum of the extra terms is
+$\sum_jdx^j \wedge \sum_i\tilde P(\alpha_1, \ldots, [\theta_j, \alpha_i], \ldots, \alpha_k)$. Each inner sum vanishes: writing each $\alpha_i$ as a sum of products of matrices of functions with
+scalar forms and using multilinearity, it reduces to the infinitesimal invariance $\sum_i\tilde P(A_1, \ldots, [B, A_i], \ldots, A_k) = 0$ of
+Definition~\ref{characteristic-classes:definition-invariant-polynomial}, since the scalar forms can be moved out of $\tilde P$ (with the same signs in every term).
+\end{proof}
+
 \begin{theorem}[Chern--Weil]\label{characteristic-classes:theorem-chern-weil}
 Let $E \to M$ be a complex vector bundle of rank $r$, $\nabla$ a connection with curvature $F$, and $P$ an invariant polynomial of degree $k$. Then:
 \begin{enumerate}
@@ -35,10 +87,10 @@ Let $E \to M$ be a complex vector bundle of rank $r$, $\nabla$ a connection with
 \end{theorem}
 
 \begin{proof}
-(1) Under a change of frame the curvature matrix transforms by conjugation (Proposition~\ref{connections:proposition-curvature}), so $P(F)$ is unchanged and defines a global form. For closedness, note that for
-matrices of forms and the covariant differential $d_\nabla\alpha = d\alpha + \theta \wedge \alpha - (-1)^{\deg\alpha}\alpha \wedge \theta$ one has
-$d\tilde{P}(\alpha_1, \ldots, \alpha_k) = \sum_i(-1)^{\deg\alpha_1 + \cdots + \deg\alpha_{i-1}}\tilde{P}(\alpha_1, \ldots, d_\nabla\alpha_i, \ldots, \alpha_k)$: the terms involving $\theta$ cancel by the infinitesimal
-invariance of Definition~\ref{characteristic-classes:definition-invariant-polynomial}. Applying this with all $\alpha_i = F$ and using the Bianchi identity $d_\nabla F = 0$ gives $dP(F) = 0$.
+(1) Under a change of frame the curvature matrix transforms by conjugation, $F^{\prime} = g^{-1}Fg$ (Proposition~\ref{connections:proposition-curvature}), and $P$ is invariant under
+conjugation (for matrices of $2$-forms, whose entries commute, the invariance of $P$ on matrices of numbers implies it pointwise); so $P(F)$ is the same in all frames and defines a
+global form. By Lemma~\ref{characteristic-classes:lemma-invariant-derivative} with all $\alpha_i = F$, $dP(F) = \sum_i\tilde P(F, \ldots, DF, \ldots, F)$, and $DF = dF + \theta \wedge F - F \wedge \theta = 0$
+by the Bianchi identity (Proposition~\ref{connections:proposition-curvature}). So $P(F)$ is closed.
 
 (2) Let $\nabla_0$, $\nabla_1$ be connections and $\alpha = \nabla_1 - \nabla_0 \in \Omega^1(M, \End E)$. The family $\nabla_t = \nabla_0 + t\alpha$ has curvature $F_t = F_0 + t\,d_{\nabla_0}\alpha + t^2\alpha \wedge \alpha$, so
 $\frac{d}{dt}F_t = d_{\nabla_t}\alpha$. Hence
@@ -58,6 +110,29 @@ The \emph{Chern forms} of $(E, \nabla)$ are defined by
 and the \emph{Chern classes} in de Rham cohomology are $c_k(E) = [c_k(E, \nabla)] \in H^{2k}_{\mathrm{dR}}(M)$, independent of $\nabla$ by Theorem~\ref{characteristic-classes:theorem-chern-weil}. The
 \emph{total Chern class} is $c(E) = \sum_kc_k(E)$.
 \end{definition}
+
+Expanding the determinant with Example~\ref{characteristic-classes:example-invariant-polynomials}(2), the first Chern forms are
+\[
+c_1(E, \nabla) = \frac{i}{2\pi}\operatorname{tr}F, \qquad c_2(E, \nabla) = \frac{1}{8\pi^2}\bigl(\operatorname{tr}(F \wedge F) - \operatorname{tr}F \wedge \operatorname{tr}F\bigr), \qquad
+c_r(E, \nabla) = \det\Bigl(\frac{i}{2\pi}F\Bigr),
+\]
+using $\sigma_2(A) = \frac12((\operatorname{tr}A)^2 - \operatorname{tr}A^2)$ with $A = \frac{i}{2\pi}F$ and $(\frac{i}{2\pi})^2 = -\frac{1}{4\pi^2}$. For a line bundle $F$ is a single $2$-form, and
+$c_1 = \frac{i}{2\pi}F$ is the only Chern form. The factor $\frac{i}{2\pi}$ makes the classes real (for a Hermitian metric and a metric connection $F$ is skew-Hermitian, so
+$\frac{i}{2\pi}F$ is Hermitian) and integral (Proposition~\ref{characteristic-classes:proposition-chern-properties}(3)).
+
+\begin{example}\label{characteristic-classes:example-chern-forms-sphere}
+\begin{enumerate}
+\item \emph{The tautological bundle of $\CC\PP^1$.} With the projection connection, $F = 2i\,dx \wedge dy/(1 + |z|^2)^2$ in the chart $z = x + iy$
+(Example~\ref{connections:example-curvature-computations}(3)), so $c_1(\mathcal{O}(-1), \nabla) = -\frac1\pi\,dx \wedge dy/(1 + |z|^2)^2$, and $\int_{\CC\PP^1}c_1 = -1$.
+\item \emph{The tangent bundle of $S^2$.} The rotation by $+\pi/2$ in each tangent plane makes $TS^2$ a complex line bundle, with $i$ acting as this rotation. The projection
+connection commutes with the rotation, and its curvature is $dA \otimes J$ with $J$ the rotation by $-\pi/2$ (Example~\ref{connections:example-curvature-computations}(2)), that is
+$F = -i\,dA$ as a complex $1 \times 1$ matrix. So $c_1(TS^2, \nabla) = \frac{i}{2\pi}(-i)\,dA = \frac{1}{2\pi}dA$ and $\int_{S^2}c_1 = \frac{4\pi}{2\pi} = 2$. This is the degree of
+$T\CC\PP^1$ found in Example~\ref{vector-bundles:example-degrees}(2), and the Euler characteristic of $S^2$: the Gauss--Bonnet theorem.
+\item \emph{Flat and trivial bundles.} A flat connection has $F = 0$, so all Chern forms vanish. On a trivial bundle the connection $d + A$ has $F = dA + A \wedge A$ and
+$c_1 = \frac{i}{2\pi}\operatorname{tr}(dA + A \wedge A) = \frac{i}{2\pi}d\operatorname{tr}A$, since $\operatorname{tr}(A \wedge A) = 0$ (the entries of $A \wedge A$ on the diagonal are
+$\sum_kA^i_k \wedge A^k_i$, and the terms for $(i, k)$ and $(k, i)$ cancel); so $c_1$ is exact, as it must be.
+\end{enumerate}
+\end{example}
 
 \begin{proposition}\label{characteristic-classes:proposition-chern-properties}
 \begin{enumerate}
@@ -125,6 +200,13 @@ By the splitting principle we may assume $E = \bigoplus L_i$ and $E' = \bigoplus
 $c_1(L \otimes L') = c_1(L) + c_1(L')$ (Theorem~\ref{vector-bundles:theorem-line-bundles}). The statements follow from $e^{x+y} = e^xe^y$ and from multiplicativity of products over the roots. Short exact
 sequences of bundles split topologically (Proposition~\ref{vector-bundles:proposition-metrics}), which gives the last statements.
 \end{proof}
+
+\begin{example}\label{characteristic-classes:example-chern-character-cp1}
+On $\CC\PP^1$ let $h \in H^2(\CC\PP^1; \ZZ)$ be the positive generator, so $\int h = 1$ and $h^2 = 0$. Then $c_1(\mathcal{O}(k)) = kh$, $\mathrm{ch}(\mathcal{O}(k)) = e^{kh} = 1 + kh$, and
+$T\CC\PP^1 \cong \mathcal{O}(2)$ has $\mathrm{td}(T\CC\PP^1) = 1 + \frac12c_1 = 1 + h$. The Riemann--Roch formula (Remark~\ref{characteristic-classes:remark-signature}) then predicts
+$\chi(\CC\PP^1, \mathcal{O}(k)) = \int(1 + kh)(1 + h) = k + 1$, which is the number of homogeneous polynomials of degree $k$ in two variables when $k \geq 0$, the dimension of
+the space of holomorphic sections of $\mathcal{O}(k)$ (Chapter~\ref{holomorphic-bundles}).
+\end{example}
 
 \section{The Thom isomorphism in de Rham cohomology}\label{characteristic-classes:section-thom}
 
@@ -437,3 +519,45 @@ Show that $\mathrm{ch}(L) = e^{c_1(L)}$ for a line bundle, and compute $\mathrm{
 Show that $S^4$ admits no almost complex structure, using that $c_1$ would lie in $H^2(S^4) = 0$ and $c_2 = e(TS^4)$ would have to satisfy $\int_{S^4}c_2 = \chi(S^4) = 2$ while also
 $c_1^2 = p_1 + 2c_2$ with $p_1(TS^4) = 0$.
 \end{exercise}
+
+\begin{exercise}\label{characteristic-classes:exercise-chern-sum-cp1}
+On $\CC\PP^1$ compute the total Chern class of $\mathcal{O}(a) \oplus \mathcal{O}(b)$, and show that $\mathcal{O}(1) \oplus \mathcal{O}(-1)$ and $\mathcal{O} \oplus \mathcal{O}$ have the same Chern classes.
+\end{exercise}
+
+\begin{solution}
+By the Whitney formula $c = (1 + ah)(1 + bh) = 1 + (a + b)h$, as $h^2 = 0$. For $a = 1$, $b = -1$ this is $1$, the total Chern class of the trivial bundle. (The two bundles are in
+fact isomorphic as smooth bundles, but not as holomorphic ones: the first has a holomorphic section vanishing at one point and the second does not.)
+\end{solution}
+
+\begin{exercise}\label{characteristic-classes:exercise-c1-determinant}
+Show that $c_1(E) = c_1(\det E)$ for every complex vector bundle $E$, using the connection induced on $\det E$ (Proposition~\ref{connections:proposition-induced-connections}(5)).
+\end{exercise}
+
+\begin{solution}
+If $\nabla$ has connection form $\theta$ in a frame $e$, the induced connection on $\det E$ has connection form $\operatorname{tr}\theta$ in the frame $e_1 \wedge \cdots \wedge e_r$, so its curvature is
+$d\operatorname{tr}\theta = \operatorname{tr}(d\theta) = \operatorname{tr}(d\theta + \theta \wedge \theta) = \operatorname{tr}F$, using $\operatorname{tr}(\theta \wedge \theta) = 0$. Hence
+$c_1(\det E, \nabla^{\det}) = \frac{i}{2\pi}\operatorname{tr}F = c_1(E, \nabla)$.
+\end{solution}
+
+\begin{exercise}\label{characteristic-classes:exercise-pullback-curvature}
+Let $f \colon \CC\PP^1 \to \CC\PP^1$ be $z \mapsto z^k$ ($k \geq 1$) and $\nabla$ the projection connection on $\mathcal{O}(-1)$. Show that $\int_{\CC\PP^1}c_1(f^*\mathcal{O}(-1), f^*\nabla) = -k$,
+by computing the integral of $f^*c_1(\mathcal{O}(-1), \nabla)$, and compare with Exercise~\ref{vector-bundles:exercise-pullback-degree}.
+\end{exercise}
+
+\begin{solution}
+The curvature of $f^*\nabla$ is $f^*F$ (Proposition~\ref{connections:proposition-pullback-tensor}(1)), so the Chern form is $f^*\omega$ with $\omega = c_1(\mathcal{O}(-1), \nabla)$. On
+$\CC^\times$, $f$ is a $k$-sheeted covering and a local diffeomorphism preserving the orientation (it is holomorphic). Cut $\CC^\times$ into the $k$ open sectors
+$\{2\pi j/k < \arg z < 2\pi(j + 1)/k\}$; each is mapped diffeomorphically, preserving orientation, onto $\CC$ minus a ray, and the rays and the points $0$, $\infty$ have measure zero. By
+Proposition~\ref{differential-forms:proposition-integral-parametrisation} each sector contributes $\int_{\CC\PP^1}\omega = -1$, so the total is $-k$, in accordance with
+$f^*\mathcal{O}(-1) \cong \mathcal{O}(-k)$.
+\end{solution}
+
+\begin{exercise}\label{characteristic-classes:exercise-c2-formula}
+Verify the formula $c_2 = \frac{1}{8\pi^2}(\operatorname{tr}(F \wedge F) - \operatorname{tr}F \wedge \operatorname{tr}F)$ for a direct sum of two line bundles with curvatures $F_1$, $F_2$, and check that it
+equals $c_1(L_1) \wedge c_1(L_2)$.
+\end{exercise}
+
+\begin{solution}
+Here $F = \mathrm{diag}(F_1, F_2)$, $\operatorname{tr}(F \wedge F) = F_1 \wedge F_1 + F_2 \wedge F_2$ and $\operatorname{tr}F \wedge \operatorname{tr}F = (F_1 + F_2) \wedge (F_1 + F_2)$, so the difference is
+$-2F_1 \wedge F_2$ (the $2$-forms commute) and $c_2 = -\frac{1}{4\pi^2}F_1 \wedge F_2 = \frac{i}{2\pi}F_1 \wedge \frac{i}{2\pi}F_2$, as predicted by the Whitney formula.
+\end{solution}
