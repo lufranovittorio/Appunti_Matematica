@@ -3,12 +3,30 @@
 
 \section{Introduction}\label{differential-forms:section-introduction}
 
-Differential forms are the objects that can be integrated over oriented submanifolds, and the exterior derivative is the operation
-that makes Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}) true: the integral of $d\omega$ over a manifold with
-boundary is the integral of $\omega$ over the boundary. Everything in Hodge theory is written in this language: de Rham cohomology
-(Chapter~\ref{de-rham}), harmonic forms (Chapter~\ref{hodge-theorem}), and the decomposition of forms on a complex manifold into
-types (Chapter~\ref{dolbeault}). References: \cite{lee-smooth-manifolds}, \cite{warner-foundations},
-\cite{spivak-calculus-manifolds}.
+Differential forms are the integrands of geometry. A $k$-form is a quantity that can be integrated over oriented $k$-dimensional submanifolds: a $1$-form over curves (the
+work of a force field along a path), a $2$-form over surfaces (the flux of a field through a surface), an $n$-form over an $n$-manifold (a volume). Why forms, and not functions,
+are the right integrands is explained by the change of variables formula. Under a change of coordinates $x = \tau(y)$, the integral $\int f\,dx^1 \cdots dx^n$ becomes
+$\int(f \circ \tau)\,|\det D\tau|\,dy^1 \cdots dy^n$, with the \emph{absolute value} of the Jacobian determinant, while the $n$-form $f\,dx^1 \wedge \cdots \wedge dx^n$ becomes
+$(f \circ \tau)\det D\tau\,dy^1 \wedge \cdots \wedge dy^n$, with the determinant itself. The two rules agree for orientation-preserving changes of coordinates, and this is why an
+$n$-form can be integrated over an oriented manifold without any further choice, such as coordinates or a metric. (A metric allows one to integrate functions instead:
+Chapter~\ref{riemannian-geometry}.)
+
+The \emph{exterior derivative} $d$ turns $k$-forms into $(k + 1)$-forms. On $\RR^3$ it unifies the gradient, the curl and the divergence of vector calculus, it satisfies
+$d \circ d = 0$ (which contains $\operatorname{curl}\operatorname{grad} = 0$ and $\operatorname{div}\operatorname{curl} = 0$), and it makes \emph{Stokes' theorem}
+(Theorem~\ref{differential-forms:theorem-stokes}) true: the integral of $d\omega$ over a manifold with boundary is the integral of $\omega$ over the boundary. This one statement
+contains the fundamental theorem of calculus and the theorems of Green, Gauss and Stokes. Everything in Hodge theory is written in this language: de Rham cohomology
+(Chapter~\ref{de-rham}), harmonic forms (Chapter~\ref{hodge-theorem}), and the decomposition of forms on a complex manifold into types (Chapter~\ref{dolbeault}).
+
+The chapter goes as follows.
+\begin{enumerate}
+\item Differential forms, their three descriptions (sections of a bundle, alternating maps on tangent vectors, coefficients in charts) and their behaviour under changes of
+coordinates; computations of wedge products and pullbacks (Section~\ref{differential-forms:section-forms}).
+\item The exterior derivative, constructed and characterised step by step; the interior product, the Lie derivative and Cartan's formula; closed and exact forms and line
+integrals.
+\item Orientations, in terms of forms, of atlases and of unit normal fields (Section~\ref{differential-forms:section-orientations}).
+\item Integration of forms, manifolds with boundary and Stokes' theorem, with worked computations (Section~\ref{differential-forms:section-integration}).
+\end{enumerate}
+References: \cite{lee-smooth-manifolds}, \cite{warner-foundations}, \cite{spivak-calculus-manifolds}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{vector-bundles} (Vector Bundles) and Chapter~\ref{measure-theory} (Measure and Integration).
 
@@ -64,6 +82,34 @@ $\omega = \sum_I\omega^{(x)}_I\,dx^I$ and comparing coefficients gives the rule 
 coefficients satisfying the rule are given on the charts of an atlas, define $\omega_p = \sum_I\omega^{(x)}_I(p)\,dx^I|_p$ using any chart at $p$; the rule says exactly
 that this does not depend on the chart, and $\omega$ is smooth by (3).
 \end{proof}
+
+Two operations are used constantly: the wedge product of forms, computed pointwise with the rules of the exterior algebra
+($dx^i \wedge dx^j = -dx^j \wedge dx^i$, so $dx^i \wedge dx^i = 0$), and the pullback, computed by substituting: for $f \colon N \to M$,
+$f^*(\sum_I\omega_I\,dx^{i_1} \wedge \cdots \wedge dx^{i_k}) = \sum_I(\omega_I \circ f)\,d(x^{i_1} \circ f) \wedge \cdots \wedge d(x^{i_k} \circ f)$, since $f^*$ is an algebra homomorphism with
+$f^*(dg) = d(g \circ f)$ for functions (the chain rule).
+
+\begin{example}\label{differential-forms:example-form-computations}
+\begin{enumerate}
+\item \emph{A wedge product.} On $\RR^3$, for $\alpha = x\,dx + y\,dy$ and $\beta = dx + z\,dz$,
+\[
+\alpha \wedge \beta = x\,dx \wedge dx + xz\,dx \wedge dz + y\,dy \wedge dx + yz\,dy \wedge dz = -y\,dx \wedge dy + xz\,dx \wedge dz + yz\,dy \wedge dz .
+\]
+On the vectors $e_1, e_2$ it takes the value $\alpha(e_1)\beta(e_2) - \alpha(e_2)\beta(e_1) = x \cdot 0 - y \cdot 1 = -y$, in accordance with the coefficient of $dx \wedge dy$.
+\item \emph{Pullback to a curve.} For the helix $\gamma(t) = (\cos t, \sin t, t)$ and $\omega = z\,dx + x\,dy$,
+$\gamma^*\omega = t\,d(\cos t) + \cos t\,d(\sin t) = (\cos^2t - t\sin t)\,dt$.
+\item \emph{Pullback to the sphere.} Let $x(\vartheta, \varphi) = (\sin\vartheta\cos\varphi, \sin\vartheta\sin\varphi, \cos\vartheta)$ and $\omega = x\,dy \wedge dz + y\,dz \wedge dx + z\,dx \wedge dy$. By
+Proposition~\ref{differential-forms:proposition-forms-descriptions}, the pullback of $dy \wedge dz$ is the Jacobian minor $\partial(y, z)/\partial(\vartheta, \varphi)$ times
+$d\vartheta \wedge d\varphi$, and similarly for the others:
+\[
+x^*(dy \wedge dz) = \sin^2\vartheta\cos\varphi\,d\vartheta \wedge d\varphi, \quad x^*(dz \wedge dx) = \sin^2\vartheta\sin\varphi\,d\vartheta \wedge d\varphi, \quad
+x^*(dx \wedge dy) = \sin\vartheta\cos\vartheta\,d\vartheta \wedge d\varphi .
+\]
+So $x^*\omega = (\sin^3\vartheta\cos^2\varphi + \sin^3\vartheta\sin^2\varphi + \sin\vartheta\cos^2\vartheta)\,d\vartheta \wedge d\varphi = \sin\vartheta\,d\vartheta \wedge d\varphi$, the area form of the
+unit sphere in spherical coordinates.
+\item \emph{Spherical coordinates in space.} For $(r, \vartheta, \varphi) \mapsto r\,x(\vartheta, \varphi)$, the pullback of $dx \wedge dy \wedge dz$ is the Jacobian determinant times
+$dr \wedge d\vartheta \wedge d\varphi$, namely $r^2\sin\vartheta\,dr \wedge d\vartheta \wedge d\varphi$ (Exercise~\ref{differential-forms:exercise-spherical-volume}).
+\end{enumerate}
+\end{example}
 
 \begin{example}\label{differential-forms:example-polar-forms}
 In the polar coordinates $(r, \theta)$ of Example~\ref{smooth-manifolds:example-polar}, with $x = r\cos\theta$ and $y = r\sin\theta$, the rule of
@@ -160,21 +206,67 @@ For $X \in \mathfrak{X}(M)$ the \emph{interior product} $\iota_X \colon \Omega^k
 (Definition~\ref{multilinear-algebra:definition-interior-product}), and the \emph{Lie derivative} is $L_X\omega = \frac{d}{dt}\big|_{t=0}\Phi_t^*\omega$, where $\Phi$ is the flow of $X$.
 \end{definition}
 
+The interior product inserts $X$ as the first argument; on a function it is $0$, and on a $1$-form $\iota_X\alpha = \alpha(X)$. By
+Proposition~\ref{multilinear-algebra:proposition-interior-antiderivation} it is an antiderivation: $\iota_X(\alpha \wedge \beta) = \iota_X\alpha \wedge \beta + (-1)^k\alpha \wedge \iota_X\beta$ for a
+$k$-form $\alpha$. For instance $\iota_{\partial_x}(dx \wedge dy) = dy$ and $\iota_{\partial_y}(dx \wedge dy) = -dx$.
+
+The Lie derivative measures how $\omega$ changes along the flow of $X$. The flow is in general only defined for small $|t|$ near each point
+(Theorem~\ref{smooth-manifolds:theorem-flow}), but this suffices: $(\Phi_t^*\omega)_p$ involves only the values of $\omega$ near $\Phi_t(p)$, it is defined for $|t|$ small, and it depends
+smoothly on $(t, p)$, as its coefficients in a chart are built from the coefficients of $\omega$ and the derivatives of the flow. So $L_X\omega$ is again a $k$-form. On a function,
+$L_Xf = \frac{d}{dt}f(\Phi_t(p))|_{t=0} = Xf$.
+
+\begin{example}\label{differential-forms:example-lie-derivative}
+On $\RR^2$ let $X = x\,\partial_x + y\,\partial_y$, whose flow is $\Phi_t(p) = e^tp$. Then $\Phi_t^*(dx \wedge dy) = d(e^tx) \wedge d(e^ty) = e^{2t}dx \wedge dy$, so
+$L_X(dx \wedge dy) = 2\,dx \wedge dy$: the flow expands areas at the rate $2$. For the rotation field $Y = -y\,\partial_x + x\,\partial_y$, the flow consists of rotations, which preserve
+$dx \wedge dy$, so $L_Y(dx \wedge dy) = 0$. Cartan's formula below gives the same results by pure algebra: $\iota_X(dx \wedge dy) = x\,dy - y\,dx$, whose differential is $2\,dx \wedge dy$, and
+$\iota_Y(dx \wedge dy) = -y\,dy - x\,dx = -d(\frac12(x^2 + y^2))$, whose differential is $0$.
+\end{example}
+
 \begin{proposition}[Cartan's formulas]\label{differential-forms:proposition-cartan}
 $L_X = d\iota_X + \iota_Xd$ on forms; $L_X$ commutes with $d$; $\frac{d}{dt}\Phi_t^*\omega = \Phi_t^*L_X\omega$; and $L_{[X,Y]} = L_XL_Y - L_YL_X$.
 \end{proposition}
 
 \begin{proof}
-Both $L_X$ and $d\iota_X + \iota_Xd$ are derivations of degree $0$ of $\Omega^\bullet(M)$ commuting with $d$ (for the second, $d(d\iota_X + \iota_Xd) = d\iota_Xd = (d\iota_X + \iota_Xd)d$), and both are local. On
-functions, $L_Xf = Xf = \iota_Xdf$, and on $df$ both give $d(Xf)$. Since forms are locally sums of products $f\,dg_1 \wedge \cdots \wedge dg_k$, the two derivations agree. The formula
-$\frac{d}{dt}\Phi_t^*\omega = \Phi_t^*L_X\omega$ follows from the group law $\Phi_{t+s} = \Phi_t\Phi_s$, and the last identity from the corresponding one for vector fields
-(Proposition~\ref{smooth-manifolds:proposition-bracket}) by evaluating on forms.
+\emph{Step 1: $L_X$ is a local derivation of degree $0$ commuting with $d$.} Since $\Phi_t^*(\alpha \wedge \beta) = \Phi_t^*\alpha \wedge \Phi_t^*\beta$, differentiating at $t = 0$ (the product
+rule, applied pointwise to the coefficients) gives $L_X(\alpha \wedge \beta) = L_X\alpha \wedge \beta + \alpha \wedge L_X\beta$. Since $\Phi_t^*d = d\Phi_t^*$ (naturality of $d$,
+Theorem~\ref{differential-forms:theorem-exterior-derivative}) and derivatives in $t$ and in the coordinates commute (the coefficients are smooth in $(t, p)$), $L_Xd = dL_X$. It is local,
+as noted above.
+
+\emph{Step 2: $D = d\iota_X + \iota_Xd$ is a local derivation of degree $0$ commuting with $d$.} For a $k$-form $\alpha$, using the antiderivation rules for $d$ and for $\iota_X$,
+\[
+\begin{aligned}
+d\iota_X(\alpha \wedge \beta) &= d\iota_X\alpha \wedge \beta + (-1)^{k-1}\iota_X\alpha \wedge d\beta + (-1)^kd\alpha \wedge \iota_X\beta + \alpha \wedge d\iota_X\beta,\\
+\iota_Xd(\alpha \wedge \beta) &= \iota_Xd\alpha \wedge \beta + (-1)^{k+1}d\alpha \wedge \iota_X\beta + (-1)^k\iota_X\alpha \wedge d\beta + \alpha \wedge \iota_Xd\beta,
+\end{aligned}
+\]
+and adding, the middle terms cancel: $D(\alpha \wedge \beta) = D\alpha \wedge \beta + \alpha \wedge D\beta$. Moreover $dD = d\iota_Xd = Dd$, since $d \circ d = 0$.
+
+\emph{Step 3: $L_X = D$.} On a function, $L_Xf = Xf = df(X) = \iota_Xdf = Df$, as $\iota_Xf = 0$. On an exact $1$-form $df$, both give $d(Xf)$, since both commute with $d$. Locally every form
+is a sum of forms $f\,dg_1 \wedge \cdots \wedge dg_k$ (in a chart, $\omega_I\,dx^{i_1} \wedge \cdots \wedge dx^{i_k}$), and two local derivations of degree $0$ that agree on functions and on
+exact $1$-forms agree on such products, hence everywhere.
+
+\emph{Step 4: the derivative at time $t$.} By the group law, near a point and for small $s$, $\Phi_{t+s} = \Phi_s \circ \Phi_t$, so $\Phi_{t+s}^*\omega = \Phi_t^*(\Phi_s^*\omega)$, and differentiating at
+$s = 0$ gives $\frac{d}{dt}\Phi_t^*\omega = \Phi_t^*L_X\omega$ ($\Phi_t^*$ is linear and acts pointwise, so it commutes with $\frac{d}{ds}$).
+
+\emph{Step 5: brackets.} $L_XL_Y - L_YL_X$ is again a local derivation of degree $0$ commuting with $d$, and on functions it is $XY f - YXf = [X, Y]f = L_{[X,Y]}f$. As in Step 3 the
+two derivations agree everywhere.
 \end{proof}
+
+By Step 4, the flow of $X$ preserves a form $\omega$, that is $\Phi_t^*\omega = \omega$ for all $t$, if and only if $L_X\omega = 0$. For example, the flow of a vector field on $\RR^n$
+preserves the volume form $dx^1 \wedge \cdots \wedge dx^n$ exactly when $\operatorname{div}X = \sum_i\partial_iX^i = 0$
+(Exercise~\ref{differential-forms:exercise-lie-derivative-volume}); in dimension $2$ the Hamiltonian vector fields are such
+(Exercise~\ref{differential-forms:exercise-hamiltonian-area}).
 
 \begin{example}\label{differential-forms:example-forms-r3}
 On $\RR^3$ the Euclidean metric and orientation identify $1$-forms and $2$-forms with vector fields, by $F = (F_1, F_2, F_3) \mapsto F_1\,dx + F_2\,dy + F_3\,dz$ and
 $F \mapsto F_1\,dy \wedge dz + F_2\,dz \wedge dx + F_3\,dx \wedge dy$, and $3$-forms with functions. Under these identifications $d$ on $0$-, $1$- and $2$-forms is the gradient, the curl and the divergence, and $d \circ d = 0$ becomes
-$\operatorname{curl}\operatorname{grad} = 0$ and $\operatorname{div}\operatorname{curl} = 0$.
+$\operatorname{curl}\operatorname{grad} = 0$ and $\operatorname{div}\operatorname{curl} = 0$. Indeed $df = f_x\,dx + f_y\,dy + f_z\,dz$; for a $1$-form,
+\[
+d(F_1\,dx + F_2\,dy + F_3\,dz) = (\partial_yF_3 - \partial_zF_2)\,dy \wedge dz + (\partial_zF_1 - \partial_xF_3)\,dz \wedge dx + (\partial_xF_2 - \partial_yF_1)\,dx \wedge dy,
+\]
+since, for instance, $dF_1 \wedge dx = \partial_yF_1\,dy \wedge dx + \partial_zF_1\,dz \wedge dx$; and for a $2$-form,
+$d(F_1\,dy \wedge dz + F_2\,dz \wedge dx + F_3\,dx \wedge dy) = (\partial_xF_1 + \partial_yF_2 + \partial_zF_3)\,dx \wedge dy \wedge dz$, because only the derivative in the missing variable
+survives in each term.
 \end{example}
 
 \begin{definition}\label{differential-forms:definition-closed-exact}
@@ -268,6 +360,12 @@ is oriented by the outward unit normal, which is the convention of the divergenc
 
 \section{Integration and Stokes' theorem}\label{differential-forms:section-integration}
 
+Let $\tau \colon V \to U$ be a diffeomorphism between open subsets of $\RR^n$, with coordinates $y$ on $V$ and $x$ on $U$. For a function $f$ on $U$, the change of variables formula
+(Theorem~\ref{measure-theory:theorem-change-of-variables}) says $\int_Uf\,d\lambda = \int_V(f \circ \tau)\,|\det D\tau|\,d\lambda$, while the pullback of the $n$-form $f\,dx^1 \wedge \cdots \wedge dx^n$
+is $(f \circ \tau)\det D\tau\,dy^1 \wedge \cdots \wedge dy^n$ (Proposition~\ref{differential-forms:proposition-forms-descriptions}). So if we integrate an $n$-form by integrating its coefficient,
+the answer does not change under orientation-preserving changes of coordinates ($\det D\tau > 0$) and changes sign under orientation-reversing ones. This is the whole reason for
+the following definition.
+
 \begin{definition}\label{differential-forms:definition-integral}
 Let $M$ be an oriented $n$-manifold and $\omega$ an $n$-form with compact support contained in a positively oriented chart $\varphi \colon U \to \RR^n$. Write $(\varphi^{-1})^*\omega = f\,dx^1 \wedge \cdots \wedge dx^n$
 and set $\int_M\omega = \int_{\varphi(U)}f\,d\lambda$. For general compactly supported $\omega$, choose a partition of unity $(\psi_i)$ subordinate to a cover by positively oriented charts and set
@@ -279,11 +377,55 @@ The integral is well defined, linear, and satisfies $\int_M\omega = \int_N f^*\o
 \end{proposition}
 
 \begin{proof}
-For $\omega$ supported in two charts, the two definitions agree by the change of variables formula (Theorem~\ref{measure-theory:theorem-change-of-variables}): if $\tau = \varphi \circ \psi^{-1}$ is the
-transition map, then the coefficient functions are related by $g = (f \circ \tau)\det D\tau$ with $\det D\tau > 0$, so $\int g = \int (f\circ\tau)|\det D\tau| = \int f$. The sum over a partition of unity is finite
-(compact support meets finitely many supports) and independent of the choices: for two partitions $(\psi_i)$, $(\chi_j)$, expand $\sum_i\int\psi_i\omega = \sum_{i,j}\int\chi_j\psi_i\omega = \sum_j\int\chi_j\omega$.
-Linearity and the behaviour under diffeomorphisms follow, again by change of variables.
+\emph{One chart.} Let $\omega$ have compact support in the domains of two positively oriented charts $\varphi$ and $\psi$, and $\tau = \varphi \circ \psi^{-1}$, a diffeomorphism between open subsets of
+$\RR^n$ with $\det D\tau > 0$. If $(\varphi^{-1})^*\omega = f\,dx$, with $dx = dx^1 \wedge \cdots \wedge dx^n$, then $(\psi^{-1})^*\omega = \tau^*(\varphi^{-1})^*\omega = (f \circ \tau)\det D\tau\,dy$, and by the
+change of variables formula $\int(f \circ \tau)\det D\tau\,d\lambda = \int(f \circ \tau)|\det D\tau|\,d\lambda = \int f\,d\lambda$. (The supports lie in the common domain, and the integrands vanish
+outside it.)
+
+\emph{Partitions of unity.} The sum in the definition is finite, because the compact support of $\omega$ meets only finitely many supports of a locally finite partition of unity, and
+each term is defined by the first case. For two partitions $(\psi_i)$ and $(\chi_j)$, each $\psi_i\chi_j\omega$ is supported in the domains of the charts of both, so
+$\sum_i\int\psi_i\omega = \sum_{i,j}\int\chi_j\psi_i\omega = \sum_j\int\chi_j\omega$, using the linearity of the one-chart integral.
+
+\emph{Properties.} Linearity follows from that of the one-chart integral. If $f \colon N \to M$ is an orientation-preserving diffeomorphism, compositions $\varphi \circ f$ of positive charts of
+$M$ with $f$ are positive charts of $N$, and $\psi_i \circ f$ is a partition of unity; the coefficient of $f^*\omega$ in the chart $\varphi \circ f$ is that of $\omega$ in $\varphi$. So the defining sums
+agree. Reversing the orientation replaces each positive chart $\varphi$ by $r \circ \varphi$, with the reflection $r(x^1, \ldots, x^n) = (-x^1, x^2, \ldots, x^n)$, which changes the sign of every
+one-chart integral.
 \end{proof}
+
+In practice one does not use partitions of unity: one parametrises $M$ up to a set of measure zero.
+
+\begin{proposition}\label{differential-forms:proposition-integral-parametrisation}
+Let $M$ be an oriented $n$-manifold, $U \subseteq \RR^n$ open and $x \colon U \to M$ an orientation-preserving diffeomorphism onto an open subset whose complement $M \setminus x(U)$ has
+measure zero, that is, its image in every chart has Lebesgue measure $0$. For a compactly supported $n$-form $\omega$ write $x^*\omega = f\,du^1 \wedge \cdots \wedge du^n$. Then $f$ is integrable
+and
+\[
+\int_M\omega = \int_Uf\,d\lambda .
+\]
+\end{proposition}
+
+\begin{proof}
+Choose a partition of unity $(\psi_i)$ subordinate to positively oriented charts $(U_i, \varphi_i)$; finitely many $\psi_i$ meet the support of $\omega$. In the one-chart integral of $\psi_i\omega$ we may
+remove the null set $\varphi_i(U_i \setminus x(U))$. On the rest, $\tau_i = \varphi_i \circ x$ is an orientation-preserving diffeomorphism from $x^{-1}(U_i)$ onto $\varphi_i(U_i \cap x(U))$, so by the
+change of variables formula, as in the proof of Proposition~\ref{differential-forms:proposition-integral-well-defined}, $\int_M\psi_i\omega = \int_{x^{-1}(U_i)}f_i\,d\lambda$, where
+$x^*(\psi_i\omega) = f_i\,du$. Summing over the finitely many $i$, and using $\sum_if_i = f$ on $U$, gives the claim; each $f_i$ is integrable, so $f$ is.
+\end{proof}
+
+\begin{example}\label{differential-forms:example-integrals}
+\begin{enumerate}
+\item \emph{Curves.} If $\gamma \colon (a, b) \to M$ is an embedding onto a curve $C$, oriented by $\gamma$, then $\int_C\alpha = \int_a^b\alpha(\dot\gamma(t))\,dt$ is the line integral of
+Definition~\ref{differential-forms:definition-line-integral}.
+\item \emph{The sphere.} Orient $S^2$ by its outward normal (Proposition~\ref{differential-forms:proposition-orientation-normal}); the spherical coordinates
+$x(\vartheta, \varphi)$ on $(0, \pi) \times (0, 2\pi)$ are positively oriented, since $x_\vartheta \times x_\varphi = \sin\vartheta\,x$ points outward, and they miss only a closed half great
+circle, which has measure zero (it is a segment in the chart given by $\varphi \in (-\pi, \pi)$, together with two points). By
+Example~\ref{differential-forms:example-form-computations}(3) and Proposition~\ref{differential-forms:proposition-integral-parametrisation},
+\[
+\int_{S^2}x\,dy \wedge dz + y\,dz \wedge dx + z\,dx \wedge dy = \int_0^{2\pi}\int_0^\pi\sin\vartheta\,d\vartheta\,d\varphi = 4\pi .
+\]
+With the inner normal the same integral is $-4\pi$.
+\item \emph{The angle form.} $\int_{S^1}\alpha = 2\pi$ for $\alpha = (x\,dy - y\,dx)/(x^2 + y^2)$ and the counterclockwise orientation of $S^1 \subseteq \RR^2$
+(Counterexample~\ref{differential-forms:counterexample-closed-not-exact}).
+\end{enumerate}
+\end{example}
 
 \begin{definition}\label{differential-forms:definition-manifold-with-boundary}
 A \emph{smooth $n$-manifold with boundary} is defined as in Definition~\ref{smooth-manifolds:definition-manifold} with charts taking values in open subsets of the half-space
@@ -291,6 +433,38 @@ $\mathbb{H}^n = \{x \in \RR^n : x^n \geq 0\}$; the \emph{boundary} $\partial M$ 
 \emph{induced orientation}, defined by declaring a chart of $\partial M$ positively oriented when the $n$-form $dx^1 \wedge \cdots \wedge dx^n$ of a positively oriented chart of $M$ is $(-1)^n\,\nu \wedge
 (dx^1 \wedge \cdots \wedge dx^{n-1})$ for an outward-pointing covector $\nu$; concretely, $(x^1, \ldots, x^{n-1})$ is positively oriented on $\partial M$ when $(-1)^n(x^1, \ldots, x^n)$ is on $M$.
 \end{definition}
+
+Here a map defined on an open subset of $\mathbb{H}^n$ (open for the subspace topology) is \emph{smooth} if near each point it is the restriction of a smooth map defined on an open subset of $\RR^n$;
+the transition maps between charts are required to be smooth in this sense. Tangent spaces, vector fields and forms are defined as for manifolds; at a boundary point the tangent space is
+still $n$-dimensional, and a tangent vector is \emph{outward-pointing} if in a chart its $n$-th component is negative. The rule for the induced orientation says: a basis
+$(v_1, \ldots, v_{n-1})$ of $T_p\partial M$ is positive if and only if $(w, v_1, \ldots, v_{n-1})$ is a positive basis of $T_pM$ for an outward vector $w$ (\emph{outward vector first}).
+Indeed, in a positive chart $w = -\partial_n$ is outward, and $\det(-e_n, e_1, \ldots, e_{n-1}) = (-1)^n$.
+
+\begin{lemma}\label{differential-forms:lemma-boundary-well-defined}
+Whether a point of a manifold with boundary lies on the boundary does not depend on the chart. The restrictions of the charts to $\partial M$ form an atlas of an $(n-1)$-manifold without
+boundary, and $M \setminus \partial M$ is an $n$-manifold without boundary.
+\end{lemma}
+
+\begin{proof}
+Suppose a chart $\varphi$ sends $p$ to a point with $x^n = 0$ and a chart $\psi$ sends it to a point with $x^n > 0$. Shrinking the domain, $\psi$ maps onto an open subset $W$ of $\RR^n$ contained in
+$\{x^n > 0\}$, and $\tau = \varphi \circ \psi^{-1} \colon W \to \mathbb{H}^n$ is smooth with a smooth inverse, which near $\varphi(p)$ extends to a smooth map $\sigma$ on an open subset of $\RR^n$.
+From $\sigma \circ \tau = \id$ near $\psi(p)$, the chain rule gives $D\sigma(\varphi(p))D\tau(\psi(p)) = I$, so $D\tau(\psi(p))$ is invertible. By the inverse function theorem
+(Theorem~\ref{real-analysis:theorem-inverse-function}), $\tau$ maps a neighbourhood of $\psi(p)$ onto an open subset of $\RR^n$ containing $\varphi(p)$; but every neighbourhood of $\varphi(p)$ in
+$\RR^n$ contains points with $x^n < 0$, which are not in $\mathbb{H}^n$. This contradiction proves the first statement. The restrictions of the transition maps to $\{x^n = 0\} = \RR^{n-1}$ are
+smooth with smooth inverses, which gives the atlas of $\partial M$, and the charts restricted to the interior points take values in the open set $\{x^n > 0\}$ of $\RR^n$.
+\end{proof}
+
+\begin{example}\label{differential-forms:example-boundaries}
+\begin{enumerate}
+\item $M = [a, b]$, with the orientation of $\RR$. At $b$ the outward direction is $+\partial_t$ and at $a$ it is $-\partial_t$; a point is oriented by a sign, and ``outward vector first''
+gives $\partial[a, b] = \{b\} - \{a\}$: the sign $+1$ at $b$ and $-1$ at $a$.
+\item The closed unit disc $\bar D \subseteq \RR^2$: at a boundary point $x$ the vector $x$ points outward, and $(x, v)$ is a positive basis of $\RR^2$ exactly when $v$ is a positive multiple of
+$(-x_2, x_1)$. So the boundary circle is oriented counterclockwise: the disc is on the left.
+\item The closed ball in $\RR^3$: its boundary $S^2$ is oriented by the outward normal, in the sense of Proposition~\ref{differential-forms:proposition-orientation-normal}.
+\item The half-space $\mathbb{H}^n$ itself: $\partial\mathbb{H}^n = \RR^{n-1}$ with $(-1)^n$ times its standard orientation; for $n = 2$ the boundary of the upper half-plane is the
+real line oriented from left to right.
+\end{enumerate}
+\end{example}
 
 \begin{theorem}[Stokes]\label{differential-forms:theorem-stokes}
 Let $M$ be an oriented $n$-manifold with boundary and $\omega$ an $(n-1)$-form with compact support. Then
@@ -301,14 +475,21 @@ where $\partial M$ has the induced orientation. If $\partial M = \emptyset$, the
 \end{theorem}
 
 \begin{proof}
-By a partition of unity and linearity we may assume that $\omega$ is supported in a single positively oriented chart, so that $M$ is $\RR^n$ or $\mathbb{H}^n$ and $\omega$ has compact support. Write
-$\omega = \sum_i(-1)^{i-1}f_i\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n$, so that $d\omega = (\sum_i\partial_if_i)\,dx^1 \wedge \cdots \wedge dx^n$. By Fubini's theorem
-(Theorem~\ref{measure-theory:theorem-fubini}) and the fundamental theorem of calculus, $\int\partial_if_i\,d\lambda = 0$ for $i < n$ and also for $i = n$ in the case of $\RR^n$, since $f_i$ has compact support.
-In the case of $\mathbb{H}^n$, the only surviving term is
+\emph{Reduction to one chart.} Let $(\psi_i)$ be a partition of unity subordinate to positively oriented charts. Only finitely many $\psi_i\omega$ are nonzero, $\omega = \sum_i\psi_i\omega$ and
+$d\omega = \sum_id(\psi_i\omega)$. Both sides of the formula are linear in $\omega$, so it suffices to prove it for each $\psi_i\omega$, that is, for $\omega$ supported in a single positively oriented
+chart. Via the chart, $M$ becomes an open subset of $\RR^n$ or of $\mathbb{H}^n$, and extending $\omega$ by $0$, we may assume $M = \RR^n$ or $M = \mathbb{H}^n$ and $\omega$ has compact support.
+
+\emph{The computation.} Write
+$\omega = \sum_i(-1)^{i-1}f_i\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n$; then $d\omega = (\sum_i\partial_if_i)\,dx^1 \wedge \cdots \wedge dx^n$, because
+$d f_i \wedge dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n = (-1)^{i-1}\partial_if_i\,dx^1 \wedge \cdots \wedge dx^n$. By Fubini's theorem (Theorem~\ref{measure-theory:theorem-fubini})
+we may integrate $\partial_if_i$ first in the variable $x^i$. For $i < n$, and also for $i = n$ when $M = \RR^n$, the integral over the whole line vanishes by the fundamental theorem of calculus,
+as $f_i$ has compact support. So $\int_{\RR^n}d\omega = 0 = \int_{\partial\RR^n}\omega$. For $M = \mathbb{H}^n$ the only surviving term is
 \[
-\int_{\mathbb{H}^n}\partial_nf_n\,d\lambda = \int_{\RR^{n-1}}\left(\int_0^\infty\partial_nf_n\,dx^n\right)dx^1 \cdots dx^{n-1} = -\int_{\RR^{n-1}}f_n(x', 0)\,dx',
+\int_{\mathbb{H}^n}\partial_nf_n\,d\lambda = \int_{\RR^{n-1}}\left(\int_0^\infty\partial_nf_n\,dx^n\right)dx^1 \cdots dx^{n-1} = -\int_{\RR^{n-1}}f_n(x', 0)\,dx' .
 \]
-while $\int_{\partial M}\omega = \int_{\RR^{n-1}}(-1)^{n-1}f_n(x', 0)\,dx'$ computed with the induced orientation, which introduces the sign $(-1)^n$; the two agree.
+On $\partial\mathbb{H}^n = \{x^n = 0\}$ the forms containing $dx^n$ restrict to $0$, so $\omega|_{\partial\mathbb{H}^n} = (-1)^{n-1}f_n\,dx^1 \wedge \cdots \wedge dx^{n-1}$, and the induced orientation is
+$(-1)^n$ times the standard one (Example~\ref{differential-forms:example-boundaries}(4)). Hence $\int_{\partial\mathbb{H}^n}\omega = (-1)^n(-1)^{n-1}\int f_n(x', 0)\,dx' = -\int f_n(x', 0)\,dx'$,
+which is the left side.
 \end{proof}
 
 \begin{counterexample}\label{differential-forms:counterexample-stokes-support}
@@ -325,6 +506,18 @@ $M \subseteq \RR^2$ with smooth boundary and $\omega = P\,dx + Q\,dy$, it is Gre
 For $M \subseteq \RR^3$ a compact region with smooth boundary, Stokes' theorem specialises to the divergence theorem $\int_M\operatorname{div}F\,dV = \int_{\partial M}\langle F, \nu\rangle\,dA$ and to the classical
 Stokes and Green formulas, after identifying vector fields with $1$- or $2$-forms using the Euclidean metric and orientation (Theorem~\ref{multilinear-algebra:theorem-hodge-star}). On a compact oriented
 manifold without boundary, $\int_M d\omega = 0$, so integration descends to de Rham cohomology (Chapter~\ref{de-rham}).
+\end{example}
+
+\begin{example}\label{differential-forms:example-stokes-checks}
+\begin{enumerate}
+\item \emph{Area by a line integral.} For the unit disc $\bar D$ and $\omega = x\,dy$, $d\omega = dx \wedge dy$, so $\int_{\partial\bar D}x\,dy = \int_{\bar D}dx \wedge dy = \pi$. Directly, with
+$x = \cos t$, $y = \sin t$: $\int_0^{2\pi}\cos^2t\,dt = \pi$. More generally the area of a plane region is $\frac12\int_{\partial R}(x\,dy - y\,dx)$.
+\item \emph{Volume by a flux.} For the unit ball $B$ and $\omega = x\,dy \wedge dz + y\,dz \wedge dx + z\,dx \wedge dy$, $d\omega = 3\,dx \wedge dy \wedge dz$, and Stokes' theorem gives
+$\int_{S^2}\omega = 3\operatorname{vol}(B) = 4\pi$, which is the value computed directly in Example~\ref{differential-forms:example-integrals}(2). So $\operatorname{vol}(B) = 4\pi/3$.
+\item \emph{A closed form on an annulus.} For the annulus $A = \{1 \leq |x| \leq 2\}$ and the angle form $\alpha$, $d\alpha = 0$ and $\partial A$ is the outer circle counterclockwise and the
+inner circle clockwise, so $\int_{\partial A}\alpha = 2\pi - 2\pi = 0$, as it must be. The punctured disc is not compact, and there Stokes' theorem does not apply: the closed form $\alpha$
+has integral $2\pi$ over the boundary circle.
+\end{enumerate}
 \end{example}
 
 \begin{corollary}\label{differential-forms:corollary-volume}
@@ -367,3 +560,56 @@ whose differential is $(\sum_i\partial_iX^i)\mu$. The flow preserves $\mu$ if an
 Let $f \colon M \to N$ be a smooth map between compact oriented $n$-manifolds without boundary. Show that $\int_Mf^*\omega = \deg(f)\int_N\omega$ for a suitable integer $\deg(f)$ independent of $\omega$, using
 Sard's theorem and the local form of $f$ near regular values.
 \end{exercise}
+
+\begin{exercise}\label{differential-forms:exercise-exact-primitive}
+On $\RR^3$ let $\omega = yz\,dx + zx\,dy + xy\,dz$. Show that $d\omega = 0$ and find $f$ with $df = \omega$. Compute also $d(e^{xy}\,dx \wedge dz)$.
+\end{exercise}
+
+\begin{solution}
+$d\omega = (z\,dy + y\,dz) \wedge dx + (z\,dx + x\,dz) \wedge dy + (y\,dx + x\,dy) \wedge dz$, and the six terms cancel in pairs, for example $z\,dy \wedge dx + z\,dx \wedge dy = 0$. A primitive is
+$f = xyz$. Next, $d(e^{xy}dx \wedge dz) = (ye^{xy}dx + xe^{xy}dy) \wedge dx \wedge dz = xe^{xy}\,dy \wedge dx \wedge dz = -xe^{xy}\,dx \wedge dy \wedge dz$.
+\end{solution}
+
+\begin{exercise}\label{differential-forms:exercise-spherical-volume}
+Show that the pullback of $dx \wedge dy \wedge dz$ under spherical coordinates $(r, \vartheta, \varphi) \mapsto (r\sin\vartheta\cos\varphi, r\sin\vartheta\sin\varphi, r\cos\vartheta)$ is
+$r^2\sin\vartheta\,dr \wedge d\vartheta \wedge d\varphi$, and compute the volume of the ball of radius $R$ as the integral of $dx \wedge dy \wedge dz$.
+\end{exercise}
+
+\begin{solution}
+The pullback is the Jacobian determinant times $dr \wedge d\vartheta \wedge d\varphi$. Expanding the $3 \times 3$ determinant along the row of $z = r\cos\vartheta$, whose entries are
+$\cos\vartheta$, $-r\sin\vartheta$, $0$, gives $\cos\vartheta \cdot r^2\sin\vartheta\cos\vartheta + r\sin\vartheta \cdot r\sin^2\vartheta = r^2\sin\vartheta$. By
+Proposition~\ref{differential-forms:proposition-integral-parametrisation}, the volume is $\int_0^{2\pi}\int_0^\pi\int_0^Rr^2\sin\vartheta\,dr\,d\vartheta\,d\varphi = \frac43\pi R^3$.
+\end{solution}
+
+\begin{exercise}\label{differential-forms:exercise-stokes-hemisphere}
+Verify Stokes' theorem for $\omega = x\,dy - y\,dx$ on the closed upper hemisphere $H = S^2 \cap \{z \geq 0\}$, oriented by the outward normal, by computing both sides.
+\end{exercise}
+
+\begin{solution}
+$d\omega = 2\,dx \wedge dy$. The parametrisation $(u, v) \mapsto (u, v, \sqrt{1 - u^2 - v^2})$ of the open upper hemisphere by the open unit disc is positively oriented, as its normal
+$x_u \times x_v$ has positive third component, and the pullback of $dx \wedge dy$ is $du \wedge dv$; so $\int_Hd\omega = 2\pi$
+(Proposition~\ref{differential-forms:proposition-integral-parametrisation}; the equator has measure zero in $H$). The boundary is the equator. At $(1, 0, 0)$ an outward vector of $H$ is $-e_3$,
+and $(-e_3, e_2)$ is positive for the outward normal $e_1$, since $\det(e_1, -e_3, e_2) = 1$; so the equator is traversed counterclockwise seen from above, and
+$\int_{\partial H}x\,dy - y\,dx = \int_0^{2\pi}(\cos^2t + \sin^2t)\,dt = 2\pi$.
+\end{solution}
+
+\begin{exercise}\label{differential-forms:exercise-lie-derivative-rotation}
+On $\RR^3$ let $X = x\,\partial_y - y\,\partial_x$ be the infinitesimal rotation about the $z$-axis. Compute $L_X$ of $dx$, $dy$, $dz$, $x\,dy - y\,dx$ and $dx \wedge dy$, and interpret the results.
+\end{exercise}
+
+\begin{solution}
+$L_Xdx = d(Xx) = d(-y) = -dy$, $L_Xdy = d(Xy) = dx$, $L_Xdz = 0$. Then $L_X(x\,dy) = (Xx)\,dy + x\,L_Xdy = -y\,dy + x\,dx$ and $L_X(y\,dx) = x\,dx - y\,dy$, so
+$L_X(x\,dy - y\,dx) = 0$, and $L_X(dx \wedge dy) = -dy \wedge dy + dx \wedge dx = 0$. The rotations preserve the angular form and the area form of the planes orthogonal to the axis, and the
+height $z$.
+\end{solution}
+
+\begin{exercise}\label{differential-forms:exercise-hamiltonian-area}
+For a smooth function $H$ on $\RR^2$ let $X_H = \partial_yH\,\partial_x - \partial_xH\,\partial_y$. Show that $\iota_{X_H}(dx \wedge dy) = dH$, that $X_HH = 0$, and deduce that the flow of $X_H$
+preserves areas and the level sets of $H$.
+\end{exercise}
+
+\begin{solution}
+$\iota_{X_H}(dx \wedge dy) = \partial_yH\,dy + \partial_xH\,dx = dH$. By Cartan's formula $L_{X_H}(dx \wedge dy) = d\iota_{X_H}(dx \wedge dy) = d\,dH = 0$, so the flow preserves $dx \wedge dy$
+(Proposition~\ref{differential-forms:proposition-cartan}). And $X_HH = \partial_yH\,\partial_xH - \partial_xH\,\partial_yH = 0$, so $H$ is constant along the flow lines. This is the
+two-dimensional case of Liouville's theorem in Hamiltonian mechanics.
+\end{solution}

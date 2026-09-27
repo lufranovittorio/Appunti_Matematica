@@ -3,11 +3,27 @@
 
 \section{Introduction}\label{de-rham:section-introduction}
 
-The de Rham complex of a smooth manifold computes its real cohomology: closed forms modulo exact forms are singular cohomology
-classes with real coefficients (Theorem~\ref{de-rham:theorem-de-rham}). This is the bridge between analysis and topology on which
-Hodge theory is built: the Hodge theorem selects a canonical harmonic representative in each de Rham class
-(Chapter~\ref{hodge-theorem}), and on a complex manifold the type decomposition of harmonic forms gives the Hodge decomposition
-(Chapter~\ref{hodge-decomposition}). References: \cite{bott-tu}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
+Every exact form is closed, because $d \circ d = 0$. The converse is a question about the shape of the manifold. On $\RR^n$, and on any convex open set, every closed form of
+positive degree is exact (the Poincar\'e lemma). On the punctured plane $\RR^2 \setminus \{0\}$ the angle form $(x\,dy - y\,dx)/(x^2 + y^2)$ is closed but not exact: its integral
+around the origin is $2\pi$, while the integral of an exact form around a closed curve is $0$. The obstruction comes from the hole at the origin. \emph{De Rham cohomology},
+closed forms modulo exact forms, measures such obstructions in every degree:
+\[
+H^k_{\mathrm{dR}}(M) = \frac{\{\text{closed } k\text{-forms}\}}{\{\text{exact } k\text{-forms}\}} .
+\]
+The de Rham theorem (Theorem~\ref{de-rham:theorem-de-rham}) says that this analytic invariant is the singular cohomology of $M$ with real coefficients, a topological invariant.
+This is the bridge between analysis and topology on which Hodge theory is built: the Hodge theorem selects a canonical harmonic representative in each de Rham class
+(Chapter~\ref{hodge-theorem}), and on a complex manifold the type decomposition of harmonic forms gives the Hodge decomposition (Chapter~\ref{hodge-decomposition}).
+
+The chapter goes as follows.
+\begin{enumerate}
+\item The de Rham complex, first examples, homotopy invariance with an explicit homotopy operator, and the Poincar\'e lemma with an explicit formula for primitives
+(Section~\ref{de-rham:section-complex}).
+\item The Mayer--Vietoris sequence, with its connecting homomorphism made explicit, and the computation of the cohomology of spheres, punctured planes and projective spaces.
+\item The de Rham theorem, periods of $1$-forms, the K\"unneth formula, Poincar\'e duality, and the cohomology of compact Lie groups
+(Section~\ref{de-rham:section-de-rham-theorem}).
+\item Currents, the forms with distribution coefficients, which contain the submanifolds and are the natural home of cycle classes (Section~\ref{de-rham:section-currents}).
+\end{enumerate}
+References: \cite{bott-tu}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{differential-forms} (Differential Forms and Integration), Chapter~\ref{sheaf-cohomology}
 (Sheaf Cohomology), Chapter~\ref{poincare-duality} (Topological Manifolds and Poincar\'e Duality) and Chapter~\ref{distributions}
@@ -33,6 +49,19 @@ $d(\alpha \wedge \beta) = 0$, and if $\alpha = d\gamma$ then $\alpha \wedge \bet
 Theorem~\ref{differential-forms:theorem-exterior-derivative}.
 \end{proof}
 
+\begin{example}\label{de-rham:example-first-computations}
+\begin{enumerate}
+\item \emph{The real line.} Every $1$-form on $\RR$ is $f\,dx$, and it is exact: $f\,dx = dF$ with $F(x) = \int_0^xf$. So $H^0_{\mathrm{dR}}(\RR) = \RR$ and $H^k_{\mathrm{dR}}(\RR) = 0$ for
+$k \geq 1$ (there are no forms of degree $\geq 2$).
+\item \emph{The circle.} On $S^1 = \RR/2\pi\ZZ$ every $1$-form is closed, and is $f(\theta)\,d\theta$ with $f$ periodic. It is exact if and only if $\int_0^{2\pi}f = 0$: then
+$F(\theta) = \int_0^\theta f$ is periodic and $dF = f\,d\theta$; conversely $\int_{S^1}dF = 0$. So $\int_{S^1} \colon H^1_{\mathrm{dR}}(S^1) \to \RR$ is an isomorphism, and $[d\theta]$ is a basis.
+Here $d\theta$ is a closed $1$-form which is not the differential of a function, since $\theta$ is not a function on $S^1$.
+\item \emph{The punctured plane.} The angle form $\alpha = (x\,dy - y\,dx)/(x^2 + y^2)$ is closed and not exact on $\RR^2 \setminus \{0\}$
+(Counterexample~\ref{differential-forms:counterexample-closed-not-exact}); so $H^1_{\mathrm{dR}}(\RR^2 \setminus \{0\}) \neq 0$. It is the pullback of $d\theta$ by
+$(x, y) \mapsto (x, y)/r \in S^1$, and we will see that it spans $H^1$ (Example~\ref{de-rham:example-angle-form}).
+\end{enumerate}
+\end{example}
+
 \begin{theorem}[Homotopy invariance and the Poincar\'e lemma]\label{de-rham:theorem-homotopy-invariance}
 Let $i_0, i_1 \colon M \to M \times \RR$ be $p \mapsto (p, 0)$ and $p \mapsto (p, 1)$. There is a linear map $K \colon \Omega^k(M \times \RR) \to \Omega^{k-1}(M)$ with
 \[
@@ -43,19 +72,64 @@ $H^0_{\mathrm{dR}}(U) = \RR$ for every convex open $U \subseteq \RR^n$ (the \emp
 \end{theorem}
 
 \begin{proof}
-Write a form on $M \times \RR$ uniquely as $\omega = \alpha_t + dt \wedge \beta_t$, where $\alpha_t$, $\beta_t$ are families of forms on $M$ depending smoothly on $t$ and containing no $dt$. Set
-$K\omega = \int_0^1\beta_t\,dt$. Writing $d = d_M + dt \wedge \partial_t$ in this decomposition, a computation gives
+\emph{The decomposition.} Let $t$ be the coordinate of $\RR$. In local coordinates $x$ on $M$ and $t$, a $k$-form on $M \times \RR$ is a sum of terms $f(x, t)\,dx^I$ and
+$g(x, t)\,dt \wedge dx^J$; so it can be written uniquely as
 \[
-d(K\omega) + K(d\omega) = \int_0^1d_M\beta_t\,dt + \int_0^1\left(\partial_t\alpha_t - d_M\beta_t\right)dt = \alpha_1 - \alpha_0 = i_1^*\omega - i_0^*\omega,
+\omega = \alpha_t + dt \wedge \beta_t,
 \]
-using the fundamental theorem of calculus and differentiation under the integral sign
-(Proposition~\ref{real-analysis:proposition-parameter-integrals}).
+where $\alpha_t$ is a $k$-form and $\beta_t$ a $(k-1)$-form on $M$, depending smoothly on the parameter $t$ (their coefficients are $f(\cdot, t)$ and $g(\cdot, t)$); this is
+independent of the coordinates on $M$. For instance $i_s^*\omega = \alpha_s$, since $i_s^*dt = 0$. Write $d_M$ for the exterior derivative in the $M$-directions at fixed $t$, and
+$\partial_t$ for the derivative of the coefficients in $t$. Then $d = d_M + dt \wedge \partial_t$ on forms without $dt$, and
+\[
+d\omega = d_M\alpha_t + dt \wedge \partial_t\alpha_t + d(dt \wedge \beta_t) = d_M\alpha_t + dt \wedge (\partial_t\alpha_t - d_M\beta_t),
+\]
+because $d(dt \wedge \beta_t) = -dt \wedge d\beta_t = -dt \wedge (d_M\beta_t + dt \wedge \partial_t\beta_t) = -dt \wedge d_M\beta_t$.
+
+\emph{The homotopy operator.} Define $K\omega = \int_0^1\beta_t\,dt$, the $(k-1)$-form on $M$ whose coefficients are the integrals over $t \in [0, 1]$ of those of $\beta_t$. By the
+formula for $d\omega$, its $dt$-part is $\partial_t\alpha_t - d_M\beta_t$, so $K(d\omega) = \int_0^1(\partial_t\alpha_t - d_M\beta_t)\,dt$. On the other hand
+$d(K\omega) = \int_0^1d_M\beta_t\,dt$, by differentiation under the integral sign (Proposition~\ref{real-analysis:proposition-parameter-integrals}). Adding, and using the fundamental
+theorem of calculus for the coefficients,
+\[
+d(K\omega) + K(d\omega) = \int_0^1\partial_t\alpha_t\,dt = \alpha_1 - \alpha_0 = i_1^*\omega - i_0^*\omega .
+\]
 
 If $F \colon M \times \RR \to N$ is smooth with $F \circ i_0 = f$ and $F \circ i_1 = g$, then for closed $\omega$ on $N$,
 $g^*\omega - f^*\omega = d(K F^*\omega)$, so $f^* = g^*$ on cohomology. Continuous homotopies may be replaced by smooth ones: continuous maps between manifolds are homotopic to smooth maps, and continuously
 homotopic smooth maps are smoothly homotopic \cite[Chapter 2]{hirsch-differential-topology}. A convex $U$ is smoothly contractible, by the straight-line homotopy, so its de Rham cohomology is that of a
 point.
 \end{proof}
+
+The homotopy operator gives explicit primitives. For a star-shaped open set $U \subseteq \RR^n$ (with respect to $0$), let $X = \sum_ix^i\partial_i$ be the position vector
+field.
+
+\begin{corollary}[Explicit Poincar\'e lemma]\label{de-rham:corollary-explicit-poincare}
+Let $U \subseteq \RR^n$ be star-shaped with respect to $0$ and $\omega$ a closed $k$-form on $U$, $k \geq 1$. Then $\omega = d\eta$ with
+\[
+\eta_x = \int_0^1t^{k-1}\,(\iota_X\omega)_{tx}\,dt, \qquad\text{that is,}\qquad \eta = \sum_I\Bigl(\int_0^1t^{k-1}\omega_I(tx)\,dt\Bigr)\iota_X(dx^I),
+\]
+where $\iota_X(dx^{i_1} \wedge \cdots \wedge dx^{i_k}) = \sum_m(-1)^{m-1}x^{i_m}\,dx^{i_1} \wedge \cdots \wedge \widehat{dx^{i_m}} \wedge \cdots \wedge dx^{i_k}$.
+\end{corollary}
+
+\begin{proof}
+Let $\rho \colon \RR \to [0, 1]$ be smooth and nondecreasing, with $\rho = 0$ on $(-\infty, 0]$ and $\rho = 1$ on $[1, \infty)$, and apply
+Theorem~\ref{de-rham:theorem-homotopy-invariance} to $F(x, t) = \rho(t)x$, a smooth map $U \times \RR \to U$ since $U$ is star-shaped. Since
+$F^*dx^i = \rho(t)\,dx^i + \rho^{\prime}(t)x^i\,dt$, the terms of $F^*(\omega_I\,dx^{i_1} \wedge \cdots \wedge dx^{i_k})$ containing $dt$ are
+$\omega_I(\rho x)\,\rho^{k-1}\rho^{\prime}\sum_m x^{i_m}\,dx^{i_1} \wedge \cdots \wedge dt \wedge \cdots \wedge dx^{i_k}$, with $dt$ in the $m$-th place; moving $dt$ to the front gives the sign
+$(-1)^{m-1}$. So $\beta_t = \rho(t)^{k-1}\rho^{\prime}(t)(\iota_X\omega)_{\rho(t)x}$ in the notation of the proof of the theorem, and the substitution $s = \rho(t)$ gives
+$K(F^*\omega) = \int_0^1s^{k-1}(\iota_X\omega)_{sx}\,ds = \eta$. As $F(\cdot, 1) = \id$, $F(\cdot, 0)$ is constant, whose pullback kills forms of positive degree, and $d\omega = 0$, the
+homotopy formula gives $\omega = d\eta$.
+\end{proof}
+
+\begin{example}\label{de-rham:example-explicit-primitives}
+\begin{enumerate}
+\item For the closed $1$-form $\omega = 2xy\,dx + x^2\,dy$ on $\RR^2$, $\iota_X\omega = 2x^2y + x^2y = 3x^2y$, so $\eta = \int_0^13t^2\,dt \cdot x^2y = x^2y$, and indeed $d(x^2y) = \omega$.
+\item For $\omega = dx \wedge dy$ on $\RR^2$, $\iota_X\omega = x\,dy - y\,dx$ and $\eta = \int_0^1t\,dt\,(x\,dy - y\,dx) = \frac12(x\,dy - y\,dx)$, the primitive used in
+Example~\ref{differential-forms:example-stokes-checks}(1) to compute areas.
+\item For the volume form $dx \wedge dy \wedge dz$ of $\RR^3$ the formula gives $\frac13(x\,dy \wedge dz + y\,dz \wedge dx + z\,dx \wedge dy)$.
+\item The slit plane $\RR^2 \setminus \{(x, 0) : x \leq 0\}$ does not contain $0$, but it is star-shaped with respect to $(1, 0)$: a segment from $(1, 0)$ to a point off the
+$x$-axis meets the axis only at $(1, 0)$. So the angle form is exact there; a primitive is the polar angle with values in $(-\pi, \pi)$.
+\end{enumerate}
+\end{example}
 
 \begin{theorem}[Mayer--Vietoris]\label{de-rham:theorem-mayer-vietoris}
 Let $M = U \cup V$ with $U$, $V$ open. There is a long exact sequence
@@ -66,16 +140,38 @@ Let $M = U \cup V$ with $U$, $V$ open. There is a long exact sequence
 
 \begin{proof}
 The sequence of complexes $0 \to \Omega^\bullet(M) \to \Omega^\bullet(U) \oplus \Omega^\bullet(V) \to \Omega^\bullet(U \cap V) \to 0$, with maps $\omega \mapsto (\omega|_U, \omega|_V)$ and
-$(\alpha, \beta) \mapsto \alpha|_{U \cap V} - \beta|_{U \cap V}$, is exact: injectivity and exactness in the middle are clear, and surjectivity holds because for a partition of unity $\{\psi_U, \psi_V\}$
-subordinate to $\{U, V\}$ (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}) and $\gamma \in \Omega^\bullet(U \cap V)$, the forms $\psi_V\gamma$ on $U$ and $-\psi_U\gamma$ on $V$, both extended by zero,
-have difference $\gamma$. Apply Theorem~\ref{homological-algebra:theorem-long-exact-sequence}.
+$(\alpha, \beta) \mapsto \alpha|_{U \cap V} - \beta|_{U \cap V}$, is exact. Injectivity: a form vanishing on $U$ and on $V$ vanishes. Exactness in the middle: if $\alpha = \beta$ on $U \cap V$, they
+glue to a form on $M$. Surjectivity: for a partition of unity $\{\psi_U, \psi_V\}$ subordinate to $\{U, V\}$ (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}) and
+$\gamma \in \Omega^\bullet(U \cap V)$, the forms $\psi_V\gamma$ on $U$ and $-\psi_U\gamma$ on $V$, both extended by zero (the support of $\psi_V$ does not meet $U \setminus V$, and similarly for
+$\psi_U$), have difference $\gamma$ on $U \cap V$. The maps commute with $d$, so Theorem~\ref{homological-algebra:theorem-long-exact-sequence} gives the long exact sequence. Following the
+construction of the connecting homomorphism, for a closed $\gamma$ on $U \cap V$ we lift it to $(\psi_V\gamma, -\psi_U\gamma)$, apply $d$, and observe that $d(\psi_V\gamma)$ and
+$-d(\psi_U\gamma)$ agree on $U \cap V$, since $d(\psi_U\gamma + \psi_V\gamma) = d\gamma = 0$. So
+\[
+\delta[\gamma] = [\omega], \qquad \omega = \begin{cases} d(\psi_V\gamma) = d\psi_V \wedge \gamma & \text{on } U,\\ -d(\psi_U\gamma) = -d\psi_U \wedge \gamma & \text{on } V,\end{cases}
+\]
+a closed form on $M$ supported in $U \cap V$.
 \end{proof}
 
 \begin{example}\label{de-rham:example-spheres}
-$H^k_{\mathrm{dR}}(S^n) \cong \RR$ for $k = 0, n$ and $0$ otherwise ($n \geq 1$): cover $S^n$ by two contractible open sets whose intersection is homotopy equivalent to $S^{n-1}$
-(Theorem~\ref{singular-homology:theorem-spheres}) and induct with Mayer--Vietoris. For the circle, the generator of $H^1$ is the form $d\theta$, which is closed but not exact; its integral over $S^1$ is $2\pi$
+$H^k_{\mathrm{dR}}(S^n) \cong \RR$ for $k = 0, n$ and $0$ otherwise ($n \geq 1$). Let $U = S^n \setminus \{N\}$ and $V = S^n \setminus \{S\}$ for the north and south poles. Both are
+diffeomorphic to $\RR^n$ by stereographic projection, so their cohomology is $\RR$ in degree $0$ and $0$ otherwise; and $U \cap V$ is diffeomorphic to $\RR^n \setminus \{0\}$, which is
+homotopy equivalent to $S^{n-1}$ (by $x \mapsto x/|x|$, with the inclusion of the unit sphere as homotopy inverse, and the homotopy $(x, t) \mapsto x/((1 - t) + t|x|)$), so
+$H^\bullet_{\mathrm{dR}}(U \cap V) \cong H^\bullet_{\mathrm{dR}}(S^{n-1})$ by Theorem~\ref{de-rham:theorem-homotopy-invariance}. The Mayer--Vietoris sequence splits into pieces:
+\begin{enumerate}
+\item for $k \geq 1$ the terms $H^k(U) \oplus H^k(V)$ vanish, so $\delta \colon H^k_{\mathrm{dR}}(U \cap V) \to H^{k+1}_{\mathrm{dR}}(S^n)$ is an isomorphism, that is
+$H^{k+1}(S^n) \cong H^k(S^{n-1})$;
+\item in low degrees, $0 \to H^0(S^n) \to H^0(U) \oplus H^0(V) = \RR^2 \to H^0(U \cap V) \to H^1(S^n) \to 0$.
+\end{enumerate}
+For $n = 1$, $U \cap V$ has two components, so $H^0(U \cap V) = \RR^2$, the map $\RR^2 \to \RR^2$, $(a, b) \mapsto (a - b, a - b)$, has rank $1$, and $H^1(S^1) \cong \RR$, $H^0(S^1) = \RR$. For
+$n \geq 2$, $U \cap V$ is connected, the map $\RR^2 \to \RR$ is surjective, and $H^1(S^n) = 0$, $H^0(S^n) = \RR$. Induction on $n$ with (1) gives the result: $H^n(S^n) \cong H^{n-1}(S^{n-1}) \cong \cdots \cong H^1(S^1) \cong \RR$,
+and all other groups vanish. For the circle, the generator of $H^1$ is the form $d\theta$, which is closed but not exact; its integral over $S^1$ is $2\pi$
 (Exercise~\ref{differential-forms:exercise-pullback-computation}). In general $\int_M \colon H^n_{\mathrm{dR}}(M) \to \RR$ is well defined for compact oriented $M$ by Stokes' theorem
 (Theorem~\ref{differential-forms:theorem-stokes}).
+
+The connecting homomorphism can be seen at work on the circle. Take $U$ and $V$ two open arcs covering $S^1$, whose intersection consists of two arcs $A$ and $B$, and let $\gamma$ be the
+locally constant function equal to $1$ on $A$ and $0$ on $B$. Then $\delta[\gamma]$ is represented by $d\psi_V$ on $A$ (and $0$ elsewhere), a $1$-form supported in $A$. Near the end of $A$
+where $V$ stops, $\psi_V = 0$, as the support of $\psi_V$ lies in $V$; near the end where $U$ stops, $\psi_U = 0$, so $\psi_V = 1$. Hence $\int_Ad\psi_V = \pm1$, and $\delta[\gamma]$ is a nonzero
+multiple of the generator of $H^1(S^1)$: a ``bump'' $1$-form concentrated on one arc.
 \end{example}
 
 \section{The de Rham theorem}\label{de-rham:section-de-rham-theorem}
@@ -303,3 +399,39 @@ nonzero degree is surjective.
 \begin{exercise}\label{de-rham:exercise-kunneth-de-rham}
 Prove the K\"unneth formula $H^\bullet_{\mathrm{dR}}(M \times N) \cong H^\bullet_{\mathrm{dR}}(M) \otimes H^\bullet_{\mathrm{dR}}(N)$ for manifolds with finite good covers, by induction with Mayer--Vietoris.
 \end{exercise}
+
+\begin{exercise}\label{de-rham:exercise-punctured-plane}
+Let $M = \RR^2 \setminus \{p_1, \ldots, p_k\}$ for distinct points $p_i$. Show that $H^1_{\mathrm{dR}}(M) \cong \RR^k$, with a basis given by the angle forms $\alpha_i$ centred at the $p_i$,
+and that a closed $1$-form $\eta$ on $M$ is exact if and only if its integrals over small circles around all the $p_i$ vanish.
+\end{exercise}
+
+\begin{solution}
+After a rotation we may assume the $p_i$ have distinct first coordinates, $p_1$ having the largest. Let $U$ be $M$ intersected with $\{x < a\}$ and $V$ be $M$ intersected with
+$\{x > b\}$, where $b < a$ are chosen so that $p_1$ is the only point with first coordinate $> b$ and none has first coordinate in $[b, a]$. Then $U \cap V$ is a strip, which is
+contractible, so Mayer--Vietoris gives $H^1(M) \cong H^1(U) \oplus H^1(V)$. The half-planes are diffeomorphic to $\RR^2$, so $V$ is a plane minus one point, with $H^1 \cong \RR$ spanned by
+$\alpha_1$ (Example~\ref{de-rham:example-angle-form}), and $U$ is a plane minus $k - 1$ points; induction gives $\RR^k$. The integral of $\alpha_i$ over a small circle around $p_j$ is
+$2\pi\delta_{ij}$ (away from $p_i$, $\alpha_i$ is exact on a disc), so the map $[\eta] \mapsto (\int_{C_j}\eta)_j$ is surjective onto $\RR^k$, hence an isomorphism, and the $[\alpha_i]$ form a basis.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-solid-angle}
+On $\RR^3 \setminus \{0\}$ let $\sigma = (x\,dy \wedge dz + y\,dz \wedge dx + z\,dx \wedge dy)/r^3$, $r = (x^2 + y^2 + z^2)^{1/2}$ (the \emph{solid angle form}). Show that $\sigma$ is closed, that
+$\int_{S^2}\sigma = 4\pi$, and deduce that $H^2_{\mathrm{dR}}(\RR^3 \setminus \{0\}) = \RR[\sigma]$ and that $\sigma$ is not exact.
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{differential-forms:example-forms-r3}, $d\sigma = \operatorname{div}(x/r^3, y/r^3, z/r^3)\,dx \wedge dy \wedge dz$, and $\partial_x(x/r^3) = 1/r^3 - 3x^2/r^5$, so the divergence is
+$3/r^3 - 3r^2/r^5 = 0$. On the unit sphere $r = 1$ and $\sigma$ restricts to the area form (Example~\ref{differential-forms:example-integrals}(2)), so $\int_{S^2}\sigma = 4\pi$. An exact form would have
+integral $0$ over the closed surface $S^2$ (Theorem~\ref{differential-forms:theorem-stokes}). Finally $\RR^3 \setminus \{0\}$ is homotopy equivalent to $S^2$, so its $H^2$ is one-dimensional
+(Example~\ref{de-rham:example-spheres}), spanned by the nonzero class $[\sigma]$.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-explicit-primitive}
+Decide whether the $2$-form $\omega = z\,dx \wedge dy + x\,dy \wedge dz + y\,dz \wedge dx$ on $\RR^3$ is closed, and find a primitive of the closed form
+$\omega^{\prime} = dx \wedge dy + dy \wedge dz$ using Corollary~\ref{de-rham:corollary-explicit-poincare}.
+\end{exercise}
+
+\begin{solution}
+$d\omega = \partial_zz\,dz \wedge dx \wedge dy + \partial_xx\,dx \wedge dy \wedge dz + \partial_yy\,dy \wedge dz \wedge dx = 3\,dx \wedge dy \wedge dz \neq 0$, so $\omega$ is not closed and has no primitive.
+For $\omega^{\prime}$, which has constant coefficients and is closed, $\iota_X\omega^{\prime} = x\,dy - y\,dx + y\,dz - z\,dy$ and $\eta = \frac12(x\,dy - y\,dx + y\,dz - z\,dy)$; then
+$d\eta = \frac12(2\,dx \wedge dy + 2\,dy \wedge dz) = \omega^{\prime}$.
+\end{solution}

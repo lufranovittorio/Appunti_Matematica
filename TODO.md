@@ -16,6 +16,35 @@ references in proofs).
 
 ## Done
 
+- [x] **de Rham cohomology, slower** (`de-rham`): motivation by closed versus
+  exact forms, first computations ($\mathbb{R}$, $S^1$, punctured plane), the
+  homotopy operator derived line by line, the explicit Poincaré lemma
+  $\eta = \int_0^1 t^{k-1}\iota_X\omega(tx)\,dt$ with worked primitives,
+  Mayer–Vietoris with the connecting homomorphism made explicit, spheres by
+  induction in detail, the connecting map on the circle; exercises on
+  punctured planes, the solid angle form and explicit primitives.
+
+- [x] **Differential forms, slower** (`differential-forms`): why forms are the
+  right integrands (the sign of the Jacobian), worked wedge products and
+  pullbacks (helix, sphere, spherical coordinates), the interior product and
+  the Lie derivative with examples, Cartan's formula proved in five steps,
+  grad/curl/div computed, integration with a detailed proof of
+  well-definedness, integration through a parametrisation up to a null set,
+  integrals over $S^2$, manifolds with boundary (boundary well defined,
+  "outward vector first"), Stokes with a complete proof, checks of Stokes
+  (area, volume, annulus), new exercises (primitives, spherical volume,
+  Stokes on a hemisphere, Lie derivatives of rotations, Hamiltonian flows).
+
+- [x] **Vector bundles, rewritten slowly** (`vector-bundles`): unwound
+  definition, bijective morphisms are isomorphisms, cocycles with full proofs,
+  worked cocycles (tangent bundle = Jacobians, stereographic charts of $S^n$,
+  Möbius, $\mathcal{O}(-1)$), sections as twisted functions (no holomorphic
+  sections of $\mathcal{O}(-1)$), explicit cocycles of all operations,
+  subbundles, reduction to $O(r)$ and $U(r)$, rank-jump counterexample,
+  winding numbers and the elementary classification $\Pic^\infty(\mathbb{CP}^1)
+  \cong \mathbb{Z}$ by degree, $T\mathbb{CP}^1 \cong \mathcal{O}(2)$, new
+  computational and theoretical exercises.
+
 - [x] **Connections, rewritten slowly** (`connections`): bundle-valued forms
   and what they are concretely, the tensoriality lemma, the two languages
   ($\nabla \colon \Gamma(E) \to \Omega^1(M, E)$ and $\nabla_Xs$), projection
