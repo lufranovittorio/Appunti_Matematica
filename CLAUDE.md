@@ -64,6 +64,11 @@ Language: English.
   plasTeX treats its body as text and turns `''` into a curly quote. Write
   `\[\begin{aligned} ... \end{aligned}\]` instead, and inside it write primes
   as `^{\prime}` (plasTeX converts `'` there too).
+- **Numbered equations**: when a formula is referred to later, write
+  `\begin{equation}\label{<slug>:equation-<name>} ... \end{equation}` and refer
+  to it with `\eqref{...}`; equations are numbered within chapters, (5.1), and
+  the website previews them on hover. Never put `\label` or `\tag` inside
+  `\[ \]`: plasTeX attaches such a label to the wrong object.
 - **Diagrams**: use `tikz-cd`, *outside* math mode, wrapped in `center`:
   `\begin{center}\begin{tikzcd} ... \end{tikzcd}\end{center}`. plasTeX turns it
   into an SVG image. A `tikzcd` inside `\[ \]` is not rendered on the website.

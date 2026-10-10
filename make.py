@@ -495,7 +495,12 @@ def command_html(args, project=None):
     # during the PDF build.
     bbl = PDF_DIR / "book.bbl"
     if bbl.exists():
-        shutil.copy2(bbl, ROOT / "book.bbl")
+        # amsalpha writes a repeated author list as \bysame, a rule built with
+        # \hbox to3em{\hrulefill}, which plasTeX prints as "to3em"; use dashes.
+        text = bbl.read_text(encoding="utf-8")
+        text = text.replace(r"\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}",
+                            r"\providecommand{\bysame}{\textemdash\textemdash\textemdash}")
+        (ROOT / "book.bbl").write_text(text, encoding="utf-8")
     else:
         print("html: output/pdf/book.bbl is missing; run 'python make.py pdf' first "
               "or the bibliography will be empty")
@@ -555,6 +560,7 @@ HEADING_RE = re.compile(r'<h(\d) id="([^"]+)">(.*?)</h\1>', re.S)
 CITE_RE = re.compile(r'<span class="cite">.*?</span>', re.S)
 TOC_LINK_RE = re.compile(r'(<a [^>]*data-label="([^"]+)"[^>]*>.*?</a>)', re.S)
 ID_RE = re.compile(r'\bid="([^"]+)"')
+EQ_LABEL_RE = re.compile(r'(?<=\\begin\{equation\})\s*\\label\{[^}]*\}')
 
 
 def tag_badge(tag):
@@ -591,6 +597,10 @@ def postprocess_html(project):
                 return m.group(1)
             return m.group(1) + f'<span class="status-chip status-{chapter.status}">{chapter.status}</span>'
 
+        # MathJax does not need the \label inside a numbered equation (plasTeX
+        # numbers it), and a copy of the equation in a preview box would
+        # define the label twice.
+        text = EQ_LABEL_RE.sub("", text)
         text = THM_HEADING_RE.sub(thm, text)
         text = HEADING_RE.sub(heading, text)
         text = CITE_RE.sub(lambda m: re.sub(r"\s*([\[\],])\s*", r"\1 ", m.group(0))

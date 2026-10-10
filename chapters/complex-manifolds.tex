@@ -6,7 +6,8 @@
 A complex manifold is a manifold with holomorphic transition functions. The rigidity of holomorphic functions makes these spaces
 very different from smooth manifolds: compact complex manifolds have only constant holomorphic functions, and their geometry is
 recorded instead by the cohomology of holomorphic bundles and by the decomposition of differential forms into types, which is the
-subject of Hodge theory. This chapter sets up complex manifolds, the uniformisation of Riemann surfaces with its consequences (the hyperbolic metric, Picard's theorem),
+subject of Hodge theory. This chapter sets up complex manifolds, meromorphic forms on Riemann surfaces and the residue theorem on a compact Riemann surface (the sum of the residues of a
+meromorphic $1$-form is zero), the uniformisation of Riemann surfaces with its consequences (the hyperbolic metric, Picard's theorem),
 the operators $\partial$ and $\bar\partial$, analytic subvarieties and
 blow-ups. References: \cite[Chapter 0]{griffiths-harris}, \cite[Chapter 2]{huybrechts-complex},
 \cite[Chapter 3]{voisin-hodge-1}.
@@ -125,6 +126,125 @@ Let $f \colon X \to T = \CC^m/\Lambda$. The projection $\CC^m \to T$ is a coveri
 Proposition~\ref{complex-manifolds:proposition-no-functions} each component of $F$ is constant, so $f$ is constant. The projective line is covered by the two charts $U_0$, $U_1$, each homeomorphic to $\CC$, with
 path-connected intersection $\CC^\times$; by the Seifert--van Kampen theorem (Theorem~\ref{homotopy:theorem-van-kampen}) $\pi_1(\CC\PP^1)$ is a quotient of the free product of two trivial groups, hence trivial.
 \end{proof}
+
+\section{Meromorphic forms and the residue theorem}\label{complex-manifolds:section-residues}
+
+On a compact Riemann surface, Stokes' theorem turns the residue theorem of complex analysis into a global constraint: the residues of a meromorphic $1$-form add up to zero. This is
+the simplest case of the \emph{global residue theorem} \cite[Chapter 5]{griffiths-harris}, and it has quick consequences: a meromorphic function has as many zeros as poles, a complex torus
+carries no meromorphic function with a single simple pole, and the roots of a polynomial satisfy identities that are not obvious from the polynomial.
+
+\begin{definition}\label{complex-manifolds:definition-meromorphic-form}
+Let $X$ be a Riemann surface. A \emph{meromorphic $1$-form} $\omega$ on $X$ is given in every holomorphic chart $z$ by an expression $f(z)\,dz$ with $f$ meromorphic
+(Definition~\ref{complex-analysis:definition-singularity}), such that for two charts $z$ and $w$ the expressions $f(z)\,dz$ and $g(w)\,dw$ agree: $g(w) = f(z(w))\,z^{\prime}(w)$. It is
+\emph{holomorphic} if all the $f$ are. The \emph{order} $\operatorname{ord}_p\omega$ is $\operatorname{ord}_0f$ in a chart centred at $p$, and the \emph{residue} $\operatorname{Res}_p\omega$ is the
+residue at $0$ of $f$, that is, the coefficient of $z^{-1}$ in its Laurent expansion.
+\end{definition}
+
+Since $z^{\prime}(w)$ does not vanish, the order does not depend on the chart; the residue does not either, by the lemma below. For a meromorphic function $h$, $dh = h^{\prime}(z)\,dz$ is a
+meromorphic $1$-form, and so is $dh/h$ if $h \not\equiv 0$. On $\CC\PP^1$, with the charts $z$ and $w = 1/z$, the form $dz$ becomes $dz = -dw/w^2$: it has a pole of order $2$ at $\infty$ and residue $0$
+there, while $dz/z = -dw/w$ has residue $1$ at $0$ and $-1$ at $\infty$.
+
+Away from its poles, a meromorphic $1$-form is a smooth complex-valued $1$-form, $\omega = \alpha + i\beta$ with real $1$-forms $\alpha$ and $\beta$, and line integrals and integrals over manifolds
+of such forms are taken componentwise. It is \emph{closed}: in a chart, with $f$ holomorphic, the Cauchy--Riemann equations (Proposition~\ref{complex-analysis:proposition-cauchy-riemann}) give
+$\partial_xf = f^{\prime}$ and $\partial_yf = if^{\prime}$, so $df = f^{\prime}\,(dx + i\,dy) = f^{\prime}\,dz$ and $d(f\,dz) = df \wedge dz = f^{\prime}\,dz \wedge dz = 0$. Holomorphic charts preserve the orientation (the
+Jacobian determinant of a holomorphic map is $|f^{\prime}|^2 \geq 0$), so a Riemann surface is canonically oriented, and the boundary of a coordinate disc is traversed counterclockwise in the chart.
+
+\begin{lemma}\label{complex-manifolds:lemma-residue-integral}
+Let $\omega$ be a meromorphic $1$-form on a Riemann surface $X$ and $p \in X$. For every closed coordinate disc $D$ around $p$ (the preimage of a closed disc under a holomorphic chart) whose only
+possible pole is $p$,
+\[
+\operatorname{Res}_p\omega = \frac{1}{2\pi i}\int_{\partial D}\omega .
+\]
+In particular $\operatorname{Res}_p\omega$ does not depend on the chart.
+\end{lemma}
+
+\begin{proof}
+If $D = \{|z| \leq r\}$ in a chart $z$ centred at $p$ with $\omega = f\,dz$, the line integral of $\omega$ over $\partial D$ is the complex path integral $\int_{|z| = r}f(z)\,dz$, which is
+$2\pi i\operatorname{Res}_0f$ by the residue theorem (Theorem~\ref{complex-analysis:theorem-residues}). Now let $D^{\prime}$ be a closed coordinate disc around $p$ for another chart, with no pole other than
+$p$. For $r$ small the disc $D_r = \{|z| \leq r\}$ lies in the interior of $D^{\prime}$, and $D^{\prime}$ minus the interior of $D_r$ is a compact manifold with boundary $\partial D^{\prime} \cup \partial D_r$, the
+second circle with the opposite orientation. As $\omega$ is closed there, Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}) gives $\int_{\partial D^{\prime}}\omega = \int_{\partial D_r}\omega$.
+\end{proof}
+
+\begin{theorem}[Residue theorem on a compact Riemann surface]\label{complex-manifolds:theorem-global-residue}
+Let $X$ be a compact Riemann surface and $\omega$ a meromorphic $1$-form on $X$. Then $\omega$ has finitely many poles, and
+\[
+\sum_{p \in X}\operatorname{Res}_p\omega = 0 .
+\]
+\end{theorem}
+
+\begin{proof}
+In a chart the poles of a meromorphic function are isolated, so the poles of $\omega$ form a discrete closed subset of the compact $X$, hence a finite set $\{p_1, \ldots, p_k\}$. Choose pairwise
+disjoint closed coordinate discs $D_j$ around the $p_j$. Then $X^{\prime} = X \setminus \bigcup_j\mathrm{int}\,D_j$ is a compact manifold with boundary $\bigcup_j\partial D_j$, each circle with the
+orientation opposite to its orientation as the boundary of $D_j$, and $\omega$ is a closed form on $X^{\prime}$. By Stokes' theorem and Lemma~\ref{complex-manifolds:lemma-residue-integral},
+\[
+0 = \int_{X^{\prime}}d\omega = \int_{\partial X^{\prime}}\omega = -\sum_{j=1}^k\int_{\partial D_j}\omega = -2\pi i\sum_{j=1}^k\operatorname{Res}_{p_j}\omega,
+\]
+which is the claim.
+\end{proof}
+
+The proof is the same as that of the residue theorem in the plane, with one difference: on a compact surface there is no ``outside'', so the integral over the boundary of the complement of the
+discs is not the integral over a large circle but zero. For $X = \CC\PP^1$ the point $\infty$ plays the role of the outside: the theorem says that the sum of the residues of a rational form in $\CC$
+equals minus its residue at $\infty$.
+
+\begin{corollary}\label{complex-manifolds:corollary-zeros-poles}
+Let $f$ be a nonconstant meromorphic function on a compact connected Riemann surface $X$. Then $\sum_p\operatorname{ord}_pf = 0$: $f$ has as many zeros as poles, counted with multiplicity. Hence $f$
+takes every value $c \in \CC$ the same number of times, counted with multiplicity, namely the number of its poles.
+\end{corollary}
+
+\begin{proof}
+At a point $p$, in a chart centred at $p$, write $f = z^kg$ with $k = \operatorname{ord}_pf$ and $g$ holomorphic and nonvanishing near $0$. Then $df/f = k\,dz/z + dg/g$, and $dg/g$ is holomorphic near $0$,
+so $\operatorname{Res}_p(df/f) = \operatorname{ord}_pf$. Since $f$ is not identically zero (it is nonconstant on the connected $X$, so not zero on any open set by the identity theorem), $df/f$ is a meromorphic
+$1$-form, and Theorem~\ref{complex-manifolds:theorem-global-residue} gives $\sum_p\operatorname{ord}_pf = 0$. Apply this to $f - c$, which has the same poles as $f$.
+\end{proof}
+
+This is also Proposition~\ref{complex-manifolds:proposition-degree} applied to $f$ regarded as a holomorphic map to $\CC\PP^1$; the residue theorem gives it without the local analysis of that proof.
+
+\begin{corollary}\label{complex-manifolds:corollary-no-single-pole}
+Let $X$ be a compact Riemann surface with a holomorphic $1$-form $\eta$ that does not vanish at $p \in X$. Then no meromorphic function on $X$ is holomorphic on $X \setminus \{p\}$ with a simple pole at $p$.
+In particular a meromorphic function on a complex torus $\CC/\Lambda$ that is not constant has at least two poles, counted with multiplicity.
+\end{corollary}
+
+\begin{proof}
+Suppose $f$ were such a function. In a chart centred at $p$, $f = c/z + (\text{holomorphic})$ with $c \neq 0$ and $\eta = h(z)\,dz$ with $h(0) \neq 0$. Then $f\eta$ is holomorphic except at $p$, where
+$\operatorname{Res}_p(f\eta) = c\,h(0) \neq 0$, contradicting Theorem~\ref{complex-manifolds:theorem-global-residue}. On $\CC/\Lambda$ the form $dz$ is invariant under the translations by $\Lambda$, so it
+descends to a holomorphic $1$-form without zeros. A nonconstant meromorphic function has a pole, since otherwise it would be a holomorphic function on a compact connected manifold, hence constant
+(Proposition~\ref{complex-manifolds:proposition-no-functions}); and a single simple pole is excluded by the first part, applied at that pole.
+\end{proof}
+
+On $\CC\PP^1$ the function $z$ has a single simple pole, at $\infty$, so by the corollary $\CC\PP^1$ has no holomorphic $1$-form that is nonzero at $\infty$. In fact it has no nonzero holomorphic
+$1$-form at all: such a form is $f(z)\,dz$ with $f$ entire, and $f(z)\,dz = -f(1/w)w^{-2}\,dw$ is holomorphic at $w = 0$ only if $f(z) = O(|z|^{-2})$ as $z \to \infty$; then $f$ is bounded, hence
+constant by Liouville's theorem, hence $0$.
+
+\begin{corollary}[Euler--Jacobi formula in one variable]\label{complex-manifolds:corollary-euler-jacobi}
+Let $f \in \CC[z]$ have degree $d \geq 2$ and distinct roots $r_1, \ldots, r_d$, and let $g \in \CC[z]$ have degree at most $d - 2$. Then
+\[
+\sum_{i=1}^d\frac{g(r_i)}{f^{\prime}(r_i)} = 0 .
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{complex-manifolds:theorem-global-residue} to $\omega = g(z)\,dz/f(z)$ on $\CC\PP^1$. In $\CC$ its poles are the roots of $f$, which are simple since $f^{\prime}(r_i) \neq 0$, and there
+$\operatorname{Res}_{r_i}\omega = \lim_{z \to r_i}(z - r_i)g(z)/f(z) = g(r_i)/f^{\prime}(r_i)$. At $\infty$, with $w = 1/z$, write $g(1/w) = w^{-e}G(w)$ and $f(1/w) = w^{-d}F(w)$ with polynomials $F$, $G$,
+where $e = \deg g$ and $F(0) \neq 0$ is the leading coefficient of $f$. Then $\omega = -w^{d-e-2}\frac{G(w)}{F(w)}\,dw$, which is holomorphic at $w = 0$ because $d - e - 2 \geq 0$ (if $g = 0$ there is nothing to prove).
+So the residues at the roots add up to zero.
+\end{proof}
+
+For example, for $f = z^3 - 1$ the roots are the cube roots of unity $\zeta$, with $f^{\prime}(\zeta) = 3\zeta^2$, and the formula with $g = 1$ and $g = z$ says $\sum_\zeta\zeta^{-2} = 0$ and $\sum_\zeta\zeta^{-1} = 0$;
+for $g = z^2$, which has degree $d - 1$, the residue at $\infty$ is $-1$ and indeed $\sum_\zeta\frac{\zeta^2}{3\zeta^2} = 1$. For $f = z^2 - 1$ and $g = 1$: $\frac{1}{2} + \frac{1}{-2} = 0$.
+
+In higher dimension the residue of a meromorphic $n$-form is attached to a point where $n$ divisors meet: if near $P$ the divisors are $\{f_1 = 0\}, \ldots, \{f_n = 0\}$, meeting only at $P$, and
+$\omega = g\,dz_1 \wedge \cdots \wedge dz_n/(f_1 \cdots f_n)$ with $g$ holomorphic, the residue is
+$\operatorname{Res}_P\omega = \frac{1}{(2\pi i)^n}\int_\Gamma\omega$ over the real $n$-cycle $\Gamma = \{|f_1| = \cdots = |f_n| = \varepsilon\}$, suitably oriented.
+
+\begin{theorem}[Global residue theorem]\label{complex-manifolds:theorem-global-residue-higher}
+Let $M$ be a compact complex manifold of dimension $n$, $D_1, \ldots, D_n$ effective divisors whose intersection is a finite set of points, and $\omega$ a meromorphic $n$-form on $M$ whose poles are
+contained in $D_1 \cup \cdots \cup D_n$, of order at most one along each $D_i$ (that is, $\omega$ is a holomorphic section of $\Omega^n_M(D_1 + \cdots + D_n)$). Then
+$\sum_{P \in D_1 \cap \cdots \cap D_n}\operatorname{Res}_P\omega = 0$.
+\end{theorem}
+
+This is \cite[Chapter 5]{griffiths-harris}. For $n = 1$ and $D_1$ the polar divisor it is Theorem~\ref{complex-manifolds:theorem-global-residue} for forms with simple poles. As there, the proof rests on
+Stokes' theorem, now applied on the complement of tubes around the divisors, together with a local analysis of the residue. Griffiths and Harris use it to prove the Cayley--Bacharach theorem: if two plane
+cubic curves meet in nine distinct points, every cubic through eight of them passes through the ninth.
 
 \section{Uniformisation of Riemann surfaces}\label{complex-manifolds:section-uniformisation}
 
@@ -406,3 +526,36 @@ the polar decomposition $\CC^2 \setminus \{0\} \cong S^3 \times \RR_{>0}$, with 
 \begin{exercise}\label{complex-manifolds:exercise-almost-complex-s6}
 Show that $S^2$ and $S^6$ admit almost complex structures (for $S^6$ use the octonionic cross product), and that $S^2$'s is integrable.
 \end{exercise}
+
+\begin{exercise}\label{complex-manifolds:exercise-residue-infinity}
+Compute $\int_{|z| = 2}\frac{z^5}{z^6 - 1}\,dz$ and $\int_{|z| = 2}\frac{dz}{(z - 1)^3(z^2 + 9)}$ (the circle traversed once counterclockwise) by computing a single residue at $\infty$ on $\CC\PP^1$ instead of the residues
+inside the circle.
+\end{exercise}
+
+\begin{solution}
+By Theorem~\ref{complex-manifolds:theorem-global-residue} on $\CC\PP^1$, the integral over the circle, which is $2\pi i$ times the sum of the residues inside it, equals $-2\pi i$ times the sum of the residues
+outside it, including $\infty$. For $\omega = z^5\,dz/(z^6 - 1)$ all six poles lie inside. With $w = 1/z$, $\frac{z^5}{z^6 - 1} = \frac{w}{1 - w^6}$ and $dz = -dw/w^2$, so $\omega = -\frac{dw}{w(1 - w^6)}$ has residue $-1$
+at $\infty$, and the integral is $2\pi i$. (Directly: each pole $\zeta$ is simple with residue $\zeta^5/(6\zeta^5) = \frac16$.) For the second form the poles $\pm3i$ lie outside the circle and $1$ inside. At
+$\infty$ the form is $O(w^3)\,dw$, holomorphic, so the integral is $-2\pi i(\operatorname{Res}_{3i} + \operatorname{Res}_{-3i})$, with
+$\operatorname{Res}_{\pm3i} = \frac{1}{(\pm3i - 1)^3(\pm6i)}$. Now $(3i - 1)^3 = 26 - 18i$ and $(3i - 1)^3 \cdot 6i = 108 + 156i$, so $\operatorname{Res}_{3i} = \frac{1}{108 + 156i}$ and
+$\operatorname{Res}_{-3i} = \frac{1}{108 - 156i}$ is its conjugate. Their sum is $\frac{216}{108^2 + 156^2} = \frac{216}{36000} = \frac{3}{500}$, and the integral is $-\frac{3\pi i}{250}$. (Directly: the
+residue at the triple pole $1$ is $\frac12\frac{d^2}{dz^2}(z^2 + 9)^{-1}$ at $z = 1$, which is $\frac12\bigl(-\frac{2}{100} + \frac{8}{1000}\bigr) = -\frac{3}{500}$.)
+\end{solution}
+
+\begin{exercise}\label{complex-manifolds:exercise-abel-torus}
+Let $f$ be a nonconstant meromorphic function on $X = \CC/\Lambda$, $\Lambda = \ZZ\omega_1 + \ZZ\omega_2$, viewed as a $\Lambda$-periodic meromorphic function on $\CC$. Let $a_1, \ldots, a_k$ and $b_1, \ldots, b_k$ be
+its zeros and poles in a fundamental parallelogram $P$ with vertices $a$, $a + \omega_1$, $a + \omega_1 + \omega_2$, $a + \omega_2$, listed with multiplicity, with $a$ chosen so that no zero or pole lies on
+$\partial P$. Show that $\sum_ia_i - \sum_ib_i \in \Lambda$, by computing $\frac{1}{2\pi i}\int_{\partial P}z\frac{f^{\prime}(z)}{f(z)}\,dz$ in two ways. (This is one direction of Abel's theorem for complex tori.)
+\end{exercise}
+
+\begin{solution}
+At a zero or pole $c$ of order $m$ (negative for a pole), $f^{\prime}/f = m/(z - c) + (\text{holomorphic})$, so $zf^{\prime}/f$ has residue $mc$. The residue theorem in the plane
+(Theorem~\ref{complex-analysis:theorem-residues}) gives $\frac{1}{2\pi i}\int_{\partial P}zf^{\prime}/f\,dz = \sum_ia_i - \sum_ib_i$. On the other hand, pair opposite sides: the side from $a + \omega_2$ to
+$a + \omega_1 + \omega_2$ is traversed backwards, and on it $f^{\prime}/f$ takes the same values as on the side from $a$ to $a + \omega_1$, so the two sides contribute
+\[
+\int_a^{a+\omega_1}\bigl(z - (z + \omega_2)\bigr)\frac{f^{\prime}(z)}{f(z)}\,dz = -\omega_2\int_a^{a+\omega_1}\frac{f^{\prime}(z)}{f(z)}\,dz = -2\pi i\,n_1\omega_2,
+\]
+where $\frac{1}{2\pi i}\int_a^{a+\omega_1}f^{\prime}/f\,dz = n_1$ is the winding number around $0$ of the closed curve $t \mapsto f(a + t\omega_1)$, $t \in [0, 1]$ (closed because $f$ is periodic), an
+integer. In the same way the other two sides contribute $2\pi i\,n_2\omega_1$ with $n_2 \in \ZZ$. So $\sum_ia_i - \sum_ib_i = n_2\omega_1 - n_1\omega_2 \in \Lambda$. Applying the same computation to
+$f^{\prime}/f$ instead of $zf^{\prime}/f$ gives $k$ zeros and $k$ poles again, in accordance with Corollary~\ref{complex-manifolds:corollary-zeros-poles}.
+\end{solution}

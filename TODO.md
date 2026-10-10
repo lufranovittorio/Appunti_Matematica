@@ -16,6 +16,21 @@ references in proofs).
 
 ## Done
 
+- [x] **Previews and residues** (website, `complex-manifolds`,
+  `riemannian-geometry`, `real-analysis`): hovering over a reference to a
+  statement, a section, a numbered equation or a bibliography entry shows it
+  in a box (`site.js`); the tagged formulas $(*)$, $(**)$, $(\ddagger)$,
+  $(\dagger)$ became labelled equations with `\eqref`, so they are previewed
+  too; `\bysame` in the bibliography no longer prints "to3em". New section on
+  meromorphic $1$-forms: residue independent of the chart, residue theorem on a
+  compact Riemann surface, zeros = poles, no single simple pole on a torus, no
+  holomorphic forms on $\mathbb{P}^1$, one-variable Euler–Jacobi formula, the
+  higher-dimensional global residue theorem quoted from Griffiths–Harris;
+  exercises (residue at infinity, Abel's theorem for tori in one direction).
+  Exercise on the half-space, ball and hyperboloid models of hyperbolic space
+  (Cayley map, inversion, projection chart); classical form of the curvature in
+  orthogonal coordinates with the factor $\frac12$.
+
 - [x] **Moving frames and Chern's proof of Gauss–Bonnet–Chern**
   (`multilinear-algebra`, `characteristic-classes`, `riemannian-geometry`),
   from the two papers the user sent (Chern 1944, Cartan's moving frames). The

@@ -85,9 +85,9 @@ is torsion-free, and adding the formulas for $g(\nabla_XY, Z)$ and $g(Y, \nabla_
 \end{proof}
 
 In coordinates, torsion-freeness says $\Gamma^k_{ij} = \Gamma^k_{ji}$, and the metric property for coordinate fields says
-\[
-\partial_ig_{jk} = \Gamma^l_{ij}g_{lk} + \Gamma^l_{ik}g_{jl}. \tag{$*$}
-\]
+\begin{equation}\label{riemannian-geometry:equation-metric-christoffel}
+\partial_ig_{jk} = \Gamma^l_{ij}g_{lk} + \Gamma^l_{ik}g_{jl}.
+\end{equation}
 
 \begin{definition}\label{riemannian-geometry:definition-geodesic}
 A \emph{geodesic} is a curve with $\nabla_{\dot\gamma}\dot\gamma = 0$, where the velocity $\dot\gamma$ is differentiated along $\gamma$ as in
@@ -306,7 +306,7 @@ Moreover $\frac{d}{dt}\langle V, W\rangle = \langle D_tV, W\rangle + \langle V, 
 \begin{proof}
 In a chart, $V = V^k(\partial_k \circ \gamma)$, and the axioms force $D_tV = \dot V^k\partial_k + V^k\nabla_{\dot\gamma}\partial_k = (\dot V^k + \dot\gamma^iV^j\Gamma^k_{ij})\partial_k$, since $\nabla_{\dot\gamma}\partial_j = \dot\gamma^i\Gamma^k_{ij}\partial_k$. This
 proves uniqueness. Conversely, the formula satisfies the axioms in each chart (for $Y = Y^k\partial_k$, $\frac{d}{dt}Y^k(\gamma) = \dot\gamma^i\partial_iY^k$ matches the coordinate expression of $\nabla_{\dot\gamma}Y$), and by uniqueness the
-local definitions agree on overlaps. For the metric property, differentiate $\langle V, W\rangle = g_{jk}(\gamma)V^jW^k$: the derivative of $g_{jk}(\gamma)$ is $\dot\gamma^i\partial_ig_{jk}$, and by $(*)$ the result equals
+local definitions agree on overlaps. For the metric property, differentiate $\langle V, W\rangle = g_{jk}(\gamma)V^jW^k$: the derivative of $g_{jk}(\gamma)$ is $\dot\gamma^i\partial_ig_{jk}$, and by \eqref{riemannian-geometry:equation-metric-christoffel} the result equals
 $\langle D_tV, W\rangle + \langle V, D_tW\rangle$. The last statement is the local expression of $\nabla_{\dot\gamma}s = 0$ in the coordinate frame.
 \end{proof}
 
@@ -380,11 +380,11 @@ Let $\varepsilon > 0$ be such that $\exp_p$ is a diffeomorphism from $B(0, \vare
 \begin{proof}
 For $x \in U$ let $\rho(x) = |\exp_p^{-1}(x)|$, a continuous function, smooth on $U \setminus \{p\}$. Let $c \colon [a, b] \to U \setminus \{p\}$ be a piecewise smooth curve and write $c(t) = \exp_p(\rho(t)u(t))$ with $\rho(t) = \rho(c(t)) > 0$ and $|u(t)| = 1$.
 Then $\dot c = d\exp_p(\dot\rho u + \rho\dot u)$ at the point $\rho u$, with $\langle u, \dot u\rangle = 0$. By the Gauss lemma, $d\exp_p(u)$ has length $1$ and is orthogonal to $d\exp_p(\rho\dot u)$ (both at $\rho u$), so
-\[
-|\dot c|^2 = \dot\rho^2 + |d\exp_p(\rho\dot u)|^2 \geq \dot\rho^2, \qquad\text{hence}\qquad L(c) \geq \int_a^b|\dot\rho|\,dt \geq \rho(b) - \rho(a). \tag{$**$}
-\]
-Now let $c \colon [a, b] \to M$ go from $p$ to $q = \exp_p(v)$, $0 < |v| = r < \varepsilon$. Suppose first that $c$ stays in $U$. Let $a'$ be the last time with $c(a') = p$; applying $(**)$ on $[a'', b]$ for $a'' \downarrow a'$ gives $L(c) \geq r$. If
-$L(c) = r$, then $c$ is constant on $[a, a']$, and on $(a', b]$ equality holds in $(**)$: $\dot\rho \geq 0$ and $d\exp_p(\rho\dot u) = 0$, so $\dot u = 0$ ($d\exp_p$ being injective on $B(0, \varepsilon)$), $u$ is constant and $c$ is a monotone
+\begin{equation}\label{riemannian-geometry:equation-length-estimate}
+|\dot c|^2 = \dot\rho^2 + |d\exp_p(\rho\dot u)|^2 \geq \dot\rho^2, \qquad\text{hence}\qquad L(c) \geq \int_a^b|\dot\rho|\,dt \geq \rho(b) - \rho(a).
+\end{equation}
+Now let $c \colon [a, b] \to M$ go from $p$ to $q = \exp_p(v)$, $0 < |v| = r < \varepsilon$. Suppose first that $c$ stays in $U$. Let $a'$ be the last time with $c(a') = p$; applying \eqref{riemannian-geometry:equation-length-estimate} on $[a'', b]$ for $a'' \downarrow a'$ gives $L(c) \geq r$. If
+$L(c) = r$, then $c$ is constant on $[a, a']$, and on $(a', b]$ equality holds in \eqref{riemannian-geometry:equation-length-estimate}: $\dot\rho \geq 0$ and $d\exp_p(\rho\dot u) = 0$, so $\dot u = 0$ ($d\exp_p$ being injective on $B(0, \varepsilon)$), $u$ is constant and $c$ is a monotone
 reparametrisation of the radial geodesic. Conversely such reparametrisations have length $r$. If $c$ leaves $U$, choose $r < r' < \varepsilon$. The set $K = \exp_p(\bar B(0, r'))$ is compact, hence closed, and contains $p$; so $c$
 leaves $K$, and by continuity $\rho(c(t))$ takes the value $r'$ at some first time $t_2$ with $c([a, t_2]) \subseteq K$. The first case applied to $c|_{[a, t_2]}$ gives $L(c) \geq r' > r$. This proves (1).
 
@@ -755,7 +755,8 @@ Let $(e_1, e_2)$ be an orthonormal frame on an open subset of a Riemannian surfa
 \item $d\omega^1_2 = K\,\omega^1 \wedge \omega^2$, where $K$ is the Gaussian curvature.
 \item (Orthogonal coordinates) If $g = E\,du^2 + G\,dv^2$ with positive functions $E$, $G$, then
 \[
-K = -\frac{1}{\sqrt{EG}}\left[\frac{\partial}{\partial v}\left(\frac{(\sqrt E)_v}{\sqrt G}\right) + \frac{\partial}{\partial u}\left(\frac{(\sqrt G)_u}{\sqrt E}\right)\right].
+K = -\frac{1}{\sqrt{EG}}\left[\frac{\partial}{\partial v}\left(\frac{(\sqrt E)_v}{\sqrt G}\right) + \frac{\partial}{\partial u}\left(\frac{(\sqrt G)_u}{\sqrt E}\right)\right]
+= -\frac{1}{2\sqrt{EG}}\left[\frac{\partial}{\partial v}\left(\frac{E_v}{\sqrt{EG}}\right) + \frac{\partial}{\partial u}\left(\frac{G_u}{\sqrt{EG}}\right)\right].
 \]
 \item (Geodesic polar coordinates) If $g = dr^2 + f(r)^2d\varphi^2$ with $f > 0$, then $K = -f^{\prime\prime}/f$.
 \end{enumerate}
@@ -772,7 +773,9 @@ $d\omega^1 = (\sqrt E)_v\,dv \wedge du = -\frac{(\sqrt E)_v}{\sqrt{EG}}\,\omega^
 \omega^1_2 = \frac{(\sqrt E)_v}{\sqrt{EG}}\,\omega^1 - \frac{(\sqrt G)_u}{\sqrt{EG}}\,\omega^2 = \frac{(\sqrt E)_v}{\sqrt G}\,du - \frac{(\sqrt G)_u}{\sqrt E}\,dv,
 \]
 and
-$d\omega^1_2 = -\bigl[\bigl(\frac{(\sqrt E)_v}{\sqrt G}\bigr)_v + \bigl(\frac{(\sqrt G)_u}{\sqrt E}\bigr)_u\bigr]\,du \wedge dv$, while $K\,\omega^1 \wedge \omega^2 = K\sqrt{EG}\,du \wedge dv$; compare with (2).
+$d\omega^1_2 = -\bigl[\bigl(\frac{(\sqrt E)_v}{\sqrt G}\bigr)_v + \bigl(\frac{(\sqrt G)_u}{\sqrt E}\bigr)_u\bigr]\,du \wedge dv$, while $K\,\omega^1 \wedge \omega^2 = K\sqrt{EG}\,du \wedge dv$; compare with (2). The second
+expression for $K$, the classical one \cite[Chapter 4]{do-carmo-curves-surfaces}, follows from $(\sqrt E)_v = E_v/(2\sqrt E)$, which gives $(\sqrt E)_v/\sqrt G = E_v/(2\sqrt{EG})$, and likewise
+$(\sqrt G)_u/\sqrt E = G_u/(2\sqrt{EG})$: the factor $\frac12$ appears when the derivatives are taken of $E$ and $G$ rather than of their square roots.
 (4) is (3) with $(u, v) = (r, \varphi)$, $E = 1$ and $G = f^2$: $K = -\frac1f(f^{\prime})^{\prime}$.
 \end{proof}
 
@@ -985,9 +988,9 @@ I(V, W) = \int_a^b\bigl(\langle D_tV, D_tW\rangle - R(V, \dot\gamma, \dot\gamma,
 It is symmetric because $R(V, \dot\gamma, \dot\gamma, W) = R(\dot\gamma, W, V, \dot\gamma) = R(W, \dot\gamma, \dot\gamma, V)$ by
 Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries}. If $V$ is smooth on the pieces $[t_{i-1}, t_i]$, integrating
 $\frac{d}{dt}\langle D_tV, W\rangle = \langle D_t^2V, W\rangle + \langle D_tV, D_tW\rangle$ over each piece gives
-\[
-I(V, W) = \langle D_tV, W\rangle\Big|_a^b - \sum_{i=1}^{k-1}\langle\Delta_iD_tV, W(t_i)\rangle - \int_a^b\langle D_t^2V + R(V, \dot\gamma)\dot\gamma, W\rangle\,dt, \tag{$\ddagger$}
-\]
+\begin{equation}\label{riemannian-geometry:equation-index-form-parts}
+I(V, W) = \langle D_tV, W\rangle\Big|_a^b - \sum_{i=1}^{k-1}\langle\Delta_iD_tV, W(t_i)\rangle - \int_a^b\langle D_t^2V + R(V, \dot\gamma)\dot\gamma, W\rangle\,dt,
+\end{equation}
 with $\Delta_iD_tV = D_tV(t_i^+) - D_tV(t_i^-)$. In particular $I(J, W) = 0$ for a Jacobi field $J$ and every $W$ vanishing at $a$ and $b$.
 
 \begin{proposition}[Second variation formula]\label{riemannian-geometry:proposition-second-variation}
@@ -1024,7 +1027,7 @@ smooth curves from $\gamma(0)$ to $\gamma(L)$, arbitrarily close to $\gamma$, th
 
 \begin{proof}
 Let $J$ be a nonzero Jacobi field on $[0, t_0]$ with $J(0) = J(t_0) = 0$. Then $D_tJ(t_0) \neq 0$, as a Jacobi field is determined by its value and derivative at one
-point. Let $V = J$ on $[0, t_0]$ and $V = 0$ on $[t_0, L]$, a piecewise smooth field vanishing at $0$ and $L$. In $(\ddagger)$ for $V$ and a piecewise smooth $U$ vanishing at $0$
+point. Let $V = J$ on $[0, t_0]$ and $V = 0$ on $[t_0, L]$, a piecewise smooth field vanishing at $0$ and $L$. In \eqref{riemannian-geometry:equation-index-form-parts} for $V$ and a piecewise smooth $U$ vanishing at $0$
 and $L$, the integral vanishes, because $J$ satisfies the Jacobi equation on $[0, t_0]$ and $V = 0$ on $[t_0, L]$, and the only remaining term comes from the jump
 $\Delta D_tV = -D_tJ(t_0)$ at $t_0$; so $I(V, U) = \langle D_tJ(t_0), U(t_0)\rangle$. In particular $I(V, V) = \langle D_tJ(t_0), J(t_0)\rangle = 0$. Let $P$ be the parallel field
 along $\gamma$ with $P(t_0) = -D_tJ(t_0)$, and $W = \sin(\pi t/L)P/\sin(\pi t_0/L)$, which vanishes at $0$ and $L$ and equals $-D_tJ(t_0)$ at $t_0$. Then
@@ -2148,9 +2151,9 @@ compact surface of constant curvature $-1$ has only finitely many isometries.
 We now turn to spaces of constant curvature. Recall that $s_\kappa(t)$ is $t$, $\sin(\sqrt\kappa t)/\sqrt\kappa$ or $\sinh(\sqrt{-\kappa}t)/\sqrt{-\kappa}$ for
 $\kappa = 0$, $\kappa > 0$ or $\kappa < 0$, and that the proof of Theorem~\ref{riemannian-geometry:theorem-minding} shows: if $M$ has constant sectional curvature $\kappa$,
 $v \neq 0$ lies in the domain of $\exp_p$ and $w = w_\parallel + w_\perp$ is the decomposition of $w \in T_pM$ into a multiple of $v$ and a vector orthogonal to $v$, then
-\[
-|d_v\exp_p(w)|^2 = |w_\parallel|^2 + \Bigl(\frac{s_\kappa(|v|)}{|v|}\Bigr)^2|w_\perp|^2. \tag{$\dagger$}
-\]
+\begin{equation}\label{riemannian-geometry:equation-exp-constant-curvature}
+|d_v\exp_p(w)|^2 = |w_\parallel|^2 + \Bigl(\frac{s_\kappa(|v|)}{|v|}\Bigr)^2|w_\perp|^2.
+\end{equation}
 Multiplying a metric by a constant $c > 0$ does not change the Levi-Civita connection (the Koszul formula is homogeneous) or $R(X, Y)Z$, and it multiplies the
 sectional curvatures by $1/c$, since an orthonormal basis for $cg$ is $(u, v)/\sqrt c$ for an orthonormal basis $(u, v)$ for $g$.
 
@@ -2182,7 +2185,7 @@ Uniqueness is Lemma~\ref{riemannian-geometry:lemma-local-isometries}(2). By Theo
 the whole tangent spaces. The key observation is the following. Let $U \subseteq T_pM$ be an open set on which $\exp_p$ is a local diffeomorphism, and
 $F = \exp_q \circ I \circ \psi$ for a smooth local inverse $\psi$ of $\exp_p|_U$. For $x = \exp_p(v)$, $v \in U$, and $w \in T_pM$ the chain rule gives
 $d_xF(d_v\exp_p(w)) = d_{Iv}\exp_q(Iw)$. The linear isometry $I$ preserves lengths and maps $w_\parallel$ and $w_\perp$ to the components of $Iw$ along and orthogonal to
-$Iv$, so by $(\dagger)$ on $M$ and on $N$ the vectors $d_v\exp_p(w)$ and $d_{Iv}\exp_q(Iw)$ have the same length (for $v = 0$ both differentials are the identity). As
+$Iv$, so by \eqref{riemannian-geometry:equation-exp-constant-curvature} on $M$ and on $N$ the vectors $d_v\exp_p(w)$ and $d_{Iv}\exp_q(Iw)$ have the same length (for $v = 0$ both differentials are the identity). As
 $d_v\exp_p$ is onto $T_xM$, $d_xF$ preserves lengths, hence inner products: $F$ is a local isometry.
 
 \emph{The case $\kappa \leq 0$.} By Theorem~\ref{riemannian-geometry:theorem-cartan-hadamard}, $\exp_p$ and $\exp_q$ are diffeomorphisms, so
@@ -2197,7 +2200,7 @@ For a unit vector $u \perp o$, the great circle $c(t) = \cos t\,o + \sin t\,u$ h
 $D_tc^{\prime} = (c^{\prime\prime})^\top = 0$ (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}): $c$ is the geodesic with initial velocity $u$. Hence
 $\exp_o(v) = \cos|v|\,o + \sin|v|\,v/|v|$ for $v \neq 0$. It maps $B = B(0, \pi)$ bijectively onto $S \setminus \{-o\}$:
 every $y \neq -o$ is uniquely $\cos\theta\,o + \sin\theta\,u$ with $\theta = \arccos\langle y, o\rangle \in [0, \pi)$ and, if $\theta > 0$, a unit vector $u \perp o$.
-By $(\dagger)$, with $s_1(\ell) = \sin\ell > 0$ for $0 < \ell < \pi$, $d_v\exp_o$ is injective for $v \in B$; so $\exp_o \colon B \to S \setminus \{-o\}$ is a bijective local
+By \eqref{riemannian-geometry:equation-exp-constant-curvature}, with $s_1(\ell) = \sin\ell > 0$ for $0 < \ell < \pi$, $d_v\exp_o$ is injective for $v \in B$; so $\exp_o \colon B \to S \setminus \{-o\}$ is a bijective local
 diffeomorphism, hence a diffeomorphism. By the observation (with the roles of $M$ and $N$ played by $S$ and $M$),
 $G_1 = \exp_p \circ J \circ (\exp_o|_B)^{-1} \colon S \setminus \{-o\} \to M$ is a local isometry with $G_1(o) = p$ and $d_oG_1 = J$. Choose $o^{\prime} \in S$ with
 $o^{\prime} \neq \pm o$, and let $G_2 = \exp_{p^{\prime}} \circ J^{\prime} \circ (\exp_{o^{\prime}}|_B)^{-1} \colon S \setminus \{-o^{\prime}\} \to M$ with
@@ -2499,4 +2502,58 @@ second, pulled back. The connection forms of the factors, placed in two diagonal
 the product. The curvature is block diagonal, $\Omega^1_2 = \omega^1 \wedge \omega^2$, $\Omega^3_4 = \omega^3 \wedge \omega^4$ and $\Omega^1_3 = \Omega^1_4 = \Omega^2_3 = \Omega^2_4 = 0$, so
 $\mathrm{Pf}(\Omega) = \Omega^1_2 \wedge \Omega^3_4 = dA_1 \wedge dA_2$, with integral $(4\pi)^2$, and $16\pi^2/(4\pi^2) = 4 = \chi(S^2)^2$. (The plane spanned by $e_1$ and $e_3$ has curvature $0$, the
 one spanned by $e_1$ and $e_2$ curvature $1$.)
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-hyperbolic-models}
+This exercise relates three descriptions of hyperbolic space, each with its natural chart: the upper half-space $H^n = \{x \in \RR^n : x_n > 0\}$ with the metric
+$|dx|^2/x_n^2$, where $|dx|^2 = dx_1^2 + \cdots + dx_n^2$ and the chart is the inclusion $H^n \subseteq \RR^n$; the ball $B^n = \{|y| < 1\}$ with the metric $4|dy|^2/(1 - |y|^2)^2$, where the chart
+is the identity of $B^n$; and the hyperboloid $L = \{x \in \RR^{n+1} : x_1^2 + \cdots + x_n^2 - x_{n+1}^2 = -1,\ x_{n+1} > 0\}$, where the chart is the projection
+$p(x) = (x_1, \ldots, x_n)$.
+\begin{enumerate}
+\item ($n = 2$, starting from the half-plane.) Show that the Cayley map $C(z) = i\frac{1 + z}{1 - z}$ is a diffeomorphism from the unit disc onto the upper half-plane, with inverse
+$w \mapsto \frac{w - i}{w + i}$, and compute $C^*\bigl(|dw|^2/(\operatorname{Im}w)^2\bigr)$, finding the metric $4|dz|^2/(1 - |z|^2)^2$ of the disc. So the disc model is the half-plane model
+transported by $C$.
+\item (Any $n$.) Let $\sigma(x) = -e_n + 2(x + e_n)/|x + e_n|^2$, the inversion in the sphere of radius $\sqrt2$ centred at $-e_n$. Show that $\sigma$ maps $H^n$ diffeomorphically onto $B^n$ and
+that $\sigma^*\bigl(4|dy|^2/(1 - |y|^2)^2\bigr) = |dx|^2/x_n^2$.
+\item Show that $p$ maps $L$ diffeomorphically onto $\RR^n$, that the restriction to $L$ of the Lorentz form $dx_1^2 + \cdots + dx_n^2 - dx_{n+1}^2$ is positive definite, and that in the chart $p$, with
+coordinates $u = p(x)$, it is $|du|^2 - (u \cdot du)^2/(1 + |u|^2)$, where $u \cdot du = \sum_iu_i\,du_i$.
+\item Show that the map $y \mapsto x = \bigl(2y, 1 + |y|^2\bigr)/(1 - |y|^2)$ is a diffeomorphism from $B^n$ onto $L$, inverse to $x \mapsto (x_1, \ldots, x_n)/(1 + x_{n+1})$ (the projection from
+the point $(0, \ldots, 0, -1)$), which pulls the Lorentz metric of $L$ back to $4|dy|^2/(1 - |y|^2)^2$. Conclude that the three models are isometric, and that all have constant curvature $-1$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $C$ is holomorphic on $\{z \neq 1\}$ with $C^{\prime}(z) = 2i/(1 - z)^2$. Writing $\frac{1 + z}{1 - z} = \frac{(1 + z)(1 - \bar z)}{|1 - z|^2}$ and $(1 + z)(1 - \bar z) = 1 - |z|^2 + (z - \bar z)$, we get
+$\operatorname{Im}C(z) = \operatorname{Re}\frac{1 + z}{1 - z} = \frac{1 - |z|^2}{|1 - z|^2}$, which is positive exactly for $|z| < 1$. Solving $w = i(1 + z)/(1 - z)$ for $z$ gives $z = (w - i)/(w + i)$, defined
+on the half-plane, and $|(w - i)/(w + i)| < 1$ there since $w$ is closer to $i$ than to $-i$; so $C$ is a bijection onto the half-plane with holomorphic, hence smooth, inverse. The differential of
+a holomorphic map is multiplication by the complex derivative, which by the Cauchy--Riemann equations (Proposition~\ref{complex-analysis:proposition-cauchy-riemann}) multiplies lengths by its modulus;
+so $C^*|dw|^2 = |C^{\prime}(z)|^2|dz|^2 = 4|dz|^2/|1 - z|^4$, and
+\[
+C^*\frac{|dw|^2}{(\operatorname{Im}w)^2} = \frac{4|dz|^2}{|1 - z|^4} \cdot \frac{|1 - z|^4}{(1 - |z|^2)^2} = \frac{4|dz|^2}{(1 - |z|^2)^2} .
+\]
+
+(2) Write $v = x + e_n$. The inversion $J(x) = c + r^2(x - c)/|x - c|^2$, here with $c = -e_n$ and $r^2 = 2$, is an involution of $\RR^n \setminus \{c\}$, and its differential is
+$dJ = \frac{r^2}{|v|^2}\bigl(I - 2\frac{vv^T}{|v|^2}\bigr)$, a reflection times $r^2/|v|^2$ (compare Example~\ref{vector-bundles:example-cocycles}); so $J^*|dy|^2 = r^4|dx|^2/|v|^4 = 4|dx|^2/|x + e_n|^4$.
+Moreover
+\[
+|\sigma(x)|^2 = 1 - \frac{4\langle v, e_n\rangle}{|v|^2} + \frac{4}{|v|^2} = 1 - \frac{4x_n}{|x + e_n|^2}, \qquad\text{so}\qquad 1 - |\sigma(x)|^2 = \frac{4x_n}{|x + e_n|^2} .
+\]
+Hence $\sigma$ maps $H^n$ into $B^n$, and, being an involution of $\RR^n \setminus \{-e_n\}$ mapping $\{x_n > 0\}$ into $\{|y| < 1\}$ and (by the same formula read backwards) $\{|y| < 1\}$ into
+$\{x_n > 0\}$, it is a diffeomorphism $H^n \to B^n$. Finally
+$\sigma^*\bigl(4|dy|^2/(1 - |y|^2)^2\bigr) = 4 \cdot \frac{4|dx|^2}{|x + e_n|^4} \cdot \frac{|x + e_n|^4}{16x_n^2} = \frac{|dx|^2}{x_n^2}$.
+
+(3) The inverse of $p|_L$ is $u \mapsto (u, (1 + |u|^2)^{1/2})$, smooth on $\RR^n$, so $p$ is a diffeomorphism and $p$ is a chart of the submanifold $L$. On $L$, $x_{n+1} = (1 + |u|^2)^{1/2}$ and
+$dx_{n+1} = (u \cdot du)/(1 + |u|^2)^{1/2}$, so the Lorentz form restricts to $|du|^2 - (u \cdot du)^2/(1 + |u|^2)$. By the Cauchy--Schwarz inequality, $(u \cdot \xi)^2 \leq |u|^2|\xi|^2 < (1 + |u|^2)|\xi|^2$ for
+$\xi \neq 0$, so this is positive definite.
+
+(4) Let $t = 1 - |y|^2$, so $x^{\prime} = (x_1, \ldots, x_n) = 2y/t$ and $x_{n+1} = (1 + |y|^2)/t = 2/t - 1$. Then $|x^{\prime}|^2 - x_{n+1}^2 = (4|y|^2 - (1 + |y|^2)^2)/t^2 = -1$ and $x_{n+1} > 0$, so the point is on $L$;
+and $x^{\prime}/(1 + x_{n+1}) = (2y/t)/(2/t) = y$, which shows that the two maps are inverse to each other (the second one maps $L$ into $B^n$, as $|x^{\prime}|^2 = x_{n+1}^2 - 1 < (1 + x_{n+1})^2$). With
+$dt = -2\,y \cdot dy$,
+\[
+\begin{aligned}
+|dx^{\prime}|^2 - dx_{n+1}^2 &= \Bigl|\frac{2\,dy}{t} - \frac{2y\,dt}{t^2}\Bigr|^2 - \frac{4\,dt^2}{t^4} = \frac{4|dy|^2}{t^2} - \frac{8(y \cdot dy)\,dt}{t^3} + \frac{4(|y|^2 - 1)\,dt^2}{t^4}\\
+&= \frac{4|dy|^2}{t^2} + \frac{16(y \cdot dy)^2}{t^3} - \frac{16(y \cdot dy)^2}{t^3} = \frac{4|dy|^2}{(1 - |y|^2)^2} .
+\end{aligned}
+\]
+So the ball, the half-space and the hyperboloid are isometric (by (2) and (4)), and they have constant curvature $-1$ by Corollary~\ref{riemannian-geometry:corollary-hyperbolic-curvature}.
 \end{solution}
