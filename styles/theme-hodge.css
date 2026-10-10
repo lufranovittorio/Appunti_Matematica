@@ -355,6 +355,8 @@ a.tag:hover { color: var(--accent); border-color: var(--accent); text-decoration
 .main-text .equation_content { flex: 1; min-width: 0; }
 .main-text .equation_label::before { content: "("; }
 .main-text .equation_label::after { content: ")"; }
+.main-text a.eqref::before { content: "("; }
+.main-text a.eqref::after { content: ")"; }
 
 .main-text .centered { text-align: center; margin: 1rem 0; }
 .main-text .tikzcd { display: inline-block; margin: 0.5rem 0; }
@@ -548,3 +550,28 @@ a.tag:hover { color: var(--accent); border-color: var(--accent); text-decoration
 }
 .search-more[hidden] { display: none; }
 .search-page .site-header { justify-content: flex-start; }
+
+/* ---------------------------------------------------------------- reference previews */
+
+.preview-box {
+  position: absolute;
+  z-index: 40;
+  width: min(36rem, calc(100vw - 1rem));
+  max-height: min(26rem, 60vh);
+  overflow: auto;
+  padding: 0.8rem 1rem;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.preview-box[hidden] { display: none; }
+.preview-box > div > :first-child { margin-top: 0; }
+.preview-box > div > :last-child { margin-bottom: 0; }
+.preview-box div[class*="_thmwrapper"] { margin: 0; }
+.preview-box h1, .preview-box h2, .preview-box h3, .preview-box h4 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.preview-box .displaymath, .preview-box .equation { margin: 0.3rem 0; }
+.preview-box dl.bibliography { margin: 0; }

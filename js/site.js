@@ -58,6 +58,170 @@
     });
   });
 
+  // Previews of references. Resting the pointer on a link to a numbered
+  // statement, an equation, a section or a bibliography entry shows the
+  // target in a box, fetched from its page (every page lives at the root of
+  // the site) and typeset by MathJax. Only on devices with a real pointer;
+  // links inside a preview are not previewed again.
+  var article = document.querySelector(".main-text");
+  var canHover = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (article && canHover && window.DOMParser) {
+    var pages = {};
+    var box = null;
+    var activeLink = null;
+    var showTimer = null;
+    var hideTimer = null;
+
+    var targetOf = function (link) {
+      if (link.classList.contains("tag")) return null;
+      var href = link.getAttribute("href");
+      if (!href || href.indexOf("#") < 0) return null;
+      var url;
+      try { url = new URL(href, window.location.href); } catch (e) { return null; }
+      if (url.origin !== window.location.origin || !/\.html$/.test(url.pathname) || url.hash.length < 2) return null;
+      return { page: url.pathname, id: decodeURIComponent(url.hash.slice(1)) };
+    };
+
+    var loadPage = function (path) {
+      if (!pages[path]) {
+        pages[path] = fetch(path).then(function (response) {
+          if (!response.ok) throw new Error(response.status);
+          return response.text();
+        }).then(function (text) {
+          return new DOMParser().parseFromString(text, "text/html");
+        });
+        pages[path].catch(function () { delete pages[path]; });
+      }
+      return pages[path];
+    };
+
+    // The piece of the target page to show: the whole statement, the
+    // equation, a heading with its first paragraphs, or a bibliography entry.
+    var extract = function (doc, id) {
+      var el = doc.getElementById(id);
+      if (!el) {
+        var named = doc.getElementsByName(id);
+        el = named.length ? named[0] : null;
+      }
+      if (!el) return null;
+      var out = document.createElement("div");
+      var wrapper = el.closest("div[class*='_thmwrapper'], div.equation, div.displaymath");
+      if (wrapper) {
+        out.appendChild(wrapper.cloneNode(true));
+      } else if (/^H[1-6]$/.test(el.tagName)) {
+        out.appendChild(el.cloneNode(true));
+        var paragraphs = 0;
+        for (var next = el.nextElementSibling; next && paragraphs < 2; next = next.nextElementSibling) {
+          if (/^H[1-6]$/.test(next.tagName) || /_thmwrapper|proof_wrapper/.test(next.className)) break;
+          out.appendChild(next.cloneNode(true));
+          if (next.tagName === "P") paragraphs++;
+        }
+      } else if (el.parentNode && el.parentNode.tagName === "DT") {
+        var list = document.createElement("dl");
+        list.className = "bibliography";
+        list.appendChild(el.parentNode.cloneNode(true));
+        if (el.parentNode.nextElementSibling) list.appendChild(el.parentNode.nextElementSibling.cloneNode(true));
+        out.appendChild(list);
+      } else {
+        out.appendChild(el.cloneNode(true));
+      }
+      Array.prototype.forEach.call(out.querySelectorAll("[id], [name]"), function (node) {
+        node.removeAttribute("id");
+        node.removeAttribute("name");
+      });
+      return out;
+    };
+
+    var place = function (link) {
+      var rect = link.getBoundingClientRect();
+      var width = box.offsetWidth;
+      var height = box.offsetHeight;
+      var left = Math.min(Math.max(8, rect.left), window.innerWidth - width - 8);
+      var below = window.innerHeight - rect.bottom;
+      var top = (below >= height + 12 || below >= rect.top) ? rect.bottom + 6 : rect.top - height - 6;
+      box.style.left = (left + window.pageXOffset) + "px";
+      box.style.top = (top + window.pageYOffset) + "px";
+    };
+
+    var hide = function () {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+      activeLink = null;
+      if (box) box.hidden = true;
+    };
+
+    var scheduleHide = function () {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hide, 250);
+    };
+
+    var show = function (link) {
+      var target = targetOf(link);
+      if (!target) return;
+      activeLink = link;
+      loadPage(target.page).then(function (doc) {
+        if (activeLink !== link) return;
+        var content = extract(doc, target.id);
+        if (!content) return;
+        if (!box) {
+          box = document.createElement("div");
+          box.className = "preview-box main-text";
+          box.setAttribute("role", "tooltip");
+          box.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
+          box.addEventListener("mouseleave", scheduleHide);
+          document.body.appendChild(box);
+        }
+        box.innerHTML = "";
+        box.appendChild(content);
+        box.style.visibility = "hidden";
+        box.hidden = false;
+        place(link);
+        var reveal = function () {
+          if (activeLink !== link) return;
+          place(link);
+          box.style.visibility = "";
+        };
+        if (window.MathJax && MathJax.Hub) {
+          MathJax.Hub.Queue(["Typeset", MathJax.Hub, box], reveal);
+        } else {
+          reveal();
+        }
+      }, function () {});
+    };
+
+    var linkFrom = function (node) {
+      var link = node && node.closest ? node.closest("a[href]") : null;
+      return link && article.contains(link) && targetOf(link) ? link : null;
+    };
+
+    article.addEventListener("mouseover", function (event) {
+      var link = linkFrom(event.target);
+      if (!link) return;
+      clearTimeout(hideTimer);
+      if (link === activeLink) return;
+      clearTimeout(showTimer);
+      showTimer = setTimeout(function () { show(link); }, 300);
+    });
+    article.addEventListener("mouseout", function (event) {
+      var link = linkFrom(event.target);
+      if (!link || (event.relatedTarget && link.contains(event.relatedTarget))) return;
+      clearTimeout(showTimer);
+      if (link === activeLink) scheduleHide();
+    });
+    article.addEventListener("focusin", function (event) {
+      var link = linkFrom(event.target);
+      if (link) {
+        clearTimeout(showTimer);
+        showTimer = setTimeout(function () { show(link); }, 300);
+      }
+    });
+    article.addEventListener("focusout", function () { scheduleHide(); });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") hide();
+    });
+    window.addEventListener("resize", hide);
+  }
+
   // Search box. A four-character tag (tags start with a digit) goes straight
   // to its item; anything else is looked up on search.html, which the form
   // also reaches without JavaScript. Every page lives at the root of the site.
