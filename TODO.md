@@ -16,6 +16,26 @@ references in proofs).
 
 ## Done
 
+- [x] **Moving frames and Chern's proof of Gauss–Bonnet–Chern**
+  (`multilinear-algebra`, `characteristic-classes`, `riemannian-geometry`),
+  from the two papers the user sent (Chern 1944, Cartan's moving frames). The
+  Pfaffian is now defined (via $\alpha_A^m = m!\,\mathrm{Pf}(A)\,\mathrm{vol}$) with
+  $\mathrm{Pf}(g^TAg) = \det g\,\mathrm{Pf}(A)$ and $\mathrm{Pf}^2 = \det$; the sign of
+  the old $2 \times 2$ example was wrong for our curvature conventions and has
+  been fixed. New section on the Euler form: normal frames, closedness and
+  independence of the connection, index of an isolated zero, Chern's forms
+  $\Phi_k$, $\Psi_k$ on the sphere bundle with the transgression formula
+  (checked numerically for $n = 4$), global angular form, Chern's theorem
+  $\int e(\nabla) = \sum \mathrm{ind}$, Gauss–Bonnet–Chern, surface case,
+  exercises. Riemannian chapter: section on moving frames (Cartan's lemma,
+  structure equations with uniqueness, surfaces in orthogonal and polar
+  coordinates, torus of revolution, conformally flat metrics in every
+  dimension, hyperbolic half-space and ball and stereographic sphere, hypersurfaces
+  and the Gauss equation, Gauss–Bonnet–Chern for constant curvature and the
+  volume of $S^{2m}$); hyperbolic space now proved complete of curvature $-1$
+  (no longer quoted from do Carmo); Poincaré–Hopf for surfaces; exercises
+  (Heisenberg metric, warped products, $f(x_n)^2\delta$ metrics, dimension 4).
+
 - [x] **Characteristic classes, Chern–Weil part slower**
   (`characteristic-classes`): motivation, examples of invariant polynomials
   (traces, elementary symmetric functions, Pfaffian), the lemma turning

@@ -9,7 +9,8 @@ and, together with an orientation, defines the Hodge star, the codifferential an
 (Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the Riemannian measure and the volume form, which make surface integrals and the divergence theorem instances of integration on
 manifolds; the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
-theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; the first and second variation of energy, with Jacobi's theorem that
+theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; Cartan's method of moving frames, with which we compute the curvature of hyperbolic
+space, of conformally flat metrics and of hypersurfaces, and the Gauss--Bonnet--Chern theorem in Riemannian form; the first and second variation of energy, with Jacobi's theorem that
 geodesics stop minimising after a conjugate point, a complete proof of the Bonnet--Myers theorem, the theorems of Weinstein and Synge on manifolds of positive curvature, and the splitting theorem; the geometry of submanifolds, with the
 first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi; the classical global theorems on surfaces: Gauss--Bonnet for
 regions with boundary, the curvature of conformal metrics, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
@@ -22,7 +23,7 @@ and Hopf classifying the spaces of constant curvature, and the statements of Che
 \noindent\textbf{On a first reading.} The chapters on Hodge theory use only the metric, the volume form, normal coordinates, the curvature tensor and the Hodge star and
 Laplacian (Sections~\ref{riemannian-geometry:section-levi-civita}, \ref{riemannian-geometry:section-volume}, \ref{riemannian-geometry:section-exponential},
 \ref{riemannian-geometry:section-curvature} and~\ref{riemannian-geometry:section-hodge-star}); holonomy is the background of Chapter~\ref{calabi-yau}. The sections on
-variations of energy, submanifolds, surfaces, minimal surfaces, Killing fields and space forms develop Riemannian geometry for its own sake and can be skipped on a first
+moving frames, variations of energy, submanifolds, surfaces, minimal surfaces, Killing fields and space forms develop Riemannian geometry for its own sake and can be skipped on a first
 reading.
 
 \noindent\textbf{Conventions.} $(M, g)$ is a Riemannian manifold of dimension $n$, and we write $\langle v, w\rangle = g(v, w)$ and $|v| = \langle v, v\rangle^{1/2}$. Curves are piecewise smooth unless stated otherwise. In local
@@ -653,6 +654,263 @@ Let $\Sigma_g$ be the closed orientable surface of genus $g$, so that $\chi(\Sig
 (1) is Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}. (2) The sign of $\int_MK\,dA = 2\pi(2 - 2g)$ is positive, non-negative or negative accordingly, and $2 - 2g > 0$ forces $g = 0$, $2 - 2g \geq 0$ forces
 $g \leq 1$, and $2 - 2g < 0$ forces $g \geq 2$. (3) The torus has $\chi = 0$, so $K$ cannot have constant nonzero sign, while the flat metric induced from $\RR^2$ has $K = 0$ (Example~\ref{riemannian-geometry:example-curvature}).
 \end{proof}
+
+\section{Moving frames}\label{riemannian-geometry:section-moving-frames}
+
+The curvature of a metric given by an explicit formula can be computed from the Christoffel symbols, but this is laborious: there are $n^2(n+1)/2$ symbols, each a combination of
+derivatives of the $g_{ij}$, and the curvature involves their derivatives and their products. \'Elie Cartan's method of \emph{moving frames} replaces coordinates by orthonormal frames,
+and the Christoffel symbols by a skew-symmetric matrix of $1$-forms, which is found by solving a system of linear equations between differential forms, usually by inspection. The
+curvature then follows from the formula $F = d\theta + \theta \wedge \theta$ of Proposition~\ref{connections:proposition-curvature}. In this section we develop the method and use it to
+compute the curvature of surfaces in orthogonal coordinates, of conformally flat metrics in every dimension (in particular hyperbolic space has constant curvature $-1$), and of
+hypersurfaces of Euclidean space, where Cartan's lemma gives the symmetry of the second fundamental form and the Gauss equation in a few lines. Finally the Gauss--Bonnet--Chern
+theorem of Chapter~\ref{characteristic-classes} is written in terms of the curvature forms, and applied to spaces of constant curvature.
+
+\emph{On a first reading} this section can be skipped; later sections use only the curvature of hyperbolic space
+(Corollary~\ref{riemannian-geometry:corollary-hyperbolic-curvature}).
+
+Let $(M, g)$ be a Riemannian manifold of dimension $n$ and $U \subseteq M$ open. An \emph{orthonormal frame} on $U$ is a frame $(e_1, \ldots, e_n)$ of $TM|_U$ with
+$\langle e_i, e_j\rangle = \delta_{ij}$; one exists near every point, obtained by applying the Gram--Schmidt process to the coordinate fields of a chart. Its \emph{dual coframe} is the
+$n$-tuple of $1$-forms $(\omega^1, \ldots, \omega^n)$ with $\omega^i(e_j) = \delta_{ij}$. Then $\omega^i(X) = \langle X, e_i\rangle$ and $g = \sum_i\omega^i \otimes \omega^i$, usually written
+$g = \sum_i(\omega^i)^2$; conversely, if $1$-forms $\omega^1, \ldots, \omega^n$ on $U$, linearly independent at every point, satisfy $g = \sum_i(\omega^i)^2$, they are the dual coframe of the
+dual frame, which is orthonormal. So to apply the method to a metric written as a sum of squares, $g = \sum_i(\omega^i)^2$, there is nothing to compute: the coframe can be read off.
+Following Cartan we write the connection form of the Levi-Civita connection in the frame $e$ (Proposition~\ref{connections:proposition-connections-exist}) as $(\omega^i_j)$ and its curvature
+as $(\Omega^i_j)$, so that
+\[
+\nabla_Xe_j = \sum_i\omega^i_j(X)\,e_i, \qquad R(X, Y)e_j = \sum_i\Omega^i_j(X, Y)\,e_i ;
+\]
+equivalently $\omega^i_j(X) = \langle\nabla_Xe_j, e_i\rangle$ and $\Omega^i_j(X, Y) = R(X, Y, e_j, e_i)$ (Definition~\ref{riemannian-geometry:definition-curvature-tensor}). For a surface
+with an oriented orthonormal frame, the $1$-form $\omega$ of the proof of Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet}, defined by $\nabla_Xe_1 = \omega(X)e_2$, is $\omega^2_1$.
+
+We need one algebraic lemma about $1$-forms.
+
+\begin{lemma}[Cartan's lemma]\label{riemannian-geometry:lemma-cartan}
+Let $\omega^1, \ldots, \omega^n$ be $1$-forms on an $n$-manifold, linearly independent at every point, and let $\alpha_1, \ldots, \alpha_p$, $p \leq n$, be $1$-forms with
+$\sum_{j=1}^p\alpha_j \wedge \omega^j = 0$. Then $\alpha_j = \sum_{k=1}^pA_{jk}\,\omega^k$ with smooth functions $A_{jk} = A_{kj}$.
+\end{lemma}
+
+\begin{proof}
+Let $(e_k)$ be the dual frame and $A_{jk} = \alpha_j(e_k)$, so that $\alpha_j = \sum_{k=1}^nA_{jk}\omega^k$, with smooth $A_{jk}$. Then
+$0 = \sum_{j \leq p}\sum_{k \leq n}A_{jk}\,\omega^k \wedge \omega^j$. The $2$-forms $\omega^a \wedge \omega^b$ with $a < b$ form a basis of the $2$-forms at each point
+(Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(3)). For $a < b \leq p$ the coefficient of $\omega^a \wedge \omega^b$ is $A_{ba} - A_{ab}$, which therefore vanishes; for
+$a \leq p < b$ it is $-A_{ab}$, since the term with $j = b$ does not occur, and therefore $A_{ab} = 0$ for $b > p$.
+\end{proof}
+
+\begin{theorem}[Cartan's structure equations]\label{riemannian-geometry:theorem-structure-equations}
+Let $(\omega^i)$ be the dual coframe of an orthonormal frame $(e_i)$ on $U$, with connection forms $\omega^i_j$ and curvature forms $\Omega^i_j$.
+\begin{enumerate}
+\item $\omega^j_i = -\omega^i_j$.
+\item (First structure equation) $d\omega^i = -\sum_j\omega^i_j \wedge \omega^j$.
+\item (Second structure equation) $\Omega^i_j = d\omega^i_j + \sum_k\omega^i_k \wedge \omega^k_j$, and $\Omega^j_i = -\Omega^i_j$.
+\item $\Omega^i_j = \sum_{k < l}R(e_k, e_l, e_j, e_i)\,\omega^k \wedge \omega^l$. In particular the sectional curvature of the plane spanned by $e_k$ and $e_l$ is $K(e_k, e_l) = \Omega^k_l(e_k, e_l)$,
+and $g$ has constant sectional curvature $\kappa$ on $U$ if and only if $\Omega^i_j = \kappa\,\omega^i \wedge \omega^j$ for all $i$, $j$.
+\item (Bianchi identities) $\sum_j\Omega^i_j \wedge \omega^j = 0$ and $d\Omega^i_j = \sum_k(\Omega^i_k \wedge \omega^k_j - \omega^i_k \wedge \Omega^k_j)$.
+\end{enumerate}
+Moreover (1) and (2) characterise the connection forms: if $(\eta^i_j)$ is a matrix of $1$-forms on $U$ with $\eta^j_i = -\eta^i_j$ and $d\omega^i = -\sum_j\eta^i_j \wedge \omega^j$ for all $i$,
+then $\eta^i_j = \omega^i_j$.
+\end{theorem}
+
+\begin{proof}
+(1) The connection is metric: $0 = X\langle e_i, e_j\rangle = \langle\nabla_Xe_i, e_j\rangle + \langle e_i, \nabla_Xe_j\rangle = \omega^j_i(X) + \omega^i_j(X)$.
+
+(2) This is the vanishing of the torsion. For vector fields $X$ and $Y = \sum_j\omega^j(Y)e_j$,
+$\nabla_XY = \sum_jX(\omega^j(Y))e_j + \sum_{i,j}\omega^j(Y)\omega^i_j(X)e_i$, so $\omega^i(\nabla_XY) = X(\omega^i(Y)) + \sum_j\omega^i_j(X)\omega^j(Y)$. Hence
+\[
+\omega^i([X, Y]) = \omega^i(\nabla_XY - \nabla_YX) = X(\omega^i(Y)) - Y(\omega^i(X)) + \sum_j\bigl(\omega^i_j(X)\omega^j(Y) - \omega^i_j(Y)\omega^j(X)\bigr).
+\]
+The last sum is $\sum_j(\omega^i_j \wedge \omega^j)(X, Y)$, and by the invariant formula $d\omega^i(X, Y) = X(\omega^i(Y)) - Y(\omega^i(X)) - \omega^i([X, Y])$
+(Theorem~\ref{differential-forms:theorem-exterior-derivative}), the identity says $0 = d\omega^i(X, Y) + \sum_j(\omega^i_j \wedge \omega^j)(X, Y)$.
+
+(3) The curvature of the Levi-Civita connection is $R$ (Definition~\ref{riemannian-geometry:definition-curvature-tensor}), and the formula is that of
+Proposition~\ref{connections:proposition-curvature} in the frame $e$. For a skew-symmetric matrix of $1$-forms $\theta$, $d\theta$ is skew-symmetric and so is $\theta \wedge \theta$:
+$\sum_k\theta^j_k \wedge \theta^k_i = \sum_k\theta^k_j \wedge \theta^i_k = -\sum_k\theta^i_k \wedge \theta^k_j$.
+
+(4) A $2$-form $\alpha$ equals $\sum_{k<l}\alpha(e_k, e_l)\,\omega^k \wedge \omega^l$, as both sides agree on pairs of frame vectors, and $\Omega^i_j(e_k, e_l) = R(e_k, e_l, e_j, e_i)$. With $i = k$,
+$j = l$: $\Omega^k_l(e_k, e_l) = R(e_k, e_l, e_l, e_k) = K(e_k, e_l)$. By Example~\ref{riemannian-geometry:example-curvature}, constant curvature $\kappa$ means
+$R(X, Y)Z = \kappa(\langle Y, Z\rangle X - \langle X, Z\rangle Y)$; taking $Z = e_j$ and pairing with $e_i$ this says
+$\Omega^i_j(X, Y) = \kappa\bigl(\omega^i(X)\omega^j(Y) - \omega^j(X)\omega^i(Y)\bigr) = \kappa(\omega^i \wedge \omega^j)(X, Y)$, and conversely these identities for all $i$, $j$ give the formula for
+$R(X, Y)Z$ by linearity in $Z$.
+
+(5) Differentiating (2), $0 = dd\omega^i = -\sum_jd\omega^i_j \wedge \omega^j + \sum_j\omega^i_j \wedge d\omega^j = -\sum_kd\omega^i_k \wedge \omega^k - \sum_{j,k}\omega^i_j \wedge \omega^j_k \wedge \omega^k$,
+which is $-\sum_k\Omega^i_k \wedge \omega^k$ by (3). The second identity is the Bianchi identity $dF = F \wedge \theta - \theta \wedge F$ of Proposition~\ref{connections:proposition-curvature}.
+
+Finally, let $\alpha^i_j = \eta^i_j - \omega^i_j$. Then $\alpha^j_i = -\alpha^i_j$ and, subtracting (2), $\sum_j\alpha^i_j \wedge \omega^j = 0$ for each $i$. By Lemma~\ref{riemannian-geometry:lemma-cartan},
+$\alpha^i_j = \sum_kA^i_{jk}\omega^k$ with $A^i_{jk} = A^i_{kj}$, while $A^j_{ik} = -A^i_{jk}$. A triple of indices with a symmetry in the last two and an antisymmetry in the first two vanishes:
+\[
+A^i_{jk} = -A^j_{ik} = -A^j_{ki} = A^k_{ji} = A^k_{ij} = -A^i_{kj} = -A^i_{jk} .
+\]
+So $A = 0$ and $\eta^i_j = \omega^i_j$.
+\end{proof}
+
+The last statement is what makes the method work. Given a metric written as $g = \sum_i(\omega^i)^2$, one computes the $d\omega^i$, finds by inspection a skew-symmetric matrix of
+$1$-forms $\omega^i_j$ satisfying the first structure equation, and knows that it is the Levi-Civita connection; the second structure equation then gives the curvature forms, and (4)
+reads off the curvature. Equation (2) says in another language that the identity endomorphism $\sum_ie_i \otimes \omega^i \in \Omega^1(U, TM)$ has $d_\nabla(\mathrm{id}) = 0$, by the
+frame formula $d_\nabla\omega = d\omega + \theta \wedge \omega$ of Proposition~\ref{connections:proposition-exterior-covariant}: the torsion is the exterior covariant derivative of the identity.
+
+On a surface there is a single connection form $\omega^1_2 = -\omega^2_1$, and everything becomes explicit.
+
+\begin{proposition}\label{riemannian-geometry:proposition-frames-surfaces}
+Let $(e_1, e_2)$ be an orthonormal frame on an open subset of a Riemannian surface, with dual coframe $(\omega^1, \omega^2)$.
+\begin{enumerate}
+\item $\omega^1_2 = -d\omega^1(e_1, e_2)\,\omega^1 - d\omega^2(e_1, e_2)\,\omega^2$.
+\item $d\omega^1_2 = K\,\omega^1 \wedge \omega^2$, where $K$ is the Gaussian curvature.
+\item (Orthogonal coordinates) If $g = E\,du^2 + G\,dv^2$ with positive functions $E$, $G$, then
+\[
+K = -\frac{1}{\sqrt{EG}}\left[\frac{\partial}{\partial v}\left(\frac{(\sqrt E)_v}{\sqrt G}\right) + \frac{\partial}{\partial u}\left(\frac{(\sqrt G)_u}{\sqrt E}\right)\right].
+\]
+\item (Geodesic polar coordinates) If $g = dr^2 + f(r)^2d\varphi^2$ with $f > 0$, then $K = -f^{\prime\prime}/f$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Write $\omega^1_2 = a\,\omega^1 + b\,\omega^2$. The first structure equation gives $d\omega^1 = -\omega^1_2 \wedge \omega^2 = -a\,\omega^1 \wedge \omega^2$ and
+$d\omega^2 = -\omega^2_1 \wedge \omega^1 = \omega^1_2 \wedge \omega^1 = -b\,\omega^1 \wedge \omega^2$; evaluate on $(e_1, e_2)$.
+(2) In the second structure equation for $\Omega^1_2$ the quadratic terms $\omega^1_1 \wedge \omega^1_2$ and $\omega^1_2 \wedge \omega^2_2$ vanish, as $\omega^1_1 = \omega^2_2 = 0$; so $\Omega^1_2 = d\omega^1_2$,
+and $K = \Omega^1_2(e_1, e_2)$ by Theorem~\ref{riemannian-geometry:theorem-structure-equations}(4).
+(3) Here $\omega^1 = \sqrt E\,du$ and $\omega^2 = \sqrt G\,dv$, so
+$d\omega^1 = (\sqrt E)_v\,dv \wedge du = -\frac{(\sqrt E)_v}{\sqrt{EG}}\,\omega^1 \wedge \omega^2$ and $d\omega^2 = (\sqrt G)_u\,du \wedge dv = \frac{(\sqrt G)_u}{\sqrt{EG}}\,\omega^1 \wedge \omega^2$. By (1),
+\[
+\omega^1_2 = \frac{(\sqrt E)_v}{\sqrt{EG}}\,\omega^1 - \frac{(\sqrt G)_u}{\sqrt{EG}}\,\omega^2 = \frac{(\sqrt E)_v}{\sqrt G}\,du - \frac{(\sqrt G)_u}{\sqrt E}\,dv,
+\]
+and
+$d\omega^1_2 = -\bigl[\bigl(\frac{(\sqrt E)_v}{\sqrt G}\bigr)_v + \bigl(\frac{(\sqrt G)_u}{\sqrt E}\bigr)_u\bigr]\,du \wedge dv$, while $K\,\omega^1 \wedge \omega^2 = K\sqrt{EG}\,du \wedge dv$; compare with (2).
+(4) is (3) with $(u, v) = (r, \varphi)$, $E = 1$ and $G = f^2$: $K = -\frac1f(f^{\prime})^{\prime}$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-frames-surfaces}
+\begin{enumerate}
+\item \emph{The round sphere.} In spherical coordinates $g = d\vartheta^2 + \sin^2\vartheta\,d\varphi^2$, so $K = -(\sin\vartheta)^{\prime\prime}/\sin\vartheta = 1$. Here $\omega^1 = d\vartheta$,
+$\omega^2 = \sin\vartheta\,d\varphi$, $d\omega^1 = 0$ and $d\omega^2 = \cos\vartheta\,d\vartheta \wedge d\varphi = \cot\vartheta\,\omega^1 \wedge \omega^2$, so (1) gives $\omega^1_2 = -\cos\vartheta\,d\varphi$, in
+accordance with Example~\ref{connections:example-connection-forms}, and $d\omega^1_2 = \sin\vartheta\,d\vartheta \wedge d\varphi = \omega^1 \wedge \omega^2$.
+\item \emph{Polar coordinates.} $dr^2 + r^2d\varphi^2$ (the plane) has $K = 0$, and $dr^2 + \sinh^2r\,d\varphi^2$ has $K = -\sinh r/\sinh r = -1$.
+\item \emph{Surfaces of revolution.} Rotating a curve $u \mapsto (f(u), h(u))$ in the half-plane $\{(\rho, z) : \rho > 0\}$, parametrised by arc length ($f^{\prime2} + h^{\prime2} = 1$),
+about the $z$-axis gives the surface $x(u, v) = (f(u)\cos v, f(u)\sin v, h(u))$ with metric $du^2 + f(u)^2dv^2$, so $K = -f^{\prime\prime}/f$ and $dA = f\,du \wedge dv$. For the torus with radii
+$R > r > 0$, $f(u) = R + r\cos(u/r)$ and $h(u) = r\sin(u/r)$, so
+\[
+K = \frac{\cos(u/r)}{r(R + r\cos(u/r))}, \qquad \iint_TK\,dA = \int_0^{2\pi}\!\!\int_0^{2\pi r}\frac{\cos(u/r)}{r}\,du\,dv = 0 = 2\pi\chi(T),
+\]
+with $K > 0$ on the outer half of the torus and $K < 0$ on the inner half, in accordance with the Gauss--Bonnet theorem.
+\end{enumerate}
+\end{example}
+
+In higher dimensions the method is just as efficient for metrics that are a function times the Euclidean metric.
+
+\begin{proposition}[Conformally flat metrics]\label{riemannian-geometry:proposition-conformally-flat}
+Let $U \subseteq \RR^n$ be open, $u \colon U \to \RR$ smooth, and $g = e^{2u}(dx_1^2 + \cdots + dx_n^2)$, with the orthonormal coframe $\omega^i = e^u\,dx_i$. Write $u_i = \partial u/\partial x_i$,
+$u_{ik} = \partial^2u/\partial x_i\partial x_k$, $|\nabla u|^2 = \sum_ku_k^2$, and $\alpha_i = du_i - u_i\,du = \sum_k(u_{ik} - u_iu_k)\,dx_k$. Then
+\[
+\omega^i_j = u_j\,dx_i - u_i\,dx_j, \qquad \Omega^i_j = dx_j \wedge \alpha_i - dx_i \wedge \alpha_j - |\nabla u|^2\,dx_i \wedge dx_j .
+\]
+In particular, if $u_{ik} - u_iu_k = \lambda\,\delta_{ik}$ for a function $\lambda$, then $\Omega^i_j = -e^{-2u}(2\lambda + |\nabla u|^2)\,\omega^i \wedge \omega^j$, so at each point all planes have the same sectional
+curvature $-e^{-2u}(2\lambda + |\nabla u|^2)$. For $n = 2$, $\Omega^1_2 = -e^{-2u}\Delta u\,\omega^1 \wedge \omega^2$, where $\Delta u = u_{11} + u_{22}$.
+\end{proposition}
+
+\begin{proof}
+$d\omega^i = e^u\,du \wedge dx_i = \sum_ju_je^u\,dx_j \wedge dx_i$. The proposed forms are skew-symmetric, and
+\[
+-\sum_j\omega^i_j \wedge \omega^j = -e^u\sum_j(u_j\,dx_i - u_i\,dx_j) \wedge dx_j = -e^u\sum_ju_j\,dx_i \wedge dx_j = d\omega^i,
+\]
+so they are the connection forms by Theorem~\ref{riemannian-geometry:theorem-structure-equations}. For the curvature, $d\omega^i_j = du_j \wedge dx_i - du_i \wedge dx_j$, and
+\[
+\sum_k\omega^i_k \wedge \omega^k_j = \sum_k(u_k\,dx_i - u_i\,dx_k) \wedge (u_j\,dx_k - u_k\,dx_j) = u_j\,dx_i \wedge du - |\nabla u|^2\,dx_i \wedge dx_j + u_i\,du \wedge dx_j,
+\]
+the term $-u_iu_j\sum_kdx_k \wedge dx_k$ being zero. Adding,
+$\Omega^i_j = dx_i \wedge (u_j\,du - du_j) + (u_i\,du - du_i) \wedge dx_j - |\nabla u|^2\,dx_i \wedge dx_j$, which is the formula. If $\alpha_i = \lambda\,dx_i$ for all $i$, then
+$\Omega^i_j = \lambda\,dx_j \wedge dx_i - \lambda\,dx_i \wedge dx_j - |\nabla u|^2dx_i \wedge dx_j = -(2\lambda + |\nabla u|^2)e^{-2u}\omega^i \wedge \omega^j$. For $n = 2$, the terms $u_{12} - u_1u_2$
+of $\alpha_1$ and $\alpha_2$ contribute $dx_2 \wedge dx_2 = 0$ and $dx_1 \wedge dx_1 = 0$, so
+$\Omega^1_2 = -\bigl((u_{11} - u_1^2) + (u_{22} - u_2^2) + |\nabla u|^2\bigr)dx_1 \wedge dx_2 = -\Delta u\,dx_1 \wedge dx_2$.
+\end{proof}
+
+For $n = 2$ this is the formula $K = -e^{-2u}\Delta u$ proved with Christoffel symbols in Proposition~\ref{riemannian-geometry:proposition-conformal-curvature} below.
+
+\begin{corollary}\label{riemannian-geometry:corollary-hyperbolic-curvature}
+\begin{enumerate}
+\item The \emph{upper half-space} $H^n = \{x \in \RR^n : x_n > 0\}$ with the metric $(dx_1^2 + \cdots + dx_n^2)/x_n^2$ has constant sectional curvature $-1$.
+\item The \emph{ball} $B^n = \{|x| < 1\}$ with the metric $4(dx_1^2 + \cdots + dx_n^2)/(1 - |x|^2)^2$ has constant sectional curvature $-1$.
+\item $\RR^n$ with the metric $4(dx_1^2 + \cdots + dx_n^2)/(1 + |x|^2)^2$ has constant sectional curvature $1$. It is the pullback of the round metric of $S^n$ by the inverse of the stereographic
+projection (Exercise~\ref{riemannian-geometry:exercise-stereographic-metric}).
+\end{enumerate}
+Multiplying these metrics by a constant $c > 0$ multiplies the curvatures by $1/c$.
+\end{corollary}
+
+\begin{proof}
+We apply Proposition~\ref{riemannian-geometry:proposition-conformally-flat}. (1) Here $u = -\log x_n$, $u_i = -\delta_{in}/x_n$ and $u_{ik} = \delta_{in}\delta_{kn}/x_n^2 = u_iu_k$, so $\lambda = 0$,
+$|\nabla u|^2 = 1/x_n^2$ and the curvature is $-x_n^2 \cdot x_n^{-2} = -1$. (2) Let $s = 1 - |x|^2$, so $u = \log2 - \log s$, $u_i = 2x_i/s$ and $u_{ik} = 2\delta_{ik}/s + 4x_ix_k/s^2$. So
+$u_{ik} - u_iu_k = (2/s)\delta_{ik}$, $|\nabla u|^2 = 4|x|^2/s^2$, and $2\lambda + |\nabla u|^2 = (4s + 4|x|^2)/s^2 = 4/s^2$; with $e^{-2u} = s^2/4$ the curvature is $-1$. (3) Now $s = 1 + |x|^2$,
+$u = \log2 - \log s$, $u_i = -2x_i/s$, $u_{ik} = -2\delta_{ik}/s + 4x_ix_k/s^2$, so $\lambda = -2/s$ and $2\lambda + |\nabla u|^2 = (-4s + 4|x|^2)/s^2 = -4/s^2$; the curvature is $1$. Finally, if
+$(\omega^i)$ is an orthonormal coframe for $g$, then $(\sqrt c\,\omega^i)$ is one for $cg$; the same forms $\omega^i_j$ satisfy the first structure equation for it, as that equation is linear
+in the coframe, so the connection and curvature forms are unchanged, and $\Omega^i_j = \kappa\,\omega^i \wedge \omega^j = \frac{\kappa}{c}(\sqrt c\,\omega^i) \wedge (\sqrt c\,\omega^j)$.
+\end{proof}
+
+Next, hypersurfaces. For $M \subseteq \RR^{n+1}$ the frame is completed by a unit normal, and the structure equations of $\RR^{n+1}$ restricted to $M$ contain the second fundamental form.
+
+\begin{proposition}\label{riemannian-geometry:proposition-hypersurface-frames}
+Let $M \subseteq \RR^{n+1}$ be a hypersurface with the induced metric, $U \subseteq M$ open with an orthonormal frame $(e_1, \ldots, e_n)$ and a unit normal field $e_{n+1} = \nu$. Regard the $e_A$,
+$A = 1, \ldots, n + 1$, and the inclusion $x \colon U \to \RR^{n+1}$ as vector-valued functions, and define $1$-forms on $U$ by
+\[
+dx = \sum_{i=1}^n\omega^i\,e_i, \qquad de_B = \sum_{A=1}^{n+1}\omega^A_B\,e_A .
+\]
+\begin{enumerate}
+\item $(\omega^i)$ is the dual coframe of $(e_i)$, $\omega^B_A = -\omega^A_B$, and for $i, j \leq n$ the $\omega^i_j$ are the Levi-Civita connection forms of $M$.
+\item $\omega^{n+1}_i = \sum_jh_{ij}\,\omega^j$ with $h_{ij} = h(e_i, e_j)$, the scalar second fundamental form (Definition~\ref{riemannian-geometry:definition-hypersurface-curvatures}), and $h_{ij} = h_{ji}$.
+\item (Gauss equation) $\Omega^i_j = \omega^{n+1}_i \wedge \omega^{n+1}_j = \sum_{k,l}h_{ik}h_{jl}\,\omega^k \wedge \omega^l$, so $K(e_i, e_j) = h_{ii}h_{jj} - h_{ij}^2$. For a surface in $\RR^3$, $K = \det(h_{ij})$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) For $X$ tangent to $M$, $dx(X) = X$, so $\omega^i(X) = \langle X, e_i\rangle$; the normal component of $dx$ vanishes. Since $\langle e_A, e_B\rangle$ is constant,
+$0 = \langle de_A, e_B\rangle + \langle e_A, de_B\rangle = \omega^B_A + \omega^A_B$. For a $1$-form $\beta$ and a vector-valued function $e$, $d(\beta\,e) = d\beta\,e - \beta \wedge de$ (apply the
+Leibniz rule to each component). So
+\[
+0 = d(dx) = \sum_i\bigl(d\omega^i\,e_i - \omega^i \wedge de_i\bigr) = \sum_A\Bigl(d\omega^A - \sum_i\omega^i \wedge \omega^A_i\Bigr)e_A,
+\]
+where $\omega^{n+1} = 0$. For $A = j \leq n$ this is $d\omega^j = -\sum_i\omega^j_i \wedge \omega^i$, the first structure equation for the skew-symmetric matrix $(\omega^j_i)_{i,j \leq n}$, so by
+Theorem~\ref{riemannian-geometry:theorem-structure-equations} it is the Levi-Civita connection form of $M$.
+(2) For $A = n + 1$ the same identity gives $\sum_i\omega^{n+1}_i \wedge \omega^i = 0$, so by Lemma~\ref{riemannian-geometry:lemma-cartan} $\omega^{n+1}_i = \sum_jh_{ij}\omega^j$ with
+$h_{ij} = h_{ji}$. And $h_{ij} = \omega^{n+1}_i(e_j) = \langle de_i(e_j), \nu\rangle = \langle\overline\nabla_{e_j}e_i, \nu\rangle = h(e_j, e_i)$, where $\overline\nabla$ is the derivative in $\RR^{n+1}$: this is a second
+proof of the symmetry of the second fundamental form.
+(3) Similarly $0 = d(de_B) = \sum_A\bigl(d\omega^A_B\,e_A - \omega^A_B \wedge de_A\bigr) = \sum_C\bigl(d\omega^C_B - \sum_A\omega^A_B \wedge \omega^C_A\bigr)e_C$, that is
+$d\omega^C_B + \sum_A\omega^C_A \wedge \omega^A_B = 0$: the curvature of $\RR^{n+1}$ vanishes. For $C = i$, $B = j \leq n$, separating the term $A = n + 1$ and using (1) and the second structure
+equation on $M$, $\Omega^i_j = -\omega^i_{n+1} \wedge \omega^{n+1}_j = \omega^{n+1}_i \wedge \omega^{n+1}_j$. Evaluating on $(e_i, e_j)$ gives $K(e_i, e_j) = h_{ii}h_{jj} - h_{ij}h_{ji}$.
+\end{proof}
+
+This recovers the Theorema Egregium (Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}) with almost no computation.
+
+\begin{example}\label{riemannian-geometry:example-sphere-frames}
+For the sphere $S^n(r) = \{|x| = r\} \subseteq \RR^{n+1}$ take $\nu = x/r$. Then $de_{n+1} = dx/r = \sum_i(\omega^i/r)e_i$, so $\omega^i_{n+1} = \omega^i/r$ and $\omega^{n+1}_i = -\omega^i/r$, that is
+$h_{ij} = -\delta_{ij}/r$. By the Gauss equation $\Omega^i_j = \frac{1}{r^2}\omega^i \wedge \omega^j$: the sphere of radius $r$ has constant sectional curvature $1/r^2$, in every dimension, and
+without computing a single Christoffel symbol.
+\end{example}
+
+Finally we return to the Gauss--Bonnet--Chern theorem. Let $M$ be oriented of dimension $n = 2m$. In an oriented orthonormal frame the Levi-Civita curvature forms $\Omega^i_j$ form a skew-symmetric
+matrix of $2$-forms, and its Pfaffian (Definition~\ref{multilinear-algebra:definition-pfaffian}) divided by $(2\pi)^m$ is the Euler form $e(TM, \nabla)$ of
+Definition~\ref{characteristic-classes:definition-euler-form}. In dimension $2$ it is $\frac{1}{2\pi}\Omega^1_2 = \frac{1}{2\pi}K\,dA$, by Proposition~\ref{riemannian-geometry:proposition-frames-surfaces}(2)
+and Proposition~\ref{riemannian-geometry:proposition-volume-form}; in dimension $4$ it is $\frac{1}{4\pi^2}(\Omega^1_2 \wedge \Omega^3_4 - \Omega^1_3 \wedge \Omega^2_4 + \Omega^1_4 \wedge \Omega^2_3)$.
+
+\begin{corollary}[Gauss--Bonnet--Chern]\label{riemannian-geometry:corollary-gauss-bonnet-chern}
+Let $M$ be a compact oriented Riemannian manifold of dimension $2m$.
+\begin{enumerate}
+\item $\displaystyle\chi(M) = \frac{1}{(2\pi)^m}\int_M\mathrm{Pf}(\Omega)$, and this equals the sum of the indices of any vector field on $M$ with isolated zeros.
+\item If $M$ has constant sectional curvature $\kappa$, then $\displaystyle\chi(M) = \frac{(2m-1)!!\,\kappa^m}{(2\pi)^m}\operatorname{vol}(M)$, where $(2m-1)!! = 1 \cdot 3 \cdots (2m-1)$.
+\item $\operatorname{vol}(S^{2m}) = 2(2\pi)^m/(2m-1)!!$ for the round unit sphere; for instance $\operatorname{vol}(S^2) = 4\pi$ and $\operatorname{vol}(S^4) = 8\pi^2/3$.
+\item A compact oriented $2m$-manifold with a metric of constant curvature $-1$ has $(-1)^m\chi(M) > 0$ and volume $(2\pi)^m|\chi(M)|/(2m-1)!!$; for surfaces of genus $g \geq 2$ the area
+is $4\pi(g - 1)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) is Corollary~\ref{characteristic-classes:corollary-gauss-bonnet-chern} for the Levi-Civita connection. (2) By Theorem~\ref{riemannian-geometry:theorem-structure-equations}(4),
+$\Omega^i_j = \kappa\,\omega^i \wedge \omega^j$, so by Proposition~\ref{multilinear-algebra:proposition-pfaffian}(1)
+\[
+\mathrm{Pf}(\Omega) = \frac{\kappa^m}{2^mm!}\sum_{\sigma \in S_{2m}}\operatorname{sgn}(\sigma)\,\omega^{\sigma(1)} \wedge \cdots \wedge \omega^{\sigma(2m)} = \frac{(2m)!}{2^mm!}\kappa^m\,\omega^1 \wedge \cdots \wedge \omega^{2m},
+\]
+and $\omega^1 \wedge \cdots \wedge \omega^{2m}$ is the volume form (Proposition~\ref{riemannian-geometry:proposition-volume-form}), while $(2m)!/(2^mm!) = (2m-1)!!$. (3) follows from (2) with
+$\kappa = 1$ (Example~\ref{riemannian-geometry:example-sphere-frames}) and $\chi(S^{2m}) = 2$ (Theorem~\ref{singular-homology:theorem-spheres}). (4) follows from (2) with $\kappa = -1$, since the
+volume is positive; for a surface of genus $g$, $\chi = 2 - 2g$.
+\end{proof}
+
+So the volume of a compact manifold of even dimension with constant curvature $-1$ is determined by its Euler characteristic; for surfaces this will reappear in
+Chapter~\ref{complex-manifolds}, through the uniformisation theorem. In the opposite direction, (2) shows that a compact oriented manifold of even dimension with $\chi(M) = 0$, such as
+a torus or $S^1 \times S^3$, carries no metric of constant curvature $\kappa \neq 0$, and that the sign of $\chi$ restricts the possible signs of $\kappa$.
 
 \section{The first and second variation of energy}\label{riemannian-geometry:section-variation}
 
@@ -1324,6 +1582,23 @@ plane bounded by a smooth convex curve, $K = 0$ and $\chi = 1$, and the formula 
 northern cap of the unit sphere above the latitude $z_0$, the area $2\pi(1 - z_0)$ plus the total geodesic curvature $2\pi(1 - z_0^2)^{1/2} \cdot z_0/(1 - z_0^2)^{1/2} = 2\pi z_0$ of
 the boundary circle gives $2\pi = 2\pi\chi(\text{disc})$.
 
+Combining the global Gauss--Bonnet theorem, proved with a triangulation, with Chern's theorem, proved with a vector field, gives the Poincar\'e--Hopf theorem for surfaces without
+using Theorem~\ref{characteristic-classes:theorem-euler}(3).
+
+\begin{corollary}[Poincar\'e--Hopf for surfaces]\label{riemannian-geometry:corollary-poincare-hopf-surfaces}
+Let $M$ be a compact oriented surface and $X$ a vector field on $M$ with isolated zeros. Then the sum of the indices of $X$ (Definition~\ref{characteristic-classes:definition-index}) is $\chi(M)$.
+\end{corollary}
+
+\begin{proof}
+Choose a metric (Proposition~\ref{riemannian-geometry:proposition-metric-exists}). By Theorem~\ref{riemannian-geometry:theorem-global-gauss-bonnet} with $R = M$, $\iint_MK\,dA = 2\pi\chi(M)$. By
+Theorem~\ref{characteristic-classes:theorem-chern} for the Levi-Civita connection on $TM$, $\int_Me(TM, \nabla) = \sum_z\operatorname{ind}_z(X)$, and $e(TM, \nabla) = \frac{1}{2\pi}K\,dA$
+(Definition~\ref{characteristic-classes:definition-euler-form} and Proposition~\ref{riemannian-geometry:proposition-frames-surfaces}(2)).
+\end{proof}
+
+For example, on the torus of revolution the vector field $\partial_v$ that rotates the torus about its axis has no zeros, and indeed $\chi = 0$; on the round sphere the rotation field has two
+zeros, at the poles, each of index $1$ (in a chart at a pole it is $-y\partial_x + x\partial_y$, a rotation of the source $x\partial_x + y\partial_y$, by
+Lemma~\ref{characteristic-classes:lemma-index}(2)).
+
 Many metrics on surfaces are given as a function times the Euclidean metric, and for them the Gaussian curvature has a simple formula.
 
 \begin{proposition}[Conformal metrics on surfaces]\label{riemannian-geometry:proposition-conformal-curvature}
@@ -1344,6 +1619,9 @@ $\nabla_{\partial_y}\partial_x = u_y\partial_x + u_x\partial_y$. The fields $e_1
 So the $1$-form $\omega$ with $\nabla_Xe_1 = \omega(X)e_2$ is $\omega = -u_y\,dx + u_x\,dy$, and $d\omega = \Delta u\,dx \wedge dy$. The computation in the proof of
 Theorem~\ref{riemannian-geometry:theorem-gauss-bonnet} gives $d\omega = -K\,dA = -Ke^{2u}\,dx \wedge dy$, whence the formula.
 \end{proof}
+
+This is also the case $n = 2$ of Proposition~\ref{riemannian-geometry:proposition-conformally-flat}, proved there with moving frames; the proof above is the same computation written with the
+Christoffel symbols.
 
 \begin{example}\label{riemannian-geometry:example-conformal-metrics}
 \begin{enumerate}
@@ -1884,9 +2162,14 @@ $|\kappa|^{-1}(dx_1^2 + \cdots + dx_n^2)/(x^n)^2$ if $\kappa < 0$.
 
 All three are complete, connected and simply connected with constant sectional curvature $\kappa$. For $\RR^n$ this is clear. The sphere $S^n(r)$ has curvature
 $1/r^2 = \kappa$ (Example~\ref{riemannian-geometry:example-surfaces}(1)), is complete, being compact (Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}), and is simply
-connected for $n \geq 2$ (Corollary~\ref{homotopy:corollary-spheres}). Hyperbolic space is simply connected, being a convex subset of $\RR^n$ (for $n = 2$ its curvature is computed in
-Example~\ref{riemannian-geometry:example-conformal-metrics}(1)); that it is complete with
-curvature $-1$ for $\kappa = -1$ is computed in \cite[Chapter 8]{do-carmo-riemannian}, and the case of general $\kappa < 0$ follows by scaling.
+connected for $n \geq 2$ (Corollary~\ref{homotopy:corollary-spheres}). Hyperbolic space is simply connected, being a convex subset of $\RR^n$, and it has constant curvature $\kappa$ by
+Corollary~\ref{riemannian-geometry:corollary-hyperbolic-curvature}(1) and the remark on scaling that follows it. It is complete because its isometries act transitively. Indeed the maps
+$T(x) = \lambda x + b$ with $\lambda > 0$ and $b = (b_1, \ldots, b_{n-1}, 0)$ satisfy $T^*\bigl(|dx|^2/x_n^2\bigr) = \lambda^2|dx|^2/(\lambda x_n)^2 = |dx|^2/x_n^2$, so they are isometries, and they map
+$p = (0, \ldots, 0, 1)$ to any point. The domain of $\exp_p$ is open, so it contains the ball of radius $2\delta$ in $T_pM$ for some $\delta > 0$; by
+Lemma~\ref{riemannian-geometry:lemma-local-isometries}(1), applied to these isometries, the same holds at every point. So every unit speed geodesic, starting anywhere, is defined at least on
+$(-2\delta, 2\delta)$. If a unit speed geodesic $\gamma$ were defined on $[0, a)$ with $a < \infty$ and could not be extended, the geodesic with initial velocity $\dot\gamma(a - \delta)$ would be
+defined on $(-2\delta, 2\delta)$ and would agree with $t \mapsto \gamma(a - \delta + t)$ where both are defined, by uniqueness of geodesics; so it would extend $\gamma$ to $[0, a + \delta)$. Hence
+geodesics are defined for all time, and hyperbolic space is complete by Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}.
 
 \begin{theorem}[Killing--Hopf]\label{riemannian-geometry:theorem-killing-hopf}
 Let $M$ and $N$ be complete, connected and simply connected Riemannian manifolds of the same dimension $n \geq 2$, with the same constant sectional curvature
@@ -2131,4 +2414,89 @@ Show that a minimal surface in $\RR^3$ has Gaussian curvature $K \leq 0$, and de
 \begin{solution}
 If $H = 0$, the principal curvatures are $\kappa$ and $-\kappa$, so $K = -\kappa^2 \leq 0$ (Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}). A compact surface in
 $\RR^3$ has a point with $K > 0$ by Lemma~\ref{riemannian-geometry:lemma-elliptic-point}.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-stereographic-metric}
+Let $F \colon \RR^n \to S^n \subseteq \RR^{n+1}$, $F(x) = \bigl(2x, |x|^2 - 1\bigr)/(|x|^2 + 1)$, be the inverse of the stereographic projection from the north pole. Show that the pullback of the
+round metric is $4(dx_1^2 + \cdots + dx_n^2)/(1 + |x|^2)^2$, and deduce once more from Corollary~\ref{riemannian-geometry:corollary-hyperbolic-curvature}(3) that $S^n$ has constant curvature $1$.
+\end{exercise}
+
+\begin{solution}
+Let $s = 1 + |x|^2$, so $F = (2x/s, 1 - 2/s)$ and $ds = 2\sum_kx_k\,dx_k = 2\,x \cdot dx$. Then $dF = \bigl(2\,dx/s - 2x\,ds/s^2,\; 2\,ds/s^2\bigr)$, and the pullback metric is
+\[
+|dF|^2 = \frac{4|dx|^2}{s^2} - \frac{8(x \cdot dx)\,ds}{s^3} + \frac{4|x|^2ds^2}{s^4} + \frac{4ds^2}{s^4} = \frac{4|dx|^2}{s^2} - \frac{16(x \cdot dx)^2}{s^3} + \frac{4s \cdot 4(x \cdot dx)^2}{s^4} = \frac{4|dx|^2}{s^2},
+\]
+where $|dx|^2 = \sum_kdx_k^2$ and products of $1$-forms mean symmetric products. So $F$ is an isometry from $\RR^n$ with this metric onto $S^n$ minus the north pole, and the curvature of $S^n$ is
+that of Corollary~\ref{riemannian-geometry:corollary-hyperbolic-curvature}(3).
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-metrics-height}
+Let $f$ be a positive function on an interval $I$ and $g = f(x_n)^2(dx_1^2 + \cdots + dx_n^2)$ on $\{x \in \RR^n : x_n \in I\}$, $n \geq 3$. Show that in the frame $e_i = f^{-1}\partial_i$
+the sectional curvatures are
+\[
+K(e_i, e_j) = -\frac{f^{\prime2}}{f^4}\quad(i, j < n), \qquad K(e_i, e_n) = \frac{f^{\prime2} - ff^{\prime\prime}}{f^4}\quad(i < n),
+\]
+and that $g$ has constant curvature if and only if $f(t) = 1/(a + bt)$ for constants $a$, $b$, the curvature being $-b^2$. Which metric is obtained for $a = 0$, $b = 1$?
+\end{exercise}
+
+\begin{solution}
+Apply Proposition~\ref{riemannian-geometry:proposition-conformally-flat} with $u = \log f(x_n)$: $u_i = \delta_{in}f^{\prime}/f$, $u_{ik} = \delta_{in}\delta_{kn}(f^{\prime}/f)^{\prime}$, so
+$\alpha_i = \delta_{in}\mu\,dx_n$ with $\mu = (f^{\prime}/f)^{\prime} - (f^{\prime}/f)^2$, and $|\nabla u|^2 = (f^{\prime}/f)^2$. For $i, j < n$, $\alpha_i = \alpha_j = 0$ and
+$\Omega^i_j = -(f^{\prime}/f)^2dx_i \wedge dx_j = -(f^{\prime2}/f^4)\,\omega^i \wedge \omega^j$. For $i < n$, $\Omega^i_n = -\mu\,dx_i \wedge dx_n - (f^{\prime}/f)^2dx_i \wedge dx_n = -(f^{\prime}/f)^{\prime}dx_i \wedge dx_n$, and
+$-(f^{\prime}/f)^{\prime}/f^2 = (f^{\prime2} - ff^{\prime\prime})/f^4$. Since every $\Omega^i_j$ is a multiple of $\omega^i \wedge \omega^j$, the curvature is constant $c$ if and only if both expressions equal
+$c$ (Theorem~\ref{riemannian-geometry:theorem-structure-equations}(4)). The first forces $c = -b^2 \leq 0$ and $f^{\prime}/f^2 = \pm b$, that is $(1/f)^{\prime} = \mp b$, so $f = 1/(a + bt)$ after renaming
+$b$; and for this $f$, $f^{\prime} = -b/(a + bt)^2$, $f^{\prime\prime} = 2b^2/(a + bt)^3$, $f^{\prime2} - ff^{\prime\prime} = -b^2/(a + bt)^4$, so the second expression is $-b^2$ as well. For $a = 0$, $b = 1$ we get
+$f = 1/x_n$: the upper half-space model of hyperbolic space.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-heisenberg}
+On $\RR^3$ consider the metric $g = dx^2 + dy^2 + (dz - x\,dy)^2$ (a left-invariant metric on the Heisenberg group). With the coframe $\omega^1 = dx$, $\omega^2 = dy$, $\omega^3 = dz - x\,dy$, find the
+connection forms, and show that the sectional curvatures of the planes spanned by pairs of frame vectors are $K(e_1, e_2) = -\frac34$ and $K(e_1, e_3) = K(e_2, e_3) = \frac14$. Compute the Ricci and
+scalar curvatures.
+\end{exercise}
+
+\begin{solution}
+$d\omega^1 = d\omega^2 = 0$ and $d\omega^3 = -dx \wedge dy = -\omega^1 \wedge \omega^2$. Try $\omega^1_2 = a\,\omega^3$, $\omega^1_3 = b\,\omega^2$, $\omega^2_3 = c\,\omega^1$. The first structure equation for
+$i = 1, 2, 3$ gives $(a - b)\,\omega^2 \wedge \omega^3 = 0$, $-(a + c)\,\omega^1 \wedge \omega^3 = 0$ and $-(b - c)\,\omega^1 \wedge \omega^2 = -\omega^1 \wedge \omega^2$, so $a = b = \frac12$, $c = -\frac12$; by
+uniqueness these are the connection forms. Then
+\[
+\Omega^1_2 = d\omega^1_2 + \omega^1_3 \wedge \omega^3_2 = -\tfrac12\omega^1 \wedge \omega^2 + \tfrac12\omega^2 \wedge \tfrac12\omega^1 = -\tfrac34\omega^1 \wedge \omega^2,
+\]
+$\Omega^1_3 = d\omega^1_3 + \omega^1_2 \wedge \omega^2_3 = \tfrac12\omega^3 \wedge (-\tfrac12\omega^1) = \tfrac14\omega^1 \wedge \omega^3$ and
+$\Omega^2_3 = d\omega^2_3 + \omega^2_1 \wedge \omega^1_3 = -\tfrac12\omega^3 \wedge \tfrac12\omega^2 = \tfrac14\omega^2 \wedge \omega^3$. Each $\Omega^i_j$ is a multiple of $\omega^i \wedge \omega^j$, so $R(e_k, e_l, e_j, e_i) = 0$
+unless $\{k, l\} = \{i, j\}$, and $\mathrm{Ric}(e_i, e_j) = \sum_kR(e_k, e_i, e_j, e_k)$ is diagonal, with $\mathrm{Ric}(e_1, e_1) = K_{12} + K_{13} = -\frac12$, $\mathrm{Ric}(e_2, e_2) = -\frac12$,
+$\mathrm{Ric}(e_3, e_3) = \frac12$, and scalar curvature $-\frac12$. So this homogeneous metric has sectional curvatures of both signs.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-warped-products}
+Let $(\theta^a)_{a < n}$ be an orthonormal coframe on an open subset of the round $S^{n-1}$, $n \geq 3$, with connection forms $\theta^a_b$, so that $d\theta^a_b + \sum_c\theta^a_c \wedge \theta^c_b = \theta^a \wedge \theta^b$.
+On $(0, L) \times S^{n-1}$ consider $g = dr^2 + f(r)^2g_{S^{n-1}}$ with $f > 0$, and the coframe $\omega^a = f\theta^a$, $\omega^n = dr$. Show that $\omega^a_b = \theta^a_b$ and $\omega^a_n = f^{\prime}\theta^a$, and that
+\[
+K(e_a, e_n) = -\frac{f^{\prime\prime}}{f}, \qquad K(e_a, e_b) = \frac{1 - f^{\prime2}}{f^2} .
+\]
+Check that $f(r) = r$, $\sin r$ and $\sinh r$ give constant curvature $0$, $1$ and $-1$.
+\end{exercise}
+
+\begin{solution}
+$d\omega^a = f^{\prime}dr \wedge \theta^a + f\,d\theta^a = -\frac{f^{\prime}}{f}\omega^a \wedge \omega^n - f\sum_b\theta^a_b \wedge \theta^b$, and with the proposed forms
+$-\sum_b\omega^a_b \wedge \omega^b - \omega^a_n \wedge \omega^n = -f\sum_b\theta^a_b \wedge \theta^b - \frac{f^{\prime}}{f}\omega^a \wedge \omega^n$, which agrees; also $d\omega^n = 0$ and
+$-\sum_a\omega^n_a \wedge \omega^a = \sum_af^{\prime}\theta^a \wedge f\theta^a = 0$. So these are the connection forms. Then
+$\Omega^a_b = d\theta^a_b + \sum_c\theta^a_c \wedge \theta^c_b + \omega^a_n \wedge \omega^n_b = \theta^a \wedge \theta^b - f^{\prime2}\theta^a \wedge \theta^b = \frac{1 - f^{\prime2}}{f^2}\omega^a \wedge \omega^b$, and
+$\Omega^a_n = d(f^{\prime}\theta^a) + \sum_c\theta^a_c \wedge f^{\prime}\theta^c = f^{\prime\prime}dr \wedge \theta^a + f^{\prime}\bigl(d\theta^a + \sum_c\theta^a_c \wedge \theta^c\bigr) = -\frac{f^{\prime\prime}}{f}\omega^a \wedge \omega^n$, using the
+first structure equation of the sphere. For $f = r$: $0$ and $(1 - 1)/r^2 = 0$; for $f = \sin r$: $1$ and $(1 - \cos^2r)/\sin^2r = 1$; for $f = \sinh r$: $-1$ and $(1 - \cosh^2r)/\sinh^2r = -1$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-gbc-dimension-four}
+Let $M$ be a compact oriented $4$-manifold with a metric of constant curvature $\kappa$. Show that $\chi(M) = 3\kappa^2\operatorname{vol}(M)/(4\pi^2)$, and deduce that $T^4$ and $S^1 \times S^3$ carry no metric of
+constant curvature $\kappa \neq 0$. Check the formula directly for the product $S^2 \times S^2$ of two unit spheres, which does not have constant curvature: compute $\mathrm{Pf}(\Omega)$ in a product
+frame and show that $\frac{1}{4\pi^2}\int\mathrm{Pf}(\Omega) = 4 = \chi(S^2 \times S^2)$.
+\end{exercise}
+
+\begin{solution}
+The first statement is Corollary~\ref{riemannian-geometry:corollary-gauss-bonnet-chern}(2) with $m = 2$, $(2m-1)!! = 3$. By the K\"unneth formula $\chi(T^4) = \chi(S^1)^4 = 0$ and
+$\chi(S^1 \times S^3) = 0$, while $3\kappa^2\operatorname{vol}/(4\pi^2) > 0$ for $\kappa \neq 0$. For $S^2 \times S^2$ take orthonormal coframes $\omega^1, \omega^2$ of the first factor and $\omega^3, \omega^4$ of the
+second, pulled back. The connection forms of the factors, placed in two diagonal blocks, are skew-symmetric and satisfy the first structure equation, so they are the connection forms of
+the product. The curvature is block diagonal, $\Omega^1_2 = \omega^1 \wedge \omega^2$, $\Omega^3_4 = \omega^3 \wedge \omega^4$ and $\Omega^1_3 = \Omega^1_4 = \Omega^2_3 = \Omega^2_4 = 0$, so
+$\mathrm{Pf}(\Omega) = \Omega^1_2 \wedge \Omega^3_4 = dA_1 \wedge dA_2$, with integral $(4\pi)^2$, and $16\pi^2/(4\pi^2) = 4 = \chi(S^2)^2$. (The plane spanned by $e_1$ and $e_3$ has curvature $0$, the
+one spanned by $e_1$ and $e_2$ curvature $1$.)
 \end{solution}

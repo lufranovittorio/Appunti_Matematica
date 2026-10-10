@@ -5,7 +5,7 @@
 
 This chapter constructs the tensor, symmetric and exterior algebras of a vector space and studies
 the structures on them that underlie differential forms: alternating forms and interior products,
-orientations, the Hodge star operator of an inner product space, and the decomposition of the
+the Pfaffian of a skew-symmetric matrix, orientations, the Hodge star operator of an inner product space, and the decomposition of the
 exterior algebra of a real vector space with a complex structure into forms of type $(p,q)$. These are
 the pointwise versions of the constructions of Chapters~\ref{differential-forms},
 \ref{riemannian-geometry} and~\ref{complex-manifolds}.
@@ -241,6 +241,82 @@ $(\Lambda^{2m}f^*)(\omega^m) = \omega^m$; but $\Lambda^{2m}f^*$ is multiplicatio
 Proposition~\ref{linear-algebra:proposition-duality}(3)).
 \end{proof}
 
+The same computation, applied to an arbitrary alternating form instead of a nondegenerate one, produces a square root of the determinant of a skew-symmetric matrix. In the rest
+of this section $k$ is a field of characteristic $0$, $V = k^{2m}$ with standard basis $(e_i)$ and dual basis $(e_i^*)$. To a skew-symmetric matrix $A \in M_{2m}(k)$, that
+is $A^T = -A$, attach the $2$-form
+\[
+\alpha_A = \sum_{i < j}A_{ij}\,e_i^* \wedge e_j^* = \frac12\sum_{i, j}A_{ij}\,e_i^* \wedge e_j^* \in \Lambda^2(V^*) .
+\]
+The two expressions agree because $A_{ii} = 0$ and $A_{ji}\,e_j^* \wedge e_i^* = A_{ij}\,e_i^* \wedge e_j^*$. As an alternating form (Notation~\ref{multilinear-algebra:notation-forms}),
+$\alpha_A(v, w) = \sum_{i < j}A_{ij}(v_iw_j - v_jw_i) = \sum_{i, j}A_{ij}v_iw_j = v^TAw$. Since $\Lambda^{2m}(V^*)$ is one-dimensional, spanned by $e_1^* \wedge \cdots \wedge e_{2m}^*$
+(Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(3)), the following definition makes sense.
+
+\begin{definition}\label{multilinear-algebra:definition-pfaffian}
+The \emph{Pfaffian} of a skew-symmetric matrix $A \in M_{2m}(k)$ is the scalar $\mathrm{Pf}(A)$ with
+\[
+\alpha_A^m = \alpha_A \wedge \cdots \wedge \alpha_A = m!\,\mathrm{Pf}(A)\,e_1^* \wedge \cdots \wedge e_{2m}^* .
+\]
+\end{definition}
+
+\begin{proposition}\label{multilinear-algebra:proposition-pfaffian}
+Let $A \in M_{2m}(k)$ be skew-symmetric.
+\begin{enumerate}
+\item $\displaystyle\mathrm{Pf}(A) = \frac{1}{2^mm!}\sum_{\sigma \in S_{2m}}\operatorname{sgn}(\sigma)\,A_{\sigma(1)\sigma(2)}A_{\sigma(3)\sigma(4)} \cdots A_{\sigma(2m-1)\sigma(2m)}$. So $\mathrm{Pf}$ is a
+homogeneous polynomial of degree $m$ in the entries, with $\mathrm{Pf}(\lambda A) = \lambda^m\mathrm{Pf}(A)$; for instance
+\[
+\mathrm{Pf}\begin{pmatrix} 0 & a\\ -a & 0\end{pmatrix} = a, \qquad \mathrm{Pf}(A) = A_{12}A_{34} - A_{13}A_{24} + A_{14}A_{23} \quad (m = 2).
+\]
+\item $\mathrm{Pf}(g^TAg) = \det(g)\,\mathrm{Pf}(A)$ for every $g \in M_{2m}(k)$. In particular $\mathrm{Pf}$ is invariant under conjugation by $\mathrm{SO}(2m)$, and changes sign under
+conjugation by an orthogonal matrix of determinant $-1$.
+\item If $A$ is block diagonal with blocks $\begin{pmatrix} 0 & a_i\\ -a_i & 0\end{pmatrix}$, $i = 1, \ldots, m$, then $\mathrm{Pf}(A) = a_1a_2 \cdots a_m$.
+\item $\mathrm{Pf}(A)^2 = \det A$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Expanding the $m$-th power of $\alpha_A = \frac12\sum_{i,j}A_{ij}e_i^* \wedge e_j^*$ gives
+\[
+\alpha_A^m = \frac{1}{2^m}\sum_{i_1, j_1, \ldots, i_m, j_m}A_{i_1j_1} \cdots A_{i_mj_m}\,e_{i_1}^* \wedge e_{j_1}^* \wedge \cdots \wedge e_{i_m}^* \wedge e_{j_m}^* .
+\]
+A wedge product of $1$-forms with a repeated factor vanishes, so only the terms in which $(i_1, j_1, \ldots, i_m, j_m) = (\sigma(1), \ldots, \sigma(2m))$ for a permutation $\sigma$
+survive, and for them $e_{\sigma(1)}^* \wedge \cdots \wedge e_{\sigma(2m)}^* = \operatorname{sgn}(\sigma)\,e_1^* \wedge \cdots \wedge e_{2m}^*$ by
+Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(1). Comparing with the definition gives the formula. For $m = 1$ the two permutations give
+$\frac12(A_{12} - A_{21}) = A_{12}$. In general the $2^mm!$ permutations that differ by reordering the $m$ pairs (an even permutation of positions) and by swapping
+the two entries of some pairs (which changes both $\operatorname{sgn}\sigma$ and the sign of one factor) give the same term, so $\mathrm{Pf}(A)$ is the sum over the ways
+of splitting $\{1, \ldots, 2m\}$ into $m$ pairs $\{a_l < b_l\}$ of $\pm\prod_lA_{a_lb_l}$, the sign being that of the permutation $(a_1, b_1, \ldots, a_m, b_m)$. For $m = 2$ the
+three splittings $\{12, 34\}$, $\{13, 24\}$, $\{14, 23\}$ give the permutations $1234$, $1324$, $1423$, of signs $+1$, $-1$, $+1$.
+
+(2) Let $g^* \colon V^* \to V^*$, $\varphi \mapsto \varphi \circ g$, where $g$ acts on $V = k^{2m}$ by matrix multiplication. Then $g^*e_k^* = \sum_ig_{ki}e_i^*$, because
+$e_k^*(ge_i) = g_{ki}$. The induced map $\Lambda g^*$ on $\Lambda(V^*)$ is multiplicative, and
+\[
+(\Lambda^2g^*)(\alpha_A) = \frac12\sum_{k, l}A_{kl}\Bigl(\sum_ig_{ki}e_i^*\Bigr) \wedge \Bigl(\sum_jg_{lj}e_j^*\Bigr) = \frac12\sum_{i, j}(g^TAg)_{ij}\,e_i^* \wedge e_j^* = \alpha_{g^TAg},
+\]
+$g^TAg$ being again skew-symmetric. Taking $m$-th powers, $\alpha_{g^TAg}^m = (\Lambda^{2m}g^*)(\alpha_A^m) = m!\,\mathrm{Pf}(A)\det(g)\,e_1^* \wedge \cdots \wedge e_{2m}^*$, since
+$\Lambda^{2m}g^*$ is multiplication by $\det g^* = \det g$ (Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(5) and
+Proposition~\ref{linear-algebra:proposition-duality}(3)). For $g$ orthogonal, $g^TAg = g^{-1}Ag$.
+
+(3) Here $\alpha_A = \sum_ia_i\,e_{2i-1}^* \wedge e_{2i}^*$. The $2$-forms $e_{2i-1}^* \wedge e_{2i}^*$ commute and square to zero, so
+$\alpha_A^m = m!\,a_1 \cdots a_m\,e_1^* \wedge \cdots \wedge e_{2m}^*$, as in the proof of Proposition~\ref{multilinear-algebra:proposition-symplectic-determinant}.
+
+(4) Suppose first that $A$ is invertible. Then $\omega(v, w) = v^TAw$ is a nondegenerate alternating form, and by Theorem~\ref{linear-algebra:theorem-symplectic-basis} it has a
+symplectic basis $e_1^{\prime}, \ldots, e_m^{\prime}, f_1^{\prime}, \ldots, f_m^{\prime}$. Let $g$ be the matrix with columns $e_1^{\prime}, f_1^{\prime}, e_2^{\prime}, f_2^{\prime}, \ldots, e_m^{\prime}, f_m^{\prime}$
+(in this order). The entries of $g^TAg$ are the values of $\omega$ on pairs of these vectors, so $g^TAg = J$ is block diagonal with blocks
+$\bigl(\begin{smallmatrix} 0 & 1\\ -1 & 0\end{smallmatrix}\bigr)$. By (3), $\mathrm{Pf}(J) = 1$, and $\det J = 1$. By (2), $\det(g)\mathrm{Pf}(A) = 1$, while $\det(g)^2\det(A) = \det J = 1$;
+so $\mathrm{Pf}(A)^2 = \det(g)^{-2} = \det A$. If $A$ is not invertible, choose $v \neq 0$ with $Av = 0$ and an invertible $g$ with first column $v$. The first column of $g^TAg$ is
+$g^TAv = 0$, and by skew-symmetry so is its first row; hence $\alpha_{g^TAg}$ is a $2$-form in $e_2^*, \ldots, e_{2m}^*$ only, and its $m$-th power, of degree $2m$ in $2m - 1$ linear
+forms, vanishes. So $\det(g)\mathrm{Pf}(A) = \mathrm{Pf}(g^TAg) = 0$, and $\mathrm{Pf}(A) = 0 = \det A$.
+\end{proof}
+
+Since $\mathrm{Pf}$ is a polynomial with rational coefficients, the identity in (2) is a polynomial identity in the entries of $A$ and $g$; so it remains true when the entries
+of $A$ are taken in any commutative $\QQ$-algebra, for instance the algebra of differential forms of even degree on a manifold. This is how the Pfaffian is applied to curvature
+matrices in Chapter~\ref{characteristic-classes}, where it produces the Euler form.
+
+\begin{example}\label{multilinear-algebra:example-pfaffian}
+For the $4 \times 4$ skew-symmetric matrix with $A_{12} = 1$, $A_{13} = 2$, $A_{14} = 3$, $A_{23} = 4$, $A_{24} = 5$, $A_{34} = 6$, the formula gives
+$\mathrm{Pf}(A) = 1 \cdot 6 - 2 \cdot 5 + 3 \cdot 4 = 8$, and indeed $\det A = 64$. A real skew-symmetric matrix has $\det A = \mathrm{Pf}(A)^2 \geq 0$; this explains why the
+determinant of a skew-symmetric matrix of even size is a perfect square, while one of odd size is $0$ (as $\det A = \det A^T = \det(-A) = (-1)^n\det A$).
+\end{example}
+
 \section{Orientations and the Hodge star}\label{multilinear-algebra:section-hodge-star}
 
 \begin{definition}\label{multilinear-algebra:definition-orientation}
@@ -378,3 +454,20 @@ With notation as in Section~\ref{multilinear-algebra:section-pq-forms}, let $C$ 
 $i^{p-q}$. Show that $C$ commutes with complex conjugation, so preserves real forms, and that $C$ is the map
 induced on $\Lambda(W_\CC)$ by $J^*$.
 \end{exercise}
+
+\begin{exercise}\label{multilinear-algebra:exercise-pfaffian-blocks}
+Let $X \in M_m(k)$, $\operatorname{char}k = 0$, and $A = \begin{pmatrix} 0 & X\\ -X^T & 0\end{pmatrix} \in M_{2m}(k)$. Show that $\mathrm{Pf}(A) = (-1)^{m(m-1)/2}\det X$, and check the
+case $m = 2$ against the formula of Proposition~\ref{multilinear-algebra:proposition-pfaffian}(1). Show also that $\mathrm{Pf}$ of a block diagonal matrix with skew-symmetric
+blocks $A_1$, $A_2$ of even sizes is $\mathrm{Pf}(A_1)\mathrm{Pf}(A_2)$.
+\end{exercise}
+
+\begin{solution}
+Here $\alpha_A = \sum_{i,j}X_{ij}\,e_i^* \wedge e_{m+j}^* = \sum_{i=1}^me_i^* \wedge \varphi_i$ with $\varphi_i = \sum_jX_{ij}e_{m+j}^*$. The $2$-forms $e_i^* \wedge \varphi_i$ commute and square
+to zero, so $\alpha_A^m = m!\,(e_1^* \wedge \varphi_1) \wedge \cdots \wedge (e_m^* \wedge \varphi_m)$. Moving all the $e_i^*$ to the front, $\varphi_j$ must pass $e_{j+1}^*, \ldots, e_m^*$, which
+gives the sign $(-1)^{(m-1) + (m-2) + \cdots + 0} = (-1)^{m(m-1)/2}$; and $\varphi_1 \wedge \cdots \wedge \varphi_m = \det(X)\,e_{m+1}^* \wedge \cdots \wedge e_{2m}^*$ by
+Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(5). So $\alpha_A^m = m!\,(-1)^{m(m-1)/2}\det(X)\,e_1^* \wedge \cdots \wedge e_{2m}^*$. For $m = 2$,
+$A_{12} = A_{34} = 0$, $A_{13} = X_{11}$, $A_{24} = X_{22}$, $A_{14} = X_{12}$, $A_{23} = X_{21}$, and the formula gives $-X_{11}X_{22} + X_{12}X_{21} = -\det X$, in accordance with
+$(-1)^{1} = -1$. For the block diagonal matrix, of sizes $2m_1$ and $2m_2$, $\alpha_A = \alpha_{A_1} + \alpha_{A_2}$ with $\alpha_{A_1}$, $\alpha_{A_2}$ commuting $2$-forms in disjoint sets of
+variables. In $(\alpha_{A_1} + \alpha_{A_2})^{m_1 + m_2}$ only the term $\binom{m_1 + m_2}{m_1}\alpha_{A_1}^{m_1}\alpha_{A_2}^{m_2}$ survives, since a power of $\alpha_{A_i}$ above $m_i$ vanishes, and it equals
+$\frac{(m_1 + m_2)!}{m_1!m_2!}\,m_1!\mathrm{Pf}(A_1)\,m_2!\mathrm{Pf}(A_2)\,e_1^* \wedge \cdots \wedge e_{2m}^*$.
+\end{solution}
