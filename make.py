@@ -745,7 +745,43 @@ def write_search_index(project, entries, label_tag):
     (HTML_DIR / "js").mkdir(exist_ok=True)
     shutil.copy2(ROOT / "web" / "search.js", HTML_DIR / "js" / "search.js")
     (HTML_DIR / "search.html").write_text(SEARCH_PAGE.replace("@MATHJAX_URL@", MATHJAX_URL), encoding="utf-8")
+    shutil.copy2(ROOT / "web" / "print.js", HTML_DIR / "js" / "print.js")
+    (HTML_DIR / "print.html").write_text(PRINT_PAGE.replace("@MATHJAX_URL@", MATHJAX_URL), encoding="utf-8")
     return len(items)
+
+
+PRINT_PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chapter - The Hodge Project</title>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\\\(", "\\\\)"]], displayMath: [["\\\\[", "\\\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  skipStartupTypeset: true,
+  messageStyle: "none"
+});
+</script>
+<script src="@MATHJAX_URL@"></script>
+<link rel="stylesheet" href="styles/theme-hodge.css" />
+</head>
+<body class="print-page" data-theme="light">
+<div class="print-toolbar">
+  <a href="index.html">The Hodge Project</a>
+  <span id="print-status" aria-live="polite">Loading the chapter&hellip;</span>
+  <button id="print-button" type="button" hidden>Print or save as PDF</button>
+</div>
+<main class="content print-content">
+<article class="main-text" id="print-body"></article>
+</main>
+<noscript><p>This page needs JavaScript. The PDF of the whole book is <a href="book.pdf">here</a>.</p></noscript>
+<script src="js/print.js"></script>
+</body>
+</html>
+"""
 
 
 SEARCH_PAGE = """<!DOCTYPE html>

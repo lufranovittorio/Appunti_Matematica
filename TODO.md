@@ -16,6 +16,38 @@ references in proofs).
 
 ## Done
 
+- [x] **Website: previews on touch screens, chapter PDF, mobile overflow**:
+  on phones the first tap on a reference opens the preview as a panel at the
+  bottom of the screen (with "Open" and a close button), a second tap follows
+  the link; a "Chapter PDF" header link opens `print.html?chapter=...`, which
+  collects the chapter and opens the browser's print dialog (save as PDF), so
+  no server build is needed; long inline formulas no longer widen the page on
+  narrow screens. Example of the trivial connection now explains why a
+  section of a trivial bundle is a vector-valued function, and the column
+  convention.
+
+- [x] **Elliptic operators and Hodge theorem, slower; products of bundle-valued
+  forms** (`connections`, `elliptic-operators`, `hodge-theorem`): products
+  of bundle-valued forms as a definition with a proposition (frame formulas,
+  change of frame, evaluation, associativity) and worked examples; the remark
+  on the missing exterior derivative in row/column notation with the line
+  bundle example. Elliptic operators: motivation and plan, symbol
+  computations (Laplacian in coordinates, Cauchy–Riemann, non-elliptic
+  examples), Sobolev examples (Dirac, jump), interpolation inequality,
+  resonance example, fixed the symbol of the adjoint (no factor $(-1)^m$),
+  exercises (spherical harmonics, $d/d\theta + a$, heat equation,
+  harmonic functions as real parts). Hodge theorem: finite-dimensional
+  Hodge lemma, circle and Helmholtz decompositions, conformal invariance of
+  harmonic $1$-forms on surfaces, proof of the Bochner–Weitzenböck formula
+  on $1$-forms, sharpness of Bochner; the solution of the metric-dependence
+  exercise was wrong (a conformal change on a surface does not change the
+  harmonic $1$-forms) and is replaced; solutions to all exercises. In
+  `connections`, the definition of a connection now contains only the
+  definition, with motivation; the properties of $\nabla_X$ are proved in
+  the next proposition with every step cited, using the new remark
+  $df(X) = Xf$ in `differential-forms` (it was used everywhere but never
+  stated); the change-of-frame and existence proofs are more detailed.
+
 - [x] **Previews and residues** (website, `complex-manifolds`,
   `riemannian-geometry`, `real-analysis`): hovering over a reference to a
   statement, a section, a numbered equation or a bibliography entry shows it

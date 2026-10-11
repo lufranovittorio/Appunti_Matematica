@@ -126,49 +126,123 @@ $\omega(X_1, \ldots, X_k)e_j = \sum_i\omega^i_j(X_1, \ldots, X_k)e_i$. The curva
 \end{enumerate}
 \end{example}
 
-\emph{Products.} Forms with values in bundles can be multiplied whenever the values can: the wedge product of an ordinary $k$-form and an $E$-valued $l$-form is the $E$-valued
-$(k + l)$-form given by $\alpha \wedge (\beta \otimes s) = (\alpha \wedge \beta) \otimes s$; an $\End(E)$-valued form acts on an $E$-valued form by
-$(\alpha \otimes A) \wedge (\beta \otimes s) = (\alpha \wedge \beta) \otimes As$; and two $\End(E)$-valued forms multiply by
-$(\alpha \otimes A) \wedge (\beta \otimes B) = (\alpha \wedge \beta) \otimes AB$. These formulas define bilinear maps fibre by fibre, hence operations on forms. In a frame they are
-matrix products in which the entries are multiplied with the wedge product:
+\emph{Products.} Forms with values in bundles can be multiplied whenever their values can be multiplied. The recipe is always the same: at a point, a bundle-valued form is a sum of
+products $\alpha \otimes s$ of an ordinary form and a vector, and one multiplies the form parts with the wedge product and the vector parts with whatever product the values have. Three
+cases are needed in this chapter: an ordinary form times an $E$-valued form, an $\End(E)$-valued form acting on an $E$-valued form (the connection form acting on components, or the
+curvature acting on a section), and the product of two $\End(E)$-valued forms (as in $\theta \wedge \theta$).
+
+\begin{definition}\label{connections:definition-products}
+Let $\alpha \in \Omega^k(M)$, $\omega \in \Omega^l(M, E)$, $\theta \in \Omega^k(M, \End E)$ and $\eta \in \Omega^l(M, \End E)$. Their \emph{wedge products} are the forms
+$\alpha \wedge \omega \in \Omega^{k+l}(M, E)$, $\theta \wedge \omega \in \Omega^{k+l}(M, E)$ and $\theta \wedge \eta \in \Omega^{k+l}(M, \End E)$ given at each point on decomposable elements by
 \[
-(\theta \wedge \omega)^i = \sum_j\theta^i_j \wedge \omega^j, \qquad (\theta \wedge \eta)^i_j = \sum_k\theta^i_k \wedge \eta^k_j .
+\alpha \wedge (\beta \otimes s) = (\alpha \wedge \beta) \otimes s, \qquad (\gamma \otimes A) \wedge (\beta \otimes s) = (\gamma \wedge \beta) \otimes As, \qquad (\gamma \otimes A) \wedge (\beta \otimes B) = (\gamma \wedge \beta) \otimes AB,
 \]
-We also write $\alpha \wedge s = \alpha \otimes s$ for $s \in \Omega^0(M, E)$. On vectors, by Proposition~\ref{multilinear-algebra:proposition-wedge-formula}, for $1$-forms
-$\theta \in \Omega^1(M, \End E)$ and $\omega \in \Omega^1(M, E)$,
+for ordinary forms $\gamma$, $\beta$, vectors $s \in E_p$ and endomorphisms $A, B \in \End(E_p)$. For a section $s \in \Omega^0(M, E)$ we write $\alpha \wedge s = \alpha \otimes s$, and $\theta \wedge s = \theta s$
+is the $E$-valued $k$-form $(X_1, \ldots, X_k) \mapsto \theta(X_1, \ldots, X_k)s$.
+\end{definition}
+
+The formulas are given on decomposable elements only, and one has to check that they determine the products. At a point $p$, with $V = T_pM$, the map
+$(\gamma, A, \beta, s) \mapsto (\gamma \wedge \beta) \otimes As$ is linear in each of its four arguments; by the universal property of the tensor product (Definition~\ref{rings:definition-tensor}), applied twice,
+it induces a well-defined bilinear map $(\Lambda^kV^* \otimes \End E_p) \times (\Lambda^lV^* \otimes E_p) \to \Lambda^{k+l}V^* \otimes E_p$, and similarly in the other two cases. So the products are defined
+point by point, and they are smooth because in a frame they are given by the following formulas.
+
+\begin{proposition}\label{connections:proposition-products}
+Let $e = (e_1, \ldots, e_r)$ be a frame of $E$ over $U$. Write $\omega = \sum_j\omega^j \otimes e_j$, and write the $\End(E)$-valued forms as matrices of ordinary forms, $\theta e_j = \sum_i\theta^i_j\,e_i$
+and $\eta e_j = \sum_i\eta^i_j\,e_i$ (Example~\ref{connections:example-bundle-valued-forms}(3)).
+\begin{enumerate}
+\item The products are matrix products in which the entries are multiplied with the wedge product:
+\[
+(\alpha \wedge \omega)^i = \alpha \wedge \omega^i, \qquad (\theta \wedge \omega)^i = \sum_j\theta^i_j \wedge \omega^j, \qquad (\theta \wedge \eta)^i_j = \sum_k\theta^i_k \wedge \eta^k_j .
+\]
+\item In row and column notation, $\omega = e\,\omega$, where $e$ is the row of the frame and $\omega$ the column of components. If $e^{\prime} = eg$ is another frame, with $g \colon U \to \GL_r(\mathbb{K})$
+smooth, that is $e^{\prime}_j = \sum_ie_ig^i_j$, then the components change by $\omega^{\prime} = g^{-1}\omega$ and $\theta^{\prime} = g^{-1}\theta g$, and the formulas of (1) give the same products in
+both frames: $\theta^{\prime} \wedge \omega^{\prime} = g^{-1}(\theta \wedge \omega)$ and $\theta^{\prime} \wedge \eta^{\prime} = g^{-1}(\theta \wedge \eta)g$.
+\item For $1$-forms $\theta \in \Omega^1(M, \End E)$ and $\omega \in \Omega^1(M, E)$ and vector fields $X$, $Y$,
 \[
 (\theta \wedge \omega)(X, Y) = \theta(X)\omega(Y) - \theta(Y)\omega(X), \qquad (\theta \wedge \theta)(X, Y) = \theta(X)\theta(Y) - \theta(Y)\theta(X) = [\theta(X), \theta(Y)] .
 \]
-In particular, for a matrix $\theta$ of $1$-forms, $\theta \wedge \theta$ need not vanish: for $\theta = \bigl(\begin{smallmatrix} 0 & dx\\ dy & 0\end{smallmatrix}\bigr)$,
-$\theta \wedge \theta = \bigl(\begin{smallmatrix} dx \wedge dy & 0\\ 0 & dy \wedge dx\end{smallmatrix}\bigr)$. For a single $1$-form ($r = 1$), $\theta \wedge \theta = 0$. The graded
-commutativity of ordinary forms, $\alpha \wedge \beta = (-1)^{kl}\beta \wedge \alpha$, holds for an ordinary form $\alpha$ against any bundle-valued form $\beta$, but not for two
-matrix-valued forms.
+\item The products are associative, $(\theta \wedge \eta) \wedge \omega = \theta \wedge (\eta \wedge \omega)$, and ordinary forms commute with bundle-valued forms up to the usual sign:
+$\alpha \wedge (\theta \wedge \omega) = (-1)^{kk^{\prime}}\theta \wedge (\alpha \wedge \omega)$ for $\alpha$ of degree $k$ and $\theta$ of degree $k^{\prime}$. Two $\End(E)$-valued forms do not commute in general.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Let $E^i_j$ be the endomorphism of $E|_U$ with $E^i_je_j = e_i$ and $E^i_je_k = 0$ for $k \neq j$, the matrix unit, so that $\theta = \sum_{i,j}\theta^i_j \otimes E^i_j$. By bilinearity,
+$\theta \wedge \omega = \sum_{i,j,k}(\theta^i_j \wedge \omega^k) \otimes E^i_je_k = \sum_{i,j}(\theta^i_j \wedge \omega^j) \otimes e_i$, and since $E^i_kE^l_j = \delta_{kl}E^i_j$,
+$\theta \wedge \eta = \sum_{i,j,k}(\theta^i_k \wedge \eta^k_j) \otimes E^i_j$. The first formula is immediate.
+
+(2) $e^{\prime}(g^{-1}\omega) = e\,gg^{-1}\omega = e\,\omega$, so by uniqueness of components $\omega^{\prime} = g^{-1}\omega$: the frame is multiplied by $g$ on the right and the components by $g^{-1}$ on the
+left, and the two changes cancel. For an endomorphism-valued form, in row notation $\theta(e) = e\,\theta$ (applying $\theta$ to each $e_j$), hence
+$\theta(e^{\prime}) = \theta(e)g = e\,\theta g = e^{\prime}g^{-1}\theta g$, so $\theta^{\prime} = g^{-1}\theta g$. The entries of $g$ are functions, which can be moved through wedge products, so
+$\theta^{\prime} \wedge \omega^{\prime} = g^{-1}\theta g \wedge g^{-1}\omega = g^{-1}(\theta \wedge \omega)$, which is the column of components of $\theta \wedge \omega$ in the frame $e^{\prime}$; similarly for $\theta \wedge \eta$.
+
+(3) For ordinary $1$-forms, $(\gamma \wedge \beta)(X, Y) = \gamma(X)\beta(Y) - \gamma(Y)\beta(X)$ (Proposition~\ref{multilinear-algebra:proposition-wedge-formula}). Applying this to each entry of (1),
+$(\theta \wedge \omega)^i(X, Y) = \sum_j\bigl(\theta^i_j(X)\omega^j(Y) - \theta^i_j(Y)\omega^j(X)\bigr)$, which is the $i$-th component of $\theta(X)\omega(Y) - \theta(Y)\omega(X)$. The same computation gives the
+second formula.
+
+(4) In a frame, associativity is that of the wedge product and of matrix multiplication, and the sign rule is that of ordinary forms, applied entry by entry.
+\end{proof}
+
+Part (2) is the pattern for checking that a formula written in a frame defines a global object: compute how both sides transform under $e^{\prime} = eg$ and check that they transform in the same
+way. The products pass this test because they are computed point by point. The exterior derivative of components does not pass it (Remark~\ref{connections:remark-no-canonical-d}).
+
+\begin{example}\label{connections:example-products}
+\begin{enumerate}
+\item On the trivial bundle $\RR^2 \times \RR^2$ over $\RR^2$, with its standard frame, let $\theta = \bigl(\begin{smallmatrix} 0 & dx\\ dy & 0\end{smallmatrix}\bigr)$ and $\omega = \bigl(\begin{smallmatrix} dx\\ dy\end{smallmatrix}\bigr)$.
+Then
+\[
+\theta \wedge \omega = \begin{pmatrix} dx \wedge dy\\ dy \wedge dx\end{pmatrix} = \begin{pmatrix} 1\\ -1\end{pmatrix}dx \wedge dy, \qquad
+\theta \wedge \theta = \begin{pmatrix} dx \wedge dy & 0\\ 0 & dy \wedge dx\end{pmatrix} = \begin{pmatrix} 1 & 0\\ 0 & -1\end{pmatrix}dx \wedge dy .
+\]
+Check with (3): $\theta(\partial_x) = \bigl(\begin{smallmatrix} 0 & 1\\ 0 & 0\end{smallmatrix}\bigr)$ and $\theta(\partial_y) = \bigl(\begin{smallmatrix} 0 & 0\\ 1 & 0\end{smallmatrix}\bigr)$, whose commutator is
+$\bigl(\begin{smallmatrix} 1 & 0\\ 0 & -1\end{smallmatrix}\bigr)$, the value of $\theta \wedge \theta$ on $(\partial_x, \partial_y)$. So for a matrix of $1$-forms $\theta \wedge \theta$ need not vanish, unlike
+$\gamma \wedge \gamma = 0$ for a single $1$-form; it vanishes for $r = 1$, and more generally whenever all the matrices $\theta(X)$ commute.
+\item The order matters: $\theta \wedge \eta$ and $\eta \wedge \theta$ differ in general even for $1$-forms. For $\eta = \bigl(\begin{smallmatrix} dx & 0\\ 0 & 0\end{smallmatrix}\bigr)$ and $\theta$ as in (1),
+$\theta \wedge \eta = \bigl(\begin{smallmatrix} 0 & 0\\ dy \wedge dx & 0\end{smallmatrix}\bigr)$ and $\eta \wedge \theta = \bigl(\begin{smallmatrix} 0 & dx \wedge dx\\ 0 & 0\end{smallmatrix}\bigr) = 0$.
+\item A $2$-form $F \in \Omega^2(M, \End E)$ and a section $s$ give the $E$-valued $2$-form $F \wedge s = Fs$, $(X, Y) \mapsto F(X, Y)s$. This is how the curvature of a connection acts on sections
+(Proposition~\ref{connections:proposition-curvature}).
+\end{enumerate}
+\end{example}
 
 \begin{remark}\label{connections:remark-no-canonical-d}
-There is no canonical exterior derivative on $\Omega^k(M, E)$. On a trivial bundle one can differentiate components, $d(\sum_i\omega^ie_i) = \sum_id\omega^i\,e_i$; but this
-depends on the frame. If $e^{\prime} = eg$ is another frame, that is $e^{\prime}_j = \sum_ie_ig^i_j$ for a smooth $g \colon U \to \GL_r(\mathbb{K})$, then the components are
-related by $\omega = g\omega^{\prime}$ (as columns: $\omega^i = \sum_jg^i_j\omega^{\prime j}$), and
+There is no canonical exterior derivative on $\Omega^k(M, E)$: unlike the products, ``differentiate the components'' is not a pointwise operation, and it depends on the frame. Use the row and
+column notation of Proposition~\ref{connections:proposition-products}(2): $\omega = e\,\omega$, and in the frame $e$ define $d_e\omega = e\,d\omega$, differentiating the column of components. In another
+frame $e^{\prime} = eg$ the same form is $\omega = e^{\prime}\omega^{\prime}$ with $\omega^{\prime} = g^{-1}\omega$; one may picture this as inserting $gg^{-1} = I$ between frame and components,
+$e\,\omega = (eg)(g^{-1}\omega)$. The two changes cancel in $\omega$, but $d$ only sees the one in the components:
 \[
-\sum_id\omega^i\,e_i = \sum_jd\omega^{\prime j}\,e^{\prime}_j + \sum_{i,j}(dg^i_j \wedge \omega^{\prime j})\,e_i .
+d_{e^{\prime}}\omega = e^{\prime}d\omega^{\prime} = e\,g\,d(g^{-1}\omega) = e\,g\bigl(g^{-1}d\omega + d(g^{-1}) \wedge \omega\bigr) = d_e\omega - e\,(dg\,g^{-1}) \wedge \omega,
 \]
-The two ``derivatives'' agree for all $\omega$ only if $dg = 0$, that is, if the change of frame is locally constant. A connection supplies the missing correction term, and it
-does so consistently for all frames.
+using $d(g^{-1}) = -g^{-1}dg\,g^{-1}$, which follows by differentiating $gg^{-1} = I$. So $d_e$ and $d_{e^{\prime}}$ agree on all forms only if $dg = 0$, that is, if the change of frame is locally constant.
+The simplest instance: on the trivial line bundle $M \times \RR$ take the frame $e = 1$ and the frame $e^{\prime} = f$ for a nowhere vanishing function $f$. The section $s = f$ has component $f$ in the
+frame $e$ and component $1$ in the frame $e^{\prime}$, so $d_es = df \otimes 1$ while $d_{e^{\prime}}s = 0$. A connection supplies the missing correction term, a matrix of $1$-forms $\theta$ in each
+frame, with the transformation rule $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ that exactly compensates the term $e\,(dg\,g^{-1}) \wedge \omega$
+(Proposition~\ref{connections:proposition-connections-exist} and Proposition~\ref{connections:proposition-exterior-covariant}).
 \end{remark}
 
 \section{Connections}\label{connections:section-connections}
 
+How should one differentiate a section $s$ of a vector bundle? On a trivial bundle $s$ is a vector-valued function and has a derivative $ds$, but Remark~\ref{connections:remark-no-canonical-d} shows
+that ``differentiate the components'' depends on the frame. Instead of choosing a formula, we list the properties a derivative of sections should have: it should take a section to something that
+eats a tangent vector and returns a vector of the fibre (an $E$-valued $1$-form), be additive, and obey the product rule with functions. A connection is anything with these properties.
+
 \begin{definition}\label{connections:definition-connection}
-A \emph{connection} (or \emph{covariant derivative}) on a vector bundle $E \to M$ is a map $\nabla \colon \Gamma(M, E) \to \Omega^1(M, E)$ that is $\mathbb{K}$-linear and satisfies
-the Leibniz rule
+A \emph{connection} (or \emph{covariant derivative}) on a vector bundle $E \to M$ is a $\mathbb{K}$-linear map $\nabla \colon \Gamma(M, E) \to \Omega^1(M, E)$ that satisfies the Leibniz rule
 \[
 \nabla(fs) = df \otimes s + f\nabla s, \qquad f \in C^\infty(M),\ s \in \Gamma(M, E).
 \]
-For a vector field $X$ we write $\nabla_Xs = (\nabla s)(X)$, so $\nabla_{fX}s = f\nabla_Xs$ and $\nabla_X(fs) = (Xf)s + f\nabla_Xs$.
 \end{definition}
 
-So $\nabla s$ is an $E$-valued $1$-form: at each point it is the linear map $T_pM \to E_p$, $v \mapsto \nabla_vs = (\nabla s)_p(v)$, the \emph{covariant derivative} of $s$ in the
-direction $v$. In Riemannian geometry and in many books a connection is introduced instead as an operation $(X, s) \mapsto \nabla_Xs$, and for $E = TM$ one writes
-$\nabla_XY$. The two points of view are equivalent.
+In the Leibniz rule both sides are $E$-valued $1$-forms: $df \otimes s$ is the product of the $1$-form $df$ with the section $s$ (Definition~\ref{connections:definition-products}), and $f\nabla s$ is the
+$E$-valued $1$-form $\nabla s$ multiplied by the function $f$. The model is the trivial connection $d$ on $M \times \mathbb{K}^r$, for which the rule is the product rule $d(fs) = df\,s + f\,ds$
+(Example~\ref{connections:example-connections}(1) below).
+
+At a point $p$, the value $(\nabla s)_p$ of the $E$-valued $1$-form $\nabla s$ is a linear map $T_pM \to E_p$ (Proposition~\ref{connections:proposition-bundle-valued-forms}). For a tangent vector $v \in T_pM$
+and a vector field $X$ we write
+\[
+\nabla_vs = (\nabla s)_p(v) \in E_p, \qquad \nabla_Xs = (\nabla s)(X) \in \Gamma(M, E), \quad (\nabla_Xs)(p) = \nabla_{X(p)}s,
+\]
+the \emph{covariant derivative} of $s$ in the direction $v$, respectively along $X$. In Riemannian geometry and in many books a connection is introduced directly as an operation $(X, s) \mapsto \nabla_Xs$, and for
+$E = TM$ one writes $\nabla_XY$. The next proposition shows that the two points of view are equivalent, and translates the Leibniz rule into the language of $\nabla_X$.
 
 \begin{proposition}\label{connections:proposition-connection-operators}
 Let $\nabla$ be a connection. The map $\mathfrak{X}(M) \times \Gamma(E) \to \Gamma(E)$, $(X, s) \mapsto \nabla_Xs$, has the properties
@@ -182,10 +256,20 @@ $X(p)$, so $\nabla_vs$ is defined for a single tangent vector $v$.
 \end{proposition}
 
 \begin{proof}
-(1) holds because $\nabla s$ is a $1$-form, (2) is the linearity of $\nabla$, and (3) is the Leibniz rule evaluated on $X$, since $(df \otimes s)(X) = df(X)s = (Xf)s$.
-Conversely, for fixed $s$ the map $X \mapsto D_Xs$ is $C^\infty(M)$-linear by (1), so by Proposition~\ref{connections:proposition-bundle-valued-forms}(3) it is an $E$-valued
-$1$-form $\nabla s$ with $(\nabla s)(X) = D_Xs$. The map $s \mapsto \nabla s$ is linear by (2), and (3) says $\nabla(fs)(X) = (df \otimes s + f\nabla s)(X)$ for all $X$. The last
-statement is Lemma~\ref{connections:lemma-tensoriality} for $X \mapsto \nabla_Xs$.
+(1) For fixed $s$, $\nabla s$ is an $E$-valued $1$-form, and evaluating it on vector fields is $C^\infty(M)$-linear (Proposition~\ref{connections:proposition-bundle-valued-forms}(3)):
+$(\nabla s)(fX + gY) = f(\nabla s)(X) + g(\nabla s)(Y)$.
+
+(2) This is the $\mathbb{K}$-linearity of $s \mapsto \nabla s$, evaluated on $X$.
+
+(3) Evaluate the Leibniz rule on $X$. For the first term, $(df \otimes s)(X) = df(X)\,s$, by the identification of $(\alpha \otimes e)(v)$ with $\alpha(v)e$ in
+Proposition~\ref{connections:proposition-bundle-valued-forms}, and $df(X) = Xf$, the derivative of $f$ along $X$ (Remark~\ref{differential-forms:remark-differential-function}). For the second,
+$(f\nabla s)(X) = f\,(\nabla s)(X) = f\nabla_Xs$. So $\nabla_X(fs) = (Xf)s + f\nabla_Xs$.
+
+Conversely, let $D$ have properties (1)--(3). For fixed $s$ the map $X \mapsto D_Xs$ is $C^\infty(M)$-linear by (1), so by Proposition~\ref{connections:proposition-bundle-valued-forms}(3) there is a
+unique $E$-valued $1$-form, call it $\nabla s$, with $(\nabla s)(X) = D_Xs$ for all $X$. The map $s \mapsto \nabla s$ is $\mathbb{K}$-linear by (2) and the uniqueness. For the Leibniz rule, the two
+$E$-valued $1$-forms $\nabla(fs)$ and $df \otimes s + f\nabla s$ take the same value on every vector field $X$, namely $D_X(fs) = (Xf)s + fD_Xs$ by (3) and the computation in the first part; an
+$E$-valued $1$-form is determined by its values on vector fields (Proposition~\ref{connections:proposition-bundle-valued-forms}), so they are equal. The connection is unique because $\nabla s$ is
+determined by the values $D_Xs$. Finally, $X \mapsto \nabla_Xs$ is $C^\infty(M)$-linear, so its value at $p$ depends only on $X(p)$ by Lemma~\ref{connections:lemma-tensoriality}.
 \end{proof}
 
 Note the asymmetry: $\nabla_Xs$ is $C^\infty$-linear in $X$ but not in $s$. It depends only on the value of $X$ at a point, but on the values of $s$ near the point (in fact, on
@@ -193,8 +277,13 @@ its values along a curve with velocity $X(p)$; Remark~\ref{connections:remark-al
 
 \begin{example}\label{connections:example-connections}
 \begin{enumerate}
-\item \emph{The trivial connection.} On the trivial bundle $M \times \mathbb{K}^r$ a section is a vector-valued function $s = (s^1, \ldots, s^r)^T$, and
-$ds = (ds^1, \ldots, ds^r)^T$ is a connection: $d(fs) = df\,s + f\,ds$. Here $\nabla_Xs = X(s)$ is the componentwise derivative.
+\item \emph{The trivial connection.} A section of the trivial bundle $\pi \colon M \times \mathbb{K}^r \to M$ is a smooth map $s \colon M \to M \times \mathbb{K}^r$ with $\pi \circ s = \id$, that
+is, $s(p) = (p, \sigma(p))$ for a smooth function $\sigma \colon M \to \mathbb{K}^r$; the first component carries no information, and one identifies $s$ with $\sigma$. So a section is a vector-valued
+function, whose components $s^i$ are the coefficients of $s$ in the standard frame $\varepsilon_i(p) = (p, e_i)$: $s = \sum_is^i\varepsilon_i$. We write it as a column,
+$s = (s^1, \ldots, s^r)^T$; the transpose only says that the row written inline is to be read as a column, as in the row and column notation of
+Proposition~\ref{connections:proposition-products}(2), where the frame is a row and the components form a column, $s = \varepsilon\,s$. Columns are used so that a matrix $A$ acts on the left, $As$, as in (2)
+below. Then $ds = (ds^1, \ldots, ds^r)^T$, a column of $1$-forms, is a connection: it is linear, and $d(fs) = (d(fs^i))_i = (df\,s^i + f\,ds^i)_i = df\,s + f\,ds$. Here $\nabla_Xs = X(s) = (Xs^1, \ldots, Xs^r)^T$
+is the componentwise derivative.
 \item \emph{Adding a matrix of $1$-forms.} For an $r \times r$ matrix $A$ of $1$-forms on $M$, $\nabla s = ds + As$ is a connection on $M \times \mathbb{K}^r$, since the extra term
 is $C^\infty(M)$-linear in $s$: $A(fs) = fAs$. We will see that every connection on a trivial bundle has this form.
 \item \emph{The Euclidean connection.} On $T\RR^n = \RR^n \times \RR^n$ the trivial connection is $\nabla_XY = DY(X) = \sum_iX(Y^i)\partial_i$, the directional derivative of
@@ -242,14 +331,19 @@ $\chi$ works for all nearby points), and it satisfies the Leibniz rule. It is th
 $\sum_i\theta^i_j \otimes e_i$ with $1$-forms $\theta^i_j$. By linearity and the Leibniz rule,
 $\nabla(\sum_js^je_j) = \sum_j(ds^j \otimes e_j + s^j\sum_i\theta^i_j \otimes e_i)$, which is the formula.
 
-(3) On the one hand, by the Leibniz rule,
-$\nabla e^{\prime}_j = \nabla(\sum_ke_kg^k_j) = \sum_k(dg^k_j \otimes e_k + g^k_j\sum_i\theta^i_k \otimes e_i) = \sum_i(dg + \theta g)^i_j \otimes e_i$. On the other hand, by definition of
-$\theta^{\prime}$, $\nabla e^{\prime}_j = \sum_l\theta^{\prime l}_j \otimes e^{\prime}_l = \sum_i(g\theta^{\prime})^i_j \otimes e_i$. Comparing, $g\theta^{\prime} = dg + \theta g$.
+(3) Compute $\nabla e^{\prime}_j$ in two ways. On the one hand $e^{\prime}_j = \sum_ke_kg^k_j$ is a combination of the $e_k$ with function coefficients, so by linearity and the Leibniz rule
+\[
+\nabla e^{\prime}_j = \sum_k\bigl(dg^k_j \otimes e_k + g^k_j\nabla e_k\bigr) = \sum_k\Bigl(dg^k_j \otimes e_k + g^k_j\sum_i\theta^i_k \otimes e_i\Bigr) = \sum_i(dg + \theta g)^i_j \otimes e_i .
+\]
+On the other hand, by definition of $\theta^{\prime}$ and $e^{\prime}_l = \sum_ie_ig^i_l$, $\nabla e^{\prime}_j = \sum_l\theta^{\prime l}_j \otimes e^{\prime}_l = \sum_i(g\theta^{\prime})^i_j \otimes e_i$. The coefficients in the
+frame $e$ are unique (Proposition~\ref{connections:proposition-bundle-valued-forms}(4)), so $g\theta^{\prime} = dg + \theta g$, that is $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$. In the row notation of
+Proposition~\ref{connections:proposition-products}(2) the computation reads $\nabla(eg) = (\nabla e)g + e\,dg = e(\theta g + dg)$ and $\nabla e^{\prime} = e^{\prime}\theta^{\prime} = e\,g\theta^{\prime}$.
 
 (4) Choose an open cover $(U_\alpha)$ of $M$ by sets over which $E$ has a frame $e_\alpha$, and a partition of unity $(\psi_\alpha)$ subordinate to it
 (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}). On $U_\alpha$ let $\nabla^\alpha$ be the connection with connection form $0$ in the frame $e_\alpha$, that is,
-$\nabla^\alpha(\sum_js^je_{\alpha,j}) = \sum_jds^j \otimes e_{\alpha,j}$. Put $\nabla s = \sum_\alpha\psi_\alpha\nabla^\alpha(s|_{U_\alpha})$, each term extended by $0$ outside the support
-of $\psi_\alpha$; the sum is locally finite. It is linear, and
+$\nabla^\alpha(\sum_js^je_{\alpha,j}) = \sum_jds^j \otimes e_{\alpha,j}$; it is the trivial connection of Example~\ref{connections:example-connections}(1), transported by the frame, so it satisfies the
+Leibniz rule on $E|_{U_\alpha}$. Put $\nabla s = \sum_\alpha\psi_\alpha\nabla^\alpha(s|_{U_\alpha})$. Each term $\psi_\alpha\nabla^\alpha(s|_{U_\alpha})$ is an $E$-valued $1$-form on $U_\alpha$ vanishing outside the
+support of $\psi_\alpha$, which is closed in $M$ and contained in $U_\alpha$, so extended by $0$ it is smooth on $M$; and the sum is locally finite, so it is a smooth $E$-valued $1$-form. It is linear, and
 $\nabla(fs) = \sum_\alpha\psi_\alpha(df \otimes s + f\nabla^\alpha s) = df \otimes s + f\nabla s$, because $\sum_\alpha\psi_\alpha = 1$. (A general affine combination of connections
 fails the Leibniz rule; the coefficients must add up to $1$.)
 

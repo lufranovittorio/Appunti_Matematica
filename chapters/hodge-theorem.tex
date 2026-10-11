@@ -6,19 +6,48 @@
 On a compact oriented Riemannian manifold every de Rham cohomology class contains exactly one harmonic form
 (Theorem~\ref{hodge-theorem:theorem-hodge}). This is the theorem that makes Hodge theory possible: it turns a topological object,
 the cohomology of a manifold, into the solution space of an elliptic equation, on which the metric and, in the complex case, the
-complex structure act. The consequences drawn here are the Hodge decomposition of the space of forms, Poincar\'e duality via the
-Hodge star, and Bochner's vanishing theorem; the complex analogue is in Chapter~\ref{hodge-decomposition}. References:
-\cite[Chapter 6]{warner-foundations}, \cite[Chapter 4]{wells-differential-analysis}, \cite[Chapter 0]{griffiths-harris},
-\cite[Chapter 5]{voisin-hodge-1}.
+complex structure act. The idea is already visible in finite dimensions: for a complex of finite-dimensional inner product spaces, each cohomology class has a unique representative of
+smallest norm, and these representatives are the kernel of a ``Laplacian'' $dd^* + d^*d$ (Lemma~\ref{hodge-theorem:lemma-finite-dimensional}). On a compact manifold the same statement holds for
+the de Rham complex, and the only difficulty is analytic: one needs to know that the Laplacian has closed range and finite-dimensional kernel, which is what
+Chapter~\ref{elliptic-operators} provides.
+
+The consequences drawn here are the Hodge decomposition of the space of forms (with the Helmholtz decomposition of vector fields on a torus as a concrete instance), Poincar\'e duality via the
+Hodge star, the conformal invariance of harmonic $1$-forms on surfaces, the Poincar\'e inequality, and Bochner's vanishing theorem, with a complete proof of the Bochner--Weitzenb\"ock formula on
+$1$-forms; the complex analogue is in Chapter~\ref{hodge-decomposition}. References: \cite[Chapter 6]{warner-foundations}, \cite[Chapter 4]{wells-differential-analysis},
+\cite[Chapter 0]{griffiths-harris}, \cite[Chapter 5]{voisin-hodge-1}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{elliptic-operators} (Elliptic Operators on Compact Manifolds) and
 Chapter~\ref{de-rham} (de Rham Cohomology).
+
+\noindent\textbf{On a first reading.} The essential results are Theorem~\ref{hodge-theorem:theorem-decomposition}, Theorem~\ref{hodge-theorem:theorem-hodge} and
+Corollary~\ref{hodge-theorem:corollary-poincare-duality}. The proof of the Bochner--Weitzenb\"ock formula can be skipped.
 
 Throughout, $(M, g)$ is a compact oriented Riemannian $n$-manifold, with the $L^2$ inner product, the codifferential $\delta$ and the
 Laplacian $\Delta = d\delta + \delta d$ of Definition~\ref{riemannian-geometry:definition-laplacian}, and
 $\mathcal{H}^k = \mathcal{H}^k(M, g) = \{\alpha \in \Omega^k(M) : \Delta\alpha = 0\}$.
 
 \section{The Hodge decomposition}\label{hodge-theorem:section-decomposition}
+
+We begin with the finite-dimensional model, where everything is linear algebra.
+
+\begin{lemma}[Hodge theory in finite dimensions]\label{hodge-theorem:lemma-finite-dimensional}
+Let $V^{k-1} \xrightarrow{d} V^k \xrightarrow{d} V^{k+1}$ be linear maps of finite-dimensional real inner product spaces with $d \circ d = 0$, let $\delta$ denote the adjoints of the two maps $d$, and
+$\Delta = d\delta + \delta d \colon V^k \to V^k$. Then $\ker\Delta = \ker d \cap \ker\delta$, there is an orthogonal decomposition
+\[
+V^k = \ker\Delta \oplus dV^{k-1} \oplus \delta V^{k+1},
+\]
+and $\ker d = \ker\Delta \oplus dV^{k-1}$. Hence every class in $\ker d/dV^{k-1}$ has a unique representative in $\ker\Delta$, which is its unique element of smallest norm.
+\end{lemma}
+
+\begin{proof}
+For $v \in V^k$, $\langle\Delta v, v\rangle = \langle\delta v, \delta v\rangle + \langle dv, dv\rangle$, so $\Delta v = 0$ implies $dv = 0$ and $\delta v = 0$; the converse is clear. The images of $d$ and $\delta$ are
+orthogonal: $\langle du, \delta w\rangle = \langle ddu, w\rangle = 0$. In finite dimensions the orthogonal complement of an image is the kernel of the adjoint, so the orthogonal complement of
+$dV^{k-1} \oplus \delta V^{k+1}$ is $\ker\delta \cap \ker d = \ker\Delta$, which gives the decomposition. If $dv = 0$ and $v = h + du + \delta w$, then $0 = dv = d\delta w$, so
+$\|\delta w\|^2 = \langle w, d\delta w\rangle = 0$, and $v = h + du$. Finally $\|h + du\|^2 = \|h\|^2 + \|du\|^2$, which is smallest exactly for $du = 0$.
+\end{proof}
+
+For $\Omega^\bullet(M)$ the spaces are infinite-dimensional and two things could go wrong: the image of $d$ need not be closed (in $L^2$), so that ``orthogonal complement of the image = kernel of the
+adjoint'' only holds up to closure, and the kernel of $\Delta$ could be infinite-dimensional. Ellipticity of $\Delta$ rules out both.
 
 \begin{theorem}\label{hodge-theorem:theorem-decomposition}
 For each $k$ the space $\mathcal{H}^k$ is finite-dimensional and consists of the forms with $d\alpha = 0$ and $\delta\alpha = 0$, and there is an orthogonal direct sum decomposition
@@ -51,6 +80,38 @@ construction. Since $\Delta$ commutes with $d$, $\delta$ and $\Delta$, and these
 $(d\alpha, \eta) = (\alpha, \delta\eta) = 0$ for $\eta$ harmonic), the uniqueness of $G$ forces $Gd = dG$, $G\delta = \delta G$ and $G\Delta = \Delta G$.
 \end{proof}
 
+Explicitly, the decomposition of a form $\alpha$ is
+\[
+\alpha = H\alpha + d(\delta G\alpha) + \delta(dG\alpha),
+\]
+since $\alpha - H\alpha = \Delta G\alpha = d\delta G\alpha + \delta dG\alpha$. So the Green operator, an inverse of $\Delta$ on the orthogonal complement of the harmonic forms, produces the primitives: if $\alpha$ is
+exact, then $\alpha = d(\delta G\alpha)$, and $\delta G\alpha$ is the primitive of $\alpha$ orthogonal to the closed forms, the primitive of smallest norm.
+
+\begin{example}\label{hodge-theorem:example-circle-decomposition}
+On the circle $M = \RR/2\pi\ZZ$ with the coordinate $\theta$, write functions as Fourier series $f = \sum_kc_ke^{ik\theta}$ (complex coefficients, $c_{-k} = \bar c_k$ for real $f$). Here $\Delta f = -f^{\prime\prime}$,
+and on $1$-forms $\delta(g\,d\theta) = -g^{\prime}$ (by Definition~\ref{riemannian-geometry:definition-laplacian}, $\delta = -{*}d{*}$ on $1$-forms when $n = 1$, and $*(g\,d\theta) = g$). The harmonic functions are the
+constants and the harmonic $1$-forms the constant multiples of $d\theta$, so the decompositions of Theorem~\ref{hodge-theorem:theorem-decomposition} are
+\[
+f = c_0 + \delta\Bigl(-\sum_{k \neq 0}\frac{c_k}{ik}e^{ik\theta}\,d\theta\Bigr), \qquad g\,d\theta = c_0\,d\theta + d\Bigl(\sum_{k \neq 0}\frac{c_k}{ik}e^{ik\theta}\Bigr) \quad\text{for } g = \sum_kc_ke^{ik\theta},
+\]
+and the Green operator on functions is $G(\sum_kc_ke^{ik\theta}) = \sum_{k \neq 0}c_ke^{ik\theta}/k^2$. The harmonic part of $g\,d\theta$ is $c_0\,d\theta = \bigl(\frac{1}{2\pi}\int_0^{2\pi}g\bigr)d\theta$, and the theorem
+says that $g\,d\theta$ is exact exactly when its average vanishes, which is the familiar condition for $\int_0^\theta g$ to be periodic.
+\end{example}
+
+\begin{example}\label{hodge-theorem:example-helmholtz}
+On the flat torus $T^3 = \RR^3/\ZZ^3$ identify $1$-forms with vector fields by the metric, $X = (X_1, X_2, X_3) \leftrightarrow X_1\,dx_1 + X_2\,dx_2 + X_3\,dx_3$, and $2$-forms with vector fields by
+$Y \leftrightarrow *Y^\flat = Y_1\,dx_2 \wedge dx_3 + Y_2\,dx_3 \wedge dx_1 + Y_3\,dx_1 \wedge dx_2$. Then $df \leftrightarrow \nabla f$, the codifferential of a $2$-form is $\delta(*Y^\flat) = *d{*}{*}Y^\flat = *dY^\flat$
+(here $n = 3$, $k = 2$, so the sign in $\delta = (-1)^{n(k+1)+1}*d*$ is $+1$, and $** = 1$), and $*dY^\flat \leftrightarrow \operatorname{curl}Y$ (Example~\ref{differential-forms:example-forms-r3}). The harmonic
+$1$-forms are the constant ones (Example~\ref{riemannian-geometry:example-harmonic-forms}). So Theorem~\ref{hodge-theorem:theorem-decomposition} in degree $1$ is the \emph{Helmholtz decomposition}:
+every smooth vector field $X$ on $T^3$ can be written as
+\[
+X = c + \nabla f + \operatorname{curl}Y
+\]
+with $c$ a constant vector, the three summands are uniquely determined by $X$ (although $f$ and $Y$ are not), and they are orthogonal in $L^2$; moreover $\operatorname{curl}X = 0$ if and only if $X = c + \nabla f$ (the closed $1$-forms), and $\operatorname{div}X = 0$ if
+and only if $X = c + \operatorname{curl}Y$ (the coclosed ones, as $\delta X^\flat = -\operatorname{div}X$). In Fourier coefficients, $X = \sum_k\hat X(k)e^{2\pi ik\cdot x}$, the three parts of the term with
+$k \neq 0$ are the components of $\hat X(k)$ along $k$ and orthogonal to $k$, and $c = \hat X(0)$.
+\end{example}
+
 \begin{theorem}[Hodge]\label{hodge-theorem:theorem-hodge}
 The map $\mathcal{H}^k \to H^k_{\mathrm{dR}}(M)$, $\alpha \mapsto [\alpha]$, is an isomorphism: every de Rham class contains a unique harmonic representative, namely the one of smallest $L^2$ norm. In
 particular $H^k_{\mathrm{dR}}(M)$ is finite-dimensional, and $\dim\mathcal{H}^k = b_k(M)$.
@@ -62,6 +123,9 @@ $\alpha$ decomposes as $\alpha = \eta + d\beta + \delta\gamma$ with $\eta$ harmo
 cohomologous to $\eta$. If $\alpha = \eta + d\beta$ is any representative, then $\|\alpha\|^2 = \|\eta\|^2 + \|d\beta\|^2 \geq \|\eta\|^2$ with equality only for $\alpha = \eta$, which is the statement about the
 norm. Finite-dimensionality and the identification with the Betti numbers follow from Theorem~\ref{de-rham:theorem-de-rham}.
 \end{proof}
+
+The minimisation property has a variational reading: among all closed forms in a class, the harmonic one minimises the energy $\|\alpha\|^2$, and the condition $\delta\alpha = 0$ is the
+Euler--Lagrange equation, since $\frac{d}{dt}\|\alpha + t\,d\beta\|^2\big|_{t=0} = 2(\alpha, d\beta) = 2(\delta\alpha, \beta)$ must vanish for all $\beta$.
 
 \begin{corollary}\label{hodge-theorem:corollary-poincare-duality}
 The Hodge star induces an isomorphism $* \colon \mathcal{H}^k \to \mathcal{H}^{n-k}$, hence $b_k(M) = b_{n-k}(M)$, and the pairing
@@ -80,8 +144,28 @@ all classes.
 \begin{remark}\label{hodge-theorem:remark-dependence-on-metric}
 The space $\mathcal{H}^k$ depends on the metric, but its dimension does not, and the isomorphism of Theorem~\ref{hodge-theorem:theorem-hodge} identifies all of them with $H^k_{\mathrm{dR}}(M)$. This is the
 mechanism that produces the Hodge structures of Chapter~\ref{hodge-decomposition}: on a compact K\"ahler manifold the harmonic forms decompose by type, and the resulting decomposition of cohomology is
-independent of the metric, although the harmonic representatives are not.
+independent of the metric, although the harmonic representatives are not (Exercise~\ref{hodge-theorem:exercise-harmonic-not-metric-independent}).
 \end{remark}
+
+On a surface part of this dependence disappears: harmonic $1$-forms only see the conformal class of the metric. This is the first sign of the relation between harmonic forms on a surface and its
+structure of Riemann surface.
+
+\begin{proposition}\label{hodge-theorem:proposition-conformal-invariance}
+Let $M$ be an oriented surface and $g^{\prime} = e^{2u}g$ a conformal metric. Then the Hodge stars of $g$ and $g^{\prime}$ agree on $1$-forms, so a $1$-form is harmonic for $g$ if and only if it is harmonic
+for $g^{\prime}$ (when $M$ is compact).
+\end{proposition}
+
+\begin{proof}
+If $(\omega^1, \omega^2)$ is an oriented orthonormal coframe for $g$, then $(e^u\omega^1, e^u\omega^2)$ is one for $g^{\prime}$. The Hodge star of $g$ maps $\omega^1 \mapsto \omega^2$ and $\omega^2 \mapsto -\omega^1$
+(Theorem~\ref{multilinear-algebra:theorem-hodge-star}), and that of $g^{\prime}$ maps $e^u\omega^1 \mapsto e^u\omega^2$ and $e^u\omega^2 \mapsto -e^u\omega^1$; by linearity over functions the two stars agree on
+$\omega^1$ and $\omega^2$, hence on all $1$-forms. On a compact surface a $1$-form $\alpha$ is harmonic if and only if $d\alpha = 0$ and $d{*}\alpha = 0$
+(Proposition~\ref{riemannian-geometry:proposition-adjoint}(3), as $\delta = -{*}d{*}$ on $1$-forms in dimension $2$), and these conditions only involve $*$ on $1$-forms.
+\end{proof}
+
+For a compact Riemann surface, with any metric compatible with its complex structure, $*$ on $1$-forms is determined by the complex structure ($*\,dx = dy$ and $*\,dy = -dx$ in a holomorphic coordinate
+$z = x + iy$), and a real $1$-form $\alpha = a\,dx + b\,dy$ is harmonic exactly when $\alpha + i{*}\alpha = (a - ib)\,dz$ is a holomorphic $1$-form (the Cauchy--Riemann equations for $a - ib$ are
+$a_y = b_x$ and $a_x + b_y = 0$, that is, $d\alpha = 0$ and $d{*}\alpha = 0$); this identifies $\mathcal{H}^1$ with the real parts of holomorphic $1$-forms, and is the
+case of curves of the Hodge decomposition $H^1 = H^{1,0} \oplus H^{0,1}$ (Chapter~\ref{hodge-decomposition}).
 
 \begin{proposition}\label{hodge-theorem:proposition-lie-group-harmonic}
 Let $G$ be a compact connected Lie group with a bi-invariant Riemannian metric (Example~\ref{riemannian-geometry:example-metrics}) and an orientation. Then the harmonic forms on $G$ are exactly the bi-invariant forms.
@@ -138,13 +222,81 @@ Corollary~\ref{hodge-theorem:corollary-poincare-inequality} is \emph{Wirtinger's
 $f = a\cos\theta + b\sin\theta$. Theorem~\ref{elliptic-operators:theorem-spectral} also shows that the functions $1$, $\cos k\theta$, $\sin k\theta$ span a dense subspace of $L^2$, which is the completeness of Fourier series.
 \end{example}
 
+The last application relates harmonic $1$-forms to curvature. It rests on a formula expressing the Hodge Laplacian through the Levi-Civita connection. Below $\nabla$ also denotes the connections
+induced on $1$-forms and $2$-forms (Proposition~\ref{connections:proposition-induced-connections}), so that $(\nabla_X\alpha)(Y) = X(\alpha(Y)) - \alpha(\nabla_XY)$ and
+$(\nabla_X\beta)(Y, Z) = X(\beta(Y, Z)) - \beta(\nabla_XY, Z) - \beta(Y, \nabla_XZ)$, and $(e_i)$ is a local orthonormal frame. By Lemma~\ref{characteristic-classes:lemma-normal-frames}, applied to the
+metric connection $\nabla$ on $TM$, near every point $p$ there are orthonormal frames with $\nabla e_i = 0$ at $p$; then also $[e_i, e_j] = \nabla_{e_i}e_j - \nabla_{e_j}e_i = 0$ at $p$, and the dual coframe
+$(e^i)$ satisfies $\nabla e^i = 0$ at $p$, its connection form being $-\theta^T$.
+
+\begin{lemma}\label{hodge-theorem:lemma-codifferential-connection}
+Let $\alpha$ be a $1$-form and $\beta$ a $2$-form on $M$.
+\begin{enumerate}
+\item $d\alpha(X, Y) = (\nabla_X\alpha)(Y) - (\nabla_Y\alpha)(X)$.
+\item For a vector field $V$, $d(\iota_V\mathrm{vol}) = (\operatorname{div}V)\,\mathrm{vol}$ with $\operatorname{div}V = \sum_i\langle\nabla_{e_i}V, e_i\rangle$; hence $\int_M\operatorname{div}V\,\mathrm{vol} = 0$.
+\item $\delta\alpha = -\sum_i(\nabla_{e_i}\alpha)(e_i)$ and $(\delta\beta)(X) = -\sum_i(\nabla_{e_i}\beta)(e_i, X)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) By the invariant formula (Theorem~\ref{differential-forms:theorem-exterior-derivative}) and the Leibniz rule for $\nabla$,
+$d\alpha(X, Y) = X(\alpha(Y)) - Y(\alpha(X)) - \alpha([X, Y]) = (\nabla_X\alpha)(Y) + \alpha(\nabla_XY) - (\nabla_Y\alpha)(X) - \alpha(\nabla_YX) - \alpha([X, Y])$, and the terms without derivatives of $\alpha$ cancel
+because $\nabla_XY - \nabla_YX = [X, Y]$.
+
+(2) The trace $\sum_i\langle\nabla_{e_i}V, e_i\rangle$ does not depend on the orthonormal frame, so we may compute at a point $p$ in a frame with $\nabla e_i(p) = 0$, oriented, with dual coframe $(e^i)$. Then
+$\mathrm{vol} = e^1 \wedge \cdots \wedge e^n$ and, with $V = \sum_iV^ie_i$, $\iota_V\mathrm{vol} = \sum_i(-1)^{i-1}V^i\,e^1 \wedge \cdots \widehat{e^i} \cdots \wedge e^n$. By (1), $de^j(X, Y) = (\nabla_Xe^j)(Y) - (\nabla_Ye^j)(X)$ vanishes at
+$p$, so at $p$ only the derivatives of the $V^i$ contribute: $d(\iota_V\mathrm{vol}) = \sum_i(-1)^{i-1}dV^i \wedge e^1 \wedge \cdots \widehat{e^i} \cdots \wedge e^n = \sum_ie_i(V^i)\,\mathrm{vol}$. And at $p$,
+$e_i(V^i) = e_i\langle V, e_i\rangle = \langle\nabla_{e_i}V, e_i\rangle$. The integral vanishes by Stokes' theorem.
+
+(3) Let $\delta^{\prime}$ be defined by the right-hand sides; again they do not depend on the frame. We show that $\delta^{\prime}$ is a formal adjoint of $d$; then $(\gamma, \delta\beta - \delta^{\prime}\beta) = 0$ for
+all $1$-forms $\gamma$, so $\delta\beta = \delta^{\prime}\beta$, and similarly in degree $1$. Let $\gamma$ be a $1$-form, and $V$ the vector field with $\langle V, X\rangle = \sum_j\gamma(e_j)\beta(X, e_j)$. At a point $p$, in a frame with
+$\nabla e_i(p) = 0$, the derivative of a function $\gamma(e_j)$ along $e_i$ is $(\nabla_{e_i}\gamma)(e_j)$, and similarly for $\beta$, so
+\[
+\operatorname{div}V = \sum_{i,j}e_i\bigl(\gamma(e_j)\beta(e_i, e_j)\bigr) = \sum_{i,j}(\nabla_{e_i}\gamma)(e_j)\beta(e_i, e_j) + \sum_{i,j}\gamma(e_j)(\nabla_{e_i}\beta)(e_i, e_j) = \langle d\gamma, \beta\rangle - \langle\gamma, \delta^{\prime}\beta\rangle,
+\]
+where we used $\langle d\gamma, \beta\rangle = \frac12\sum_{i,j}d\gamma(e_i, e_j)\beta(e_i, e_j) = \sum_{i,j}(\nabla_{e_i}\gamma)(e_j)\beta(e_i, e_j)$, by (1) and the antisymmetry of $\beta$. Integrating with (2),
+$(d\gamma, \beta) = (\gamma, \delta^{\prime}\beta)$. For a function $f$ and a $1$-form $\alpha$ the same computation with $V = f\alpha^\sharp$, where $\langle\alpha^\sharp, X\rangle = \alpha(X)$, gives
+$\operatorname{div}V = \sum_ie_i(f)\alpha(e_i) + f\sum_i(\nabla_{e_i}\alpha)(e_i) = \langle df, \alpha\rangle - f\,\delta^{\prime}\alpha$.
+\end{proof}
+
+\begin{proposition}[Bochner--Weitzenb\"ock formula]\label{hodge-theorem:proposition-weitzenbock}
+For a $1$-form $\alpha$ on $M$,
+\[
+\Delta\alpha = \nabla^*\nabla\alpha + \mathrm{Ric}(\alpha^\sharp, -), \qquad \nabla^*\nabla\alpha = -\sum_i\bigl(\nabla_{e_i}\nabla_{e_i}\alpha - \nabla_{\nabla_{e_i}e_i}\alpha\bigr),
+\]
+and $(\Delta\alpha, \alpha) = \|\nabla\alpha\|^2 + \int_M\mathrm{Ric}(\alpha^\sharp, \alpha^\sharp)\,\mathrm{vol}$, where $\|\nabla\alpha\|^2 = \int_M\sum_i|\nabla_{e_i}\alpha|^2\,\mathrm{vol}$.
+\end{proposition}
+
+\begin{proof}
+All terms are independent of the frame, so we compute at a point $p$ in a frame with $\nabla e_i = 0$ and $[e_i, e_j] = 0$ at $p$; then at $p$ the derivative along $e_i$ of a function $\phi(e_j)$ is
+$(\nabla_{e_i}\phi)(e_j)$ for any form $\phi$. By Lemma~\ref{hodge-theorem:lemma-codifferential-connection}(3), $\delta\alpha = -\sum_i(\nabla_{e_i}\alpha)(e_i)$ near $p$, so at $p$
+\[
+(d\delta\alpha)(e_j) = e_j(\delta\alpha) = -\sum_i(\nabla_{e_j}\nabla_{e_i}\alpha)(e_i).
+\]
+By the same lemma and (1), $(\delta d\alpha)(e_j) = -\sum_ie_i\bigl(d\alpha(e_i, e_j)\bigr) = -\sum_i(\nabla_{e_i}\nabla_{e_i}\alpha)(e_j) + \sum_i(\nabla_{e_i}\nabla_{e_j}\alpha)(e_i)$ at $p$. Adding,
+\[
+(\Delta\alpha)(e_j) = -\sum_i(\nabla_{e_i}\nabla_{e_i}\alpha)(e_j) + \sum_i\bigl((\nabla_{e_i}\nabla_{e_j} - \nabla_{e_j}\nabla_{e_i})\alpha\bigr)(e_i) .
+\]
+The first sum is $(\nabla^*\nabla\alpha)(e_j)$ at $p$. Since $[e_i, e_j] = 0$ at $p$, the operator in the second sum is the curvature $R^*(e_i, e_j)$ of the connection on $1$-forms, and
+$(R^*(X, Y)\alpha)(Z) = -\alpha(R(X, Y)Z)$: applying $XY - YX - [X, Y]$, which is zero on functions, to $\alpha(Z)$ and expanding with the Leibniz rule, the terms $(\nabla_X\alpha)(\nabla_YZ) + (\nabla_Y\alpha)(\nabla_XZ)$
+cancel and what remains is $(R^*(X, Y)\alpha)(Z) + \alpha(R(X, Y)Z) = 0$. With $A = \alpha^\sharp$ the second sum is
+\[
+-\sum_i\langle A, R(e_i, e_j)e_i\rangle = -\sum_iR(e_i, e_j, e_i, A) = \sum_iR(e_i, e_j, A, e_i) = \mathrm{Ric}(e_j, A),
+\]
+by the antisymmetry of $R$ in its last two arguments (Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries}) and Definition~\ref{riemannian-geometry:definition-curvature-tensor}. For the integral formula, at $p$
+\[
+\langle\nabla^*\nabla\alpha, \alpha\rangle = -\sum_i\langle\nabla_{e_i}\nabla_{e_i}\alpha, \alpha\rangle = \sum_i|\nabla_{e_i}\alpha|^2 - \sum_ie_i\langle\nabla_{e_i}\alpha, \alpha\rangle = \sum_i|\nabla_{e_i}\alpha|^2 - \operatorname{div}W
+\]
+with $W = \sum_i\langle\nabla_{e_i}\alpha, \alpha\rangle e_i$, the vector field with $\langle W, X\rangle = \langle\nabla_X\alpha, \alpha\rangle = \frac12X|\alpha|^2$. Integrating with
+Lemma~\ref{hodge-theorem:lemma-codifferential-connection}(2) gives $(\nabla^*\nabla\alpha, \alpha) = \|\nabla\alpha\|^2$, and $\langle\mathrm{Ric}(A, -), \alpha\rangle = \mathrm{Ric}(A, A)$.
+\end{proof}
+
 \begin{theorem}[Bochner]\label{hodge-theorem:theorem-bochner}
 Let $(M, g)$ be a compact oriented Riemannian manifold with $\mathrm{Ric} \geq 0$. Then every harmonic $1$-form is parallel, and $b_1(M) \leq n$. If moreover $\mathrm{Ric} > 0$ at some point, then
 $b_1(M) = 0$.
 \end{theorem}
 
 \begin{proof}
-By the Weitzenb\"ock formula (Remark~\ref{riemannian-geometry:remark-weitzenbock}), on $1$-forms $\Delta = \nabla^*\nabla + \mathrm{Ric}$. For $\alpha$ harmonic,
+By Proposition~\ref{hodge-theorem:proposition-weitzenbock}, for $\alpha$ harmonic,
 \[
 0 = (\Delta\alpha, \alpha) = \|\nabla\alpha\|^2 + \int_M\mathrm{Ric}(\alpha^\sharp, \alpha^\sharp)\,\mathrm{vol},
 \]
@@ -163,11 +315,16 @@ theorems in all degrees. In the complex setting the same mechanism gives the Kod
 \end{enumerate}
 \end{example}
 
+Both bounds of Theorem~\ref{hodge-theorem:theorem-bochner} are sharp. The flat torus $T^n$ has $\mathrm{Ric} = 0$ and $b_1 = n$, its harmonic $1$-forms $dx_i$ being parallel. The product $S^1 \times S^{n-1}$
+($n \geq 3$) of a circle and a round sphere has $\mathrm{Ric} \geq 0$, with $\mathrm{Ric}(\partial_\theta, \partial_\theta) = 0$ along the circle factor, and $b_1 = 1$: the harmonic form $d\theta$ is parallel, and
+$\mathrm{Ric}(\partial_\theta, \partial_\theta) = 0$ is exactly what the proof requires.
+
 \begin{remark}\label{hodge-theorem:remark-elliptic-complexes}
 The proof of Theorem~\ref{hodge-theorem:theorem-decomposition} used only that $(\Omega^\bullet, d)$ is a complex of sections of vector bundles whose Laplacian is elliptic: an \emph{elliptic complex}. The same
 argument applies verbatim to any elliptic complex, in particular to the Dolbeault complex $(\Omega^{p,\bullet}, \bar\partial)$ on a compact complex manifold, giving the isomorphism between Dolbeault
 cohomology and $\bar\partial$-harmonic forms (Chapter~\ref{dolbeault}), which is how the Hodge decomposition of Chapter~\ref{hodge-decomposition} is proved. There is also a proof of the Hodge theorem by the
-heat equation, which constructs the harmonic projection as $\lim_{t \to \infty}e^{-t\Delta}$ and yields the local index formula \cite{lawson-michelsohn}.
+heat equation, which constructs the harmonic projection as $\lim_{t \to \infty}e^{-t\Delta}$ and yields the local index formula \cite{lawson-michelsohn}; for functions this limit is computed in
+Exercise~\ref{elliptic-operators:exercise-heat-equation}.
 \end{remark}
 
 \section{Exercises}\label{hodge-theorem:section-exercises}
@@ -184,16 +341,63 @@ A harmonic function has $df = 0$, hence is constant; apply $*$ for the top degre
 Show that the Green operator is self-adjoint, that it is compact as an operator on $L^2$, and that $\alpha \mapsto H\alpha$ is the orthogonal projection onto $\mathcal{H}^k$ with $H = I - \Delta G$.
 \end{exercise}
 
+\begin{solution}
+$H = I - \Delta G$ is the identity $\alpha = H\alpha + \Delta G\alpha$ of Theorem~\ref{hodge-theorem:theorem-decomposition}. For self-adjointness write $\alpha = H\alpha + \Delta a$ and $\beta = H\beta + \Delta b$
+with $a = G\alpha$, $b = G\beta$ orthogonal to $\mathcal{H}^k$. Then $(G\alpha, \beta) = (a, H\beta + \Delta b) = (a, \Delta b)$, since $a \perp \mathcal{H}^k$, and likewise $(\alpha, G\beta) = (\Delta a, b)$; these are equal because
+$\Delta$ is formally self-adjoint. For compactness, use an orthonormal basis of eigenforms $u_k$ of $\Delta$ (Theorem~\ref{elliptic-operators:theorem-spectral}): $G$ kills the $u_k$ with eigenvalue $0$ and maps
+$u_k$ to $\lambda_k^{-1}u_k$ otherwise. As $\lambda_k \to \infty$, $G$ is the norm limit of the finite rank operators obtained by truncating this diagonal operator, so it is compact
+(Proposition~\ref{functional-analysis:proposition-compact-operators}), and it extends from smooth forms to $L^2$.
+\end{solution}
+
 \begin{exercise}\label{hodge-theorem:exercise-harmonic-not-metric-independent}
-Give an example of a compact manifold and two metrics for which the harmonic representatives of a fixed cohomology class differ.
+Give an example of a compact manifold and two metrics for which the harmonic representatives of a fixed cohomology class differ. Why can the two metrics not be conformal to each other when the
+manifold is a surface and the class has degree $1$?
 \end{exercise}
 
 \begin{solution}
-On a torus $\RR^2/\ZZ^2$ with the flat metric, the harmonic representative of the class of $dx$ is $dx$; after a conformal change $g' = e^{2f}g$ with non-constant $f$, the codifferential changes and the
-harmonic representative of the same class is a different $1$-form, since $\delta'$ differs from $\delta$.
+On the torus $T^2 = \RR^2/\ZZ^2$ take the flat metric $dx^2 + dy^2$, for which the harmonic representative of $[dx]$ is $dx$, and the metric $g^{\prime} = e^{2\phi(x)}dx^2 + dy^2$ with $\phi$ smooth,
+$1$-periodic and non-constant. An oriented orthonormal coframe for $g^{\prime}$ is $(e^\phi dx, dy)$, so its Hodge star maps $e^\phi dx \mapsto dy$ and $dy \mapsto -e^\phi dx$. The form
+$\alpha = c\,e^{\phi(x)}dx$ with $c = (\int_0^1e^\phi\,dx)^{-1}$ is closed (its coefficient depends only on $x$) and $*^{\prime}\alpha = c\,dy$ is closed, so $\alpha$ is $g^{\prime}$-harmonic; its integrals over the
+two circles $y = 0$ and $x = 0$ are $1$ and $0$, as for $dx$, so it lies in the class $[dx]$ (on the torus a class in $H^1$ is determined by these two integrals, Exercise~\ref{de-rham:exercise-torus}).
+It differs from $dx$ because $\phi$ is not constant; equivalently, $dx$ is not $g^{\prime}$-harmonic, since $*^{\prime}dx = e^{-\phi}dy$ has $d(e^{-\phi}dy) = -\phi^{\prime}e^{-\phi}dx \wedge dy \neq 0$. For conformal metrics on a
+surface this cannot happen, by Proposition~\ref{hodge-theorem:proposition-conformal-invariance}; and $g^{\prime}$ is indeed not conformal to the flat metric, as $dx$ and $dy$ have different $g^{\prime}$-lengths where
+$\phi \neq 0$, while they remain orthogonal.
 \end{solution}
 
 \begin{exercise}\label{hodge-theorem:exercise-hodge-riemann-surface}
 Let $M$ be a compact orientable surface of genus $g$. Using Theorem~\ref{hodge-theorem:theorem-hodge} and
 Corollary~\ref{hodge-theorem:corollary-poincare-duality}, show that $\dim\mathcal{H}^1 = 2g$ and that the intersection pairing on $\mathcal{H}^1$ is a nondegenerate alternating form.
 \end{exercise}
+
+\begin{solution}
+$\dim\mathcal{H}^1 = b_1(M) = 2g$ by Theorem~\ref{hodge-theorem:theorem-hodge} and the computation of the Betti numbers of $\Sigma_g$ (Example~\ref{singular-homology:example-cellular-computations}). The pairing
+$(\alpha, \beta) \mapsto \int_M\alpha \wedge \beta$ is bilinear and alternating, since $\alpha \wedge \beta = -\beta \wedge \alpha$ for $1$-forms, and it is nondegenerate on $\mathcal{H}^1$: for $\alpha \neq 0$
+harmonic, $*\alpha$ is harmonic (Corollary~\ref{hodge-theorem:corollary-poincare-duality}) and $\int_M\alpha \wedge *\alpha = \|\alpha\|^2 > 0$. (A nondegenerate alternating form forces the dimension to be even,
+in accordance with $2g$.)
+\end{solution}
+
+\begin{exercise}\label{hodge-theorem:exercise-finite-dimensional}
+Let $V^0 = \RR$, $V^1 = \RR^2$, $V^2 = \RR$ with the standard inner products, $d \colon V^0 \to V^1$, $t \mapsto (t, t)$, and $d = 0 \colon V^1 \to V^2$. Compute the cohomology, the
+Laplacians and their kernels in each degree, and verify Lemma~\ref{hodge-theorem:lemma-finite-dimensional}. Which element of the cohomology class of $(1, 0)$ has the smallest norm?
+\end{exercise}
+
+\begin{solution}
+$H^0 = \ker(t \mapsto (t, t)) = 0$, $H^1 = \RR^2/\RR(1, 1) \cong \RR$ and $H^2 = V^2 = \RR$. The adjoint of $d \colon V^0 \to V^1$ is $\delta(a, b) = a + b$, and the
+adjoint of the zero map is zero. So $\Delta = \delta d = 2$ on $V^0$, with kernel $0$; on $V^1$, $\Delta(a, b) = d\delta(a, b) = (a + b, a + b)$, with kernel the line $a + b = 0$; and $\Delta = 0$ on $V^2$, with kernel
+$V^2$. The dimensions $0$, $1$, $1$ of the kernels are those of the cohomology. The class of $(1, 0)$ is $(1, 0) + \RR(1, 1)$, and $(1, 0) = (\frac12, -\frac12) + d(\frac12)$ with $(\frac12, -\frac12)$ harmonic: it
+is the element of the class of smallest norm, $\frac{1}{\sqrt2} < 1$, the orthogonal projection of $(1, 0)$ to the line $a + b = 0$.
+\end{solution}
+
+\begin{exercise}\label{hodge-theorem:exercise-weitzenbock-sphere}
+Verify the Bochner--Weitzenb\"ock formula for $\alpha = dz|_{S^2}$ on the round unit sphere $S^2 \subseteq \RR^3$. Use that $\Delta z = 2z$ (Exercise~\ref{elliptic-operators:exercise-spherical-harmonics}), so
+$\Delta\alpha = d\Delta z = 2\alpha$, and compute $\nabla^*\nabla\alpha$ from the Hessian $\nabla dz = -z\,g$ of the restriction of a linear function to the sphere.
+\end{exercise}
+
+\begin{solution}
+For a function $f$, $\nabla df$ is the Hessian $(X, Y) \mapsto (\nabla_Xdf)(Y) = X(Y(f)) - (\nabla_XY)(f)$. For the restriction of $z$ and tangent fields $X$, $Y$ on $S^2$, $Y(z) = \langle Y, e_3\rangle$
+because $z$ is linear, so $X(Y(z)) = \langle\overline\nabla_XY, e_3\rangle$, where $\overline\nabla$ is the derivative in $\RR^3$. By the Gauss formula (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}),
+$\overline\nabla_XY = \nabla_XY + \mathrm{II}(X, Y)$, and on the unit sphere the normal part is $\mathrm{II}(X, Y) = \langle\overline\nabla_XY, x\rangle x = -\langle Y, \overline\nabla_Xx\rangle x = -\langle X, Y\rangle x$ at the point $x$.
+Hence $(\nabla_Xdz)(Y) = \langle\overline\nabla_XY - \nabla_XY, e_3\rangle = -\langle X, Y\rangle\langle x, e_3\rangle = -\langle X, Y\rangle z$. Hence $\nabla_{e_i}\alpha = -z\,e^i$ in an orthonormal frame, and
+$\nabla^*\nabla\alpha = -\sum_i\nabla_{e_i}(-z\,e^i)$, which at a point with $\nabla e_i = 0$ is $\sum_ie_i(z)\,e^i = dz = \alpha$. Since $\mathrm{Ric} = g$ on the unit sphere, the formula reads
+$\Delta\alpha = \alpha + \alpha = 2\alpha$, as it should.
+\end{solution}

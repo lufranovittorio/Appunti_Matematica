@@ -3,15 +3,33 @@
 
 \section{Introduction}\label{elliptic-operators:section-introduction}
 
-This chapter contains the analysis behind the Hodge theorem. An elliptic differential operator on a compact manifold is Fredholm
-between Sobolev spaces (Theorem~\ref{elliptic-operators:theorem-fredholm}), its kernel consists of smooth sections, and a
-self-adjoint elliptic operator has a discrete spectrum with smooth eigensections
-(Theorem~\ref{elliptic-operators:theorem-spectral}). Applied to the Hodge Laplacian these statements give the decomposition of the
-space of forms and the existence of harmonic representatives (Chapter~\ref{hodge-theorem}). References:
-\cite[Chapter 6]{warner-foundations}, \cite[Chapter 4]{wells-differential-analysis}, \cite{hormander-pdo1}.
+This chapter contains the analysis behind the Hodge theorem. The question it answers is the following: given a linear differential operator $P$ on a compact manifold, for instance the
+Laplacian on forms, when is the equation $Pu = f$ solvable, how large is its space of solutions, and how regular are they? For a general operator nothing good can be said; for
+\emph{elliptic} operators the answer is as good as in finite dimensions. An elliptic operator on a compact manifold is \emph{Fredholm} between Sobolev spaces
+(Theorem~\ref{elliptic-operators:theorem-fredholm}): its kernel is finite-dimensional and consists of smooth sections, and $Pu = f$ is solvable exactly when $f$ is orthogonal to the
+finite-dimensional kernel of the adjoint. A formally self-adjoint elliptic operator moreover has a discrete spectrum with smooth eigensections
+(Theorem~\ref{elliptic-operators:theorem-spectral}). Applied to the Hodge Laplacian, these statements give the decomposition of the space of forms and the existence of harmonic representatives
+(Chapter~\ref{hodge-theorem}).
+
+The model case is the torus $T^n = \RR^n/\ZZ^n$ with an operator with constant coefficients, treated in Chapter~\ref{distributions}: there the Fourier transform turns $P$ into the multiplication of
+the Fourier coefficients $\hat u(k)$ by a polynomial $p(k)$, ellipticity says that $|p(k)|$ grows like $|k|^m$, and every statement of this chapter can be checked coefficient by coefficient. On a
+general compact manifold the argument has three steps:
+\begin{enumerate}
+\item the \emph{principal symbol}, the highest-order part of $P$ with derivatives replaced by covectors, makes sense invariantly, and ellipticity means that it is invertible
+(Section~\ref{elliptic-operators:section-symbols});
+\item the \emph{elliptic estimate} $\|u\|_{s+m} \leq C(\|Pu\|_s + \|u\|_s)$ between Sobolev norms, obtained by comparing $P$ near each point with the constant-coefficient operator given by its
+symbol at that point (Section~\ref{elliptic-operators:section-estimates});
+\item functional analysis: the estimate, together with the compactness of the inclusions between Sobolev spaces, gives regularity, finite-dimensionality, closed range and the spectral theorem
+(Section~\ref{elliptic-operators:section-fredholm}).
+\end{enumerate}
+References: \cite[Chapter 6]{warner-foundations}, \cite[Chapter 4]{wells-differential-analysis}, \cite{hormander-pdo1}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{riemannian-geometry} (Riemannian Geometry) and Chapter~\ref{distributions}
 (Distributions and Sobolev Spaces).
+
+\noindent\textbf{On a first reading.} One can read the definitions and examples of Section~\ref{elliptic-operators:section-symbols}, take the elliptic estimate
+(Theorem~\ref{elliptic-operators:theorem-elliptic-estimate}) on faith, and go on to its consequences in Section~\ref{elliptic-operators:section-fredholm}, which are what Chapter~\ref{hodge-theorem}
+uses.
 
 Throughout, $M$ is a compact smooth manifold, and $E$, $F$ are complex vector bundles on $M$ with Hermitian metrics; $M$ carries a
 fixed Riemannian metric and, when needed, an orientation, so that sections can be integrated.
@@ -26,6 +44,34 @@ $Pu = \sum_{|\alpha| \leq m}A_\alpha(x)\,\partial^\alpha u$ with smooth matrix-v
 \]
 and $P$ is \emph{elliptic} if $\sigma_m(P)(x, \xi)$ is invertible for all $x$ and all $\xi \neq 0$.
 \end{definition}
+
+Here $\xi = \sum_j\xi_j\,dx^j$ and $(i\xi)^\alpha = i^{|\alpha|}\xi_1^{\alpha_1} \cdots \xi_n^{\alpha_n}$. The rule is: \emph{keep only the derivatives of highest order, and replace $\partial_j$ by $i\xi_j$}. The
+factor $i$ is chosen so that $\partial_j(e^{ix\cdot\xi}) = i\xi_je^{ix\cdot\xi}$: on an exponential $e^{i\langle x, \xi\rangle}$ with large frequency $\xi$, the operator $P$ acts, to leading order, as multiplication by
+the symbol. In Chapter~\ref{distributions} the Fourier transform is normalised with $e^{-2\pi ix\cdot\xi}$, and correspondingly the symbol there is $\sum_{|\alpha| = m}a_\alpha(2\pi i\xi)^\alpha$; the two
+conventions differ by the harmless factor $(2\pi)^m$. Ellipticity means that $P$ \emph{controls all derivatives of order $m$ in all directions}; the lower-order terms play no role in it.
+
+\begin{example}\label{elliptic-operators:example-symbol-computations}
+\begin{enumerate}
+\item On the circle, $P = d/d\theta$ has $\sigma_1(P)(\theta, \xi) = i\xi$, which is nonzero for $\xi \neq 0$: $P$ is elliptic. So is $d/d\theta + a(\theta)$ for any smooth $a$, with the same symbol.
+\item On a Riemannian manifold, the Laplacian on functions is $\Delta f = -\frac{1}{\sqrt{\det g}}\sum_{i,j}\partial_i(\sqrt{\det g}\,g^{ij}\partial_jf)$
+(Proposition~\ref{riemannian-geometry:proposition-adjoint}(5)). Its terms of order $2$ are $-\sum_{i,j}g^{ij}\partial_i\partial_jf$, so
+\[
+\sigma_2(\Delta)(x, \xi) = -\sum_{i,j}g^{ij}(i\xi_i)(i\xi_j) = \sum_{i,j}g^{ij}\xi_i\xi_j = |\xi|^2,
+\]
+the squared length of the covector $\xi$ for the metric. It is nonzero for $\xi \neq 0$, so $\Delta$ is elliptic. The first-order terms, which involve the derivatives of the metric, do not enter.
+\item On $\CC$ with $z = x + iy$, the Cauchy--Riemann operator $\partial_{\bar z} = \frac12(\partial_x + i\partial_y)$ has symbol $\frac i2(\xi_1 + i\xi_2)$, nonzero for $(\xi_1, \xi_2) \neq 0$; it is elliptic. Its
+solutions are the holomorphic functions, and the local form of elliptic regularity (Theorem~\ref{elliptic-operators:theorem-elliptic-estimate}) is, in this case, the fact that a weak solution of the
+Cauchy--Riemann equations is smooth, indeed holomorphic.
+\item On $\RR^2$ the operator $\partial_x$ is not elliptic: its symbol $i\xi_1$ vanishes for $\xi = dy$. It sees no derivatives in the $y$ direction, and correspondingly $\partial_xu = 0$ has the
+non-smooth solutions $u(x, y) = h(y)$ for every function $h$.
+\item The exterior derivative $d \colon \Omega^k \to \Omega^{k+1}$ has symbol $\sigma_1(d)(x, \xi)\alpha = i\xi \wedge \alpha$ (Exercise~\ref{elliptic-operators:exercise-symbol-laplacian}); it maps between bundles
+whose ranks $\binom nk$ and $\binom n{k+1}$ differ in general, and $\xi \wedge -$ is never injective for $k \geq 1$, since it kills $\xi \wedge \beta$; for $k = 0$ and $n \geq 2$ it is not surjective.
+So $d$ is not elliptic. Ellipticity is recovered by combining $d$ with its adjoint, as in the next example.
+\end{enumerate}
+\end{example}
+
+The rule ``replace $\partial_j$ by $i\xi_j$'' uses coordinates, and the next proposition shows that the result does not depend on them. The idea is to test $P$ on functions that oscillate in the
+direction of $\xi$, or, algebraically, on powers of a function vanishing at $x$ with differential $\xi$.
 
 \begin{proposition}\label{elliptic-operators:proposition-symbol}
 The principal symbol is well defined: it does not depend on the coordinates and frames, and it is characterised by
@@ -42,6 +88,9 @@ $\sum_{|\alpha| = m}A_\alpha(x)\,\partial^\alpha\big((f - f(x))^m\big)(x)u(x) = 
 coordinates, so the symbol is invariantly defined, and multiplicativity follows from the same formula applied twice.
 \end{proof}
 
+For instance, for $P = \Delta$ on functions and $f$ with $d_xf = \xi$, the formula reads $|\xi|^2u(x) = -\frac12\Delta((f - f(x))^2u)(x)$; on $\RR^n$ with $f(y) = \langle\xi, y\rangle$ and $u = 1$, the right
+side is $-\frac12\Delta(\langle\xi, y - x\rangle^2)$ at $y = x$, that is $\frac12 \cdot 2|\xi|^2$.
+
 \begin{example}\label{elliptic-operators:example-elliptic}
 \begin{enumerate}
 \item The Hodge Laplacian $\Delta = d\delta + \delta d$ on $\Omega^k(M)$ has principal symbol $|\xi|^2\,\id$ (compute in normal coordinates, where the first-order terms of the metric vanish); it is elliptic.
@@ -51,6 +100,12 @@ elliptic. Its index is the Euler characteristic (Chapter~\ref{hodge-theorem}).
 \item Not every operator is elliptic: the wave operator $\partial_t^2 - \Delta$ and the heat operator $\partial_t - \Delta$ are not.
 \end{enumerate}
 \end{example}
+
+In (4), the heat operator $\partial_t - \sum_j\partial_{x_j}^2$ on $\RR \times \RR^n$ has principal symbol (of order $2$) $\sum_j\xi_j^2$, which vanishes for the covector $dt$: the operator contains only one
+derivative in time. The wave operator has symbol $-\tau^2 + |\xi|^2$, which vanishes on the light cone $|\tau| = |\xi|$; Counterexample~\ref{elliptic-operators:counterexample-wave} shows the consequence for
+regularity.
+
+The simplest elliptic operator with constant coefficients, the Laplacian of $\RR^3$, can be inverted by an explicit kernel. This is the prototype of the parametrices used below.
 
 \begin{proposition}[Fundamental solution of the Laplacian]\label{elliptic-operators:proposition-fundamental-solution}
 On $\RR^3$, the locally integrable function $E(x) = -\frac{1}{4\pi|x|}$ satisfies $\sum_i\partial_i^2E = \delta_0$ in $\mathcal{D}'(\RR^3)$. Consequently, for $f \in \mathcal{D}(\RR^3)$ the convolution $u = E * f$ solves $\sum_i\partial_i^2u = f$.
@@ -69,7 +124,16 @@ $(\Delta E)(\varphi) = \int E\,\Delta\varphi = \varphi(0)$. For the last stateme
 to $\varphi(y) = f(x - y)$.
 \end{proof}
 
+The formula $u = E * f$ shows the gain of regularity concretely: convolution with $E$, which behaves like $|x|^{-1}$ near $0$, smooths by two derivatives. On a compact connected oriented manifold the
+Laplacian has no fundamental solution at all: $\Delta E = \delta_p$ would give $1 = \delta_p(1) = (\Delta E)(1) = E(\Delta1) = 0$. Correspondingly $\Delta u = f$ is solvable only when $\int_Mf\,\mathrm{vol} = 0$
+(Exercise~\ref{elliptic-operators:exercise-no-solutions}), and the role of the fundamental solution is played by the inverse of $\Delta$ on the orthogonal complement of the constants, the Green
+operator of Chapter~\ref{hodge-theorem}.
+
 \section{Sobolev spaces of sections}\label{elliptic-operators:section-sobolev-sections}
+
+To measure regularity on a manifold we glue the Sobolev spaces of $\RR^n$ (Definition~\ref{distributions:definition-sobolev}) with a partition of unity. For integer $s = m \geq 0$, a section is in $H^m$
+if its derivatives up to order $m$ in charts are square integrable; negative and non-integer $s$ are needed because elliptic operators shift the order by $m$ in both directions, and because the
+dual of $H^s$ is $H^{-s}$.
 
 \begin{definition}\label{elliptic-operators:definition-sobolev-sections}
 Fix a finite atlas of $M$ with trivialisations of $E$ and a subordinate partition of unity $(\psi_i)$. For $s \in \RR$ and $u \in \Gamma(M, E)$ set
@@ -89,7 +153,28 @@ each $\psi_iu$. The identification of $\bigcap_sH^s$ with smooth sections is the
 follows because differentiation lowers $s$ by the order and multiplication by smooth functions is bounded.
 \end{proof}
 
+\begin{example}\label{elliptic-operators:example-sobolev-circle}
+On the circle $T^1 = \RR/\ZZ$ the Sobolev norm is $\|u\|_s^2 = \sum_k\langle k\rangle^{2s}|\hat u(k)|^2$ with $\langle k\rangle = (1 + k^2)^{1/2}$ (Definition~\ref{distributions:definition-sobolev}), and the
+membership of a function in $H^s$ is read off from the decay of its Fourier coefficients.
+\begin{enumerate}
+\item The Dirac distribution $\delta_0$ has $\hat\delta_0(k) = 1$ for all $k$, so $\delta_0 \in H^s$ exactly for $s < -\frac12$; on $T^n$, exactly for $s < -\frac n2$, since $\sum_k\langle k\rangle^{2s}$ converges
+if and only if $2s < -n$.
+\item The indicator function $u$ of $[0, \frac12)$ has $\hat u(0) = \frac12$, $\hat u(k) = \frac{1 - (-1)^k}{2\pi ik}$ for $k \neq 0$, so $|\hat u(k)|^2 = \frac{1}{\pi^2k^2}$ for odd $k$ and $0$ for even $k \neq 0$.
+Hence $u \in H^s$ exactly for $s < \frac12$. This is sharp in the Sobolev embedding theorem: in dimension $1$, $H^s$ consists of continuous functions for $s > \frac12$, and a function with a jump is in
+every $H^s$ with $s < \frac12$ but in none with $s > \frac12$.
+\end{enumerate}
+\end{example}
+
 \section{Elliptic estimates and regularity}\label{elliptic-operators:section-estimates}
+
+The heart of the theory is an inequality: an elliptic operator controls all derivatives of order $m$, up to a lower-order error. On the torus with constant coefficients this is a computation with
+Fourier coefficients (Theorem~\ref{distributions:theorem-elliptic-estimate}). For example, for $P = \Delta + 1 = 1 - \sum_j\partial_j^2$ on $T^n = \RR^n/\ZZ^n$, $\widehat{Pu}(k) = (1 + 4\pi^2|k|^2)\hat u(k)$, and
+$1 + |k|^2 \leq 1 + 4\pi^2|k|^2 \leq 4\pi^2(1 + |k|^2)$, so
+\[
+\|u\|_{s+2} \leq \|Pu\|_s \leq 4\pi^2\|u\|_{s+2}:
+\]
+the operator $\Delta + 1$ is an isomorphism $H^{s+2} \to H^s$ for every $s$, with inverse $\hat f(k) \mapsto \hat f(k)/(1 + 4\pi^2|k|^2)$. For $P = \Delta$ the coefficient $k = 0$ is lost, and the estimate needs the
+extra term $\|u\|_s$; this term is what makes the kernel (here the constants) possible.
 
 \begin{theorem}\label{elliptic-operators:theorem-elliptic-estimate}
 Let $P$ be an elliptic differential operator of order $m$ from $E$ to $F$ over the compact manifold $M$. For every $s$ there is $C_s$ with
@@ -111,6 +196,12 @@ regular as $Pu$ allows. The omitted verifications are the construction of the pa
 \cite[Chapter 4]{wells-differential-analysis} or \cite[Chapters 17--18]{hormander-pdo1}.
 \end{proof}
 
+The interpolation inequality used in the sketch deserves a word, as it is the reason why lower-order terms never matter. Let $0 < \varepsilon \leq 1$ and $m \geq 1$. Where
+$\langle\xi\rangle \geq 1/\varepsilon$, $\langle\xi\rangle^{s+m-1} = \langle\xi\rangle^{s+m}/\langle\xi\rangle \leq \varepsilon\langle\xi\rangle^{s+m}$; where $\langle\xi\rangle \leq 1/\varepsilon$,
+$\langle\xi\rangle^{s+m-1} = \langle\xi\rangle^{m-1}\langle\xi\rangle^s \leq \varepsilon^{1-m}\langle\xi\rangle^s$. So $\langle\xi\rangle^{s+m-1} \leq \varepsilon\langle\xi\rangle^{s+m} + \varepsilon^{1-m}\langle\xi\rangle^s$ everywhere, and
+squaring (with $(a + b)^2 \leq 2a^2 + 2b^2$) and integrating against $|\hat u|^2$ gives $\|u\|_{s+m-1} \leq \sqrt2\bigl(\varepsilon\|u\|_{s+m} + \varepsilon^{1-m}\|u\|_s\bigr)$: high frequencies are controlled by
+the strong norm with a small constant, low frequencies by the weak norm with a large one.
+
 \begin{counterexample}\label{elliptic-operators:counterexample-wave}
 Regularity fails for non-elliptic operators. On $\RR^2$ with coordinates $(t, x)$ let $P = \partial_t^2 - \partial_x^2$, whose symbol $-\tau^2 + \xi^2$ vanishes on the lines $\tau = \pm\xi$. For every locally integrable $g$ on $\RR$,
 the function $u(t, x) = g(x - t)$ satisfies $Pu = 0$ in $\mathcal{D}'(\RR^2)$. Indeed, in the coordinates $s = x - t$, $r = x + t$ one has $\partial_t = \partial_r - \partial_s$, $\partial_x = \partial_r + \partial_s$, so
@@ -122,13 +213,23 @@ since $\partial_s\tilde\varphi$ has compact support in $r$. Taking $g$ the indic
 distribution $u$ with $\sum_j\partial_j^2u$ smooth is smooth, by the local form of Theorem~\ref{elliptic-operators:theorem-elliptic-estimate}.
 \end{counterexample}
 
+The discontinuity of the solution travels along the line $x = t$, a direction in which the symbol vanishes: singularities of solutions of $Pu = 0$ can only sit in the directions where
+$\sigma(P)$ is not invertible. For an elliptic operator there are no such directions, and no singularities.
+
 \section{Fredholm theory and the spectral decomposition}\label{elliptic-operators:section-fredholm}
 
 \begin{definition}\label{elliptic-operators:definition-formal-adjoint}
 The \emph{formal adjoint} $P^*$ of a differential operator $P$ is the differential operator of the same order characterised by $\int_M\langle Pu, v\rangle = \int_M\langle u, P^*v\rangle$ for smooth sections;
-it exists, is unique, and has symbol $\sigma_m(P^*)(x, \xi) = (-1)^m\sigma_m(P)(x, \xi)^*$, so $P^*$ is elliptic if $P$ is. The operator $P$ is \emph{formally self-adjoint} if $P = P^*$; the Hodge Laplacian
+it exists, is unique, and has symbol $\sigma_m(P^*)(x, \xi) = \sigma_m(P)(x, \xi)^*$ (Proposition~\ref{elliptic-operators:proposition-symbol}), so $P^*$ is elliptic if $P$ is. The operator $P$ is \emph{formally self-adjoint} if $P = P^*$; the Hodge Laplacian
 is (Proposition~\ref{riemannian-geometry:proposition-adjoint}).
 \end{definition}
+
+For instance on the circle, $\int_0^{2\pi}u^{\prime}\bar v\,d\theta = -\int_0^{2\pi}u\overline{v^{\prime}}\,d\theta$ for periodic functions, so $(d/d\theta)^* = -d/d\theta$, with symbol $-i\xi = \overline{i\xi}$, the
+adjoint of the symbol $i\xi$ of $d/d\theta$. This is the reason for the factor $i$ in the definition of the symbol: integration by parts produces a sign $(-1)^m$ for $m$ derivatives, and complex
+conjugation of $i^m$ produces the same sign.
+
+The following theorem is the infinite-dimensional analogue of the statement that, for a linear map $A \colon V \to W$ between finite-dimensional inner product spaces, $W = \operatorname{im}A \oplus \ker A^*$, so
+that $Av = w$ is solvable exactly when $w \perp \ker A^*$.
 
 \begin{theorem}\label{elliptic-operators:theorem-fredholm}
 Let $P$ be elliptic of order $m$ on a compact manifold. Then:
@@ -154,12 +255,23 @@ $P^*f = 0$ in the sense of distributions, which by elliptic regularity means $f 
 $\operatorname{im}P$ is taken on $H^m$; and if $f$ is smooth and orthogonal to $\ker P^*$, a solution $u \in H^m$ exists and is smooth by regularity.
 \end{proof}
 
+The \emph{index} of $P$ is $\operatorname{ind}P = \dim\ker P - \dim\ker P^*$, the number of free parameters in the solutions minus the number of conditions on the right side. For square matrices it is
+$0$; for elliptic operators it can be any integer, and it is a deep invariant (Remark~\ref{elliptic-operators:remark-index}).
+
 \begin{example}\label{elliptic-operators:example-circle-derivative}
 On the circle $S^1 = \RR/2\pi\ZZ$ let $P = d/d\theta$ on complex functions. Its symbol $i\xi$ is invertible for $\xi \neq 0$, so $P$ is elliptic of order $1$, and integration by parts gives $P^* = -d/d\theta$. Both kernels
 consist of the constants. Theorem~\ref{elliptic-operators:theorem-fredholm} predicts that $u' = f$ has a smooth periodic solution exactly when $f$ is orthogonal to $\ker P^*$, that is, when $\int_0^{2\pi}f\,d\theta = 0$; this
 is visible directly, since $u(\theta) = \int_0^\theta f$ is periodic exactly in that case. The index is $\dim\ker P - \dim\ker P^* = 0$. For the perturbation $P_c = d/d\theta + c$ with a constant $c \in \CC$, the kernel is
 spanned by $e^{-c\theta}$ when this function is $2\pi$-periodic, that is, when $c \in i\ZZ$, and is $0$ otherwise; so the dimension of the kernel jumps. The adjoint $P_c^* = -d/d\theta + \bar c$ has kernel spanned by $e^{\bar c\theta}$ for exactly the same values of $c$, so the index stays $0$,
 as predicted by Remark~\ref{elliptic-operators:remark-index}, since the principal symbol does not depend on $c$.
+\end{example}
+
+\begin{example}\label{elliptic-operators:example-fredholm-alternative}
+On $S^1 = \RR/2\pi\ZZ$ consider $P = -\frac{d^2}{d\theta^2} - c$ with a real constant $c$, which is elliptic and formally self-adjoint. On the Fourier coefficients of $u = \sum_k\hat u(k)e^{ik\theta}$ it acts by
+$\widehat{Pu}(k) = (k^2 - c)\hat u(k)$. If $c$ is not the square of an integer, $P$ is bijective on smooth functions, with inverse $\hat f(k) \mapsto \hat f(k)/(k^2 - c)$, which gains two derivatives. If
+$c = k_0^2$, the kernel is spanned by $e^{\pm ik_0\theta}$ (by $1$ if $k_0 = 0$), and $-u^{\prime\prime} - k_0^2u = f$ is solvable exactly when $\hat f(\pm k_0) = 0$, that is, when $f$ is orthogonal to the kernel. This is
+the classical phenomenon of \emph{resonance}: forcing a string at one of its own frequencies has no periodic response. Theorem~\ref{elliptic-operators:theorem-fredholm} is the statement that this
+alternative, ``either unique solvability or a finite number of conditions'', holds for every elliptic operator on every compact manifold.
 \end{example}
 
 \begin{theorem}\label{elliptic-operators:theorem-spectral}
@@ -177,6 +289,12 @@ injective). Then $Pu_k = (\mu_k^{-1} - 1)u_k$, so the $u_k$ are eigensections of
 Finite multiplicity is finite-dimensionality of the eigenspaces, which are kernels of the elliptic operators $P - \lambda_k$. For smooth $u$, the coefficients $\langle u, u_k\rangle$ decay faster than any power
 of $\lambda_k$, because $\lambda_k^N\langle u, u_k\rangle = \langle P^Nu, u_k\rangle$ is bounded; with the Sobolev embedding this gives convergence in every $H^s$, hence in $\Gamma(M, E)$.
 \end{proof}
+
+The proof reduces the spectral theory of the unbounded operator $P$ to that of the compact operator $G = (P + I)^{-1}$; the two have the same eigenvectors, and the eigenvalues correspond by
+$\lambda = \mu^{-1} - 1$. Eigenvalues of $P$ tend to infinity because those of $G$ tend to zero, which in turn reflects the compactness of $H^m \to L^2$. For the circle the theorem gives back the
+Fourier basis $e^{ik\theta}$ of $-d^2/d\theta^2$, with eigenvalues $k^2$; for the round sphere $S^2$ some eigenfunctions are computed in Exercise~\ref{elliptic-operators:exercise-spherical-harmonics}. The
+first nonzero eigenvalue of the Laplacian on functions is the best constant in the Poincar\'e inequality (Chapter~\ref{hodge-theorem}), and the eigenvalue expansion solves the heat equation
+(Exercise~\ref{elliptic-operators:exercise-heat-equation}).
 
 \begin{remark}\label{elliptic-operators:remark-index}
 The index $\operatorname{ind}P = \dim\ker P - \dim\ker P^*$ depends only on the homotopy class of the principal symbol, and the Atiyah--Singer index theorem computes it as a characteristic number of the
@@ -208,6 +326,11 @@ The functions $e^{2\pi ik\cdot x}$, $k \in \ZZ^n$, are eigenfunctions with eigen
 Show that a formally self-adjoint elliptic operator on a compact manifold has index zero, and that the index of an elliptic operator changes sign when $P$ is replaced by $P^*$.
 \end{exercise}
 
+\begin{solution}
+The formal adjoint of $P^*$ is $P$, by the symmetry of the defining identity $\int\langle Pu, v\rangle = \int\langle u, P^*v\rangle$. So
+$\operatorname{ind}P^* = \dim\ker P^* - \dim\ker P = -\operatorname{ind}P$, and if $P = P^*$ the index equals its own negative, hence is $0$.
+\end{solution}
+
 \begin{exercise}\label{elliptic-operators:exercise-no-solutions}
 Give an example of a compact manifold and a smooth function $f$ for which $\Delta u = f$ has no solution, and characterise the $f$ for which it does.
 \end{exercise}
@@ -215,4 +338,62 @@ Give an example of a compact manifold and a smooth function $f$ for which $\Delt
 \begin{solution}
 On a compact connected oriented $M$, $\ker\Delta$ on functions consists of the constants, so by Theorem~\ref{elliptic-operators:theorem-fredholm} the equation is solvable exactly when
 $\int_Mf\,\mathrm{vol} = 0$; any $f$ with nonzero integral, for instance $f = 1$, gives no solution.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-cauchy-riemann}
+On $\CC$ write $\partial_z = \frac12(\partial_x - i\partial_y)$ and $\partial_{\bar z} = \frac12(\partial_x + i\partial_y)$. Compute the principal symbols of $\partial_z$, $\partial_{\bar z}$ and of the composite
+$\partial_z\partial_{\bar z}$, and show that $\sum_j\partial_j^2 = 4\partial_z\partial_{\bar z}$. Deduce that a harmonic function on a disc is the real part of a holomorphic function, using that
+$\partial_zu$ is holomorphic when $u$ is harmonic.
+\end{exercise}
+
+\begin{solution}
+$\sigma_1(\partial_z) = \frac i2(\xi_1 - i\xi_2)$ and $\sigma_1(\partial_{\bar z}) = \frac i2(\xi_1 + i\xi_2)$, both nonzero for $\xi \neq 0$, and by multiplicativity
+$\sigma_2(\partial_z\partial_{\bar z}) = -\frac14(\xi_1^2 + \xi_2^2)$, which is $\frac14$ times the symbol $-|\xi|^2$ of $\partial_x^2 + \partial_y^2$. Directly,
+$4\partial_z\partial_{\bar z} = (\partial_x - i\partial_y)(\partial_x + i\partial_y) = \partial_x^2 + \partial_y^2$. If $u$ is a real harmonic function, then $\partial_{\bar z}(\partial_zu) = \frac14(\partial_x^2 + \partial_y^2)u = 0$,
+so $h = 2\partial_zu = u_x - iu_y$ is holomorphic (it satisfies the Cauchy--Riemann equations). On a disc it has a holomorphic primitive $F$ (Corollary~\ref{complex-analysis:corollary-primitive-convex}),
+$F^{\prime} = u_x - iu_y$. Then $\operatorname{Re}F$ has $\partial_x\operatorname{Re}F = \operatorname{Re}F^{\prime} = u_x$ and $\partial_y\operatorname{Re}F = -\operatorname{Im}F^{\prime} = u_y$, using the Cauchy--Riemann
+equations for $F$; so $u - \operatorname{Re}F$ is constant, and $u = \operatorname{Re}(F + c)$.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-spherical-harmonics}
+On the round unit sphere $S^2$ with spherical coordinates $(\vartheta, \varphi)$, in which $g = d\vartheta^2 + \sin^2\vartheta\,d\varphi^2$, show that
+\[
+\Delta f = -\frac{1}{\sin\vartheta}\partial_\vartheta(\sin\vartheta\,\partial_\vartheta f) - \frac{1}{\sin^2\vartheta}\partial_\varphi^2f .
+\]
+Check that the restrictions of the coordinate functions $z = \cos\vartheta$ and $x = \sin\vartheta\cos\varphi$ are eigenfunctions with eigenvalue $2$, and that $3\cos^2\vartheta - 1$ (the restriction of
+$3z^2 - (x^2 + y^2 + z^2)$) is an eigenfunction with eigenvalue $6$.
+\end{exercise}
+
+\begin{solution}
+Here $\det g = \sin^2\vartheta$, $g^{\vartheta\vartheta} = 1$ and $g^{\varphi\varphi} = \sin^{-2}\vartheta$, and Proposition~\ref{riemannian-geometry:proposition-adjoint}(5) gives the formula. For $f = \cos\vartheta$:
+$\sin\vartheta\,\partial_\vartheta f = -\sin^2\vartheta$, whose $\vartheta$-derivative is $-2\sin\vartheta\cos\vartheta$, so $\Delta f = 2\cos\vartheta$. For $f = \sin\vartheta\cos\varphi$:
+$\partial_\vartheta(\sin\vartheta\cos\vartheta) = \cos^2\vartheta - \sin^2\vartheta$ and $\partial_\varphi^2f = -f$, so
+$\Delta f = \bigl(-(\cos^2\vartheta - \sin^2\vartheta) + 1\bigr)\cos\varphi/\sin\vartheta = 2\sin^2\vartheta\cos\varphi/\sin\vartheta = 2f$. For $f = 3\cos^2\vartheta - 1$: $\sin\vartheta\,\partial_\vartheta f = -6\cos\vartheta\sin^2\vartheta$,
+whose derivative is $6\sin^3\vartheta - 12\cos^2\vartheta\sin\vartheta$, so $\Delta f = -6\sin^2\vartheta + 12\cos^2\vartheta = 18\cos^2\vartheta - 6 = 6f$. (In general the restrictions of the homogeneous harmonic
+polynomials of degree $l$ are the eigenfunctions with eigenvalue $l(l + 1)$, and they span $L^2(S^2)$.)
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-first-order-circle}
+On $S^1 = \RR/2\pi\ZZ$ let $P = d/d\theta + a(\theta)$ with $a$ smooth and complex valued, and let $A = \int_0^{2\pi}a\,d\theta$. Compute $\ker P$ and $\ker P^*$, and show that both are $0$ unless $A \in 2\pi i\ZZ$, when
+both are one-dimensional. So the index is always $0$, although the kernel jumps.
+\end{exercise}
+
+\begin{solution}
+$u^{\prime} = -au$ has the solutions $u = Ce^{-\int_0^\theta a}$ on $\RR$, which are $2\pi$-periodic (for $C \neq 0$) if and only if $e^{-A} = 1$, that is $A \in 2\pi i\ZZ$. The adjoint is $P^* = -d/d\theta + \bar a$, with
+solutions $Ce^{\int_0^\theta\bar a}$, periodic if and only if $\bar A \in 2\pi i\ZZ$, which is the same condition, as $2\pi i\ZZ$ is stable under complex conjugation. For
+$a = c$ constant, $A = 2\pi c$ and the condition is $c \in i\ZZ$, as in Example~\ref{elliptic-operators:example-circle-derivative}.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-heat-equation}
+Let $M$ be compact, connected and oriented, and $u_0$ a smooth function on $M$. Let $\varphi_0, \varphi_1, \ldots$ be an orthonormal basis of eigenfunctions of the Laplacian on functions, with
+eigenvalues $\lambda_0 \leq \lambda_1 \leq \cdots$ (Theorem~\ref{elliptic-operators:theorem-spectral}, numbered from $0$). Show that $u(t) = \sum_ke^{-\lambda_kt}\langle u_0, \varphi_k\rangle\varphi_k$ is a smooth solution of the heat equation $\partial_tu + \Delta u = 0$ for $t > 0$ with $u(t) \to u_0$ in $L^2$ as $t \to 0$, and that $u(t)$ converges, as
+$t \to \infty$, to the constant function equal to the average of $u_0$. (For forms, the same argument shows that the heat flow converges to the harmonic part; this is the heat equation proof of the
+Hodge theorem mentioned in Chapter~\ref{hodge-theorem}.)
+\end{exercise}
+
+\begin{solution}
+Write $c_k = \langle u_0, \varphi_k\rangle$; these decay faster than any power of $\lambda_k$ (proof of Theorem~\ref{elliptic-operators:theorem-spectral}), so the series and all its derivatives in $t$ converge in every
+Sobolev norm, uniformly for $t \geq 0$, and $u$ is smooth, with $\partial_tu = -\sum_k\lambda_ke^{-\lambda_kt}c_k\varphi_k = -\Delta u$. At $t = 0$ the series is the expansion of $u_0$. The kernel of $\Delta$ on functions
+consists of the constants ($\|du\|^2 = (\Delta u, u) = 0$ forces $du = 0$, and $M$ is connected), so $\lambda_0 = 0$ with $\varphi_0 = \operatorname{vol}(M)^{-1/2}$ and $\lambda_k \geq \lambda_1 > 0$ for $k \geq 1$. Then
+$\|u(t) - c_0\varphi_0\|^2 = \sum_{k \geq 1}e^{-2\lambda_kt}|c_k|^2 \leq e^{-2\lambda_1t}\|u_0\|^2 \to 0$, and $c_0\varphi_0 = \operatorname{vol}(M)^{-1}\int_Mu_0\,\mathrm{vol}$ is the average.
 \end{solution}
