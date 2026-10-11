@@ -344,6 +344,7 @@ MathJax.Hub.Config({
 <h1 id="connections:section-connections">37.3 Connections<a class="tag" href="tag/01AW.html" title="Permanent link: tag 01AW">01AW</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
+<p>How should one differentiate a section \(s\) of a vector bundle? On a trivial bundle \(s\) is a vector-valued function and has a derivative \(ds\), but Remark&#160;<a href="connections-section-bundle-valued-forms.html#connections:remark-no-canonical-d">37.2.8</a> shows that “differentiate the components” depends on the frame. Instead of choosing a formula, we list the properties a derivative of sections should have: it should take a section to something that eats a tangent vector and returns a vector of the fibre (an \(E\)-valued \(1\)-form), be additive, and obey the product rule with functions. A connection is anything with these properties. </p>
 <div class="definition_thmwrapper theorem-style-definition" id="connections:definition-connection">
   <div class="definition_thmheading"><a class="tag" href="tag/01AX.html" title="Permanent link: tag 01AX">01AX</a>
     <span class="definition_thmcaption">
@@ -352,15 +353,19 @@ MathJax.Hub.Config({
     <span class="definition_thmlabel">37.3.1</span>
   </div>
   <div class="definition_thmcontent">
-  <p> A <em>connection</em> (or <em>covariant derivative</em>) on a vector bundle \(E \to M\) is a map \(\nabla \colon \Gamma (M, E) \to \Omega ^1(M, E)\) that is \(\mathbb {K}\)-linear and satisfies the Leibniz rule </p>
-<div class="displaymath" id="a0000001084">
+  <p> A <em>connection</em> (or <em>covariant derivative</em>) on a vector bundle \(E \to M\) is a \(\mathbb {K}\)-linear map \(\nabla \colon \Gamma (M, E) \to \Omega ^1(M, E)\) that satisfies the Leibniz rule </p>
+<div class="displaymath" id="a0000001088">
   \[  \nabla (fs) = df \otimes s + f\nabla s, \qquad f \in C^\infty (M),\  s \in \Gamma (M, E).  \]
 </div>
-<p> For a vector field \(X\) we write \(\nabla _Xs = (\nabla s)(X)\), so \(\nabla _{fX}s = f\nabla _Xs\) and \(\nabla _X(fs) = (Xf)s + f\nabla _Xs\). </p>
 
   </div>
 </div>
-<p>So \(\nabla s\) is an \(E\)-valued \(1\)-form: at each point it is the linear map \(T_pM \to E_p\), \(v \mapsto \nabla _vs = (\nabla s)_p(v)\), the <em>covariant derivative</em> of \(s\) in the direction \(v\). In Riemannian geometry and in many books a connection is introduced instead as an operation \((X, s) \mapsto \nabla _Xs\), and for \(E = TM\) one writes \(\nabla _XY\). The two points of view are equivalent. </p>
+<p>In the Leibniz rule both sides are \(E\)-valued \(1\)-forms: \(df \otimes s\) is the product of the \(1\)-form \(df\) with the section \(s\) (Definition&#160;<a href="connections-section-bundle-valued-forms.html#connections:definition-products">37.2.5</a>), and \(f\nabla s\) is the \(E\)-valued \(1\)-form \(\nabla s\) multiplied by the function \(f\). The model is the trivial connection \(d\) on \(M \times \mathbb {K}^r\), for which the rule is the product rule \(d(fs) = df\, s + f\, ds\) (Example&#160;<a href="connections-section-connections.html#connections:example-connections">37.3.3</a>(1) below). </p>
+<p>At a point \(p\), the value \((\nabla s)_p\) of the \(E\)-valued \(1\)-form \(\nabla s\) is a linear map \(T_pM \to E_p\) (Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>). For a tangent vector \(v \in T_pM\) and a vector field \(X\) we write </p>
+<div class="displaymath" id="a0000001089">
+  \[  \nabla _vs = (\nabla s)_p(v) \in E_p, \qquad \nabla _Xs = (\nabla s)(X) \in \Gamma (M, E), \quad (\nabla _Xs)(p) = \nabla _{X(p)}s,  \]
+</div>
+<p> the <em>covariant derivative</em> of \(s\) in the direction \(v\), respectively along \(X\). In Riemannian geometry and in many books a connection is introduced directly as an operation \((X, s) \mapsto \nabla _Xs\), and for \(E = TM\) one writes \(\nabla _XY\). The next proposition shows that the two points of view are equivalent, and translates the Leibniz rule into the language of \(\nabla _X\). </p>
 <div class="proposition_thmwrapper theorem-style-plain" id="connections:proposition-connection-operators">
   <div class="proposition_thmheading"><a class="tag" href="tag/02LI.html" title="Permanent link: tag 02LI">02LI</a>
     <span class="proposition_thmcaption">
@@ -382,7 +387,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001085">
+<div class="proof_wrapper" id="a0000001090">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -390,7 +395,10 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>(1) holds because \(\nabla s\) is a \(1\)-form, (2) is the linearity of \(\nabla \), and (3) is the Leibniz rule evaluated on \(X\), since \((df \otimes s)(X) = df(X)s = (Xf)s\). Conversely, for fixed \(s\) the map \(X \mapsto D_Xs\) is \(C^\infty (M)\)-linear by (1), so by Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>(3) it is an \(E\)-valued \(1\)-form \(\nabla s\) with \((\nabla s)(X) = D_Xs\). The map \(s \mapsto \nabla s\) is linear by (2), and (3) says \(\nabla (fs)(X) = (df \otimes s + f\nabla s)(X)\) for all \(X\). The last statement is Lemma&#160;<a href="connections-section-bundle-valued-forms.html#connections:lemma-tensoriality">37.2.2</a> for \(X \mapsto \nabla _Xs\). </p>
+  <p>(1) For fixed \(s\), \(\nabla s\) is an \(E\)-valued \(1\)-form, and evaluating it on vector fields is \(C^\infty (M)\)-linear (Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>(3)): \((\nabla s)(fX + gY) = f(\nabla s)(X) + g(\nabla s)(Y)\). </p>
+<p>(2) This is the \(\mathbb {K}\)-linearity of \(s \mapsto \nabla s\), evaluated on \(X\). </p>
+<p>(3) Evaluate the Leibniz rule on \(X\). For the first term, \((df \otimes s)(X) = df(X)\, s\), by the identification of \((\alpha \otimes e)(v)\) with \(\alpha (v)e\) in Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>, and \(df(X) = Xf\), the derivative of \(f\) along \(X\) (Remark&#160;<a href="differential-forms-section-forms.html#differential-forms:remark-differential-function">35.2.2</a>). For the second, \((f\nabla s)(X) = f\, (\nabla s)(X) = f\nabla _Xs\). So \(\nabla _X(fs) = (Xf)s + f\nabla _Xs\). </p>
+<p>Conversely, let \(D\) have properties (1)–(3). For fixed \(s\) the map \(X \mapsto D_Xs\) is \(C^\infty (M)\)-linear by (1), so by Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>(3) there is a unique \(E\)-valued \(1\)-form, call it \(\nabla s\), with \((\nabla s)(X) = D_Xs\) for all \(X\). The map \(s \mapsto \nabla s\) is \(\mathbb {K}\)-linear by (2) and the uniqueness. For the Leibniz rule, the two \(E\)-valued \(1\)-forms \(\nabla (fs)\) and \(df \otimes s + f\nabla s\) take the same value on every vector field \(X\), namely \(D_X(fs) = (Xf)s + fD_Xs\) by (3) and the computation in the first part; an \(E\)-valued \(1\)-form is determined by its values on vector fields (Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>), so they are equal. The connection is unique because \(\nabla s\) is determined by the values \(D_Xs\). Finally, \(X \mapsto \nabla _Xs\) is \(C^\infty (M)\)-linear, so its value at \(p\) depends only on \(X(p)\) by Lemma&#160;<a href="connections-section-bundle-valued-forms.html#connections:lemma-tensoriality">37.2.2</a>. </p>
 
   </div>
 </div>
@@ -405,14 +413,14 @@ MathJax.Hub.Config({
   <div class="example_thmcontent">
   
 <ol class="enumerate">
-  <li><p><em>The trivial connection.</em> On the trivial bundle \(M \times \mathbb {K}^r\) a section is a vector-valued function \(s = (s^1, \ldots , s^r)^T\), and \(ds = (ds^1, \ldots , ds^r)^T\) is a connection: \(d(fs) = df\, s + f\, ds\). Here \(\nabla _Xs = X(s)\) is the componentwise derivative. </p>
+  <li><p><em>The trivial connection.</em> A section of the trivial bundle \(\pi \colon M \times \mathbb {K}^r \to M\) is a smooth map \(s \colon M \to M \times \mathbb {K}^r\) with \(\pi \circ s = \mathrm{id}\), that is, \(s(p) = (p, \sigma (p))\) for a smooth function \(\sigma \colon M \to \mathbb {K}^r\); the first component carries no information, and one identifies \(s\) with \(\sigma \). So a section is a vector-valued function, whose components \(s^i\) are the coefficients of \(s\) in the standard frame \(\varepsilon _i(p) = (p, e_i)\): \(s = \sum _is^i\varepsilon _i\). We write it as a column, \(s = (s^1, \ldots , s^r)^T\); the transpose only says that the row written inline is to be read as a column, as in the row and column notation of Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-products">37.2.6</a>(2), where the frame is a row and the components form a column, \(s = \varepsilon \, s\). Columns are used so that a matrix \(A\) acts on the left, \(As\), as in (2) below. Then \(ds = (ds^1, \ldots , ds^r)^T\), a column of \(1\)-forms, is a connection: it is linear, and \(d(fs) = (d(fs^i))_i = (df\, s^i + f\, ds^i)_i = df\, s + f\, ds\). Here \(\nabla _Xs = X(s) = (Xs^1, \ldots , Xs^r)^T\) is the componentwise derivative. </p>
 </li>
   <li><p><em>Adding a matrix of \(1\)-forms.</em> For an \(r \times r\) matrix \(A\) of \(1\)-forms on \(M\), \(\nabla s = ds + As\) is a connection on \(M \times \mathbb {K}^r\), since the extra term is \(C^\infty (M)\)-linear in \(s\): \(A(fs) = fAs\). We will see that every connection on a trivial bundle has this form. </p>
 </li>
   <li><p><em>The Euclidean connection.</em> On \(T\mathbb {R}^n = \mathbb {R}^n \times \mathbb {R}^n\) the trivial connection is \(\nabla _XY = DY(X) = \sum _iX(Y^i)\partial _i\), the directional derivative of the components of \(Y\). </p>
 </li>
   <li><p><em>Subbundles of trivial bundles.</em> Let \(E \subseteq M \times \mathbb {R}^N\) be a subbundle, so each \(E_p\) is a subspace of \(\mathbb {R}^N\), and let \(P_p \colon \mathbb {R}^N \to E_p\) be the orthogonal projection. Locally \(E\) has a frame, and Gram–Schmidt turns it into an orthonormal frame \((u_1, \ldots , u_r)\); then \(P = \sum _iu_iu_i^T\), so \(P\) is a smooth matrix-valued function. A section of \(E\) is a function \(s \colon M \to \mathbb {R}^N\) with \(s(p) \in E_p\), and </p>
-<div class="displaymath" id="a0000001086">
+<div class="displaymath" id="a0000001091">
   \[  \nabla s = P(ds), \qquad \text{that is,}\qquad \nabla _Xs = P(X(s)),  \]
 </div>
 <p> is a connection: \(\nabla (fs) = P(df\, s + f\, ds) = df \otimes s + fP(ds)\), since \(Ps = s\). For the tangent bundle \(TS^n \subseteq S^n \times \mathbb {R}^{n+1}\) this says: differentiate the vector field in \(\mathbb {R}^{n+1}\) and project back onto the tangent space. This is the Levi-Civita connection of the round sphere (Chapter&#160;<a href="riemannian-geometry.html">39</a>). The same construction applies to the tautological line bundles of \(\mathbb {R}\mathbb {P}^n\) and \(\mathbb {C}\mathbb {P}^n\) (with the Hermitian projection \(P(w) = \sum _i\langle w, u_i\rangle u_i\) in the complex case), to the tangent and normal bundles of any submanifold of \(\mathbb {R}^N\), and to the tautological bundles of Grassmannians. </p>
@@ -434,12 +442,12 @@ MathJax.Hub.Config({
   <li><p><em>Locality.</em> If \(s\) vanishes on an open set \(U\), so does \(\nabla s\). Consequently \(\nabla \) induces a connection on \(E|_U\) for every open \(U\), with \((\nabla s)|_U = \nabla (s|_U)\). </p>
 </li>
   <li><p><em>Connection forms.</em> If \(e = (e_1, \ldots , e_r)\) is a frame over \(U\), there is a unique matrix \(\theta = (\theta ^i_j)\) of \(1\)-forms on \(U\), the <em>connection form</em> of \(\nabla \) in the frame \(e\), with \(\nabla e_j = \sum _i\theta ^i_j \otimes e_i\). For \(s = \sum _js^je_j\), </p>
-<div class="displaymath" id="a0000001087">
+<div class="displaymath" id="a0000001092">
   \[  \nabla s = \sum _i\Bigl(ds^i + \sum _j\theta ^i_js^j\Bigr) \otimes e_i, \qquad \text{in vector notation}\quad \nabla s = ds + \theta s .  \]
 </div>
 </li>
   <li><p><em>Change of frame.</em> If \(e^{\prime } = eg\) is another frame over \(U\), with \(g \colon U \to \mathrm{GL}_r(\mathbb {K})\) smooth, then </p>
-<div class="displaymath" id="a0000001088">
+<div class="displaymath" id="a0000001093">
   \[  \theta ^{\prime } = g^{-1}\theta g + g^{-1}dg .  \]
 </div>
 </li>
@@ -451,7 +459,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001089">
+<div class="proof_wrapper" id="a0000001094">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -461,8 +469,12 @@ MathJax.Hub.Config({
   <div class="proof_content">
   <p>(1) Let \(s = 0\) on \(U\), \(p \in U\), and \(\chi \) a bump function with \(\chi = 1\) near \(p\) and support in \(U\) (Lemma&#160;<a href="smooth-manifolds-section-smooth-maps.html#smooth-manifolds:lemma-bump-manifold">32.3.10</a>). Then \(\chi s = 0\), and \(0 = \nabla (\chi s) = d\chi \otimes s + \chi \nabla s\); at \(p\), \(s(p) = 0\) and \(\chi (p) = 1\), so \((\nabla s)_p = 0\). For a section \(s\) over \(U\) and \(p \in U\) define \((\nabla ^Us)_p = (\nabla (\chi s))_p\), where \(\chi s\) is extended by \(0\) outside \(U\) and \(\chi \) is as above; by locality this does not depend on \(\chi \), it is smooth (near \(p\) one \(\chi \) works for all nearby points), and it satisfies the Leibniz rule. It is the only connection on \(E|_U\) compatible with restriction, again by locality. </p>
 <p>(2) By (1) we may work on \(U\). Each \(\nabla e_j\) is an \(E\)-valued \(1\)-form, so by Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>(4) it is uniquely \(\sum _i\theta ^i_j \otimes e_i\) with \(1\)-forms \(\theta ^i_j\). By linearity and the Leibniz rule, \(\nabla (\sum _js^je_j) = \sum _j(ds^j \otimes e_j + s^j\sum _i\theta ^i_j \otimes e_i)\), which is the formula. </p>
-<p>(3) On the one hand, by the Leibniz rule, \(\nabla e^{\prime }_j = \nabla (\sum _ke_kg^k_j) = \sum _k(dg^k_j \otimes e_k + g^k_j\sum _i\theta ^i_k \otimes e_i) = \sum _i(dg + \theta g)^i_j \otimes e_i\). On the other hand, by definition of \(\theta ^{\prime }\), \(\nabla e^{\prime }_j = \sum _l\theta ^{\prime l}_j \otimes e^{\prime }_l = \sum _i(g\theta ^{\prime })^i_j \otimes e_i\). Comparing, \(g\theta ^{\prime } = dg + \theta g\). </p>
-<p>(4) Choose an open cover \((U_\alpha )\) of \(M\) by sets over which \(E\) has a frame \(e_\alpha \), and a partition of unity \((\psi _\alpha )\) subordinate to it (Theorem&#160;<a href="smooth-manifolds-section-partitions.html#smooth-manifolds:theorem-partitions-of-unity">32.8.2</a>). On \(U_\alpha \) let \(\nabla ^\alpha \) be the connection with connection form \(0\) in the frame \(e_\alpha \), that is, \(\nabla ^\alpha (\sum _js^je_{\alpha ,j}) = \sum _jds^j \otimes e_{\alpha ,j}\). Put \(\nabla s = \sum _\alpha \psi _\alpha \nabla ^\alpha (s|_{U_\alpha })\), each term extended by \(0\) outside the support of \(\psi _\alpha \); the sum is locally finite. It is linear, and \(\nabla (fs) = \sum _\alpha \psi _\alpha (df \otimes s + f\nabla ^\alpha s) = df \otimes s + f\nabla s\), because \(\sum _\alpha \psi _\alpha = 1\). (A general affine combination of connections fails the Leibniz rule; the coefficients must add up to \(1\).) </p>
+<p>(3) Compute \(\nabla e^{\prime }_j\) in two ways. On the one hand \(e^{\prime }_j = \sum _ke_kg^k_j\) is a combination of the \(e_k\) with function coefficients, so by linearity and the Leibniz rule </p>
+<div class="displaymath" id="a0000001095">
+  \[  \nabla e^{\prime }_j = \sum _k\bigl(dg^k_j \otimes e_k + g^k_j\nabla e_k\bigr) = \sum _k\Bigl(dg^k_j \otimes e_k + g^k_j\sum _i\theta ^i_k \otimes e_i\Bigr) = \sum _i(dg + \theta g)^i_j \otimes e_i .  \]
+</div>
+<p> On the other hand, by definition of \(\theta ^{\prime }\) and \(e^{\prime }_l = \sum _ie_ig^i_l\), \(\nabla e^{\prime }_j = \sum _l\theta ^{\prime l}_j \otimes e^{\prime }_l = \sum _i(g\theta ^{\prime })^i_j \otimes e_i\). The coefficients in the frame \(e\) are unique (Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-bundle-valued-forms">37.2.3</a>(4)), so \(g\theta ^{\prime } = dg + \theta g\), that is \(\theta ^{\prime } = g^{-1}\theta g + g^{-1}dg\). In the row notation of Proposition&#160;<a href="connections-section-bundle-valued-forms.html#connections:proposition-products">37.2.6</a>(2) the computation reads \(\nabla (eg) = (\nabla e)g + e\, dg = e(\theta g + dg)\) and \(\nabla e^{\prime } = e^{\prime }\theta ^{\prime } = e\, g\theta ^{\prime }\). </p>
+<p>(4) Choose an open cover \((U_\alpha )\) of \(M\) by sets over which \(E\) has a frame \(e_\alpha \), and a partition of unity \((\psi _\alpha )\) subordinate to it (Theorem&#160;<a href="smooth-manifolds-section-partitions.html#smooth-manifolds:theorem-partitions-of-unity">32.8.2</a>). On \(U_\alpha \) let \(\nabla ^\alpha \) be the connection with connection form \(0\) in the frame \(e_\alpha \), that is, \(\nabla ^\alpha (\sum _js^je_{\alpha ,j}) = \sum _jds^j \otimes e_{\alpha ,j}\); it is the trivial connection of Example&#160;<a href="connections-section-connections.html#connections:example-connections">37.3.3</a>(1), transported by the frame, so it satisfies the Leibniz rule on \(E|_{U_\alpha }\). Put \(\nabla s = \sum _\alpha \psi _\alpha \nabla ^\alpha (s|_{U_\alpha })\). Each term \(\psi _\alpha \nabla ^\alpha (s|_{U_\alpha })\) is an \(E\)-valued \(1\)-form on \(U_\alpha \) vanishing outside the support of \(\psi _\alpha \), which is closed in \(M\) and contained in \(U_\alpha \), so extended by \(0\) it is smooth on \(M\); and the sum is locally finite, so it is a smooth \(E\)-valued \(1\)-form. It is linear, and \(\nabla (fs) = \sum _\alpha \psi _\alpha (df \otimes s + f\nabla ^\alpha s) = df \otimes s + f\nabla s\), because \(\sum _\alpha \psi _\alpha = 1\). (A general affine combination of connections fails the Leibniz rule; the coefficients must add up to \(1\).) </p>
 <p>(5) \((\nabla + A)(fs) = df \otimes s + f\nabla s + fAs\), so \(\nabla + A\) is a connection. If \(\nabla ^{\prime }\) is another connection, \(D = \nabla ^{\prime } - \nabla \) satisfies \(D(fs) = fD(s)\): the terms \(df \otimes s\) cancel. So \((X, s) \mapsto D(s)(X)\) is \(C^\infty (M)\)-linear in both arguments, and by Lemma&#160;<a href="connections-section-bundle-valued-forms.html#connections:lemma-tensoriality">37.2.2</a> it is given by a section of \(\operatorname {Hom}(TM \otimes E, E) = T^*M \otimes \operatorname {End}E\), that is, by some \(A \in \Omega ^1(M, \operatorname {End}E)\). </p>
 
   </div>
@@ -479,11 +491,11 @@ MathJax.Hub.Config({
   
 <ol class="enumerate">
   <li><p><em>The sphere.</em> On \(S^2\) minus the poles use the spherical coordinates \(x(\vartheta , \varphi ) = (\sin \vartheta \cos \varphi , \sin \vartheta \sin \varphi , \cos \vartheta )\) and the orthonormal frame \(e_1 = x_\vartheta = (\cos \vartheta \cos \varphi , \cos \vartheta \sin \varphi , -\sin \vartheta )\), \(e_2 = x_\varphi /\sin \vartheta = (-\sin \varphi , \cos \varphi , 0)\) of \(TS^2\). For the projection connection of Example&#160;<a href="connections-section-connections.html#connections:example-connections">37.3.3</a>(4) we differentiate in \(\mathbb {R}^3\) and project onto the tangent plane, which amounts to dropping the component along the normal \(x\). Since \(\partial _\vartheta e_1 = -x\), \(\partial _\varphi e_1 = \cos \vartheta \, e_2\) and \(\partial _\varphi e_2 = -(\cos \varphi , \sin \varphi , 0) = -(\sin \vartheta \, x + \cos \vartheta \, e_1)\), </p>
-<div class="displaymath" id="a0000001090">
+<div class="displaymath" id="a0000001096">
   \[  de_1 = -x\, d\vartheta + \cos \vartheta \, e_2\, d\varphi , \qquad de_2 = -(\sin \vartheta \, x + \cos \vartheta \, e_1)\, d\varphi ,  \]
 </div>
 <p> and dropping the terms along \(x\), </p>
-<div class="displaymath" id="a0000001091">
+<div class="displaymath" id="a0000001097">
   \[  \nabla e_1 = \cos \vartheta \, d\varphi \otimes e_2, \qquad \nabla e_2 = -\cos \vartheta \, d\varphi \otimes e_1 .  \]
 </div>
 <p> So the connection form is \(\theta = \bigl(\begin{smallmatrix}  0 
@@ -497,7 +509,7 @@ MathJax.Hub.Config({
 \end{smallmatrix}\bigr)\), a skew-symmetric matrix, in accordance with Proposition&#160;<a href="connections-section-metric.html#connections:proposition-metric-connections">37.6.2</a> below. </p>
 </li>
   <li><p><em>The tautological line bundle of \(\mathbb {C}\mathbb {P}^1\).</em> Let \(L \subseteq \mathbb {C}\mathbb {P}^1 \times \mathbb {C}^2\) have fibre \(L_\ell = \ell \) over the line \(\ell \), with the Hermitian inner product of \(\mathbb {C}^2\) and the projection connection. Over \(U_0 = \{ [1 : z]\} \) the section \(s(z) = (1, z)\) is a frame, \(ds = (0, 1)\, dz\), and projecting onto the line spanned by \(s\), </p>
-<div class="displaymath" id="a0000001092">
+<div class="displaymath" id="a0000001098">
   \[  \nabla s = \frac{\langle (0, 1), s\rangle }{|s|^2}\, dz \otimes s = \frac{\bar z\, dz}{1 + |z|^2} \otimes s, \qquad \theta = \frac{\bar z\, dz}{1 + |z|^2} .  \]
 </div>
 </li>
@@ -538,7 +550,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001093">
+<div class="proof_wrapper" id="a0000001099">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof

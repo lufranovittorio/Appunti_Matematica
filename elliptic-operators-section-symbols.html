@@ -347,30 +347,60 @@ MathJax.Hub.Config({
   </div>
   <div class="definition_thmcontent">
   <p> A linear map \(P \colon \Gamma (M, E) \to \Gamma (M, F)\) is a <em>differential operator of order at most \(m\)</em> if in local coordinates and local frames it is given by \(Pu = \sum _{|\alpha | \leq m}A_\alpha (x)\, \partial ^\alpha u\) with smooth matrix-valued coefficients \(A_\alpha \). Its <em>principal symbol</em> is </p>
-<div class="displaymath" id="a0000001362">
+<div class="displaymath" id="a0000001370">
   \[  \sigma _m(P)(x, \xi ) = \sum _{|\alpha | = m}A_\alpha (x)\, (i\xi )^\alpha \in \operatorname {Hom}(E_x, F_x), \qquad \xi \in T^*_xM,  \]
 </div>
 <p> and \(P\) is <em>elliptic</em> if \(\sigma _m(P)(x, \xi )\) is invertible for all \(x\) and all \(\xi \neq 0\). </p>
 
   </div>
 </div>
+<p>Here \(\xi = \sum _j\xi _j\, dx^j\) and \((i\xi )^\alpha = i^{|\alpha |}\xi _1^{\alpha _1} \cdots \xi _n^{\alpha _n}\). The rule is: <em>keep only the derivatives of highest order, and replace \(\partial _j\) by \(i\xi _j\)</em>. The factor \(i\) is chosen so that \(\partial _j(e^{ix\cdot \xi }) = i\xi _je^{ix\cdot \xi }\): on an exponential \(e^{i\langle x, \xi \rangle }\) with large frequency \(\xi \), the operator \(P\) acts, to leading order, as multiplication by the symbol. In Chapter&#160;<a href="distributions.html">31</a> the Fourier transform is normalised with \(e^{-2\pi ix\cdot \xi }\), and correspondingly the symbol there is \(\sum _{|\alpha | = m}a_\alpha (2\pi i\xi )^\alpha \); the two conventions differ by the harmless factor \((2\pi )^m\). Ellipticity means that \(P\) <em>controls all derivatives of order \(m\) in all directions</em>; the lower-order terms play no role in it. </p>
+<div class="example_thmwrapper theorem-style-definition" id="elliptic-operators:example-symbol-computations">
+  <div class="example_thmheading"><a class="tag" href="tag/02OM.html" title="Permanent link: tag 02OM">02OM</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">40.2.2</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>On the circle, \(P = d/d\theta \) has \(\sigma _1(P)(\theta , \xi ) = i\xi \), which is nonzero for \(\xi \neq 0\): \(P\) is elliptic. So is \(d/d\theta + a(\theta )\) for any smooth \(a\), with the same symbol. </p>
+</li>
+  <li><p>On a Riemannian manifold, the Laplacian on functions is \(\Delta f = -\frac{1}{\sqrt{\det g}}\sum _{i,j}\partial _i(\sqrt{\det g}\, g^{ij}\partial _jf)\) (Proposition&#160;<a href="riemannian-geometry-section-hodge-star.html#riemannian-geometry:proposition-adjoint">39.13.3</a>(5)). Its terms of order \(2\) are \(-\sum _{i,j}g^{ij}\partial _i\partial _jf\), so </p>
+<div class="displaymath" id="a0000001371">
+  \[  \sigma _2(\Delta )(x, \xi ) = -\sum _{i,j}g^{ij}(i\xi _i)(i\xi _j) = \sum _{i,j}g^{ij}\xi _i\xi _j = |\xi |^2,  \]
+</div>
+<p> the squared length of the covector \(\xi \) for the metric. It is nonzero for \(\xi \neq 0\), so \(\Delta \) is elliptic. The first-order terms, which involve the derivatives of the metric, do not enter. </p>
+</li>
+  <li><p>On \(\mathbb {C}\) with \(z = x + iy\), the Cauchy–Riemann operator \(\partial _{\bar z} = \frac12(\partial _x + i\partial _y)\) has symbol \(\frac i2(\xi _1 + i\xi _2)\), nonzero for \((\xi _1, \xi _2) \neq 0\); it is elliptic. Its solutions are the holomorphic functions, and the local form of elliptic regularity (Theorem&#160;<a href="elliptic-operators-section-estimates.html#elliptic-operators:theorem-elliptic-estimate">40.4.1</a>) is, in this case, the fact that a weak solution of the Cauchy–Riemann equations is smooth, indeed holomorphic. </p>
+</li>
+  <li><p>On \(\mathbb {R}^2\) the operator \(\partial _x\) is not elliptic: its symbol \(i\xi _1\) vanishes for \(\xi = dy\). It sees no derivatives in the \(y\) direction, and correspondingly \(\partial _xu = 0\) has the non-smooth solutions \(u(x, y) = h(y)\) for every function \(h\). </p>
+</li>
+  <li><p>The exterior derivative \(d \colon \Omega ^k \to \Omega ^{k+1}\) has symbol \(\sigma _1(d)(x, \xi )\alpha = i\xi \wedge \alpha \) (Exercise&#160;<a href="elliptic-operators-section-exercises.html#elliptic-operators:exercise-symbol-laplacian">40.6.1</a>); it maps between bundles whose ranks \(\binom nk\) and \(\binom n{k+1}\) differ in general, and \(\xi \wedge -\) is never injective for \(k \geq 1\), since it kills \(\xi \wedge \beta \); for \(k = 0\) and \(n \geq 2\) it is not surjective. So \(d\) is not elliptic. Ellipticity is recovered by combining \(d\) with its adjoint, as in the next example. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>The rule “replace \(\partial _j\) by \(i\xi _j\)” uses coordinates, and the next proposition shows that the result does not depend on them. The idea is to test \(P\) on functions that oscillate in the direction of \(\xi \), or, algebraically, on powers of a function vanishing at \(x\) with differential \(\xi \). </p>
 <div class="proposition_thmwrapper theorem-style-plain" id="elliptic-operators:proposition-symbol">
   <div class="proposition_thmheading"><a class="tag" href="tag/01CY.html" title="Permanent link: tag 01CY">01CY</a>
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">40.2.2</span>
+    <span class="proposition_thmlabel">40.2.3</span>
   </div>
   <div class="proposition_thmcontent">
   <p> The principal symbol is well defined: it does not depend on the coordinates and frames, and it is characterised by </p>
-<div class="displaymath" id="a0000001363">
+<div class="displaymath" id="a0000001372">
   \[  \sigma _m(P)(x, d_xf)\, u(x) = \frac{i^m}{m!}\, P\big((f - f(x))^mu\big)(x)  \]
 </div>
 <p> for \(f \in C^\infty (M)\) and \(u \in \Gamma (M, E)\). Symbols are multiplicative, \(\sigma _{m+m'}(P'P) = \sigma _{m'}(P')\sigma _m(P)\), so a composite of elliptic operators is elliptic, and the symbol of the formal adjoint is the adjoint of the symbol. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001364">
+<div class="proof_wrapper" id="a0000001373">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -382,12 +412,13 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<p>For instance, for \(P = \Delta \) on functions and \(f\) with \(d_xf = \xi \), the formula reads \(|\xi |^2u(x) = -\frac12\Delta ((f - f(x))^2u)(x)\); on \(\mathbb {R}^n\) with \(f(y) = \langle \xi , y\rangle \) and \(u = 1\), the right side is \(-\frac12\Delta (\langle \xi , y - x\rangle ^2)\) at \(y = x\), that is \(\frac12 \cdot 2|\xi |^2\). </p>
 <div class="example_thmwrapper theorem-style-definition" id="elliptic-operators:example-elliptic">
   <div class="example_thmheading"><a class="tag" href="tag/01CZ.html" title="Permanent link: tag 01CZ">01CZ</a>
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">40.2.3</span>
+    <span class="example_thmlabel">40.2.4</span>
   </div>
   <div class="example_thmcontent">
   
@@ -404,12 +435,14 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<p>In (4), the heat operator \(\partial _t - \sum _j\partial _{x_j}^2\) on \(\mathbb {R}\times \mathbb {R}^n\) has principal symbol (of order \(2\)) \(\sum _j\xi _j^2\), which vanishes for the covector \(dt\): the operator contains only one derivative in time. The wave operator has symbol \(-\tau ^2 + |\xi |^2\), which vanishes on the light cone \(|\tau | = |\xi |\); Counterexample&#160;<a href="elliptic-operators-section-estimates.html#elliptic-operators:counterexample-wave">40.4.2</a> shows the consequence for regularity. </p>
+<p>The simplest elliptic operator with constant coefficients, the Laplacian of \(\mathbb {R}^3\), can be inverted by an explicit kernel. This is the prototype of the parametrices used below. </p>
 <div class="proposition_thmwrapper theorem-style-plain" id="elliptic-operators:proposition-fundamental-solution">
   <div class="proposition_thmheading"><a class="tag" href="tag/02AO.html" title="Permanent link: tag 02AO">02AO</a>
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">40.2.4</span>
+    <span class="proposition_thmlabel">40.2.5</span>
     <span class="proposition_thmtitle">Fundamental solution of the Laplacian</span>
   </div>
   <div class="proposition_thmcontent">
@@ -417,7 +450,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001365">
+<div class="proof_wrapper" id="a0000001374">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -426,13 +459,14 @@ MathJax.Hub.Config({
   </div>
   <div class="proof_content">
   <p>\(E\) is locally integrable, as \(\int _{|x| \leq 1}|x|^{-1}\, dx = 4\pi \int _0^1r\, dr\) in spherical coordinates (Theorem&#160;<a href="measure-theory-section-change-of-variables.html#measure-theory:theorem-change-of-variables">27.10.2</a>). Away from \(0\), a direct computation gives \(\Delta E = 0\), where \(\Delta = \sum _i\partial _i^2\) here. Let \(\varphi \in \mathcal{D}(\mathbb {R}^3)\) and \(A_\varepsilon = \{ \varepsilon \leq |x| \leq R\} \) with \(R\) large. By the divergence theorem (Example&#160;<a href="differential-forms-section-integration.html#differential-forms:example-classical">35.4.11</a>) applied to \(E\nabla \varphi - \varphi \nabla E\) on \(A_\varepsilon \) (Green’s identity), and since \(\varphi \) vanishes near \(|x| = R\), </p>
-<div class="displaymath" id="a0000001366">
+<div class="displaymath" id="a0000001375">
   \[  \int _{A_\varepsilon }E\, \Delta \varphi = \int _{A_\varepsilon }(E\, \Delta \varphi - \varphi \, \Delta E) = -\int _{|x| = \varepsilon }\big(E\, \partial _r\varphi - \varphi \, \partial _rE\big)\, dA,  \]
 </div>
 <p> where \(\partial _r\) is the radial derivative, the sign coming from the inner boundary sphere having outward normal \(-x/|x|\). On \(|x| = \varepsilon \), \(E = -1/(4\pi \varepsilon )\) and \(\partial _rE = 1/(4\pi \varepsilon ^2)\); the area is \(4\pi \varepsilon ^2\). So the first term is at most \(\varepsilon \sup |\nabla \varphi | \to 0\), and the second is \(\frac{1}{4\pi \varepsilon ^2}\int _{|x| = \varepsilon }\varphi \, dA \to \varphi (0)\) by continuity. Letting \(\varepsilon \to 0\) (dominated convergence on the left), \((\Delta E)(\varphi ) = \int E\, \Delta \varphi = \varphi (0)\). For the last statement, \(\Delta (E * f) = E * \Delta f\) by differentiation under the integral sign, and \((E * \Delta f)(x) = \int E(y)\, \Delta _y f(x - y)\, dy = f(x)\) by the first part applied to \(\varphi (y) = f(x - y)\). </p>
 
   </div>
 </div>
+<p>The formula \(u = E * f\) shows the gain of regularity concretely: convolution with \(E\), which behaves like \(|x|^{-1}\) near \(0\), smooths by two derivatives. On a compact connected oriented manifold the Laplacian has no fundamental solution at all: \(\Delta E = \delta _p\) would give \(1 = \delta _p(1) = (\Delta E)(1) = E(\Delta 1) = 0\). Correspondingly \(\Delta u = f\) is solvable only when \(\int _Mf\, \mathrm{vol} = 0\) (Exercise&#160;<a href="elliptic-operators-section-exercises.html#elliptic-operators:exercise-no-solutions">40.6.4</a>), and the role of the fundamental solution is played by the inverse of \(\Delta \) on the orthogonal complement of the constants, the Green operator of Chapter&#160;<a href="hodge-theorem.html">41</a>. </p>
 
 </article>
 

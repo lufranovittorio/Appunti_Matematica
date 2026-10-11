@@ -61,11 +61,13 @@
   // Previews of references. Resting the pointer on a link to a numbered
   // statement, an equation, a section or a bibliography entry shows the
   // target in a box, fetched from its page (every page lives at the root of
-  // the site) and typeset by MathJax. Only on devices with a real pointer;
-  // links inside a preview are not previewed again.
+  // the site) and typeset by MathJax. With a mouse the box appears on hover;
+  // on touch screens the first tap on a reference opens it as a panel at the
+  // bottom of the screen, with a link to the target, and a second tap on the
+  // same reference follows it. Links inside a preview are not previewed again.
   var article = document.querySelector(".main-text");
   var canHover = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (article && canHover && window.DOMParser) {
+  if (article && window.DOMParser) {
     var pages = {};
     var box = null;
     var activeLink = null;
@@ -133,6 +135,7 @@
     };
 
     var place = function (link) {
+      if (!canHover) return;
       var rect = link.getBoundingClientRect();
       var width = box.offsetWidth;
       var height = box.offsetHeight;
@@ -162,16 +165,35 @@
       loadPage(target.page).then(function (doc) {
         if (activeLink !== link) return;
         var content = extract(doc, target.id);
-        if (!content) return;
+        if (!content) {
+          if (!canHover) window.location.href = link.href;
+          return;
+        }
         if (!box) {
           box = document.createElement("div");
-          box.className = "preview-box main-text";
-          box.setAttribute("role", "tooltip");
+          box.className = canHover ? "preview-box main-text" : "preview-box preview-sheet main-text";
+          box.setAttribute("role", canHover ? "tooltip" : "dialog");
           box.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
-          box.addEventListener("mouseleave", scheduleHide);
+          box.addEventListener("mouseleave", function () { if (canHover) scheduleHide(); });
           document.body.appendChild(box);
         }
         box.innerHTML = "";
+        if (!canHover) {
+          var bar = document.createElement("div");
+          bar.className = "preview-bar";
+          var open = document.createElement("a");
+          open.href = link.href;
+          open.textContent = "Open \u2192";
+          var close = document.createElement("button");
+          close.type = "button";
+          close.className = "preview-close";
+          close.setAttribute("aria-label", "Close the preview");
+          close.textContent = "\u00d7";
+          close.addEventListener("click", hide);
+          bar.appendChild(open);
+          bar.appendChild(close);
+          box.appendChild(bar);
+        }
         box.appendChild(content);
         box.style.visibility = "hidden";
         box.hidden = false;
@@ -194,6 +216,21 @@
       return link && article.contains(link) && targetOf(link) ? link : null;
     };
 
+    if (!canHover) {
+      article.addEventListener("click", function (event) {
+        var link = linkFrom(event.target);
+        if (!link || (link === activeLink && box && !box.hidden)) return;
+        event.preventDefault();
+        show(link);
+      });
+      document.addEventListener("click", function (event) {
+        if (box && !box.hidden && !box.contains(event.target) && !linkFrom(event.target)) hide();
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") hide();
+      });
+    }
+    if (canHover) {
     article.addEventListener("mouseover", function (event) {
       var link = linkFrom(event.target);
       if (!link) return;
@@ -220,6 +257,24 @@
       if (event.key === "Escape") hide();
     });
     window.addEventListener("resize", hide);
+    }
+  }
+
+  // "Chapter PDF": on the pages of a chapter, a header link to print.html,
+  // which collects the chapter and opens the print dialog.
+  var pdfLink = document.querySelector('.site-header a.header-link[href="book.pdf"]');
+  var page = window.location.pathname.split("/").pop().replace(/\.html$/, "");
+  var heading = document.querySelector(".main-text h1[id]");
+  var chapter = page.indexOf("-section-") > 0 ? page.split("-section-")[0]
+    : (heading && heading.id === page ? page : null);
+  if (pdfLink && chapter) {
+    var chapterLink = document.createElement("a");
+    chapterLink.className = "header-link";
+    chapterLink.href = "print.html?chapter=" + encodeURIComponent(chapter);
+    chapterLink.textContent = "Chapter PDF";
+    chapterLink.title = "Collect this chapter in one page and print it or save it as a PDF";
+    pdfLink.parentNode.insertBefore(chapterLink, pdfLink);
+    pdfLink.title = "The whole book as a PDF";
   }
 
   // Search box. A four-character tag (tags start with a digit) goes straight
