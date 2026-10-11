@@ -602,6 +602,30 @@ With polar coordinates $(r, \theta) \mapsto (r\cos\theta, r\sin\theta)$, a diffe
 Tonelli's theorem gives $(\int_\RR e^{-x^2}dx)^2 = \int_{\RR^2}e^{-\|x\|^2} = \int_0^{2\pi}\int_0^\infty e^{-r^2}r\,dr\,d\theta = \pi$. So $\int_\RR e^{-x^2}\,dx = \sqrt{\pi}$.
 \end{example}
 
+Fubini's theorem reduces integration by parts in several variables to one variable. When one of the functions has compact support there is no boundary term.
+
+\begin{proposition}[Integration by parts in $\RR^n$]\label{measure-theory:proposition-integration-by-parts}
+Let $f, g \colon \RR^n \to \CC$ be continuously differentiable, and suppose that one of them has compact support. Then for each $i$
+\[
+\int_{\RR^n}(\partial_if)\,g\,d\lambda = -\int_{\RR^n}f\,\partial_ig\,d\lambda .
+\]
+Consequently, for a continuously differentiable vector field $F$ and a continuously differentiable function $g$, one of them compactly supported,
+$\int\operatorname{div}F\,g\,d\lambda = -\int\langle F, \nabla g\rangle\,d\lambda$, where $\operatorname{div}F = \sum_i\partial_iF^i$ and $\nabla g = (\partial_1g, \ldots, \partial_ng)$; and for $f$ of class $C^2$,
+$\int(\sum_i\partial_i^2f)\,g\,d\lambda = -\int\langle\nabla f, \nabla g\rangle\,d\lambda$.
+\end{proposition}
+
+\begin{proof}
+The product $h = fg$ is continuously differentiable with compact support, contained in a cube $[-R, R]^n$, and $\partial_ih = (\partial_if)g + f\,\partial_ig$ by the product rule; all these functions are
+continuous with compact support, hence integrable. By Fubini's theorem (Theorem~\ref{measure-theory:theorem-fubini}) we may integrate first in the variable $x_i$, the others being fixed. For fixed
+values of the other variables, $t \mapsto h(\ldots, t, \ldots)$ is continuously differentiable and vanishes for $|t| \geq R$, so by the fundamental theorem of calculus
+(Theorem~\ref{real-analysis:theorem-ftc}) $\int_{-R}^R\partial_ih\,dx_i = h(\ldots, R, \ldots) - h(\ldots, -R, \ldots) = 0$. Hence $\int\partial_ih\,d\lambda = 0$, which is the formula. For the vector field,
+apply it to $F^i$ and $g$ and sum over $i$; for the last formula take $F = \nabla f$.
+\end{proof}
+
+The formula says that the operator $\partial_i$ is \emph{anti-self-adjoint} for the $L^2$ inner product on compactly supported functions: $\langle\partial_if, \bar g\rangle = -\langle f, \partial_i\bar g\rangle$. It is the
+reason why the derivative of a distribution is defined by $(\partial_iT)(\varphi) = -T(\partial_i\varphi)$ (Chapter~\ref{distributions}), and, applied twice, it shows that $-\sum_i\partial_i^2$ is a
+non-negative operator: $\int(-\sum_i\partial_i^2f)\bar f\,d\lambda = \int|\nabla f|^2\,d\lambda \geq 0$ for compactly supported $f$ of class $C^2$.
+
 \section{The Radon--Nikodym and Riesz representation theorems}\label{measure-theory:section-radon-nikodym}
 
 \begin{lemma}\label{measure-theory:lemma-hilbert-riesz}

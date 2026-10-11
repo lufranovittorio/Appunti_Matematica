@@ -250,6 +250,44 @@ $\iota_\nu(dx \wedge dy \wedge dz) = \nu^1\,dy \wedge dz - \nu^2\,dx \wedge dz +
 of $(\iota_F\Omega)|_S = \langle F, \nu\rangle\,dA$, by Proposition~\ref{riemannian-geometry:proposition-volume-form}.
 \end{proof}
 
+\begin{remark}\label{riemannian-geometry:remark-flux-pullback}
+It is worth spelling out what the flux formula means, because the classical notation hides it. The integrand $F^1\,dy \wedge dz + F^2\,dz \wedge dx + F^3\,dx \wedge dy$ is a $2$-form on $\RR^3$ (or on a
+neighbourhood of $S$), and ``$|_S$'' means its pullback $\iota^*$ by the inclusion $\iota \colon S \to \RR^3$ (Definition~\ref{differential-forms:definition-forms}): the $2$-form on $S$ whose value on
+$v, w \in T_pS$ is the value of the original form on the same vectors, now regarded as vectors of $\RR^3$. It is this pullback that one integrates over $S$.
+
+In a positively oriented parametrisation $x(u, v) = (x(u, v), y(u, v), z(u, v))$ of $S$, pulling back is substitution: $x^*dy = d(y \circ x) = y_u\,du + y_v\,dv$, and so on, so that
+\[
+x^*(dy \wedge dz) = (y_uz_v - y_vz_u)\,du \wedge dv = \frac{\partial(y, z)}{\partial(u, v)}\,du \wedge dv,
+\]
+and similarly $x^*(dz \wedge dx) = \frac{\partial(z, x)}{\partial(u, v)}\,du \wedge dv$ and $x^*(dx \wedge dy) = \frac{\partial(x, y)}{\partial(u, v)}\,du \wedge dv$. These three $2 \times 2$ minors of the Jacobian matrix are
+exactly the components of the cross product $x_u \times x_v$. Hence
+\[
+x^*\bigl(F^1\,dy \wedge dz + F^2\,dz \wedge dx + F^3\,dx \wedge dy\bigr) = \langle F \circ x, x_u \times x_v\rangle\,du \wedge dv = \langle F \circ x, \nu\rangle\,|x_u \times x_v|\,du \wedge dv,
+\]
+because $x_u \times x_v = |x_u \times x_v|\,\nu$ for a parametrisation that is positively oriented with respect to $\nu$ (by Proposition~\ref{differential-forms:proposition-orientation-normal},
+$(x_u, x_v)$ is positive exactly when $\det(\nu, x_u, x_v) = \langle\nu, x_u \times x_v\rangle > 0$). Since $|x_u \times x_v|\,du\,dv$ is the area element
+(Proposition~\ref{riemannian-geometry:proposition-parametrised-volume}), integrating gives the flux formula again: this is a second proof of the proposition in $\RR^3$, by direct computation in a chart.
+
+This also explains the classical notation. One writes $d\vec\Sigma = \nu\,dA$ for the ``vector surface element'' and $\iint_SF \cdot d\vec\Sigma = \iint_SF_1\,dy\,dz + F_2\,dz\,dx + F_3\,dx\,dy$, as in the usual statement
+$\iint_S\operatorname{curl}F \cdot d\vec\Sigma = \oint_{\partial S}F \cdot d\vec r$ of Stokes' theorem. The symbols $dy\,dz$ there are not mere notation: they are the pullbacks to $S$ of the $2$-forms $dy \wedge dz$, and so
+on, and the identity $d\vec\Sigma = \nu\,dA$ is the statement of the proposition, $(dy \wedge dz, dz \wedge dx, dx \wedge dy)|_S = \nu\,\mathrm{vol}_S$. Geometrically, $(dy \wedge dz)|_S(v, w)$ is the signed area of
+the projection to the $(y, z)$-plane of the parallelogram spanned by $v$ and $w$, while $\mathrm{vol}_S(v, w)$ is the area of the parallelogram itself; the components of $\nu$ are the ratios between
+the two, the cosines of the angles between the tangent plane and the coordinate planes.
+\end{remark}
+
+\begin{example}\label{riemannian-geometry:example-flux-graph}
+Let $S$ be the graph of a smooth function $h$ over a region $R \subseteq \RR^2$, with the parametrisation $x(u, v) = (u, v, h(u, v))$ and the upward normal. The minors are
+$\frac{\partial(y, z)}{\partial(u, v)} = \det\bigl(\begin{smallmatrix} 0 & 1\\ h_u & h_v\end{smallmatrix}\bigr) = -h_u$, $\frac{\partial(z, x)}{\partial(u, v)} = -h_v$ and $\frac{\partial(x, y)}{\partial(u, v)} = 1$, so
+$x_u \times x_v = (-h_u, -h_v, 1)$, $\nu = (-h_u, -h_v, 1)/(1 + h_u^2 + h_v^2)^{1/2}$, and the flux of $F$ through $S$ is
+\[
+\iint_S\langle F, \nu\rangle\,dA = \iint_R\bigl(-F^1h_u - F^2h_v + F^3\bigr)(u, v, h(u, v))\,du\,dv .
+\]
+For instance the flux of $F = (0, 0, 1)$ through any graph over $R$ is the area of $R$: the vertical field only sees the projection of the surface to the horizontal plane, $(dx \wedge dy)|_S = \nu^3\,dA$.
+For the upper unit hemisphere, $h = (1 - u^2 - v^2)^{1/2}$ on the open unit disc, and the flux of $F(x) = x$ is
+$\iint(u^2/h + v^2/h + h)\,du\,dv = \iint du\,dv/h = \int_0^{2\pi}\!\!\int_0^1\frac{r\,dr\,d\varphi}{(1 - r^2)^{1/2}} = 2\pi$, which is also $\iint_S\langle x, \nu\rangle\,dA = \iint_S1\,dA$, the area of the hemisphere,
+as $\nu(x) = x$ on the sphere.
+\end{example}
+
 \begin{corollary}[Divergence theorem]\label{riemannian-geometry:corollary-divergence}
 Let $D \subseteq \RR^{n+1}$ be a compact subset that is a smooth $(n+1)$-manifold with boundary (Definition~\ref{differential-forms:definition-manifold-with-boundary}),
 with the charts given by charts of $\RR^{n+1}$, for instance a closed ball. Let $\nu$ be the outward unit normal along $\partial D$, and $F$ a smooth vector field on a
@@ -272,6 +310,80 @@ basis $(v_1, \ldots, v_n)$ of $T_p\partial D$ is positive for the induced orient
 holds with $\nu$ in place of $w$, because $w = c\nu + t$ with $c > 0$ and $t$ tangent to $\partial D$, so that $\det(w, v_1, \ldots, v_n) = c\det(\nu, v_1, \ldots, v_n)$.
 By Proposition~\ref{differential-forms:proposition-orientation-normal} this is the orientation defined by $\nu$.
 \end{proof}
+
+The divergence theorem is the many-variable version of the fundamental theorem of calculus, and it gives integration by parts on a region with a boundary term. Write $\Delta_0 = \sum_i\partial_i^2$
+for the Euclidean Laplacian with the sign of analysis (so $\Delta_0 = -\Delta$ for the Hodge Laplacian of Definition~\ref{riemannian-geometry:definition-laplacian}), $\nabla f$ for the gradient, and
+$\partial_\nu f = \langle\nabla f, \nu\rangle$ for the outward normal derivative.
+
+\begin{corollary}[Integration by parts and Green's identities]\label{riemannian-geometry:corollary-green-identities}
+Let $D$ and $\nu$ be as in Corollary~\ref{riemannian-geometry:corollary-divergence}, and $f$, $g$ smooth functions on a neighbourhood of $D$. Then
+\begin{enumerate}
+\item $\displaystyle\int_D(\partial_if)\,g\,d\lambda = \int_{\partial D}fg\,\nu^i\,dA - \int_Df\,\partial_ig\,d\lambda$;
+\item (first Green identity) $\displaystyle\int_D\bigl(g\,\Delta_0f + \langle\nabla g, \nabla f\rangle\bigr)\,d\lambda = \int_{\partial D}g\,\partial_\nu f\,dA$;
+\item (second Green identity) $\displaystyle\int_D\bigl(g\,\Delta_0f - f\,\Delta_0g\bigr)\,d\lambda = \int_{\partial D}\bigl(g\,\partial_\nu f - f\,\partial_\nu g\bigr)\,dA$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Apply Corollary~\ref{riemannian-geometry:corollary-divergence} to $F = fg\,e_i$: $\operatorname{div}F = \partial_i(fg) = (\partial_if)g + f\,\partial_ig$ and $\langle F, \nu\rangle = fg\,\nu^i$. (2) Apply it to $F = g\nabla f$:
+$\operatorname{div}F = \sum_i\partial_i(g\,\partial_if) = \langle\nabla g, \nabla f\rangle + g\,\Delta_0f$ and $\langle F, \nu\rangle = g\,\partial_\nu f$. (3) Subtract from (2) the same identity with $f$ and $g$ exchanged; the
+symmetric terms $\langle\nabla g, \nabla f\rangle$ cancel.
+\end{proof}
+
+For $n + 1 = 1$ and $D = [a, b]$, $\nu = -1$ at $a$ and $+1$ at $b$, and (1) is the integration by parts of one variable (Corollary~\ref{real-analysis:corollary-integration-rules}); when $f$ or $g$ vanishes
+near $\partial D$, it is Proposition~\ref{measure-theory:proposition-integration-by-parts}. With $g = 1$, (2) says that the total flux of $\nabla f$ through the boundary is $\int_D\Delta_0f$; with $g = f$ it gives
+$\int_D|\nabla f|^2 = \int_{\partial D}f\,\partial_\nu f - \int_Df\,\Delta_0f$, the starting point of the energy methods for the Laplace equation (Exercise~\ref{riemannian-geometry:exercise-dirichlet-uniqueness}).
+
+Stokes' theorem for $1$-forms on surfaces gives the two other classical theorems of vector calculus, which Example~\ref{differential-forms:example-classical} mentioned without formulas.
+
+\begin{corollary}[Green's theorem]\label{riemannian-geometry:corollary-green-theorem}
+Let $D \subseteq \RR^2$ be a compact region with smooth boundary, as in Corollary~\ref{riemannian-geometry:corollary-divergence}, with $\partial D$ oriented as the boundary of $D$ (so that $D$ lies to the left
+of the direction of motion), and $P$, $Q$ smooth functions near $D$. Then
+\[
+\oint_{\partial D}P\,dx + Q\,dy = \iint_D\Bigl(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\Bigr)dx\,dy .
+\]
+In particular the area of $D$ is $\frac12\oint_{\partial D}x\,dy - y\,dx$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{differential-forms:theorem-exterior-derivative}, $d(P\,dx + Q\,dy) = P_y\,dy \wedge dx + Q_x\,dx \wedge dy = (Q_x - P_y)\,dx \wedge dy$, and Stokes' theorem
+(Theorem~\ref{differential-forms:theorem-stokes}) gives the formula, the integral of the $2$-form $(Q_x - P_y)\,dx \wedge dy$ over $D$ with its standard orientation being the Lebesgue integral. In the boundary
+orientation, an outward vector $w$ followed by a positive tangent vector $T$ is a positive basis of $\RR^2$ (Definition~\ref{differential-forms:definition-manifold-with-boundary}), so $T$ is $w$ rotated by $+\pi/2$
+and $D$ is on the left. For the area take $P = -y/2$, $Q = x/2$, with $Q_x - P_y = 1$.
+\end{proof}
+
+For the ellipse $x = a\cos t$, $y = b\sin t$, $0 \leq t \leq 2\pi$, the area formula gives $\frac12\int_0^{2\pi}(ab\cos^2t + ab\sin^2t)\,dt = \pi ab$. Green's theorem is also the divergence theorem in the plane:
+if $T = (T^1, T^2)$ is the positive unit tangent of $\partial D$, the outward normal is $\nu = (T^2, -T^1)$, so for $F = (Q, -P)$ one has $\langle F, \nu\rangle = PT^1 + QT^2$ and $\operatorname{div}F = Q_x - P_y$: the flux of
+$F$ out of $D$ is the circulation of $(P, Q)$ along $\partial D$.
+
+\begin{corollary}[Stokes' theorem of vector calculus]\label{riemannian-geometry:corollary-kelvin-stokes}
+Let $\Sigma \subseteq \RR^3$ be a surface oriented by a unit normal field $\nu$, and $S \subseteq \Sigma$ a compact region with smooth boundary (a $2$-manifold with boundary in the charts of $\Sigma$). Orient
+$\partial S$ as the boundary of $S$: a tangent vector $T$ of $\partial S$ is positive when $\nu \times T$ points into $S$, that is, walking along $\partial S$ with one's head in the direction of $\nu$, the
+region $S$ is on the left. Then for a smooth vector field $F$ on a neighbourhood of $S$,
+\[
+\iint_S\langle\operatorname{curl}F, \nu\rangle\,dA = \oint_{\partial S}F^1\,dx + F^2\,dy + F^3\,dz = \int_{\partial S}\langle F, T\rangle\,ds,
+\]
+where $T$ is the positive unit tangent and $ds$ the arc length.
+\end{corollary}
+
+\begin{proof}
+Let $\alpha = F^1\,dx + F^2\,dy + F^3\,dz$ and $\iota \colon S \to \RR^3$ the inclusion. By Example~\ref{differential-forms:example-forms-r3},
+$d\alpha = G^1\,dy \wedge dz + G^2\,dz \wedge dx + G^3\,dx \wedge dy$ with $G = \operatorname{curl}F$, and by Proposition~\ref{riemannian-geometry:proposition-flux}, applied to the surface $\Sigma$,
+$\iota^*d\alpha = \langle G, \nu\rangle\,\mathrm{vol}_S$. Since pullback commutes with $d$ (Theorem~\ref{differential-forms:theorem-exterior-derivative}), Stokes' theorem on the compact manifold with
+boundary $S$ gives $\iint_S\langle G, \nu\rangle\,dA = \int_Sd(\iota^*\alpha) = \int_{\partial S}\iota^*\alpha$, and the last integral is the line integral of $\alpha$ along $\partial S$ in its boundary orientation
+(Definition~\ref{differential-forms:definition-line-integral}), which is $\int\langle F, T\rangle\,ds$ in a parametrisation by arc length. It remains to describe the boundary orientation. By
+Definition~\ref{differential-forms:definition-manifold-with-boundary}, $T$ is positive when $(w, T)$ is a positive basis of $T_pS$ for an outward vector $w$, and by
+Proposition~\ref{differential-forms:proposition-orientation-normal} this means $\det(\nu, w, T) > 0$. For $w$ and $T$ unit and orthogonal (which we may assume), $(\nu, w, T)$ is then a positive orthonormal basis of
+$\RR^3$, so $\nu \times T = -w$, which points into $S$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-stokes-hemisphere}
+Let $S$ be the closed upper unit hemisphere, with the outward normal $\nu(x) = x$, and $F = (-y, x, 0)$, the rotation field, with $\operatorname{curl}F = (0, 0, 2)$. The boundary is the equator, and its
+boundary orientation is counterclockwise seen from above: at $(1, 0, 0)$ the inward direction in $S$ is $(0, 0, 1)$, and $\nu \times T = (1, 0, 0) \times (0, 1, 0) = (0, 0, 1)$ for $T = (0, 1, 0)$. With
+$\gamma(t) = (\cos t, \sin t, 0)$, the right side is $\int_0^{2\pi}(\sin^2t + \cos^2t)\,dt = 2\pi$. The left side is $\iint_S2z\,dA$, and by Example~\ref{riemannian-geometry:example-flux-graph} (with
+$F = (0, 0, 2)$) it is twice the area of the unit disc, $2\pi$. The same value is obtained for every surface with boundary the equator and the corresponding orientation, for instance the flat unit disc
+with $\nu = (0, 0, 1)$, where Stokes' theorem is Green's theorem: the flux of a curl through a surface only depends on its boundary, because $\operatorname{curl}F\,\cdot\,d\vec\Sigma$ is an exact $2$-form.
+\end{example}
 
 \begin{example}\label{riemannian-geometry:example-areas}
 \begin{enumerate}
@@ -2565,4 +2677,27 @@ using $t + r^2 = 1$; and $J^Tu = \frac{4(1 + r^2)}{t^3}y$ and $1 + |u|^2 = \frac
 J^T\Bigl(I - \frac{uu^T}{1 + |u|^2}\Bigr)J = J^TJ - \frac{(J^Tu)(J^Tu)^T}{1 + |u|^2} = \frac{4}{t^2}I + \frac{16yy^T}{t^4} - \frac{16yy^T}{t^4} = \frac{4}{(1 - |y|^2)^2}I,
 \]
 as before. So the ball, the half-space and the hyperboloid are isometric (by (2) and (4)), and they have constant curvature $-1$ by Corollary~\ref{riemannian-geometry:corollary-hyperbolic-curvature}.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-dirichlet-uniqueness}
+Let $D$ be as in Corollary~\ref{riemannian-geometry:corollary-divergence}, and $u$ a smooth function near $D$ with $\Delta_0u = 0$ on $D$ and $u = 0$ on $\partial D$. Show that $u = 0$ on $D$. Deduce that a solution of
+the Dirichlet problem $\Delta_0u = f$ on $D$, $u = g$ on $\partial D$, is unique.
+\end{exercise}
+
+\begin{solution}
+By Corollary~\ref{riemannian-geometry:corollary-green-identities}(2) with $f = g = u$, $\int_D|\nabla u|^2\,d\lambda = \int_{\partial D}u\,\partial_\nu u\,dA - \int_Du\,\Delta_0u\,d\lambda = 0$. So $\nabla u = 0$ on $D$ and $u$ is
+constant on each connected component of $D$. Each component $C$ meets $\partial D$: otherwise $C$ would be a compact manifold without boundary, open in $\RR^{n+1}$ (its points are interior points of $D$, and $C$
+is open in $D$) and closed, hence empty or all of $\RR^{n+1}$, which is not compact. As $u = 0$ on $\partial D$, $u = 0$ on $C$. For the Dirichlet problem, the difference of two solutions satisfies the
+hypotheses.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-stokes-paraboloid}
+Let $S = \{z = 1 - x^2 - y^2,\ z \geq 0\}$ with the upward normal, and $F = (-y, x, z)$. Verify Stokes' theorem (Corollary~\ref{riemannian-geometry:corollary-kelvin-stokes}) by computing both sides, using
+Example~\ref{riemannian-geometry:example-flux-graph} for the flux of $\operatorname{curl}F$.
+\end{exercise}
+
+\begin{solution}
+$\operatorname{curl}F = (\partial_yF_3 - \partial_zF_2, \partial_zF_1 - \partial_xF_3, \partial_xF_2 - \partial_yF_1) = (0, 0, 2)$. By Example~\ref{riemannian-geometry:example-flux-graph}, with $h = 1 - u^2 - v^2$ on the unit disc, the
+flux of $(0, 0, 2)$ is $\iint2\,du\,dv = 2\pi$. The boundary is the unit circle in the plane $z = 0$; the upward normal and the rule of Corollary~\ref{riemannian-geometry:corollary-kelvin-stokes} orient it
+counterclockwise seen from above, $\gamma(t) = (\cos t, \sin t, 0)$, and $\oint F^1\,dx + F^2\,dy + F^3\,dz = \int_0^{2\pi}(\sin^2t + \cos^2t + 0)\,dt = 2\pi$.
 \end{solution}

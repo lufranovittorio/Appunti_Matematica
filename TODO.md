@@ -16,6 +16,19 @@ references in proofs).
 
 ## Done
 
+- [x] **Integration by parts; surface integrals; Green and Stokes**
+  (`real-analysis`, `measure-theory`, `riemannian-geometry`): examples of
+  integration by parts in one variable (Wallis' integrals, periodic
+  functions) and an exercise ($\int x^m(1-x)^n$); integration by parts in
+  $\mathbb{R}^n$ for compactly supported functions; Green's identities on a
+  region; a remark explaining that $dy \wedge dz$ in the flux formula is the
+  pullback by the inclusion, computed in a parametrisation through the minors
+  of the Jacobian, which are the components of $x_u \times x_v$ (the classical
+  vector surface element $d\vec\Sigma = \nu\,dA$); flux through a graph;
+  Green's theorem with the area formula; Stokes' theorem of vector calculus
+  with the right-hand rule; examples and exercises (hemisphere, paraboloid,
+  uniqueness for the Dirichlet problem).
+
 - [x] **Website: previews on touch screens, chapter PDF, mobile overflow**:
   on phones the first tap on a reference opens the preview as a panel at the
   bottom of the screen (with "Open" and a close button), a second tap follows
