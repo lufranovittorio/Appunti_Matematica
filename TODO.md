@@ -16,6 +16,13 @@ references in proofs).
 
 ## Done
 
+- [x] **Covariant derivative as tangential projection** (`riemannian-geometry`):
+  corollary for submanifolds of $\mathbb{R}^N$ ($\nabla_XY = P(X(Y))$, $D_tV = P(V')$,
+  geodesics have normal acceleration), identification with the projection
+  connection, $\gamma'' = D_t\dot\gamma + \mathrm{II}(\dot\gamma, \dot\gamma)$, examples
+  (circles of latitude, great circles, helices on the cylinder, parallel
+  transport), exercise on the geodesics of the cylinder.
+
 - [x] **Integration by parts; surface integrals; Green and Stokes**
   (`real-analysis`, `measure-theory`, `riemannian-geometry`): examples of
   integration by parts in one variable (Wallis' integrals, periodic

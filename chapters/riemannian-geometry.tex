@@ -434,6 +434,9 @@ $t_0$, then $D_t\dot\gamma = D_t(X \circ \gamma) = \nabla_{\dot\gamma}X = (\nabl
 $c$ on $S^2$ is the integral curve of the rotation field $X(x) = a \times x$ about its axis $a$, and $D_t\dot c = (\nabla_XX)(c)$.
 \end{remark}
 
+For a submanifold $M$ of $\RR^N$ with the induced metric there is a concrete description: regarding $V$ as a function $I \to \RR^N$, $D_tV$ is the orthogonal projection of the ordinary derivative $V^{\prime}(t)$
+onto $T_{\gamma(t)}M$, and a curve is a geodesic exactly when its acceleration $\gamma^{\prime\prime}$ is normal to $M$ (Corollary~\ref{riemannian-geometry:corollary-tangential-projection} below, with examples).
+
 \begin{lemma}[Symmetry lemma]\label{riemannian-geometry:lemma-symmetry}
 Let $f \colon (-\varepsilon, \varepsilon) \times (a, b) \to M$ be smooth, and write $D_s$, $D_t$ for the covariant derivatives along the curves $s \mapsto f(s, t)$ and $t \mapsto f(s, t)$. Then $D_s\partial_tf = D_t\partial_sf$.
 \end{lemma}
@@ -1406,9 +1409,64 @@ Theorem~\ref{riemannian-geometry:theorem-levi-civita}; its normal part says $\ma
 because $\mathrm{II}(X, fY) = ((Xf)Y + f\overline{\nabla}_XY)^\perp = f\,\mathrm{II}(X, Y)$.
 \end{proof}
 
-So the intrinsic connection of $M$ is the tangential part of the ambient one: for a surface in $\RR^3$, $\nabla_XY$ is the derivative of $Y$ in $\RR^3$ projected
-back onto the tangent plane. A curve in $M$ is a geodesic of $M$ exactly when its acceleration in $\overline{M}$ is normal to $M$; for instance great circles
-on the sphere (Exercise~\ref{riemannian-geometry:exercise-great-circles}).
+So the intrinsic connection of $M$ is the tangential part of the ambient one. For a submanifold of Euclidean space this is the familiar description of the covariant derivative as
+``differentiate in $\RR^N$ and project back onto the tangent space'', which classical surface theory takes as the definition \cite[Chapter 4]{do-carmo-curves-surfaces}.
+
+\begin{corollary}[Covariant derivative as tangential projection]\label{riemannian-geometry:corollary-tangential-projection}
+Let $M \subseteq \RR^N$ be a submanifold with the induced metric, and for $p \in M$ let $P_p \colon \RR^N \to T_pM$ be the orthogonal projection. Regard vector fields on $M$, and vector fields along
+curves in $M$, as $\RR^N$-valued functions.
+\begin{enumerate}
+\item For vector fields $X$, $Y$ on $M$, $\nabla_XY = P(X(Y))$, where $X(Y) = dY(X)$ is the derivative of the components of $Y$ in the direction $X$. So the Levi-Civita connection of $M$ is the
+projection connection of Example~\ref{connections:example-connections}(4).
+\item For a curve $\gamma \colon I \to M$ and a vector field $V$ along $\gamma$, $D_tV = P(V^{\prime}(t))$, the projection of the ordinary derivative of $V \colon I \to \RR^N$ onto $T_{\gamma(t)}M$.
+\item $V$ is parallel along $\gamma$ if and only if $V^{\prime}(t) \perp T_{\gamma(t)}M$ for all $t$, and $\gamma$ is a geodesic if and only if its acceleration $\gamma^{\prime\prime}(t)$ is normal to $M$ for all $t$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) In $\RR^N$ with the Euclidean metric all Christoffel symbols vanish, so $\overline{\nabla}_{\overline{X}}\overline{Y}$ is the derivative of the components of $\overline{Y}$ in the direction $\overline{X}$. At a point
+$p \in M$ the direction $\overline{X}_p = X_p$ is tangent to $M$, so this derivative only involves the values of $\overline{Y}$ along a curve in $M$ with velocity $X_p$, where $\overline{Y} = Y$; hence
+$\overline{\nabla}_XY = X(Y)$, and the Gauss formula (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}) gives $\nabla_XY = (X(Y))^\top = P(X(Y))$. The projection connection of the subbundle
+$TM \subseteq M \times \RR^N$ is $\nabla_Xs = P(X(s))$ by definition.
+
+(2) The operator $V \mapsto P(V^{\prime})$ sends vector fields along $\gamma$ to vector fields along $\gamma$ and is $\RR$-linear. It satisfies the Leibniz rule: $(fV)^{\prime} = f^{\prime}V + fV^{\prime}$, and $P(V) = V$
+because $V(t)$ is tangent, so $P((fV)^{\prime}) = f^{\prime}V + fP(V^{\prime})$. For $V = Y \circ \gamma$, with $Y$ a vector field near $\gamma(I)$, the chain rule gives $(Y \circ \gamma)^{\prime}(t) = dY(\dot\gamma(t))$, the derivative of
+$Y$ in the direction $\dot\gamma(t)$, so $P((Y \circ \gamma)^{\prime}) = \nabla_{\dot\gamma}Y$ by (1), whose value at a point depends only on the direction there. By the uniqueness in
+Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}, $P(V^{\prime}) = D_tV$.
+
+(3) $D_tV = 0$ means $P(V^{\prime}) = 0$, that is, $V^{\prime}$ is normal; for $V = \dot\gamma$ this is the statement about geodesics.
+\end{proof}
+
+The formula $P(X(Y))$ looks extrinsic, since it uses the embedding; the point of the Levi-Civita theorem is that the result only depends on the metric of $M$. In classical surface theory one
+defines the covariant derivative by the projection and then discovers, by writing it with the Christoffel symbols of the first fundamental form, that it is intrinsic; here the logic runs the other way,
+and the corollary is a computation. The part of the acceleration that is thrown away is the second fundamental form: for a curve $\gamma$ in $M$,
+\[
+\gamma^{\prime\prime} = D_t\dot\gamma + \mathrm{II}(\dot\gamma, \dot\gamma),
+\]
+the acceleration measured inside $M$ plus the normal acceleration forced on the curve by the bending of $M$ (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}, applied along $\gamma$ as in (2)). A geodesic
+is a curve with no acceleration inside $M$; it is accelerated only as much as is needed to stay on $M$. The same argument, with the covariant derivative $\overline{D}_t$ of $\overline{M}$ in place of
+the ordinary derivative, shows for a submanifold of any Riemannian manifold $\overline{M}$ that $D_tV = (\overline{D}_tV)^\top$, and that a curve in $M$ is a geodesic of $M$ exactly when its acceleration in
+$\overline{M}$ is normal to $M$.
+
+\begin{example}\label{riemannian-geometry:example-tangential-projection}
+\begin{enumerate}
+\item \emph{Circles of latitude.} On the unit sphere $S^2$, with normal $\nu(x) = x$, let $\gamma(t) = (s\cos t, s\sin t, c)$ with $s = \sin\vartheta_0 > 0$ and $c = \cos\vartheta_0$. Then $\gamma^{\prime\prime} = (-s\cos t, -s\sin t, 0)$,
+$\langle\gamma^{\prime\prime}, \gamma\rangle = -s^2$, and
+\[
+D_t\dot\gamma = \gamma^{\prime\prime} - \langle\gamma^{\prime\prime}, \gamma\rangle\gamma = (-sc^2\cos t, -sc^2\sin t, s^2c) = sc\,(-c\cos t, -c\sin t, s) .
+\]
+The vector $(-c\cos t, -c\sin t, s)$ is the unit tangent to the meridian pointing north. So $D_t\dot\gamma = 0$ only for $c = 0$: among the circles of latitude only the equator is a geodesic. The others curve
+towards the nearer pole inside the sphere, with geodesic curvature $|D_t\dot\gamma|/|\dot\gamma|^2 = |c|/s = |\cot\vartheta_0|$, in accordance with
+Definition~\ref{riemannian-geometry:definition-geodesic-curvature} and the value given after it.
+\item \emph{Great circles.} For $\gamma(t) = \cos(t)p + \sin(t)v$ with $p \perp v$ unit vectors, $\gamma^{\prime\prime} = -\gamma$ is normal to the sphere at $\gamma(t)$, so great circles are geodesics; by uniqueness of
+geodesics with given initial velocity they are all of them (Exercise~\ref{riemannian-geometry:exercise-great-circles}).
+\item \emph{The cylinder} $C = \{x^2 + y^2 = 1\} \subseteq \RR^3$, with normal $\nu = (x, y, 0)$. The helix $\gamma(t) = (\cos(at + t_0), \sin(at + t_0), bt + z_0)$ has $\gamma^{\prime\prime} = -a^2(\cos(at + t_0), \sin(at + t_0), 0)$, a
+multiple of $\nu$; so helices are geodesics, including the horizontal circles ($b = 0$) and the vertical lines ($a = 0$). Every geodesic is of this form
+(Exercise~\ref{riemannian-geometry:exercise-cylinder-geodesics}). Unrolling the cylinder onto the plane, which is a local isometry, the helices become straight lines.
+\item \emph{Parallel transport} along a circle of latitude, which Example~\ref{connections:example-transport} computed with connection forms, is the solution of the linear equation $V^{\prime} \perp T_\gamma S^2$,
+that is $V^{\prime} = \langle V^{\prime}, \gamma\rangle\gamma = -\langle V, \gamma^{\prime}\rangle\gamma$ (differentiate $\langle V, \gamma\rangle = 0$): the vector turns only as much as needed to remain tangent to the sphere.
+\end{enumerate}
+\end{example}
 
 The Gauss formula does not need the ambient extensions of Lemma~\ref{riemannian-geometry:lemma-ambient-derivative}, and it holds for immersions that are not injective, such
 as a curve with self-intersections. Let $f \colon M \to \overline{M}$ be an immersion with the induced metric $g = f^*\bar g$, and let $\overline{\nabla}^f = f^*\overline{\nabla}$ be the
@@ -2700,4 +2758,17 @@ Example~\ref{riemannian-geometry:example-flux-graph} for the flux of $\operatorn
 $\operatorname{curl}F = (\partial_yF_3 - \partial_zF_2, \partial_zF_1 - \partial_xF_3, \partial_xF_2 - \partial_yF_1) = (0, 0, 2)$. By Example~\ref{riemannian-geometry:example-flux-graph}, with $h = 1 - u^2 - v^2$ on the unit disc, the
 flux of $(0, 0, 2)$ is $\iint2\,du\,dv = 2\pi$. The boundary is the unit circle in the plane $z = 0$; the upward normal and the rule of Corollary~\ref{riemannian-geometry:corollary-kelvin-stokes} orient it
 counterclockwise seen from above, $\gamma(t) = (\cos t, \sin t, 0)$, and $\oint F^1\,dx + F^2\,dy + F^3\,dz = \int_0^{2\pi}(\sin^2t + \cos^2t + 0)\,dt = 2\pi$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-cylinder-geodesics}
+Show that every geodesic of the cylinder $C = \{x^2 + y^2 = 1\} \subseteq \RR^3$ is one of the helices of Example~\ref{riemannian-geometry:example-tangential-projection}(3), and that the points $(1, 0, 0)$ and
+$(1, 0, 1)$ are joined by infinitely many geodesics. Which of them is the shortest?
+\end{exercise}
+
+\begin{solution}
+At the point $(\cos t_0, \sin t_0, z_0)$ the tangent plane of $C$ is spanned by $(-\sin t_0, \cos t_0, 0)$ and $(0, 0, 1)$, so every initial velocity is $v = a(-\sin t_0, \cos t_0, 0) + b(0, 0, 1)$, which is the initial
+velocity of the helix with parameters $a$, $b$, $t_0$, $z_0$. That helix is a geodesic (Example~\ref{riemannian-geometry:example-tangential-projection}(3)), and a geodesic is determined by its initial position and
+velocity (Definition~\ref{riemannian-geometry:definition-geodesic}), so every geodesic is a helix. For $k \in \ZZ$ the helix $\gamma_k(t) = (\cos(2\pi kt), \sin(2\pi kt), t)$, $0 \leq t \leq 1$, goes from $(1, 0, 0)$
+to $(1, 0, 1)$ winding $k$ times around the cylinder, with length $(4\pi^2k^2 + 1)^{1/2}$. The shortest is the vertical segment, $k = 0$, of length $1$. On the plane obtained by unrolling the cylinder,
+the $\gamma_k$ are the segments from $(0, 0)$ to the different preimages $(2\pi k, 1)$ of the end point.
 \end{solution}
