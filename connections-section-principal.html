@@ -17,7 +17,7 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="connections-section-metric.html" /><link rel="next" href="connections-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="prev" href="connections-section-horizontal.html" /><link rel="next" href="connections-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
 </head>
 
@@ -193,11 +193,14 @@ MathJax.Hub.Config({
 <li class="level-3">
   <a href="connections-section-metric.html"><span class="toc_ref">37.6</span> <span class="toc_entry">Metric connections</span></a>
 </li>
+<li class="level-3">
+  <a href="connections-section-horizontal.html"><span class="toc_ref">37.7</span> <span class="toc_entry">Vertical and horizontal subspaces</span></a>
+</li>
 <li class="level-3 active current">
-  <a href="connections-section-principal.html"><span class="toc_ref">37.7</span> <span class="toc_entry">Principal bundles</span></a>
+  <a href="connections-section-principal.html"><span class="toc_ref">37.8</span> <span class="toc_entry">Principal bundles</span></a>
 </li>
 <li class="level-3">
-  <a href="connections-section-exercises.html"><span class="toc_ref">37.8</span> <span class="toc_entry">Exercises</span></a>
+  <a href="connections-section-exercises.html"><span class="toc_ref">37.9</span> <span class="toc_entry">Exercises</span></a>
 </li>
 </ul>
 </li>
@@ -341,16 +344,16 @@ MathJax.Hub.Config({
 <li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="connections.html">37 Connections and Curvature</a></li></ol>
 
 <article class="main-text">
-<h1 id="connections:section-principal">37.7 Principal bundles<a class="tag" href="tag/01BB.html" title="Permanent link: tag 01BB">01BB</a></h1>
+<h1 id="connections:section-principal">37.8 Principal bundles<a class="tag" href="tag/01BB.html" title="Permanent link: tag 01BB">01BB</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
-<p>Vector bundles are often better understood through their bundles of frames, on which the structure group acts. This point of view is used in Chern–Weil theory and in gauge theory; we only sketch it. </p>
+<p>Vector bundles are often better understood through their bundles of frames, on which the structure group acts. This point of view is used in Chern–Weil theory and in gauge theory; we give the definitions, the correspondence between horizontal distributions and connection forms, and the Hopf fibration as example, and sketch the rest. </p>
 <div class="definition_thmwrapper theorem-style-definition" id="connections:definition-principal-bundle">
   <div class="definition_thmheading"><a class="tag" href="tag/01BC.html" title="Permanent link: tag 01BC">01BC</a>
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">37.7.1</span>
+    <span class="definition_thmlabel">37.8.1</span>
   </div>
   <div class="definition_thmcontent">
   <p> Let \(G\) be a Lie group. A <em>principal \(G\)-bundle</em> is a smooth surjection \(\pi \colon P \to M\) with a free right action of \(G\) preserving the fibres and acting simply transitively on them, which is locally trivial: every point of \(M\) has a neighbourhood \(U\) with a \(G\)-equivariant diffeomorphism \(\pi ^{-1}(U) \cong U \times G\) over \(U\). As for vector bundles, principal bundles are classified by cocycles \(g_{ij} \colon U_i \cap U_j \to G\), that is, by \(\check{H}^1(M, \underline{G})\). </p>
@@ -362,10 +365,84 @@ MathJax.Hub.Config({
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">37.7.2</span>
+    <span class="example_thmlabel">37.8.2</span>
   </div>
   <div class="example_thmcontent">
   <p> The frame bundle \(\mathrm{Fr}(E)\) of a rank \(r\) real vector bundle, whose fibre over \(p\) is the set of bases of \(E_p\), is a principal \(\mathrm{GL}_r(\mathbb {R})\)-bundle, and \(E\) is recovered as the associated bundle \(\mathrm{Fr}(E) \times _{\mathrm{GL}_r}\mathbb {R}^r\); a metric reduces the structure group to \(O(r)\), an orientation to \(\mathrm{GL}_r^+\), and a complex structure to \(\mathrm{GL}_{r/2}(\mathbb {C})\). Covering spaces are principal bundles with discrete structure group. The oriented orthonormal frames of \(TS^2\) form a principal \(\mathrm{SO}(2)\)-bundle which is diffeomorphic to \(\mathrm{SO}(3)\): an oriented orthonormal frame \((v, w)\) at \(x \in S^2\) is the same as the rotation matrix with columns \(x, v, w\). The Hopf map \(S^3 \to S^2 = \mathbb {C}\mathbb {P}^1\), \((z_0, z_1) \mapsto [z_0 : z_1]\), is a principal \(U(1)\)-bundle, the unit circle bundle of the tautological line bundle. </p>
+
+  </div>
+</div>
+<p>The language of horizontal subspaces carries over to principal bundles, where it is the standard definition of a connection. Let \(\pi \colon P \to M\) be a principal \(G\)-bundle, write \(R_g(p) = pg\) for the action, and let \(\mathfrak {g}\) be the Lie algebra of \(G\). As for vector bundles, the <em>vertical subspace</em> at \(p\) is \(V_p = \ker d_p\pi \), the tangent space of the fibre through \(p\). For \(\xi \in \mathfrak {g}\) the <em>fundamental vector field</em> \(\xi ^\# \) on \(P\) is </p>
+<div class="displaymath" id="a0000001217">
+  \[  \xi ^\# _p = \frac{d}{dt}\Big|_{t=0}p\exp (t\xi ),  \]
+</div>
+<p> the velocity of the orbit of the one-parameter subgroup \(\exp (t\xi )\); its flow is \(R_{\exp (t\xi )}\). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="connections:definition-principal-connection">
+  <div class="definition_thmheading"><a class="tag" href="tag/02RY.html" title="Permanent link: tag 02RY">02RY</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">37.8.3</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>principal connection</em> on \(P\) is a smooth subbundle \(H \subseteq TP\) with \(T_pP = H_p \oplus V_p\) for all \(p\) which is invariant under the action: \(dR_g(H_p) = H_{pg}\). Its <em>connection form</em> is the \(\mathfrak {g}\)-valued \(1\)-form \(\omega \) with \(\omega _p(Y) = \xi \) when \(Y - \xi ^\# _p \in H_p\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="connections:proposition-connection-one-form">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02RZ.html" title="Permanent link: tag 02RZ">02RZ</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">37.8.4</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>For every \(p \in P\), \(\xi \mapsto \xi ^\# _p\) is a linear isomorphism \(\mathfrak {g} \to V_p\), and \(dR_g(\xi ^\# _p) = (\operatorname {Ad}(g^{-1})\xi )^\# _{pg}\). </p>
+</li>
+  <li><p>The connection form of a principal connection is a well-defined smooth \(\mathfrak {g}\)-valued \(1\)-form, with </p>
+<div class="displaymath" id="a0000001218">
+  \[  \omega (\xi ^\# ) = \xi \quad (\xi \in \mathfrak {g}), \qquad R_g^*\omega = \operatorname {Ad}(g^{-1}) \circ \omega \quad (g \in G).  \]
+</div>
+</li>
+  <li><p>Conversely, every \(\mathfrak {g}\)-valued \(1\)-form \(\omega \) with these two properties is the connection form of exactly one principal connection, namely \(H = \ker \omega \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001219">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) \(\xi ^\# _p\) is the differential at \(e\) of the orbit map \(g \mapsto pg\) applied to \(\xi \), so it is linear in \(\xi \), and it is vertical since \(\pi (p\exp (t\xi )) = \pi (p)\). If \(\xi ^\# _p = 0\), the curve \(c(t) = p\exp (t\xi )\), an integral curve of \(\xi ^\# \) (its velocity at \(t\) is \(\xi ^\# _{c(t)}\), by \(\exp ((t + s)\xi ) = \exp (t\xi )\exp (s\xi )\)), and the constant curve at \(p\) are integral curves of \(\xi ^\# \) through \(p\), so they coincide: \(p\exp (t\xi ) = p\), hence \(\exp (t\xi ) = e\) for all \(t\), as the action is free, and \(\xi = 0\) because \(\exp \) is injective near \(0\) (Theorem&#160;<a href="lie-groups-section-exponential.html#lie-groups:theorem-exponential">33.3.3</a>). In a local trivialisation the fibre is \(G\), so \(\dim V_p = \dim G\), and the map is an isomorphism. Finally \(p\exp (t\xi )g = pg \cdot g^{-1}\exp (t\xi )g = pg\exp (t\operatorname {Ad}(g^{-1})\xi )\), by Theorem&#160;<a href="lie-groups-section-exponential.html#lie-groups:theorem-exponential">33.3.3</a> applied to the automorphism \(x \mapsto g^{-1}xg\), whose differential is \(\operatorname {Ad}(g^{-1})\); differentiate at \(t = 0\). </p>
+<p>(2) By (1) and \(T_pP = H_p \oplus V_p\), every \(Y \in T_pP\) is uniquely \(Y^H + \xi ^\# _p\), so \(\omega \) is well defined and linear on each \(T_pP\). For a basis \(\xi _1, \ldots , \xi _m\) of \(\mathfrak {g}\), the fields \(\xi _a^\# \) form a frame of \(V\), which together with a local frame of \(H\) is a local frame of \(TP\), and the components of \(\omega \) are coefficients of vector fields in this frame, hence smooth. Clearly \(\omega (\xi ^\# ) = \xi \). For \(Y = Y^H + \xi ^\# _p\), \(dR_g(Y) = dR_g(Y^H) + (\operatorname {Ad}(g^{-1})\xi )^\# _{pg}\) with \(dR_g(Y^H) \in H_{pg}\), so \(\omega _{pg}(dR_gY) = \operatorname {Ad}(g^{-1})\omega _p(Y)\). </p>
+<p>(3) By \(\omega (\xi ^\# ) = \xi \), \(\omega _p\) restricted to \(V_p\) is the inverse of the isomorphism of (1); so \(\omega _p\) is onto, and \(\ker \omega _p\) is a complement of \(V_p\). The kernel of the morphism \(\omega \colon TP \to P \times \mathfrak {g}\), of constant rank \(\dim \mathfrak {g}\), is a smooth subbundle (Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-constant-rank">34.3.7</a>), and it is invariant, since \(\omega (dR_gY) = \operatorname {Ad}(g^{-1})\omega (Y)\). Its connection form is \(\omega \), because \(Y - \omega (Y)^\#  \in \ker \omega \). A principal connection is the kernel of its connection form, which gives uniqueness. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="connections:example-hopf-connection">
+  <div class="example_thmheading"><a class="tag" href="tag/02S0.html" title="Permanent link: tag 02S0">02S0</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">37.8.5</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>The Hopf bundle.</em> The group \(U(1)\) acts freely on \(S^3 \subseteq \mathbb {C}^2\) by \(z \cdot \lambda = \lambda z\), and \(S^3 \to \mathbb {C}\mathbb {P}^1\) is a principal \(U(1)\)-bundle (Example&#160;<a href="connections-section-principal.html#connections:example-principal">37.8.2</a>). The Lie algebra of \(U(1)\) is \(i\mathbb {R}\), \(\exp \) is the exponential function, and \(\operatorname {Ad}\) is trivial, as \(U(1)\) is abelian. For \(\xi \in i\mathbb {R}\), \(\xi ^\# _z = \frac{d}{dt}e^{t\xi }z\big|_{t=0} = \xi z\). Define </p>
+<div class="displaymath" id="a0000001220">
+  \[  \omega _z(u) = \langle u, z\rangle = u_0\bar z_0 + u_1\bar z_1, \qquad u \in T_zS^3 = \{ u : \operatorname {Re}\langle u, z\rangle = 0\} ,  \]
+</div>
+<p> the restriction of the \(1\)-form \(\bar z_0\, dz_0 + \bar z_1\, dz_1\); it takes values in \(i\mathbb {R}\). Then \(\omega (\xi ^\# _z) = \xi |z|^2 = \xi \), and \((R_\lambda ^*\omega )_z(u) = \omega _{\lambda z}(\lambda u) = |\lambda |^2\langle u, z\rangle = \omega _z(u)\). So \(\omega \) is a connection form, and its horizontal subspaces are \(\ker \omega _z = (\mathbb {C}z)^\perp \): the principal connection is the horizontal distribution of the projection connection on the tautological line bundle found in Example&#160;<a href="connections-section-horizontal.html#connections:example-horizontal">37.7.6</a>(3). A local section \(\sigma \) of \(S^3 \to \mathbb {C}\mathbb {P}^1\) is a local frame of the tautological bundle with \(|\sigma | = 1\), and \(\sigma ^*\omega = \langle d\sigma , \sigma \rangle \) is its connection form for the projection connection, because the orthogonal projection onto the line \(\mathbb {C}\sigma \) is \(P(w) = \langle w, \sigma \rangle \sigma \), so \(\nabla \sigma = P(d\sigma ) = \langle d\sigma , \sigma \rangle \otimes \sigma \). For \(\sigma = (1, z)/(1 + |z|^2)^{1/2}\) over \(U_0\) this gives </p>
+<div class="displaymath" id="a0000001221">
+  \[  \sigma ^*\omega = \frac{\bar z\, dz - z\, d\bar z}{2(1 + |z|^2)},  \]
+</div>
+<p> which is \(\theta + d\log (1 + |z|^2)^{-1/2}\), with \(\theta = \bar z\, dz/(1 + |z|^2)\) the connection form in the frame \((1, z)\) (Example&#160;<a href="connections-section-connections.html#connections:example-connection-forms">37.3.5</a>(2)), as the change of frame formula of Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.3.4</a>(3) predicts. Its differential \(d\sigma ^*\omega = d\theta \) is the curvature computed in Example&#160;<a href="connections-section-curvature.html#connections:example-curvature-computations">37.4.4</a>(3). </p>
 
   </div>
 </div>
@@ -374,10 +451,10 @@ MathJax.Hub.Config({
     <span class="remark_thmcaption">
     Remark
     </span>
-    <span class="remark_thmlabel">37.7.3</span>
+    <span class="remark_thmlabel">37.8.6</span>
   </div>
   <div class="remark_thmcontent">
-  <p> A connection on a principal bundle is a \(G\)-equivariant splitting of \(0 \to \ker d\pi \to TP \to \pi ^*TM \to 0\), equivalently a \(\mathfrak {g}\)-valued \(1\)-form \(\omega \) on \(P\) restricting to the Maurer–Cartan form on fibres and satisfying \(R_g^*\omega = \operatorname {Ad}(g^{-1})\omega \). Its curvature is \(\Omega = d\omega + \frac12[\omega , \omega ]\), and connections on \(P\) correspond to connections on all associated vector bundles, compatible with the structure group. This is the framework of gauge theory and of Chern–Weil theory, which we use in Chapter&#160;<a href="characteristic-classes.html">38</a>; see <span class="cite">[<a href="Bibliography.html#kobayashi-nomizu" >KN63</a>, Chapters I–II]</span>. For a vector bundle, a local frame is a local section of the frame bundle, and pulling back \(\omega \) by it gives the connection form \(\theta \) of Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.3.4</a>; the transformation rule \(\theta ^{\prime } = g^{-1}\theta g + g^{-1}dg\) is the pullback of the equivariance of \(\omega \). </p>
+  <p> By Proposition&#160;<a href="connections-section-principal.html#connections:proposition-connection-one-form">37.8.4</a>, a principal connection is the same as a \(G\)-equivariant splitting of \(0 \to V \to TP \to \pi ^*TM \to 0\), or as a \(\mathfrak {g}\)-valued \(1\)-form \(\omega \) on \(P\) with \(\omega (\xi ^\# ) = \xi \), which says that \(\omega \) restricts to the Maurer–Cartan form on the fibres, and \(R_g^*\omega = \operatorname {Ad}(g^{-1})\omega \). Its curvature is \(\Omega = d\omega + \frac12[\omega , \omega ]\), and connections on \(P\) correspond to connections on all associated vector bundles, compatible with the structure group. This is the framework of gauge theory and of Chern–Weil theory, which we use in Chapter&#160;<a href="characteristic-classes.html">38</a>; see <span class="cite">[<a href="Bibliography.html#kobayashi-nomizu" >KN63</a>, Chapters I–II]</span>. For a vector bundle, a local frame is a local section of the frame bundle, and pulling back \(\omega \) by it gives the connection form \(\theta \) of Proposition&#160;<a href="connections-section-connections.html#connections:proposition-connections-exist">37.3.4</a>; the transformation rule \(\theta ^{\prime } = g^{-1}\theta g + g^{-1}dg\) is the pullback of the equivariance of \(\omega \). </p>
 
   </div>
 </div>
@@ -387,7 +464,7 @@ MathJax.Hub.Config({
 
 
 <nav class="page-nav" aria-label="Previous and next">
-<a class="prev" href="connections-section-metric.html"><span class="dir">Previous</span> Metric connections</a><a class="next" href="connections-section-exercises.html"><span class="dir">Next</span> Exercises</a></nav>
+<a class="prev" href="connections-section-horizontal.html"><span class="dir">Previous</span> Vertical and horizontal subspaces</a><a class="next" href="connections-section-exercises.html"><span class="dir">Next</span> Exercises</a></nav>
 </main>
 </div>
 
