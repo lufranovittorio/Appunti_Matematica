@@ -7,7 +7,7 @@ A Riemannian metric turns a manifold into a metric space, produces a canonical c
 and, together with an orientation, defines the Hodge star, the codifferential and the Laplacian
 (Definition~\ref{riemannian-geometry:definition-laplacian}). Harmonic forms are the kernel of that Laplacian, and the Hodge theorem
 (Chapter~\ref{hodge-theorem}) says that on a compact manifold they represent de Rham cohomology. Along the way we develop the Riemannian measure and the volume form, which make surface integrals and the divergence theorem instances of integration on
-manifolds; the local and global theory of geodesics: covariant derivatives along curves,
+manifolds; the gradient, Hessian, divergence and Laplacian of a Riemannian manifold; the local and global theory of geodesics: covariant derivatives along curves,
 the Gauss lemma, the fact that geodesics are locally the shortest curves, and the Hopf--Rinow theorem, all with complete proofs; parallel transport and holonomy, with the holonomy principle, and the
 theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; Cartan's method of moving frames, with which we compute the curvature of hyperbolic
 space, of conformally flat metrics and of hypersurfaces, and the Gauss--Bonnet--Chern theorem in Riemannian form; the first and second variation of energy, with Jacobi's theorem that
@@ -452,6 +452,119 @@ A curve $\gamma$ is a geodesic (Definition~\ref{riemannian-geometry:definition-g
 \begin{proof}
 The coordinate expression of $D_t\dot\gamma$ is the geodesic equation. If $D_t\dot\gamma = 0$ then $\frac{d}{dt}|\dot\gamma|^2 = 2\langle D_t\dot\gamma, \dot\gamma\rangle = 0$. If $V$ and $W$ are parallel, $\langle V, W\rangle$ is constant by
 Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}.
+\end{proof}
+
+\section{Gradient, Hessian, divergence and Laplacian}\label{riemannian-geometry:section-gradient}
+
+The differential $df$ of a function is defined on every manifold, but the gradient, the vector ``pointing in the direction of steepest ascent'', and the second derivative of $f$ as a symmetric bilinear
+form are not: the first needs a metric to turn covectors into vectors, the second a connection to differentiate $df$. On a Riemannian manifold both are available, together with the divergence of a
+vector field and the Laplacian of a function, and in Euclidean space they reduce to the familiar operators of vector calculus. In this section $(M, g)$ is a Riemannian manifold with Levi-Civita
+connection $\nabla$, and $\langle\ ,\ \rangle = g$.
+
+\begin{definition}\label{riemannian-geometry:definition-gradient-hessian}
+Let $f$ be a smooth function on $M$.
+\begin{enumerate}
+\item The \emph{gradient} of $f$ is the vector field $\operatorname{grad}f$ with $\langle\operatorname{grad}f, X\rangle = df(X) = Xf$ for all vector fields $X$; it is the image of $df$ under the isomorphism
+$T^*M \cong TM$ given by the metric (Proposition~\ref{vector-bundles:proposition-metrics}).
+\item The \emph{Hessian} of $f$ is the covariant derivative of the $1$-form $df$, the tensor $\operatorname{Hess}f = \nabla df$:
+\[
+\operatorname{Hess}f(X, Y) = (\nabla_Xdf)(Y) = X(Yf) - (\nabla_XY)f .
+\]
+\item The \emph{divergence} of a vector field $X$ is the trace of the endomorphism $v \mapsto \nabla_vX$ of each tangent space: $\operatorname{div}X = \sum_i\langle\nabla_{e_i}X, e_i\rangle$ for an orthonormal
+basis $(e_i)$.
+\item The \emph{Laplacian} of $f$ (with the sign of analysis) is $\Delta_gf = \operatorname{div}\operatorname{grad}f$.
+\end{enumerate}
+\end{definition}
+
+The formula for the Hessian is the Leibniz rule for the induced connection on $1$-forms (Proposition~\ref{connections:proposition-induced-connections}(1)), $(\nabla_X\alpha)(Y) = X(\alpha(Y)) - \alpha(\nabla_XY)$, with
+$\alpha = df$ and $df(Y) = Yf$ (Remark~\ref{differential-forms:remark-differential-function}). Without the correction term, $X(Yf)$ alone is not a tensor in $X$ and $Y$: it is not $C^\infty(M)$-linear in $Y$, as
+$X(hYf) = (Xh)(Yf) + hX(Yf)$.
+
+\begin{proposition}\label{riemannian-geometry:proposition-gradient-hessian}
+Let $f$ be smooth and $X$ a vector field on $M$.
+\begin{enumerate}
+\item In coordinates, $\operatorname{grad}f = \sum_{i,j}g^{ij}\partial_jf\,\partial_i$, $\operatorname{Hess}f(\partial_i, \partial_j) = \partial_i\partial_jf - \sum_k\Gamma^k_{ij}\partial_kf$,
+$\operatorname{div}X = \frac{1}{\sqrt{\det g}}\sum_i\partial_i\bigl(\sqrt{\det g}\,X^i\bigr)$ and $\Delta_gf = \frac{1}{\sqrt{\det g}}\sum_{i,j}\partial_i\bigl(\sqrt{\det g}\,g^{ij}\partial_jf\bigr)$.
+\item At a point where $df \neq 0$, $\operatorname{grad}f$ is orthogonal to the level set of $f$ through it, and among unit vectors $v$ the derivative $v(f)$ is largest for $v = \operatorname{grad}f/|\operatorname{grad}f|$,
+with maximum value $|\operatorname{grad}f|$.
+\item $\operatorname{Hess}f$ is symmetric, and $\operatorname{Hess}f(X, Y) = \langle\nabla_X\operatorname{grad}f, Y\rangle$; hence $\Delta_gf = \operatorname{tr}_g\operatorname{Hess}f = \sum_i\operatorname{Hess}f(e_i, e_i)$.
+\item For a geodesic $\gamma$, $(f \circ \gamma)^{\prime\prime}(t) = \operatorname{Hess}f(\dot\gamma(t), \dot\gamma(t))$. At a critical point $p$ of $f$, $\operatorname{Hess}f_p(v, w) = \sum_{i,j}v^iw^j\partial_i\partial_jf(p)$ in any chart:
+there the Hessian does not depend on the metric.
+\item If $M$ is oriented, $d(\iota_X\mathrm{vol}_g) = (\operatorname{div}X)\,\mathrm{vol}_g$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Writing $\operatorname{grad}f = \sum_iG^i\partial_i$, the definition gives $\sum_ig_{ij}G^i = \partial_jf$, so $G^i = \sum_jg^{ij}\partial_jf$. The Hessian formula is the definition with $\nabla_{\partial_i}\partial_j = \sum_k\Gamma^k_{ij}\partial_k$.
+For the divergence, $\nabla_{\partial_i}X = \sum_k(\partial_iX^k + \sum_jX^j\Gamma^k_{ij})\partial_k$, so its trace is $\sum_i\partial_iX^i + \sum_{i,j}\Gamma^i_{ij}X^j$; the trace does not depend on the basis, so it may be computed in
+the coordinate basis. By the formula of Theorem~\ref{riemannian-geometry:theorem-levi-civita}, $\sum_i\Gamma^i_{ij} = \frac12\sum_{i,l}g^{il}\partial_jg_{il} = \frac12\operatorname{tr}(g^{-1}\partial_jg)$, the other two terms cancelling by
+the symmetry of $g$. For an invertible matrix $A(t)$, $\det A(t + h) = \det A(t)\det\bigl(I + A(t)^{-1}(A(t + h) - A(t))\bigr)$ and $\det(I + hB) = 1 + h\operatorname{tr}B + O(h^2)$ by the Leibniz formula for the determinant,
+so $\partial_j\det g = \det g\operatorname{tr}(g^{-1}\partial_jg)$ and $\sum_i\Gamma^i_{ij} = \partial_j\log\sqrt{\det g}$. Hence
+$\operatorname{div}X = \sum_i\partial_iX^i + \sum_jX^j\partial_j\log\sqrt{\det g} = \frac{1}{\sqrt{\det g}}\sum_i\partial_i(\sqrt{\det g}\,X^i)$. The formula for $\Delta_g$ combines this with the one for the gradient.
+
+(2) For $v$ tangent to the level set, $\langle\operatorname{grad}f, v\rangle = v(f) = 0$, since $f$ is constant along a curve in the level set. For $|v| = 1$, $v(f) = \langle\operatorname{grad}f, v\rangle \leq |\operatorname{grad}f|$ by the
+Cauchy--Schwarz inequality, with equality exactly for $v = \operatorname{grad}f/|\operatorname{grad}f|$.
+
+(3) $\operatorname{Hess}f(X, Y) - \operatorname{Hess}f(Y, X) = X(Yf) - Y(Xf) - (\nabla_XY - \nabla_YX)f = [X, Y]f - [X, Y]f = 0$, by torsion-freeness. Since the connection is metric,
+$X\langle\operatorname{grad}f, Y\rangle = \langle\nabla_X\operatorname{grad}f, Y\rangle + \langle\operatorname{grad}f, \nabla_XY\rangle$, that is $X(Yf) = \langle\nabla_X\operatorname{grad}f, Y\rangle + (\nabla_XY)f$, which is the second
+formula. Taking the trace in an orthonormal basis, $\sum_i\operatorname{Hess}f(e_i, e_i) = \sum_i\langle\nabla_{e_i}\operatorname{grad}f, e_i\rangle = \operatorname{div}\operatorname{grad}f$.
+
+(4) $(f \circ \gamma)^{\prime} = df(\dot\gamma) = \langle\operatorname{grad}f \circ \gamma, \dot\gamma\rangle$, and differentiating with the metric property of $D_t$ (Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}),
+$(f \circ \gamma)^{\prime\prime} = \langle\nabla_{\dot\gamma}\operatorname{grad}f, \dot\gamma\rangle + \langle\operatorname{grad}f, D_t\dot\gamma\rangle = \operatorname{Hess}f(\dot\gamma, \dot\gamma)$, as $D_t\dot\gamma = 0$. At a critical point the terms
+$\Gamma^k_{ij}\partial_kf$ of (1) vanish.
+
+(5) By Cartan's formula (Proposition~\ref{differential-forms:proposition-cartan}) and $d\,\mathrm{vol}_g = 0$, $d(\iota_X\mathrm{vol}_g) = L_X\mathrm{vol}_g$. In a positively oriented chart
+$\iota_X\mathrm{vol}_g = \sum_i(-1)^{i-1}\sqrt{\det g}\,X^i\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^n$ (Proposition~\ref{riemannian-geometry:proposition-volume-form} and
+Proposition~\ref{multilinear-algebra:proposition-interior-antiderivation}), whose exterior derivative is $\sum_i\partial_i(\sqrt{\det g}\,X^i)\,dx^1 \wedge \cdots \wedge dx^n = (\operatorname{div}X)\,\mathrm{vol}_g$ by (1).
+\end{proof}
+
+By (4), at a critical point $p$ the second derivative test of calculus is coordinate free: if $\operatorname{Hess}f_p$ is positive definite, $f$ has a strict local minimum at $p$ (the test in any
+chart, where $\operatorname{Hess}f_p$ is the matrix of second derivatives), and conversely at a local minimum it is positive semidefinite (apply the one-variable test to $f \circ \gamma$ for geodesics $\gamma$
+through $p$). Away from critical points the Hessian depends on the metric through the Christoffel
+symbols. A function is \emph{convex} along all geodesics exactly when $\operatorname{Hess}f \geq 0$, again by (4). The Hodge Laplacian of Definition~\ref{riemannian-geometry:definition-laplacian} on functions is
+$-\Delta_g$ (compare (1) with Proposition~\ref{riemannian-geometry:proposition-adjoint}(5)): geometers prefer the sign that makes the Laplacian a non-negative operator, analysts the sign that gives $\sum_i\partial_i^2$ on
+$\RR^n$.
+
+\begin{example}\label{riemannian-geometry:example-gradient-hessian}
+\begin{enumerate}
+\item \emph{Euclidean space.} For $g = \sum_idx_i^2$ all Christoffel symbols vanish, and $\operatorname{grad}f = (\partial_1f, \ldots, \partial_nf)$, $\operatorname{Hess}f = (\partial_i\partial_jf)$,
+$\operatorname{div}X = \sum_i\partial_iX^i$ and $\Delta_g = \sum_i\partial_i^2$.
+\item \emph{Polar coordinates.} For $g = dr^2 + r^2d\theta^2$ on the plane minus the origin, $\det g = r^2$, $g^{rr} = 1$, $g^{\theta\theta} = r^{-2}$, so
+\[
+\operatorname{grad}f = f_r\,\partial_r + \frac{f_\theta}{r^2}\partial_\theta, \qquad \Delta_gf = \frac1r\partial_r(rf_r) + \frac{1}{r^2}f_{\theta\theta} = f_{rr} + \frac1rf_r + \frac{1}{r^2}f_{\theta\theta} .
+\]
+In terms of the unit vectors $e_r = \partial_r$, $e_\theta = r^{-1}\partial_\theta$ the gradient is $f_re_r + \frac1rf_\theta e_\theta$, the formula of vector calculus. On the round sphere with
+$g = d\vartheta^2 + \sin^2\vartheta\,d\varphi^2$, the same computation gives $\Delta_gf = \frac{1}{\sin\vartheta}\partial_\vartheta(\sin\vartheta\,f_\vartheta) + \frac{1}{\sin^2\vartheta}f_{\varphi\varphi}$.
+\item \emph{Conformal metrics.} For $g^{\prime} = e^{2u}g$, $\operatorname{grad}^{\prime}f = e^{-2u}\operatorname{grad}f$: the gradient depends on the metric, while $df$ does not. In dimension $2$ also
+$\Delta_{g^{\prime}}f = e^{-2u}\Delta_gf$, since $\sqrt{\det g^{\prime}}\,g^{\prime ij} = \sqrt{\det g}\,g^{ij}$; so harmonic functions on a surface depend only on the conformal class of the metric. For the
+hyperbolic half-plane, $\Delta_g = y^2(\partial_x^2 + \partial_y^2)$, and $y^s$ satisfies $\Delta_gy^s = s(s - 1)y^s$.
+\item \emph{Distance from the origin} in $\RR^n$: for $r = |x|$ on $\RR^n \setminus \{0\}$, $\operatorname{grad}r = x/r$, a unit vector field, and
+$\operatorname{Hess}r = \frac1r\bigl(I - \frac{xx^T}{r^2}\bigr)$: it vanishes in the radial direction, along which $r$ is linear, and equals $\frac1r$ times the identity on the tangent spaces of the spheres
+$\{r = \text{const}\}$, whose curvature it measures. Hence $\Delta_gr = \frac{n-1}{r}$, and $\Delta_g(r^{2-n}) = 0$ for $n \geq 3$ (Exercise~\ref{riemannian-geometry:exercise-gradient-identities}); for $n = 3$, $-\frac{1}{4\pi r}$ is the fundamental solution of the Laplacian
+(Chapter~\ref{elliptic-operators}).
+\end{enumerate}
+\end{example}
+
+The divergence theorem of Corollary~\ref{riemannian-geometry:corollary-divergence} holds on any Riemannian manifold with boundary, with the divergence of the metric. Let $M$ be an oriented Riemannian manifold
+with boundary and $\nu$ the outward unit normal along $\partial M$: the unit vector orthogonal to $T(\partial M)$ pointing out of $M$.
+
+\begin{proposition}[Divergence theorem and Green's formula]\label{riemannian-geometry:proposition-riemannian-divergence}
+Let $M$ be a compact oriented Riemannian manifold with boundary, with the induced metric and the boundary orientation on $\partial M$. For a vector field $X$ and smooth functions $f$, $h$,
+\[
+\int_M\operatorname{div}X\,\mathrm{vol}_g = \int_{\partial M}\langle X, \nu\rangle\,\mathrm{vol}_{\partial M}, \qquad
+\int_M\bigl(h\,\Delta_gf + \langle\operatorname{grad}h, \operatorname{grad}f\rangle\bigr)\mathrm{vol}_g = \int_{\partial M}h\,\langle\operatorname{grad}f, \nu\rangle\,\mathrm{vol}_{\partial M} .
+\]
+In particular, if $\partial M = \emptyset$, then $\int_M\operatorname{div}X\,\mathrm{vol}_g = 0$ and $\int_Mh\,\Delta_gf\,\mathrm{vol}_g = -\int_M\langle\operatorname{grad}h, \operatorname{grad}f\rangle\,\mathrm{vol}_g$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(5) and Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}), $\int_M\operatorname{div}X\,\mathrm{vol}_g = \int_{\partial M}\iota_X\mathrm{vol}_g$. As
+in the proof of Proposition~\ref{riemannian-geometry:proposition-flux}, write $X = \langle X, \nu\rangle\nu + X^\top$ with $X^\top$ tangent to $\partial M$; then $\iota_{X^\top}\mathrm{vol}_g$ vanishes on $T(\partial M)$, because
+$n$ vectors in the $(n-1)$-dimensional space $T_p(\partial M)$ are linearly dependent. And $\iota_\nu\mathrm{vol}_g$ restricted to $\partial M$ is $\mathrm{vol}_{\partial M}$: if $(e_2, \ldots, e_n)$ is an orthonormal basis of
+$T_p(\partial M)$ that is positive for the boundary orientation, then $(\nu, e_2, \ldots, e_n)$ is a positive orthonormal basis of $T_pM$ (the outward vector comes first,
+Definition~\ref{differential-forms:definition-manifold-with-boundary}, and $\nu$ differs from any outward vector by a positive multiple plus a tangent vector, as in the proof of
+Corollary~\ref{riemannian-geometry:corollary-divergence}), so $(\iota_\nu\mathrm{vol}_g)(e_2, \ldots, e_n) = 1$. Green's formula is the divergence theorem for $X = h\operatorname{grad}f$, with
+$\operatorname{div}(h\operatorname{grad}f) = \langle\operatorname{grad}h, \operatorname{grad}f\rangle + h\,\Delta_gf$, by the Leibniz rule $\nabla_v(hY) = v(h)Y + h\nabla_vY$ inside the trace.
 \end{proof}
 
 \section{The exponential map and minimising geodesics}\label{riemannian-geometry:section-exponential}
@@ -2771,4 +2884,30 @@ velocity of the helix with parameters $a$, $b$, $t_0$, $z_0$. That helix is a ge
 velocity (Definition~\ref{riemannian-geometry:definition-geodesic}), so every geodesic is a helix. For $k \in \ZZ$ the helix $\gamma_k(t) = (\cos(2\pi kt), \sin(2\pi kt), t)$, $0 \leq t \leq 1$, goes from $(1, 0, 0)$
 to $(1, 0, 1)$ winding $k$ times around the cylinder, with length $(4\pi^2k^2 + 1)^{1/2}$. The shortest is the vertical segment, $k = 0$, of length $1$. On the plane obtained by unrolling the cylinder,
 the $\gamma_k$ are the segments from $(0, 0)$ to the different preimages $(2\pi k, 1)$ of the end point.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-gradient-identities}
+On a Riemannian manifold, prove the Leibniz rules $\operatorname{grad}(fh) = f\operatorname{grad}h + h\operatorname{grad}f$, $\operatorname{div}(fX) = f\operatorname{div}X + \langle\operatorname{grad}f, X\rangle$ and
+$\Delta_g(fh) = f\Delta_gh + h\Delta_gf + 2\langle\operatorname{grad}f, \operatorname{grad}h\rangle$. On $\RR^n \setminus \{0\}$ show that a radial function $u = \phi(r)$ has $\Delta_gu = \phi^{\prime\prime}(r) + \frac{n-1}{r}\phi^{\prime}(r)$, and
+deduce that $r^{2-n}$ ($n \geq 3$) and $\log r$ ($n = 2$) are harmonic.
+\end{exercise}
+
+\begin{solution}
+The first identity follows from $d(fh) = f\,dh + h\,df$. For the second, $\nabla_v(fX) = v(f)X + f\nabla_vX$, and taking traces gives $\langle\operatorname{grad}f, X\rangle + f\operatorname{div}X$. The third is the second with
+$X = \operatorname{grad}h$ and $f$, plus the same with the roles exchanged, using the first. For $u = \phi(r)$, $\operatorname{grad}u = \phi^{\prime}(r)\operatorname{grad}r$, and by the second identity and
+Example~\ref{riemannian-geometry:example-gradient-hessian}(4), $\Delta_gu = \langle\operatorname{grad}\phi^{\prime}(r), \operatorname{grad}r\rangle + \phi^{\prime}(r)\Delta_gr = \phi^{\prime\prime}(r)|\operatorname{grad}r|^2 + \phi^{\prime}(r)\frac{n-1}{r}$,
+with $|\operatorname{grad}r| = 1$. For $\phi = r^{2-n}$, $\phi^{\prime\prime} + \frac{n-1}{r}\phi^{\prime} = (2-n)r^{-n}\bigl((1-n) + (n-1)\bigr) = 0$; for $\phi = \log r$ and $n = 2$, $-r^{-2} + r^{-1} \cdot r^{-1} = 0$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-height-sphere}
+Let $a \in \RR^{n+1}$ and $f(x) = \langle a, x\rangle$ on the round unit sphere $S^n$. Show that $\operatorname{grad}f = a - f(x)x$, that $\operatorname{Hess}f = -f\,g$, and hence $\Delta_gf = -nf$. Where are the
+critical points of $f$, and what does the Hessian say about them?
+\end{exercise}
+
+\begin{solution}
+For $X$ tangent to $S^n$ at $x$, $Xf = \langle a, X\rangle = \langle a - \langle a, x\rangle x, X\rangle$, and $a - \langle a, x\rangle x$ is tangent, as it is orthogonal to $x$; this is the gradient. For a unit speed great
+circle $\gamma(t) = \cos(t)x + \sin(t)v$, a geodesic (Exercise~\ref{riemannian-geometry:exercise-great-circles}), $f(\gamma(t)) = \cos(t)f(x) + \sin(t)\langle a, v\rangle$, so
+$\operatorname{Hess}f(v, v) = (f \circ \gamma)^{\prime\prime}(0) = -f(x)$ for every unit $v \in T_xS^n$ (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(4)). A symmetric bilinear form is determined by its
+quadratic form, so $\operatorname{Hess}f = -f\,g$, and its trace is $-nf$. The gradient vanishes where $a$ is a multiple of $x$, that is at $x = \pm a/|a|$ (for $a \neq 0$), where $f = \pm|a|$ and
+$\operatorname{Hess}f = \mp|a|g$: the maximum and the minimum of $f$. So the restrictions of linear functions are eigenfunctions of the Laplacian, with eigenvalue $n$ for the Hodge Laplacian $-\Delta_g$.
 \end{solution}

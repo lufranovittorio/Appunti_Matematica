@@ -16,6 +16,16 @@ references in proofs).
 
 ## Done
 
+- [x] **Gradient, Hessian, divergence and Laplacian** (`riemannian-geometry`, new
+  section after covariant derivatives along curves): definitions, coordinate
+  formulas (with $\sum_i\Gamma^i_{ij} = \partial_j\log\sqrt{\det g}$), steepest
+  ascent, symmetry of the Hessian, $\mathrm{Hess}f = \langle\nabla\mathrm{grad}f, -\rangle$,
+  $(f\circ\gamma)'' = \mathrm{Hess}f(\dot\gamma, \dot\gamma)$, second derivative test,
+  $d\iota_X\mathrm{vol} = \mathrm{div}X\,\mathrm{vol}$, divergence theorem and Green's formula on
+  Riemannian manifolds with boundary; examples (polar and spherical coordinates,
+  conformal metrics, hyperbolic plane, distance function); exercises
+  (Leibniz rules, radial Laplacian, linear functions on spheres).
+
 - [x] **Connection from parallel transport** (`connections`): proposition
   $\nabla_vs = \frac{d}{dt}\big|_0P_t^{-1}s(\gamma(t))$ with proof, the expansion
   $P_t = I - t\theta(v) + O(t^2)$ (connection form = infinitesimal transport),
