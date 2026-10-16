@@ -241,7 +241,8 @@ and a vector field $X$ we write
 \[
 \nabla_vs = (\nabla s)_p(v) \in E_p, \qquad \nabla_Xs = (\nabla s)(X) \in \Gamma(M, E), \quad (\nabla_Xs)(p) = \nabla_{X(p)}s,
 \]
-the \emph{covariant derivative} of $s$ in the direction $v$, respectively along $X$. In Riemannian geometry and in many books a connection is introduced directly as an operation $(X, s) \mapsto \nabla_Xs$, and for
+the \emph{covariant derivative} of $s$ in the direction $v$, respectively along $X$. Its geometric meaning, the rate of change of $s$ along a curve with velocity $v$ after transporting
+its values back to the fibre $E_p$ by parallel transport, is Proposition~\ref{connections:proposition-connection-from-transport} below. In Riemannian geometry and in many books a connection is introduced directly as an operation $(X, s) \mapsto \nabla_Xs$, and for
 $E = TM$ one writes $\nabla_XY$. The next proposition shows that the two points of view are equivalent, and translates the Leibniz rule into the language of $\nabla_X$.
 
 \begin{proposition}\label{connections:proposition-connection-operators}
@@ -624,6 +625,44 @@ $t \mapsto s(1 - t)$ is parallel along $\bar\gamma$ (the equation is linear in $
 from uniqueness. The same argument shows that $P_\gamma$ does not change under an increasing reparametrisation of $\gamma$.
 \end{proof}
 
+So far the connection came first and parallel transport was derived from it. The two notions are equivalent: the connection can be recovered from its parallel transport, and this is the
+geometric meaning of the covariant derivative. Vectors in different fibres $E_{\gamma(t)}$ and $E_{\gamma(0)}$ cannot be subtracted, so a section cannot be differentiated by a difference quotient; parallel
+transport brings $s(\gamma(t))$ back to the fibre over $\gamma(0)$, where the difference quotient makes sense, and the covariant derivative is its limit.
+
+\begin{proposition}[The connection from parallel transport]\label{connections:proposition-connection-from-transport}
+Let $\gamma \colon (-\varepsilon, \varepsilon) \to M$ be a smooth curve with $\gamma(0) = p$ and $\dot\gamma(0) = v$, and for each $t$ let $P_t \colon E_p \to E_{\gamma(t)}$ be parallel transport along $\gamma$,
+$P_t(w) = u(t)$ where $u$ is the parallel section along $\gamma$ with $u(0) = w$. Then for every section $s$ of $E$ defined near $p$, and more generally for every section $s$ along $\gamma$,
+\[
+\nabla_vs = \frac{d}{dt}\Big|_{t=0}P_t^{-1}\bigl(s(\gamma(t))\bigr) = \lim_{t \to 0}\frac{P_t^{-1}\bigl(s(\gamma(t))\bigr) - s(p)}{t},
+\]
+a derivative of a curve in the single vector space $E_p$. (For a section along $\gamma$, read $s(t)$ for $s(\gamma(t))$ and $\nabla_{\dot\gamma}s$ at $t = 0$ for $\nabla_vs$.)
+\end{proposition}
+
+\begin{proof}
+Parallel sections along $\gamma$ exist on the whole interval and depend linearly on the initial value (Proposition~\ref{connections:proposition-parallel-transport}, whose proof applies to any interval).
+Choose a basis $w_1, \ldots, w_r$ of $E_p$ and let $u_i(t) = P_t(w_i)$, the parallel sections with $u_i(0) = w_i$. Since each $P_t$ is an isomorphism, the $u_i$ form a frame of $\gamma^*E$, so
+$s(\gamma(t)) = \sum_ia^i(t)u_i(t)$ with smooth functions $a^i$. Then $P_t^{-1}(s(\gamma(t))) = \sum_ia^i(t)w_i$, a curve in $E_p$ with derivative $\sum_i\dot a^i(0)w_i$ at $t = 0$. On the other hand, by the
+Leibniz rule for the connection $\gamma^*\nabla$ along $\gamma$ and $\nabla_{\dot\gamma}u_i = 0$,
+\[
+\nabla_{\dot\gamma}(s \circ \gamma) = \sum_i\bigl(\dot a^iu_i + a^i\nabla_{\dot\gamma}u_i\bigr) = \sum_i\dot a^i(t)u_i(t),
+\]
+which at $t = 0$ is $\sum_i\dot a^i(0)w_i$. Finally $\nabla_{\dot\gamma}(s \circ \gamma)$ at $t = 0$ is $\nabla_vs$, by Remark~\ref{connections:remark-along-curves}. The same computation applies to a section along $\gamma$.
+\end{proof}
+
+In particular a section is parallel along a curve exactly when $P_t^{-1}(s(\gamma(t)))$ is constant, that is, when $s(\gamma(t)) = P_t(s(p))$: the covariant derivative measures how fast $s$ moves away from
+the parallel transport of its initial value. In a local frame $e$ with connection form $\theta$, the parallel transport equation $\dot u + \theta(\dot\gamma)u = 0$ gives, for the matrix of $P_t$ in the frames
+$e(p)$ and $e(\gamma(t))$,
+\[
+P_t = I - t\,\theta(v) + O(t^2), \qquad P_t^{-1} = I + t\,\theta(v) + O(t^2),
+\]
+so $P_t^{-1}(s(\gamma(t))) = s(p) + t\bigl(ds(v) + \theta(v)s(p)\bigr) + O(t^2)$, and the proposition returns the frame formula $\nabla_vs = ds(v) + \theta(v)s$ of
+Proposition~\ref{connections:proposition-connections-exist}(2). The connection form is the infinitesimal parallel transport, and the curvature is the infinitesimal holonomy around small loops
+(Proposition~\ref{connections:proposition-small-loops} below). For the trivial connection on a trivial bundle, $P_t = I$ and the formula is the ordinary derivative.
+
+The formula has the same shape as the Lie derivative of a vector field, $(L_XY)_p = \frac{d}{dt}\big|_{t=0}d\Phi_{-t}(Y_{\Phi_t(p)}) = [X, Y]_p$ for the flow $\Phi$ of $X$, where vectors at $\Phi_t(p)$ are
+brought back to $p$ by the differential of the flow instead of by parallel transport. The two differ in an essential way: parallel transport along $\gamma$ only depends on the curve through $p$ with velocity $v$ to first order, so $\nabla_vs$ only depends on $v$,
+while the flow of $X$ near $p$ depends on $X$ near $p$, and $L_XY$ at $p$ depends on the derivatives of $X$ at $p$ (indeed $L_{fX}Y = fL_XY - (Yf)X$).
+
 \begin{proposition}[Homotopy invariance of pullbacks]\label{connections:proposition-homotopy-invariance}
 Let $E \to N$ be a vector bundle and $F \colon M \times \RR \to N$ a smooth map, and put $f = F(-, 0)$ and $g = F(-, 1)$. Then $f^*E \cong g^*E$ as vector bundles on $M$. In particular every vector bundle on a star-shaped open
 subset of $\RR^n$, for instance on $\RR^n$ or on a ball, is trivial.
@@ -943,4 +982,19 @@ is trivial.
 Fix $t_0 \in I$ and a basis $(v_i)$ of the fibre over $t_0$. The parallel sections along the curve $t \mapsto t$ with initial values $v_i$ exist on all of $I$
 (Proposition~\ref{connections:proposition-parallel-transport}, applied on compact subintervals) and are linearly independent everywhere, since parallel transport is an isomorphism;
 so they form a global frame. The curvature plays no role: on a $1$-dimensional base every connection is flat.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-connection-from-transport}
+\begin{enumerate}
+\item On the trivial line bundle over $\RR$ with the connection $\nabla s = ds + a(x)s\,dx$, compute parallel transport along $\gamma(t) = x_0 + t$ and verify
+Proposition~\ref{connections:proposition-connection-from-transport} directly.
+\item Using Proposition~\ref{connections:proposition-connection-from-transport}, give a short proof that a connection whose parallel transports are isometries for a metric on $E$ is metric.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) The parallel sections along $\gamma$ solve $\dot u + a(x_0 + t)u = 0$, so $P_t(w) = e^{-A(t)}w$ with $A(t) = \int_{x_0}^{x_0+t}a(x)\,dx$. Then $P_t^{-1}(s(x_0 + t)) = e^{A(t)}s(x_0 + t)$, whose derivative at
+$t = 0$ is $a(x_0)s(x_0) + s^{\prime}(x_0)$, which is $\nabla_{\partial_x}s$ at $x_0$. (2) Let $s$, $s^{\prime}$ be sections, $v \in T_pM$ and $\gamma$ a curve with $\dot\gamma(0) = v$. If each $P_t$ is an isometry,
+$\langle s, s^{\prime}\rangle(\gamma(t)) = \langle P_t^{-1}s(\gamma(t)), P_t^{-1}s^{\prime}(\gamma(t))\rangle$ is the inner product of two curves in the fixed space $E_p$. Differentiating at $t = 0$ with the product rule
+and the proposition gives $v\langle s, s^{\prime}\rangle = \langle\nabla_vs, s^{\prime}\rangle + \langle s, \nabla_vs^{\prime}\rangle$, the metric condition.
 \end{solution}

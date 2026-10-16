@@ -16,6 +16,13 @@ references in proofs).
 
 ## Done
 
+- [x] **Connection from parallel transport** (`connections`): proposition
+  $\nabla_vs = \frac{d}{dt}\big|_0P_t^{-1}s(\gamma(t))$ with proof, the expansion
+  $P_t = I - t\theta(v) + O(t^2)$ (connection form = infinitesimal transport),
+  comparison with the Lie derivative, pointer from the definition of a
+  connection, exercise (line bundle over $\mathbb{R}$; metric iff transport is
+  isometric).
+
 - [x] **Parallelizable manifolds** (`vector-bundles`, `characteristic-classes`):
   definition, examples (open sets, tori, Lie groups, $S^3$ with quaternions,
   products, $S^1 \times S^n$ with an explicit frame), even spheres excluded by
