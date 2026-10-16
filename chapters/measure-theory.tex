@@ -10,7 +10,9 @@ and~\ref{measure-theory:theorem-dominated-convergence}) and the completeness of 
 chapter constructs Lebesgue measure, proves the convergence theorems, Littlewood's three principles (approximation of sets by boxes, Lusin's
 theorem, Egorov's theorem), the Lebesgue differentiation theorem with its consequences (the density theorem and the fundamental theorem of calculus for
 Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
-change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions.
+change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It ends with an introduction to
+geometric measure theory: Hausdorff measures and Hausdorff dimension (with the Cantor set as example), Rademacher's theorem on the differentiability of Lipschitz maps, and the area formula,
+which computes the $k$-dimensional measure of parametrised sets (Sections~\ref{measure-theory:section-hausdorff}--\ref{measure-theory:section-area-formula}).
 References: \cite{rudin-rca} and \cite{folland-real}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{real-analysis} (Real Analysis).
@@ -736,6 +738,300 @@ $\mu_F(C) = F(1) - F(0) = 1$ for the Cantor function because $F$ is constant on 
 of bounded variation, hence not absolutely continuous.
 \end{example}
 
+
+\section{Hausdorff measures}\label{measure-theory:section-hausdorff}
+
+Lebesgue measure $\lambda^n$ measures $n$-dimensional volume in $\RR^n$, but it does not see lower-dimensional sets: a curve in the plane, or a surface in space, has measure $0$. How long is
+a curve, and what is the area of a surface, without choosing a parametrisation? And how big is the Cantor set, which has measure $0$ and is uncountable? Hausdorff measures answer these
+questions at once: for every $s \geq 0$ there is an $s$-dimensional measure $\mathcal{H}^s$ on any metric space, defined by covering a set with small sets $C$ and adding up
+$(\operatorname{diam}C)^s$. This and the next two sections are an introduction to \emph{geometric measure theory}: Hausdorff measure and dimension, differentiability of Lipschitz maps,
+and the area formula, which computes $\mathcal{H}^k$ of parametrised $k$-dimensional sets. We follow \cite[Chapters 2--3]{evans-gariepy}; the comprehensive reference is
+\cite{federer-gmt}.
+
+Throughout, $X$ is a metric space, $\operatorname{diam}C = \sup\{d(x, y) : x, y \in C\}$ for $C \neq \emptyset$, and $\operatorname{diam}\emptyset = 0$. For $s \geq 0$ let
+$\alpha(s) = \pi^{s/2}/(2^s\Gamma(\frac s2 + 1))$, with $\Gamma$ as in Exercise~\ref{measure-theory:exercise-ball-volume}; for an integer $n$, $\alpha(n)$ is the volume of a ball of
+diameter $1$ in $\RR^n$. The constant only serves to make $\mathcal{H}^n$ equal to Lebesgue measure on $\RR^n$ (Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue}); in the sums below
+the empty set contributes $0$ and every nonempty set $C$ contributes $\alpha(s)(\operatorname{diam}C)^s$, with the convention $(\operatorname{diam}C)^0 = 1$, also when $C$ is a
+single point.
+
+\begin{definition}\label{measure-theory:definition-hausdorff}
+For $A \subseteq X$, $s \geq 0$ and $\delta > 0$ let
+\[
+\mathcal{H}^s_\delta(A) = \inf\Bigl\{\sum_k\alpha(s)(\operatorname{diam}C_k)^s : A \subseteq \bigcup_kC_k,\ \operatorname{diam}C_k \leq \delta\Bigr\},
+\]
+the infimum over countable covers by sets of diameter at most $\delta$. As $\delta$ decreases, fewer covers are allowed and $\mathcal{H}^s_\delta(A)$ increases; the
+\emph{$s$-dimensional Hausdorff (outer) measure} is $\mathcal{H}^s(A) = \lim_{\delta \to 0}\mathcal{H}^s_\delta(A) = \sup_{\delta > 0}\mathcal{H}^s_\delta(A)$.
+\end{definition}
+
+The restriction $\operatorname{diam}C_k \leq \delta$ is essential: with arbitrary covers, a long segment could be covered by a single set and would get the same size as a short one, while
+small sets are forced to follow the shape of $A$. Replacing each $C_k$ by its closure does not change its diameter, so closed covers give the same infimum. And $\mathcal{H}^s(A)$ only
+depends on the metric space $A$: a cover of $A$ by subsets of $X$ gives the cover by the sets $C_k \cap A$, of smaller diameters. In particular an isometry $A \to B$ between subsets of two
+metric spaces preserves $\mathcal{H}^s$.
+
+\begin{lemma}\label{measure-theory:lemma-metric-outer-measure}
+Let $\mu^*$ be an outer measure on $X$ which is \emph{metric}: $\mu^*(A \cup B) = \mu^*(A) + \mu^*(B)$ whenever $d(A, B) = \inf\{d(a, b) : a \in A, b \in B\} > 0$. Then every Borel set is
+$\mu^*$-measurable.
+\end{lemma}
+
+\begin{proof}
+The measurable sets form a $\sigma$-algebra (Theorem~\ref{measure-theory:theorem-caratheodory}), so it suffices to show that a closed set $F$ is measurable, that is,
+$\mu^*(E \cap F) + \mu^*(E \setminus F) \leq \mu^*(E)$ for every $E$ with $\mu^*(E) < \infty$. Let $E_j = \{x \in E : d(x, F) \geq 1/j\}$. Since $d(E \cap F, E_j) \geq 1/j$,
+$\mu^*(E \cap F) + \mu^*(E_j) = \mu^*((E \cap F) \cup E_j) \leq \mu^*(E)$, and it remains to show $\mu^*(E_j) \to \mu^*(E \setminus F)$. Let
+$R_j = \{x \in E : \frac1{j+1} \leq d(x, F) < \frac1j\}$. As $F$ is closed, $E \setminus F = E_j \cup \bigcup_{i \geq j}R_i$. If $i \geq l + 2$, then $d(R_i, R_l) > 0$, so by induction
+$\sum_{i \leq N}\mu^*(R_{2i}) = \mu^*(\bigcup_{i \leq N}R_{2i}) \leq \mu^*(E)$, and similarly for the odd indices. Hence $\sum_i\mu^*(R_i) < \infty$, and
+$\mu^*(E \setminus F) \leq \mu^*(E_j) + \sum_{i \geq j}\mu^*(R_i)$, where the tail tends to $0$. With $\mu^*(E_j) \leq \mu^*(E \setminus F)$ this gives the limit.
+\end{proof}
+
+\begin{proposition}\label{measure-theory:proposition-hausdorff}
+\begin{enumerate}
+\item $\mathcal{H}^s$ is a metric outer measure, so its restriction to the Borel sets is a measure.
+\item $\mathcal{H}^0$ is the counting measure.
+\item If $f \colon A \to Y$ is Lipschitz with constant $L$, then $\mathcal{H}^s(f(A)) \leq L^s\mathcal{H}^s(A)$. For $X = \RR^n$, $\mathcal{H}^s$ is translation invariant and
+$\mathcal{H}^s(rA) = r^s\mathcal{H}^s(A)$ for $r > 0$.
+\item If $\mathcal{H}^s(A) < \infty$ and $t > s$, then $\mathcal{H}^t(A) = 0$. If $\mathcal{H}^t(A) > 0$ and $s < t$, then $\mathcal{H}^s(A) = \infty$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Each $\mathcal{H}^s_\delta$ is an outer measure: it is monotone, and given covers of the $A_k$ with sums at most $\mathcal{H}^s_\delta(A_k) + \varepsilon2^{-k}$, their union covers
+$\bigcup_kA_k$. Then $\mathcal{H}^s(\bigcup_kA_k) = \sup_\delta\mathcal{H}^s_\delta(\bigcup_kA_k) \leq \sup_\delta\sum_k\mathcal{H}^s_\delta(A_k) \leq \sum_k\mathcal{H}^s(A_k)$. If
+$d(A, B) > 0$ and $\delta < d(A, B)$, no set of diameter at most $\delta$ meets both $A$ and $B$, so a $\delta$-cover of $A \cup B$ splits into covers of $A$ and of $B$, and
+$\mathcal{H}^s_\delta(A \cup B) \geq \mathcal{H}^s_\delta(A) + \mathcal{H}^s_\delta(B)$; let $\delta \to 0$. Apply Lemma~\ref{measure-theory:lemma-metric-outer-measure}.
+
+(2) $\alpha(0) = 1$. A set of $N$ points needs at least $N$ nonempty sets of diameter less than the smallest distance between the points, and the $N$ singletons suffice; so
+$\mathcal{H}^0_\delta$ of it is $N$ for small $\delta$. An infinite set contains finite sets of every size.
+
+(3) If $(C_k)$ is a $\delta$-cover of $A$, then $(f(C_k \cap A))$ is an $L\delta$-cover of $f(A)$ with $\operatorname{diam}f(C_k \cap A) \leq L\operatorname{diam}C_k$; so
+$\mathcal{H}^s_{L\delta}(f(A)) \leq L^s\mathcal{H}^s_\delta(A)$. Translations are isometries, and $x \mapsto rx$ multiplies diameters by $r$, with inverse $x \mapsto x/r$.
+
+(4) For a $\delta$-cover, $\sum_k\alpha(t)(\operatorname{diam}C_k)^t \leq \frac{\alpha(t)}{\alpha(s)}\delta^{t-s}\sum_k\alpha(s)(\operatorname{diam}C_k)^s$, so
+$\mathcal{H}^t_\delta(A) \leq \frac{\alpha(t)}{\alpha(s)}\delta^{t-s}\mathcal{H}^s_\delta(A) \leq \frac{\alpha(t)}{\alpha(s)}\delta^{t-s}\mathcal{H}^s(A) \to 0$. The second statement is the
+contrapositive.
+\end{proof}
+
+By (4), for each $A$ there is a unique $s_0 \in [0, \infty]$ with $\mathcal{H}^s(A) = \infty$ for $s < s_0$ and $\mathcal{H}^s(A) = 0$ for $s > s_0$; it is the \emph{Hausdorff dimension}
+$\dim_{\mathcal{H}}A = \inf\{s : \mathcal{H}^s(A) = 0\}$. At $s = s_0$ the measure can be anything in $[0, \infty]$. By (3), Lipschitz maps do not increase Hausdorff dimension, and
+bi-Lipschitz maps preserve it.
+
+\begin{theorem}\label{measure-theory:theorem-hausdorff-lebesgue}
+On the Borel sets of $\RR^n$, $\mathcal{H}^n = \lambda^n$. Consequently the subsets of $\RR^n$ have Hausdorff dimension at most $n$, and nonempty open subsets have dimension $n$.
+\end{theorem}
+
+\begin{proof}
+We show that $\mathcal{H}^n = c\lambda^n$ for a constant $0 < c < \infty$; that $c = 1$ is the content of the \emph{isodiametric inequality} $\lambda^n(C) \leq \alpha(n)(\operatorname{diam}C)^n$,
+which says that among sets of given diameter the balls have the largest volume, together with Vitali's covering theorem, and we refer to \cite[Section 2.2]{evans-gariepy} for these two steps.
+
+\emph{The constant.} Let $Q = [0, 1)^n$. Covering $Q$ by $m^n$ cubes of side $1/m$ and diameter $\sqrt n/m$ gives $\mathcal{H}^n_{\sqrt n/m}(Q) \leq \alpha(n)n^{n/2}$, so
+$\mathcal{H}^n(Q) < \infty$. Conversely, a set $C$ of diameter $d$ lies in a closed box with sides $d$ (each coordinate varies by at most $d$ on $C$), so $\lambda^*(C) \leq d^n$; for any cover
+of $Q$, $\sum_k\alpha(n)(\operatorname{diam}C_k)^n \geq \alpha(n)\sum_k\lambda^*(C_k) \geq \alpha(n)$, so $c = \mathcal{H}^n(Q) \geq \alpha(n) > 0$.
+
+\emph{Comparison.} $\mathcal{H}^n$ is a translation invariant measure on the Borel sets (Proposition~\ref{measure-theory:proposition-hausdorff}). For $j \geq 0$, $Q$ is the disjoint union of $2^{jn}$
+translates of $[0, 2^{-j})^n$, so every half-open dyadic cube $\prod_i[a_i2^{-j}, (a_i + 1)2^{-j})$ ($a_i \in \ZZ$, $j \in \ZZ$) has $\mathcal{H}^n$-measure $c2^{-jn} = c\lambda^n$ of it; for
+$j < 0$ use that such a cube is a disjoint union of $2^{-jn}$ unit cubes. Fix $m \geq 0$ and $P = [-2^m, 2^m)^n$. The dyadic cubes contained in $P$, together with $P$, form a family closed under
+finite intersections, on which $\mathcal{H}^n$ and $c\lambda^n$ agree and are finite. By Lemma~\ref{measure-theory:lemma-dynkin} the two measures agree on the $\sigma$-algebra it generates, which
+contains every open subset of the interior of $P$ (a countable union of dyadic cubes), hence every Borel subset of the interior. The boundary of $P$ is a finite union of pieces of hyperplanes,
+which are null for both measures: a piece $[0, 1]^{n-1} \times \{0\}$ is covered by $j^{n-1}$ cubes of diameter $\sqrt n/j$, with $\sum\alpha(n)(\operatorname{diam})^n \to 0$ as $j \to \infty$. So
+the two measures agree on the Borel subsets of $P$, and letting $m \to \infty$, on all Borel sets.
+
+The last statement follows from Proposition~\ref{measure-theory:proposition-hausdorff}(4): $\mathcal{H}^n$ is finite on bounded sets and $\RR^n$ is a countable union of them, so
+$\mathcal{H}^t = 0$ for $t > n$, while a nonempty open set has positive $\mathcal{H}^n$-measure.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-cantor-dimension}
+\emph{The Cantor set has Hausdorff dimension $s = \log 2/\log 3$}, and $\alpha(s)/2 \leq \mathcal{H}^s(C) \leq \alpha(s)$; note $3^s = 2$. Let $C \subseteq [0, 1]$ be as in
+Counterexample~\ref{measure-theory:counterexample-cantor-function}. For $k \geq 0$ and digits $a_1, \ldots, a_k \in \{0, 2\}$ let $I_{a_1\cdots a_k}$ be the closed interval with left end
+$\sum_{j \leq k}a_j3^{-j}$ and length $3^{-k}$; there are $2^k$ of them, and $C$ is contained in their union $C_k$, since the digits beyond the $k$-th contribute at most $3^{-k}$.
+\begin{enumerate}
+\item \emph{Upper bound.} The $2^k$ intervals form a $3^{-k}$-cover of $C$ with $\sum\alpha(s)3^{-ks} = \alpha(s)2^k3^{-ks} = \alpha(s)$. So $\mathcal{H}^s(C) \leq \alpha(s)$.
+\item \emph{Separation.} Two of these intervals of the same generation $k$ are at distance at least $3^{-k}$: if their digit strings first differ at position $j \leq k$, their left ends differ by
+at least $2 \cdot 3^{-j} - \sum_{j < i \leq k}2 \cdot 3^{-i} = 3^{-j} + 3^{-k} \geq 2 \cdot 3^{-k}$. So a set of diameter less than $3^{-k}$ meets at most one of them.
+\item \emph{The Cantor measure.} Let $\mu = \mu_F$ be the measure of Lemma~\ref{measure-theory:lemma-stieltjes} for the Cantor function $F$. Since $F$ is constant on each interval of
+$[0, 1] \setminus C$, $\mu([0, 1] \setminus C) = 0$ and $\mu(C) = F(1) - F(0) = 1$. On the generation-$k$ interval $I$ with left end $a = \sum_{j \leq k}a_j3^{-j}$ and right end
+$a + \sum_{j > k}2 \cdot 3^{-j}$, $\mu(I) = F(a + 3^{-k}) - F(a) = \sum_{j > k}2^{-j} = 2^{-k}$, by the formula for $c$ on $C$.
+\item \emph{Lower bound.} Let $U$ be a closed set with $0 < \operatorname{diam}U = d < 1$, and $k$ with $3^{-k-1} \leq d < 3^{-k}$. By (2), $U$ meets at most one generation-$k$ interval $I$,
+and $\mu(U) \leq \mu(I) + \mu([0, 1] \setminus C) = 2^{-k} = 3^s3^{-(k+1)s} \leq 2d^s$; for a single point, $\mu(U) = 0$. For a cover of $C$ by closed sets $U_i$ of diameter less than $1$,
+$1 = \mu(C) \leq \sum_i\mu(U_i \cap [0, 1]) \leq 2\sum_i(\operatorname{diam}U_i)^s$. Hence $\mathcal{H}^s_\delta(C) \geq \alpha(s)/2$ for $\delta < 1$.
+\end{enumerate}
+The argument in (4), bounding the mass that a measure on $A$ gives to small sets, is the \emph{mass distribution principle}, the standard way to bound Hausdorff measures from below. So the Cantor
+set is too small to have positive length but too large to have zero $s$-dimensional measure for any $s < \log 2/\log 3 \approx 0.63$.
+\end{example}
+
+\section{Lipschitz maps and Rademacher's theorem}\label{measure-theory:section-rademacher}
+
+A Lipschitz function of one variable is absolutely continuous, hence differentiable almost everywhere (Example~\ref{measure-theory:example-absolutely-continuous}). Rademacher's theorem extends
+this to several variables. It is the reason why Lipschitz maps are the natural class of maps in geometric measure theory: they are just regular enough to have a derivative almost everywhere,
+and they are preserved by the operations of the theory (distance functions, compositions, restrictions, inverses of bi-Lipschitz maps), which smooth maps are not.
+
+\begin{lemma}\label{measure-theory:lemma-vanishing-integrals}
+If $g \in L^1_{\mathrm{loc}}(\RR^n)$ and $\int g\varphi\,d\lambda = 0$ for all compactly supported functions $\varphi$ of class $C^1$, then $g = 0$ almost everywhere.
+\end{lemma}
+
+\begin{proof}
+Let $\psi(s) = 3s^2 - 2s^3$ for $0 \leq s \leq 1$, $\psi = 0$ for $s < 0$ and $\psi = 1$ for $s > 1$, a $C^1$ function. For a ball $B(x, r)$ and $j > 1/r$ let
+$\varphi_j(y) = \psi(j(r - \|y - x\|))$; it is $C^1$, since it is constant near $y = x$, takes values in $[0, 1]$, vanishes outside $B(x, r)$, and $\varphi_j \to \mathbf{1}_{B(x, r)}$
+pointwise. By dominated convergence $\int_{B(x, r)}g = 0$ for all balls, and by the Lebesgue differentiation theorem (Theorem~\ref{measure-theory:theorem-lebesgue-differentiation}),
+$g(x) = \lim_{r \to 0}A_rg(x) = 0$ for almost every $x$.
+\end{proof}
+
+\begin{theorem}[Rademacher]\label{measure-theory:theorem-rademacher}
+Every Lipschitz map $f \colon \RR^n \to \RR^m$ is differentiable at almost every point of $\RR^n$.
+\end{theorem}
+
+\begin{proof}
+It suffices to treat $m = 1$, applying the result to the components. Let $L$ be a Lipschitz constant. For a unit vector $v$ and $x \in \RR^n$ let
+$D_vf(x) = \lim_{t \to 0}(f(x + tv) - f(x))/t$ where the limit exists.
+
+\emph{Step 1: for each $v$, $D_vf(x)$ exists for almost every $x$.} As the difference quotients are continuous in $t \neq 0$, the limit exists if and only if the $\limsup$ and $\liminf$ over
+rational $t \to 0$ are equal and finite, so the set $N_v$ where it fails is Borel, and $D_vf$ is Borel measurable where defined, with $|D_vf| \leq L$. Choose an orthogonal map $R$ with $Re_1 = v$;
+it preserves $\lambda$ (Lemma~\ref{measure-theory:lemma-linear-change}), and $f \circ R$ is Lipschitz. For each $y \in \RR^{n-1}$, $t \mapsto f(R(t, y))$ is a Lipschitz function of one variable,
+differentiable almost everywhere (Example~\ref{measure-theory:example-absolutely-continuous}); so every line parallel to $e_1$ meets $R^{-1}(N_v)$ in a null set, and by Tonelli's theorem
+(Theorem~\ref{measure-theory:theorem-fubini}) $\lambda(N_v) = \lambda(R^{-1}(N_v)) = 0$. In particular the gradient $\nabla f = (D_{e_1}f, \ldots, D_{e_n}f)$ exists almost everywhere, and
+$|\nabla f| \leq \sqrt nL$.
+
+\emph{Step 2: $D_vf = \langle v, \nabla f\rangle$ almost everywhere.} Let $\varphi$ be $C^1$ with compact support. By translation invariance,
+\[
+\int\frac{f(x + tv) - f(x)}{t}\varphi(x)\,dx = -\int f(x)\frac{\varphi(x) - \varphi(x - tv)}{t}\,dx .
+\]
+Let $t = 1/j \to 0$. On the left the integrands converge almost everywhere to $D_vf\,\varphi$ and are bounded by $L|\varphi|$; on the right they converge to $f\,D_v\varphi = f\langle v, \nabla\varphi\rangle$
+and are bounded by a constant times the indicator of a compact set, by the mean value inequality and the continuity of $f$. By dominated convergence,
+$\int D_vf\,\varphi = -\int f\langle v, \nabla\varphi\rangle = -\sum_iv_i\int f\,\partial_i\varphi = \sum_iv_i\int D_{e_i}f\,\varphi$, the last equality being the first one for $v = e_i$. So
+$\int(D_vf - \langle v, \nabla f\rangle)\varphi = 0$ for all $\varphi$, and Lemma~\ref{measure-theory:lemma-vanishing-integrals} applies.
+
+\emph{Step 3: differentiability.} Let $(v_k)$ be a dense sequence in the unit sphere, and let $A$ be the set of points where $\nabla f$ and all $D_{v_k}f$ exist and
+$D_{v_k}f = \langle v_k, \nabla f\rangle$; its complement is a countable union of null sets. Fix $x \in A$, and for a unit vector $v$ and $t \neq 0$ put
+$Q(v, t) = (f(x + tv) - f(x))/t - \langle v, \nabla f(x)\rangle$. Then $|Q(v, t) - Q(v^{\prime}, t)| \leq (L + \sqrt nL)|v - v^{\prime}|$. Given $\varepsilon > 0$, by compactness of the
+sphere there is $N$ such that every unit vector is within $\varepsilon/(2(1 + \sqrt n)L)$ of some $v_k$ with $k \leq N$, and there is $\delta > 0$ with $|Q(v_k, t)| < \varepsilon/2$ for
+$0 < |t| < \delta$ and $k \leq N$. Then $|Q(v, t)| < \varepsilon$ for all unit vectors $v$ and $0 < |t| < \delta$, that is, $|f(x + h) - f(x) - \langle\nabla f(x), h\rangle| \leq \varepsilon|h|$ for
+$|h| < \delta$. So $f$ is differentiable at $x$, with derivative $h \mapsto \langle\nabla f(x), h\rangle$.
+\end{proof}
+
+\begin{counterexample}\label{measure-theory:counterexample-rademacher}
+\begin{enumerate}
+\item Continuity is not enough: the Takagi function (Theorem~\ref{real-analysis:theorem-takagi}) is continuous and differentiable nowhere, so it is not Lipschitz on any interval.
+\item The exceptional null set can be dense. Let $q_1, q_2, \ldots$ be an enumeration of $\QQ$ and $f(x) = \sum_j2^{-j}|x - q_j|$, a $1$-Lipschitz function on $\RR$. For $h > 0$,
+\[
+\frac{f(q_k + h) - f(q_k)}{h} - \frac{f(q_k) - f(q_k - h)}{h} = \sum_j2^{-j}\,\frac{|q_k - q_j + h| + |q_k - q_j - h| - 2|q_k - q_j|}{h} \geq 2^{1-k},
+\]
+since every term is $\geq 0$ by the triangle inequality and the term $j = k$ is $2^{1-k}$. If $f$ were differentiable at $q_k$ the left side would tend to $0$; so $f$ is differentiable at no
+rational point.
+\item Existence of all directional derivatives at a point does not imply differentiability there, even for Lipschitz functions: $f(x, y) = x^2y/(x^2 + y^2)$, $f(0, 0) = 0$, is Lipschitz,
+has $D_vf(0) = f(v)$ for every unit vector $v$, and $v \mapsto f(v)$ is not linear. Step 3 of the proof is where the Lipschitz condition turns directional derivatives into a derivative.
+\end{enumerate}
+\end{counterexample}
+
+\section{The area formula}\label{measure-theory:section-area-formula}
+
+For a linear map $T \colon \RR^n \to \RR^n$, $\lambda^n(T(A)) = |\det T|\lambda^n(A)$. For a linear map $L \colon \RR^k \to \RR^m$ with $k \leq m$ the image of a cube is a
+$k$-dimensional parallelepiped in $\RR^m$, and its $k$-dimensional volume is measured by $\mathcal{H}^k$. The factor replacing $|\det T|$ is the Jacobian of $L$.
+
+\begin{definition}\label{measure-theory:definition-jacobian}
+The \emph{Jacobian} of a linear map $L \colon \RR^k \to \RR^m$, $k \leq m$, is $JL = \sqrt{\det(L^TL)}$. For a map $f$ differentiable at $x$, $Jf(x) = J(Df(x))$.
+\end{definition}
+
+\begin{lemma}\label{measure-theory:lemma-jacobian}
+Let $L \colon \RR^k \to \RR^m$ be linear, $k \leq m$.
+\begin{enumerate}
+\item $(JL)^2$ is the sum of the squares of the $k \times k$ minors of the matrix of $L$, and $JL = 0$ if and only if $L$ is not injective. For $k = m$, $JL = |\det L|$.
+\item If $L$ is injective, $L = O \circ S$ with $S = (L^TL)^{1/2}$ positive definite symmetric on $\RR^k$, $\det S = JL$, and $O \colon \RR^k \to \RR^m$ an isometry onto $L(\RR^k)$.
+\item $\mathcal{H}^k(L(A)) = JL\,\lambda^k(A)$ for every Lebesgue measurable $A \subseteq \RR^k$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) By Cauchy--Binet (Proposition~\ref{multilinear-algebra:proposition-minors}(2)) applied to $L^T$ and $L$, $\det(L^TL) = \sum_S\det(L_{S})^2$, where $L_S$ is the $k \times k$ submatrix with rows
+$S$. By Proposition~\ref{multilinear-algebra:proposition-minors}(3), some minor is nonzero if and only if $L$ has rank $k$. For $k = m$, $\det(L^TL) = (\det L)^2$.
+
+(2) $L^TL$ is symmetric with $\langle L^TLv, v\rangle = |Lv|^2 > 0$ for $v \neq 0$, so by the spectral theorem (Theorem~\ref{linear-algebra:theorem-spectral}) it has a positive definite square root $S$,
+with $\det S = \sqrt{\det L^TL}$. Then $O = LS^{-1}$ satisfies $O^TO = S^{-1}L^TLS^{-1} = I$, so $|Ov| = |v|$, and $O(\RR^k) = L(\RR^k)$.
+
+(3) If $L$ is not injective, $L(\RR^k)$ lies in a linear subspace $W$ of dimension $k - 1$; an isometry $\RR^{k-1} \to W$ and Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue} give
+$\mathcal{H}^{k-1}(W \cap B) < \infty$ for every ball $B$, so $\mathcal{H}^k(W) = 0$ by Proposition~\ref{measure-theory:proposition-hausdorff}(4), and both sides vanish. If $L$ is injective, $O$ is an
+isometry from $\RR^k$ onto $L(\RR^k)$, which preserves $\mathcal{H}^k$, so $\mathcal{H}^k(L(A)) = \mathcal{H}^k(S(A)) = \lambda^k(S(A)) = |\det S|\lambda^k(A)$ by
+Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue} and Lemma~\ref{measure-theory:lemma-linear-change}; for Lebesgue measurable $A$ write $A = B \cup N$ with $B$ Borel and $N$ contained in a Borel null
+set, which $S$ maps to a null set.
+\end{proof}
+
+So $JL$ is the $k$-dimensional volume of the parallelepiped spanned by $Le_1, \ldots, Le_k$, the image of the unit cube. For a curve, $J\gamma(t) = |\gamma^{\prime}(t)|$; for a parametrised
+surface $x(u, v)$ in $\RR^3$, $Jx = |x_u \times x_v|$, since the three $2 \times 2$ minors of $Dx$ are the components of $x_u \times x_v$ up to sign.
+
+\begin{theorem}[Area formula]\label{measure-theory:theorem-area-formula}
+Let $U \subseteq \RR^k$ be open and $f \colon U \to \RR^m$ an injective $C^1$ map whose differential $Df(x)$ is injective at every point. Then for every Lebesgue measurable $A \subseteq U$ the set
+$f(A)$ is $\mathcal{H}^k$-measurable, and
+\[
+\mathcal{H}^k(f(A)) = \int_AJf\,d\lambda^k .
+\]
+Consequently $\int_{f(U)}g\,d\mathcal{H}^k = \int_Ug(f(x))\,Jf(x)\,d\lambda^k(x)$ for every Borel function $g \geq 0$ on $\RR^m$.
+\end{theorem}
+
+\begin{proof}
+For an injective linear $L \colon \RR^k \to \RR^m$ let $m(L) = \min_{|v| = 1}|Lv| > 0$. Fix $t > 1$.
+
+\emph{Step 1: a decomposition of $U$.} Call a pair $(B, L)$ of an open ball $B \subseteq U$ with rational centre and radius and an injective linear map $L$ with rational matrix \emph{good} if, for all
+$x, y \in B$,
+\begin{equation}\label{measure-theory:equation-good-pair}
+t^{-1}|L(x - y)| \leq |f(x) - f(y)| \leq t|L(x - y)| \qquad\text{and}\qquad t^{-k}JL \leq Jf(x) \leq t^kJL .
+\end{equation}
+Every $x_0 \in U$ lies in the ball of some good pair. Indeed, let $\mu_0 = m(Df(x_0)) > 0$ and $\eta = (1 - t^{-1})\mu_0/2$. Since $|m(L) - m(L^{\prime})| \leq \|L - L^{\prime}\|$, $J$ is
+continuous, and $Jf(x_0) > 0$, there is $L$ with rational matrix such that $\|Df(x_0) - L\| < \min(\eta, \mu_0)/2$ and $t^{-k}JL < Jf(x_0) < t^kJL$; then $m(L) \geq \mu_0/2$, so
+$\eta \leq (1 - t^{-1})m(L)$. By continuity of $Df$ and of $J$ there is a rational ball $B \ni x_0$ on which $\|Df - L\| \leq \eta$ and still $t^{-k}JL \leq Jf \leq t^kJL$. For $x, y \in B$, by the mean value inequality (Proposition~\ref{real-analysis:proposition-derivative-basic}(4))
+applied to $f - L$ on the convex set $B$, $|f(x) - f(y) - L(x - y)| \leq \eta|x - y| \leq (1 - t^{-1})|L(x - y)|$, which gives
+$t^{-1}|L(x - y)| \leq |f(x) - f(y)| \leq (2 - t^{-1})|L(x - y)| \leq t|L(x - y)|$. Enumerate the countably many good pairs as $(B_j, L_j)$, and let $E_j = B_j \setminus \bigcup_{i < j}B_i$; these are
+disjoint Borel sets covering $U$.
+
+\emph{Step 2: estimates on one piece.} Let $A \subseteq E_j$ be Lebesgue measurable. By \eqref{measure-theory:equation-good-pair} the map $L_j(x) \mapsto f(x)$, from $L_j(B_j)$ to $f(B_j)$, is
+$t$-Lipschitz, and so is its inverse. By Proposition~\ref{measure-theory:proposition-hausdorff}(3) and Lemma~\ref{measure-theory:lemma-jacobian}(3),
+\[
+t^{-k}JL_j\,\lambda^k(A) \leq \mathcal{H}^k(f(A)) \leq t^kJL_j\,\lambda^k(A), \qquad t^{-k}JL_j\,\lambda^k(A) \leq \int_AJf \leq t^kJL_j\,\lambda^k(A),
+\]
+the second pair by \eqref{measure-theory:equation-good-pair}. Hence $t^{-2k}\int_AJf \leq \mathcal{H}^k(f(A)) \leq t^{2k}\int_AJf$; here $\mathcal{H}^k$ is the outer measure.
+
+\emph{Step 3: measurability.} A Lebesgue measurable $A \subseteq U$ is $K \cup N$ with $K$ a countable union of compact sets and $N$ null (Theorem~\ref{measure-theory:theorem-lebesgue-measure}).
+Then $f(K)$ is a countable union of compact sets, hence Borel, and $\mathcal{H}^k(f(N)) \leq \sum_j\mathcal{H}^k(f(N \cap E_j)) = 0$ by Step 2. So $f(A)$ differs from a Borel set by an
+$\mathcal{H}^k$-null set, and it is $\mathcal{H}^k$-measurable (Theorem~\ref{measure-theory:theorem-caratheodory}).
+
+\emph{Step 4.} For measurable $A \subseteq U$, the sets $f(A \cap E_j)$ are measurable and disjoint, since $f$ is injective. Summing Step 2 over $j$,
+$t^{-2k}\int_AJf \leq \mathcal{H}^k(f(A)) \leq t^{2k}\int_AJf$, and $t > 1$ was arbitrary. For a Borel set $G \subseteq \RR^m$, applying this to $A = f^{-1}(G)$ gives the integral formula for
+$g = \mathbf{1}_G$; it follows for simple functions by linearity, and for Borel $g \geq 0$ by monotone convergence (Theorem~\ref{measure-theory:theorem-monotone-convergence}).
+\end{proof}
+
+For $k = m$ the area formula is the change of variables formula (Theorem~\ref{measure-theory:theorem-change-of-variables}), with $\mathcal{H}^m = \lambda^m$. The proof is the same idea: on small pieces
+$f$ is almost linear, and linear maps multiply measure by the Jacobian.
+
+\begin{example}\label{measure-theory:example-area-formula}
+\begin{enumerate}
+\item \emph{Length of curves.} For an injective $C^1$ curve $\gamma \colon (a, b) \to \RR^m$ with $\gamma^{\prime} \neq 0$, $\mathcal{H}^1(\gamma((a, b))) = \int_a^b|\gamma^{\prime}(t)|\,dt$. So the length
+of a curve, defined by parametrisations, is the one-dimensional Hausdorff measure of its image, which depends only on the set.
+\item \emph{Area of graphs.} For $h \colon U \to \RR$ of class $C^1$, $U \subseteq \RR^k$ open, the graph map $f(x) = (x, h(x))$ is injective with injective differential, and
+$Jf = \sqrt{\det(I + \nabla h\,\nabla h^T)} = \sqrt{1 + |\nabla h|^2}$, since $I + ww^T$ is the identity on $w^\perp$ and multiplies $w$ by $1 + |w|^2$. So the graph has area
+$\int_U\sqrt{1 + |\nabla h|^2}\,d\lambda^k$.
+\item \emph{The area of the sphere.} The upper hemisphere of $S^2$ is the graph of $h(x) = \sqrt{1 - |x|^2}$ over the open unit disc, with $|\nabla h|^2 = |x|^2/(1 - |x|^2)$ and
+$Jf = (1 - |x|^2)^{-1/2}$. In polar coordinates (Example~\ref{measure-theory:example-gaussian}), $\mathcal{H}^2 = \int_0^{2\pi}\int_0^1 r(1 - r^2)^{-1/2}\,dr\,d\theta = 2\pi$. The equator has finite $\mathcal{H}^1$-measure by (1), so it is
+$\mathcal{H}^2$-null (Proposition~\ref{measure-theory:proposition-hausdorff}(4)), and $\mathcal{H}^2(S^2) = 4\pi$.
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{measure-theory:counterexample-area-injective}
+Injectivity is needed: for $f(t) = (\cos t, \sin t)$ on $(0, 4\pi)$, $\int Jf = 4\pi$, while the image, the circle minus one point, has $\mathcal{H}^1$-measure $2\pi$. The integral counts the points of the
+image with multiplicity: in general $\int_AJf = \int_{\RR^m}\#(A \cap f^{-1}(y))\,d\mathcal{H}^k(y)$ (Remark~\ref{measure-theory:remark-area-coarea}).
+\end{counterexample}
+
+\begin{remark}\label{measure-theory:remark-area-coarea}
+\emph{The general area and coarea formulas.} By Rademacher's theorem a Lipschitz map $f \colon \RR^k \to \RR^m$ has a Jacobian almost everywhere, and the area formula holds in the generality
+\[
+\int_AJf\,d\lambda^k = \int_{\RR^m}\#\bigl(A \cap f^{-1}(y)\bigr)\,d\mathcal{H}^k(y) \qquad (k \leq m),
+\]
+for Lebesgue measurable $A$, where $\#$ is the number of points \cite[Section 3.3]{evans-gariepy}, \cite[Section 3.2]{federer-gmt}. For $k \geq m$ there is a dual statement, the \emph{coarea
+formula}: with $Jf = \sqrt{\det(Df\,Df^T)}$,
+\[
+\int_AJf\,d\lambda^k = \int_{\RR^m}\mathcal{H}^{k-m}\bigl(A \cap f^{-1}(y)\bigr)\,d\lambda^m(y) \qquad (k \geq m),
+\]
+which slices $A$ by the level sets of $f$ instead of parametrising it \cite[Section 3.4]{evans-gariepy}. For $f(x) = |x|$ on $\RR^n$, $Jf = |\nabla f| = 1$ away from $0$, and the coarea formula
+gives integration in spherical shells, $\int_{\RR^n}g\,d\lambda = \int_0^\infty\bigl(\int_{|x| = r}g\,d\mathcal{H}^{n-1}\bigr)dr$; for a $C^1$ function $u$ it gives $\int|\nabla u| =
+\int_\RR\mathcal{H}^{n-1}(\{u = s\})\,ds$, the starting point of the isoperimetric and Sobolev inequalities. A set is \emph{$k$-rectifiable} if it is covered, up to an $\mathcal{H}^k$-null set,
+by countably many Lipschitz images of subsets of $\RR^k$; these sets, which include all $k$-dimensional submanifolds, are the objects on which geometric measure theory does calculus, and
+the area formula is the bridge between them and Lebesgue measure.
+\end{remark}
+
 \section{Exercises}\label{measure-theory:section-exercises}
 
 \begin{exercise}\label{measure-theory:exercise-cantor}
@@ -791,3 +1087,42 @@ For $f \in L^1(\RR^n)$ and $g \in L^p(\RR^n)$, show using Fubini's theorem that 
 \begin{exercise}\label{measure-theory:exercise-ball-volume}
 Show that the volume of the unit ball in $\RR^n$ is $\omega_n = \pi^{n/2}/\Gamma(\frac n2 + 1)$, where $\Gamma(s) = \int_0^\infty t^{s-1}e^{-t}\,dt$, by computing $\int_{\RR^n}e^{-\|x\|^2}$ in two ways.
 \end{exercise}
+
+\begin{exercise}\label{measure-theory:exercise-middle-half-cantor}
+Let $K \subseteq [0, 1]$ be the set obtained by removing the open middle half $(\frac14, \frac34)$ of $[0, 1]$, then the open middle halves of the two remaining intervals, and so on; equivalently, the
+numbers $\sum_{k \geq 1}a_k4^{-k}$ with all $a_k \in \{0, 3\}$. Show that $\dim_{\mathcal{H}}K = \frac12$.
+\end{exercise}
+
+\begin{solution}
+Follow Example~\ref{measure-theory:example-cantor-dimension} with $3$ replaced by $4$ and the digits $\{0, 2\}$ by $\{0, 3\}$; now $s = \log 2/\log 4 = \frac12$, so $4^s = 2$. The $2^k$ intervals of
+generation $k$ have length $4^{-k}$, which gives $\mathcal{H}^{1/2}(K) \leq \alpha(\frac12)2^k4^{-k/2} = \alpha(\frac12)$. Two of them first differing at position $j \leq k$ have left ends differing by at least
+$3 \cdot 4^{-j} - \sum_{j < i \leq k}3 \cdot 4^{-i} \geq 2 \cdot 4^{-j}$, so they are at distance at least $4^{-k}$. The function $F(\sum_ka_k4^{-k}) = \sum_k(a_k/3)2^{-k}$ on $K$, extended to
+$[0, 1]$ as in Counterexample~\ref{measure-theory:counterexample-cantor-function}, is continuous and nondecreasing, and its measure $\mu_F$ (Lemma~\ref{measure-theory:lemma-stieltjes}) gives mass
+$2^{-k}$ to each interval of generation $k$ and mass $0$ to $[0, 1] \setminus K$. A closed set of diameter $d$ with $4^{-k-1} \leq d < 4^{-k}$ meets at most one interval of generation $k$, so its
+$\mu_F$-measure is at most $2^{-k} = 2 \cdot 4^{-(k+1)/2} \leq 2d^{1/2}$, and as in the example $\mathcal{H}^{1/2}(K) \geq \alpha(\frac12)/2 > 0$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-lipschitz-graph}
+Let $h \colon \RR^n \to \RR$ be Lipschitz with constant $L$ and $U \subseteq \RR^n$ a bounded open set. Show that the graph $\Gamma = \{(x, h(x)) : x \in U\}$ satisfies
+$\lambda^n(U) \leq \mathcal{H}^n(\Gamma) \leq (1 + L^2)^{n/2}\lambda^n(U)$, so that $\dim_{\mathcal{H}}\Gamma = n$, even though $h$ need not be differentiable everywhere.
+\end{exercise}
+
+\begin{solution}
+The map $g(x) = (x, h(x))$ satisfies $|g(x) - g(y)|^2 = |x - y|^2 + |h(x) - h(y)|^2 \leq (1 + L^2)|x - y|^2$, so it is $\sqrt{1 + L^2}$-Lipschitz, and its inverse, the projection
+$\Gamma \to U$, is $1$-Lipschitz. By Proposition~\ref{measure-theory:proposition-hausdorff}(3) and Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue},
+$\lambda^n(U) = \mathcal{H}^n(U) \leq \mathcal{H}^n(\Gamma) \leq (1 + L^2)^{n/2}\mathcal{H}^n(U)$. Both bounds are positive and finite, so $\mathcal{H}^s(\Gamma)$ is $\infty$ for $s < n$ and $0$ for
+$s > n$ by Proposition~\ref{measure-theory:proposition-hausdorff}(4). (By the general area formula of Remark~\ref{measure-theory:remark-area-coarea} and Rademacher's theorem,
+$\mathcal{H}^n(\Gamma) = \int_U\sqrt{1 + |\nabla h|^2}$.)
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-torus-area}
+For $R > r > 0$ let $x(u, v) = ((R + r\cos u)\cos v, (R + r\cos u)\sin v, r\sin u)$. Show that $x$ is injective with injective differential on $(0, 2\pi)^2$, that $Jx = r(R + r\cos u)$, and that
+the torus $T = x(\RR^2)$ has $\mathcal{H}^2(T) = 4\pi^2Rr$.
+\end{exercise}
+
+\begin{solution}
+$x_u = (-r\sin u\cos v, -r\sin u\sin v, r\cos u)$ and $x_v = (-(R + r\cos u)\sin v, (R + r\cos u)\cos v, 0)$ are orthogonal, of lengths $r$ and $R + r\cos u > 0$, so
+$Jx = |x_u \times x_v| = r(R + r\cos u)$ and $Dx$ is injective. The point $x(u, v)$ determines $v$ modulo $2\pi$ (its projection to the plane $z = 0$ has argument $v$) and then $u$ modulo
+$2\pi$, so $x$ is injective on $(0, 2\pi)^2$. Its image is $T$ minus the two circles $u = 0$ and $v = 0$, which have finite $\mathcal{H}^1$-measure and are therefore $\mathcal{H}^2$-null. By the area
+formula, $\mathcal{H}^2(T) = \int_0^{2\pi}\int_0^{2\pi}r(R + r\cos u)\,du\,dv = 4\pi^2Rr$.
+\end{solution}

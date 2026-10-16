@@ -16,6 +16,19 @@ references in proofs).
 
 ## Done
 
+- [x] **Geometric measure theory; dimension from roots; inversion in Lie
+  groups** (`measure-theory`, `riemannian-geometry`, `representation-theory`,
+  `lie-groups`): Hausdorff measures (metric outer measures, Lipschitz images,
+  Hausdorff dimension, $\mathcal{H}^n = c\lambda^n$ with $c = 1$ quoted via
+  the isodiametric inequality), dimension of the Cantor set with the mass
+  distribution principle, Rademacher's theorem, Jacobians of linear maps,
+  area formula for injective $C^1$ immersions (proved), general area and
+  coarea formulas (quoted), exercises (middle-half Cantor set, Lipschitz
+  graphs, torus); Riemannian measure of a submanifold = Hausdorff measure;
+  $\dim\mathfrak{g} = $ rank $+ |\Phi|$, positive roots by height and
+  counting roots from the Cartan matrix ($G_2$ worked out); exercise:
+  smoothness of inversion is automatic, Sorgenfrey line counterexample.
+
 - [x] **Semisimple Lie algebras; horizontal and vertical subspaces; change of
   coordinates** (`representation-theory`, `connections`, `lie-groups`,
   `linear-algebra`): Killing form, Cartan's criteria (proved), radical,

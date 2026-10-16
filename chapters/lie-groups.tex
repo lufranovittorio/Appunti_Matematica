@@ -779,3 +779,24 @@ $\ad e_1$ maps $e_1 \mapsto 0$, $e_2 \mapsto e_3$, $e_3 \mapsto -e_2$, so $(\ad 
 $B(e_i, e_j) = 0$ for $i \neq j$, because $\ad e_i\,\ad e_j$ maps $e_j$ and the third basis vector $e_l$ to $0$ (as $e_j \times e_l = \pm e_i$) and $e_i$ to
 $e_i \times (e_j \times e_i) = e_j$, so it has zero diagonal. So $B(x, y) = -2\,x \cdot y$.
 \end{solution}
+
+\begin{exercise}\label{lie-groups:exercise-inversion-automatic}
+\begin{enumerate}
+\item Let $G$ be a group with a smooth structure for which the multiplication $m$ is smooth. Show that the inversion is automatically smooth, so that in
+Definition~\ref{lie-groups:definition-lie-group} the condition on $i$ can be omitted. (Hint: consider $\Phi \colon G \times G \to G \times G$, $\Phi(g, h) = (g, gh)$.)
+\item Show that the analogous statement for topological groups fails: on the Sorgenfrey line $\RR_S$ (Counterexample~\ref{general-topology:counterexample-sorgenfrey}), addition
+$\RR_S \times \RR_S \to \RR_S$ is continuous, but $x \mapsto -x$ is not.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) Each $L_g$ is smooth, being the composite of $x \mapsto (g, x)$ with $m$, and it has the smooth inverse $L_{g^{-1}}$; so $d_h(L_g)$ is an isomorphism. The formula of
+Lemma~\ref{lie-groups:lemma-differential-multiplication} for $dm$ only uses the smoothness of $m$, and it gives $d_{(g, h)}\Phi(v, w) = (v, d_g(R_h)(v) + d_h(L_g)(w))$. This is injective:
+if it vanishes, then $v = 0$ and $d_h(L_g)(w) = 0$, so $w = 0$. So $d\Phi$ is everywhere an isomorphism. $\Phi$ is bijective, with inverse $(g, k) \mapsto (g, g^{-1}k)$, so by the inverse
+function theorem (Theorem~\ref{smooth-manifolds:theorem-inverse-function-manifolds}) it is a diffeomorphism. Then $i(g) = \mathrm{pr}_2(\Phi^{-1}(g, e))$ is a composite of smooth maps.
+
+(2) Let $x + y \in [c, d)$. For $\varepsilon > 0$ with $x + y + 2\varepsilon \leq d$, the open set $[x, x + \varepsilon) \times [y, y + \varepsilon)$ of $\RR_S \times \RR_S$ contains $(x, y)$ and
+is mapped into $[x + y, x + y + 2\varepsilon) \subseteq [c, d)$; so the preimage of a basic open set is open, and addition is continuous. But the preimage of the open set $[0, 1)$ under
+$x \mapsto -x$ is $(-1, 0]$, which contains $0$ and no interval $[0, \varepsilon)$, so it is not open. Thus $\RR_S$ is a group with continuous multiplication that is not a topological group. The
+difference with (1) is that a smooth structure gives the inverse function theorem, which has no topological counterpart.
+\end{solution}
