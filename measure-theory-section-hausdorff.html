@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Hausdorff measures - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="measure-theory-section-absolutely-continuous.html" /><link rel="next" href="measure-theory-section-rademacher.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">12</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">15</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">16</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">17</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">18</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">19</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">22</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">23</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">26</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2 active">
+  <a href="measure-theory.html"><span class="toc_ref">27</span> <span class="toc_entry">Measure and Integration</span></a>
+  <ul><li class="level-3">
+  <a href="measure-theory-section-introduction.html"><span class="toc_ref">27.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-measures.html"><span class="toc_ref">27.2</span> <span class="toc_entry">Measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lebesgue.html"><span class="toc_ref">27.3</span> <span class="toc_entry">Outer measures and Lebesgue measure</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-integral.html"><span class="toc_ref">27.4</span> <span class="toc_entry">The integral</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lp.html"><span class="toc_ref">27.5</span> <span class="toc_entry">Lebesgue spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-modes.html"><span class="toc_ref">27.6</span> <span class="toc_entry">Modes of convergence</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lusin.html"><span class="toc_ref">27.7</span> <span class="toc_entry">Littlewood’s principles and Lusin’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation.html"><span class="toc_ref">27.8</span> <span class="toc_entry">Differentiation of integrals</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-fubini.html"><span class="toc_ref">27.9</span> <span class="toc_entry">Product measures and Fubini’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-change-of-variables.html"><span class="toc_ref">27.10</span> <span class="toc_entry">Change of variables</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon-nikodym.html"><span class="toc_ref">27.11</span> <span class="toc_entry">The Radon–Nikodym and Riesz representation theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-absolutely-continuous.html"><span class="toc_ref">27.12</span> <span class="toc_entry">Absolutely continuous functions</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="measure-theory-section-hausdorff.html"><span class="toc_ref">27.13</span> <span class="toc_entry">Hausdorff measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-rademacher.html"><span class="toc_ref">27.14</span> <span class="toc_entry">Lipschitz maps and Rademacher’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-area-formula.html"><span class="toc_ref">27.15</span> <span class="toc_entry">The area formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-exercises.html"><span class="toc_ref">27.16</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">30</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">31</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">32</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">33</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">34</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">35</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">36</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">37</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">38</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">39</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">40</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">41</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">42</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">43</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">44</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">45</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">46</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">47</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">48</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">49</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">50</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">51</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">52</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">53</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">54</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">55</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">56</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">57</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">58</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">60</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">61</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">62</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">63</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">64</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">65</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">66</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">67</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">68</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">69</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">70</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">71</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">72</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">73</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">74</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">75</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="measure-theory.html">27 Measure and Integration</a></li></ol>
+
+<article class="main-text">
+<h1 id="measure-theory:section-hausdorff">27.13 Hausdorff measures<a class="tag" href="tag/02S4.html" title="Permanent link: tag 02S4">02S4</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>Lebesgue measure \(\lambda ^n\) measures \(n\)-dimensional volume in \(\mathbb {R}^n\), but it does not see lower-dimensional sets: a curve in the plane, or a surface in space, has measure \(0\). How long is a curve, and what is the area of a surface, without choosing a parametrisation? And how big is the Cantor set, which has measure \(0\) and is uncountable? Hausdorff measures answer these questions at once: for every \(s \geq 0\) there is an \(s\)-dimensional measure \(\mathcal{H}^s\) on any metric space, defined by covering a set with small sets \(C\) and adding up \((\operatorname {diam}C)^s\). This and the next two sections are an introduction to <em>geometric measure theory</em>: Hausdorff measure and dimension, differentiability of Lipschitz maps, and the area formula, which computes \(\mathcal{H}^k\) of parametrised \(k\)-dimensional sets. We follow <span class="cite">[<a href="Bibliography.html#evans-gariepy" >EG92</a>, Chapters 2–3]</span>; the comprehensive reference is <span class="cite">[<a href="Bibliography.html#federer-gmt" >Fed69</a>]</span>. </p>
+<p>Throughout, \(X\) is a metric space, \(\operatorname {diam}C = \sup \{ d(x, y) : x, y \in C\} \) for \(C \neq \emptyset \), and \(\operatorname {diam}\emptyset = 0\). For \(s \geq 0\) let \(\alpha (s) = \pi ^{s/2}/(2^s\Gamma (\frac s2 + 1))\), with \(\Gamma \) as in Exercise&#160;<a href="measure-theory-section-exercises.html#measure-theory:exercise-ball-volume">27.16.7</a>; for an integer \(n\), \(\alpha (n)\) is the volume of a ball of diameter \(1\) in \(\mathbb {R}^n\). The constant only serves to make \(\mathcal{H}^n\) equal to Lebesgue measure on \(\mathbb {R}^n\) (Theorem&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:theorem-hausdorff-lebesgue">27.13.4</a>); in the sums below the empty set contributes \(0\) and every nonempty set \(C\) contributes \(\alpha (s)(\operatorname {diam}C)^s\), with the convention \((\operatorname {diam}C)^0 = 1\), also when \(C\) is a single point. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="measure-theory:definition-hausdorff">
+  <div class="definition_thmheading"><a class="tag" href="tag/02S5.html" title="Permanent link: tag 02S5">02S5</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">27.13.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For \(A \subseteq X\), \(s \geq 0\) and \(\delta {\gt} 0\) let </p>
+<div class="displaymath" id="a0000000864">
+  \[  \mathcal{H}^s_\delta (A) = \inf \Bigl\{ \sum _k\alpha (s)(\operatorname {diam}C_k)^s : A \subseteq \bigcup _kC_k,\  \operatorname {diam}C_k \leq \delta \Bigr\} ,  \]
+</div>
+<p> the infimum over countable covers by sets of diameter at most \(\delta \). As \(\delta \) decreases, fewer covers are allowed and \(\mathcal{H}^s_\delta (A)\) increases; the <em>\(s\)-dimensional Hausdorff (outer) measure</em> is \(\mathcal{H}^s(A) = \lim _{\delta \to 0}\mathcal{H}^s_\delta (A) = \sup _{\delta {\gt} 0}\mathcal{H}^s_\delta (A)\). </p>
+
+  </div>
+</div>
+<p>The restriction \(\operatorname {diam}C_k \leq \delta \) is essential: with arbitrary covers, a long segment could be covered by a single set and would get the same size as a short one, while small sets are forced to follow the shape of \(A\). Replacing each \(C_k\) by its closure does not change its diameter, so closed covers give the same infimum. And \(\mathcal{H}^s(A)\) only depends on the metric space \(A\): a cover of \(A\) by subsets of \(X\) gives the cover by the sets \(C_k \cap A\), of smaller diameters. In particular an isometry \(A \to B\) between subsets of two metric spaces preserves \(\mathcal{H}^s\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="measure-theory:lemma-metric-outer-measure">
+  <div class="lemma_thmheading"><a class="tag" href="tag/02S6.html" title="Permanent link: tag 02S6">02S6</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">27.13.2</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\mu ^*\) be an outer measure on \(X\) which is <em>metric</em>: \(\mu ^*(A \cup B) = \mu ^*(A) + \mu ^*(B)\) whenever \(d(A, B) = \inf \{ d(a, b) : a \in A, b \in B\}  {\gt} 0\). Then every Borel set is \(\mu ^*\)-measurable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000865">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The measurable sets form a \(\sigma \)-algebra (Theorem&#160;<a href="measure-theory-section-lebesgue.html#measure-theory:theorem-caratheodory">27.3.2</a>), so it suffices to show that a closed set \(F\) is measurable, that is, \(\mu ^*(E \cap F) + \mu ^*(E \setminus F) \leq \mu ^*(E)\) for every \(E\) with \(\mu ^*(E) {\lt} \infty \). Let \(E_j = \{ x \in E : d(x, F) \geq 1/j\} \). Since \(d(E \cap F, E_j) \geq 1/j\), \(\mu ^*(E \cap F) + \mu ^*(E_j) = \mu ^*((E \cap F) \cup E_j) \leq \mu ^*(E)\), and it remains to show \(\mu ^*(E_j) \to \mu ^*(E \setminus F)\). Let \(R_j = \{ x \in E : \frac1{j+1} \leq d(x, F) {\lt} \frac1j\} \). As \(F\) is closed, \(E \setminus F = E_j \cup \bigcup _{i \geq j}R_i\). If \(i \geq l + 2\), then \(d(R_i, R_l) {\gt} 0\), so by induction \(\sum _{i \leq N}\mu ^*(R_{2i}) = \mu ^*(\bigcup _{i \leq N}R_{2i}) \leq \mu ^*(E)\), and similarly for the odd indices. Hence \(\sum _i\mu ^*(R_i) {\lt} \infty \), and \(\mu ^*(E \setminus F) \leq \mu ^*(E_j) + \sum _{i \geq j}\mu ^*(R_i)\), where the tail tends to \(0\). With \(\mu ^*(E_j) \leq \mu ^*(E \setminus F)\) this gives the limit. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-hausdorff">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02S7.html" title="Permanent link: tag 02S7">02S7</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">27.13.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>\(\mathcal{H}^s\) is a metric outer measure, so its restriction to the Borel sets is a measure. </p>
+</li>
+  <li><p>\(\mathcal{H}^0\) is the counting measure. </p>
+</li>
+  <li><p>If \(f \colon A \to Y\) is Lipschitz with constant \(L\), then \(\mathcal{H}^s(f(A)) \leq L^s\mathcal{H}^s(A)\). For \(X = \mathbb {R}^n\), \(\mathcal{H}^s\) is translation invariant and \(\mathcal{H}^s(rA) = r^s\mathcal{H}^s(A)\) for \(r {\gt} 0\). </p>
+</li>
+  <li><p>If \(\mathcal{H}^s(A) {\lt} \infty \) and \(t {\gt} s\), then \(\mathcal{H}^t(A) = 0\). If \(\mathcal{H}^t(A) {\gt} 0\) and \(s {\lt} t\), then \(\mathcal{H}^s(A) = \infty \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000866">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) Each \(\mathcal{H}^s_\delta \) is an outer measure: it is monotone, and given covers of the \(A_k\) with sums at most \(\mathcal{H}^s_\delta (A_k) + \varepsilon 2^{-k}\), their union covers \(\bigcup _kA_k\). Then \(\mathcal{H}^s(\bigcup _kA_k) = \sup _\delta \mathcal{H}^s_\delta (\bigcup _kA_k) \leq \sup _\delta \sum _k\mathcal{H}^s_\delta (A_k) \leq \sum _k\mathcal{H}^s(A_k)\). If \(d(A, B) {\gt} 0\) and \(\delta {\lt} d(A, B)\), no set of diameter at most \(\delta \) meets both \(A\) and \(B\), so a \(\delta \)-cover of \(A \cup B\) splits into covers of \(A\) and of \(B\), and \(\mathcal{H}^s_\delta (A \cup B) \geq \mathcal{H}^s_\delta (A) + \mathcal{H}^s_\delta (B)\); let \(\delta \to 0\). Apply Lemma&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:lemma-metric-outer-measure">27.13.2</a>. </p>
+<p>(2) \(\alpha (0) = 1\). A set of \(N\) points needs at least \(N\) nonempty sets of diameter less than the smallest distance between the points, and the \(N\) singletons suffice; so \(\mathcal{H}^0_\delta \) of it is \(N\) for small \(\delta \). An infinite set contains finite sets of every size. </p>
+<p>(3) If \((C_k)\) is a \(\delta \)-cover of \(A\), then \((f(C_k \cap A))\) is an \(L\delta \)-cover of \(f(A)\) with \(\operatorname {diam}f(C_k \cap A) \leq L\operatorname {diam}C_k\); so \(\mathcal{H}^s_{L\delta }(f(A)) \leq L^s\mathcal{H}^s_\delta (A)\). Translations are isometries, and \(x \mapsto rx\) multiplies diameters by \(r\), with inverse \(x \mapsto x/r\). </p>
+<p>(4) For a \(\delta \)-cover, \(\sum _k\alpha (t)(\operatorname {diam}C_k)^t \leq \frac{\alpha (t)}{\alpha (s)}\delta ^{t-s}\sum _k\alpha (s)(\operatorname {diam}C_k)^s\), so \(\mathcal{H}^t_\delta (A) \leq \frac{\alpha (t)}{\alpha (s)}\delta ^{t-s}\mathcal{H}^s_\delta (A) \leq \frac{\alpha (t)}{\alpha (s)}\delta ^{t-s}\mathcal{H}^s(A) \to 0\). The second statement is the contrapositive. </p>
+
+  </div>
+</div>
+<p>By (4), for each \(A\) there is a unique \(s_0 \in [0, \infty ]\) with \(\mathcal{H}^s(A) = \infty \) for \(s {\lt} s_0\) and \(\mathcal{H}^s(A) = 0\) for \(s {\gt} s_0\); it is the <em>Hausdorff dimension</em> \(\dim _{\mathcal{H}}A = \inf \{ s : \mathcal{H}^s(A) = 0\} \). At \(s = s_0\) the measure can be anything in \([0, \infty ]\). By (3), Lipschitz maps do not increase Hausdorff dimension, and bi-Lipschitz maps preserve it. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-hausdorff-lebesgue">
+  <div class="theorem_thmheading"><a class="tag" href="tag/02S8.html" title="Permanent link: tag 02S8">02S8</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.13.4</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> On the Borel sets of \(\mathbb {R}^n\), \(\mathcal{H}^n = \lambda ^n\). Consequently the subsets of \(\mathbb {R}^n\) have Hausdorff dimension at most \(n\), and nonempty open subsets have dimension \(n\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000867">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We show that \(\mathcal{H}^n = c\lambda ^n\) for a constant \(0 {\lt} c {\lt} \infty \); that \(c = 1\) is the content of the <em>isodiametric inequality</em> \(\lambda ^n(C) \leq \alpha (n)(\operatorname {diam}C)^n\), which says that among sets of given diameter the balls have the largest volume, together with Vitali’s covering theorem, and we refer to <span class="cite">[<a href="Bibliography.html#evans-gariepy" >EG92</a>, Section 2.2]</span> for these two steps. </p>
+<p><em>The constant.</em> Let \(Q = [0, 1)^n\). Covering \(Q\) by \(m^n\) cubes of side \(1/m\) and diameter \(\sqrt n/m\) gives \(\mathcal{H}^n_{\sqrt n/m}(Q) \leq \alpha (n)n^{n/2}\), so \(\mathcal{H}^n(Q) {\lt} \infty \). Conversely, a set \(C\) of diameter \(d\) lies in a closed box with sides \(d\) (each coordinate varies by at most \(d\) on \(C\)), so \(\lambda ^*(C) \leq d^n\); for any cover of \(Q\), \(\sum _k\alpha (n)(\operatorname {diam}C_k)^n \geq \alpha (n)\sum _k\lambda ^*(C_k) \geq \alpha (n)\), so \(c = \mathcal{H}^n(Q) \geq \alpha (n) {\gt} 0\). </p>
+<p><em>Comparison.</em> \(\mathcal{H}^n\) is a translation invariant measure on the Borel sets (Proposition&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:proposition-hausdorff">27.13.3</a>). For \(j \geq 0\), \(Q\) is the disjoint union of \(2^{jn}\) translates of \([0, 2^{-j})^n\), so every half-open dyadic cube \(\prod _i[a_i2^{-j}, (a_i + 1)2^{-j})\) (\(a_i \in \mathbb {Z}\), \(j \in \mathbb {Z}\)) has \(\mathcal{H}^n\)-measure \(c2^{-jn} = c\lambda ^n\) of it; for \(j {\lt} 0\) use that such a cube is a disjoint union of \(2^{-jn}\) unit cubes. Fix \(m \geq 0\) and \(P = [-2^m, 2^m)^n\). The dyadic cubes contained in \(P\), together with \(P\), form a family closed under finite intersections, on which \(\mathcal{H}^n\) and \(c\lambda ^n\) agree and are finite. By Lemma&#160;<a href="measure-theory-section-lebesgue.html#measure-theory:lemma-dynkin">27.3.6</a> the two measures agree on the \(\sigma \)-algebra it generates, which contains every open subset of the interior of \(P\) (a countable union of dyadic cubes), hence every Borel subset of the interior. The boundary of \(P\) is a finite union of pieces of hyperplanes, which are null for both measures: a piece \([0, 1]^{n-1} \times \{ 0\} \) is covered by \(j^{n-1}\) cubes of diameter \(\sqrt n/j\), with \(\sum \alpha (n)(\operatorname {diam})^n \to 0\) as \(j \to \infty \). So the two measures agree on the Borel subsets of \(P\), and letting \(m \to \infty \), on all Borel sets. </p>
+<p>The last statement follows from Proposition&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:proposition-hausdorff">27.13.3</a>(4): \(\mathcal{H}^n\) is finite on bounded sets and \(\mathbb {R}^n\) is a countable union of them, so \(\mathcal{H}^t = 0\) for \(t {\gt} n\), while a nonempty open set has positive \(\mathcal{H}^n\)-measure. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-cantor-dimension">
+  <div class="example_thmheading"><a class="tag" href="tag/02S9.html" title="Permanent link: tag 02S9">02S9</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.13.5</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>The Cantor set has Hausdorff dimension \(s = \log 2/\log 3\)</em>, and \(\alpha (s)/2 \leq \mathcal{H}^s(C) \leq \alpha (s)\); note \(3^s = 2\). Let \(C \subseteq [0, 1]\) be as in Counterexample&#160;<a href="measure-theory-section-differentiation.html#measure-theory:counterexample-cantor-function">27.8.7</a>. For \(k \geq 0\) and digits \(a_1, \ldots , a_k \in \{ 0, 2\} \) let \(I_{a_1\cdots a_k}\) be the closed interval with left end \(\sum _{j \leq k}a_j3^{-j}\) and length \(3^{-k}\); there are \(2^k\) of them, and \(C\) is contained in their union \(C_k\), since the digits beyond the \(k\)-th contribute at most \(3^{-k}\). </p>
+<ol class="enumerate">
+  <li><p><em>Upper bound.</em> The \(2^k\) intervals form a \(3^{-k}\)-cover of \(C\) with \(\sum \alpha (s)3^{-ks} = \alpha (s)2^k3^{-ks} = \alpha (s)\). So \(\mathcal{H}^s(C) \leq \alpha (s)\). </p>
+</li>
+  <li><p><em>Separation.</em> Two of these intervals of the same generation \(k\) are at distance at least \(3^{-k}\): if their digit strings first differ at position \(j \leq k\), their left ends differ by at least \(2 \cdot 3^{-j} - \sum _{j {\lt} i \leq k}2 \cdot 3^{-i} = 3^{-j} + 3^{-k} \geq 2 \cdot 3^{-k}\). So a set of diameter less than \(3^{-k}\) meets at most one of them. </p>
+</li>
+  <li><p><em>The Cantor measure.</em> Let \(\mu = \mu _F\) be the measure of Lemma&#160;<a href="measure-theory-section-absolutely-continuous.html#measure-theory:lemma-stieltjes">27.12.3</a> for the Cantor function \(F\). Since \(F\) is constant on each interval of \([0, 1] \setminus C\), \(\mu ([0, 1] \setminus C) = 0\) and \(\mu (C) = F(1) - F(0) = 1\). On the generation-\(k\) interval \(I\) with left end \(a = \sum _{j \leq k}a_j3^{-j}\) and right end \(a + \sum _{j {\gt} k}2 \cdot 3^{-j}\), \(\mu (I) = F(a + 3^{-k}) - F(a) = \sum _{j {\gt} k}2^{-j} = 2^{-k}\), by the formula for \(c\) on \(C\). </p>
+</li>
+  <li><p><em>Lower bound.</em> Let \(U\) be a closed set with \(0 {\lt} \operatorname {diam}U = d {\lt} 1\), and \(k\) with \(3^{-k-1} \leq d {\lt} 3^{-k}\). By (2), \(U\) meets at most one generation-\(k\) interval \(I\), and \(\mu (U) \leq \mu (I) + \mu ([0, 1] \setminus C) = 2^{-k} = 3^s3^{-(k+1)s} \leq 2d^s\); for a single point, \(\mu (U) = 0\). For a cover of \(C\) by closed sets \(U_i\) of diameter less than \(1\), \(1 = \mu (C) \leq \sum _i\mu (U_i \cap [0, 1]) \leq 2\sum _i(\operatorname {diam}U_i)^s\). Hence \(\mathcal{H}^s_\delta (C) \geq \alpha (s)/2\) for \(\delta {\lt} 1\). </p>
+</li>
+</ol>
+<p> The argument in (4), bounding the mass that a measure on \(A\) gives to small sets, is the <em>mass distribution principle</em>, the standard way to bound Hausdorff measures from below. So the Cantor set is too small to have positive length but too large to have zero \(s\)-dimensional measure for any \(s {\lt} \log 2/\log 3 \approx 0.63\). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="measure-theory-section-absolutely-continuous.html"><span class="dir">Previous</span> Absolutely continuous functions</a><a class="next" href="measure-theory-section-rademacher.html"><span class="dir">Next</span> Lipschitz maps and Rademacher’s theorem</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

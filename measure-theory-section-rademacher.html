@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Lipschitz maps and Rademacher’s theorem - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="measure-theory-section-hausdorff.html" /><link rel="next" href="measure-theory-section-area-formula.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">12</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">15</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">16</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">17</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">18</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">19</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">22</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">23</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">26</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2 active">
+  <a href="measure-theory.html"><span class="toc_ref">27</span> <span class="toc_entry">Measure and Integration</span></a>
+  <ul><li class="level-3">
+  <a href="measure-theory-section-introduction.html"><span class="toc_ref">27.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-measures.html"><span class="toc_ref">27.2</span> <span class="toc_entry">Measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lebesgue.html"><span class="toc_ref">27.3</span> <span class="toc_entry">Outer measures and Lebesgue measure</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-integral.html"><span class="toc_ref">27.4</span> <span class="toc_entry">The integral</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lp.html"><span class="toc_ref">27.5</span> <span class="toc_entry">Lebesgue spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-modes.html"><span class="toc_ref">27.6</span> <span class="toc_entry">Modes of convergence</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lusin.html"><span class="toc_ref">27.7</span> <span class="toc_entry">Littlewood’s principles and Lusin’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation.html"><span class="toc_ref">27.8</span> <span class="toc_entry">Differentiation of integrals</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-fubini.html"><span class="toc_ref">27.9</span> <span class="toc_entry">Product measures and Fubini’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-change-of-variables.html"><span class="toc_ref">27.10</span> <span class="toc_entry">Change of variables</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon-nikodym.html"><span class="toc_ref">27.11</span> <span class="toc_entry">The Radon–Nikodym and Riesz representation theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-absolutely-continuous.html"><span class="toc_ref">27.12</span> <span class="toc_entry">Absolutely continuous functions</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-hausdorff.html"><span class="toc_ref">27.13</span> <span class="toc_entry">Hausdorff measures</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="measure-theory-section-rademacher.html"><span class="toc_ref">27.14</span> <span class="toc_entry">Lipschitz maps and Rademacher’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-area-formula.html"><span class="toc_ref">27.15</span> <span class="toc_entry">The area formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-exercises.html"><span class="toc_ref">27.16</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">30</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">31</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">32</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">33</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">34</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">35</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">36</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">37</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">38</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">39</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">40</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">41</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">42</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">43</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">44</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">45</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">46</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">47</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">48</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">49</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">50</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">51</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">52</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">53</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">54</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">55</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">56</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">57</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">58</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">60</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">61</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">62</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">63</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">64</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">65</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">66</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">67</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">68</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">69</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">70</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">71</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">72</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">73</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">74</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">75</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="measure-theory.html">27 Measure and Integration</a></li></ol>
+
+<article class="main-text">
+<h1 id="measure-theory:section-rademacher">27.14 Lipschitz maps and Rademacher’s theorem<a class="tag" href="tag/02SA.html" title="Permanent link: tag 02SA">02SA</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>A Lipschitz function of one variable is absolutely continuous, hence differentiable almost everywhere (Example&#160;<a href="measure-theory-section-absolutely-continuous.html#measure-theory:example-absolutely-continuous">27.12.5</a>). Rademacher’s theorem extends this to several variables. It is the reason why Lipschitz maps are the natural class of maps in geometric measure theory: they are just regular enough to have a derivative almost everywhere, and they are preserved by the operations of the theory (distance functions, compositions, restrictions, inverses of bi-Lipschitz maps), which smooth maps are not. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="measure-theory:lemma-vanishing-integrals">
+  <div class="lemma_thmheading"><a class="tag" href="tag/02SB.html" title="Permanent link: tag 02SB">02SB</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">27.14.1</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(g \in L^1_{\mathrm{loc}}(\mathbb {R}^n)\) and \(\int g\varphi \, d\lambda = 0\) for all compactly supported functions \(\varphi \) of class \(C^1\), then \(g = 0\) almost everywhere. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000868">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\psi (s) = 3s^2 - 2s^3\) for \(0 \leq s \leq 1\), \(\psi = 0\) for \(s {\lt} 0\) and \(\psi = 1\) for \(s {\gt} 1\), a \(C^1\) function. For a ball \(B(x, r)\) and \(j {\gt} 1/r\) let \(\varphi _j(y) = \psi (j(r - \| y - x\| ))\); it is \(C^1\), since it is constant near \(y = x\), takes values in \([0, 1]\), vanishes outside \(B(x, r)\), and \(\varphi _j \to \mathbf{1}_{B(x, r)}\) pointwise. By dominated convergence \(\int _{B(x, r)}g = 0\) for all balls, and by the Lebesgue differentiation theorem (Theorem&#160;<a href="measure-theory-section-differentiation.html#measure-theory:theorem-lebesgue-differentiation">27.8.4</a>), \(g(x) = \lim _{r \to 0}A_rg(x) = 0\) for almost every \(x\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-rademacher">
+  <div class="theorem_thmheading"><a class="tag" href="tag/02SC.html" title="Permanent link: tag 02SC">02SC</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.14.2</span>
+    <span class="theorem_thmtitle">Rademacher</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Every Lipschitz map \(f \colon \mathbb {R}^n \to \mathbb {R}^m\) is differentiable at almost every point of \(\mathbb {R}^n\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000869">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>It suffices to treat \(m = 1\), applying the result to the components. Let \(L\) be a Lipschitz constant. For a unit vector \(v\) and \(x \in \mathbb {R}^n\) let \(D_vf(x) = \lim _{t \to 0}(f(x + tv) - f(x))/t\) where the limit exists. </p>
+<p><em>Step 1: for each \(v\), \(D_vf(x)\) exists for almost every \(x\).</em> As the difference quotients are continuous in \(t \neq 0\), the limit exists if and only if the \(\limsup \) and \(\liminf \) over rational \(t \to 0\) are equal and finite, so the set \(N_v\) where it fails is Borel, and \(D_vf\) is Borel measurable where defined, with \(|D_vf| \leq L\). Choose an orthogonal map \(R\) with \(Re_1 = v\); it preserves \(\lambda \) (Lemma&#160;<a href="measure-theory-section-change-of-variables.html#measure-theory:lemma-linear-change">27.10.1</a>), and \(f \circ R\) is Lipschitz. For each \(y \in \mathbb {R}^{n-1}\), \(t \mapsto f(R(t, y))\) is a Lipschitz function of one variable, differentiable almost everywhere (Example&#160;<a href="measure-theory-section-absolutely-continuous.html#measure-theory:example-absolutely-continuous">27.12.5</a>); so every line parallel to \(e_1\) meets \(R^{-1}(N_v)\) in a null set, and by Tonelli’s theorem (Theorem&#160;<a href="measure-theory-section-fubini.html#measure-theory:theorem-fubini">27.9.3</a>) \(\lambda (N_v) = \lambda (R^{-1}(N_v)) = 0\). In particular the gradient \(\nabla f = (D_{e_1}f, \ldots , D_{e_n}f)\) exists almost everywhere, and \(|\nabla f| \leq \sqrt nL\). </p>
+<p><em>Step 2: \(D_vf = \langle v, \nabla f\rangle \) almost everywhere.</em> Let \(\varphi \) be \(C^1\) with compact support. By translation invariance, </p>
+<div class="displaymath" id="a0000000870">
+  \[  \int \frac{f(x + tv) - f(x)}{t}\varphi (x)\, dx = -\int f(x)\frac{\varphi (x) - \varphi (x - tv)}{t}\, dx .  \]
+</div>
+<p> Let \(t = 1/j \to 0\). On the left the integrands converge almost everywhere to \(D_vf\, \varphi \) and are bounded by \(L|\varphi |\); on the right they converge to \(f\, D_v\varphi = f\langle v, \nabla \varphi \rangle \) and are bounded by a constant times the indicator of a compact set, by the mean value inequality and the continuity of \(f\). By dominated convergence, \(\int D_vf\, \varphi = -\int f\langle v, \nabla \varphi \rangle = -\sum _iv_i\int f\, \partial _i\varphi = \sum _iv_i\int D_{e_i}f\, \varphi \), the last equality being the first one for \(v = e_i\). So \(\int (D_vf - \langle v, \nabla f\rangle )\varphi = 0\) for all \(\varphi \), and Lemma&#160;<a href="measure-theory-section-rademacher.html#measure-theory:lemma-vanishing-integrals">27.14.1</a> applies. </p>
+<p><em>Step 3: differentiability.</em> Let \((v_k)\) be a dense sequence in the unit sphere, and let \(A\) be the set of points where \(\nabla f\) and all \(D_{v_k}f\) exist and \(D_{v_k}f = \langle v_k, \nabla f\rangle \); its complement is a countable union of null sets. Fix \(x \in A\), and for a unit vector \(v\) and \(t \neq 0\) put \(Q(v, t) = (f(x + tv) - f(x))/t - \langle v, \nabla f(x)\rangle \). Then \(|Q(v, t) - Q(v^{\prime }, t)| \leq (L + \sqrt nL)|v - v^{\prime }|\). Given \(\varepsilon {\gt} 0\), by compactness of the sphere there is \(N\) such that every unit vector is within \(\varepsilon /(2(1 + \sqrt n)L)\) of some \(v_k\) with \(k \leq N\), and there is \(\delta {\gt} 0\) with \(|Q(v_k, t)| {\lt} \varepsilon /2\) for \(0 {\lt} |t| {\lt} \delta \) and \(k \leq N\). Then \(|Q(v, t)| {\lt} \varepsilon \) for all unit vectors \(v\) and \(0 {\lt} |t| {\lt} \delta \), that is, \(|f(x + h) - f(x) - \langle \nabla f(x), h\rangle | \leq \varepsilon |h|\) for \(|h| {\lt} \delta \). So \(f\) is differentiable at \(x\), with derivative \(h \mapsto \langle \nabla f(x), h\rangle \). </p>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="measure-theory:counterexample-rademacher">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/02SD.html" title="Permanent link: tag 02SD">02SD</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">27.14.3</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>Continuity is not enough: the Takagi function (Theorem&#160;<a href="real-analysis-section-function-sequences.html#real-analysis:theorem-takagi">26.9.8</a>) is continuous and differentiable nowhere, so it is not Lipschitz on any interval. </p>
+</li>
+  <li><p>The exceptional null set can be dense. Let \(q_1, q_2, \ldots \) be an enumeration of \(\mathbb {Q}\) and \(f(x) = \sum _j2^{-j}|x - q_j|\), a \(1\)-Lipschitz function on \(\mathbb {R}\). For \(h {\gt} 0\), </p>
+<div class="displaymath" id="a0000000871">
+  \[  \frac{f(q_k + h) - f(q_k)}{h} - \frac{f(q_k) - f(q_k - h)}{h} = \sum _j2^{-j}\, \frac{|q_k - q_j + h| + |q_k - q_j - h| - 2|q_k - q_j|}{h} \geq 2^{1-k},  \]
+</div>
+<p> since every term is \(\geq 0\) by the triangle inequality and the term \(j = k\) is \(2^{1-k}\). If \(f\) were differentiable at \(q_k\) the left side would tend to \(0\); so \(f\) is differentiable at no rational point. </p>
+</li>
+  <li><p>Existence of all directional derivatives at a point does not imply differentiability there, even for Lipschitz functions: \(f(x, y) = x^2y/(x^2 + y^2)\), \(f(0, 0) = 0\), is Lipschitz, has \(D_vf(0) = f(v)\) for every unit vector \(v\), and \(v \mapsto f(v)\) is not linear. Step 3 of the proof is where the Lipschitz condition turns directional derivatives into a derivative. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="measure-theory-section-hausdorff.html"><span class="dir">Previous</span> Hausdorff measures</a><a class="next" href="measure-theory-section-area-formula.html"><span class="dir">Next</span> The area formula</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>
