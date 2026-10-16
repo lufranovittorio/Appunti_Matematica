@@ -21,6 +21,8 @@ the tangent bundle and the tautological bundles worked out.
 (Section~\ref{vector-bundles:section-operations}).
 \item Complex line bundles: their classification by $H^2(M; \ZZ)$, and an elementary classification on the sphere by the winding number of a transition function
 (Section~\ref{vector-bundles:section-line-bundles}).
+\item Parallelizable manifolds, whose tangent bundle is trivial: Lie groups, $S^3$, $S^1 \times S^n$, and the theorem that $S^n$ is parallelizable only for $n = 0, 1, 3, 7$
+(Section~\ref{vector-bundles:section-parallelizable}).
 \end{enumerate}
 References: \cite{lee-smooth-manifolds}, \cite{milnor-stasheff}, \cite[Chapter 0]{griffiths-harris}.
 
@@ -435,6 +437,65 @@ classes $c_k(E) \in H^{2k}(M; \ZZ)$ are pulled back from universal classes on th
 with the class above.
 \end{remark}
 
+\section{Parallelizable manifolds}\label{vector-bundles:section-parallelizable}
+
+The most natural question about the tangent bundle is whether it is trivial. A trivialisation $TM \cong M \times \RR^n$ lets one compare tangent vectors at different points, and decide when two of them
+are ``parallel'' independently of any path, which is the origin of the name.
+
+\begin{definition}\label{vector-bundles:definition-parallelizable}
+A smooth $n$-manifold $M$ is \emph{parallelizable} if its tangent bundle is trivial; equivalently (Proposition~\ref{vector-bundles:proposition-frames}(1)), if there are vector fields $X_1, \ldots, X_n$ on $M$ that are
+linearly independent at every point, a \emph{global frame}.
+\end{definition}
+
+Then every vector field is uniquely $\sum_if^iX_i$ with smooth functions $f^i$, the components of a field are defined on all of $M$, and a vector at one point is transported to every other point by
+keeping its components constant.
+
+\begin{example}\label{vector-bundles:example-parallelizable}
+\begin{enumerate}
+\item $\RR^n$ and its open subsets, with the frame $\partial_1, \ldots, \partial_n$; the torus $T^n = \RR^n/\ZZ^n$, since the fields $\partial_i$ are invariant under translations and descend to $T^n$.
+\item \emph{Lie groups.} If $v_1, \ldots, v_n$ is a basis of $T_eG$, the left-invariant fields $X_i(g) = d_e(L_g)(v_i)$ are smooth (Proposition~\ref{lie-groups:proposition-left-invariant}) and linearly independent at every
+$g$, because $d_eL_g$ is an isomorphism, $L_g$ being a diffeomorphism. So every Lie group is parallelizable: $S^1$, $\GL_n(\RR)$, $\mathrm{SO}(n)$, $\mathrm{U}(n)$, and $\mathrm{SU}(2) \cong S^3$
+(Example~\ref{lie-groups:example-su2}).
+\item \emph{The sphere $S^3$}, explicitly. Identify $\RR^4$ with the quaternions, $x = x_0 + x_1i + x_2j + x_3k$. Right multiplication by $i$, $j$, $k$ gives
+\[
+xi = (-x_1, x_0, x_3, -x_2), \qquad xj = (-x_2, -x_3, x_0, x_1), \qquad xk = (-x_3, x_2, -x_1, x_0),
+\]
+and for $|x| = 1$ the four vectors $x$, $xi$, $xj$, $xk$ are orthonormal (a direct check of the inner products, for instance $\langle x, xi\rangle = -x_0x_1 + x_1x_0 + x_2x_3 - x_3x_2 = 0$). So $xi$, $xj$, $xk$ are
+three vector fields tangent to $S^3$ (orthogonal to $x$) and orthonormal at every point: a global frame.
+\item \emph{Products.} By Proposition~\ref{smooth-manifolds:proposition-product-tangent}, $T_{(p,q)}(M \times N) = T_pM \oplus T_qN$; so if $M$ and $N$ are parallelizable, the frames of $M$ and of $N$,
+regarded as vector fields on $M \times N$, form a global frame of $M \times N$.
+\item \emph{The manifolds $S^1 \times S^n$} are parallelizable for every $n$, although $S^2$ is not. With $\theta$ the coordinate of $S^1$, and $x \in S^n \subseteq \RR^{n+1}$, the $n + 1$ fields
+\[
+Y_i(\theta, x) = \langle e_i, x\rangle\,\partial_\theta + \bigl(e_i - \langle e_i, x\rangle x\bigr), \qquad i = 1, \ldots, n + 1,
+\]
+are tangent to $S^1 \times S^n$ (the second part is the tangential part of $e_i$), and they are linearly independent at every point: if $\sum_ic_iY_i = 0$ with $c = \sum_ic_ie_i$, then $\langle c, x\rangle = 0$ and
+$c - \langle c, x\rangle x = 0$, so $c = 0$. This is the stable triviality of $TS^n$ (Example~\ref{vector-bundles:example-stably-trivial}) made explicit: the trivial line $\RR\,\partial_\theta$ of the circle plays the role of the
+normal line $\RR x$.
+\end{enumerate}
+\end{example}
+
+The sphere $S^2$ is not parallelizable, as it has no nowhere vanishing vector field at all, and more generally the even-dimensional spheres $S^{2m}$ are not, by the hairy ball theorem
+(Corollary~\ref{singular-homology:corollary-sphere-applications}(2)); for $S^2$ this also follows from $TS^2 \cong T\CC\PP^1$ having degree $2$ (Example~\ref{vector-bundles:example-degrees}). The odd-dimensional spheres
+have a nowhere vanishing field, $x \mapsto (-x_2, x_1, -x_4, x_3, \ldots)$, but one field is far from a frame, and the answer for spheres is a deep theorem.
+
+\begin{theorem}\label{vector-bundles:theorem-parallelizable-spheres}
+The sphere $S^n$ is parallelizable if and only if $n = 0$, $1$, $3$ or $7$.
+\end{theorem}
+
+For $n = 1$ and $n = 3$ this is Example~\ref{vector-bundles:example-parallelizable}, and for $n = 7$ the same construction with the octonions, an eight-dimensional normed algebra that is not associative,
+gives seven orthonormal fields. That no other sphere is parallelizable was proved independently by Bott and Milnor \cite{bott-milnor-1958} and by Kervaire \cite{kervaire-1958}; it is closely related to
+the theorem that $\RR^n$ carries a bilinear multiplication without zero divisors only for $n = 1, 2, 4, 8$, and to Adams' theorem on the Hopf invariant \cite{adams-1960}
+(Corollary~\ref{cohomology-operations:corollary-hopf-invariant} is its first step).
+
+\begin{remark}\label{vector-bundles:remark-parallelizable-obstructions}
+Several necessary conditions for parallelizability appear in later chapters. A parallelizable manifold is orientable: the dual coframe of a global frame gives a nowhere vanishing $n$-form
+(Chapter~\ref{differential-forms}). A compact parallelizable manifold has a nowhere vanishing vector field, so its Euler characteristic is $0$ by the Poincar\'e--Hopf theorem, and all the characteristic
+classes of its tangent bundle vanish (Chapter~\ref{characteristic-classes}); this rules out, for example, all compact orientable surfaces except the torus and all complex projective spaces. These
+conditions are not sufficient: $S^5$ is orientable, has Euler characteristic $0$ and, being stably parallelizable, vanishing characteristic classes, but it is not parallelizable by
+Theorem~\ref{vector-bundles:theorem-parallelizable-spheres}. Finally, a global frame $(X_i)$ defines a connection by declaring the $X_i$ parallel, $\nabla(\sum_if^iX_i) = \sum_idf^i \otimes X_i$; it is flat, its
+parallel transport does not depend on the path, and conversely a flat connection with trivial holonomy on a connected manifold produces a global parallel frame (Chapter~\ref{connections}).
+\end{remark}
+
 \section{Exercises}\label{vector-bundles:section-exercises}
 
 \begin{exercise}\label{vector-bundles:exercise-mobius}
@@ -531,4 +592,16 @@ Let $E$ be the M\"obius bundle. Show that $E \oplus (S^1 \times \RR)$ is not tri
 Sections of $E \oplus (S^1 \times \RR)$ are pairs $(f, g)$ with $f(x + 1) = -f(x)$ and $g(x + 1) = g(x)$. If it were trivial, its determinant line bundle $\det(E \oplus \RR) \cong E$
 (Proposition~\ref{vector-bundles:proposition-operations}(3)) would be trivial. For $E \oplus E$, the sections $(\cos\pi x, \sin\pi x)$ and $(-\sin\pi x, \cos\pi x)$ are anti-periodic, hence
 sections, and linearly independent everywhere (Example~\ref{vector-bundles:example-mobius-square}).
+\end{solution}
+
+\begin{exercise}\label{vector-bundles:exercise-rp3-parallelizable}
+Show that $\RR\PP^3 = S^3/\{\pm1\}$ is parallelizable, by checking that the vector fields $xi$, $xj$, $xk$ of Example~\ref{vector-bundles:example-parallelizable}(3) descend to $\RR\PP^3$. Show also that
+$T^2 \times S^2$ is parallelizable.
+\end{exercise}
+
+\begin{solution}
+Let $a(x) = -x$ be the antipodal map and $\pi \colon S^3 \to \RR\PP^3$ the projection, a local diffeomorphism with $\pi \circ a = \pi$. For $X(x) = xi$, $d_xa(X(x)) = -xi = (-x)i = X(a(x))$, so the vectors
+$d_x\pi(X(x))$ and $d_{-x}\pi(X(-x)) = d_{-x}\pi(d_xa(X(x))) = d_x(\pi \circ a)(X(x))$ agree: $Y(\pi(x)) = d_x\pi(X(x))$ is a well-defined vector field on $\RR\PP^3$, smooth because $\pi$ has smooth local inverses. The
+same holds for $xj$ and $xk$, and the three fields are linearly independent at every point because $d_x\pi$ is an isomorphism. (Alternatively, $\RR\PP^3$ is diffeomorphic to the Lie group $\mathrm{SO}(3)$.)
+Finally $T^2 \times S^2 = S^1 \times (S^1 \times S^2)$ is a product of parallelizable manifolds, by Example~\ref{vector-bundles:example-parallelizable}(4) and (5).
 \end{solution}

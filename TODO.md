@@ -16,6 +16,13 @@ references in proofs).
 
 ## Done
 
+- [x] **Parallelizable manifolds** (`vector-bundles`, `characteristic-classes`):
+  definition, examples (open sets, tori, Lie groups, $S^3$ with quaternions,
+  products, $S^1 \times S^n$ with an explicit frame), even spheres excluded by
+  the hairy ball theorem, the theorem on spheres quoted from Bott–Milnor and
+  Kervaire, obstructions (orientability, $\chi = 0$, characteristic classes)
+  and the counterexample $S^5$; exercise on $\mathbb{RP}^3$ and $T^2 \times S^2$.
+
 - [x] **Covariant derivative as tangential projection** (`riemannian-geometry`):
   corollary for submanifolds of $\mathbb{R}^N$ ($\nabla_XY = P(X(Y))$, $D_tV = P(V')$,
   geodesics have normal acceleration), identification with the projection
