@@ -16,6 +16,18 @@ references in proofs).
 
 ## Done
 
+- [x] **Hopf fibrations; notation for the second fundamental form**
+  (`topological-manifolds`, `riemannian-geometry`): fibre bundles (quoted:
+  bundles are Serre fibrations), quaternionic projective space, the Hopf
+  fibrations $S^n \to \mathbb{RP}^n$, $S^{2n+1} \to \mathbb{CP}^n$, $S^{4n+3} \to
+  \mathbb{HP}^n$ with explicit local trivialisations, $\mathbb{HP}^1 \cong S^4$,
+  octonionic $S^{15} \to S^8$ quoted, consequences for homotopy groups
+  ($\pi_3(S^2) \cong \pi_3(S^3)$, $\pi_k(S^4) \cong \pi_{k-1}(S^3)$ for $k \le 6$,
+  $\pi_7(S^7) \hookrightarrow \pi_7(S^4)$), exercise on the two solid tori; a
+  remark collecting the equivalent expressions of the second fundamental form
+  ($\langle S v, w\rangle = -\langle\overline\nabla_v\nu, w\rangle = -\langle d\nu(v), w\rangle$, co-orientation,
+  Gauss map, Gauss equation in the usual notation).
+
 - [x] **Gradient, Hessian, divergence and Laplacian** (`riemannian-geometry`, new
   section after covariant derivatives along curves): definitions, coordinate
   formulas (with $\sum_i\Gamma^i_{ij} = \partial_j\log\sqrt{\det g}$), steepest

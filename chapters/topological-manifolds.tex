@@ -5,11 +5,14 @@
 
 A topological manifold is a space that looks locally like $\RR^n$. The definition has three axioms: locally Euclidean, Hausdorff and second countable. This chapter explains why each is there, by
 counterexamples showing that none follows from the other two (Section~\ref{topological-manifolds:section-manifolds}), and develops the two main ways of producing manifolds from old ones: quotients by
-group actions (Sections~\ref{topological-manifolds:section-groups} to~\ref{topological-manifolds:section-quotients}) and gluing (Section~\ref{topological-manifolds:section-gluing}). Smooth structures come in
+group actions (Sections~\ref{topological-manifolds:section-groups} to~\ref{topological-manifolds:section-quotients}) and gluing (Section~\ref{topological-manifolds:section-gluing}). The quotients of spheres by the
+unit elements of $\RR$, $\CC$ and the quaternions give the projective spaces and the Hopf fibrations $S^{2n+1} \to \CC\PP^n$ and $S^{4n+3} \to \mathbb{H}\PP^n$, with their consequences for the homotopy groups of
+spheres (Section~\ref{topological-manifolds:section-hopf}). Smooth structures come in
 Chapter~\ref{smooth-manifolds}, and homological invariants such as the dimension and the orientation in Chapter~\ref{poincare-duality}. References: \cite{munkres-topology}, \cite{hatcher-at},
 \cite{lee-smooth-manifolds}.
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{homotopy} (Homotopy and Covering Spaces) and Chapter~\ref{groups} (Groups).
+\noindent\textbf{Prerequisites.} Chapter~\ref{general-topology} (General Topology), Chapter~\ref{homotopy} (Homotopy and Covering Spaces), Chapter~\ref{groups} (Groups) and, for the quaternions,
+Chapter~\ref{rings} (Rings and Modules).
 
 \noindent\textbf{Conventions.} Groups are written multiplicatively, with identity element $e$, unless stated otherwise; $\RR^n$ and $\ZZ^n$ are groups under addition. A \emph{neighbourhood} of a point is an open set
 containing it.
@@ -347,6 +350,99 @@ composite $S^3 \to \CC\PP^1 \to S^2$, $(z_0, z_1) \mapsto (2\bar{z}_0z_1, |z_1|^
 For $\RR\PP^1$ the same construction gives $\RR\PP^1 \cong S^1$, the one-point compactification of $\RR$.
 \end{example}
 
+\section{Hopf fibrations}\label{topological-manifolds:section-hopf}
+
+The quotient map $S^{2n+1} \to \CC\PP^n$ of Proposition~\ref{topological-manifolds:proposition-projective-spaces} has all its fibres equal to circles, and near each point it looks like a
+product. Replacing $\CC$ by $\RR$ or by the quaternions gives a whole family of such maps, the \emph{Hopf fibrations}: $S^n \to \RR\PP^n$ with fibre $S^0$, $S^{2n+1} \to \CC\PP^n$ with fibre $S^1$, and
+$S^{4n+3} \to \mathbb{H}\PP^n$ with fibre $S^3$. For $n = 1$ the base is a sphere, and one gets the maps $S^1 \to S^1$, $S^3 \to S^2$ and $S^7 \to S^4$, to which the octonions add $S^{15} \to S^8$. They are
+the first nontrivial examples of fibre bundles, and through the long exact sequence of homotopy groups they show that a sphere can have nonzero homotopy groups above its dimension.
+
+\begin{definition}\label{topological-manifolds:definition-fibre-bundle}
+A \emph{fibre bundle} with fibre $F$ is a continuous map $p \colon E \to B$ such that every point of $B$ has an open neighbourhood $U$ with a homeomorphism $\phi \colon U \times F \to p^{-1}(U)$ satisfying
+$p \circ \phi = \mathrm{pr}_U$, a \emph{local trivialisation}.
+\end{definition}
+
+A covering space is a fibre bundle with discrete fibre, and a vector bundle (Chapter~\ref{vector-bundles}) is a fibre bundle with fibre a vector space and linear transition maps.
+
+\begin{theorem}\label{topological-manifolds:theorem-bundles-fibrations}
+A fibre bundle $p \colon E \to B$ is a Serre fibration (Definition~\ref{homotopy:definition-fibration}). Hence, for $B$ path-connected and $F = p^{-1}(b_0)$, there is a long exact sequence
+$\cdots \to \pi_k(F) \to \pi_k(E) \to \pi_k(B) \to \pi_{k-1}(F) \to \cdots$ (Theorem~\ref{homotopy:theorem-long-exact-sequences}(2)).
+\end{theorem}
+
+This is \cite[Proposition 4.48]{hatcher-at}: the homotopy lifting property for cubes is local on the base, as for coverings, and over a set $U$ where $E$ is trivial a homotopy into $U \times F$ is lifted by
+keeping the $F$-component of the initial lift constant; the work lies in subdividing the cube so that each piece maps into a trivialising set.
+
+Let $\mathbb{K}$ be $\RR$, $\CC$ or the quaternions $\mathbb{H}$ (Example~\ref{rings:example-rings}), of real dimension $d = 1$, $2$ or $4$. Each has a conjugation $\lambda \mapsto \bar\lambda$ and the multiplicative norm
+$|\lambda| = (\lambda\bar\lambda)^{1/2}$; for $\mathbb{H}$, viewed as matrices $\bigl(\begin{smallmatrix} z & -\bar w\\ w & \bar z\end{smallmatrix}\bigr)$, $\bar\lambda$ is the conjugate transpose and $|\lambda|^2$ is the determinant $|z|^2 + |w|^2$, so
+$|\lambda\mu| = |\lambda||\mu|$, and $\mathbb{H} \cong \RR^4$ isometrically. The unit elements form the group $S^{d-1}$: $S^0 = \{\pm1\}$, $S^1$, and $S^3 = \mathrm{SU}(2)$. On $\mathbb{K}^{n+1}$, with the norm
+$|q|^2 = \sum_i|q_i|^2$, the group $\mathbb{K}^\times$ acts by multiplication on the right, $q \mapsto q\lambda = (q_0\lambda, \ldots, q_n\lambda)$, preserving lines, and $|q\lambda| = |q||\lambda|$. The \emph{projective space}
+\[
+\mathbb{K}\PP^n = (\mathbb{K}^{n+1} \setminus \{0\})/\mathbb{K}^\times
+\]
+is the set of right $\mathbb{K}$-lines in $\mathbb{K}^{n+1}$; we write $[q] = [q_0 : \cdots : q_n]$. For $\mathbb{K} = \mathbb{H}$, which is not commutative, the side matters: right lines are preserved by left
+multiplication by matrices, and coordinates $q_jq_i^{-1}$ are invariant under $q \mapsto q\lambda$.
+
+\begin{proposition}[Hopf fibrations]\label{topological-manifolds:proposition-hopf-fibrations}
+Let $\mathbb{K} = \RR$, $\CC$ or $\mathbb{H}$, of real dimension $d$, and $N = d(n + 1) - 1$, so that $S^N$ is the unit sphere of $\mathbb{K}^{n+1}$.
+\begin{enumerate}
+\item $\mathbb{K}\PP^n$ is a compact manifold of dimension $dn$, homeomorphic to $S^N/S^{d-1}$, with the charts $\varphi_i \colon U_i = \{[q] : q_i \neq 0\} \to \mathbb{K}^n$,
+$\varphi_i([q]) = (q_0q_i^{-1}, \ldots, \widehat{q_iq_i^{-1}}, \ldots, q_nq_i^{-1})$.
+\item The projection $p \colon S^N \to \mathbb{K}\PP^n$, $p(q) = [q]$, is a fibre bundle with fibre $S^{d-1}$: over $U_i$ the map $\phi_i \colon U_i \times S^{d-1} \to p^{-1}(U_i)$, $\phi_i([q], \lambda) = \sigma_i([q])\lambda$
+with $\sigma_i([q]) = q\,q_i^{-1}|q_i|/|q|$, is a local trivialisation.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The proof of Proposition~\ref{topological-manifolds:proposition-projective-spaces} applies word for word. Every right line meets $S^N$ in an orbit $qS^{d-1}$, so $S^N/S^{d-1} \to \mathbb{K}\PP^n$ is a continuous
+bijection with continuous inverse induced by $q \mapsto q/|q|$, and $\mathbb{K}\PP^n$ is compact, Hausdorff and second countable as the orbit space of a compact group (Proposition~\ref{topological-manifolds:proposition-orbit-space}).
+The map $\varphi_i$ is well defined, as $(q_j\lambda)(q_i\lambda)^{-1} = q_j\lambda\lambda^{-1}q_i^{-1} = q_jq_i^{-1}$, continuous, and has the continuous inverse $w \mapsto [w_0 : \cdots : 1 : \cdots : w_n]$ with $1$ in position $i$.
+
+(2) The map $\sigma_i$ is well defined on $U_i$: replacing $q$ by $q\mu$ replaces $qq_i^{-1}$ by $q\mu\mu^{-1}q_i^{-1} = qq_i^{-1}$ and does not change $|q_i|/|q|$. Its value is the unique unit vector of the line $[q]$ whose
+$i$-th coordinate is a positive real number, namely $|q_i|/|q|$; in particular $|\sigma_i([q])| = 1$ and $p \circ \sigma_i = \id$, so $p(\phi_i([q], \lambda)) = [q]$. The map $\phi_i$ is continuous, and it has the continuous inverse
+$x \mapsto ([x], |x_i|^{-1}x_i)$ on $p^{-1}(U_i)$: for $x \in S^N$ with $x_i \neq 0$, $\sigma_i([x]) = x\,x_i^{-1}|x_i|$, so $\sigma_i([x])\,|x_i|^{-1}x_i = x$, and conversely the $i$-th coordinate of $\sigma_i([q])\lambda$ is
+$\frac{|q_i|}{|q|}\lambda$, which recovers $\lambda$ by normalising.
+\end{proof}
+
+\begin{proposition}\label{topological-manifolds:proposition-hp1-sphere}
+$\mathbb{H}\PP^1$ is homeomorphic to $S^4$, by $h([q_0 : q_1]) = \bigl(2q_0\bar q_1, |q_0|^2 - |q_1|^2\bigr)/(|q_0|^2 + |q_1|^2) \in \mathbb{H} \times \RR = \RR^5$. So the Hopf fibration for $\mathbb{H}$ and $n = 1$ is a fibre
+bundle $S^7 \to S^4$ with fibre $S^3$, and for $\mathbb{C}$ it is $S^3 \to S^2$ with fibre $S^1$ (Example~\ref{topological-manifolds:example-cp1-sphere}).
+\end{proposition}
+
+\begin{proof}
+Replacing $(q_0, q_1)$ by $(q_0\lambda, q_1\lambda)$ multiplies $q_0\bar q_1$ by $\lambda\bar\lambda = |\lambda|^2$ (as $\overline{q_1\lambda} = \bar\lambda\bar q_1$) and the denominator by $|\lambda|^2$, so $h$ is well defined, and it is continuous.
+It takes values in $S^4$, since $|2q_0\bar q_1|^2 + (|q_0|^2 - |q_1|^2)^2 = (|q_0|^2 + |q_1|^2)^2$ by multiplicativity of the norm. On $U_1 = \{q_1 \neq 0\}$, with $w = q_0q_1^{-1}$, $[q_0 : q_1] = [w : 1]$ and
+$h([w : 1]) = (2w, |w|^2 - 1)/(|w|^2 + 1)$, the inverse of the stereographic projection $S^4 \setminus \{N\} \to \RR^4 = \mathbb{H}$ from $N = (0, 1)$ (Example~\ref{general-topology:example-stereographic}). So $h$ maps $U_1$
+bijectively onto $S^4 \setminus \{N\}$, and the remaining point $[1 : 0]$ to $N$. A continuous bijection from a compact space to a Hausdorff space is a homeomorphism.
+\end{proof}
+
+For the real numbers the Hopf fibration $S^n \to \RR\PP^n$ is the two-sheeted covering of Example~\ref{topological-manifolds:example-covering-actions}, and for $n = 1$, with $\RR\PP^1 \cong S^1$, it is the map
+$z \mapsto z^2$ of the circle. The octonions, an eight-dimensional normed algebra that is not associative, give in the same way a fibre bundle $S^{15} \to S^8$ with fibre $S^7$ \cite[Section 4.2]{hatcher-at}.
+
+\begin{corollary}\label{topological-manifolds:corollary-hopf-homotopy}
+\begin{enumerate}
+\item $\pi_1(\CC\PP^n) = 0$, $\pi_2(\CC\PP^n) \cong \ZZ$, and $\pi_k(\CC\PP^n) \cong \pi_k(S^{2n+1})$ for $k \geq 3$. In particular $\pi_k(S^2) \cong \pi_k(S^3)$ for $k \geq 3$, so $\pi_3(S^2) \cong \pi_3(S^3)$.
+\item $\pi_k(\mathbb{H}\PP^n) \cong \pi_{k-1}(S^3)$ for $k \leq 4n + 2$; in particular $\mathbb{H}\PP^n$ is $3$-connected, $\pi_4(\mathbb{H}\PP^n) \cong \pi_3(S^3)$, and $\pi_k(S^4) \cong \pi_{k-1}(S^3)$ for $k \leq 6$.
+\item The map $\pi_7(S^7) \to \pi_7(S^4)$ induced by the Hopf fibration is injective.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+We use the long exact sequences of Theorem~\ref{topological-manifolds:theorem-bundles-fibrations}, together with $\pi_k(S^m) = 0$ for $k < m$ (cellular approximation,
+Theorem~\ref{homotopy:theorem-cellular-approximation}, as in Remark~\ref{homotopy:remark-higher-computations}), $\pi_1(S^1) \cong \ZZ$ and $\pi_k(S^1) = 0$ for $k \geq 2$
+(Proposition~\ref{homotopy:proposition-covering-higher}). (1) For $S^1 \to S^{2n+1} \to \CC\PP^n$ with $n \geq 1$, the segment $\pi_k(S^1) \to \pi_k(S^{2n+1}) \to \pi_k(\CC\PP^n) \to \pi_{k-1}(S^1)$ has outer terms $0$ for $k \geq 3$.
+For $k = 2$, $\pi_2(S^{2n+1}) = 0 \to \pi_2(\CC\PP^n) \to \pi_1(S^1) \to \pi_1(S^{2n+1}) = 0$, and for $k = 1$, $0 = \pi_1(S^{2n+1}) \to \pi_1(\CC\PP^n) \to \pi_0(S^1) = 0$. Take $n = 1$ and
+$\CC\PP^1 \cong S^2$ for the last statement. (2) For $S^3 \to S^{4n+3} \to \mathbb{H}\PP^n$, if $k \leq 4n + 2$ the groups $\pi_k(S^{4n+3})$ and $\pi_{k-1}(S^{4n+3})$ vanish, so $\pi_k(\mathbb{H}\PP^n) \to \pi_{k-1}(S^3)$ is an
+isomorphism; and $\pi_{k-1}(S^3) = 0$ for $k \leq 3$. Take $n = 1$ and $\mathbb{H}\PP^1 \cong S^4$ for the last statement. (3) In the segment $\pi_7(S^3) \to \pi_7(S^7) \to \pi_7(S^4)$, the first map is induced by the inclusion of
+a fibre $S^3 \to S^7$, which is not surjective; as $S^7$ minus a point is homeomorphic to $\RR^7$, which is contractible, the inclusion is null-homotopic and induces $0$. By exactness the second map is injective.
+\end{proof}
+
+By the Hurewicz theorem (Chapter~\ref{singular-homology}), $\pi_n(S^n) \cong \ZZ$, so the corollary gives $\pi_3(S^2) \cong \ZZ$, generated by the Hopf map itself, $\pi_4(S^4) \cong \ZZ$, and a copy of $\ZZ$ in
+$\pi_7(S^4)$: unlike homology, the homotopy groups of a sphere do not vanish above its dimension. The Hopf maps $S^3 \to S^2$, $S^7 \to S^4$ and $S^{15} \to S^8$ are also the maps of Hopf invariant one
+(Chapter~\ref{cohomology-operations}), whose mapping cones are the projective planes $\CC\PP^2$, $\mathbb{H}\PP^2$ and the octonionic plane. Geometrically, the fibres of $S^3 \to S^2$ are great circles, the
+intersections of $S^3$ with the complex lines of $\CC^2$; any two of them are linked, and the preimages of the two closed hemispheres are the solid tori $\{|z_0| \leq |z_1|\}$ and $\{|z_0| \geq |z_1|\}$, which
+decompose $S^3$ (Exercise~\ref{topological-manifolds:exercise-hopf-tori}). The bundle $S^{2n+1} \to \CC\PP^n$ is the unit circle bundle of the tautological line bundle $\mathcal{O}(-1)$, whose nonzero
+first Chern class shows again that it is not trivial (Chapters~\ref{vector-bundles} and~\ref{characteristic-classes}).
+
 \section{Gluing}\label{topological-manifolds:section-gluing}
 
 \begin{lemma}\label{topological-manifolds:lemma-gluing}
@@ -448,4 +544,18 @@ The map $\RR^n \setminus \{0\} \to S^{n-1} \times \RR$, $x \mapsto (x/|x|, \log_
 $S^{n-1} \times (\RR/\ZZ) \cong S^{n-1} \times S^1$ (Example~\ref{topological-manifolds:example-orbit-spaces}(1)). The action on $S^{n-1} \times \RR$ is proper
 because a compact set lies in some $S^{n-1} \times [-r, r]$, which meets its translate by $k$ only if $|k| \leq 2r$. For $n = 2$ the quotient is a torus. For $n \geq 3$, $\RR^n \setminus \{0\} \cong S^{n-1} \times \RR$ is simply
 connected, $S^{n-1}$ being simply connected (Chapter~\ref{homotopy}), so the quotient has $\pi_1 \cong \ZZ$ by Theorem~\ref{topological-manifolds:theorem-covering-action}.
+\end{solution}
+
+\begin{exercise}\label{topological-manifolds:exercise-hopf-tori}
+Let $h \colon S^3 \to S^2$, $h(z_0, z_1) = (2\bar z_0z_1, |z_1|^2 - |z_0|^2)$, be the Hopf map (Example~\ref{topological-manifolds:example-cp1-sphere}). Show that its fibres are the great circles
+$\{\lambda z : |\lambda| = 1\}$, that the fibres over the poles $(0, \pm1)$ are the circles $\{z_0 = 0\}$ and $\{z_1 = 0\}$, and that the preimage of the closed upper hemisphere is $\{|z_0| \leq |z_1|\}$, which is
+homeomorphic to the solid torus $D^2 \times S^1$. Deduce that $S^3$ is the union of two solid tori glued along their boundary torus.
+\end{exercise}
+
+\begin{solution}
+$h$ is the composite of $p \colon S^3 \to \CC\PP^1$ with the homeomorphism of Example~\ref{topological-manifolds:example-cp1-sphere}, so its fibres are those of $p$, the orbits $\{\lambda z\}$ of $S^1$; each is
+the intersection of $S^3$ with the complex line $\CC z$, a real $2$-plane through $0$, hence a great circle. The last coordinate is $1$ exactly when $|z_1|^2 - |z_0|^2 = 1 = |z_0|^2 + |z_1|^2$, that is
+$z_0 = 0$, and $-1$ exactly when $z_1 = 0$. It is $\geq 0$ exactly when $|z_1| \geq |z_0|$, that is $|z_0|^2 \leq \frac12$. On this set $z_1 \neq 0$, and
+$(z_0, z_1) \mapsto (\sqrt2\,z_0, z_1/|z_1|)$ is a homeomorphism onto $D^2 \times S^1$, with inverse $(a, \mu) \mapsto (a/\sqrt2, \mu(1 - |a|^2/2)^{1/2})$. The lower hemisphere gives the solid torus $\{|z_0| \geq |z_1|\}$ in the
+same way, and the two meet in the torus $|z_0| = |z_1| = 1/\sqrt2$, the preimage of the equator.
 \end{solution}
