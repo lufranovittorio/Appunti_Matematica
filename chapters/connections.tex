@@ -30,7 +30,10 @@ $\Hom$ bundles (Section~\ref{connections:section-connections}).
 \item The exterior covariant derivative and the curvature, with complete computations for the sphere and for the tautological line bundle of $\CC\PP^1$
 (Section~\ref{connections:section-curvature}).
 \item Parallel transport, holonomy, the geometric meaning of curvature, and flat connections (Section~\ref{connections:section-parallel-transport}).
-\item Metric connections and principal bundles (Sections~\ref{connections:section-metric} and~\ref{connections:section-principal}).
+\item Metric connections (Section~\ref{connections:section-metric}).
+\item Vertical and horizontal subspaces: a connection as a choice of horizontal subspaces in the tangent spaces of the total space, parallel transport as horizontal
+lifting of curves, and curvature as the obstruction to integrating the horizontal distribution (Section~\ref{connections:section-horizontal}).
+\item Principal bundles, principal connections and connection forms, with the Hopf fibration as example (Section~\ref{connections:section-principal}).
 \end{enumerate}
 References: \cite{kobayashi-nomizu}, \cite{milnor-stasheff}, \cite[Chapter 0]{griffiths-harris}.
 
@@ -863,10 +866,181 @@ differential-geometric form of Theorem~\ref{vector-bundles:theorem-line-bundles}
 (Example~\ref{connections:example-curvature-computations}(3)) is of this kind.
 \end{example}
 
+
+\section{Vertical and horizontal subspaces}\label{connections:section-horizontal}
+
+The total space $E$ of a vector bundle is itself a manifold, of dimension $n + r$ (or $n + 2r$ if $\mathbb{K} = \CC$), and at each point $e \in E$ its tangent space contains a
+distinguished subspace: the directions tangent to the fibre, along which the base point does not move. These are the \emph{vertical} directions. There is no distinguished complementary
+\emph{horizontal} subspace: ``moving the base point while keeping the vector constant'' means nothing until one says how to compare vectors in different fibres, which is the problem a
+connection solves. In fact a connection is the same thing as a (linear) choice of horizontal subspaces, and in this language parallel transport becomes horizontal lifting of curves and
+the curvature becomes the failure of the horizontal subspaces to fit together into submanifolds. When $\mathbb{K} = \CC$ we regard $E$ as a real manifold; in both cases the tangent space of
+$\mathbb{K}^r$ at any point is $\mathbb{K}^r$.
+
+Local coordinates on $E$ come from frames. A frame $e = (e_1, \ldots, e_r)$ over $U$ gives the diffeomorphism
+\[
+\Phi_e \colon U \times \mathbb{K}^r \to E|_U, \qquad (x, v) \mapsto \sum_jv^je_j(x)
+\]
+(Proposition~\ref{vector-bundles:proposition-frames}), and a tangent vector of $E$ at $\Phi_e(x, v)$ is written $(\xi, \eta)$ with $\xi \in T_xU$ and $\eta \in \mathbb{K}^r$. For another frame
+$e^{\prime} = eg$, $\Phi_{e^{\prime}}(x, v^{\prime}) = \Phi_e(x, g(x)v^{\prime})$, so the coordinates change by $(x, v^{\prime}) \mapsto (x, gv^{\prime})$, and tangent vectors by
+\begin{equation}\label{connections:equation-tangent-change}
+(\xi, \eta^{\prime}) \longmapsto \bigl(\xi, dg(\xi)v^{\prime} + g\eta^{\prime}\bigr).
+\end{equation}
+
+\begin{definition}\label{connections:definition-vertical}
+Let $\pi \colon E \to M$ be a vector bundle. The \emph{vertical subspace} at $e \in E$ is $V_e = \ker(d_e\pi) \subseteq T_eE$, and the \emph{vertical lift} is the linear map
+\[
+\mathrm{vl}_e \colon E_{\pi(e)} \to V_e, \qquad \mathrm{vl}_e(w) = \frac{d}{dt}\Big|_{t=0}(e + tw).
+\]
+\end{definition}
+
+In the coordinates of a frame, $\pi \circ \Phi_e(x, v) = x$, so $d\pi(\xi, \eta) = \xi$ and $V_e = \{(0, \eta)\}$; and $e + tw$ has coordinates $(x, v + tw)$, where we write $w$ also for the
+column of components of $w$, so $\mathrm{vl}_e(w) = (0, w)$. Hence $\mathrm{vl}_e$ is an isomorphism, $V = \bigcup_eV_e$ is a smooth subbundle of $TE$ (spanned by the coordinate fields of
+$\mathbb{K}^r$), and $\mathrm{vl}$ is an isomorphism of vector bundles $\pi^*E \to V$ over $E$. The tangent vectors $(\xi, 0)$, by contrast, are not intrinsic: by
+\eqref{connections:equation-tangent-change} the vector $(\xi, 0)$ in the frame $e^{\prime}$ becomes $(\xi, dg(\xi)v^{\prime})$ in the frame $e$. They are the velocities of the curves along which
+the components stay constant, and this depends on the frame, exactly as in Remark~\ref{connections:remark-no-canonical-d}.
+
+\begin{definition}\label{connections:definition-horizontal}
+A \emph{horizontal distribution} on $E$ is a smooth subbundle $H \subseteq TE$ with $T_eE = H_e \oplus V_e$ for all $e \in E$. Then $d_e\pi \colon H_e \to T_{\pi(e)}M$ is an isomorphism.
+The \emph{horizontal lift} of $v \in T_pM$ to $e \in E_p$ is the unique $v^h_e \in H_e$ with $d\pi(v^h_e) = v$, and the horizontal lift of a vector field $X$ on $M$ is the vector field
+$X^h$ on $E$ with $X^h_e = (X_{\pi(e)})^h_e$. A curve in $E$ is \emph{horizontal} if its velocity lies in $H$. Writing a tangent vector as $Y = Y^H + Y^V$ with $Y^H \in H$ and $Y^V \in V$, the
+\emph{connection map} is
+\[
+K \colon TE \to E, \qquad K(Y) = \mathrm{vl}_e^{-1}(Y^V) \quad\text{for } Y \in T_eE .
+\]
+\end{definition}
+
+$X^h$ is smooth, because $d\pi$ restricted to $H$ is an isomorphism of vector bundles $H \to \pi^*TM$ (Lemma~\ref{vector-bundles:lemma-bijective-morphism}). Equivalently, a horizontal distribution
+is a splitting of the exact sequence of vector bundles over $E$
+\[
+0 \to \pi^*E \xrightarrow{\ \mathrm{vl}\ } TE \xrightarrow{\ d\pi\ } \pi^*TM \to 0 .
+\]
+Such splittings always exist (Proposition~\ref{vector-bundles:proposition-metrics}), but a general one has nothing to do with the linear structure of the fibres; the connections are the
+splittings compatible with it (Proposition~\ref{connections:proposition-linear-horizontal}).
+
+\begin{proposition}[The horizontal distribution of a connection]\label{connections:proposition-horizontal}
+Let $\nabla$ be a connection on $E$. For a frame $e$ over $U$ with connection form $\theta$, put
+\[
+H_{\Phi_e(x, v)} = \{(\xi, -\theta_x(\xi)v) : \xi \in T_xU\}.
+\]
+\begin{enumerate}
+\item This does not depend on the frame, and defines a horizontal distribution $H = H^\nabla$ on $E$. In coordinates it is spanned by the vector fields
+$X_i(x, v) = (\partial_i, -\theta_i(x)v)$, where $\theta = \sum_i\theta_i\,dx^i$.
+\item For a section $s$ and $v \in T_pM$,
+\[
+d_ps(v) = v^h_{s(p)} + \mathrm{vl}_{s(p)}(\nabla_vs), \qquad\text{that is,}\qquad \nabla_vs = K(d_ps(v)).
+\]
+So $\nabla_vs$ is the vertical part of the derivative of $s$, and $s$ is parallel if and only if $ds$ takes values in $H$, that is, if the submanifold $s(M) \subseteq E$ is tangent to $H$.
+\item A curve $u$ in $E$ is horizontal if and only if it is a parallel section along the curve $\gamma = \pi \circ u$. Hence every curve $\gamma$ in $M$ has a unique horizontal lift
+starting at a given $e \in E_{\gamma(0)}$, namely $t \mapsto P_{\gamma|[0, t]}(e)$.
+\item $\nabla$ is determined by $H^\nabla$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Let $e^{\prime} = eg$ be another frame, with connection form $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ (Proposition~\ref{connections:proposition-connections-exist}(3)). By
+\eqref{connections:equation-tangent-change} the vector $(\xi, -\theta^{\prime}(\xi)v^{\prime})$ in the coordinates of $e^{\prime}$ is, in those of $e$, $(\xi, \eta)$ with
+\[
+\eta = dg(\xi)v^{\prime} - g\bigl(g^{-1}\theta(\xi)g + g^{-1}dg(\xi)\bigr)v^{\prime} = -\theta(\xi)gv^{\prime} = -\theta(\xi)v ,
+\]
+since $v = gv^{\prime}$. So the two definitions agree. The fields $X_i$ are smooth and span $H$, and $H_e \cap V_e = 0$, because $(\xi, -\theta(\xi)v)$ is vertical only for $\xi = 0$; as
+$\dim H_e = n$, $T_eE = H_e \oplus V_e$.
+
+(2) In a frame, $s = \Phi_e(x, \sigma(x))$ with $\sigma$ the column of components, and
+\[
+d_ps(v) = (v, d\sigma(v)) = (v, -\theta(v)\sigma(p)) + (0, d\sigma(v) + \theta(v)\sigma(p)).
+\]
+The first term lies in $H_{s(p)}$ and projects to $v$, so it is $v^h_{s(p)}$; the second is $\mathrm{vl}_{s(p)}(\nabla_vs)$, because $\nabla_vs$ has components $d\sigma(v) + \theta(v)\sigma$
+(Proposition~\ref{connections:proposition-connections-exist}(2)).
+
+(3) Locally $u(t) = \Phi_e(\gamma(t), \sigma(t))$, and $\dot u = (\dot\gamma, \dot\sigma)$ lies in $H$ if and only if $\dot\sigma + \theta(\dot\gamma)\sigma = 0$, which is the equation
+$\nabla_{\dot\gamma}u = 0$ in the frame (Remark~\ref{connections:remark-along-curves}). The rest follows from Proposition~\ref{connections:proposition-parallel-transport}.
+
+(4) By (2), $\nabla_vs = K(ds(v))$, and $K$ is defined by $H$ alone.
+\end{proof}
+
+So the derivative $ds(v) \in T_{s(p)}E$ of a section is always defined, without any choice; what the connection provides is the splitting of $ds(v)$ into a horizontal part, which only remembers
+$v$, and a vertical part, which is a vector of the fibre and is the covariant derivative. The vector fields $X_i$ are the ones used in the proof of
+Theorem~\ref{connections:theorem-flat-local-systems}: they are the horizontal lifts of the coordinate fields.
+
+\begin{proposition}\label{connections:proposition-linear-horizontal}
+A horizontal distribution $H$ on $E$ is $H^\nabla$ for a connection $\nabla$ if and only if it is invariant under the fibrewise multiplications $m_c \colon E \to E$, $m_c(e) = ce$, for all
+$c \in \mathbb{K}$: $dm_c(H_e) \subseteq H_{ce}$.
+\end{proposition}
+
+\begin{proof}
+In the coordinates of a frame $m_c(x, v) = (x, cv)$ and $dm_c(\xi, \eta) = (\xi, c\eta)$; so $dm_c(\xi, -\theta(\xi)v) = (\xi, -\theta(\xi)(cv))$, and $H^\nabla$ is invariant. Conversely, let $H$
+be invariant. Since $H_{(x, v)}$ is a complement of $V = \{(0, \eta)\}$, it is the graph of a linear map: $H_{(x, v)} = \{(\xi, -\Gamma_{(x, v)}(\xi))\}$ with
+$\Gamma_{(x, v)} \colon T_xU \to \mathbb{K}^r$ linear, and $\Gamma$ is smooth in $(x, v)$, since $-\Gamma_{(x, v)}(\partial_i)$ is the $\mathbb{K}^r$-component of the smooth vector field
+$(\partial_i)^h$. Invariance says $\Gamma_{(x, cv)} = c\Gamma_{(x, v)}$ for all $c \in \mathbb{K}$, including $c = 0$. Fix $x$ and $\xi$, and let $f(v) = \Gamma_{(x, v)}(\xi)$, a smooth map
+$\mathbb{K}^r \to \mathbb{K}^r$ with $f(cv) = cf(v)$. Differentiating $f(tv) = tf(v)$ at $t = 0$, for real $t$, gives $f(v) = df_0(v)$, so $f$ is $\RR$-linear, and if $\mathbb{K} = \CC$ also
+$f(iv) = if(v)$, so $f$ is $\CC$-linear. Hence $\Gamma_{(x, v)}(\xi) = \theta_x(\xi)v$ for a matrix $\theta_x(\xi)$, which is linear in $\xi$ and smooth in $x$, being the derivative at $v = 0$
+of the smooth map $v \mapsto \Gamma_{(x, v)}(\xi)$. So $\theta$ is a matrix of $1$-forms, and over $U$, $H = H^{d + \theta}$. Now define $\nabla_vs = K(d_ps(v))$ with the connection map $K$ of
+$H$. Over each frame domain this is the connection $d + \theta$, by Proposition~\ref{connections:proposition-horizontal}(2); so $\nabla$ is a well-defined connection with $H^\nabla = H$.
+\end{proof}
+
+Smoothness along the zero section matters: the function $f(x, y) = x^3/(x^2 + y^2)$, $f(0, 0) = 0$, satisfies $f(cv) = cf(v)$ for real $c$ but is not linear; it is not differentiable at
+$0$. Accordingly, horizontal distributions defined only away from the zero section, or on general fibre bundles, give \emph{nonlinear} parallel transport; they are the \emph{Ehresmann
+connections}, and the linear ones are the connections of this chapter.
+
+\begin{proposition}[Curvature and integrability]\label{connections:proposition-horizontal-curvature}
+Let $\nabla$ be a connection with curvature $F$ and horizontal distribution $H$. For vector fields $X$, $Y$ on $M$ and $e \in E$,
+\[
+[X^h, Y^h]_e = [X, Y]^h_e - \mathrm{vl}_e\bigl(F(X, Y)e\bigr).
+\]
+Hence $H$ is involutive if and only if $F = 0$, and then its integral manifolds are, locally, the images of parallel sections.
+\end{proposition}
+
+\begin{proof}
+In a frame, write $X = \sum_iX^i\partial_i$ and $Y = \sum_jY^j\partial_j$; then $X^h = \sum_iX^iX_i$ and $Y^h = \sum_jY^jX_j$ with the fields $X_i$ of
+Proposition~\ref{connections:proposition-horizontal}(1), where the coefficients are functions of $x$ only. Since the $\partial_x$-component of $X^h$ is $X$, $X^h(Y^j) = X(Y^j)$, and
+\[
+[X^h, Y^h] = \sum_{i,j}X^iY^j[X_i, X_j] + \sum_j\bigl(X(Y^j) - Y(X^j)\bigr)X_j = \sum_{i,j}X^iY^j[X_i, X_j] + [X, Y]^h .
+\]
+In the proof of Theorem~\ref{connections:theorem-flat-local-systems} we computed $[X_i, X_j] = (0, -F_{ij}v)$ with $F_{ij} = F(\partial_i, \partial_j)$, and
+$\sum_{i,j}X^iY^jF_{ij} = F(X, Y)$, whose matrix applied to the components $v$ of $e$ is $F(X, Y)e$; so the vertical term is $-\mathrm{vl}_e(F(X, Y)e)$. If $F = 0$, the brackets of the
+horizontal lifts of the coordinate fields are horizontal, and so are the brackets of their combinations with smooth coefficients, as $[fA, gB] = fg[A, B] + f(Ag)B - g(Bf)A$; so $H$ is
+involutive. Conversely, if $H$ is involutive the vertical part of $[X^h, Y^h]$ vanishes, so $F(X, Y)e = 0$ for all $e$. An integral manifold $N$ has $T N = H$, which is complementary to
+$V$; so $\pi|_N$ is a local diffeomorphism, and locally $N = s(U)$ for a section $s$ with $ds$ taking values in $H$, a parallel section by
+Proposition~\ref{connections:proposition-horizontal}(2).
+\end{proof}
+
+\begin{example}\label{connections:example-horizontal}
+\begin{enumerate}
+\item \emph{The trivial connection.} For $d$ on $M \times \mathbb{K}^r$, $H_{(x, v)} = T_xM \times 0$: the horizontal curves are those with constant second component, and the integral
+manifolds of $H$ are the slices $M \times \{v\}$, the graphs of the constant sections.
+\item \emph{Subbundles of trivial bundles.} Let $E \subseteq M \times \RR^N$ be a subbundle with the projection connection $\nabla s = P(ds)$ (Example~\ref{connections:example-connections}(4)).
+The total space $E$ is a submanifold of $M \times \RR^N$, $T_{(p, w)}E \subseteq T_pM \times \RR^N$, and $\mathrm{vl}_{(p, w)}(u) = (0, u)$, so $V_{(p, w)} = 0 \times E_p$. We claim
+\[
+H_{(p, w)} = T_{(p, w)}E \cap (T_pM \times E_p^\perp):
+\]
+the horizontal vectors are the tangent vectors whose $\RR^N$-component is orthogonal to the fibre. Indeed, for $v \in T_pM$ choose a section $s = (x, \sigma(x))$ with $s(p) = w$; by
+Proposition~\ref{connections:proposition-horizontal}(2), $v^h = ds(v) - \mathrm{vl}(\nabla_vs) = (v, d\sigma(v) - P\,d\sigma(v))$, whose second component lies in $E_p^\perp$. So $H$ is
+contained in the right side, which meets $V$ only in $0$ and therefore has dimension at most $n$. For $TS^n = \{(x, w) : x \cdot w = 0\} \subseteq S^n \times \RR^{n+1}$, the tangent vectors
+at $(x, w)$ are the $(\xi, \eta)$ with $\xi \cdot x = 0$ and $\eta \cdot x + w \cdot \xi = 0$, and the horizontal ones have $\eta \in \RR x$:
+\[
+H_{(x, w)} = \{(\xi, -(w \cdot \xi)\,x) : \xi \perp x\}.
+\]
+For a great circle $\gamma(t) = \cos t\,x + \sin t\,y$ ($x \perp y$ unit vectors), the curve $u = (\gamma, \dot\gamma)$ in $TS^n$ has velocity $(\dot\gamma, \ddot\gamma) = (\dot\gamma, -\gamma)$,
+which is horizontal since $-(\dot\gamma \cdot \dot\gamma)\gamma = -\gamma$. So the velocity field of a great circle is parallel along it: great circles are geodesics
+(Chapter~\ref{riemannian-geometry}).
+\item \emph{The tautological line bundle and the Hopf fibration.} For the tautological bundle $L \subseteq \CC\PP^1 \times \CC^2$ with the projection connection, the map $(\ell, w) \mapsto w$
+identifies $L$ minus the zero section with $\CC^2 \setminus 0$ (the inverse is $w \mapsto (\CC w, w)$), and tangent vectors $(v, u)$ with their second components $u$. By (2), with the
+Hermitian inner product,
+\[
+V_w = \CC w, \qquad H_w = (\CC w)^\perp = \{u \in \CC^2 : \langle u, w\rangle = 0\}.
+\]
+On the unit sphere $S^3 \subseteq \CC^2 \setminus 0$, the circle bundle of $L$, whose projection to $\CC\PP^1$ is the Hopf map (Section~\ref{topological-manifolds:section-hopf}),
+$T_zS^3 = \{u : \operatorname{Re}\langle u, z\rangle = 0\} = i\RR z \oplus (\CC z)^\perp$: the tangent line $i\RR z$ of the Hopf circle through $z$, and the horizontal plane $H_z$
+orthogonal to it. So the horizontal lifts of vector fields on $\CC\PP^1$ are tangent to $S^3$, and parallel transport preserves $S^3$, as it must for a metric connection. The curvature is
+not zero (Example~\ref{connections:example-curvature-computations}(3)), so by Proposition~\ref{connections:proposition-horizontal-curvature} the planes $(\CC z)^\perp$ are not tangent to any
+family of surfaces in $S^3$: the brackets of horizontal fields have a component along the Hopf circles. This plane field is the \emph{standard contact structure} of $S^3$.
+\end{enumerate}
+\end{example}
 \section{Principal bundles}\label{connections:section-principal}
 
 Vector bundles are often better understood through their bundles of frames, on which the structure group acts. This point of view is used in Chern--Weil theory and in gauge
-theory; we only sketch it.
+theory; we give the definitions, the correspondence between horizontal distributions and connection forms, and the Hopf fibration as
+example, and sketch the rest.
 
 \begin{definition}\label{connections:definition-principal-bundle}
 Let $G$ be a Lie group. A \emph{principal $G$-bundle} is a smooth surjection $\pi \colon P \to M$ with a free right action of $G$ preserving the fibres and acting simply transitively on them, which is locally
@@ -882,9 +1056,74 @@ frame $(v, w)$ at $x \in S^2$ is the same as the rotation matrix with columns $x
 $U(1)$-bundle, the unit circle bundle of the tautological line bundle.
 \end{example}
 
+
+The language of horizontal subspaces carries over to principal bundles, where it is the standard definition of a connection. Let $\pi \colon P \to M$ be a principal $G$-bundle, write
+$R_g(p) = pg$ for the action, and let $\mathfrak{g}$ be the Lie algebra of $G$. As for vector bundles, the \emph{vertical subspace} at $p$ is $V_p = \ker d_p\pi$, the tangent space of the fibre
+through $p$. For $\xi \in \mathfrak{g}$ the \emph{fundamental vector field} $\xi^\#$ on $P$ is
+\[
+\xi^\#_p = \frac{d}{dt}\Big|_{t=0}p\exp(t\xi),
+\]
+the velocity of the orbit of the one-parameter subgroup $\exp(t\xi)$; its flow is $R_{\exp(t\xi)}$.
+
+\begin{definition}\label{connections:definition-principal-connection}
+A \emph{principal connection} on $P$ is a smooth subbundle $H \subseteq TP$ with $T_pP = H_p \oplus V_p$ for all $p$ which is invariant under the action: $dR_g(H_p) = H_{pg}$. Its
+\emph{connection form} is the $\mathfrak{g}$-valued $1$-form $\omega$ with $\omega_p(Y) = \xi$ when $Y - \xi^\#_p \in H_p$.
+\end{definition}
+
+\begin{proposition}\label{connections:proposition-connection-one-form}
+\begin{enumerate}
+\item For every $p \in P$, $\xi \mapsto \xi^\#_p$ is a linear isomorphism $\mathfrak{g} \to V_p$, and $dR_g(\xi^\#_p) = (\Ad(g^{-1})\xi)^\#_{pg}$.
+\item The connection form of a principal connection is a well-defined smooth $\mathfrak{g}$-valued $1$-form, with
+\[
+\omega(\xi^\#) = \xi \quad (\xi \in \mathfrak{g}), \qquad R_g^*\omega = \Ad(g^{-1}) \circ \omega \quad (g \in G).
+\]
+\item Conversely, every $\mathfrak{g}$-valued $1$-form $\omega$ with these two properties is the connection form of exactly one principal connection, namely $H = \ker\omega$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\xi^\#_p$ is the differential at $e$ of the orbit map $g \mapsto pg$ applied to $\xi$, so it is linear in $\xi$, and it is vertical since $\pi(p\exp(t\xi)) = \pi(p)$. If $\xi^\#_p = 0$,
+the curve $c(t) = p\exp(t\xi)$, an integral curve of $\xi^\#$ (its velocity at $t$ is $\xi^\#_{c(t)}$, by $\exp((t + s)\xi) = \exp(t\xi)\exp(s\xi)$), and the constant curve at $p$ are integral
+curves of $\xi^\#$ through $p$, so they coincide: $p\exp(t\xi) = p$, hence $\exp(t\xi) = e$ for all $t$, as the action is free, and $\xi = 0$ because $\exp$ is injective near $0$
+(Theorem~\ref{lie-groups:theorem-exponential}). In a local trivialisation the fibre is $G$, so $\dim V_p = \dim G$, and the map is an isomorphism. Finally
+$p\exp(t\xi)g = pg \cdot g^{-1}\exp(t\xi)g = pg\exp(t\Ad(g^{-1})\xi)$, by Theorem~\ref{lie-groups:theorem-exponential} applied to the automorphism $x \mapsto g^{-1}xg$, whose differential
+is $\Ad(g^{-1})$; differentiate at $t = 0$.
+
+(2) By (1) and $T_pP = H_p \oplus V_p$, every $Y \in T_pP$ is uniquely $Y^H + \xi^\#_p$, so $\omega$ is well defined and linear on each $T_pP$. For a basis $\xi_1, \ldots, \xi_m$ of $\mathfrak{g}$,
+the fields $\xi_a^\#$ form a frame of $V$, which together with a local frame of $H$ is a local frame of $TP$, and the components of $\omega$ are coefficients of vector fields in this
+frame, hence smooth. Clearly $\omega(\xi^\#) = \xi$. For $Y = Y^H + \xi^\#_p$, $dR_g(Y) = dR_g(Y^H) + (\Ad(g^{-1})\xi)^\#_{pg}$ with $dR_g(Y^H) \in H_{pg}$, so
+$\omega_{pg}(dR_gY) = \Ad(g^{-1})\omega_p(Y)$.
+
+(3) By $\omega(\xi^\#) = \xi$, $\omega_p$ restricted to $V_p$ is the inverse of the isomorphism of (1); so $\omega_p$ is onto, and $\ker\omega_p$ is a complement of $V_p$. The kernel of the
+morphism $\omega \colon TP \to P \times \mathfrak{g}$, of constant rank $\dim\mathfrak{g}$, is a smooth subbundle (Proposition~\ref{vector-bundles:proposition-constant-rank}), and it is invariant,
+since $\omega(dR_gY) = \Ad(g^{-1})\omega(Y)$. Its connection form is $\omega$, because $Y - \omega(Y)^\# \in \ker\omega$. A principal connection is the kernel of its connection form, which
+gives uniqueness.
+\end{proof}
+
+\begin{example}\label{connections:example-hopf-connection}
+\emph{The Hopf bundle.} The group $U(1)$ acts freely on $S^3 \subseteq \CC^2$ by $z \cdot \lambda = \lambda z$, and $S^3 \to \CC\PP^1$ is a principal $U(1)$-bundle
+(Example~\ref{connections:example-principal}). The Lie algebra of $U(1)$ is $i\RR$, $\exp$ is the exponential function, and $\Ad$ is trivial, as $U(1)$ is abelian. For $\xi \in i\RR$,
+$\xi^\#_z = \frac{d}{dt}e^{t\xi}z\big|_{t=0} = \xi z$. Define
+\[
+\omega_z(u) = \langle u, z\rangle = u_0\bar z_0 + u_1\bar z_1, \qquad u \in T_zS^3 = \{u : \operatorname{Re}\langle u, z\rangle = 0\},
+\]
+the restriction of the $1$-form $\bar z_0\,dz_0 + \bar z_1\,dz_1$; it takes values in $i\RR$. Then $\omega(\xi^\#_z) = \xi|z|^2 = \xi$, and
+$(R_\lambda^*\omega)_z(u) = \omega_{\lambda z}(\lambda u) = |\lambda|^2\langle u, z\rangle = \omega_z(u)$. So $\omega$ is a connection form, and its horizontal subspaces are
+$\ker\omega_z = (\CC z)^\perp$: the principal connection is the horizontal distribution of the projection connection on the tautological line bundle found in
+Example~\ref{connections:example-horizontal}(3). A local section $\sigma$ of $S^3 \to \CC\PP^1$ is a local frame of the tautological bundle with $|\sigma| = 1$, and $\sigma^*\omega =
+\langle d\sigma, \sigma\rangle$ is its connection form for the projection connection, because the orthogonal projection onto the line $\CC\sigma$ is $P(w) = \langle w, \sigma\rangle\sigma$, so
+$\nabla\sigma = P(d\sigma) = \langle d\sigma, \sigma\rangle \otimes \sigma$. For $\sigma = (1, z)/(1 + |z|^2)^{1/2}$ over $U_0$ this gives
+\[
+\sigma^*\omega = \frac{\bar z\,dz - z\,d\bar z}{2(1 + |z|^2)},
+\]
+which is $\theta + d\log(1 + |z|^2)^{-1/2}$, with $\theta = \bar z\,dz/(1 + |z|^2)$ the connection form in the frame $(1, z)$ (Example~\ref{connections:example-connection-forms}(2)), as the change
+of frame formula of Proposition~\ref{connections:proposition-connections-exist}(3) predicts. Its differential $d\sigma^*\omega = d\theta$ is the curvature computed in
+Example~\ref{connections:example-curvature-computations}(3).
+\end{example}
 \begin{remark}\label{connections:remark-principal-connections}
-A connection on a principal bundle is a $G$-equivariant splitting of $0 \to \ker d\pi \to TP \to \pi^*TM \to 0$, equivalently a $\mathfrak{g}$-valued $1$-form $\omega$ on $P$ restricting to the
-Maurer--Cartan form on fibres and satisfying $R_g^*\omega = \Ad(g^{-1})\omega$. Its curvature is $\Omega = d\omega + \frac12[\omega, \omega]$, and connections on $P$ correspond to connections on all
+By Proposition~\ref{connections:proposition-connection-one-form}, a principal connection is the same as a $G$-equivariant splitting of
+$0 \to V \to TP \to \pi^*TM \to 0$, or as a $\mathfrak{g}$-valued $1$-form $\omega$ on $P$ with $\omega(\xi^\#) = \xi$, which says that $\omega$ restricts to the Maurer--Cartan form on the fibres,
+and $R_g^*\omega = \Ad(g^{-1})\omega$. Its curvature is $\Omega = d\omega + \frac12[\omega, \omega]$, and connections on $P$ correspond to connections on all
 associated vector bundles, compatible with the structure group. This is the framework of gauge theory and of Chern--Weil theory, which we use in Chapter~\ref{characteristic-classes}; see
 \cite[Chapters I--II]{kobayashi-nomizu}. For a vector bundle, a local frame is a local section of the frame bundle, and pulling back $\omega$ by it gives the connection form
 $\theta$ of Proposition~\ref{connections:proposition-connections-exist}; the transformation rule $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ is the pullback of the equivariance of

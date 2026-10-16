@@ -92,6 +92,37 @@ $g(f(v_j)) = \sum_l (\sum_i b_{li}a_{ij}) u_l$. The change of basis formula foll
 $f = \id_W \circ f \circ \id_V$ and using that $[\id]_{\mathcal{C}', \mathcal{C}} = Q^{-1}$.
 \end{proof}
 
+
+\begin{remark}\label{linear-algebra:remark-change-of-coordinates}
+\emph{Change of basis, change of coordinates, change of variables.} Let $\mathcal{B} = (v_1, \ldots, v_n)$ and $\mathcal{B}^{\prime} = (v_1^{\prime}, \ldots, v_n^{\prime})$ be bases of $V$, and
+$P = [\id]_{\mathcal{B}, \mathcal{B}^{\prime}}$, whose $j$-th column contains the coordinates of $v_j^{\prime}$ in $\mathcal{B}$: $v_j^{\prime} = \sum_ip_{ij}v_i$. If a vector $v$ has coordinate
+columns $x$ in $\mathcal{B}$ and $x^{\prime}$ in $\mathcal{B}^{\prime}$, then
+\[
+x = Px^{\prime}, \qquad x^{\prime} = P^{-1}x,
+\]
+since $v = \sum_jx_j^{\prime}v_j^{\prime} = \sum_i\bigl(\sum_jp_{ij}x_j^{\prime}\bigr)v_i$. So the basis vectors change with $P$ and the coordinates with $P^{-1}$, the ``contravariant'' behaviour of
+coordinates. This is a \emph{passive} transformation: the vector stays where it is and only its description changes. An \emph{active} transformation moves the vectors, for instance by the linear
+map $f$ with $f(v_j) = v_j^{\prime}$, whose matrix in $\mathcal{B}$ is $P$; it sends the vector with coordinates $x$ to the vector with coordinates $Px$. The passive change by $P$ and the active
+transformation by $P$ act on coordinate columns by inverse matrices.
+
+In linear algebra, a \emph{change of variables} is the substitution $x = Px^{\prime}$ in a formula, which is the same operation read from the side of the formula; the result depends on what kind of
+object the formula describes:
+\begin{enumerate}
+\item coordinates of vectors: $x^{\prime} = P^{-1}x$;
+\item linear forms $\varphi(v) = ax$, with $a$ a row: $a^{\prime} = aP$;
+\item endomorphisms, $y = Ax$: $A^{\prime} = P^{-1}AP$ (\emph{similarity}, Proposition~\ref{linear-algebra:proposition-matrices});
+\item bilinear forms $B(v, w) = x^TGy$, with Gram matrix $G$ (Section~\ref{linear-algebra:section-bilinear}): $G^{\prime} = P^TGP$ (\emph{congruence}); for a quadratic form
+$q(x) = x^TGx$ this is the familiar substitution.
+\end{enumerate}
+The rules (3) and (4) agree exactly when $P^{-1} = P^T$, that is, when $P$ is orthogonal; this is why the spectral theorem (Theorem~\ref{linear-algebra:theorem-spectral}), which diagonalises a real
+symmetric matrix by an orthogonal $P$, diagonalises it as an endomorphism and as a quadratic form at the same time. In general the invariants differ: similar matrices have the same eigenvalues,
+congruent symmetric real matrices the same signature (Theorem~\ref{linear-algebra:theorem-sylvester}) but not the same eigenvalues, as $\operatorname{diag}(1, 4)$ and
+$I = P^T\operatorname{diag}(1, 4)P$ with $P = \operatorname{diag}(1, \frac12)$ show.
+
+Outside linear algebra, a change of variables is a substitution $x = \varphi(y)$ with $\varphi$ a diffeomorphism, as in integrals, where the factor $|\det D\varphi|$ appears
+(Chapter~\ref{measure-theory}), and a change of coordinates on a manifold is a transition map between charts (Chapter~\ref{smooth-manifolds}). Their derivatives at a point are linear changes of
+coordinates as above: components of tangent vectors transform like coordinates of vectors, with the Jacobian matrix in the role of $P^{-1}$, and differentials of functions like linear forms.
+\end{remark}
 \begin{definition}\label{linear-algebra:definition-rank}
 The \emph{rank} of a linear map is $\dim \im f$. The \emph{column rank} of a matrix
 $A \in M_{m \times n}(k)$ is the dimension of the span of its columns in $k^m$, that is, the rank of
@@ -786,3 +817,21 @@ always $1$; this can be shown using the Pfaffian, Chapter~\ref{multilinear-algeb
 Show that the set of complex structures $J$ on $\RR^{2}$ compatible with the standard inner product and with
 $\omega(e_1, e_2) > 0$ has exactly one element.
 \end{exercise}
+
+\begin{exercise}\label{linear-algebra:exercise-change-of-variables}
+Let $q(x_1, x_2) = x_1^2 + 4x_1x_2 + x_2^2$ on $\RR^2$, with Gram matrix $G = \bigl(\begin{smallmatrix}1 & 2\\ 2 & 1\end{smallmatrix}\bigr)$.
+\begin{enumerate}
+\item Complete the square to find a change of variables $x = Py$ with $q = y_1^2 - 3y_2^2$, and check that $P^TGP = \operatorname{diag}(1, -3)$ but that $P^{-1}GP$ is not diagonal.
+\item Find an orthogonal $Q$ with $Q^TGQ = Q^{-1}GQ$ diagonal.
+\item Compare the two diagonal forms with Sylvester's law of inertia, and explain why they are congruent but not similar.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $q = (x_1 + 2x_2)^2 - 3x_2^2$, so $y_1 = x_1 + 2x_2$, $y_2 = x_2$, that is, $x = Py$ with $P = \bigl(\begin{smallmatrix}1 & -2\\ 0 & 1\end{smallmatrix}\bigr)$. Then
+$GP = \bigl(\begin{smallmatrix}1 & 0\\ 2 & -3\end{smallmatrix}\bigr)$, $P^TGP = \operatorname{diag}(1, -3)$, while $P^{-1} = \bigl(\begin{smallmatrix}1 & 2\\ 0 & 1\end{smallmatrix}\bigr)$ gives
+$P^{-1}GP = \bigl(\begin{smallmatrix}5 & -6\\ 2 & -3\end{smallmatrix}\bigr)$.
+(2) The eigenvalues of $G$ are $3$ and $-1$, with unit eigenvectors $(1, 1)/\sqrt2$ and $(1, -1)/\sqrt2$; with these as columns, $Q$ is orthogonal and $Q^TGQ = Q^{-1}GQ = \operatorname{diag}(3, -1)$.
+(3) Both diagonal matrices have one positive and one negative entry, signature $(1, 1)$, so they are congruent, as Sylvester's law requires; they are not similar, since their eigenvalues
+$\{1, -3\}$ and $\{3, -1\}$ differ. The matrix $P^{-1}GP$ of (1), similar to $G$, has eigenvalues $3$ and $-1$, as it must.
+\end{solution}

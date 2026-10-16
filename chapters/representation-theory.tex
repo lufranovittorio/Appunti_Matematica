@@ -6,8 +6,10 @@
 A representation of a group or a Lie algebra is an action by linear maps. This chapter develops the
 basic theory: Schur's lemma, Maschke's theorem and character theory for finite groups, nilpotent and solvable Lie algebras with the
 theorems of Engel and Lie, and the complete
-classification of the finite-dimensional representations of the Lie algebra $\mathfrak{sl}_2(\CC)$. The last
-result is used repeatedly in Hodge theory: on the cohomology of a compact K\"ahler manifold the
+classification of the finite-dimensional representations of the Lie algebra $\mathfrak{sl}_2(\CC)$. It then develops the structure theory of semisimple Lie
+algebras: Cartan's criteria and the Killing form, Weyl's theorem on complete reducibility, the root space decomposition, root systems and their classification by
+Dynkin diagrams, and highest weights (Sections~\ref{representation-theory:section-semisimple}--\ref{representation-theory:section-highest-weight}). The classification for
+$\mathfrak{sl}_2$ is used repeatedly in Hodge theory: on the cohomology of a compact K\"ahler manifold the
 Lefschetz operator, its adjoint and the degree operator span a copy of $\mathfrak{sl}_2$, and the hard
 Lefschetz theorem and the primitive decomposition are consequences of the structure of
 $\mathfrak{sl}_2$-representations (Chapters~\ref{kahler} and~\ref{lefschetz-theorems}).
@@ -430,10 +432,10 @@ Every Lie algebra $\mathfrak{g}$ has a largest solvable ideal, the \emph{radical
 Lemma~\ref{representation-theory:lemma-solvable}(3), as $(\mathfrak{a} + \mathfrak{b})/\mathfrak{a} \cong \mathfrak{b}/(\mathfrak{a} \cap \mathfrak{b})$), and
 $\mathfrak{g}$ is \emph{semisimple} if its radical is $0$. Over a field of characteristic $0$, \emph{Cartan's criterion} characterises solvability by the trace form:
 $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ is solvable if and only if $\operatorname{tr}(xy) = 0$ for all $x \in \mathfrak{g}$ and $y \in [\mathfrak{g}, \mathfrak{g}]$;
-and $\mathfrak{g}$ is semisimple if and only if its Killing form $\operatorname{tr}(\ad x\,\ad y)$ is nondegenerate. The proof of Cartan's criterion uses Lie's theorem
-and the Jordan--Chevalley decomposition (Theorem~\ref{linear-algebra:theorem-jordan-chevalley}); see \cite[Sections 3--5]{humphreys-lie}. For example $\mathfrak{sl}_2(\CC)$ is
-semisimple, and Theorem~\ref{representation-theory:theorem-sl2-semisimple} below is the first case of Weyl's theorem
-(Remark~\ref{representation-theory:remark-semisimple-lie-algebras}).
+and $\mathfrak{g}$ is semisimple if and only if its Killing form $\operatorname{tr}(\ad x\,\ad y)$ is nondegenerate. Both are proved in Section~\ref{representation-theory:section-semisimple}
+(Theorems~\ref{representation-theory:theorem-cartan-criterion} and~\ref{representation-theory:theorem-killing-criterion}), using Lie's theorem and the Jordan--Chevalley
+decomposition (Theorem~\ref{linear-algebra:theorem-jordan-chevalley}). For example $\mathfrak{sl}_2(\CC)$ is semisimple, and
+Theorem~\ref{representation-theory:theorem-sl2-semisimple} below is the first case of Weyl's theorem (Theorem~\ref{representation-theory:theorem-weyl}).
 \end{remark}
 
 \section{Representations of $\mathfrak{sl}_2$}\label{representation-theory:section-sl2}
@@ -549,12 +551,955 @@ $P_m = \CC v_0$, $P_j = 0$ for $j \neq m$, and $f^iP_m = \CC v_i$.
 \end{proof}
 
 \begin{remark}\label{representation-theory:remark-semisimple-lie-algebras}
-Theorem~\ref{representation-theory:theorem-sl2-semisimple} is a special case of Weyl's theorem: every
-finite-dimensional representation of a semisimple Lie algebra over $\CC$ is completely reducible. The irreducible
-representations are classified by their highest weights, and the semisimple Lie algebras themselves by Dynkin
-diagrams. See \cite{humphreys-lie} and \cite{fulton-harris}.
+Theorem~\ref{representation-theory:theorem-sl2-semisimple} is a special case of Weyl's theorem
+(Theorem~\ref{representation-theory:theorem-weyl}): every finite-dimensional representation of a semisimple Lie algebra over a field of characteristic $0$ is completely
+reducible. The irreducible representations are classified by their highest weights (Section~\ref{representation-theory:section-highest-weight}), and the semisimple Lie
+algebras themselves by Dynkin diagrams (Section~\ref{representation-theory:section-root-systems}). The theory of $\mathfrak{sl}_2$ is also the main tool of that
+classification: every semisimple Lie algebra is built from copies of $\mathfrak{sl}_2$, one for each pair of roots $\pm\alpha$
+(Proposition~\ref{representation-theory:proposition-roots-sl2}). See \cite{humphreys-lie} and \cite{fulton-harris}.
 \end{remark}
 
+
+\section{Semisimple Lie algebras}\label{representation-theory:section-semisimple}
+
+By Lie's theorem a solvable Lie algebra over $\CC$ is, in a suitable basis of any representation, an algebra of upper triangular matrices: it is as close to being abelian as a
+nonabelian Lie algebra can be. Semisimple Lie algebras are the opposite extreme: they have no nonzero solvable ideals at all. Every Lie algebra $\mathfrak{g}$ is an extension
+of the semisimple Lie algebra $\mathfrak{g}/\operatorname{rad}\mathfrak{g}$ by its largest solvable ideal $\operatorname{rad}\mathfrak{g}$
+(Lemma~\ref{representation-theory:lemma-radical}), so the two classes together describe all Lie algebras. This section and the next four develop the structure of semisimple
+Lie algebras:
+\begin{enumerate}
+\item the Killing form and Cartan's criteria for solvability and semisimplicity; the decomposition into simple ideals; derivations; the abstract Jordan decomposition
+(this section);
+\item Weyl's theorem on complete reducibility (Section~\ref{representation-theory:section-weyl});
+\item the root space decomposition with respect to a Cartan subalgebra, built from copies of $\mathfrak{sl}_2$ (Section~\ref{representation-theory:section-roots});
+\item root systems, Weyl groups, Dynkin diagrams and the classification (Section~\ref{representation-theory:section-root-systems});
+\item weights and highest weights of representations (Section~\ref{representation-theory:section-highest-weight}).
+\end{enumerate}
+We follow \cite[Chapters II--III and VI]{humphreys-lie}. Throughout these sections, $k$ is a field of characteristic $0$, so that $\QQ \subseteq k$, and Lie algebras and
+representations are finite-dimensional.
+
+\begin{definition}\label{representation-theory:definition-semisimple}
+Let $\mathfrak{g}$ be a Lie algebra.
+\begin{enumerate}
+\item The \emph{radical} $\operatorname{rad}\mathfrak{g}$ is the largest solvable ideal of $\mathfrak{g}$ (it exists by Lemma~\ref{representation-theory:lemma-radical} below).
+$\mathfrak{g}$ is \emph{semisimple} if $\operatorname{rad}\mathfrak{g} = 0$, and \emph{simple} if it is not abelian and its only ideals are $0$ and $\mathfrak{g}$.
+\item For a representation $\varphi \colon \mathfrak{g} \to \mathfrak{gl}(V)$, the \emph{trace form} of $\varphi$ is the symmetric bilinear form
+$\beta_\varphi(x, y) = \operatorname{tr}(\varphi(x)\varphi(y))$ on $\mathfrak{g}$. The trace form of the adjoint representation is the \emph{Killing form}
+\[
+\kappa(x, y) = \kappa_{\mathfrak{g}}(x, y) = \operatorname{tr}(\ad x \circ \ad y).
+\]
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}\label{representation-theory:lemma-radical}
+Let $\mathfrak{g}$ be a Lie algebra.
+\begin{enumerate}
+\item The sum of two solvable ideals is a solvable ideal. Hence $\mathfrak{g}$ has a largest solvable ideal $\operatorname{rad}\mathfrak{g}$, and
+$\mathfrak{g}/\operatorname{rad}\mathfrak{g}$ is semisimple.
+\item $\mathfrak{g}$ is semisimple if and only if it has no nonzero abelian ideal. In particular a semisimple Lie algebra has centre $0$. A simple Lie algebra $\mathfrak{g}$
+satisfies $[\mathfrak{g}, \mathfrak{g}] = \mathfrak{g}$ and is semisimple.
+\item Every trace form is \emph{invariant}: $\beta_\varphi([x, y], z) = \beta_\varphi(x, [y, z])$. Consequently the orthogonal
+$\mathfrak{a}^\perp = \{x : \beta_\varphi(x, \mathfrak{a}) = 0\}$ of an ideal $\mathfrak{a}$ is an ideal.
+\item If $\mathfrak{a}$ is an ideal of $\mathfrak{g}$, the Killing form of the Lie algebra $\mathfrak{a}$ is the restriction of $\kappa_{\mathfrak{g}}$ to
+$\mathfrak{a} \times \mathfrak{a}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Let $\mathfrak{a}$, $\mathfrak{b}$ be solvable ideals. Then $\mathfrak{a} + \mathfrak{b}$ is an ideal, and $(\mathfrak{a} + \mathfrak{b})/\mathfrak{a} \cong
+\mathfrak{b}/(\mathfrak{a} \cap \mathfrak{b})$ is a homomorphic image of $\mathfrak{b}$, hence solvable (Lemma~\ref{representation-theory:lemma-solvable}(2)); so
+$\mathfrak{a} + \mathfrak{b}$ is solvable by Lemma~\ref{representation-theory:lemma-solvable}(3). A solvable ideal of maximal dimension therefore contains every solvable
+ideal. If $\bar{\mathfrak{a}}$ is a solvable ideal of $\mathfrak{g}/\operatorname{rad}\mathfrak{g}$, its preimage $\mathfrak{a}$ is an ideal of $\mathfrak{g}$ with
+$\mathfrak{a}/\operatorname{rad}\mathfrak{g}$ solvable, hence solvable, so $\mathfrak{a} \subseteq \operatorname{rad}\mathfrak{g}$ and $\bar{\mathfrak{a}} = 0$.
+
+(2) Abelian ideals are solvable. Conversely, if $\mathfrak{r} = \operatorname{rad}\mathfrak{g} \neq 0$, let $m$ be largest with $D^m\mathfrak{r} \neq 0$. By
+Lemma~\ref{representation-theory:lemma-solvable}(1), applied repeatedly, each $D^i\mathfrak{r}$ is an ideal of $\mathfrak{g}$, and
+$[D^m\mathfrak{r}, D^m\mathfrak{r}] = D^{m+1}\mathfrak{r} = 0$; so $D^m\mathfrak{r}$ is a nonzero abelian ideal. The centre is an abelian ideal. If $\mathfrak{g}$ is simple,
+$[\mathfrak{g}, \mathfrak{g}]$ is an ideal, nonzero as $\mathfrak{g}$ is not abelian, so $[\mathfrak{g}, \mathfrak{g}] = \mathfrak{g}$; an abelian ideal is then $0$, since
+$\mathfrak{g}$ itself is not abelian.
+
+(3) For endomorphisms $X$, $Y$, $Z$, $\operatorname{tr}([X, Y]Z) = \operatorname{tr}(XYZ) - \operatorname{tr}(YXZ) = \operatorname{tr}(XYZ) - \operatorname{tr}(XZY)
+= \operatorname{tr}(X[Y, Z])$, using $\operatorname{tr}(AB) = \operatorname{tr}(BA)$. Apply this to $X = \varphi(x)$, $Y = \varphi(y)$, $Z = \varphi(z)$, and use
+$\varphi([x, y]) = [\varphi(x), \varphi(y)]$. If $z \in \mathfrak{a}^\perp$, $x \in \mathfrak{g}$ and $a \in \mathfrak{a}$, then
+$\beta_\varphi([x, z], a) = -\beta_\varphi([z, x], a) = -\beta_\varphi(z, [x, a]) = 0$, since $[x, a] \in \mathfrak{a}$.
+
+(4) If an endomorphism $\phi$ of a finite-dimensional space $U$ maps $U$ into a subspace $W$, then $\operatorname{tr}\phi = \operatorname{tr}(\phi|_W)$: in a basis of $U$
+extending one of $W$, the rows of the matrix of $\phi$ belonging to the added vectors are zero. For $x, y \in \mathfrak{a}$, $\ad x \circ \ad y$ maps $\mathfrak{g}$ into
+$\mathfrak{a}$, and its restriction to $\mathfrak{a}$ is $\ad_{\mathfrak{a}}x \circ \ad_{\mathfrak{a}}y$.
+\end{proof}
+
+\begin{remark}\label{representation-theory:remark-levi}
+\emph{Levi's theorem} says that the extension $0 \to \operatorname{rad}\mathfrak{g} \to \mathfrak{g} \to \mathfrak{g}/\operatorname{rad}\mathfrak{g} \to 0$ splits: $\mathfrak{g}$
+contains a semisimple subalgebra $\mathfrak{s}$ mapping isomorphically onto $\mathfrak{g}/\operatorname{rad}\mathfrak{g}$, so that $\mathfrak{g} = \operatorname{rad}\mathfrak{g}
+\oplus \mathfrak{s}$ as vector spaces, with $\mathfrak{s}$ acting on the ideal $\operatorname{rad}\mathfrak{g}$; see \cite[Appendix E]{fulton-harris}. For example
+$\mathfrak{gl}_n(k) = k\cdot I \oplus \mathfrak{sl}_n(k)$, where the radical $k \cdot I$ is the centre (Example~\ref{representation-theory:example-killing-forms}). We do not use
+Levi's theorem.
+\end{remark}
+
+The key tool is the following refinement of the Jordan--Chevalley decomposition, and its consequence for traces.
+
+\begin{lemma}\label{representation-theory:lemma-jordan-ad}
+Let $k$ be algebraically closed, $V$ finite-dimensional, $x \in \mathfrak{gl}(V)$, and $x = s + n$ its Jordan--Chevalley decomposition
+(Theorem~\ref{linear-algebra:theorem-jordan-chevalley}).
+\begin{enumerate}
+\item There are polynomials $p, q \in k[T]$ without constant term such that $s = p(x)$ and $n = q(x)$. Hence if $A \subseteq B \subseteq V$ are subspaces with
+$x(B) \subseteq A$, then $s(B) \subseteq A$ and $n(B) \subseteq A$.
+\item If $v_1, \ldots, v_m$ is a basis of $V$ with $sv_i = a_iv_i$ and $E_{ij}$ are the corresponding matrix units ($E_{ij}v_l = \delta_{jl}v_i$), then
+$\ad s(E_{ij}) = (a_i - a_j)E_{ij}$.
+\item $\ad x = \ad s + \ad n$ is the Jordan--Chevalley decomposition of the endomorphism $\ad x$ of $\mathfrak{gl}(V)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) In Step 1 of the proof of Theorem~\ref{linear-algebra:theorem-jordan-chevalley}, $s = p(x)$ for any polynomial $p$ with $p \equiv \lambda_i \bmod (T - \lambda_i)^{e_i}$ for all
+the distinct eigenvalues $\lambda_i$; by uniqueness (Step 2) this $s$ is the semisimple part. If some $\lambda_i$ is $0$, this congruence already gives $p(0) = 0$. Otherwise $T$ is
+coprime to all $(T - \lambda_i)^{e_i}$, and the Chinese remainder theorem (Theorem~\ref{rings:theorem-chinese-remainder}) gives a $p$ satisfying in addition
+$p \equiv 0 \bmod T$. Put $q = T - p$. If $x(B) \subseteq A \subseteq B$, then $x(A) \subseteq x(B) \subseteq A$, so $x^j(B) \subseteq A$ for all $j \geq 1$, and the same holds for
+the polynomials $p(x)$ and $q(x)$ without constant term.
+
+(2) $(sE_{ij} - E_{ij}s)v_l = \delta_{jl}(a_i - a_j)v_i$.
+
+(3) Over an algebraically closed field semisimple endomorphisms are diagonalisable (Lemma~\ref{linear-algebra:lemma-minimal-polynomial-extension}), so a basis as in (2)
+exists, and by (2) $\ad s$ is diagonalisable in the basis $(E_{ij})$. The endomorphism $\ad n$ is nilpotent by Lemma~\ref{representation-theory:lemma-ad-nilpotent}, and
+$[\ad s, \ad n] = \ad[s, n] = 0$ by the Jacobi identity. By the uniqueness in Theorem~\ref{linear-algebra:theorem-jordan-chevalley}, $\ad s$ and $\ad n$ are the semisimple and
+nilpotent parts of $\ad x = \ad s + \ad n$.
+\end{proof}
+
+\begin{lemma}\label{representation-theory:lemma-cartan-trace}
+Let $k$ be algebraically closed, $V$ finite-dimensional, $A \subseteq B$ subspaces of $\mathfrak{gl}(V)$, and $M = \{x \in \mathfrak{gl}(V) : [x, B] \subseteq A\}$. If $x \in M$
+satisfies $\operatorname{tr}(xy) = 0$ for all $y \in M$, then $x$ is nilpotent.
+\end{lemma}
+
+\begin{proof}
+Let $x = s + n$ be the Jordan--Chevalley decomposition and $v_1, \ldots, v_m$ a basis with $sv_i = a_iv_i$. Let $E \subseteq k$ be the $\QQ$-vector space spanned by
+$a_1, \ldots, a_m$. We show $E = 0$; then all $a_i$ vanish, $s = 0$, and $x = n$ is nilpotent. As $E$ is finite-dimensional over $\QQ$, it suffices to show that every
+$\QQ$-linear map $f \colon E \to \QQ$ is zero.
+
+Given $f$, let $y \in \mathfrak{gl}(V)$ be defined by $yv_i = f(a_i)v_i$. By Lemma~\ref{representation-theory:lemma-jordan-ad}(2), $\ad y(E_{ij}) = (f(a_i) - f(a_j))E_{ij}$
+and $\ad s(E_{ij}) = (a_i - a_j)E_{ij}$. The finitely many numbers $a_i - a_j$ and $0$ can be assigned the values $f(a_i) - f(a_j)$ and $0$ consistently: if
+$a_i - a_j = a_{i^{\prime}} - a_{j^{\prime}}$, then $f(a_i) - f(a_j) = f(a_i - a_j) = f(a_{i^{\prime}}) - f(a_{j^{\prime}})$ by $\QQ$-linearity, and $a_i - a_j = 0$ gives
+the value $0$. By Lagrange interpolation there is $r \in k[T]$ with $r(0) = 0$ and $r(a_i - a_j) = f(a_i) - f(a_j)$ for all $i$, $j$; then $\ad y = r(\ad s)$, since both are
+diagonal in the basis $(E_{ij})$ with the same entries. By Lemma~\ref{representation-theory:lemma-jordan-ad}(3) and (1), applied to $\ad x$, $\ad s = p(\ad x)$ for a polynomial
+$p$ without constant term; so $\ad y = r(p(\ad x))$ is a polynomial in $\ad x$ without constant term. As $\ad x$ maps $B$ into $A$, so does $\ad y$
+(Lemma~\ref{representation-theory:lemma-jordan-ad}(1)), that is, $y \in M$, and the hypothesis gives $\operatorname{tr}(xy) = 0$.
+
+Now $\operatorname{tr}(xy) = \operatorname{tr}(sy) + \operatorname{tr}(ny)$. In the basis $(v_i)$, $sy$ is diagonal with entries $a_if(a_i)$. Interpolating again, $y = g(s)$ for a
+polynomial $g$ with $g(a_i) = f(a_i)$, so $y$ commutes with $n$, which commutes with $s$; hence $ny$ is nilpotent ($(ny)^N = n^Ny^N$) and has trace $0$. Therefore
+$\sum_ia_if(a_i) = 0$. The left side is an element of $E$, since $f(a_i) \in \QQ$; applying $f$ gives $\sum_if(a_i)^2 = 0$, a sum of squares of rational numbers. So
+$f(a_i) = 0$ for all $i$, and $f = 0$.
+\end{proof}
+
+\begin{theorem}[Cartan's criterion]\label{representation-theory:theorem-cartan-criterion}
+Let $V$ be a finite-dimensional vector space and $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ a Lie subalgebra such that $\operatorname{tr}(xy) = 0$ for all
+$x \in [\mathfrak{g}, \mathfrak{g}]$ and $y \in \mathfrak{g}$. Then $\mathfrak{g}$ is solvable.
+\end{theorem}
+
+\begin{proof}
+\emph{Reduction to $k$ algebraically closed.} Choose a basis, so that $\mathfrak{g} \subseteq \mathfrak{gl}_d(k) \subseteq \mathfrak{gl}_d(\bar k)$ for an algebraic closure
+$\bar k$ (Theorem~\ref{fields:theorem-algebraic-closure}), and let $\bar{\mathfrak{g}}$ be the $\bar k$-span of $\mathfrak{g}$. It is a Lie subalgebra, as the bracket is
+bilinear; $[\bar{\mathfrak{g}}, \bar{\mathfrak{g}}]$ is the $\bar k$-span of $[\mathfrak{g}, \mathfrak{g}]$, so the hypothesis holds for $\bar{\mathfrak{g}}$ by bilinearity of
+$\operatorname{tr}(xy)$. If $\bar{\mathfrak{g}}$ is solvable, so is its subalgebra $\mathfrak{g}$. So we may assume $k$ algebraically closed.
+
+\emph{The case $k$ algebraically closed.} It suffices to show that every $x \in [\mathfrak{g}, \mathfrak{g}]$ is a nilpotent endomorphism of $V$. Indeed, then $\ad x$ is
+nilpotent on $\mathfrak{gl}(V)$ (Lemma~\ref{representation-theory:lemma-ad-nilpotent}), hence on its invariant subspace $[\mathfrak{g}, \mathfrak{g}]$, so
+$[\mathfrak{g}, \mathfrak{g}]$ is nilpotent by Engel's theorem (Corollary~\ref{representation-theory:corollary-engel}), and $\mathfrak{g}$ is solvable by
+Corollary~\ref{representation-theory:corollary-lie}(3). Apply Lemma~\ref{representation-theory:lemma-cartan-trace} with $A = [\mathfrak{g}, \mathfrak{g}]$ and $B = \mathfrak{g}$:
+then $M = \{y : [y, \mathfrak{g}] \subseteq [\mathfrak{g}, \mathfrak{g}]\}$ contains $\mathfrak{g}$. Let $x \in [\mathfrak{g}, \mathfrak{g}]$, a sum of brackets $[u, v]$ with
+$u, v \in \mathfrak{g}$, and $y \in M$. By the identity $\operatorname{tr}([u, v]y) = \operatorname{tr}(u[v, y])$ of Lemma~\ref{representation-theory:lemma-radical}(3), and since
+$[v, y] = -[y, v] \in [\mathfrak{g}, \mathfrak{g}]$, the hypothesis gives $\operatorname{tr}([u, v]y) = 0$. So $\operatorname{tr}(xy) = 0$ for all $y \in M$, and $x$ is nilpotent by
+the lemma.
+\end{proof}
+
+\begin{corollary}\label{representation-theory:corollary-cartan-criterion}
+A Lie algebra $\mathfrak{g}$ is solvable if and only if $\kappa(x, y) = 0$ for all $x \in [\mathfrak{g}, \mathfrak{g}]$ and $y \in \mathfrak{g}$.
+\end{corollary}
+
+\begin{proof}
+Suppose the Killing form vanishes on $[\mathfrak{g}, \mathfrak{g}] \times \mathfrak{g}$. Since $[\ad\mathfrak{g}, \ad\mathfrak{g}] = \ad[\mathfrak{g}, \mathfrak{g}]$, Cartan's
+criterion applied to $\ad\mathfrak{g} \subseteq \mathfrak{gl}(\mathfrak{g})$ shows that $\ad\mathfrak{g}$ is solvable. The kernel of $\ad$ is the centre, which is abelian, and
+$\mathfrak{g}/\mathfrak{z}(\mathfrak{g}) \cong \ad\mathfrak{g}$; so $\mathfrak{g}$ is solvable by Lemma~\ref{representation-theory:lemma-solvable}(3).
+
+Conversely, let $\mathfrak{g}$ be solvable, and let $L$ be the $\bar k$-span of $\ad\mathfrak{g}$ in $\mathfrak{gl}_d(\bar k)$, using a basis of $\mathfrak{g}$ and an algebraic closure
+$\bar k$. Then $D^iL$ is the $\bar k$-span of $D^i(\ad\mathfrak{g}) = \ad(D^i\mathfrak{g})$, so $L$ is solvable. By Lie's theorem
+(Theorem~\ref{representation-theory:theorem-lie}) there is a basis of $\bar k^d$ in which all elements of $L$ are upper triangular; then the elements of $[L, L]$ are strictly
+upper triangular, and so is the product of an element of $[L, L]$ with an element of $L$. For $x \in [\mathfrak{g}, \mathfrak{g}]$ and $y \in \mathfrak{g}$,
+$\ad x \in [L, L]$, so $\kappa(x, y) = \operatorname{tr}(\ad x\,\ad y) = 0$.
+\end{proof}
+
+\begin{theorem}[Cartan's criterion for semisimplicity]\label{representation-theory:theorem-killing-criterion}
+A Lie algebra is semisimple if and only if its Killing form is nondegenerate.
+\end{theorem}
+
+\begin{proof}
+Let $S = \mathfrak{g}^\perp = \{x : \kappa(x, \mathfrak{g}) = 0\}$ be the radical of the Killing form; it is an ideal by Lemma~\ref{representation-theory:lemma-radical}(3). The
+Killing form of $S$ is the restriction of $\kappa$ (Lemma~\ref{representation-theory:lemma-radical}(4)), which vanishes on $S \times S$; by
+Corollary~\ref{representation-theory:corollary-cartan-criterion}, $S$ is solvable, so $S \subseteq \operatorname{rad}\mathfrak{g}$. Hence if $\mathfrak{g}$ is semisimple, $S = 0$.
+
+Conversely, suppose $\mathfrak{g}$ is not semisimple, and let $\mathfrak{a} \neq 0$ be an abelian ideal (Lemma~\ref{representation-theory:lemma-radical}(2)). For $a \in \mathfrak{a}$
+and $y \in \mathfrak{g}$, $\ad a\,\ad y$ maps $\mathfrak{g}$ into $\mathfrak{a}$, and maps $\mathfrak{a}$ into $[a, \mathfrak{a}] = 0$; so $(\ad a\,\ad y)^2 = 0$ and
+$\kappa(a, y) = 0$. Thus $0 \neq \mathfrak{a} \subseteq S$, and $\kappa$ is degenerate.
+\end{proof}
+
+\begin{example}\label{representation-theory:example-killing-forms}
+\begin{enumerate}
+\item \emph{$\mathfrak{gl}_n$ and $\mathfrak{sl}_n$.} For $x, y \in \mathfrak{gl}_n(k)$, $\ad x\,\ad y(z) = xyz - xzy - yzx + zyx$. The map $z \mapsto xyz$ is left multiplication by
+$xy$, which acts on each of the $n$ columns of $z$ by $xy$, so its trace is $n\operatorname{tr}(xy)$; similarly $z \mapsto zyx$ has trace $n\operatorname{tr}(yx)$, and
+$z \mapsto xzy$ sends $E_{ij}$ to $\sum_{l,m}x_{li}y_{jm}E_{lm}$, whose diagonal coefficient at $E_{ij}$ is $x_{ii}y_{jj}$, so its trace is
+$\operatorname{tr}x\operatorname{tr}y$, as is that of $z \mapsto yzx$. Hence
+\[
+\kappa_{\mathfrak{gl}_n}(x, y) = 2n\operatorname{tr}(xy) - 2\operatorname{tr}x\operatorname{tr}y .
+\]
+It is degenerate: $\kappa(I, y) = 2n\operatorname{tr}y - 2n\operatorname{tr}y = 0$. Indeed $k \cdot I$ is an abelian ideal, the centre. For $x, y \in \mathfrak{sl}_n(k)$,
+$\ad x\,\ad y$ maps $\mathfrak{gl}_n$ into $[\mathfrak{gl}_n, \mathfrak{gl}_n] \subseteq \mathfrak{sl}_n$, so by the argument of
+Lemma~\ref{representation-theory:lemma-radical}(4) its trace on $\mathfrak{gl}_n$ equals its trace on $\mathfrak{sl}_n$:
+\[
+\kappa_{\mathfrak{sl}_n}(x, y) = 2n\operatorname{tr}(xy).
+\]
+This form is nondegenerate for $n \geq 2$: if $x \in \mathfrak{sl}_n$ and $\operatorname{tr}(xy) = 0$ for all $y \in \mathfrak{sl}_n$, then $y = E_{ji}$ ($i \neq j$) gives
+$x_{ij} = 0$, and $y = E_{ii} - E_{jj}$ gives $x_{ii} = x_{jj}$; so $x = cI$ with $nc = \operatorname{tr}x = 0$, and $x = 0$. Hence $\mathfrak{sl}_n(k)$ is semisimple.
+For $n = 2$, in the basis $e$, $h$, $f$ of Section~\ref{representation-theory:section-sl2}, $\kappa(e, f) = 4$, $\kappa(h, h) = 8$, and all other pairings of basis
+vectors vanish.
+\item \emph{A solvable example.} For the Lie algebra with basis $x$, $y$ and $[x, y] = y$ (Example~\ref{representation-theory:example-triangular}(3)), the matrices of
+$\ad x$ and $\ad y$ in the basis $(x, y)$ are $\bigl(\begin{smallmatrix}0 & 0\\ 0 & 1\end{smallmatrix}\bigr)$ and $\bigl(\begin{smallmatrix}0 & 0\\ -1 & 0\end{smallmatrix}\bigr)$, so
+$\kappa(x, x) = 1$ and $\kappa(x, y) = \kappa(y, y) = 0$. The form vanishes on $[\mathfrak{g}, \mathfrak{g}] \times \mathfrak{g} = ky \times \mathfrak{g}$, as
+Corollary~\ref{representation-theory:corollary-cartan-criterion} predicts, but it is not zero: the Killing form of a solvable Lie algebra need not vanish, in contrast with the
+nilpotent case (Exercise~\ref{representation-theory:exercise-killing-form-nilpotent}).
+\end{enumerate}
+\end{example}
+
+\begin{theorem}\label{representation-theory:theorem-simple-ideals}
+Let $\mathfrak{g}$ be semisimple. There are simple ideals $\mathfrak{g}_1, \ldots, \mathfrak{g}_t$ with $\mathfrak{g} = \mathfrak{g}_1 \oplus \cdots \oplus \mathfrak{g}_t$, and
+$[\mathfrak{g}_i, \mathfrak{g}_j] = 0$ for $i \neq j$. Every simple ideal of $\mathfrak{g}$ is one of the $\mathfrak{g}_i$, and every ideal is a sum of some of them. In
+particular $[\mathfrak{g}, \mathfrak{g}] = \mathfrak{g}$, and ideals and quotients of $\mathfrak{g}$ are semisimple.
+\end{theorem}
+
+\begin{proof}
+Let $\mathfrak{a}$ be an ideal. Then $\mathfrak{a}^\perp$, the orthogonal for $\kappa$, is an ideal (Lemma~\ref{representation-theory:lemma-radical}(3)), and so is
+$\mathfrak{a} \cap \mathfrak{a}^\perp$, on which the Killing form of $\mathfrak{g}$ vanishes. By Lemma~\ref{representation-theory:lemma-radical}(4) and
+Corollary~\ref{representation-theory:corollary-cartan-criterion}, $\mathfrak{a} \cap \mathfrak{a}^\perp$ is solvable, hence $0$. Since $\kappa$ is nondegenerate
+(Theorem~\ref{representation-theory:theorem-killing-criterion}), $\mathfrak{a}^\perp$ is the kernel of the map $\mathfrak{g} \to \mathfrak{a}^*$, $x \mapsto \kappa(x, -)|_{\mathfrak{a}}$,
+so $\dim\mathfrak{a}^\perp \geq \dim\mathfrak{g} - \dim\mathfrak{a}$. Hence $\mathfrak{g} = \mathfrak{a} \oplus \mathfrak{a}^\perp$, and $[\mathfrak{a}, \mathfrak{a}^\perp] \subseteq
+\mathfrak{a} \cap \mathfrak{a}^\perp = 0$. Consequently an ideal $\mathfrak{b}$ of the Lie algebra $\mathfrak{a}$ is an ideal of $\mathfrak{g}$, since
+$[\mathfrak{g}, \mathfrak{b}] = [\mathfrak{a}, \mathfrak{b}] + [\mathfrak{a}^\perp, \mathfrak{b}] = [\mathfrak{a}, \mathfrak{b}] \subseteq \mathfrak{b}$. In particular a solvable
+ideal of $\mathfrak{a}$ is a solvable ideal of $\mathfrak{g}$, hence $0$: $\mathfrak{a}$ is semisimple, and so is $\mathfrak{g}/\mathfrak{a} \cong \mathfrak{a}^\perp$.
+
+Existence of the decomposition, by induction on $\dim\mathfrak{g}$: if $\mathfrak{g} \neq 0$, let $\mathfrak{a}$ be a nonzero ideal of minimal dimension. Its ideals are ideals of
+$\mathfrak{g}$, so they are $0$ and $\mathfrak{a}$; and $\mathfrak{a}$ is not abelian, being semisimple and nonzero. So $\mathfrak{a}$ is simple, and $\mathfrak{g} = \mathfrak{a}
+\oplus \mathfrak{a}^\perp$ with $\mathfrak{a}^\perp$ semisimple, to which the induction hypothesis applies; the simple ideals of $\mathfrak{a}^\perp$ are ideals of $\mathfrak{g}$.
+
+Let $\mathfrak{b}$ be a simple ideal of $\mathfrak{g}$. Then $[\mathfrak{g}, \mathfrak{b}] = \mathfrak{b}$, since it is a nonzero ideal of $\mathfrak{b}$ (nonzero because the
+centre of $\mathfrak{g}$ is $0$). So $\mathfrak{b} = \sum_i[\mathfrak{g}_i, \mathfrak{b}]$, and each $[\mathfrak{g}_i, \mathfrak{b}] \subseteq \mathfrak{g}_i \cap \mathfrak{b}$ is
+an ideal of $\mathfrak{g}$ contained in $\mathfrak{b}$, hence $0$ or $\mathfrak{b}$. As the $\mathfrak{g}_i$ are independent, exactly one is $\mathfrak{b}$, and then
+$\mathfrak{b} \subseteq \mathfrak{g}_i$ is a nonzero ideal of the simple $\mathfrak{g}_i$, so $\mathfrak{b} = \mathfrak{g}_i$. An arbitrary ideal $\mathfrak{a}$ is semisimple, so
+by the existence part it is a sum of simple ideals of $\mathfrak{a}$, which are simple ideals of $\mathfrak{g}$, hence some of the $\mathfrak{g}_i$. Finally
+$[\mathfrak{g}, \mathfrak{g}] = \sum_i[\mathfrak{g}_i, \mathfrak{g}_i] = \sum_i\mathfrak{g}_i$ by Lemma~\ref{representation-theory:lemma-radical}(2).
+\end{proof}
+
+A \emph{derivation} of a Lie algebra $\mathfrak{g}$ is a linear map $\delta \colon \mathfrak{g} \to \mathfrak{g}$ with $\delta[x, y] = [\delta x, y] + [x, \delta y]$. The
+derivations form a Lie subalgebra $\operatorname{Der}\mathfrak{g} \subseteq \mathfrak{gl}(\mathfrak{g})$, and by the Jacobi identity every $\ad x$ is a derivation, called
+\emph{inner}. For $\delta \in \operatorname{Der}\mathfrak{g}$ and $x \in \mathfrak{g}$,
+\[
+[\delta, \ad x] = \ad(\delta x),
+\]
+since $[\delta, \ad x](y) = \delta[x, y] - [x, \delta y] = [\delta x, y]$; so $\ad\mathfrak{g}$ is an ideal of $\operatorname{Der}\mathfrak{g}$.
+
+\begin{theorem}\label{representation-theory:theorem-derivations}
+If $\mathfrak{g}$ is semisimple, every derivation of $\mathfrak{g}$ is inner, and $\ad \colon \mathfrak{g} \to \operatorname{Der}\mathfrak{g}$ is an isomorphism of Lie algebras.
+\end{theorem}
+
+\begin{proof}
+$\ad$ is injective, as the centre is $0$. Let $D = \operatorname{Der}\mathfrak{g}$ and $I = \ad\mathfrak{g} \cong \mathfrak{g}$, an ideal of $D$. The Killing form of $I$ is the
+restriction of $\kappa_D$ (Lemma~\ref{representation-theory:lemma-radical}(4)), and it is nondegenerate since $I \cong \mathfrak{g}$ is semisimple; so
+$I \cap I^\perp = 0$, where $I^\perp$ is the orthogonal of $I$ for $\kappa_D$, an ideal of $D$. Then $[I, I^\perp] \subseteq I \cap I^\perp = 0$, and for $\delta \in I^\perp$
+and $x \in \mathfrak{g}$, $\ad(\delta x) = [\delta, \ad x] = 0$, so $\delta x = 0$: $I^\perp = 0$. As in the proof of
+Theorem~\ref{representation-theory:theorem-simple-ideals}, $\dim I^\perp \geq \dim D - \dim I$, so $D = I$.
+\end{proof}
+
+\begin{proposition}[Abstract Jordan decomposition]\label{representation-theory:proposition-abstract-jordan}
+Let $k$ be algebraically closed and $\mathfrak{g}$ semisimple. Every $x \in \mathfrak{g}$ can be written uniquely as $x = x_s + x_n$ with $\ad x_s$ diagonalisable, $\ad x_n$
+nilpotent and $[x_s, x_n] = 0$. Moreover $\ad x_s$ and $\ad x_n$ are the semisimple and nilpotent parts of $\ad x$, and every $y \in \mathfrak{g}$ commuting with $x$ commutes with
+$x_s$ and $x_n$.
+\end{proposition}
+
+\begin{proof}
+Let $\ad x = \sigma + \nu$ be the Jordan--Chevalley decomposition in $\End(\mathfrak{g})$. For $a \in k$ let $\mathfrak{g}_a = \ker(\ad x - a)^d$, $d = \dim\mathfrak{g}$; then
+$\mathfrak{g} = \bigoplus_a\mathfrak{g}_a$ and $\sigma = a$ on $\mathfrak{g}_a$ (Step 1 of the proof of Theorem~\ref{linear-algebra:theorem-jordan-chevalley}). Since $\ad x$ is a
+derivation, $(\ad x - a - b)[y, z] = [(\ad x - a)y, z] + [y, (\ad x - b)z]$, and by induction
+\[
+(\ad x - a - b)^m[y, z] = \sum_{i=0}^m\binom{m}{i}\bigl[(\ad x - a)^iy, (\ad x - b)^{m-i}z\bigr].
+\]
+For $y \in \mathfrak{g}_a$, $z \in \mathfrak{g}_b$ and $m = 2d$ every term vanishes, so $[y, z] \in \mathfrak{g}_{a+b}$, and
+$\sigma[y, z] = (a + b)[y, z] = [\sigma y, z] + [y, \sigma z]$. By bilinearity $\sigma$ is a derivation, so $\sigma = \ad x_s$ for a unique $x_s$
+(Theorem~\ref{representation-theory:theorem-derivations}). Put $x_n = x - x_s$; then $\ad x_n = \nu$ is nilpotent, and $\ad[x_s, x_n] = [\sigma, \nu] = 0$ gives
+$[x_s, x_n] = 0$, as $\ad$ is injective. If $x = s^{\prime} + n^{\prime}$ is another such decomposition, then $\ad x = \ad s^{\prime} + \ad n^{\prime}$ is a Jordan--Chevalley
+decomposition, so $\ad s^{\prime} = \sigma$ and $s^{\prime} = x_s$. Finally, if $[x, y] = 0$, then $\ad y$ commutes with $\ad x$, hence with the polynomial $\sigma$ in $\ad x$;
+so $\ad[y, x_s] = [\ad y, \sigma] = 0$ and $[y, x_s] = 0$.
+\end{proof}
+
+We call $x$ \emph{semisimple} if $x = x_s$, that is, if $\ad x$ is diagonalisable, and \emph{nilpotent} if $x = x_n$. For $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ this agrees
+with the usual Jordan decomposition of the matrix $x$ (Corollary~\ref{representation-theory:corollary-jordan-preserved} below), but that requires Weyl's theorem.
+
+To recognise semisimple Lie algebras of matrices, the following criterion is often quicker than computing the Killing form. A Lie algebra is \emph{reductive} if it is the direct sum
+$\mathfrak{z}(\mathfrak{g}) \oplus \mathfrak{s}$ of its centre and a semisimple ideal $\mathfrak{s}$.
+
+\begin{proposition}\label{representation-theory:proposition-reductive}
+Let $k = \RR$ or $\CC$, and let $\mathfrak{g}$ be a Lie algebra over $k$ with an inner product (Hermitian if $k = \CC$) such that the adjoint of every $\ad x$ is of the form
+$\ad x^{\prime}$ for some $x^{\prime} \in \mathfrak{g}$. Then the orthogonal complement of an ideal is an ideal, $\mathfrak{g}$ is the orthogonal direct sum of its centre
+and of simple ideals, and $\mathfrak{g} = \mathfrak{z}(\mathfrak{g}) \oplus [\mathfrak{g}, \mathfrak{g}]$ with $[\mathfrak{g}, \mathfrak{g}]$ semisimple. In particular
+$\mathfrak{g}$ is reductive, and it is semisimple if its centre is $0$.
+\end{proposition}
+
+\begin{proof}
+Let $\mathfrak{a}$ be an ideal, $z \in \mathfrak{a}^\perp$, $x \in \mathfrak{g}$ and $a \in \mathfrak{a}$. With $(\ad x)^* = \ad x^{\prime}$,
+$\langle[x, z], a\rangle = \langle z, [x^{\prime}, a]\rangle = 0$, since $[x^{\prime}, a] \in \mathfrak{a}$. So $\mathfrak{a}^\perp$ is an ideal, and $\mathfrak{g} = \mathfrak{a}
+\oplus \mathfrak{a}^\perp$.
+
+Every ideal $\mathfrak{b}$ is an orthogonal direct sum of minimal nonzero ideals of $\mathfrak{g}$, by induction on $\dim\mathfrak{b}$: if $\mathfrak{b} \neq 0$, it contains a minimal
+nonzero ideal $\mathfrak{a}$ of $\mathfrak{g}$, and $\mathfrak{b} = \mathfrak{a} \oplus (\mathfrak{b} \cap \mathfrak{a}^\perp)$, because for $y \in \mathfrak{b}$ the component of
+$y$ in $\mathfrak{a}^\perp$ is $y$ minus an element of $\mathfrak{a} \subseteq \mathfrak{b}$. So $\mathfrak{g} = \mathfrak{a}_1 \oplus \cdots \oplus \mathfrak{a}_m$ with minimal
+nonzero ideals $\mathfrak{a}_i$, and $[\mathfrak{a}_i, \mathfrak{a}_j] \subseteq \mathfrak{a}_i \cap \mathfrak{a}_j = 0$ for $i \neq j$. Hence an ideal $\mathfrak{c}$ of the Lie
+algebra $\mathfrak{a}_i$ is an ideal of $\mathfrak{g}$, as $[\mathfrak{g}, \mathfrak{c}] = [\mathfrak{a}_i, \mathfrak{c}]$, and by minimality $\mathfrak{a}_i$ has no ideals but
+$0$ and itself. So each $\mathfrak{a}_i$ is either simple or abelian, and in the abelian case every subspace is an ideal, so $\dim\mathfrak{a}_i = 1$.
+
+An element $\sum_ix_i$, $x_i \in \mathfrak{a}_i$, is central if and only if each $x_i$ is central in $\mathfrak{a}_i$; the centre of a simple Lie algebra is $0$, so
+$\mathfrak{z}(\mathfrak{g})$ is the sum of the abelian $\mathfrak{a}_i$. And $[\mathfrak{g}, \mathfrak{g}] = \sum_i[\mathfrak{a}_i, \mathfrak{a}_i]$ is the sum $\mathfrak{s}$ of the
+simple $\mathfrak{a}_i$ (Lemma~\ref{representation-theory:lemma-radical}(2)). It remains to see that $\mathfrak{s}$ is semisimple. If $\mathfrak{r}$ is an abelian ideal of
+$\mathfrak{s}$ and $\mathfrak{a}_i$ is one of its simple summands, then $\mathfrak{a}_i \cap \mathfrak{r}$ is an abelian ideal of $\mathfrak{a}_i$, hence $0$, and so
+$[\mathfrak{a}_i, \mathfrak{r}] \subseteq \mathfrak{a}_i \cap \mathfrak{r} = 0$. Thus $\mathfrak{r}$ is central in $\mathfrak{s}$, whose centre is $0$; so $\mathfrak{r} = 0$, and
+$\mathfrak{s}$ is semisimple by Lemma~\ref{representation-theory:lemma-radical}(2).
+\end{proof}
+
+The hypothesis holds for every complex Lie subalgebra $\mathfrak{g} \subseteq \mathfrak{gl}_n(\CC)$ that is closed under $x \mapsto x^* = \bar x^T$, with the Hermitian inner product
+$\langle x, y\rangle = \operatorname{tr}(xy^*) = \sum_{i,j}x_{ij}\bar y_{ij}$: then $(\ad x)^* = \ad(x^*)$, because
+\[
+\langle[x, y], z\rangle = \operatorname{tr}(xyz^* - yxz^*) = \operatorname{tr}\bigl(y(z^*x - xz^*)\bigr) = \operatorname{tr}\bigl(y[x^*, z]^*\bigr) = \langle y, [x^*, z]\rangle .
+\]
+It also holds for the Lie algebra of a compact Lie group, with an invariant inner product (Chapter~\ref{lie-groups}).
+
+\begin{example}\label{representation-theory:example-classical}
+\emph{The classical Lie algebras.} Let $J = \bigl(\begin{smallmatrix}0 & I_n\\ -I_n & 0\end{smallmatrix}\bigr)$ and let $\mathfrak{sp}_{2n}(k) = \{x \in \mathfrak{gl}_{2n}(k) : x^TJ + Jx
+= 0\}$, the Lie algebra of the bilinear form $v^TJw$ in the sense of Example~\ref{representation-theory:example-lie-algebras}(3). Writing $x$ in blocks of size $n$,
+$x^TJ + Jx = 0$ says exactly that
+\[
+x = \begin{pmatrix}A & B\\ C & -A^T\end{pmatrix}, \qquad B = B^T, \quad C = C^T,
+\]
+so $\dim\mathfrak{sp}_{2n} = n^2 + n(n+1) = n(2n + 1)$. The Lie algebras $\mathfrak{sl}_n(\CC)$ ($n \geq 2$), $\mathfrak{so}_n(\CC)$ ($n \geq 3$) and $\mathfrak{sp}_{2n}(\CC)$
+($n \geq 1$) are semisimple, and $\mathfrak{gl}_n(\CC) = \CC I \oplus \mathfrak{sl}_n(\CC)$ is reductive. All four are closed under $x \mapsto x^*$: for $\mathfrak{so}_n$ the
+conjugate of a skew-symmetric matrix is skew-symmetric, and for $\mathfrak{sp}_{2n}$, conjugating $x^TJ + Jx = 0$ and multiplying by $J^{-1} = -J$ on both sides gives
+$\bar xJ + J\bar x^T = 0$, which is the condition for $x^*$. By Proposition~\ref{representation-theory:proposition-reductive} it suffices to compute the centres.
+\begin{enumerate}
+\item $\mathfrak{sl}_n$: if $x$ commutes with $E_{ij}$, $i \neq j$, comparing the entries in row $i$ of $E_{ij}x = xE_{ij}$ gives $x_{jl} = 0$ for $l \neq j$ and $x_{jj} = x_{ii}$.
+So a central $x$ is a scalar matrix $cI$ with $nc = \operatorname{tr}x = 0$, and $x = 0$. The centre of $\mathfrak{gl}_n$ is $\CC I$ by the same computation.
+\item $\mathfrak{so}_n$, $n \geq 3$: a central $x$ commutes with $F_{ij} = E_{ij} - E_{ji}$, so it preserves its image $\operatorname{span}(e_i, e_j)$. For distinct $i$, $j$, $l$ it
+preserves $\operatorname{span}(e_i, e_j) \cap \operatorname{span}(e_i, e_l) = \CC e_i$; so $x$ is diagonal, and a diagonal skew-symmetric matrix is $0$. (For $n = 2$,
+$\mathfrak{so}_2$ is one-dimensional, hence abelian.)
+\item $\mathfrak{sp}_{2n}$: write a central $x$ in blocks $P$, $Q$, $R$, $S$. Commuting with all $\operatorname{diag}(A, -A^T) \in \mathfrak{sp}_{2n}$ means $PA = AP$,
+$QA^T = -AQ$, $RA = -A^TR$ and $SA^T = A^TS$ for all $A \in \mathfrak{gl}_n$; so $P$ and $S$ are scalar, and $A = I$ gives $Q = R = 0$. Then $x = p\operatorname{diag}(I, -I)$, and
+commuting with $\bigl(\begin{smallmatrix}0 & I\\ 0 & 0\end{smallmatrix}\bigr) \in \mathfrak{sp}_{2n}$ gives $2p = 0$.
+\end{enumerate}
+The real Lie algebras $\mathfrak{su}(n)$ ($n \geq 2$) and $\mathfrak{so}(n)$ ($n \geq 3$) are semisimple for the same reason, with the real inner product
+$\operatorname{Re}\operatorname{tr}(xy^*)$ and $x^* = -x$. These are the Lie algebras $\mathfrak{sl}_n$ ($n \geq 2$), $\mathfrak{so}_{2n+1}$ ($n \geq 1$), $\mathfrak{sp}_{2n}$
+($n \geq 1$) and $\mathfrak{so}_{2n}$ ($n \geq 2$) of the four infinite families in the classification (Section~\ref{representation-theory:section-root-systems}).
+\end{example}
+
+\section{Weyl's theorem}\label{representation-theory:section-weyl}
+
+For $\mathfrak{sl}_2$, complete reducibility was proved with the Casimir operator $C = ef + fe + \frac12h^2$, which commutes with the action and separates the irreducible
+representations (Theorem~\ref{representation-theory:theorem-sl2-semisimple}). The same element exists for every semisimple Lie algebra; it is built from a nondegenerate invariant
+form, and it gives complete reducibility in general. In this section $\mathfrak{g}$ is semisimple and $k$ has characteristic $0$.
+
+\begin{lemma}[Casimir element]\label{representation-theory:lemma-casimir}
+Let $\varphi \colon \mathfrak{g} \to \mathfrak{gl}(V)$ be a faithful (injective) representation. Then the trace form $\beta = \beta_\varphi$ is nondegenerate. Let $x_1, \ldots, x_n$ be
+a basis of $\mathfrak{g}$ and $y_1, \ldots, y_n$ the dual basis, $\beta(x_i, y_j) = \delta_{ij}$, and put
+\[
+c_\varphi = \sum_{i=1}^n\varphi(x_i)\varphi(y_i) \in \End(V).
+\]
+Then $c_\varphi$ commutes with $\varphi(x)$ for all $x \in \mathfrak{g}$, and $\operatorname{tr}c_\varphi = \dim\mathfrak{g}$.
+\end{lemma}
+
+\begin{proof}
+The radical $S$ of $\beta$ is an ideal (Lemma~\ref{representation-theory:lemma-radical}(3)), and $\operatorname{tr}(\varphi(x)\varphi(y)) = 0$ for $x, y \in S$; by Cartan's
+criterion (Theorem~\ref{representation-theory:theorem-cartan-criterion}) $\varphi(S) \cong S$ is solvable, so $S = 0$. For $x \in \mathfrak{g}$ write $[x, x_i] = \sum_ja_{ij}x_j$ and
+$[x, y_i] = \sum_jb_{ij}y_j$. By invariance, $a_{il} = \beta([x, x_i], y_l) = -\beta([x_i, x], y_l) = -\beta(x_i, [x, y_l]) = -b_{li}$. Using
+$[X, YZ] = [X, Y]Z + Y[X, Z]$ in $\End(V)$,
+\[
+[\varphi(x), c_\varphi] = \sum_i\bigl([\varphi(x), \varphi(x_i)]\varphi(y_i) + \varphi(x_i)[\varphi(x), \varphi(y_i)]\bigr) = \sum_{i,j}a_{ij}\varphi(x_j)\varphi(y_i) +
+\sum_{i,j}b_{ij}\varphi(x_i)\varphi(y_j),
+\]
+and renaming the indices in the second sum, it becomes $\sum_{i,j}b_{ji}\varphi(x_j)\varphi(y_i) = -\sum_{i,j}a_{ij}\varphi(x_j)\varphi(y_i)$. Finally
+$\operatorname{tr}c_\varphi = \sum_i\beta(x_i, y_i) = n$.
+\end{proof}
+
+If $\varphi$ is not faithful, its kernel is an ideal, so $\mathfrak{g} = \ker\varphi \oplus \mathfrak{g}^{\prime}$ where $\mathfrak{g}^{\prime}$ is the sum of the other simple ideals
+(Theorem~\ref{representation-theory:theorem-simple-ideals}); $\varphi|_{\mathfrak{g}^{\prime}}$ is faithful with the same image, and we define
+$c_\varphi = c_{\varphi|\mathfrak{g}^{\prime}}$. It commutes with $\varphi(\mathfrak{g})$, and its trace is $\dim\varphi(\mathfrak{g})$. For $\mathfrak{sl}_2$ acting on $k^2$ the
+trace form is $\operatorname{tr}(xy)$, the dual basis of $e, f, h$ is $f, e, \frac12h$, and $c_\varphi = ef + fe + \frac12h^2$ is the Casimir operator of
+Theorem~\ref{representation-theory:theorem-sl2-semisimple}.
+
+\begin{theorem}[Weyl]\label{representation-theory:theorem-weyl}
+Every finite-dimensional representation of a semisimple Lie algebra over a field of characteristic $0$ is completely reducible.
+\end{theorem}
+
+\begin{proof}
+It suffices to show that every subrepresentation $W$ of a representation $V$ has a complementary subrepresentation; complete reducibility then follows by induction on $\dim V$. First
+note that $\mathfrak{g}$ acts by $0$ on every one-dimensional representation, since $\mathfrak{gl}_1$ is abelian and $\mathfrak{g} = [\mathfrak{g}, \mathfrak{g}]$.
+
+\emph{Step 1: $W$ of codimension $1$.} We argue by induction on $\dim V$. By the remark just made, $\mathfrak{g}V \subseteq W$. If $\varphi = 0$, any complement will do. Suppose first
+that $W$ is irreducible, and let $c = c_\varphi$. It maps $V$ into $W$, being a sum of products of elements of $\varphi(\mathfrak{g})$, so
+$\operatorname{tr}(c|_W) = \operatorname{tr}c = \dim\varphi(\mathfrak{g}) \neq 0$ (Lemma~\ref{representation-theory:lemma-radical}(4)). Since $c$ commutes with $\mathfrak{g}$,
+$\ker(c|_W)$ is a subrepresentation of $W$, not equal to $W$, hence $0$. So $\ker c \cap W = 0$, while $\dim\ker c \geq \dim V - \dim W = 1$ because $c(V) \subseteq W$; hence
+$V = W \oplus \ker c$, and $\ker c$ is a subrepresentation. If $W$ is not irreducible, let $0 \neq W^{\prime} \subsetneq W$ be a subrepresentation. By induction, applied to
+$W/W^{\prime} \subseteq V/W^{\prime}$, there is a subrepresentation $\widetilde{W} \supseteq W^{\prime}$ with $V/W^{\prime} = W/W^{\prime} \oplus \widetilde{W}/W^{\prime}$ and
+$\dim\widetilde{W}/W^{\prime} = 1$. By induction again, applied to $W^{\prime} \subseteq \widetilde{W}$ (of codimension $1$, and $\dim\widetilde{W} < \dim V$),
+$\widetilde{W} = W^{\prime} \oplus X$ with $X$ a subrepresentation of dimension $1$. Then $X \cap W \subseteq \widetilde{W} \cap W = W^{\prime}$, so $X \cap W = X \cap W^{\prime} = 0$,
+and $V = W \oplus X$.
+
+\emph{Step 2: general $W \neq 0$.} The space $\Hom_k(V, W)$ is a representation with $(x \cdot f)(v) = xf(v) - f(xv)$ (it is $V^* \otimes W$,
+Definition~\ref{representation-theory:definition-lie-representation}). Let $\mathcal{V}$ be the subspace of maps $f$ whose restriction to $W$ is a scalar multiple $\lambda_f\id_W$,
+and $\mathcal{W} \subseteq \mathcal{V}$ those with $f|_W = 0$. For $f \in \mathcal{V}$ and $w \in W$, $(x \cdot f)(w) = \lambda_fxw - \lambda_fxw = 0$, so
+$\mathfrak{g}\mathcal{V} \subseteq \mathcal{W}$; in particular both are subrepresentations, and $\mathcal{W}$ has codimension $1$ in $\mathcal{V}$, because $f \mapsto \lambda_f$ is onto
+(extend $\id_W$ by a linear projection). By Step 1, $\mathcal{V} = \mathcal{W} \oplus kf$ with $kf$ a subrepresentation, on which $\mathfrak{g}$ acts by $0$. We may take
+$\lambda_f = 1$. Then $x \cdot f = 0$ says $xf(v) = f(xv)$: $f \colon V \to W$ is a homomorphism of representations which is the identity on $W$, and $\ker f$ is a
+subrepresentation complementary to $W$.
+\end{proof}
+
+\begin{counterexample}\label{representation-theory:counterexample-weyl}
+Semisimplicity is needed. The one-dimensional Lie algebra $k$ acts on $k^2$ by $t \mapsto \bigl(\begin{smallmatrix}0 & t\\ 0 & 0\end{smallmatrix}\bigr)$; the line $ke_1$ is a
+subrepresentation, and a complementary one would be a second line killed by the nilpotent matrix, whose kernel is $ke_1$. The same happens for the adjoint representation of the
+solvable Lie algebra with $[x, y] = y$: the ideal $ky$ has no complementary ideal, as a complement would be a line $k(x + cy)$ with $[y, x + cy] = -y$ in it.
+\end{counterexample}
+
+\begin{corollary}[Preservation of the Jordan decomposition]\label{representation-theory:corollary-jordan-preserved}
+Let $k$ be algebraically closed.
+\begin{enumerate}
+\item If $\mathfrak{g} \subseteq \mathfrak{gl}(V)$ is a semisimple Lie subalgebra and $x \in \mathfrak{g}$, the semisimple and nilpotent parts $s$, $n$ of the endomorphism $x$ lie in
+$\mathfrak{g}$, and they are the parts $x_s$, $x_n$ of the abstract Jordan decomposition.
+\item If $\varphi \colon \mathfrak{g} \to \mathfrak{gl}(V)$ is a representation of a semisimple Lie algebra, then $\varphi(x_s)$ and $\varphi(x_n)$ are the semisimple and nilpotent
+parts of $\varphi(x)$. In particular a semisimple element acts diagonalisably in every finite-dimensional representation.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) By Lemma~\ref{representation-theory:lemma-jordan-ad}, $\ad s$ and $\ad n$ are polynomials without constant term in $\ad x$, which maps $\mathfrak{g}$ into itself; so $s$ and
+$n$ lie in the normaliser $N = \{y \in \mathfrak{gl}(V) : [y, \mathfrak{g}] \subseteq \mathfrak{g}\}$, a Lie subalgebra. For each subrepresentation $W \subseteq V$ let
+$L_W = \{y \in \mathfrak{gl}(V) : y(W) \subseteq W,\ \operatorname{tr}(y|_W) = 0\}$, also a Lie subalgebra. It contains $\mathfrak{g} = [\mathfrak{g}, \mathfrak{g}]$, as the
+restrictions of commutators are commutators, and it contains $s$ and $n$: these are polynomials in $x$, so they preserve $W$, $n|_W$ is nilpotent, so of trace $0$, and
+$s|_W = x|_W - n|_W$. Let $\mathfrak{g}^{\prime} = N \cap \bigcap_WL_W$; it contains $\mathfrak{g}$, $s$ and $n$, and $\mathfrak{g}$ is an ideal of $\mathfrak{g}^{\prime}$. By Weyl's
+theorem, applied to the representation $\ad$ of $\mathfrak{g}$ on $\mathfrak{g}^{\prime}$, $\mathfrak{g}^{\prime} = \mathfrak{g} \oplus M$ with $[\mathfrak{g}, M] \subseteq M$;
+also $[\mathfrak{g}, M] \subseteq \mathfrak{g}$, so $[\mathfrak{g}, M] = 0$. Let $y \in M$ and let $W \subseteq V$ be an irreducible subrepresentation. Then $y|_W$ commutes with
+$\mathfrak{g}$, so it is a scalar by Schur's lemma (Lemma~\ref{representation-theory:lemma-schur}, whose proof applies to Lie algebras), and it has trace $0$, so $y|_W = 0$. By
+Weyl's theorem $V$ is a sum of irreducible subrepresentations, so $y = 0$. Hence $\mathfrak{g}^{\prime} = \mathfrak{g}$ contains $s$ and $n$. Now $\ad_{\mathfrak{g}}s$ is
+diagonalisable, as the restriction of the diagonalisable $\ad s$ to an invariant subspace, $\ad_{\mathfrak{g}}n$ is nilpotent, and $[s, n] = 0$; by uniqueness in
+Proposition~\ref{representation-theory:proposition-abstract-jordan}, $s = x_s$ and $n = x_n$.
+
+(2) The image $\varphi(\mathfrak{g}) \cong \mathfrak{g}/\ker\varphi$ is semisimple (Theorem~\ref{representation-theory:theorem-simple-ideals}). $\mathfrak{g}$ has a basis of eigenvectors of
+$\ad x_s$, and $\varphi$ maps it onto a spanning set of $\varphi(\mathfrak{g})$ consisting of eigenvectors of $\ad\varphi(x_s)$; so $\ad\varphi(x_s)$ is diagonalisable on
+$\varphi(\mathfrak{g})$. Similarly $(\ad\varphi(x_n))^N\varphi(y) = \varphi((\ad x_n)^Ny) = 0$ for large $N$, and $[\varphi(x_s), \varphi(x_n)] = 0$. By uniqueness,
+$\varphi(x) = \varphi(x_s) + \varphi(x_n)$ is the abstract Jordan decomposition in $\varphi(\mathfrak{g})$, and by (1) it is the Jordan decomposition of the endomorphism $\varphi(x)$.
+\end{proof}
+
+\section{The root space decomposition}\label{representation-theory:section-roots}
+
+In $\mathfrak{sl}_n$ the diagonal matrices $\mathfrak{h}$ act on $\mathfrak{sl}_n$ by $\ad$ diagonalisably: $[h, E_{ij}] = (h_i - h_j)E_{ij}$ for $h = \operatorname{diag}(h_1, \ldots,
+h_n)$. So $\mathfrak{sl}_n$ is the sum of $\mathfrak{h}$ and of the lines $\CC E_{ij}$, on which $\mathfrak{h}$ acts through the linear forms $h \mapsto h_i - h_j$, the
+\emph{roots}. This section shows that every semisimple Lie algebra has such a decomposition, and that the roots satisfy strong integrality conditions, all coming from the
+representation theory of $\mathfrak{sl}_2$. In this section $k = \CC$ (the proofs work over any algebraically closed field of characteristic $0$), and $\mathfrak{g}$ is semisimple,
+with Killing form $\kappa$.
+
+\begin{definition}\label{representation-theory:definition-toral}
+A subalgebra $\mathfrak{t} \subseteq \mathfrak{g}$ is \emph{toral} if all its elements are semisimple, that is, every $\ad x$, $x \in \mathfrak{t}$, is diagonalisable. A
+\emph{Cartan subalgebra} of $\mathfrak{g}$ is a maximal toral subalgebra (one not contained in a larger toral subalgebra).
+\end{definition}
+
+For semisimple Lie algebras over $\CC$ this agrees with the general definition of a Cartan subalgebra as a nilpotent subalgebra equal to its own normaliser
+\cite[Section 15]{humphreys-lie}.
+
+\begin{lemma}\label{representation-theory:lemma-toral}
+Toral subalgebras are abelian, and if $\mathfrak{g} \neq 0$ it has nonzero toral subalgebras. Hence Cartan subalgebras exist, and they are abelian and nonzero.
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak{t}$ be toral and $x \in \mathfrak{t}$. Since $\ad_{\mathfrak{t}}x$ is the restriction of the diagonalisable $\ad x$ to an invariant subspace, it is diagonalisable,
+and it suffices to show that it has no nonzero eigenvalue. Suppose $[x, y] = ay$ with $y \in \mathfrak{t}$ and $a \neq 0$. Then $\ad_{\mathfrak{t}}y(x) = -ay$ is a nonzero
+eigenvector of $\ad_{\mathfrak{t}}y$ with eigenvalue $0$. But $\ad_{\mathfrak{t}}y$ is diagonalisable: writing $x = \sum_iv_i$ with $[y, v_i] = \lambda_iv_i$, the vector
+$[y, x] = \sum_{\lambda_i \neq 0}\lambda_iv_i$ lies in the sum of the eigenspaces with nonzero eigenvalues, which meets the kernel only in $0$; contradiction.
+
+If every $x \in \mathfrak{g}$ satisfied $x_s = 0$, every $\ad x$ would be nilpotent, and $\mathfrak{g}$ would be nilpotent by Engel's theorem
+(Corollary~\ref{representation-theory:corollary-engel}), hence solvable, hence $0$. So some $x_s$ is nonzero, and $\CC x_s$ is toral. A toral subalgebra of maximal dimension is maximal.
+\end{proof}
+
+Fix a Cartan subalgebra $\mathfrak{h}$. Its elements commute, so the operators $\ad h$, $h \in \mathfrak{h}$, are commuting diagonalisable endomorphisms of $\mathfrak{g}$, and they are
+simultaneously diagonalisable: apply Theorem~\ref{linear-algebra:theorem-diagonalisable} to $\ad h_1$, then to the restrictions of $\ad h_2$ to its eigenspaces, and so on, for a
+basis $h_1, \ldots, h_l$ of $\mathfrak{h}$. A common eigenvector $x$ satisfies $[h, x] = \alpha(h)x$ for a linear form $\alpha \in \mathfrak{h}^*$. Hence
+\[
+\mathfrak{g} = \bigoplus_{\alpha \in \mathfrak{h}^*}\mathfrak{g}_\alpha, \qquad \mathfrak{g}_\alpha = \{x \in \mathfrak{g} : [h, x] = \alpha(h)x \text{ for all } h \in \mathfrak{h}\}.
+\]
+Here $\mathfrak{g}_0 = C_{\mathfrak{g}}(\mathfrak{h})$ is the centraliser of $\mathfrak{h}$, which contains $\mathfrak{h}$. The \emph{roots} of $\mathfrak{g}$ with respect to $\mathfrak{h}$
+are the nonzero $\alpha$ with $\mathfrak{g}_\alpha \neq 0$; they form a finite set $\Phi \subseteq \mathfrak{h}^*$, and $\mathfrak{g}_\alpha$ is the \emph{root space} of $\alpha$.
+
+\begin{proposition}\label{representation-theory:proposition-root-spaces}
+For $\alpha, \beta \in \mathfrak{h}^*$:
+\begin{enumerate}
+\item $[\mathfrak{g}_\alpha, \mathfrak{g}_\beta] \subseteq \mathfrak{g}_{\alpha + \beta}$;
+\item if $\alpha \neq 0$ and $x \in \mathfrak{g}_\alpha$, then $\ad x$ is nilpotent;
+\item if $\alpha + \beta \neq 0$, then $\kappa(\mathfrak{g}_\alpha, \mathfrak{g}_\beta) = 0$;
+\item the restriction of $\kappa$ to $\mathfrak{g}_0$ is nondegenerate.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) For $x \in \mathfrak{g}_\alpha$, $y \in \mathfrak{g}_\beta$, the Jacobi identity gives $[h, [x, y]] = [[h, x], y] + [x, [h, y]] = (\alpha(h) + \beta(h))[x, y]$. (2) By (1),
+$\ad x$ maps $\mathfrak{g}_\gamma$ into $\mathfrak{g}_{\gamma + \alpha}$, and only finitely many $\mathfrak{g}_\gamma$ are nonzero. (3) Choose $h$ with $\alpha(h) + \beta(h) \neq 0$; by
+invariance, for $x \in \mathfrak{g}_\alpha$ and $y \in \mathfrak{g}_\beta$, $\alpha(h)\kappa(x, y) = \kappa([h, x], y) = -\kappa([x, h], y) = -\kappa(x, [h, y]) = -\beta(h)\kappa(x, y)$,
+so $\kappa(x, y) = 0$. (4) By (3), $\mathfrak{g}_0$ is orthogonal to all $\mathfrak{g}_\alpha$ with $\alpha \neq 0$; so an element of $\mathfrak{g}_0$ orthogonal to $\mathfrak{g}_0$ is
+orthogonal to $\mathfrak{g}$, hence zero (Theorem~\ref{representation-theory:theorem-killing-criterion}).
+\end{proof}
+
+\begin{theorem}\label{representation-theory:theorem-centraliser-cartan}
+$C_{\mathfrak{g}}(\mathfrak{h}) = \mathfrak{h}$. Hence $\mathfrak{g} = \mathfrak{h} \oplus \bigoplus_{\alpha \in \Phi}\mathfrak{g}_\alpha$, and the restriction of $\kappa$ to
+$\mathfrak{h}$ is nondegenerate.
+\end{theorem}
+
+\begin{proof}
+Write $C = C_{\mathfrak{g}}(\mathfrak{h})$, a subalgebra by the Jacobi identity.
+
+\emph{Step 1: $C$ contains the semisimple and nilpotent parts of its elements.} For $x \in C$, $\ad x$ maps $\mathfrak{h}$ to $0$, and $\ad x_s$, $\ad x_n$ are polynomials without
+constant term in $\ad x$ (Proposition~\ref{representation-theory:proposition-abstract-jordan} and Lemma~\ref{representation-theory:lemma-jordan-ad}(1)); so they also kill
+$\mathfrak{h}$.
+
+\emph{Step 2: the semisimple elements of $C$ lie in $\mathfrak{h}$.} If $s \in C$ is semisimple, $\mathfrak{h} + \CC s$ is an abelian subalgebra, and its elements $h + cs$ have
+$\ad(h + cs) = \ad h + c\ad s$, a sum of commuting diagonalisable endomorphisms, which is diagonalisable (Theorem~\ref{linear-algebra:theorem-diagonalisable}). So $\mathfrak{h} + \CC s$ is
+toral, and $s \in \mathfrak{h}$ by maximality.
+
+\emph{Step 3: $\kappa|_{\mathfrak{h}}$ is nondegenerate.} Let $h \in \mathfrak{h}$ with $\kappa(h, \mathfrak{h}) = 0$, and $x \in C$. Then $x_s \in \mathfrak{h}$ by Steps 1 and 2, so
+$\kappa(h, x_s) = 0$. And $x_n \in C$, so $\ad x_n$ is nilpotent and commutes with $\ad h$; then $\ad h\,\ad x_n$ is nilpotent and $\kappa(h, x_n) = 0$. So $\kappa(h, C) = 0$, and
+$h = 0$ by Proposition~\ref{representation-theory:proposition-root-spaces}(4).
+
+\emph{Step 4: $C$ is nilpotent.} For $x \in C$, $\ad_Cx_s = 0$ since $x_s \in \mathfrak{h}$, and $\ad_Cx_n$ is nilpotent; so every $\ad_Cx = \ad_Cx_n$ is nilpotent, and $C$ is
+nilpotent by Engel's theorem.
+
+\emph{Step 5: $\mathfrak{h} \cap [C, C] = 0$.} By invariance $\kappa(\mathfrak{h}, [C, C]) = \kappa([\mathfrak{h}, C], C) = 0$; apply Step 3.
+
+\emph{Step 6: $C$ is abelian.} Otherwise $[C, C]$ is a nonzero ideal of the nilpotent Lie algebra $C$. The operators $\ad_Cx$ restricted to $[C, C]$ are nilpotent, so by
+Theorem~\ref{representation-theory:theorem-engel-linear} they have a common null vector: there is $z \neq 0$ in $[C, C]$ with $[C, z] = 0$. By Steps 2 and 5, $z$ is not semisimple,
+so $z_n \neq 0$; and $z_n \in C$ with $\ad z_n$ a polynomial in $\ad z$, which kills $C$, so $[z_n, C] = 0$. For $y \in C$, $\ad z_n$ is nilpotent and commutes with $\ad y$, so
+$\kappa(z_n, y) = 0$. This contradicts Proposition~\ref{representation-theory:proposition-root-spaces}(4).
+
+\emph{Step 7: $C = \mathfrak{h}$.} Otherwise there is $x \in C \setminus \mathfrak{h}$, and $x_n = x - x_s \neq 0$ lies in $C$ by Steps 1 and 2. Since $C$ is abelian, $\ad x_n$
+commutes with every $\ad y$, $y \in C$, so $\kappa(x_n, C) = 0$ as in Step 6; again a contradiction.
+\end{proof}
+
+Since $\kappa|_{\mathfrak{h}}$ is nondegenerate, every $\lambda \in \mathfrak{h}^*$ is $\kappa(t_\lambda, -)$ for a unique $t_\lambda \in \mathfrak{h}$, and $\lambda \mapsto t_\lambda$ is a
+linear isomorphism $\mathfrak{h}^* \to \mathfrak{h}$. We transport $\kappa$ to the symmetric bilinear form $(\lambda, \mu) = \kappa(t_\lambda, t_\mu)$ on $\mathfrak{h}^*$, which is
+nondegenerate.
+
+\begin{proposition}\label{representation-theory:proposition-roots-sl2}
+\begin{enumerate}
+\item $\Phi$ spans $\mathfrak{h}^*$.
+\item If $\alpha \in \Phi$, then $-\alpha \in \Phi$.
+\item If $\alpha \in \Phi$, $x \in \mathfrak{g}_\alpha$ and $y \in \mathfrak{g}_{-\alpha}$, then $[x, y] = \kappa(x, y)t_\alpha$.
+\item If $\alpha \in \Phi$, then $(\alpha, \alpha) = \alpha(t_\alpha) \neq 0$.
+\item If $\alpha \in \Phi$ and $0 \neq x_\alpha \in \mathfrak{g}_\alpha$, there is $y_\alpha \in \mathfrak{g}_{-\alpha}$ such that $x_\alpha$, $y_\alpha$ and
+$h_\alpha = [x_\alpha, y_\alpha]$ span a subalgebra $S_\alpha$ isomorphic to $\mathfrak{sl}_2$, by $x_\alpha \mapsto e$, $y_\alpha \mapsto f$, $h_\alpha \mapsto h$. The element
+$h_\alpha = 2t_\alpha/(\alpha, \alpha)$, the \emph{coroot} of $\alpha$, does not depend on the choices, $\alpha(h_\alpha) = 2$, and $h_{-\alpha} = -h_\alpha$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Otherwise some $h \neq 0$ in $\mathfrak{h}$ satisfies $\alpha(h) = 0$ for all $\alpha \in \Phi$. Then $[h, \mathfrak{g}_\alpha] = 0$ for all roots and $[h, \mathfrak{h}] = 0$, so $h$
+is central (Theorem~\ref{representation-theory:theorem-centraliser-cartan}), contradicting semisimplicity.
+
+(2) If $-\alpha \notin \Phi$, then $\kappa(\mathfrak{g}_\alpha, \mathfrak{g}_\beta) = 0$ for all $\beta$ with $\mathfrak{g}_\beta \neq 0$
+(Proposition~\ref{representation-theory:proposition-root-spaces}(3)), so $\mathfrak{g}_\alpha \perp \mathfrak{g}$ and $\mathfrak{g}_\alpha = 0$, which is absurd.
+
+(3) $[x, y] \in \mathfrak{g}_0 = \mathfrak{h}$, and for $h \in \mathfrak{h}$, $\kappa(h, [x, y]) = \kappa([h, x], y) = \alpha(h)\kappa(x, y) = \kappa(h, \kappa(x, y)t_\alpha)$. As
+$\kappa|_{\mathfrak{h}}$ is nondegenerate, $[x, y] = \kappa(x, y)t_\alpha$.
+
+(4) Suppose $\alpha(t_\alpha) = 0$. For $x \neq 0$ in $\mathfrak{g}_\alpha$, $\kappa(x, \mathfrak{g}_{-\alpha}) \neq 0$, since $x$ is orthogonal to all other $\mathfrak{g}_\beta$ and
+$\kappa$ is nondegenerate; choose $y \in \mathfrak{g}_{-\alpha}$ with $\kappa(x, y) = 1$, so that $[x, y] = t_\alpha$ by (3). Then $[t_\alpha, x] = \alpha(t_\alpha)x = 0$ and
+$[t_\alpha, y] = 0$, so $S = \operatorname{span}(x, y, t_\alpha)$ is a solvable subalgebra, with $[S, S] = \CC t_\alpha$. By Lie's theorem applied to $\ad S \subseteq \mathfrak{gl}(\mathfrak{g})$,
+the element $\ad t_\alpha \in [\ad S, \ad S]$ is strictly upper triangular in a suitable basis, hence nilpotent. It is also diagonalisable, as $t_\alpha \in \mathfrak{h}$; so
+$\ad t_\alpha = 0$ and $t_\alpha$ is central, hence $0$, contradicting $\alpha \neq 0$.
+
+(5) Choose $y_\alpha \in \mathfrak{g}_{-\alpha}$ with $\kappa(x_\alpha, y_\alpha) = 2/(\alpha, \alpha)$, which is possible as in (4). By (3), $h_\alpha = [x_\alpha, y_\alpha] =
+2t_\alpha/(\alpha, \alpha)$, so $\alpha(h_\alpha) = 2$, $[h_\alpha, x_\alpha] = 2x_\alpha$ and $[h_\alpha, y_\alpha] = -2y_\alpha$. The three elements are linearly independent (they lie in
+$\mathfrak{g}_\alpha$, $\mathfrak{g}_{-\alpha}$, $\mathfrak{h}$ and are nonzero), and their brackets are those of $e$, $f$, $h$. Since $t_{-\alpha} = -t_\alpha$, $h_{-\alpha} = -h_\alpha$.
+\end{proof}
+
+So $\mathfrak{g}$ is a representation of each $S_\alpha \cong \mathfrak{sl}_2$, by $\ad$, and Section~\ref{representation-theory:section-sl2} applies. In such a representation $M$ the
+eigenvalues of $h_\alpha$, the \emph{weights}, are integers, $M$ is a direct sum of irreducible representations $V(m)$, and since $V(m)$ has the weights
+$m, m - 2, \ldots, -m$, each with multiplicity one, the number of summands is $\dim M_0 + \dim M_1$, where $M_j$ is the $j$-eigenspace of $h_\alpha$
+(Theorems~\ref{representation-theory:theorem-sl2-irreducibles} and~\ref{representation-theory:theorem-sl2-semisimple}).
+
+\begin{theorem}\label{representation-theory:theorem-root-properties}
+Let $\alpha, \beta \in \Phi$.
+\begin{enumerate}
+\item $\dim\mathfrak{g}_\alpha = 1$, and the only multiples $c\alpha$, $c \in \CC$, of $\alpha$ that are roots are $\alpha$ and $-\alpha$.
+\item $\beta(h_\alpha) \in \ZZ$, and $\beta - \beta(h_\alpha)\alpha \in \Phi$.
+\item Let $\beta \neq \pm\alpha$, and let $r$, $q$ be the largest integers such that $\beta - r\alpha$ and $\beta + q\alpha$ are roots. Then $\beta + i\alpha \in \Phi$ for all
+$-r \leq i \leq q$ (the \emph{$\alpha$-string through $\beta$} is unbroken), and $\beta(h_\alpha) = r - q$.
+\item If $\alpha + \beta \in \Phi$, then $[\mathfrak{g}_\alpha, \mathfrak{g}_\beta] = \mathfrak{g}_{\alpha + \beta}$.
+\item $\mathfrak{h}$ is spanned by the coroots $h_\alpha$, and $\mathfrak{g}$ is generated as a Lie algebra by the root spaces.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Let $M = \mathfrak{h} \oplus \bigoplus_{c \neq 0}\mathfrak{g}_{c\alpha}$. By Proposition~\ref{representation-theory:proposition-root-spaces}(1) it is stable under $\ad S_\alpha$, and
+$h_\alpha$ acts on $\mathfrak{g}_{c\alpha}$ by $c\alpha(h_\alpha) = 2c$. So $2c \in \ZZ$ whenever $c\alpha \in \Phi$, and the $0$-weight space of $M$ is $\mathfrak{h}$. Now
+$\mathfrak{h} = \ker\alpha \oplus \CC h_\alpha$, and $S_\alpha$ acts by $0$ on $\ker\alpha$: $[x_\alpha, h] = -\alpha(h)x_\alpha = 0$ and $[y_\alpha, h] = 0$ for
+$h \in \ker\alpha$. So $\ker\alpha \oplus S_\alpha$ is a subrepresentation of $M$, and by Theorem~\ref{representation-theory:theorem-sl2-semisimple} it has a complementary
+subrepresentation $M^{\prime}$. The $0$-weight space of $M$ is contained in $\ker\alpha \oplus S_\alpha$, so $M^{\prime}$ has no weight $0$, hence no summand $V(m)$ with $m$ even. Thus
+the even weights of $M$ are those of $\ker\alpha \oplus S_\alpha$, namely $0$ and $\pm2$; as $\mathfrak{g}_{2\alpha}$ would have weight $4$, $2\alpha \notin \Phi$. This holds for every
+root, so $\frac12\alpha$ is not a root either ($\alpha$ would be twice a root). Hence $M$ has no weight $1$, $M^{\prime}$ has no summand $V(m)$ with $m$ odd, and $M^{\prime} = 0$. So
+$M = \ker\alpha \oplus S_\alpha$: $\mathfrak{g}_\alpha = \CC x_\alpha$, and $\mathfrak{g}_{c\alpha} = 0$ for $c \neq 0, \pm1$.
+
+(2) and (3) Let $\beta \neq \pm\alpha$ and $K = \bigoplus_{i \in \ZZ}\mathfrak{g}_{\beta + i\alpha}$, a subrepresentation of $S_\alpha$. No $\beta + i\alpha$ is $0$, by (1), so each
+summand is a root space, of dimension $1$, or zero. The weight of $\mathfrak{g}_{\beta + i\alpha}$ is $\beta(h_\alpha) + 2i$; these are integers, so $\beta(h_\alpha) \in \ZZ$, they are
+distinct, and they all have the same parity. So $\dim K_0 + \dim K_1 = 1$, and $K$ is irreducible, $K \cong V(m)$. The weights of $V(m)$ form the unbroken string $m, m - 2, \ldots, -m$,
+so the $i$ with $\beta + i\alpha \in \Phi$ form an interval $[-r, q]$, and $m = \beta(h_\alpha) + 2q$, $-m = \beta(h_\alpha) - 2r$. Hence $\beta(h_\alpha) = r - q$, and
+$\beta - \beta(h_\alpha)\alpha = \beta + (q - r)\alpha$ is a root, as $-r \leq q - r \leq q$. For $\beta = \pm\alpha$, (2) holds since $\pm\alpha(h_\alpha) = \pm2$ and $-\beta \in \Phi$.
+
+(4) Since $2\alpha$ and $0$ are not roots, $\beta \neq \pm\alpha$, and $K \cong V(m)$ as above, with $\mathfrak{g}_\beta$ and $\mathfrak{g}_{\alpha + \beta}$ the weight spaces of
+weights $j = \beta(h_\alpha)$ and $j + 2 \leq m$. In $V(m)$, $e$ maps the weight space $m - 2i$ onto the weight space $m - 2i + 2$ for $1 \leq i \leq m$, since
+$ev_i = (m - i + 1)v_{i-1}$ (Theorem~\ref{representation-theory:theorem-sl2-irreducibles}). So $\ad x_\alpha \colon \mathfrak{g}_\beta \to \mathfrak{g}_{\alpha + \beta}$ is nonzero, and
+onto, both spaces being one-dimensional.
+
+(5) The coroots are nonzero multiples of the $t_\alpha$, and the $t_\alpha$ span $\mathfrak{h}$ because $\Phi$ spans $\mathfrak{h}^*$. As $h_\alpha = [x_\alpha, y_\alpha]$, the
+subalgebra generated by the root spaces contains $\mathfrak{h}$, hence everything.
+\end{proof}
+
+\begin{theorem}\label{representation-theory:theorem-root-system-of-g}
+\begin{enumerate}
+\item For $h, h^{\prime} \in \mathfrak{h}$, $\kappa(h, h^{\prime}) = \sum_{\gamma \in \Phi}\gamma(h)\gamma(h^{\prime})$. For $\lambda \in \mathfrak{h}^*$ and $\alpha \in \Phi$,
+$\lambda(h_\alpha) = 2(\lambda, \alpha)/(\alpha, \alpha)$.
+\item $(\alpha, \beta) \in \QQ$ for all $\alpha, \beta \in \Phi$.
+\item Let $E_\QQ$ be the $\QQ$-span of $\Phi$ in $\mathfrak{h}^*$. Every basis of $\mathfrak{h}^*$ consisting of roots is a basis of $E_\QQ$ over $\QQ$; so
+$\dim_\QQ E_\QQ = \dim\mathfrak{h}$, the \emph{rank} of $\mathfrak{g}$.
+\item The form $(\ ,\ )$ is positive definite on $E_\QQ$, and extends to an inner product on the real vector space $E = \RR \otimes_\QQ E_\QQ$.
+\end{enumerate}
+In $E$, with $\langle\beta, \alpha\rangle = 2(\beta, \alpha)/(\alpha, \alpha)$:
+\begin{enumerate}
+\item[(R1)] $\Phi$ is finite, spans $E$, and does not contain $0$;
+\item[(R2)] the only multiples of $\alpha \in \Phi$ in $\Phi$ are $\pm\alpha$;
+\item[(R3)] for $\alpha, \beta \in \Phi$, $\sigma_\alpha(\beta) = \beta - \langle\beta, \alpha\rangle\alpha \in \Phi$;
+\item[(R4)] for $\alpha, \beta \in \Phi$, $\langle\beta, \alpha\rangle \in \ZZ$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) $\ad h\,\ad h^{\prime}$ is $0$ on $\mathfrak{h}$ and $\gamma(h)\gamma(h^{\prime})$ on the line $\mathfrak{g}_\gamma$. And
+$\lambda(h_\alpha) = \kappa(t_\lambda, h_\alpha) = 2\kappa(t_\lambda, t_\alpha)/(\alpha, \alpha)$.
+
+(2) By (1), $(\lambda, \mu) = \sum_\gamma\gamma(t_\lambda)\gamma(t_\mu) = \sum_\gamma(\gamma, \lambda)(\gamma, \mu)$. For $\beta \in \Phi$, dividing
+$(\beta, \beta) = \sum_\gamma(\gamma, \beta)^2$ by $(\beta, \beta)^2 \neq 0$ gives $1/(\beta, \beta) = \frac14\sum_\gamma\gamma(h_\beta)^2$, which is rational by
+Theorem~\ref{representation-theory:theorem-root-properties}(2). So $(\beta, \beta) \in \QQ$, and $(\alpha, \beta) = \frac12\alpha(h_\beta)(\beta, \beta) \in \QQ$.
+
+(3) Let $\alpha_1, \ldots, \alpha_l \in \Phi$ be a basis of $\mathfrak{h}^*$, and $\beta = \sum_ic_i\alpha_i \in \Phi$ with $c_i \in \CC$. Then
+$(\beta, \alpha_j) = \sum_ic_i(\alpha_i, \alpha_j)$ for all $j$. The matrix $((\alpha_i, \alpha_j))$ has rational entries by (2) and is invertible, as $(\ ,\ )$ is nondegenerate;
+so by Cramer's rule the $c_i$ are rational. Hence the $\alpha_i$ span $E_\QQ$ over $\QQ$, and they are linearly independent over $\QQ$, even over $\CC$.
+
+(4) For $\lambda \in E_\QQ$, the numbers $(\gamma, \lambda)$ are rational, and $(\lambda, \lambda) = \sum_\gamma(\gamma, \lambda)^2 \geq 0$, with equality only if
+$(\gamma, \lambda) = 0$ for all roots $\gamma$, that is, $\lambda = 0$, since $\Phi$ spans $\mathfrak{h}^*$. In the basis $(\alpha_i)$ the Gram matrix $G$ is a rational symmetric matrix
+with $x^TGx > 0$ for $x \in \QQ^l \setminus 0$; by density of $\QQ^l$ in $\RR^l$ and continuity, $x^TGx \geq 0$ for all $x \in \RR^l$. A real eigenvector $x$ of $G$ with eigenvalue $\mu$
+(Theorem~\ref{linear-algebra:theorem-spectral}) gives $\mu|x|^2 = x^TGx \geq 0$, and $\mu \neq 0$ since $\det G \neq 0$; so all eigenvalues are positive, and $G$ defines an inner product on
+$E = \RR \otimes_\QQ E_\QQ = \RR^l$.
+
+(R1) is clear, (R2) is Theorem~\ref{representation-theory:theorem-root-properties}(1) (a real multiple of $\alpha$ lying in $E_\QQ$ is a rational multiple), and (R3), (R4) are
+Theorem~\ref{representation-theory:theorem-root-properties}(2), since $\langle\beta, \alpha\rangle = \beta(h_\alpha)$ by (1).
+\end{proof}
+
+\begin{example}\label{representation-theory:example-roots-sln}
+\emph{The roots of $\mathfrak{sl}_n$.} Let $\mathfrak{h} \subseteq \mathfrak{sl}_n(\CC)$ be the diagonal matrices of trace $0$, and $\varepsilon_i \in \mathfrak{h}^*$ the $i$-th diagonal
+entry. Since $[h, E_{ij}] = (\varepsilon_i(h) - \varepsilon_j(h))E_{ij}$, $\mathfrak{h}$ is toral. Its centraliser is $\mathfrak{h}$: choosing $h$ with distinct diagonal entries, $[h, x] =
+\sum_{i \neq j}(h_i - h_j)x_{ij}E_{ij}$ vanishes only if $x$ is diagonal. A toral subalgebra containing $\mathfrak{h}$ is abelian (Lemma~\ref{representation-theory:lemma-toral}), hence
+contained in $C(\mathfrak{h}) = \mathfrak{h}$; so $\mathfrak{h}$ is a Cartan subalgebra. The roots are $\varepsilon_i - \varepsilon_j$, $i \neq j$, with root spaces $\CC E_{ij}$; there are
+$n(n - 1)$ of them, and the rank is $n - 1$. With $\kappa(x, y) = 2n\operatorname{tr}(xy)$ (Example~\ref{representation-theory:example-killing-forms}), for $\alpha = \varepsilon_i -
+\varepsilon_j$ one finds $t_\alpha = (E_{ii} - E_{jj})/2n$, $(\alpha, \alpha) = 1/n$ and $h_\alpha = E_{ii} - E_{jj}$, and $S_\alpha$ is the copy of $\mathfrak{sl}_2$ spanned by
+$E_{ij}$, $E_{ji}$ and $E_{ii} - E_{jj}$. For distinct $i$, $j$, $l$, $(\varepsilon_i - \varepsilon_j, \varepsilon_j - \varepsilon_l) = -1/2n$. So all roots have the same length, and
+the angle between $\varepsilon_i - \varepsilon_j$ and $\varepsilon_j - \varepsilon_l$ is $2\pi/3$. Concretely, $E$ is the hyperplane $x_1 + \cdots + x_n = 0$ of $\RR^n$ with $\frac1{2n}$
+times the standard inner product, and $\Phi = \{e_i - e_j : i \neq j\}$; this root system is called $A_{n-1}$. For $n = 2$ there are two roots $\pm\alpha$, with $\alpha(h) = 2$.
+\end{example}
+
+\begin{counterexample}\label{representation-theory:counterexample-maximal-abelian}
+A maximal abelian subalgebra need not be a Cartan subalgebra. In $\mathfrak{sl}_2$, $[e, ae + bh + cf] = -2be + ch$ vanishes only for $b = c = 0$, so $\CC e$ is a maximal abelian
+subalgebra; but it consists of nilpotent elements, and it is not toral. By contrast $\CC h$ is a Cartan subalgebra. And over $\RR$ the theory has to be modified: in
+$\mathfrak{so}(3)$, for the infinitesimal rotation $L_3 = E_{21} - E_{12}$ the operator $\ad L_3$ has eigenvalues $0, \pm i$, and in fact no nonzero element has $\ad x$ diagonalisable
+over $\RR$; over $\CC$, $\CC L_3$ is a Cartan subalgebra of $\mathfrak{so}_3(\CC)$.
+\end{counterexample}
+
+\begin{remark}\label{representation-theory:remark-conjugacy}
+All Cartan subalgebras of a semisimple Lie algebra over $\CC$ are conjugate under the group of automorphisms generated by the $\exp(\ad x)$, $x$ nilpotent \cite[Section 16]{humphreys-lie}.
+Hence the root system does not depend, up to isomorphism, on the choice of $\mathfrak{h}$, and the rank is an invariant of $\mathfrak{g}$.
+\end{remark}
+
+\section{Root systems and the classification}\label{representation-theory:section-root-systems}
+
+The properties (R1)--(R4) of Theorem~\ref{representation-theory:theorem-root-system-of-g} are purely Euclidean, and they turn out to determine the Lie algebra.
+
+\begin{definition}\label{representation-theory:definition-root-system}
+A \emph{root system} in a finite-dimensional real inner product space $E$ is a subset $\Phi$ satisfying (R1)--(R4) of Theorem~\ref{representation-theory:theorem-root-system-of-g},
+where for $\alpha \neq 0$
+\[
+\langle\beta, \alpha\rangle = \frac{2(\beta, \alpha)}{(\alpha, \alpha)}, \qquad \sigma_\alpha(\beta) = \beta - \langle\beta, \alpha\rangle\alpha .
+\]
+Its \emph{rank} is $\dim E$. The \emph{Weyl group} $W$ is the subgroup of the orthogonal group of $E$ generated by the reflections $\sigma_\alpha$, $\alpha \in \Phi$. An isomorphism of root
+systems $(E, \Phi) \to (E^{\prime}, \Phi^{\prime})$ is a linear isomorphism $\phi$ with $\phi(\Phi) = \Phi^{\prime}$ and $\langle\phi\beta, \phi\alpha\rangle = \langle\beta, \alpha\rangle$.
+$\Phi$ is \emph{irreducible} if it is not the union of two nonempty subsets orthogonal to each other.
+\end{definition}
+
+$\sigma_\alpha$ is the orthogonal reflection in the hyperplane $\alpha^\perp$: it fixes $\alpha^\perp$ and sends $\alpha$ to $-\alpha$. By (R3) every $w \in W$ permutes $\Phi$, and since
+$\Phi$ spans $E$, $w$ is determined by this permutation; so $W$ is finite. Note that $\langle\beta, \alpha\rangle$ is linear in $\beta$ but not in $\alpha$. The vectors
+$\alpha^\vee = 2\alpha/(\alpha, \alpha)$ form a root system as well, the \emph{dual} root system; for the root system of a Lie algebra, $\alpha^\vee$ corresponds to the coroot $h_\alpha$
+under the identification of $\mathfrak{h}$ with $\mathfrak{h}^*$.
+
+\begin{lemma}\label{representation-theory:lemma-pairs-of-roots}
+Let $\alpha, \beta \in \Phi$ with $\beta \neq \pm\alpha$, and $\theta$ the angle between them. Then $\langle\alpha, \beta\rangle\langle\beta, \alpha\rangle = 4\cos^2\theta \in \{0, 1, 2, 3\}$.
+If $(\beta, \beta) \geq (\alpha, \alpha)$ and $(\alpha, \beta) \neq 0$, then $\langle\alpha, \beta\rangle = \pm1$ and $(\beta, \beta)/(\alpha, \alpha) = |\langle\beta, \alpha\rangle| \in
+\{1, 2, 3\}$; so the possible pairs are
+\[
+\theta = \tfrac{\pi}{2},\ \tfrac{\pi}{3},\ \tfrac{2\pi}{3},\ \tfrac{\pi}{4},\ \tfrac{3\pi}{4},\ \tfrac{\pi}{6},\ \tfrac{5\pi}{6}, \qquad \frac{(\beta, \beta)}{(\alpha, \alpha)} = \text{any},\ 1,\ 1,\ 2,\ 2,\ 3,\ 3 .
+\]
+Moreover, if $(\alpha, \beta) > 0$ then $\alpha - \beta \in \Phi$, and if $(\alpha, \beta) < 0$ then $\alpha + \beta \in \Phi$.
+\end{lemma}
+
+\begin{proof}
+$\langle\alpha, \beta\rangle\langle\beta, \alpha\rangle = 4(\alpha, \beta)^2/((\alpha, \alpha)(\beta, \beta)) = 4\cos^2\theta$ is an integer by (R4), and it is less than $4$ because
+$\alpha$ and $\beta$ are not proportional (by (R2)), so the Cauchy--Schwarz inequality is strict. The two integers $\langle\alpha, \beta\rangle$ and $\langle\beta, \alpha\rangle$ have
+the sign of $(\alpha, \beta)$, and $|\langle\alpha, \beta\rangle| \leq |\langle\beta, \alpha\rangle|$ when $(\beta, \beta) \geq (\alpha, \alpha)$; if their product is $1$, $2$ or $3$,
+the smaller one is $\pm1$, and $\langle\beta, \alpha\rangle/\langle\alpha, \beta\rangle = (\beta, \beta)/(\alpha, \alpha)$. If $(\alpha, \beta) > 0$, one of $\langle\alpha, \beta\rangle$,
+$\langle\beta, \alpha\rangle$ is $1$: in the first case $\sigma_\beta(\alpha) = \alpha - \beta \in \Phi$, and in the second $\sigma_\alpha(\beta) = \beta - \alpha \in \Phi$, so
+$\alpha - \beta = \sigma_{\alpha - \beta}(\beta - \alpha) \in \Phi$. If $(\alpha, \beta) < 0$, apply this to $\alpha$ and $-\beta = \sigma_\beta(\beta)$.
+\end{proof}
+
+\begin{example}\label{representation-theory:example-rank-two}
+In rank $1$ the only root system is $A_1 = \{\pm\alpha\}$, by (R2). In rank $2$ there are four, up to isomorphism \cite[Section 9.3]{humphreys-lie}; one checks (R1)--(R4) directly.
+\begin{enumerate}
+\item $A_1 \times A_1 = \{\pm e_1, \pm e_2\}$ in $\RR^2$, reducible; it is the root system of $\mathfrak{sl}_2 \times \mathfrak{sl}_2$.
+\item $A_2 = \{\pm(\varepsilon_1 - \varepsilon_2), \pm(\varepsilon_2 - \varepsilon_3), \pm(\varepsilon_1 - \varepsilon_3)\}$ in the plane $x_1 + x_2 + x_3 = 0$ of $\RR^3$: six roots of
+equal length at angles $\pi/3$, the root system of $\mathfrak{sl}_3$ (Example~\ref{representation-theory:example-roots-sln}).
+\item $B_2 = \{\pm e_1, \pm e_2, \pm e_1 \pm e_2\}$: four short and four long roots, at angles $\pi/4$; it is also called $C_2$, the root system of $\mathfrak{sp}_4$
+(Exercise~\ref{representation-theory:exercise-sp4-roots}).
+\item $G_2$: in the plane $x_1 + x_2 + x_3 = 0$, the six short roots of $A_2$ together with the six long roots $\pm(2\varepsilon_1 - \varepsilon_2 - \varepsilon_3)$,
+$\pm(2\varepsilon_2 - \varepsilon_1 - \varepsilon_3)$, $\pm(2\varepsilon_3 - \varepsilon_1 - \varepsilon_2)$; consecutive roots make angles $\pi/6$, and long roots are $\sqrt3$ times
+longer than short ones.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{representation-theory:definition-base}
+A \emph{base} of a root system $\Phi$ is a subset $\Delta$ that is a basis of $E$ such that every root is $\beta = \sum_{\alpha \in \Delta}k_\alpha\alpha$ with integer coefficients $k_\alpha$
+that are either all $\geq 0$ or all $\leq 0$. The elements of $\Delta$ are the \emph{simple roots}, the roots with all $k_\alpha \geq 0$ are \emph{positive} ($\beta > 0$), and they form a
+set $\Phi^+$ with $\Phi = \Phi^+ \sqcup -\Phi^+$. The \emph{height} of $\beta$ is $\sum_\alpha k_\alpha$.
+\end{definition}
+
+\begin{theorem}\label{representation-theory:theorem-bases-exist}
+Let $\gamma \in E$ be \emph{regular}, that is, $(\gamma, \alpha) \neq 0$ for all $\alpha \in \Phi$ (such $\gamma$ exist, see the end of the proof). Let
+$\Phi^+(\gamma) = \{\alpha \in \Phi : (\gamma, \alpha) > 0\}$, and let $\Delta(\gamma)$ be the set of $\alpha \in \Phi^+(\gamma)$ that are not the sum of two elements of
+$\Phi^+(\gamma)$. Then $\Delta(\gamma)$ is a base, with positive roots $\Phi^+(\gamma)$, and $(\alpha, \beta) \leq 0$ for distinct $\alpha, \beta \in \Delta(\gamma)$.
+\end{theorem}
+
+\begin{proof}
+\emph{Every $\beta \in \Phi^+(\gamma)$ is a non-negative integer combination of $\Delta(\gamma)$.} Otherwise choose such a $\beta$ with $(\gamma, \beta)$ minimal. It is not in
+$\Delta(\gamma)$, so $\beta = \beta_1 + \beta_2$ with $\beta_i \in \Phi^+(\gamma)$; as $(\gamma, \beta) = (\gamma, \beta_1) + (\gamma, \beta_2)$ with both terms positive, each
+$(\gamma, \beta_i) < (\gamma, \beta)$, so each $\beta_i$ is such a combination, and so is $\beta$.
+
+\emph{$(\alpha, \beta) \leq 0$ for distinct $\alpha, \beta \in \Delta(\gamma)$.} Otherwise $\alpha - \beta \in \Phi$ by Lemma~\ref{representation-theory:lemma-pairs-of-roots}, and
+$\alpha - \beta$ or $\beta - \alpha$ lies in $\Phi^+(\gamma)$; then $\alpha = \beta + (\alpha - \beta)$ or $\beta = \alpha + (\beta - \alpha)$ is decomposable.
+
+\emph{$\Delta(\gamma)$ is linearly independent.} Suppose $\sum_\alpha r_\alpha\alpha = 0$, and separate the terms: $\varepsilon = \sum_{\alpha \in A}s_\alpha\alpha = \sum_{\beta \in B}t_\beta\beta$
+with disjoint $A$, $B \subseteq \Delta(\gamma)$ and $s_\alpha, t_\beta > 0$. Then $(\varepsilon, \varepsilon) = \sum s_\alpha t_\beta(\alpha, \beta) \leq 0$, so $\varepsilon = 0$; and
+$0 = (\gamma, \varepsilon) = \sum s_\alpha(\gamma, \alpha)$ with all $(\gamma, \alpha) > 0$ forces $A = \emptyset$, and similarly $B = \emptyset$.
+
+Since $\Phi = \Phi^+(\gamma) \sqcup -\Phi^+(\gamma)$ spans $E$, so does $\Delta(\gamma)$, and it is a base. Regular elements exist: in coordinates, $\gamma \mapsto
+\prod_{\alpha \in \Phi}(\gamma, \alpha)$ is a product of nonzero linear polynomials, hence a nonzero polynomial, and a nonzero real polynomial does not vanish everywhere on $\RR^l$.
+\end{proof}
+
+\begin{lemma}\label{representation-theory:lemma-simple-reflection}
+Let $\Delta$ be a base and $\alpha \in \Delta$. Then $\sigma_\alpha$ permutes $\Phi^+ \setminus \{\alpha\}$. Consequently $\rho = \frac12\sum_{\beta \in \Phi^+}\beta$ satisfies
+$\sigma_\alpha(\rho) = \rho - \alpha$ and $\langle\rho, \alpha\rangle = 1$ for every simple root $\alpha$.
+\end{lemma}
+
+\begin{proof}
+Let $\beta = \sum_{\delta \in \Delta}k_\delta\delta \in \Phi^+$, $\beta \neq \alpha$. By (R2), $\beta$ is not a multiple of $\alpha$, so $k_\delta > 0$ for some $\delta \neq \alpha$. The
+coefficient of $\delta$ in $\sigma_\alpha(\beta) = \beta - \langle\beta, \alpha\rangle\alpha$ is still $k_\delta > 0$, so $\sigma_\alpha(\beta)$ is a positive root, different from $\alpha$.
+As $\sigma_\alpha$ is injective and $\sigma_\alpha(\alpha) = -\alpha$, $\sigma_\alpha(2\rho) = 2\rho - 2\alpha$. Comparing with $\sigma_\alpha(\rho) = \rho - \langle\rho, \alpha\rangle\alpha$
+gives $\langle\rho, \alpha\rangle = 1$.
+\end{proof}
+
+Further facts about bases, which we quote \cite[Sections 10.1 and 10.3]{humphreys-lie}: every base is $\Delta(\gamma)$ for some regular $\gamma$; the Weyl group acts simply transitively on the set of
+bases and is generated by the simple reflections $\sigma_\alpha$, $\alpha \in \Delta$; and every root is $W$-conjugate to a simple root.
+
+\begin{definition}\label{representation-theory:definition-cartan-matrix}
+Let $\Delta = \{\alpha_1, \ldots, \alpha_l\}$ be a base. The \emph{Cartan matrix} is the integer matrix $(\langle\alpha_i, \alpha_j\rangle)_{i,j}$. Its diagonal entries are $2$, and by
+Theorem~\ref{representation-theory:theorem-bases-exist} and Lemma~\ref{representation-theory:lemma-pairs-of-roots} its other entries lie in $\{0, -1, -2, -3\}$. The \emph{Dynkin diagram}
+has a vertex for each simple root, and $\alpha_i$ and $\alpha_j$ ($i \neq j$) are joined by $\langle\alpha_i, \alpha_j\rangle\langle\alpha_j, \alpha_i\rangle \in \{0, 1, 2, 3\}$ edges;
+when two joined roots have different lengths, the edges carry an arrow pointing to the shorter one.
+\end{definition}
+
+By Lemma~\ref{representation-theory:lemma-pairs-of-roots} the Dynkin diagram determines the Cartan matrix, and the Cartan matrix determines the root system up to isomorphism, because
+$\Phi$ is the set of images of the simple roots under the group generated by the simple reflections, and these act by $\sigma_{\alpha_j}(\alpha_i) = \alpha_i - \langle\alpha_i,
+\alpha_j\rangle\alpha_j$ \cite[Section 11.1]{humphreys-lie}. The root system is irreducible if and only if its Dynkin diagram is connected, and in general it is the orthogonal union of the
+irreducible root systems belonging to the connected components.
+
+\begin{theorem}[Classification of root systems]\label{representation-theory:theorem-classification-root-systems}
+The connected Dynkin diagrams are those of the following list, and each belongs to exactly one irreducible root system up to isomorphism \cite[Sections 11.4 and 12.1]{humphreys-lie}.
+\begin{enumerate}
+\item $A_l$ ($l \geq 1$), a chain of $l$ vertices joined by single edges:
+\begin{center}
+\begin{tikzcd}
+\bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \cdots \arrow[r, dash] & \bullet \arrow[r, dash] & \bullet
+\end{tikzcd}
+\end{center}
+\item $B_l$ ($l \geq 2$), a chain whose last edge is double, with the arrow pointing to the last (short) root:
+\begin{center}
+\begin{tikzcd}
+\bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \cdots \arrow[r, dash] & \bullet \arrow[r, Rightarrow] & \bullet
+\end{tikzcd}
+\end{center}
+\item $C_l$ ($l \geq 3$), the same chain with the arrow reversed (the last root is long):
+\begin{center}
+\begin{tikzcd}
+\bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \cdots \arrow[r, dash] & \bullet & \bullet \arrow[l, Rightarrow]
+\end{tikzcd}
+\end{center}
+\item $D_l$ ($l \geq 4$), a chain of $l - 2$ vertices whose last vertex is joined to two further vertices:
+\begin{center}
+\begin{tikzcd}
+& & & & \bullet \\
+\bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \cdots \arrow[r, dash] & \bullet \arrow[ur, dash] \arrow[dr, dash] & \\
+& & & & \bullet
+\end{tikzcd}
+\end{center}
+\item $E_6$, $E_7$, $E_8$, a chain of $5$, $6$, $7$ vertices with one more vertex joined to the third one; for $E_8$:
+\begin{center}
+\begin{tikzcd}
+\bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \bullet \arrow[r, dash] \arrow[d, dash] & \bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \bullet \arrow[r, dash] & \bullet \\
+& & \bullet & & & &
+\end{tikzcd}
+\end{center}
+\item $F_4$, a chain of four vertices whose middle edge is double:
+\begin{center}
+\begin{tikzcd}
+\bullet \arrow[r, dash] & \bullet \arrow[r, Rightarrow] & \bullet \arrow[r, dash] & \bullet
+\end{tikzcd}
+\end{center}
+\item $G_2$, two vertices joined by a triple edge, with the arrow pointing to the short root.
+\end{enumerate}
+\end{theorem}
+
+The restrictions on $l$ avoid repetitions: $B_1 = C_1 = A_1$, $C_2 = B_2$, $D_2 = A_1 \times A_1$ and $D_3 = A_3$. The proof is an exercise in Euclidean geometry: the simple roots, normalised
+to unit vectors $u_i$, are linearly independent with $(u_i, u_j) \in \{0, -\frac12, -\frac{1}{\sqrt2}, -\frac{\sqrt3}{2}\}$ for $i \neq j$, and positivity of
+$(\sum c_iu_i, \sum c_iu_i)$ for well-chosen coefficients excludes all other graphs.
+
+\begin{theorem}[Classification of semisimple Lie algebras]\label{representation-theory:theorem-classification-lie}
+Let $\mathfrak{g}$ be a semisimple Lie algebra over $\CC$ with Cartan subalgebra $\mathfrak{h}$ and root system $\Phi$.
+\begin{enumerate}
+\item $\mathfrak{g}$ is simple if and only if $\Phi$ is irreducible; the simple ideals of $\mathfrak{g}$ correspond to the irreducible components of $\Phi$.
+\item Two semisimple Lie algebras are isomorphic if and only if their root systems are isomorphic.
+\item Every root system is the root system of a semisimple Lie algebra.
+\end{enumerate}
+Consequently the simple Lie algebras over $\CC$ are, up to isomorphism, exactly one for each diagram of
+Theorem~\ref{representation-theory:theorem-classification-root-systems}: the classical algebras $\mathfrak{sl}_{l+1}$ ($A_l$), $\mathfrak{so}_{2l+1}$ ($B_l$), $\mathfrak{sp}_{2l}$ ($C_l$),
+$\mathfrak{so}_{2l}$ ($D_l$), of dimensions $l(l + 2)$, $l(2l + 1)$, $l(2l + 1)$, $l(2l - 1)$, and five exceptional algebras $\mathfrak{e}_6$, $\mathfrak{e}_7$, $\mathfrak{e}_8$,
+$\mathfrak{f}_4$, $\mathfrak{g}_2$ of dimensions $78$, $133$, $248$, $52$ and $14$.
+\end{theorem}
+
+For (1) see \cite[Section 14.1]{humphreys-lie}, for (2) \cite[Sections 14 and 16]{humphreys-lie}, and for (3) \cite[Section 18]{humphreys-lie}, where $\mathfrak{g}$ is constructed by
+generators $x_i$, $y_i$, $h_i$ ($1 \leq i \leq l$) and relations read off from the Cartan matrix (Serre's theorem). The dimension of $\mathfrak{g}$ is $|\Phi| + l$
+(Theorem~\ref{representation-theory:theorem-centraliser-cartan} and Theorem~\ref{representation-theory:theorem-root-properties}(1)); for instance $A_l$ has $l(l + 1)$ roots, by
+Example~\ref{representation-theory:example-roots-sln}.
+
+\section{Weights and highest weights}\label{representation-theory:section-highest-weight}
+
+The classification of the representations of $\mathfrak{sl}_2$ by their highest weight $m$ (Theorem~\ref{representation-theory:theorem-sl2-irreducibles}) extends to every semisimple Lie
+algebra. In this section $\mathfrak{g}$ is semisimple over $\CC$, $\mathfrak{h}$ is a Cartan subalgebra with roots $\Phi$, $\Delta$ is a base, and representations are finite-dimensional.
+For $\lambda, \mu \in \mathfrak{h}^*$ write $\mu \leq \lambda$ if $\lambda - \mu$ is a sum of positive roots (possibly empty), and put
+$\langle\lambda, \alpha\rangle = \lambda(h_\alpha) = 2(\lambda, \alpha)/(\alpha, \alpha)$ (Theorem~\ref{representation-theory:theorem-root-system-of-g}(1)).
+
+\begin{proposition}\label{representation-theory:proposition-weights}
+Let $V$ be a representation of $\mathfrak{g}$, and for $\lambda \in \mathfrak{h}^*$ let $V_\lambda = \{v : hv = \lambda(h)v \text{ for all } h \in \mathfrak{h}\}$.
+\begin{enumerate}
+\item $V = \bigoplus_\lambda V_\lambda$; the $\lambda$ with $V_\lambda \neq 0$ are the \emph{weights} of $V$, and $\dim V_\lambda$ is the \emph{multiplicity} of $\lambda$.
+\item $\mathfrak{g}_\alpha V_\lambda \subseteq V_{\lambda + \alpha}$.
+\item Every weight $\lambda$ is \emph{integral}: $\langle\lambda, \alpha\rangle \in \ZZ$ for all $\alpha \in \Phi$.
+\item The multiplicities are invariant under the Weyl group: $\dim V_\lambda = \dim V_{\sigma_\alpha\lambda}$ for $\alpha \in \Phi$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The elements of $\mathfrak{h}$ are semisimple, so they act diagonalisably on $V$ (Corollary~\ref{representation-theory:corollary-jordan-preserved}(2)), and they commute; so they
+are simultaneously diagonalisable, as for the root space decomposition. (2) For $x \in \mathfrak{g}_\alpha$ and $v \in V_\lambda$, $hxv = xhv + [h, x]v = (\lambda(h) + \alpha(h))xv$.
+(3) $V_\lambda$ is contained in the $\lambda(h_\alpha)$-eigenspace of $h_\alpha$, and $h_\alpha$ has integer eigenvalues on the $S_\alpha$-representation $V$
+(Theorem~\ref{representation-theory:theorem-sl2-semisimple}). (4) Let $m = \langle\lambda, \alpha\rangle$, and replacing $\lambda$ by $\sigma_\alpha\lambda = \lambda - m\alpha$ if necessary,
+assume $m \geq 0$. The subspace $U = \bigoplus_{i \in \ZZ}V_{\lambda + i\alpha}$ is $S_\alpha$-stable by (2), and $V_{\lambda + i\alpha}$ is its $h_\alpha$-eigenspace for the eigenvalue
+$m + 2i$. By Corollary~\ref{representation-theory:corollary-lefschetz-structure}, $y_\alpha^m$ maps the eigenspace $U_m = V_\lambda$ isomorphically onto $U_{-m} = V_{\lambda - m\alpha} =
+V_{\sigma_\alpha\lambda}$.
+\end{proof}
+
+For the adjoint representation, the weights are the roots, of multiplicity $1$, and $0$, of multiplicity the rank. A \emph{maximal vector} of weight $\lambda$ is a nonzero $v \in V_\lambda$ with
+$\mathfrak{g}_\alpha v = 0$ for all $\alpha \in \Phi^+$. An integral weight $\lambda$ is \emph{dominant} if $\langle\lambda, \alpha\rangle \geq 0$ for all $\alpha \in \Delta$, hence for all
+$\alpha \in \Phi^+$.
+
+\begin{theorem}[Highest weight]\label{representation-theory:theorem-highest-weight}
+Let $V$ be an irreducible representation of $\mathfrak{g}$.
+\begin{enumerate}
+\item $V$ has a maximal vector $v^+$, unique up to a scalar. Its weight $\lambda$, the \emph{highest weight} of $V$, satisfies $\mu \leq \lambda$ for every weight $\mu$ of $V$, and
+$\dim V_\lambda = 1$. $V$ is spanned by the vectors $y_1y_2\cdots y_kv^+$ with $k \geq 0$ and $y_i \in \mathfrak{g}_{-\beta_i}$, $\beta_i \in \Phi^+$.
+\item The highest weight is dominant integral.
+\item Two irreducible representations with the same highest weight are isomorphic.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) The subspace $\mathfrak{n} = \bigoplus_{\alpha > 0}\mathfrak{g}_\alpha$ is a subalgebra, since the sum of two positive roots is positive if it is a root, and by
+Proposition~\ref{representation-theory:proposition-root-spaces}(1) the bracket $[\mathfrak{n}, \mathfrak{n}]$ involves only roots of height $\geq 2$, and inductively the $j$-th term of the
+lower central series only roots of height $\geq j$; so $\mathfrak{n}$ is nilpotent. Hence $\mathfrak{b} = \mathfrak{h} \oplus \mathfrak{n}$ is a solvable subalgebra ($[\mathfrak{b},
+\mathfrak{b}] \subseteq \mathfrak{n}$; Lemma~\ref{representation-theory:lemma-solvable}). By Lie's theorem its image in $\mathfrak{gl}(V)$ has a common eigenvector $v^+$. Then
+$v^+ \in V_\lambda$ for some $\lambda$, and for $x \in \mathfrak{g}_\alpha$, $\alpha > 0$, the vector $xv^+$ lies in $V_{\lambda + \alpha} \cap \CC v^+ = 0$. So $v^+$ is a maximal vector.
+
+Let $U_k$ be the span of the vectors $y_1\cdots y_jv^+$ as in the statement with $j \leq k$, and $U = \bigcup_kU_k$. Clearly $U$ is stable under the $\mathfrak{g}_{-\beta}$, $\beta > 0$, and
+under $\mathfrak{h}$, which acts on $y_1\cdots y_jv^+$ by the weight $\lambda - \beta_1 - \cdots - \beta_j$. We show by induction on $k$ that $xU_k \subseteq U_k$ for
+$x \in \mathfrak{g}_\alpha$, $\alpha > 0$; for $k = 0$, $xv^+ = 0$. For $w = y_1u$ with $u \in U_{k-1}$, $xw = y_1(xu) + [x, y_1]u$; here $xu \in U_{k-1}$ by induction, and
+$[x, y_1] \in \mathfrak{g}_{\alpha - \beta_1}$ lies in $\mathfrak{h}$, in a negative root space, or in a positive root space, and in each case $[x, y_1]u \in U_k$ (by induction in
+the last case). So $U$ is a nonzero subrepresentation, and $U = V$. All weights of $V$ are therefore of the form $\lambda - \beta_1 - \cdots - \beta_j \leq \lambda$, and the weight
+$\lambda$ occurs only for $j = 0$, since a nonempty sum of positive roots has positive height; so $V_\lambda = \CC v^+$. If $w$ is another maximal vector, of weight $\mu$, the same
+argument gives $\lambda \leq \mu$, so $\mu = \lambda$ (the relation $\leq$ is antisymmetric, as heights add) and $w \in V_\lambda = \CC v^+$.
+
+(2) Integrality is Proposition~\ref{representation-theory:proposition-weights}(3). For $\alpha \in \Delta$, $v^+$ is killed by $x_\alpha$ and is an eigenvector of $h_\alpha$ with
+eigenvalue $\langle\lambda, \alpha\rangle$, which is therefore a non-negative integer by Theorem~\ref{representation-theory:theorem-sl2-irreducibles}.
+
+(3) Let $V$, $V^{\prime}$ be irreducible with maximal vectors $v$, $v^{\prime}$ of the same weight $\lambda$, and let $W \subseteq V \oplus V^{\prime}$ be the subrepresentation generated by
+the maximal vector $w = (v, v^{\prime})$. As in (1), $W$ is spanned by the vectors $y_1\cdots y_jw$, all its weights are $\leq \lambda$, and $W_\lambda = \CC w$. A subrepresentation
+$W^{\prime} \subseteq W$ is the sum of its intersections with the weight spaces, since $\mathfrak{h}$ acts diagonalisably; if $W^{\prime}_\lambda \neq 0$ it contains $w$ and equals $W$. So
+the sum of all proper subrepresentations has no component of weight $\lambda$, and it is the unique maximal proper subrepresentation $N$ of $W$. The two projections $W \to V$ and
+$W \to V^{\prime}$ are nonzero ($w \mapsto v$, $v^{\prime}$), hence onto, as $V$ and $V^{\prime}$ are irreducible; their kernels are maximal proper subrepresentations, hence equal to $N$.
+So $V \cong W/N \cong V^{\prime}$.
+\end{proof}
+
+\begin{remark}\label{representation-theory:remark-weyl-character}
+Conversely, for every dominant integral weight $\lambda$ there is an irreducible representation $V(\lambda)$ with highest weight $\lambda$, constructed as the unique irreducible quotient of the
+Verma module $U(\mathfrak{g}) \otimes_{U(\mathfrak{b})}\CC_\lambda$ \cite[Section 21]{humphreys-lie}. So the irreducible representations of $\mathfrak{g}$ correspond bijectively to the
+dominant integral weights, which are the $\sum_in_i\omega_i$ with $n_i \in \ZZ_{\geq 0}$, where the \emph{fundamental weights} $\omega_i$ are defined by $\langle\omega_i, \alpha_j\rangle =
+\delta_{ij}$ \cite[Section 13]{humphreys-lie}. Its dimension is given by the \emph{Weyl dimension formula} \cite[Section 24.3]{humphreys-lie}
+\[
+\dim V(\lambda) = \prod_{\alpha \in \Phi^+}\frac{(\lambda + \rho, \alpha)}{(\rho, \alpha)},
+\]
+with $\rho$ as in Lemma~\ref{representation-theory:lemma-simple-reflection}. For $\mathfrak{sl}_2$, with $\Phi^+ = \{\alpha\}$ and $\lambda = m\omega_1 = \frac m2\alpha$, the formula gives
+$m + 1$, and $V(\lambda)$ is the representation $V(m)$ of Section~\ref{representation-theory:section-sl2}.
+\end{remark}
+
+\begin{example}\label{representation-theory:example-sl3-weights}
+For $\mathfrak{sl}_3$ take $\Delta = \{\alpha_1, \alpha_2\}$ with $\alpha_1 = \varepsilon_1 - \varepsilon_2$, $\alpha_2 = \varepsilon_2 - \varepsilon_3$; it is the base $\Delta(\gamma)$ of
+Theorem~\ref{representation-theory:theorem-bases-exist} for $\gamma = \varepsilon_1 - \varepsilon_3$, which pairs positively with $\alpha_1$, $\alpha_2$ and $\alpha_1 + \alpha_2$. The positive roots are $\alpha_1$, $\alpha_2$,
+$\alpha_1 + \alpha_2 = \varepsilon_1 - \varepsilon_3$, with root vectors $E_{12}$, $E_{23}$, $E_{13}$, the strictly upper triangular matrices, and $\mathfrak{b}$ consists of the upper
+triangular matrices of trace $0$. The coroots are $h_{\alpha_1} = E_{11} - E_{22}$ and $h_{\alpha_2} = E_{22} - E_{33}$.
+\begin{enumerate}
+\item On $\CC^3$, $e_i$ has weight $\varepsilon_i$, and $e_1$ is a maximal vector: its highest weight is $\varepsilon_1 = \omega_1$, since $\varepsilon_1(h_{\alpha_1}) = 1$ and
+$\varepsilon_1(h_{\alpha_2}) = 0$.
+\item On the dual $(\CC^3)^*$ the weights are $-\varepsilon_i$, and the highest is $-\varepsilon_3 = \omega_2$.
+\item On the adjoint representation the weights are the six roots and $0$, with multiplicity $2$; the maximal vector is $E_{13}$, of weight $\alpha_1 + \alpha_2 = \omega_1 + \omega_2$.
+\end{enumerate}
+In each case the Weyl group $S_3$, which permutes the $\varepsilon_i$ (Exercise~\ref{representation-theory:exercise-weyl-group-sln}), permutes the weights preserving multiplicities.
+\end{example}
 \section{Exercises}\label{representation-theory:section-exercises}
 
 \begin{exercise}\label{representation-theory:exercise-symmetric-powers}
@@ -619,4 +1564,115 @@ Show that the Killing form $\operatorname{tr}(\ad x\,\ad y)$ of a nilpotent Lie 
 \begin{solution}
 By Corollary~\ref{representation-theory:corollary-engel} and Theorem~\ref{representation-theory:theorem-engel-linear} applied to $\ad\mathfrak{g}$, there is a basis of
 $\mathfrak{g}$ in which every $\ad x$ is strictly upper triangular. A product of strictly upper triangular matrices is strictly upper triangular, so it has trace $0$.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-casimir-sl2}
+Compute the Gram matrix of the Killing form of $\mathfrak{sl}_2$ in the basis $e$, $h$, $f$, and the Casimir element $c_{\ad} \in \End(\mathfrak{sl}_2)$ of the adjoint
+representation (Lemma~\ref{representation-theory:lemma-casimir}). Show that $c_{\ad}$ is $\frac14$ times the Casimir operator $C$ of Theorem~\ref{representation-theory:theorem-sl2-semisimple}
+acting on $\mathfrak{sl}_2 \cong V(2)$, and deduce that $c_{\ad} = \id$, in agreement with $\operatorname{tr}c_{\ad} = \dim\mathfrak{sl}_2 = 3$.
+\end{exercise}
+
+\begin{solution}
+In the basis $(e, h, f)$, $\ad h = \operatorname{diag}(2, 0, -2)$, $\ad e$ sends $h \mapsto -2e$, $f \mapsto h$, and $\ad f$ sends $e \mapsto -h$, $h \mapsto 2f$. So
+$\kappa(h, h) = 8$, $\kappa(e, f) = \operatorname{tr}(\ad e\,\ad f) = 4$ (the composite sends $e \mapsto 2e$, $h \mapsto 2h$, $f \mapsto 0$), and the other pairings vanish by
+Proposition~\ref{representation-theory:proposition-root-spaces}(3); the Gram matrix has $8$ in the middle and $4$ in the two corners $(e, f)$, $(f, e)$, in agreement with
+$\kappa = 4\operatorname{tr}(xy)$ (Example~\ref{representation-theory:example-killing-forms}). The dual basis of $(e, h, f)$ is $(\frac14f, \frac18h, \frac14e)$, so
+\[
+c_{\ad} = \tfrac14\ad e\,\ad f + \tfrac18(\ad h)^2 + \tfrac14\ad f\,\ad e = \tfrac14\bigl(\ad e\,\ad f + \ad f\,\ad e + \tfrac12(\ad h)^2\bigr),
+\]
+which is $\frac14C$ in the adjoint representation. By the proof of Theorem~\ref{representation-theory:theorem-sl2-semisimple}, $C$ acts on $V(m)$ by $\frac12m(m + 2)$, which is $4$ for
+$m = 2$; so $c_{\ad} = \id$.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-sln-simple}
+Show that $\mathfrak{sl}_n(\CC)$ is simple for $n \geq 2$. (Hint: an ideal is stable under $\ad\mathfrak{h}$, $\mathfrak{h}$ the diagonal matrices of trace $0$.)
+\end{exercise}
+
+\begin{solution}
+Let $\mathfrak{a} \neq 0$ be an ideal. It is stable under the commuting diagonalisable operators $\ad h$, $h \in \mathfrak{h}$, so it is the sum of its intersections with $\mathfrak{h}$ and
+with the root spaces $\CC E_{ij}$ (Example~\ref{representation-theory:example-roots-sln}). If $\mathfrak{a} \subseteq \mathfrak{h}$, take $h \neq 0$ in $\mathfrak{a}$; its diagonal entries are
+not all equal, since $\operatorname{tr}h = 0$, say $h_i \neq h_j$, and then $[h, E_{ij}] = (h_i - h_j)E_{ij} \in \mathfrak{a}$ is not in $\mathfrak{h}$, a contradiction. So $\mathfrak{a}$
+contains some $E_{ij}$, $i \neq j$. Then it contains $[E_{ij}, E_{ji}] = E_{ii} - E_{jj}$ and $[E_{ji}, E_{ii} - E_{jj}] = 2E_{ji}$, and for $l \notin \{i, j\}$ also $[E_{li}, E_{ij}] = E_{lj}$
+and $[E_{ij}, E_{jl}] = E_{il}$. Repeating with the new matrix units, $\mathfrak{a}$ contains all $E_{lm}$ with $l \neq m$, hence all $E_{ll} - E_{mm} = [E_{lm}, E_{ml}]$, and
+$\mathfrak{a} = \mathfrak{sl}_n$. Finally $\mathfrak{sl}_n$ is not abelian.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-sp4-roots}
+Let $\mathfrak{h} \subseteq \mathfrak{sp}_4(\CC)$ be the diagonal matrices $h = \operatorname{diag}(a_1, a_2, -a_1, -a_2)$ (Example~\ref{representation-theory:example-classical}), and
+$\varepsilon_i(h) = a_i$. Show that $\mathfrak{h}$ is a Cartan subalgebra, that the roots are $\pm2\varepsilon_1$, $\pm2\varepsilon_2$, $\pm(\varepsilon_1 + \varepsilon_2)$,
+$\pm(\varepsilon_1 - \varepsilon_2)$, that $\kappa(h, h^{\prime}) = 12(a_1a_1^{\prime} + a_2a_2^{\prime})$ on $\mathfrak{h}$, and that $\Delta = \{\varepsilon_1 - \varepsilon_2, 2\varepsilon_2\}$ is a base
+with Cartan matrix $\bigl(\begin{smallmatrix}2 & -1\\ -2 & 2\end{smallmatrix}\bigr)$. So the root system is $C_2 = B_2$.
+\end{exercise}
+
+\begin{solution}
+Write $x = \bigl(\begin{smallmatrix}A & B\\ C & -A^T\end{smallmatrix}\bigr)$ and $h = \operatorname{diag}(D, -D)$ with $D = \operatorname{diag}(a_1, a_2)$. Then
+\[
+[h, x] = \begin{pmatrix}[D, A] & DB + BD\\ -(DC + CD) & [D, A]^{\prime}\end{pmatrix},
+\]
+where $[D, A]^{\prime} = -[D, A]^T$ is determined by the upper left block. The entries transform as $(DA - AD)_{ij} = (a_i - a_j)A_{ij}$, $(DB + BD)_{ij} = (a_i + a_j)B_{ij}$ and
+$(DC + CD)_{ij} = (a_i + a_j)C_{ij}$. So $\mathfrak{h}$ is toral, the root vectors are $A = E_{12}$, $E_{21}$ (roots $\pm(\varepsilon_1 - \varepsilon_2)$), the symmetric $B = E_{11}$,
+$E_{22}$, $E_{12} + E_{21}$ (roots $2\varepsilon_1$, $2\varepsilon_2$, $\varepsilon_1 + \varepsilon_2$) and the corresponding $C$ (their negatives). If $[h, x] = 0$ for $h$ with
+$a_1, a_2, a_1 \pm a_2$ nonzero, then $A$ is diagonal and $B = C = 0$, so $C(\mathfrak{h}) = \mathfrak{h}$, and $\mathfrak{h}$ is a Cartan subalgebra, as in
+Example~\ref{representation-theory:example-roots-sln}. By Theorem~\ref{representation-theory:theorem-root-system-of-g}(1),
+\[
+\kappa(h, h^{\prime}) = 2\bigl[(a_1 - a_2)(a_1^{\prime} - a_2^{\prime}) + 4a_1a_1^{\prime} + 4a_2a_2^{\prime} + (a_1 + a_2)(a_1^{\prime} + a_2^{\prime})\bigr] = 12(a_1a_1^{\prime} + a_2a_2^{\prime}),
+\]
+so $(\ ,\ )$ is a multiple of the standard inner product in the coordinates $\varepsilon_1$, $\varepsilon_2$. With $\alpha_1 = \varepsilon_1 - \varepsilon_2$ and $\alpha_2 = 2\varepsilon_2$,
+the positive roots $\alpha_1$, $\alpha_2$, $\alpha_1 + \alpha_2 = \varepsilon_1 + \varepsilon_2$, $2\alpha_1 + \alpha_2 = 2\varepsilon_1$ are non-negative combinations, so $\Delta$ is a base, and
+$\langle\alpha_1, \alpha_2\rangle = 2(-2)/4 = -1$, $\langle\alpha_2, \alpha_1\rangle = 2(-2)/2 = -2$. The four long roots $\pm2\varepsilon_i$ and the four short roots
+$\pm\varepsilon_1 \pm \varepsilon_2$ form, after rotating by $\pi/4$ and rescaling, the root system $B_2$ of Example~\ref{representation-theory:example-rank-two}.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-weyl-group-sln}
+Show that the Weyl group of the root system $A_{n-1}$ of $\mathfrak{sl}_n$ (Example~\ref{representation-theory:example-roots-sln}) is the symmetric group $S_n$, acting on
+$E = \{x \in \RR^n : \sum_ix_i = 0\}$ by permuting the coordinates.
+\end{exercise}
+
+\begin{solution}
+For $\alpha = e_i - e_j$ and $x \in E$, $\langle x, \alpha\rangle = 2(x \cdot \alpha)/(\alpha \cdot \alpha) = x_i - x_j$ (the factor $\frac1{2n}$ cancels), so
+$\sigma_\alpha(x) = x - (x_i - x_j)(e_i - e_j)$ exchanges the coordinates $x_i$ and $x_j$. So $W$ is the image of the group generated by the transpositions, which is $S_n$, and $S_n$ acts
+faithfully on $E$ for $n \geq 2$: a permutation fixing every $e_i - e_j$ is the identity.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-root-strings}
+Show that $\alpha$-strings have length at most $4$: in Theorem~\ref{representation-theory:theorem-root-properties}(3), $r + q \leq 3$. Find a string of length $4$ in $G_2$.
+\end{exercise}
+
+\begin{solution}
+Apply Theorem~\ref{representation-theory:theorem-root-properties}(3) to the bottom $\beta^{\prime} = \beta - r\alpha$ of the string, which is the same string; for $\beta^{\prime}$ one has
+$r^{\prime} = 0$ and $q^{\prime} = r + q$, so $\langle\beta^{\prime}, \alpha\rangle = -(r + q)$. As $\beta^{\prime} \neq \pm\alpha$ ($\beta$ is not a multiple of $\alpha$),
+Lemma~\ref{representation-theory:lemma-pairs-of-roots} gives $|\langle\beta^{\prime}, \alpha\rangle| \leq 3$. In $G_2$, for the short root $\alpha = \varepsilon_1 - \varepsilon_2$ and the
+long root $\beta = -(2\varepsilon_1 - \varepsilon_2 - \varepsilon_3)$, the vectors $\beta$, $\beta + \alpha = \varepsilon_3 - \varepsilon_1$, $\beta + 2\alpha = \varepsilon_3 - \varepsilon_2$ and
+$\beta + 3\alpha = -(2\varepsilon_2 - \varepsilon_1 - \varepsilon_3)$ are roots, while $\beta - \alpha$ and $\beta + 4\alpha$ are not; accordingly
+$\langle\beta, \alpha\rangle = 2(-3)/2 = -3 = r - q$.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-sl3-dimension}
+Using the Weyl dimension formula (Remark~\ref{representation-theory:remark-weyl-character}), check that $\dim V(\omega_1) = 3$ and $\dim V(\omega_1 + \omega_2) = 8$ for $\mathfrak{sl}_3$, in
+agreement with Example~\ref{representation-theory:example-sl3-weights}, and compute $\dim V(2\omega_1)$. Identify $V(2\omega_1)$ with $S^2(\CC^3)$.
+\end{exercise}
+
+\begin{solution}
+All roots of $A_2$ have the same length; normalise $(\alpha_i, \alpha_i) = 2$, so $(\alpha_1, \alpha_2) = -1$, and $(\omega_i, \alpha_j) = \delta_{ij}$. By
+Lemma~\ref{representation-theory:lemma-simple-reflection}, $(\rho, \alpha_i) = 1$, so $\rho = \omega_1 + \omega_2$ and $(\rho, \alpha_1 + \alpha_2) = 2$. For
+$\lambda = a\omega_1 + b\omega_2$, the formula gives
+\[
+\dim V(\lambda) = \frac{(a + 1)}{1}\cdot\frac{(b + 1)}{1}\cdot\frac{(a + b + 2)}{2},
+\]
+which is $3$ for $(a, b) = (1, 0)$, $8$ for $(1, 1)$, and $6$ for $(2, 0)$. The weights of $S^2(\CC^3)$ are the $\varepsilon_i + \varepsilon_j$, $i \leq j$, with $e_1^2$ of weight
+$2\varepsilon_1 = 2\omega_1$ killed by the upper triangular matrices; its dimension is $6$. The subrepresentation $W$ generated by $e_1^2$ has $W_{2\omega_1} = \CC e_1^2$, as in the proof of
+Theorem~\ref{representation-theory:theorem-highest-weight}(3); in a decomposition $W = W_1 \oplus W_2$ into subrepresentations this line lies in one summand, which then contains $e_1^2$ and
+is all of $W$. So $W$ is indecomposable, hence irreducible by Weyl's theorem, of highest weight $2\omega_1$, and of dimension $6$; so $W = S^2(\CC^3)$.
+\end{solution}
+
+\begin{exercise}\label{representation-theory:exercise-derivations-not-inner}
+Show that Theorem~\ref{representation-theory:theorem-derivations} fails for the abelian Lie algebra $k^2$ and for the Heisenberg algebra $\mathfrak{n}_3$
+(Example~\ref{representation-theory:example-triangular}(3)): exhibit derivations that are not inner.
+\end{exercise}
+
+\begin{solution}
+For an abelian Lie algebra every linear map is a derivation, while all inner derivations are $0$. For $\mathfrak{n}_3$ with $[E_{12}, E_{23}] = E_{13}$, the linear map $\delta$ with
+$\delta E_{12} = E_{12}$, $\delta E_{23} = 0$, $\delta E_{13} = E_{13}$ is a derivation: on the only nonzero bracket, $\delta[E_{12}, E_{23}] = E_{13} = [\delta E_{12}, E_{23}] + [E_{12},
+\delta E_{23}]$, and the brackets involving $E_{13}$ vanish on both sides. An inner derivation $\ad x$ maps $\mathfrak{n}_3$ into $[\mathfrak{n}_3, \mathfrak{n}_3] = \CC E_{13}$, while
+$\delta E_{12} = E_{12}$; so $\delta$ is not inner.
 \end{solution}

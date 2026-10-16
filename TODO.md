@@ -16,6 +16,24 @@ references in proofs).
 
 ## Done
 
+- [x] **Semisimple Lie algebras; horizontal and vertical subspaces; change of
+  coordinates** (`representation-theory`, `connections`, `lie-groups`,
+  `linear-algebra`): Killing form, Cartan's criteria (proved), radical,
+  decomposition into simple ideals, derivations are inner, abstract Jordan
+  decomposition, reductive Lie algebras via invariant inner products, the
+  classical Lie algebras; Casimir element and Weyl's theorem, preservation of
+  the Jordan decomposition; Cartan subalgebras, root space decomposition,
+  $\mathfrak{sl}_2$-triples, integrality and rationality, root systems,
+  bases, Weyl group, Cartan matrices and Dynkin diagrams, classification
+  (quoted), weights, highest weight theorem (existence and Weyl dimension
+  formula quoted), with exercises ($\mathfrak{sl}_n$ simple, roots of
+  $\mathfrak{sp}_4$, Weyl group of $A_{n-1}$, root strings, $\mathfrak{sl}_3$);
+  compact Lie groups have reductive Lie algebras; vertical bundle, horizontal
+  distributions, connection map, linear horizontal distributions = connections,
+  curvature as non-integrability, examples ($TS^n$, Hopf fibration), principal
+  connections and connection forms; remark and exercise on change of basis,
+  change of coordinates and change of variables.
+
 - [x] **Hopf fibrations; notation for the second fundamental form**
   (`topological-manifolds`, `riemannian-geometry`): fibre bundles (quoted:
   bundles are Serre fibrations), quaternionic projective space, the Hopf

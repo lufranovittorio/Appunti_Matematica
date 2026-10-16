@@ -20,7 +20,8 @@ Hodge structures (Chapter~\ref{vhs}). The chapter goes as follows.
 \item Cartan's closed subgroup theorem (Theorem~\ref{lie-groups:theorem-closed-subgroup}) and homogeneous spaces
 (Theorem~\ref{lie-groups:theorem-homogeneous}), with the groups $\mathrm{SU}(2)$ and $\mathrm{SO}(3)$ worked out
 (Section~\ref{lie-groups:section-homogeneous}).
-\item Compact Lie groups: Haar measure and averaging (Section~\ref{lie-groups:section-compact}).
+\item Compact Lie groups: Haar measure and averaging; their Lie algebras are reductive, with negative definite Killing form on the semisimple part
+(Section~\ref{lie-groups:section-compact}).
 \end{enumerate}
 References: \cite{knapp-lie}, \cite{brocker-tomdieck}, \cite{warner-foundations}.
 
@@ -637,6 +638,29 @@ For $\mathrm{U}(n)$ the invariant inner product can be written down directly: $\
 definite, since $-\operatorname{tr}(X^2) = \operatorname{tr}(X^*X) = \sum_{i,j}|x_{ij}|^2$, and it is invariant under $\Ad(A)X = AXA^{-1}$ because the trace is
 invariant under conjugation.
 
+
+\begin{proposition}\label{lie-groups:proposition-compact-reductive}
+Let $G$ be a compact Lie group. Then $\mathfrak{g} = \mathfrak{z}(\mathfrak{g}) \oplus [\mathfrak{g}, \mathfrak{g}]$, the ideal $[\mathfrak{g}, \mathfrak{g}]$ is semisimple, and its Killing form,
+which is the restriction of the Killing form $B$ of $\mathfrak{g}$, is negative definite. Conversely, a real Lie algebra with negative definite Killing form is semisimple.
+\end{proposition}
+
+\begin{proof}
+Choose an inner product as in Proposition~\ref{lie-groups:proposition-compact-invariant-product}. The adjoint of $\ad X$ is $-\ad X = \ad(-X)$, so
+Proposition~\ref{representation-theory:proposition-reductive} applies: $\mathfrak{g} = \mathfrak{z}(\mathfrak{g}) \oplus [\mathfrak{g}, \mathfrak{g}]$ with $[\mathfrak{g}, \mathfrak{g}]$
+semisimple. The Killing form of the ideal $[\mathfrak{g}, \mathfrak{g}]$ is the restriction of $B$ (Lemma~\ref{representation-theory:lemma-radical}(4)). For $X \in \mathfrak{g}$,
+$B(X, X) = \operatorname{tr}((\ad X)^2) = -\operatorname{tr}((\ad X)^T\ad X) \leq 0$, with equality only if $\ad X = 0$, that is, $X \in \mathfrak{z}(\mathfrak{g})$; as
+$[\mathfrak{g}, \mathfrak{g}] \cap \mathfrak{z}(\mathfrak{g}) = 0$, $B$ is negative definite on $[\mathfrak{g}, \mathfrak{g}]$. The converse is Cartan's criterion,
+Theorem~\ref{representation-theory:theorem-killing-criterion}, since a definite form is nondegenerate.
+\end{proof}
+
+\begin{example}\label{lie-groups:example-compact-semisimple}
+$\mathfrak{u}(n) = i\RR\cdot I \oplus \mathfrak{su}(n)$, where $i\RR \cdot I$ is the centre and $\mathfrak{su}(n)$ is semisimple for $n \geq 2$; $\mathfrak{so}(n)$ is semisimple for $n \geq 3$
+(Example~\ref{representation-theory:example-classical}). The torus $T^n$ has abelian Lie algebra, with $[\mathfrak{g}, \mathfrak{g}] = 0$. Not every real semisimple Lie algebra comes from a
+compact group in this way: $\mathfrak{sl}_2(\RR)$ is semisimple, but its Killing form $4\operatorname{tr}(XY)$ (Example~\ref{representation-theory:example-killing-forms}
+with $k = \RR$) takes the value $8$ on $X = \operatorname{diag}(1, -1)$, so by the proposition $\mathfrak{sl}_2(\RR)$ is not the Lie algebra of a
+compact group. Its Killing form has signature $(2, 1)$: it is negative on the rotation generator $\bigl(\begin{smallmatrix}0 & -1\\ 1 & 0\end{smallmatrix}\bigr)$, the Lie algebra of the
+compact subgroup $\mathrm{SO}(2)$.
+\end{example}
 \begin{remark}\label{lie-groups:remark-structure}
 Deeper structure theory, which we quote when needed: a connected Lie group has a unique simply connected covering group, and Lie algebra homomorphisms integrate to group homomorphisms from the simply
 connected group (Lie's second theorem); Lie subalgebras correspond to connected Lie subgroups; every compact connected Lie group is a quotient of a product of a torus and simply connected compact simple
@@ -739,4 +763,19 @@ By naturality of $\exp$, $c_g(\exp X) = \exp(\Ad(g)X)$. If $\Ad(g) = \id$, then 
 Theorem~\ref{lie-groups:theorem-closed-subgroup}, the Lie algebra of the centre is $\{X : \exp(tX) \in Z(G) \text{ for all } t\} = \{X : \Ad(\exp tX) = \id
 \text{ for all } t\}$. Since $\Ad(\exp tX) = e^{t\,\ad X}$ (Proposition~\ref{lie-groups:proposition-adjoint}), this holds for all $t$ if and only if
 $\ad X = 0$, by differentiating at $t = 0$.
+\end{solution}
+
+\begin{exercise}\label{lie-groups:exercise-killing-su-n}
+Show that the Killing form of $\mathfrak{su}(n)$ is $B(X, Y) = 2n\operatorname{tr}(XY)$, and check directly that it is negative definite. For $\mathfrak{so}(3)$, identified with $\RR^3$ with the
+cross product (Example~\ref{lie-groups:example-so3}), show that $B(x, y) = -2\,x \cdot y$.
+\end{exercise}
+
+\begin{solution}
+Every $Z \in \mathfrak{sl}_n(\CC)$ is uniquely $X + iY$ with $X, Y \in \mathfrak{su}(n)$, namely $X = \frac12(Z - Z^*)$ and $Y = \frac1{2i}(Z + Z^*)$, so a real basis of $\mathfrak{su}(n)$ is a
+complex basis of $\mathfrak{sl}_n(\CC)$. In such a basis, for $X \in \mathfrak{su}(n)$ the matrix of $\ad X$ on $\mathfrak{su}(n)$ and on $\mathfrak{sl}_n(\CC)$ is the same, so the Killing form of
+$\mathfrak{su}(n)$ is the restriction of that of $\mathfrak{sl}_n(\CC)$, which is $2n\operatorname{tr}(XY)$ (Example~\ref{representation-theory:example-killing-forms}). For
+$X \neq 0$ skew-Hermitian, $\operatorname{tr}(X^2) = -\operatorname{tr}(XX^*) = -\sum_{i,j}|x_{ij}|^2 < 0$. For $\mathfrak{so}(3)$ with $[x, y] = x \times y$, in the standard basis
+$\ad e_1$ maps $e_1 \mapsto 0$, $e_2 \mapsto e_3$, $e_3 \mapsto -e_2$, so $(\ad e_1)^2 = \operatorname{diag}(0, -1, -1)$ and $B(e_1, e_1) = -2$; similarly for $e_2$, $e_3$, and
+$B(e_i, e_j) = 0$ for $i \neq j$, because $\ad e_i\,\ad e_j$ maps $e_j$ and the third basis vector $e_l$ to $0$ (as $e_j \times e_l = \pm e_i$) and $e_i$ to
+$e_i \times (e_j \times e_i) = e_j$, so it has zero diagonal. So $B(x, y) = -2\,x \cdot y$.
 \end{solution}
