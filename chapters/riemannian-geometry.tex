@@ -906,6 +906,34 @@ metric has $R(X, Y)Z = \frac14[[X, Y], Z]$ for left-invariant fields, hence non-
 $R(X, Y)Z = \kappa(\langle Y, Z\rangle X - \langle X, Z\rangle Y)$, since the right-hand side has the symmetries of Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries} and sectional curvature $\kappa$.
 \end{example}
 
+\begin{proposition}\label{riemannian-geometry:proposition-ricci-constant-curvature}
+Let $(M, g)$ have dimension $n$ and constant sectional curvature $\kappa$. Then
+\[
+\mathrm{Ric} = (n - 1)\kappa\,g, \qquad s = n(n - 1)\kappa .
+\]
+For instance the unit sphere has $\mathrm{Ric} = (n - 1)g$ and $s = n(n - 1)$, and hyperbolic space has $\mathrm{Ric} = -(n - 1)g$. Every surface ($n = 2$), constant curvature or not,
+has $\mathrm{Ric} = Kg$ and $s = 2K$, where $K$ is the Gaussian curvature.
+\end{proposition}
+
+\begin{proof}
+Let $(e_i)$ be an orthonormal basis of $T_pM$. By the formula of Example~\ref{riemannian-geometry:example-curvature},
+\[
+\mathrm{Ric}(X, Y) = \sum_i\langle R(e_i, X)Y, e_i\rangle = \kappa\sum_i\bigl(\langle X, Y\rangle\langle e_i, e_i\rangle - \langle e_i, Y\rangle\langle X, e_i\rangle\bigr) = \kappa\bigl(n\langle X, Y\rangle - \langle X, Y\rangle\bigr),
+\]
+using $\sum_i\langle e_i, Y\rangle\langle X, e_i\rangle = \langle X, Y\rangle$ (expand $X$ in the basis). Taking the trace once more gives $s = \sum_i(n - 1)\kappa = n(n - 1)\kappa$. For a surface, the
+only plane in $T_pM$ is $T_pM$ itself, so the sectional curvature is constant on each tangent space, equal to $K(p)$, and the computation applies pointwise with $n = 2$.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-einstein}
+The sphere of radius $r$ has constant curvature $1/r^2$ (Section~\ref{riemannian-geometry:section-moving-frames} below), so its Ricci tensor is $\frac{n-1}{r^2}g$. In a space of
+constant curvature $\kappa$, the Ricci curvature in the direction of a unit vector $v$ is $\mathrm{Ric}(v, v) = (n - 1)\kappa$: it is the sum of the $n - 1$ sectional curvatures of the planes
+spanned by $v$ and the vectors of an orthonormal basis of $v^\perp$, each equal to $\kappa$. A metric with $\mathrm{Ric} = \lambda g$ for a constant $\lambda$ is called \emph{Einstein}; so
+constant curvature metrics are Einstein. The converse fails in general: for the product $S^2 \times S^2$ of two unit spheres, the Koszul formula shows that the Levi-Civita connection is the
+product of the connections of the factors, so the curvature tensor is the sum of the curvature tensors of the factors. Hence a plane spanned by a vector tangent to the first factor and
+one tangent to the second has sectional curvature $0$, while $\mathrm{Ric} = g$, each factor contributing $\mathrm{Ric} = g$ on its own tangent vectors. In dimension $2$ the Ricci tensor
+carries exactly the same information as the Gaussian curvature.
+\end{remark}
+
 \begin{lemma}\label{riemannian-geometry:lemma-curvature-families}
 For $f$ as in Lemma~\ref{riemannian-geometry:lemma-symmetry} and a vector field $V$ along $f$, $D_sD_tV - D_tD_sV = R(\partial_sf, \partial_tf)V$.
 \end{lemma}
@@ -1320,6 +1348,20 @@ uniqueness of geodesics with given initial velocity, $\gamma$ is a single geodes
 In particular a curve of constant speed that minimises length between its endpoints minimises energy (Lemma~\ref{riemannian-geometry:lemma-energy-length}), hence is a
 geodesic, which is Lemma~\ref{riemannian-geometry:lemma-minimising-geodesic} again.
 
+\emph{Reading the first variation formula.} Each of its three terms describes one way of making a curve shorter.
+\begin{enumerate}
+\item The integral $-\int\langle V, D_t\dot\gamma\rangle\,dt$: if the curve bends, pushing it in the direction of its acceleration $D_t\dot\gamma$ (towards the inside of the bend, $V = D_t\dot\gamma$)
+decreases the energy at the rate $-\int|D_t\dot\gamma|^2\,dt$. Think of a bent wire being pulled straight. A geodesic is a curve with nothing to straighten: the geodesic equation
+$D_t\dot\gamma = 0$ is the Euler--Lagrange equation of the energy.
+\item The jump terms $-\langle V(t_i), \Delta_i\dot\gamma\rangle$: at a corner, pushing the corner point in the direction of $\Delta_i\dot\gamma = \dot\gamma(t_i^+) - \dot\gamma(t_i^-)$, which
+points into the angle, ``cuts the corner'' and decreases the energy.
+\item The boundary term $\langle V, \dot\gamma\rangle|_a^b$: moving the endpoints along the curve changes the energy even if the curve is a geodesic, by lengthening or shortening it at the
+ends. It disappears for proper variations, and also when the endpoints move orthogonally to $\dot\gamma$; this is why a shortest curve from a point to a submanifold meets the submanifold
+orthogonally.
+\end{enumerate}
+In $\RR^n$, with $D_t\dot\gamma = \ddot\gamma$, the formula is the integration by parts $\frac{d}{ds}\frac12\int|\dot\gamma + s\dot V|^2\,dt\big|_{s=0} = \int\langle\dot V, \dot\gamma\rangle\,dt =
+\langle V, \dot\gamma\rangle|_a^b - \int\langle V, \ddot\gamma\rangle\,dt$; the covariant derivative is what makes the same computation meaningful on a manifold.
+
 \begin{definition}\label{riemannian-geometry:definition-index-form}
 Let $\gamma \colon [a, b] \to M$ be a geodesic. The \emph{index form} of $\gamma$ is the symmetric bilinear form on piecewise smooth vector fields along $\gamma$
 \[
@@ -1361,6 +1403,28 @@ The field $A$ at $t_i$ is the acceleration of the curve $s \mapsto f(s, t_i)$, w
 $\dot\gamma$. Hence the integrals of $\partial_t\langle A, \dot\gamma\rangle$ add up to $\langle A, \dot\gamma\rangle|_a^b$. If $f$ is proper, the curves $s \mapsto f(s, a)$
 and $s \mapsto f(s, b)$ are constant, so $A(a) = A(b) = 0$; if they are geodesics, $A(a) = A(b) = 0$ by Proposition~\ref{riemannian-geometry:proposition-geodesic-speed}.
 \end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-reading-second-variation}
+\emph{Reading the second variation formula.} The first variation vanishes at a geodesic, so whether nearby curves are longer or shorter is decided by the second derivative, a
+competition between two terms.
+\begin{enumerate}
+\item $\int|D_tV|^2\,dt \geq 0$: a variation field that changes along the curve forces the nearby curves to wiggle, and wiggling costs energy. In $\RR^n$ this is the only term, so
+$\frac{d^2}{ds^2}E \geq 0$ for every proper variation: straight segments are local minima of the energy.
+\item $-\int R(V, \dot\gamma, \dot\gamma, V)\,dt$: if $\gamma$ has unit speed and $V$ is orthogonal to $\dot\gamma$, then $R(V, \dot\gamma, \dot\gamma, V) = K(V, \dot\gamma)|V|^2$, the sectional
+curvature of the plane spanned by $V$ and $\dot\gamma$. Positive curvature makes nearby geodesics converge, like the meridians of a sphere meeting at the poles, so pushing the curve
+sideways can make it \emph{shorter}; negative curvature makes geodesics diverge and only helps the minimising property.
+\end{enumerate}
+\emph{A computation on the unit sphere.} Let $\gamma \colon [0, L] \to S^n$ be a unit speed great circle arc, $E$ a parallel unit field along $\gamma$ orthogonal to $\dot\gamma$, and
+$V = \phi E$ with $\phi(t) = \sin(\pi t/L)$, which vanishes at the endpoints. Then $D_tV = \phi^{\prime}E$ and $R(V, \dot\gamma, \dot\gamma, V) = \phi^2$, as $K = 1$, so for the proper variation
+$\exp_{\gamma(t)}(sV(t))$,
+\[
+\frac{d^2}{ds^2}\Big|_{s=0}E(f_s) = \int_0^L\Bigl(\frac{\pi^2}{L^2}\cos^2\frac{\pi t}{L} - \sin^2\frac{\pi t}{L}\Bigr)\,dt = \frac L2\Bigl(\frac{\pi^2}{L^2} - 1\Bigr),
+\]
+using $\int_0^L\cos^2(\pi t/L)\,dt = \int_0^L\sin^2(\pi t/L)\,dt = L/2$. This is negative exactly when $L > \pi$: a great circle arc longer than half a great circle can be shortened by pushing
+it sideways, which is the content of Theorem~\ref{riemannian-geometry:theorem-jacobi-conjugate} below in this example. The same computation with constant curvature $\kappa > 0$ gives
+$\frac L2(\pi^2/L^2 - \kappa)$, negative for $L > \pi/\sqrt\kappa$; this is the computation behind the Bonnet--Myers theorem below, where the Ricci curvature appears because one sums such
+computations over $n - 1$ orthonormal directions $E$.
+\end{remark}
 
 \begin{theorem}[Jacobi]\label{riemannian-geometry:theorem-jacobi-conjugate}
 Let $\gamma \colon [0, L] \to M$ be a geodesic, and suppose that $\gamma(t_0)$ is conjugate to $\gamma(0)$ along $\gamma$ for some $0 < t_0 < L$. Then there are piecewise
@@ -2464,28 +2528,55 @@ Section~\ref{riemannian-geometry:section-variation}, the curves $s \mapsto F(u, 
 \end{proof}
 
 \begin{remark}\label{riemannian-geometry:remark-variation-area-riemannian}
-\emph{Reading the formula.}
+\emph{Reading the formula: what each term means.} Write $Q(\phi) = \int_K(|\nabla\phi|^2 - (|S|^2 + \overline{\mathrm{Ric}}(\nu, \nu))\phi^2)\,dA$ for the second variation. Its three terms
+describe three different effects of pushing $M$ by the amount $\phi$ in the normal direction.
 \begin{enumerate}
-\item For $\overline{M} = \RR^{n+1}$, $\overline{\mathrm{Ric}} = 0$ and we recover Proposition~\ref{riemannian-geometry:proposition-variation-area}. As there, Green's formula turns the second
-variation into $A^{\prime\prime}(0) = -\int_K\phi\,L\phi\,dA$ with the \emph{Jacobi operator}
-\[
-L = \Delta + |S|^2 + \overline{\mathrm{Ric}}(\nu, \nu),
-\]
-and a minimal hypersurface is called \emph{stable} if $A^{\prime\prime}(0) \geq 0$ for all compactly supported $\phi$. Both curvature terms make stability harder: the shape of $M$
-through $|S|^2$, and the ambient curvature through $\overline{\mathrm{Ric}}(\nu, \nu)$. Positive Ricci curvature of $\overline{M}$ pushes towards instability, negative towards stability.
-\item \emph{Curves.} For $n = 1$, $M$ is a curve in a surface $\overline{M}$, $A$ is its length, and $S$ is its geodesic curvature, so $H = 0$ means that $M$ is a geodesic and then
-$S = 0$. Since $\overline{\mathrm{Ric}} = Kg$ for a surface ($\overline{\mathrm{Ric}}(\nu, \nu) = \overline{K}(\dot\gamma, \nu)$ by the formula above, with $n = 1$), the formula becomes
-$\int(\phi^{\prime 2} - K\phi^2)\,dt$ for a unit speed geodesic $\gamma$. This is the index form $I(V, V)$ of Proposition~\ref{riemannian-geometry:proposition-second-variation} for
-$V = \phi\nu$: the unit normal $\nu$ is parallel along $\gamma$ (its derivative is orthogonal to $\nu$ and, as $\langle D_t\nu, \dot\gamma\rangle = -\langle\nu, D_t\dot\gamma\rangle = 0$, to
-$\dot\gamma$), so $D_tV = \phi^{\prime}\nu$ and $R(V, \dot\gamma, \dot\gamma, V) = K\phi^2$. So the second variation of area generalises the second variation of geodesics.
+\item \emph{$|\nabla\phi|^2$: tilting.} Pushing different points by different amounts tilts the hypersurface, and a tilted piece has more area. For a flat piece of a hyperplane in
+$\RR^{n+1}$ this is exact: the pushed hypersurface is the graph of $s\phi$, whose area element is $\sqrt{1 + s^2|\nabla\phi|^2} = 1 + \frac{s^2}2|\nabla\phi|^2 + O(s^4)$, with second
+derivative $|\nabla\phi|^2$ at $s = 0$. This term is always $\geq 0$, and it is the only one for a hyperplane in $\RR^{n+1}$, which is therefore stable.
+\item \emph{$-|S|^2\phi^2$: the shape of $M$.} Push a piece of a hypersurface in $\RR^{n+1}$ by the constant amount $s$: then $\partial_i(x + s\nu) = x_i - sSx_i$, so the area element is
+multiplied by $\det(I - sS) = \prod_i(1 - s\kappa_i) = 1 - s\sum_i\kappa_i + s^2\sum_{i<j}\kappa_i\kappa_j + O(s^3)$. If $H = 0$, then
+$\sum_{i<j}\kappa_i\kappa_j = \frac12((\sum_i\kappa_i)^2 - \sum_i\kappa_i^2) = -\frac12|S|^2$, and the second derivative is $-|S|^2$. Geometrically, a minimal surface curves equally in
+opposite directions ($\kappa_2 = -\kappa_1$ in $\RR^3$, like a saddle); pushing it expands it in one principal direction and contracts it in the other, the first-order effects cancel,
+and the second-order effect is a loss of area.
+\item \emph{$-\overline{\mathrm{Ric}}(\nu, \nu)\phi^2$: the curvature of the ambient space.} The pushed hypersurface consists of points on the normal geodesics. If the ambient sectional
+curvatures $\overline{K}(e_a, \nu)$ are positive, these geodesics converge, as the meridians do when one pushes the equator of a sphere towards a pole, and the area decreases; the
+amount is the sum $\sum_a\overline{K}(e_a, \nu) = \overline{\mathrm{Ric}}(\nu, \nu)$ over the $n$ tangent directions (Example~\ref{riemannian-geometry:example-equator-unstable} below
+computes it exactly). In a space of constant curvature $\kappa$, $\overline{\mathrm{Ric}}(\nu, \nu) = n\kappa$ (Proposition~\ref{riemannian-geometry:proposition-ricci-constant-curvature}),
+so $Q(\phi) = \int_K(|\nabla\phi|^2 - (|S|^2 + n\kappa)\phi^2)\,dA$.
 \end{enumerate}
+
+\emph{The Jacobi operator and the notations of the literature.} Green's formula (Proposition~\ref{riemannian-geometry:proposition-riemannian-divergence}, on a compact domain with smooth
+boundary containing $x(K)$) gives $\int|\nabla\phi|^2\,dA = -\int\phi\,\Delta\phi\,dA$ for compactly supported $\phi$, where $\Delta = \operatorname{div}\operatorname{grad}$ is the Laplacian of $M$
+with its induced metric (the \emph{Laplace--Beltrami operator}). Hence
+\[
+Q(\phi) = -\int_K\bigl(\Delta\phi + |S|^2\phi + \overline{\mathrm{Ric}}(\nu, \nu)\phi\bigr)\phi\,dA = -\int_K\phi\,L\phi\,dA, \qquad L = \Delta + |S|^2 + \overline{\mathrm{Ric}}(\nu, \nu),
+\]
+the \emph{Jacobi operator}, or stability operator, of $M$. A minimal hypersurface is \emph{stable} if $Q(\phi) \geq 0$ for all compactly supported $\phi$. Both curvature terms make stability
+harder; positive Ricci curvature of $\overline{M}$ pushes towards instability, negative towards stability. The literature uses several equivalent conventions, and it helps to have a
+dictionary:
+\begin{enumerate}
+\item The second fundamental form is often written $A$, and $|A|^2 = \sum_{i,j}h_{ij}h^{ij} = \sum_i\kappa_i^2$ is our $|S|^2$ (the norm of $h$ and of $S$ agree, as $S$ is $h$ with an
+index raised). The variation function is often written $u$, the Laplacian $\Delta_M$, and the area element $d\mu$ or $d\omega$.
+\item Many authors define the Jacobi operator with the opposite sign, $L = -\Delta_M - |A|^2 - \overline{\mathrm{Ric}}(\nu, \nu)$, so that $Q(u) = \int_Mu\,Lu$ and stability means that $L$ is a
+nonnegative operator (its eigenvalues on compactly supported functions are $\geq 0$). This is the same quadratic form as ours.
+\item Some authors use the geometer's Laplacian $\Delta = -\operatorname{div}\operatorname{grad}$, which is a nonnegative operator; then $L$ is written $\Delta - |A|^2 - \overline{\mathrm{Ric}}(\nu, \nu)$.
+\end{enumerate}
+To translate a formula, check it on the hyperplane in $\RR^{n+1}$: there $Q(u) = \int|\nabla u|^2 \geq 0$.
+
+\emph{Curves.} For $n = 1$, $M$ is a curve in a surface $\overline{M}$, $A$ is its length, and $S$ is its geodesic curvature, so $H = 0$ means that $M$ is a geodesic and then $S = 0$. Since
+$\overline{\mathrm{Ric}}(\nu, \nu) = \overline{K}$ for a surface (Proposition~\ref{riemannian-geometry:proposition-ricci-constant-curvature}), the formula becomes $\int(\phi^{\prime 2} - K\phi^2)\,dt$ for
+a unit speed geodesic $\gamma$. This is the index form $I(V, V)$ of Proposition~\ref{riemannian-geometry:proposition-second-variation} for $V = \phi\nu$: the unit normal $\nu$ is parallel along
+$\gamma$ (its derivative is orthogonal to $\nu$ and, as $\langle D_t\nu, \dot\gamma\rangle = -\langle\nu, D_t\dot\gamma\rangle = 0$, to $\dot\gamma$), so $D_tV = \phi^{\prime}\nu$ and
+$R(V, \dot\gamma, \dot\gamma, V) = K\phi^2$. So the second variation of area generalises the second variation of geodesics, and the three terms above correspond to those of
+Remark~\ref{riemannian-geometry:remark-reading-second-variation}.
 \end{remark}
 
 \begin{example}\label{riemannian-geometry:example-equator-unstable}
 \emph{The equator of a sphere.} Let $M = S^n = \{x_{n+2} = 0\}$ be the equator of the unit sphere $\overline{M} = S^{n+1} \subseteq \RR^{n+2}$, with the constant unit normal
 $\nu = e_{n+2}$. The derivative of the constant field $\nu$ in $\RR^{n+2}$ is zero, so its tangential projection $\overline{\nabla}_X\nu$ vanishes
 (Corollary~\ref{riemannian-geometry:corollary-tangential-projection}): $S = 0$, the equator is totally geodesic and in particular minimal. As
-$\overline{\mathrm{Ric}} = n\overline{g}$ (Example~\ref{riemannian-geometry:example-curvature}), the proposition with $\phi = 1$ (the computation is pointwise, so it applies on all of
+$\overline{\mathrm{Ric}} = n\overline{g}$ (Proposition~\ref{riemannian-geometry:proposition-ricci-constant-curvature}), the proposition with $\phi = 1$ (the computation is pointwise, so it applies on all of
 $S^n$) predicts $A^{\prime\prime}(0) = -n\operatorname{vol}(S^n)$ for the variation by normal geodesics. Directly: the normal geodesic from $p$ is the great circle
 $s \mapsto \cos s\,p + \sin s\,e_{n+2}$, so $F_s(p) = \cos s\,p + \sin s\,e_{n+2}$ maps $S^n$ onto the parallel sphere $\{x_{n+2} = \sin s\}$, with $dF_s = \cos s \cdot \id$ on tangent
 vectors. So $g(s) = \cos^2s\,g$, $A(s) = \cos^ns\operatorname{vol}(S^n)$, and $A^{\prime\prime}(0) = -n\operatorname{vol}(S^n)$, as predicted. The equator is a minimal hypersurface, but it is a
