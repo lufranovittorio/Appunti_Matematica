@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>The Laplace–Beltrami operator - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="riemannian-geometry-section-minimal.html" /><link rel="next" href="riemannian-geometry-section-hodge-star.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">12</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">15</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">16</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">17</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">18</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">19</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">22</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">23</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">26</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">27</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">30</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">31</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">32</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">33</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">34</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">35</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">36</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">37</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">38</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2 active">
+  <a href="riemannian-geometry.html"><span class="toc_ref">39</span> <span class="toc_entry">Riemannian Geometry</span></a>
+  <ul><li class="level-3">
+  <a href="riemannian-geometry-section-introduction.html"><span class="toc_ref">39.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-levi-civita.html"><span class="toc_ref">39.2</span> <span class="toc_entry">Metrics and the Levi-Civita connection</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-volume.html"><span class="toc_ref">39.3</span> <span class="toc_entry">Volume and integration</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-along-curves.html"><span class="toc_ref">39.4</span> <span class="toc_entry">Covariant derivatives along curves</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-gradient.html"><span class="toc_ref">39.5</span> <span class="toc_entry">Gradient, Hessian, divergence and Laplacian</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exponential.html"><span class="toc_ref">39.6</span> <span class="toc_entry">The exponential map and minimising geodesics</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-holonomy.html"><span class="toc_ref">39.7</span> <span class="toc_entry">Parallel transport and holonomy</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-curvature.html"><span class="toc_ref">39.8</span> <span class="toc_entry">Curvature</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-moving-frames.html"><span class="toc_ref">39.9</span> <span class="toc_entry">Moving frames</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-variation.html"><span class="toc_ref">39.10</span> <span class="toc_entry">The first and second variation of energy</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-submanifolds.html"><span class="toc_ref">39.11</span> <span class="toc_entry">Submanifolds and the second fundamental form</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-surfaces-global.html"><span class="toc_ref">39.12</span> <span class="toc_entry">Global theorems on surfaces</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-minimal.html"><span class="toc_ref">39.13</span> <span class="toc_entry">Minimal surfaces</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="riemannian-geometry-section-laplace-beltrami.html"><span class="toc_ref">39.14</span> <span class="toc_entry">The Laplace–Beltrami operator</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-hodge-star.html"><span class="toc_ref">39.15</span> <span class="toc_entry">The Hodge star and the Laplacian</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-killing.html"><span class="toc_ref">39.16</span> <span class="toc_entry">Isometries, Killing fields and space forms</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exercises.html"><span class="toc_ref">39.17</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">41</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">42</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">43</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">44</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">45</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">46</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">47</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">48</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">49</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">50</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">51</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">52</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">53</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">54</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">55</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">56</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">57</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">58</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">59</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">60</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">61</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">62</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">63</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">64</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">65</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">66</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">67</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">68</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">69</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">70</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">71</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">72</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">73</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">74</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">75</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">76</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="riemannian-geometry.html">39 Riemannian Geometry</a></li></ol>
+
+<article class="main-text">
+<h1 id="riemannian-geometry:section-laplace-beltrami">39.14 The Laplace–Beltrami operator<a class="tag" href="tag/02WT.html" title="Permanent link: tag 02WT">02WT</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>The Laplacian \(\Delta _g = \operatorname {div}\operatorname {grad}\) of Definition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:definition-gradient-hessian">39.5.1</a>, called the <em>Laplace–Beltrami operator</em> when one wants to stress that it lives on a Riemannian manifold, has already appeared several times: in coordinates (Proposition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:proposition-gradient-hessian">39.5.2</a>(1)), </p>
+<div class="displaymath" id="a0000001550">
+  \[  \Delta _gf = \frac{1}{\sqrt{\det g}}\sum _{i,j}\partial _i\bigl(\sqrt{\det g}\, g^{ij}\partial _jf\bigr),  \]
+</div>
+<p> as the trace of the Hessian (Proposition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:proposition-gradient-hessian">39.5.2</a>(3)), and in the Jacobi operator of a minimal hypersurface (Remark&#160;<a href="riemannian-geometry-section-minimal.html#riemannian-geometry:remark-variation-area-riemannian">39.13.11</a>). This section collects its basic properties: it is symmetric and nonpositive, it measures how \(f\) differs from its averages, it detects minimal submanifolds, and on spheres its eigenfunctions are the spherical harmonics. We use the analysts’ sign, so that \(\Delta _g = \sum _i\partial _i^2\) on \(\mathbb {R}^n\); the Hodge Laplacian of Section&#160;<a href="riemannian-geometry-section-hodge-star.html">39.15</a> below is \(-\Delta _g\) on functions. Throughout, \((M, g)\) is a Riemannian manifold of dimension \(n\) and we write \(\Delta \) for \(\Delta _g\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-laplacian-symmetric">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02WU.html" title="Permanent link: tag 02WU">02WU</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">39.14.1</span>
+    <span class="proposition_thmtitle">Green’s identities</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(M\) be oriented and without boundary, and let \(f\), \(h\) be smooth functions, one of which has compact support. Then </p>
+<div class="displaymath" id="a0000001551">
+  \[  \int _Mf\, \Delta h\, \mathrm{vol}_g = -\int _M\langle \operatorname {grad}f, \operatorname {grad}h\rangle \, \mathrm{vol}_g = \int _Mh\, \Delta f\, \mathrm{vol}_g .  \]
+</div>
+<p> In particular \(\int _M\Delta f\, \mathrm{vol}_g = 0\) and \(\int _Mf\, \Delta f\, \mathrm{vol}_g = -\int _M|\operatorname {grad}f|^2\, \mathrm{vol}_g \leq 0\) for compactly supported \(f\): the operator \(\Delta \) is <em>symmetric</em> and <em>nonpositive</em>. Moreover \(\Delta \) is the only operator \(P \colon C^\infty (M) \to C^\infty (M)\) with \(\int _MfPh\, \mathrm{vol}_g = -\int _M\langle \operatorname {grad}f, \operatorname {grad}h\rangle \, \mathrm{vol}_g\) for all \(h\) and all compactly supported \(f\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001552">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The vector field \(X = f\operatorname {grad}h\) has compact support and \(\operatorname {div}X = \langle \operatorname {grad}f, \operatorname {grad}h\rangle + f\Delta h\), by the Leibniz rule \(\nabla _v(fY) = v(f)Y + f\nabla _vY\) inside the trace. By Proposition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:proposition-gradient-hessian">39.5.2</a>(5), \((\operatorname {div}X)\, \mathrm{vol}_g = d(\iota _X\mathrm{vol}_g)\) is the exterior derivative of a compactly supported form, so its integral vanishes by Stokes’ theorem (Theorem&#160;<a href="differential-forms-section-integration.html#differential-forms:theorem-stokes">35.4.8</a>) with \(\partial M = \emptyset \). This is the first equality; the second follows by exchanging \(f\) and \(h\), as the middle term is symmetric. For the special cases take \(h = 1\), so that \(\int \Delta f = \int f\, \Delta 1 = 0\), and \(h = f\). For uniqueness, if \(P\) has the property, then \(u = Ph - \Delta h\) is smooth and \(\int _Mfu\, \mathrm{vol}_g = 0\) for all compactly supported \(f\). Taking \(f = \rho u\) for a bump function \(\rho \geq 0\) gives \(\int _M\rho u^2\, \mathrm{vol}_g = 0\), so \(u = 0\) where \(\rho {\gt} 0\); as \(\rho \) is arbitrary, \(u = 0\). </p>
+
+  </div>
+</div>
+<p>The identity \(\int f\Delta h = \int h\Delta f\) is the analogue for \(\Delta \) of the symmetry of a symmetric matrix, with the \(L^2\) inner product \((f, h) = \int _Mfh\, \mathrm{vol}_g\) in place of the dot product; \(\int f\Delta f \leq 0\) says that \(\Delta \) is “negative semidefinite”. As for symmetric matrices, this has consequences for eigenvalues. </p>
+<div class="corollary_thmwrapper theorem-style-plain" id="riemannian-geometry:corollary-laplacian-compact">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02WV.html" title="Permanent link: tag 02WV">02WV</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">39.14.2</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(M\) be compact, oriented and without boundary. </p>
+<ol class="enumerate">
+  <li><p>A function with \(\Delta f \geq 0\) everywhere (a <em>subharmonic</em> function), in particular a <em>harmonic</em> function, \(\Delta f = 0\), is locally constant. </p>
+</li>
+  <li><p>If \(\Delta f = -\lambda f\) with \(f \neq 0\), then \(\lambda = \int |\operatorname {grad}f|^2/\int f^2 \geq 0\), and \(\lambda = 0\) only for locally constant \(f\). So the eigenvalues of \(-\Delta \) are nonnegative. </p>
+</li>
+  <li><p>Eigenfunctions \(\Delta f_1 = -\lambda _1f_1\), \(\Delta f_2 = -\lambda _2f_2\) with \(\lambda _1 \neq \lambda _2\) are orthogonal: \(\int _Mf_1f_2\, \mathrm{vol}_g = 0\). </p>
+</li>
+  <li><p>If the equation \(\Delta u = h\) has a solution, then \(\int _Mh\, \mathrm{vol}_g = 0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001553">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>All functions have compact support. (1) \(\int \Delta f = 0\) and \(\Delta f \geq 0\) force \(\Delta f = 0\); then \(\int |\operatorname {grad}f|^2 = -\int f\Delta f = 0\), so \(df = 0\) and \(f\) is constant on each connected component. (2) \(\lambda \int f^2 = -\int f\Delta f = \int |\operatorname {grad}f|^2\); if \(\lambda = 0\) then \(df = 0\). (3) \(-\lambda _1\int f_1f_2 = \int f_2\Delta f_1 = \int f_1\Delta f_2 = -\lambda _2\int f_1f_2\). (4) \(\int h = \int \Delta u = 0\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-laplacian-eigen">
+  <div class="example_thmheading"><a class="tag" href="tag/02WW.html" title="Permanent link: tag 02WW">02WW</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">39.14.3</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>On the circle \(\mathbb {R}/2\pi \mathbb {Z}\) with \(g = d\theta ^2\), \(\Delta = d^2/d\theta ^2\); the functions \(\cos k\theta \) and \(\sin k\theta \) are eigenfunctions of \(-\Delta \) with eigenvalue \(k^2\), and part (3) of the corollary is the orthogonality of the Fourier basis. On the flat torus \(\mathbb {R}^n/2\pi \mathbb {Z}^n\) the functions \(\cos \langle k, x\rangle \) and \(\sin \langle k, x\rangle \), \(k \in \mathbb {Z}^n\), have eigenvalue \(|k|^2\). </p>
+</li>
+  <li><p>On the round sphere \(S^n\), the restriction of a linear function \(\langle a, x\rangle \) is an eigenfunction of \(-\Delta \) with eigenvalue \(n\) (Exercise&#160;<a href="riemannian-geometry-section-exercises.html#riemannian-geometry:exercise-height-sphere">39.17.25</a>); more eigenfunctions are found in Corollary&#160;<a href="riemannian-geometry-section-laplace-beltrami.html#riemannian-geometry:corollary-spherical-harmonics">39.14.9</a> below. </p>
+</li>
+  <li><p>On a noncompact manifold part (1) fails: \(x\) is a nonconstant harmonic function on \(\mathbb {R}^n\). Compactness enters through the absence of boundary terms in Green’s identities. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p><em>What the Laplacian measures.</em> On \(\mathbb {R}\), \(f^{\prime \prime }(p) {\gt} 0\) means that \(f\) bends upwards, so that \(\frac12(f(p + r) + f(p - r)) {\gt} f(p)\) for small \(r\): the average of \(f\) over the two points at distance \(r\) exceeds \(f(p)\), and \(f^{\prime \prime }(p) = \lim _{r\to 0}\frac{2}{r^2}\bigl(\frac12(f(p + r) + f(p - r)) - f(p)\bigr)\). The Laplacian is the same quantity in higher dimension, with the two points replaced by a small sphere. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-laplacian-mean">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02WX.html" title="Permanent link: tag 02WX">02WX</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">39.14.4</span>
+    <span class="proposition_thmtitle">The Laplacian as a mean value</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(p \in M\), identify \(T_pM\) with \(\mathbb {R}^n\) by an orthonormal basis, let \(S \subseteq T_pM\) be the unit sphere with its Riemannian measure \(\sigma \), and for small \(r {\gt} 0\) let \(m_f(r) = \frac{1}{\sigma (S)}\int _Sf(\exp _p(rv))\, d\sigma (v)\), the average of \(f\) over the points at distance \(r\) from \(p\) in all directions. Then </p>
+<div class="displaymath" id="a0000001554">
+  \[  m_f(r) = f(p) + \frac{r^2}{2n}\Delta f(p) + O(r^3), \qquad \text{so}\qquad \Delta f(p) = \lim _{r\to 0}\frac{2n}{r^2}\bigl(m_f(r) - f(p)\bigr).  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001555">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The map \((r, v) \mapsto f(\exp _p(rv))\) is smooth on \([0, r_0] \times S\) for small \(r_0\), as \(\exp \) is smooth on an open set containing \(0 \in T_pM\). For fixed \(v\), the curve \(\gamma (r) = \exp _p(rv)\) is the geodesic with \(\gamma (0) = p\) and \(\dot\gamma (0) = v\), so by Proposition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:proposition-gradient-hessian">39.5.2</a>(4) and Taylor’s formula, \(f(\exp _p(rv)) = f(p) + r\, df_p(v) + \frac{r^2}2\operatorname {Hess}f_p(v, v) + R(r, v)\) with \(|R(r, v)| \leq Cr^3\), where \(C\) bounds the third derivative in \(r\) on the compact set \([0, r_0] \times S\). Now average over \(v \in S\). The orthogonal maps of \(\mathbb {R}^n\) preserve \(S\) and are isometries of it, so they preserve \(\sigma \). The reflection \(v_i \mapsto -v_i\) shows \(\int _Sv_i\, d\sigma = 0\) and \(\int _Sv_iv_j\, d\sigma = 0\) for \(i \neq j\); the coordinate permutations show that \(\int _Sv_i^2\, d\sigma \) does not depend on \(i\), and as \(\sum _iv_i^2 = 1\) on \(S\) it equals \(\sigma (S)/n\). Writing \(df_p(v) = \sum _ia_iv_i\) and \(\operatorname {Hess}f_p(v, v) = \sum _{i,j}b_{ij}v_iv_j\), the averages are \(0\) and \(\frac1n\sum _ib_{ii} = \frac1n\Delta f(p)\) (Proposition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:proposition-gradient-hessian">39.5.2</a>(3)). </p>
+
+  </div>
+</div>
+<p>So \(\Delta f(p) {\gt} 0\) means that near \(p\) the values of \(f\) are on average larger than \(f(p)\): \(p\) lies in a “valley” of \(f\). A harmonic function equals its averages up to order \(r^3\); on \(\mathbb {R}^2\) it equals them exactly (the mean value property of harmonic functions, Chapter&#160;<a href="complex-analysis.html">28</a>). At a local maximum, \(\operatorname {Hess}f_p \leq 0\) (Proposition&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:proposition-gradient-hessian">39.5.2</a>(4)), so \(\Delta f(p) \leq 0\); hence a function with \(\Delta f {\gt} 0\) everywhere has no local maximum. This explains the heat equation \(\partial _tu = \Delta u\): the temperature rises at points whose surroundings are warmer on average. </p>
+<p><em>The Laplacian of the coordinates of a submanifold.</em> For a submanifold \(M \subseteq \mathbb {R}^N\) with the induced metric, the coordinates \(x^1, \ldots , x^N\) restrict to functions on \(M\), and we write \(\Delta x = (\Delta x^1, \ldots , \Delta x^N)\), a map \(M \to \mathbb {R}^N\). Let \(\mathrm{II}\) be the second fundamental form (Theorem&#160;<a href="riemannian-geometry-section-submanifolds.html#riemannian-geometry:theorem-gauss-formula">39.11.2</a>) and \(\vec{H} = \frac1n\sum _a\mathrm{II}(e_a, e_a)\) the <em>mean curvature vector</em>, a normal vector; for a hypersurface with unit normal \(\nu \), \(\vec{H} = H\nu \) (Definition&#160;<a href="riemannian-geometry-section-submanifolds.html#riemannian-geometry:definition-hypersurface-curvatures">39.11.9</a>). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-beltrami-formula">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02WY.html" title="Permanent link: tag 02WY">02WY</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">39.14.5</span>
+    <span class="proposition_thmtitle">Beltrami’s formula</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> For a submanifold \(M^n \subseteq \mathbb {R}^N\), \(\operatorname {Hess}x^k(X, Y) = \langle \mathrm{II}(X, Y), e_k\rangle \) for each coordinate \(x^k\), and </p>
+<div class="displaymath" id="a0000001556">
+  \[  \Delta x = n\vec{H} .  \]
+</div>
+<p> In particular \(M\) is minimal (\(\vec{H} = 0\)) if and only if its coordinate functions are harmonic on \(M\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001557">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For a tangent vector field \(Y\), regarded as a map \(M \to \mathbb {R}^N\), \(Yx^k = \langle Y, e_k\rangle \) is the \(k\)-th component of \(Y\). Differentiating along a tangent field \(X\), \(X(Yx^k) = \langle D_XY, e_k\rangle \), where \(D_XY\) is the ordinary derivative of the vector-valued function \(Y\) along \(X\). By the Gauss formula and Corollary&#160;<a href="riemannian-geometry-section-submanifolds.html#riemannian-geometry:corollary-tangential-projection">39.11.3</a>, \(D_XY = \nabla _XY + \mathrm{II}(X, Y)\), so \(\operatorname {Hess}x^k(X, Y) = X(Yx^k) - (\nabla _XY)x^k = \langle D_XY - \nabla _XY, e_k\rangle = \langle \mathrm{II}(X, Y), e_k\rangle \). Taking the trace, \(\Delta x^k = \sum _a\langle \mathrm{II}(e_a, e_a), e_k\rangle = n\langle \vec{H}, e_k\rangle \). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-beltrami-formula">
+  <div class="example_thmheading"><a class="tag" href="tag/02WZ.html" title="Permanent link: tag 02WZ">02WZ</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">39.14.6</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>The sphere.</em> For the unit sphere \(S^n \subseteq \mathbb {R}^{n+1}\) and tangent fields \(X\), \(Y\), differentiating \(\langle Y, x\rangle = 0\) gives \(\langle D_XY, x\rangle = -\langle Y, X\rangle \), so \(\mathrm{II}(X, Y) = -\langle X, Y\rangle x\), \(\vec{H} = -x\) and \(\Delta x = -nx\): each coordinate function is an eigenfunction of \(-\Delta \) with eigenvalue \(n\), as in Example&#160;<a href="riemannian-geometry-section-laplace-beltrami.html#riemannian-geometry:example-laplacian-eigen">39.14.3</a>(2). </p>
+</li>
+  <li><p><em>The catenoid</em> \(x(u, v) = (\cosh v\cos u, \cosh v\sin u, v)\) has \(E = G = \cosh ^2v\), \(F = 0\) (Example&#160;<a href="riemannian-geometry-section-minimal.html#riemannian-geometry:example-minimal-surfaces">39.13.4</a>), so in these conformal coordinates \(\Delta = \cosh ^{-2}v\, (\partial _u^2 + \partial _v^2)\) (Example&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:example-gradient-hessian">39.5.3</a>(3)). The coordinates \(\cosh v\cos u\), \(\cosh v\sin u\) and \(v\) are harmonic for \(\partial _u^2 + \partial _v^2\) (for the first, \(\partial _u^2\) gives \(-\cosh v\cos u\) and \(\partial _v^2\) gives \(+\cosh v\cos u\)), confirming that the catenoid is minimal. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="riemannian-geometry:corollary-no-compact-minimal">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02X0.html" title="Permanent link: tag 02X0">02X0</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">39.14.7</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> There is no compact oriented minimal submanifold \(M \subseteq \mathbb {R}^N\) without boundary and of positive dimension. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001558">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By Proposition&#160;<a href="riemannian-geometry-section-laplace-beltrami.html#riemannian-geometry:proposition-beltrami-formula">39.14.5</a> the coordinate functions are harmonic on \(M\), hence constant on each component of \(M\) (Corollary&#160;<a href="riemannian-geometry-section-laplace-beltrami.html#riemannian-geometry:corollary-laplacian-compact">39.14.2</a>(1)). So each component of \(M\) is a point, which contradicts \(\dim M {\gt} 0\). </p>
+
+  </div>
+</div>
+<p>So a soap film always needs a wire: a closed soap bubble is not a minimal surface, and indeed it has constant mean curvature \(H \neq 0\), balancing the pressure difference between inside and outside. </p>
+<p><em>Spherical coordinates and spherical harmonics.</em> On \(\mathbb {R}^n \setminus \{ 0\} \) write \(x = r\theta \) with \(r = |x| {\gt} 0\) and \(\theta \in S^{n-1}\), and let \(\theta ^1, \ldots , \theta ^{n-1}\) be local coordinates on \(S^{n-1}\). The map \((r, \theta ) \mapsto r\theta \) sends \(\partial _r\) to \(\theta \), a unit vector, and \(\partial _{\theta ^a}\) to \(r\, \partial _a\theta \), which is orthogonal to \(\theta \) (differentiate \(|\theta |^2 = 1\)). So the Euclidean metric is </p>
+<div class="displaymath" id="a0000001559">
+  \[  g = dr^2 + r^2g_{S^{n-1}},  \]
+</div>
+<p> with \(\sqrt{\det g} = r^{n-1}\sqrt{\det g_{S^{n-1}}}\), \(g^{rr} = 1\), \(g^{ra} = 0\) and \(g^{ab} = r^{-2}g_{S^{n-1}}^{ab}\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-laplacian-polar">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02X1.html" title="Permanent link: tag 02X1">02X1</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">39.14.8</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> For a smooth function \(f\) on \(\mathbb {R}^n \setminus \{ 0\} \), </p>
+<div class="displaymath" id="a0000001560">
+  \[  \Delta f = \frac{\partial ^2f}{\partial r^2} + \frac{n-1}{r}\frac{\partial f}{\partial r} + \frac{1}{r^2}\Delta _{S^{n-1}}f,  \]
+</div>
+<p> where \(\Delta _{S^{n-1}}f\) is the Laplacian of the round unit sphere applied to \(\theta \mapsto f(r\theta )\) for fixed \(r\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001561">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Insert the metric above into the coordinate formula for \(\Delta \). The terms with \(i = j = r\) give \(r^{1-n}\partial _r(r^{n-1}\partial _rf) = \partial _r^2f + \frac{n-1}r\partial _rf\), and the terms with \(i, j\) among the \(\theta ^a\) give \(r^{-2}\) times the coordinate formula for \(\Delta _{S^{n-1}}\), since the factor \(r^{n-1}\) in \(\sqrt{\det g}\) does not depend on \(\theta \) and cancels. </p>
+
+  </div>
+</div>
+<p>For \(n = 2\) this is the formula \(f_{rr} + \frac1rf_r + \frac1{r^2}f_{\theta \theta }\) of Example&#160;<a href="riemannian-geometry-section-gradient.html#riemannian-geometry:example-gradient-hessian">39.5.3</a>(2), and for radial functions it is Exercise&#160;<a href="riemannian-geometry-section-exercises.html#riemannian-geometry:exercise-gradient-identities">39.17.24</a>. </p>
+<div class="corollary_thmwrapper theorem-style-plain" id="riemannian-geometry:corollary-spherical-harmonics">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02X2.html" title="Permanent link: tag 02X2">02X2</a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">39.14.9</span>
+    <span class="corollary_thmtitle">Spherical harmonics</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> Let \(P\) be a homogeneous polynomial of degree \(k\) on \(\mathbb {R}^n\) with \(\Delta P = 0\), and \(Y = P|_{S^{n-1}}\). Then </p>
+<div class="displaymath" id="a0000001562">
+  \[  \Delta _{S^{n-1}}Y = -k(k + n - 2)\, Y .  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001563">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By homogeneity \(P(r\theta ) = r^kY(\theta )\). By Proposition&#160;<a href="riemannian-geometry-section-laplace-beltrami.html#riemannian-geometry:proposition-laplacian-polar">39.14.8</a>, \(0 = \Delta P = \bigl(k(k - 1) + (n - 1)k\bigr)r^{k-2}Y + r^{k-2}\Delta _{S^{n-1}}Y\), and \(k(k - 1) + (n - 1)k = k(k + n - 2)\). </p>
+
+  </div>
+</div>
+<p>For \(k = 1\) the eigenvalue of \(-\Delta _{S^{n-1}}\) is \(n - 1 = \dim S^{n-1}\), as in Example&#160;<a href="riemannian-geometry-section-laplace-beltrami.html#riemannian-geometry:example-beltrami-formula">39.14.6</a>(1). For \(k = 2\) and \(n = 3\), the harmonic polynomials \(xy\), \(yz\), \(zx\), \(x^2 - y^2\) and \(x^2 + y^2 - 2z^2\) give eigenfunctions on \(S^2\) with eigenvalue \(6\); in physics these are the orbitals with angular momentum \(\ell = 2\), and the eigenvalue \(\ell (\ell + 1)\) is the square of the angular momentum. </p>
+<div class="remark_thmwrapper theorem-style-remark" id="riemannian-geometry:remark-laplacians">
+  <div class="remark_thmheading"><a class="tag" href="tag/02X3.html" title="Permanent link: tag 02X3">02X3</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">39.14.10</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> <em>Other Laplacians.</em> The formula \(\Delta f = \operatorname {tr}_g\operatorname {Hess}f = \sum _a(\nabla ^2f)(e_a, e_a)\) makes sense for any tensor field \(T\) in place of \(f\): \(\nabla ^*\nabla T = -\sum _a(\nabla _{e_a}\nabla _{e_a}T - \nabla _{\nabla _{e_a}e_a}T)\) is the <em>rough</em> or <em>connection Laplacian</em> (with the geometers’ sign). On differential forms there is also the Hodge Laplacian \(d\delta + \delta d\) of the next section, which equals \(-\Delta \) on functions; on forms of positive degree the two differ by a curvature term (the Weitzenböck formula), which is the source of the Bochner vanishing theorems mentioned there. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="riemannian-geometry-section-minimal.html"><span class="dir">Previous</span> Minimal surfaces</a><a class="next" href="riemannian-geometry-section-hodge-star.html"><span class="dir">Next</span> The Hodge star and the Laplacian</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>
