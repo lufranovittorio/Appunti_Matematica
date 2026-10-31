@@ -57,6 +57,27 @@ $df = \sum_j\frac{\partial f}{\partial x^j}dx^j$; for $f = x^i$ this gives the s
 $d(fg) = f\,dg + g\,df$ by the Leibniz rule for tangent vectors.
 \end{remark}
 
+\begin{remark}\label{differential-forms:remark-induced-maps}
+\emph{Pullback, and what a smooth map induces.} The definition of $f^*\omega$ says: to evaluate $f^*\omega$ on tangent vectors at $p \in N$, push the vectors forward to $f(p)$ with the differential $d_pf$ and
+evaluate $\omega$ there. Since $d_pf$ is linear, $(f^*\omega)_p$ is again alternating and multilinear, and $f^*$ is linear, compatible with wedge products ($f^*(\omega \wedge \eta) = f^*\omega \wedge f^*\eta$, as
+both sides are computed pointwise from the same multilinear algebra) and functorial: $(g \circ f)^* = f^*g^*$ by the chain rule $d(g \circ f) = dg \circ df$, and $\id^* = \id$. A smooth map
+$f \colon N \to M$ induces maps in two directions:
+\begin{enumerate}
+\item \emph{forward} (covariantly): tangent vectors, $d_pf \colon T_pN \to T_{f(p)}M$, and curves, $\gamma \mapsto f \circ \gamma$;
+\item \emph{backward} (contravariantly): functions, $f^*g = g \circ f$; covectors and forms, $f^*\omega$; covariant tensors such as metrics, $(f^*g)(v, w) = g(df\,v, df\,w)$, which is again a metric if and only if
+$f$ is an immersion (Remark~\ref{differential-forms:remark-induced-maps-metric}); vector bundles and their sections, $f^*E$ (Chapter~\ref{vector-bundles}); and de Rham cohomology (Chapter~\ref{de-rham}).
+\end{enumerate}
+Vector fields are neither: a vector field $X$ on $N$ cannot be pushed forward in general (if $f$ is not injective, two points with the same image may give different vectors, and if $f$ is not surjective
+there is nothing to define off the image), nor pulled back. A diffeomorphism transports everything in both directions, $f_*X = df \circ X \circ f^{-1}$; for a general $f$ one only has the notion of
+\emph{$f$-related} fields, $df(X_p) = Y_{f(p)}$, and then $f^*(\omega(Y_1, \ldots, Y_k)) = (f^*\omega)(X_1, \ldots, X_k)$. This asymmetry is why differential forms, not vector fields, are the objects that
+can be integrated over images of maps and that form a contravariant functor, cohomology.
+\end{remark}
+
+\begin{remark}\label{differential-forms:remark-induced-maps-metric}
+For $f \colon N \to (M, g)$ with $g$ a Riemannian metric, $(f^*g)_p(v, v) = |d_pf\,v|^2$ vanishes for $v \neq 0$ exactly when $v \in \ker d_pf$; so $f^*g$ is positive definite, a metric, if and only if every $d_pf$ is
+injective. For the inclusion of a submanifold this is the induced metric (Chapter~\ref{riemannian-geometry}).
+\end{remark}
+
 \begin{proposition}\label{differential-forms:proposition-forms-descriptions}
 Let $M$ be a smooth $n$-manifold. For each $p$, the fibre $\Lambda^kT_p^*M$ is the space of alternating $k$-linear maps $(T_pM)^k \to \RR$
 (Proposition~\ref{multilinear-algebra:proposition-dual-exterior} and Notation~\ref{multilinear-algebra:notation-forms}). For a family $\omega = (\omega_p)_{p \in M}$ of such maps the
@@ -649,4 +670,19 @@ preserves areas and the level sets of $H$.
 $\iota_{X_H}(dx \wedge dy) = \partial_yH\,dy + \partial_xH\,dx = dH$. By Cartan's formula $L_{X_H}(dx \wedge dy) = d\iota_{X_H}(dx \wedge dy) = d\,dH = 0$, so the flow preserves $dx \wedge dy$
 (Proposition~\ref{differential-forms:proposition-cartan}). And $X_HH = \partial_yH\,\partial_xH - \partial_xH\,\partial_yH = 0$, so $H$ is constant along the flow lines. This is the
 two-dimensional case of Liouville's theorem in Hamiltonian mechanics.
+\end{solution}
+
+\begin{exercise}\label{differential-forms:exercise-forms-on-submanifolds}
+Let $C = \{x^2 + y^2 = 1\} \subseteq \RR^3$ be the cylinder, with the parametrisation $(\theta, z) \mapsto (\cos\theta, \sin\theta, z)$ and inclusion $\iota$. Compute $\iota^*$ of $dx \wedge dy$, $dx \wedge dz$,
+$dy \wedge dz$ and $x\,dy \wedge dz - y\,dx \wedge dz$, and of the $1$-forms $x\,dy - y\,dx$ and $dz$. Which of these forms restrict to zero on $C$, and why is that visible without computation for
+$dx \wedge dy$?
+\end{exercise}
+
+\begin{solution}
+$\iota^*dx = -\sin\theta\,d\theta$, $\iota^*dy = \cos\theta\,d\theta$, $\iota^*dz = dz$. So $\iota^*(dx \wedge dy) = 0$, $\iota^*(dx \wedge dz) = -\sin\theta\,d\theta \wedge dz$,
+$\iota^*(dy \wedge dz) = \cos\theta\,d\theta \wedge dz$, $\iota^*(x\,dy \wedge dz - y\,dx \wedge dz) = (\cos^2\theta + \sin^2\theta)\,d\theta \wedge dz = d\theta \wedge dz$, the area form of the cylinder,
+$\iota^*(x\,dy - y\,dx) = d\theta$ and $\iota^*dz = dz$. A form restricts to zero exactly when it vanishes on all tuples of tangent vectors of $C$. At each point the tangent plane of $C$ is spanned by $\partial_z$ and a
+horizontal vector $w$, and $dx \wedge dy(w, \partial_z) = 0$ since $dx(\partial_z) = dy(\partial_z) = 0$; by bilinearity $dx \wedge dy$ vanishes on the whole tangent plane. Geometrically, $dx \wedge dy$ measures
+the area of the projection to the $(x, y)$-plane, which maps $C$ onto a circle, of area zero. Note that $\iota^*(x\,dy - y\,dx) = d\theta$ is closed but not exact on $C$, although
+$x\,dy - y\,dx$ is not closed on $\RR^3$.
 \end{solution}
