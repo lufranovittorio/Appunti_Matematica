@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Symplectic linear algebra - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="symplectic-geometry-section-introduction.html" /><link rel="next" href="symplectic-geometry-section-manifolds.html" /><link rel="stylesheet" href="styles/theme-hodge.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">10</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">12</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">13</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">15</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">16</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">17</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">18</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">19</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">20</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">22</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">23</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">24</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">26</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">27</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">28</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">30</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">31</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">32</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">33</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">34</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">35</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">36</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">37</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">38</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">39</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2 active">
+  <a href="symplectic-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Symplectic Geometry</span></a>
+  <ul><li class="level-3">
+  <a href="symplectic-geometry-section-introduction.html"><span class="toc_ref">40.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="symplectic-geometry-section-linear.html"><span class="toc_ref">40.2</span> <span class="toc_entry">Symplectic linear algebra</span></a>
+</li>
+<li class="level-3">
+  <a href="symplectic-geometry-section-manifolds.html"><span class="toc_ref">40.3</span> <span class="toc_entry">Symplectic manifolds</span></a>
+</li>
+<li class="level-3">
+  <a href="symplectic-geometry-section-cotangent.html"><span class="toc_ref">40.4</span> <span class="toc_entry">The cotangent bundle</span></a>
+</li>
+<li class="level-3">
+  <a href="symplectic-geometry-section-hamiltonian.html"><span class="toc_ref">40.5</span> <span class="toc_entry">Hamiltonian vector fields</span></a>
+</li>
+<li class="level-3">
+  <a href="symplectic-geometry-section-darboux.html"><span class="toc_ref">40.6</span> <span class="toc_entry">Darboux’s theorem and Moser’s method</span></a>
+</li>
+<li class="level-3">
+  <a href="symplectic-geometry-section-lagrangian.html"><span class="toc_ref">40.7</span> <span class="toc_entry">Lagrangian submanifolds</span></a>
+</li>
+<li class="level-3">
+  <a href="symplectic-geometry-section-exercises.html"><span class="toc_ref">40.8</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">41</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">42</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">43</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">44</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">45</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">46</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">47</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">48</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">49</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">50</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">51</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">52</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">53</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">54</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">55</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">56</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">57</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">58</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">59</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">60</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">61</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">62</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">63</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">64</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">65</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">66</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">67</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">68</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">69</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">70</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">71</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">72</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">73</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">74</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">75</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">76</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="symplectic-geometry.html">40 Symplectic Geometry</a></li></ol>
+
+<article class="main-text">
+<h1 id="symplectic-geometry:section-linear">40.2 Symplectic linear algebra<a class="tag" href="tag/02UH.html" title="Permanent link: tag 02UH">02UH</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="definition_thmwrapper theorem-style-definition" id="symplectic-geometry:definition-symplectic-vector-space">
+  <div class="definition_thmheading"><a class="tag" href="tag/02UI.html" title="Permanent link: tag 02UI">02UI</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">40.2.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>symplectic vector space</em> is a finite-dimensional real vector space \(V\) with a nondegenerate alternating bilinear form \(\omega \). For a subspace \(W\), its <em>symplectic complement</em> is \(W^\omega = \{ v \in V : \omega (v, w) = 0 \text{ for all } w \in W\} \). The subspace \(W\) is <em>isotropic</em> if \(W \subseteq W^\omega \) (that is, \(\omega |_W = 0\)), <em>coisotropic</em> if \(W^\omega \subseteq W\), <em>Lagrangian</em> if \(W = W^\omega \), and <em>symplectic</em> if \(W \cap W^\omega = 0\). A linear map preserving \(\omega \) is <em>symplectic</em>, and the symplectic automorphisms of \(V\) form the <em>symplectic group</em> \(\mathrm{Sp}(V, \omega )\). </p>
+
+  </div>
+</div>
+<p>By Theorem&#160;<a href="linear-algebra-section-bilinear.html#linear-algebra:theorem-symplectic-basis">10.8.6</a>, \(\dim V = 2n\) is even and \(V\) has a symplectic basis \(e_1, \ldots , e_n, f_1, \ldots , f_n\); with the dual basis, \(\omega = \sum _ie_i^* \wedge f_i^*\). The model is \(\mathbb {R}^{2n}\) with coordinates \((x, y)\) and \(\omega _0 = \sum _idx^i \wedge dy^i\), that is, \(\omega _0(u, v) = u^TJ_0v\) with \(J_0 = \bigl(\begin{smallmatrix} 0 
+
+&  I
+
+\\ -I 
+
+&  0
+
+\end{smallmatrix}\bigr)\); its symplectic group is \(\mathrm{Sp}_{2n}(\mathbb {R}) = \{ A : A^TJ_0A = J_0\} \), whose Lie algebra is \(\mathfrak {sp}_{2n}(\mathbb {R})\) (Example&#160;<a href="representation-theory-section-semisimple.html#representation-theory:example-classical">12.7.14</a>). In contrast to inner products, there is no notion of length: \(\omega (v, v) = 0\) for every \(v\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="symplectic-geometry:proposition-linear">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02UJ.html" title="Permanent link: tag 02UJ">02UJ</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">40.2.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \((V, \omega )\) be a symplectic vector space of dimension \(2n\) and \(W \subseteq V\) a subspace. </p>
+<ol class="enumerate">
+  <li><p>An alternating form \(\sigma \) on a \(2n\)-dimensional space is nondegenerate if and only if \(\sigma ^n \neq 0\). Symplectic maps have determinant \(1\). </p>
+</li>
+  <li><p>\(\dim W + \dim W^\omega = 2n\) and \((W^\omega )^\omega = W\). </p>
+</li>
+  <li><p>Isotropic subspaces have dimension at most \(n\), and a subspace is Lagrangian if and only if it is isotropic of dimension \(n\). Every isotropic subspace is contained in a Lagrangian one. </p>
+</li>
+  <li><p>Every Lagrangian subspace \(L\) has a Lagrangian complement \(L^{\prime }\), and then \(v \mapsto \omega (\cdot , v)|_L\) is an isomorphism \(L^{\prime } \to L^*\); a basis \(e_1, \ldots , e_n\) of \(L\) and the dual basis \(f_1, \ldots , f_n\) of \(L^{\prime }\) (\(\omega (e_i, f_j) = \delta _{ij}\)) form a symplectic basis. So \((V, \omega ) \cong (L \oplus L^*, \omega _L)\) with \(\omega _L((u, \alpha ), (v, \beta )) = \beta (u) - \alpha (v)\). </p>
+</li>
+  <li><p>There is a complex structure \(J\) with \(\omega (Ju, Jv) = \omega (u, v)\) and \(g(u, v) = \omega (u, Jv)\) an inner product (a <em>compatible</em> complex structure). For such \(J\) and a Lagrangian \(L\), \(JL\) is a Lagrangian complement of \(L\), equal to the orthogonal complement \(L^\perp \) for \(g\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001553">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) If \(\sigma \) is nondegenerate, \(\sigma ^n \neq 0\) by Proposition&#160;<a href="multilinear-algebra-section-alternating-forms.html#multilinear-algebra:proposition-symplectic-determinant">11.4.6</a>, which also gives the statement on determinants. If \(\sigma \) is degenerate, choose \(v \neq 0\) with \(\iota _v\sigma = 0\); as \(\iota _v\) is an antiderivation, \(\iota _v(\sigma ^n) = n(\iota _v\sigma ) \wedge \sigma ^{n-1} = 0\), so the top form \(\sigma ^n\) vanishes on every basis containing \(v\), hence \(\sigma ^n = 0\). </p>
+<p>(2) The map \(V \to W^*\), \(v \mapsto \omega (v, \cdot )|_W\), is the composite of the isomorphism \(V \to V^*\) given by \(\omega \) and the surjective restriction \(V^* \to W^*\); its kernel is \(W^\omega \). So \(\dim W^\omega = 2n - \dim W\). Clearly \(W \subseteq (W^\omega )^\omega \), and both have the same dimension. </p>
+<p>(3) If \(W \subseteq W^\omega \), then \(2\dim W \leq \dim W + \dim W^\omega = 2n\). An isotropic \(W\) of dimension \(n\) has \(\dim W^\omega = n\), so \(W = W^\omega \); conversely a Lagrangian is isotropic of dimension \(n\) by (2). If \(W\) is isotropic with \(\dim W {\lt} n\), then \(\dim W^\omega {\gt} n {\gt} \dim W\), so there is \(v \in W^\omega \setminus W\), and \(W + \mathbb {R}v\) is isotropic since \(\omega (v, v) = 0\); repeat. </p>
+<p>(5) Let \(e_i\), \(f_i\) be a symplectic basis and \(Je_i = f_i\), \(Jf_i = -e_i\). Then \(J^2 = -1\), \(J\) preserves \(\omega \) (check on basis vectors), and \(\omega (u, Jv)\) is the standard inner product in this basis: \(\omega (e_i, Je_j) = \omega (e_i, f_j) = \delta _{ij}\), \(\omega (f_i, Jf_j) = -\omega (f_i, e_j) = \delta _{ij}\), and the mixed terms vanish. Given compatible \(J\) and Lagrangian \(L\), \(JL\) is isotropic since \(\omega (Ju, Jv) = \omega (u, v) = 0\), hence Lagrangian; and for \(u, v \in L\), \(g(u, Jv) = \omega (u, J^2v) = -\omega (u, v) = 0\), so \(JL \subseteq L^\perp \), with equality by dimension. In particular \(L \cap JL = 0\). </p>
+<p>(4) A Lagrangian complement exists by (5). For \(v \in L^{\prime }\), if \(\omega (u, v) = 0\) for all \(u \in L\), then \(v \in L^\omega \cap L^{\prime } = L \cap L^{\prime } = 0\); so \(L^{\prime } \to L^*\) is injective, hence an isomorphism. The dual basis \(f_j\) of \(L^{\prime }\) satisfies \(\omega (e_i, f_j) = \delta _{ij}\), and \(\omega (e_i, e_j) = 0 = \omega (f_i, f_j)\) as \(L\) and \(L^{\prime }\) are isotropic. Identifying \(L^{\prime }\) with \(L^*\) by \(f \mapsto \omega (\cdot , f)|_L\), for \(u, v \in L\) and \(f, f^{\prime } \in L^{\prime }\) corresponding to \(\alpha \), \(\beta \): \(\omega (u + f, v + f^{\prime }) = \omega (u, f^{\prime }) - \omega (v, f) = \beta (u) - \alpha (v)\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="symplectic-geometry:example-linear">
+  <div class="example_thmheading"><a class="tag" href="tag/02UK.html" title="Permanent link: tag 02UK">02UK</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">40.2.3</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>In \((\mathbb {R}^2, dx \wedge dy)\) every line is Lagrangian, and \(\omega (u, v) = \det (u, v)\) is the signed area of the parallelogram spanned by \(u\) and \(v\). Symplectic maps of \(\mathbb {R}^2\) are the area- and orientation-preserving linear maps: \(\mathrm{Sp}_2(\mathbb {R}) = \mathrm{SL}_2(\mathbb {R})\). In higher dimensions \(\mathrm{Sp}_{2n}(\mathbb {R}) \subsetneq \mathrm{SL}_{2n}(\mathbb {R})\): preserving \(\omega \) is much stronger than preserving the volume \(\omega ^n/n!\). </p>
+</li>
+  <li><p>In \((\mathbb {R}^4, dx^1 \wedge dy^1 + dx^2 \wedge dy^2)\) the planes \(\{ y = 0\} \), \(\{ x = 0\} \) and the graph \(\{ y = Sx\} \) of a symmetric matrix \(S\) are Lagrangian; the graph of \(A \colon \mathbb {R}^2 \to \mathbb {R}^2\) is Lagrangian if and only if \(A\) is symmetric, since \(\omega ((x, Ax), (x^{\prime }, Ax^{\prime })) = x^TAx^{\prime } - x^{\prime T}Ax\). The plane \(\{ x^2 = y^2 = 0\} \) is symplectic, and the hyperplane \(\{ y^2 = 0\} \) is coisotropic, with \(\{ y^2 = 0\} ^\omega = \mathbb {R}\partial _{x^2}\). </p>
+</li>
+  <li><p>On \(\mathbb {C}^n = \mathbb {R}^{2n}\) with \(z = x + iy\), \(\omega _0 = \sum dx^i \wedge dy^i = \frac i2\sum dz^i \wedge d\bar z^i\), and \(J\) = multiplication by \(i\) is compatible: \(\omega _0(u, iv) = \operatorname {Re}\langle u, v\rangle \) for the standard Hermitian product (Proposition&#160;<a href="linear-algebra-section-complex-structures.html#linear-algebra:proposition-compatible-metric">10.10.3</a>). The real subspace \(\mathbb {R}^n\) is Lagrangian, and \(i\mathbb {R}^n\) is its orthogonal Lagrangian complement. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="symplectic-geometry-section-introduction.html"><span class="dir">Previous</span> Introduction</a><a class="next" href="symplectic-geometry-section-manifolds.html"><span class="dir">Next</span> Symplectic manifolds</a></nav>
+</main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>
