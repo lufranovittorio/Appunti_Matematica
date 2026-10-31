@@ -111,6 +111,18 @@ closed box $Q$. Given $\varepsilon$, choose open $U \supseteq Q \setminus E$ wit
 $\lambda(E \setminus K) \leq \lambda(U \setminus (Q \setminus E)) \leq \varepsilon$. For general $E$, apply this to $E \cap [-m, m]^n$ and use continuity from below.
 \end{proof}
 
+\begin{definition}\label{measure-theory:definition-regular}
+Let $\mu$ be a measure on the Borel sets of a topological space $X$ (or on a $\sigma$-algebra containing them). It is \emph{locally finite} if every point has a neighbourhood of finite measure;
+\emph{outer regular} if $\mu(E) = \inf\{\mu(U) : U \supseteq E \text{ open}\}$, \emph{inner regular} if $\mu(E) = \sup\{\mu(K) : K \subseteq E \text{ compact}\}$, for all measurable $E$, and
+\emph{regular} if it is both. A locally finite regular measure on a locally compact Hausdorff space is a \emph{Radon measure}.
+\end{definition}
+
+\begin{example}\label{measure-theory:example-regular}
+Lebesgue measure is locally finite and regular (Theorem~\ref{measure-theory:theorem-lebesgue-measure}), so it is a Radon measure, and so is a Dirac measure $\delta_x$. Counting measure on $\ZZ$ is
+Radon, but counting measure on $\RR$ is neither locally finite nor outer regular: $\{0\}$ has measure $1$, while every open set containing $0$ is infinite and has measure $\infty$. The
+$1$-dimensional Hausdorff measure on $\RR^2$ (Section~\ref{measure-theory:section-hausdorff}) is not locally finite either, since every open set has infinite length.
+\end{example}
+
 \begin{counterexample}\label{measure-theory:counterexample-vitali}
 There are subsets of $\RR$ that are not Lebesgue measurable. Choose (by the axiom of choice) a set $V \subseteq [0, 1]$ containing exactly one element of each class of $\RR/\QQ$. The translates $V + q$, $q \in \QQ \cap [-1, 1]$,
 are disjoint and their union lies between $[0, 1]$ and $[-1, 2]$. If $V$ were measurable, translation invariance and countable additivity would give $1 \leq \sum_q\lambda(V) \leq 3$, which is impossible
@@ -152,7 +164,7 @@ $A \mapsto \int_As$ is a measure, so $\int_{E_n}s \to \int s$ (Proposition~\ref{
 \item For measurable $f, g \geq 0$ and $a \geq 0$, $\int(af + g) = a\int f + \int g$, and $\int\sum_nf_n = \sum_n\int f_n$.
 \item (Fatou) For measurable $f_n \geq 0$, $\int\liminf f_n \leq \liminf\int f_n$.
 \item The integral is linear on integrable functions and $|\int f| \leq \int|f|$.
-\item For measurable $f \geq 0$, $\int f = 0$ if and only if $f = 0$ a.e.; and $\mu(\{f \geq t\}) \leq \frac1t\int f$ (Chebyshev).
+\item For measurable $f \geq 0$, $\int f = 0$ if and only if $f = 0$ a.e.; and $\mu(\{f \geq t\}) \leq \frac1t\int f$ for $t > 0$ (Markov's inequality).
 \end{enumerate}
 \end{corollary}
 
@@ -161,6 +173,49 @@ $A \mapsto \int_As$ is a measure, so $\int_{E_n}s \to \int s$ (Proposition~\ref{
 monotone convergence to $g_n = \inf_{k \geq n}f_k$, which satisfy $\int g_n \leq \inf_{k \geq n}\int f_k$. (3) Linearity follows from (1) by decomposing into positive and negative parts. For complex $f$, write
 $\int f = |\int f|e^{i\theta}$; then $|\int f| = \int\operatorname{Re}(e^{-i\theta}f) \leq \int|f|$. (4) $t\mathbf{1}_{\{f \geq t\}} \leq f$; and $\{f > 0\} = \bigcup_n\{f \geq 1/n\}$.
 \end{proof}
+
+\begin{remark}\label{measure-theory:remark-markov-chebyshev}
+\emph{Names.} The inequality $\mu(\{f \geq t\}) \leq \frac1t\int f$ is usually called \emph{Markov's inequality}, and some books call it Chebyshev's. \emph{Chebyshev's inequality} proper is the
+special case applied to $(f - m)^2$: for a probability measure, $f \in L^2$ with mean $m = \int f$ and variance $\sigma^2 = \int(f - m)^2$,
+\[
+\mu(\{|f - m| \geq t\}) = \mu(\{(f - m)^2 \geq t^2\}) \leq \frac{\sigma^2}{t^2}.
+\]
+More generally $\mu(\{|f| \geq t\}) \leq t^{-p}\int|f|^p$ for $p > 0$. The proof is one line, $t\mathbf{1}_{\{f \geq t\}} \leq f$, and it is often all one needs: for instance it shows that
+convergence in $L^p$ implies convergence in measure (Proposition~\ref{measure-theory:proposition-modes}).
+\end{remark}
+
+\begin{proposition}[Jensen's inequality]\label{measure-theory:proposition-jensen}
+Let $\mu$ be a probability measure, $I \subseteq \RR$ an open interval, $\varphi \colon I \to \RR$ convex, and $f$ an integrable function with values in $I$. Then $\int f \in I$, and
+\[
+\varphi\Bigl(\int f\,d\mu\Bigr) \leq \int\varphi \circ f\,d\mu,
+\]
+where the right side is defined in $(-\infty, \infty]$.
+\end{proposition}
+
+\begin{proof}
+\emph{Convex functions.} For $s < t < u$ in $I$, writing $t = \lambda s + (1 - \lambda)u$, convexity $\varphi(t) \leq \lambda\varphi(s) + (1 - \lambda)\varphi(u)$ is equivalent to each of the inequalities
+between slopes
+\[
+\frac{\varphi(t) - \varphi(s)}{t - s} \leq \frac{\varphi(u) - \varphi(s)}{u - s} \leq \frac{\varphi(u) - \varphi(t)}{u - t}.
+\]
+So for $c \in I$ the slope $(\varphi(t) - \varphi(c))/(t - c)$ is nondecreasing in $t \neq c$; with $m = \sup_{t < c}(\varphi(t) - \varphi(c))/(t - c) \leq \inf_{t > c}(\varphi(t) - \varphi(c))/(t - c)$,
+a finite number, $\varphi(t) \geq \varphi(c) + m(t - c)$ for all $t \in I$: the graph lies above a line through $(c, \varphi(c))$. The same monotonicity shows that $\varphi$ has finite one-sided
+derivatives, so it is continuous, and $\varphi \circ f$ is measurable.
+
+\emph{Jensen.} Let $c = \int f$. If $I$ is bounded above by $b$, then $c \leq b$, and $c = b$ would force $\int(b - f) = 0$ with $b - f > 0$, which is impossible; similarly at the lower end, so
+$c \in I$. With $m$ as above, $\varphi(f(x)) \geq \varphi(c) + m(f(x) - c)$; the right side is integrable, so $\int\varphi \circ f$ is defined in $(-\infty, \infty]$, and integrating, using $\mu(X) = 1$,
+gives $\int\varphi \circ f \geq \varphi(c) + m(c - c) = \varphi(c)$.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-jensen}
+\begin{enumerate}
+\item With the convex function $\varphi(t) = |t|^p$ on $\RR$, $p \geq 1$, applied to $|f|$: $(\int|f|)^p \leq \int|f|^p$ for a probability measure.
+\item With $\varphi = \exp$: $\exp(\int f) \leq \int e^f$.
+\item \emph{Arithmetic and geometric means.} Let $\mu$ give mass $\frac1n$ to each of $n$ points, where $f$ takes the values $a_1, \ldots, a_n > 0$, and $\varphi = -\log$. Then
+$-\log(\frac1n\sum a_i) \leq -\frac1n\sum\log a_i$, that is, $(a_1\cdots a_n)^{1/n} \leq \frac1n(a_1 + \cdots + a_n)$.
+\end{enumerate}
+The hypothesis $\mu(X) = 1$ matters: for Lebesgue measure on $[0, 2]$ and $f = 1$, $\varphi(t) = t^2$ gives $\varphi(\int f) = 4 > 2 = \int\varphi(f)$.
+\end{example}
 
 \begin{theorem}[Dominated convergence]\label{measure-theory:theorem-dominated-convergence}
 Let $f_n$ be measurable with $f_n \to f$ a.e. and $|f_n| \leq g$ a.e. for an integrable $g$. Then $f$ is integrable and $\int|f_n - f| \to 0$; in particular $\int f_n \to \int f$.
@@ -262,7 +317,7 @@ $\mu(X \setminus E) < \delta$, and on $E$, $|f_m - f| < 1/k$ for all $m \geq n_k
 \end{proposition}
 
 \begin{proof}
-(1) By Chebyshev's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)) applied to $|f_n - f|^p$, $\mu(\{|f_n - f| > \varepsilon\}) \leq \varepsilon^{-p}\|f_n - f\|_p^p$. (2) Choose $n_1 < n_2 < \cdots$ with
+(1) By Markov's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)) applied to $|f_n - f|^p$, $\mu(\{|f_n - f| > \varepsilon\}) \leq \varepsilon^{-p}\|f_n - f\|_p^p$. (2) Choose $n_1 < n_2 < \cdots$ with
 $\mu(A_k) < 2^{-k}$, where $A_k = \{|f_{n_k} - f| > 2^{-k}\}$. The set $A$ of points lying in infinitely many $A_k$ is contained in $\bigcup_{k \geq K}A_k$ for every $K$, so $\mu(A) \leq \sum_{k \geq K}2^{-k} = 2^{1-K}$ for all $K$, and
 $\mu(A) = 0$. For $x \notin A$, $|f_{n_k}(x) - f(x)| \leq 2^{-k}$ for large $k$. (3) Given $\varepsilon, \delta > 0$, Egorov's theorem gives $E$ with $\mu(X \setminus E) < \delta$ and $|f_n - f| < \varepsilon$ on $E$ for large $n$, so
 $\mu(\{|f_n - f| > \varepsilon\}) < \delta$ for large $n$.
@@ -414,7 +469,7 @@ $\Omega_g = 0$. With $h = f - g$ we have $|f(y) - f(x)| \leq |h(y)| + |h(x)| + |
 \[
 \{\Omega_f > 2t\} \subseteq \{Mh > t\} \cup \{|h| > t\}.
 \]
-By Theorem~\ref{measure-theory:theorem-maximal-inequality} and Chebyshev's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)), the right
+By Theorem~\ref{measure-theory:theorem-maximal-inequality} and Markov's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)), the right
 side has measure at most $3^n\varepsilon/t + \varepsilon/t$. As $\varepsilon$ is arbitrary, $\{\Omega_f > 2t\}$ has outer measure $0$, so it is a null set (Lebesgue
 measure is complete), and so is the union of these sets for $t = 1/k$, $k \geq 1$. Finally $|A_rf(x) - f(x)| \leq A_r|f - f(x)|(x)$.
 \end{proof}
@@ -768,7 +823,7 @@ small sets are forced to follow the shape of $A$. Replacing each $C_k$ by its cl
 depends on the metric space $A$: a cover of $A$ by subsets of $X$ gives the cover by the sets $C_k \cap A$, of smaller diameters. In particular an isometry $A \to B$ between subsets of two
 metric spaces preserves $\mathcal{H}^s$.
 
-\begin{lemma}\label{measure-theory:lemma-metric-outer-measure}
+\begin{lemma}[Carath\'eodory's criterion]\label{measure-theory:lemma-metric-outer-measure}
 Let $\mu^*$ be an outer measure on $X$ which is \emph{metric}: $\mu^*(A \cup B) = \mu^*(A) + \mu^*(B)$ whenever $d(A, B) = \inf\{d(a, b) : a \in A, b \in B\} > 0$. Then every Borel set is
 $\mu^*$-measurable.
 \end{lemma}
@@ -781,6 +836,9 @@ $R_j = \{x \in E : \frac1{j+1} \leq d(x, F) < \frac1j\}$. As $F$ is closed, $E \
 $\sum_{i \leq N}\mu^*(R_{2i}) = \mu^*(\bigcup_{i \leq N}R_{2i}) \leq \mu^*(E)$, and similarly for the odd indices. Hence $\sum_i\mu^*(R_i) < \infty$, and
 $\mu^*(E \setminus F) \leq \mu^*(E_j) + \sum_{i \geq j}\mu^*(R_i)$, where the tail tends to $0$. With $\mu^*(E_j) \leq \mu^*(E \setminus F)$ this gives the limit.
 \end{proof}
+
+This is \emph{Carath\'eodory's criterion}; it is a different statement from Carath\'eodory's theorem (Theorem~\ref{measure-theory:theorem-caratheodory}), which it uses: the theorem builds a measure
+from any outer measure, and the criterion says that for a metric outer measure the resulting $\sigma$-algebra contains the Borel sets.
 
 \begin{proposition}\label{measure-theory:proposition-hausdorff}
 \begin{enumerate}
@@ -808,6 +866,20 @@ $\mathcal{H}^s_{L\delta}(f(A)) \leq L^s\mathcal{H}^s_\delta(A)$. Translations ar
 $\mathcal{H}^t_\delta(A) \leq \frac{\alpha(t)}{\alpha(s)}\delta^{t-s}\mathcal{H}^s_\delta(A) \leq \frac{\alpha(t)}{\alpha(s)}\delta^{t-s}\mathcal{H}^s(A) \to 0$. The second statement is the
 contrapositive.
 \end{proof}
+
+\begin{remark}\label{measure-theory:remark-hausdorff-conventions}
+\begin{enumerate}
+\item \emph{Covers may not exist.} With the convention $\inf\emptyset = +\infty$, $\mathcal{H}^s_\delta(A) = \infty$ when $A$ has no countable cover by sets of diameter at most $\delta$. In a separable
+metric space this never happens: if $\{x_k\}$ is a countable dense set, the balls $B(x_k, \delta/2)$ have diameter at most $\delta$ and cover $X$. In an uncountable set with the discrete metric
+($d(x, y) = 1$ for $x \neq y$), sets of diameter less than $1$ are points, so an uncountable set has no countable $\delta$-cover for $\delta < 1$, and $\mathcal{H}^s$ of it is $\infty$ for every $s$,
+consistently with (2) for $s = 0$. All subsets of $\RR^n$ and of manifolds are separable.
+\item \emph{Borel regularity.} $\mathcal{H}^s$ is \emph{Borel regular}: every $A$ is contained in a Borel set $B$ with $\mathcal{H}^s(B) = \mathcal{H}^s(A)$. We may assume $\mathcal{H}^s(A) < \infty$. For
+each $j$ choose a cover of $A$ by closed sets $C^{(j)}_k$ of diameter at most $1/j$ with $\sum_k\alpha(s)(\operatorname{diam}C^{(j)}_k)^s \leq \mathcal{H}^s_{1/j}(A) + 1/j$, and let
+$B = \bigcap_j\bigcup_kC^{(j)}_k$, a Borel set containing $A$. Then $\mathcal{H}^s_{1/j}(B) \leq \mathcal{H}^s_{1/j}(A) + 1/j$ for all $j$, so $\mathcal{H}^s(B) \leq \mathcal{H}^s(A)$. On the other
+hand $\mathcal{H}^s$ is in general not locally finite (Example~\ref{measure-theory:example-regular}), hence not a Radon measure on the whole space; restricted to a set of finite
+$\mathcal{H}^s$-measure it is \cite[Section 1.1]{evans-gariepy}.
+\end{enumerate}
+\end{remark}
 
 By (4), for each $A$ there is a unique $s_0 \in [0, \infty]$ with $\mathcal{H}^s(A) = \infty$ for $s < s_0$ and $\mathcal{H}^s(A) = 0$ for $s > s_0$; it is the \emph{Hausdorff dimension}
 $\dim_{\mathcal{H}}A = \inf\{s : \mathcal{H}^s(A) = 0\}$. At $s = s_0$ the measure can be anything in $[0, \infty]$. By (3), Lipschitz maps do not increase Hausdorff dimension, and

@@ -810,6 +810,19 @@ $X^i(q') = X_{q'}(x^i) = X_{q'}(\widetilde{x}^i) = (D\widetilde{x}^i)(q')$, so t
 $Xf = Df$ by construction.
 \end{proof}
 
+\begin{example}\label{smooth-manifolds:example-derivations-fields}
+\emph{From vector fields to derivations and back.} A vector field $X = \sum_iX^i\partial_i$ on an open subset of $\RR^n$ acts on functions by $Xf = \sum_iX^i\,\partial f/\partial x^i$; conversely a
+derivation $D$ is the vector field whose components are its values on the coordinate functions,
+\[
+D = \sum_i(Dx^i)\frac{\partial}{\partial x^i},
+\]
+because both sides are derivations and agree on the $x^i$, and a derivation is determined by its values on the coordinates (Proposition~\ref{smooth-manifolds:proposition-tangent-euclidean}
+at each point). For example the rotation field $X = -y\,\partial_x + x\,\partial_y$ on $\RR^2$ is the derivation $f \mapsto -y\,f_x + x\,f_y$, and from the derivation one recovers
+$Xx = -y$, $Xy = x$. In polar coordinates $X = \partial_\theta$, since $X(r) = (-y x + x y)/r = 0$ and $X(\theta) = 1$, where $\theta$ is a local angle function with
+$d\theta = (x\,dy - y\,dx)/r^2$. By contrast, $f \mapsto \partial^2f/\partial x^2$ is linear but not a derivation, since $(fg)_{xx} = f_{xx}g + 2f_xg_x + fg_{xx}$; second order operators
+are not vector fields.
+\end{example}
+
 \section{Submanifolds}\label{smooth-manifolds:section-submanifolds}
 
 Most manifolds met in practice sit inside a Euclidean space or another manifold: spheres, surfaces in $\RR^3$, matrix groups such as $\mathrm{O}(n)$. A
@@ -949,7 +962,12 @@ rule gives $d_pf \circ d_p\iota = 0$, so $T_pS \subseteq \ker d_pf$. Both spaces
 (Theorem~\ref{linear-algebra:theorem-rank-nullity}), so they are equal.
 \end{proof}
 
-If $q$ is not in the image of $f$, it is a regular value and $f^{-1}(q) = \emptyset$. For a submanifold $S$ of $\RR^N$, Proposition~\ref{smooth-manifolds:proposition-velocity}
+If $q$ is not in the image of $f$, it is a regular value and $f^{-1}(q) = \emptyset$.
+
+\emph{On the identification of tangent spaces.} For an embedding, or more generally an immersion, $f \colon M \to N$, the differential $d_xf \colon T_xM \to T_{f(x)}N$ is injective, and one
+identifies $T_xM$ with the subspace $d_xf(T_xM)$ of $T_{f(x)}N$; in the language of derivations, $v \in T_xM$ corresponds to the derivation $g \mapsto v(g \circ f)$ of functions on $N$. For a
+submanifold $S \subseteq N$ with inclusion $\iota$, this is how $T_pS$ is regarded as a subspace of $T_pN$: as $d_p\iota(T_pS)$, the derivations $g \mapsto v(g|_S)$. The equality
+$T_p(f^{-1}(q)) = \ker d_pf$ in the theorem means precisely $d_p\iota(T_pS) = \ker d_pf$, which is what the proof shows. For a submanifold $S$ of $\RR^N$, Proposition~\ref{smooth-manifolds:proposition-velocity}
 identifies $T_pS \subseteq T_p\RR^N = \RR^N$ with the set of velocities $\gamma'(0)$ of smooth curves $\gamma$ in $S$ with $\gamma(0) = p$, which is the tangent
 space of elementary geometry.
 
@@ -1099,6 +1117,14 @@ it maps sets of measure zero to sets of measure zero and $\RR^{\dim M} \times \{
 \cite[Chapter 6]{lee-smooth-manifolds}; the proof is a careful induction on the order of vanishing of the derivatives, using Taylor's theorem and a covering argument in charts, together with the fact that a
 countable union of sets of measure zero has measure zero (Proposition~\ref{measure-theory:proposition-measure-properties}) and that manifolds are covered by countably many charts.
 \end{proof}
+
+\begin{remark}\label{smooth-manifolds:remark-sard}
+\emph{The ``in particular'' in Sard's theorem.} A set of measure zero has dense complement: a nonempty open set $W \subseteq N$ contains, in a chart, a ball, which has positive Lebesgue measure, so
+$W$ is not of measure zero and meets the complement. Hence the regular values, the complement of the critical values, are dense. The notion of measure zero is defined without any measure on
+$N$, and it does not depend on the charts. If $N$ carries a measure given in every chart by a positive continuous density with respect to Lebesgue measure, as the Riemannian measure of a metric
+does (Chapter~\ref{riemannian-geometry}), then its null sets are exactly the sets of measure zero, because such a density is bounded above and below on compact subsets of the chart; so Sard's theorem
+says that the critical values form a null set for any such measure.
+\end{remark}
 
 \section{Constructions of smooth manifolds}\label{smooth-manifolds:section-constructions}
 
@@ -1333,6 +1359,12 @@ $\sum_j(E^j\partial_jR^i - R^j\partial_jE^i)$ is $(-y, x) - (-y, x) = 0$. Corres
 (Example~\ref{smooth-manifolds:example-flows}), while the flows of $\partial/\partial x$ and $x\,\partial/\partial y$ do not commute
 (Exercise~\ref{smooth-manifolds:exercise-lie-bracket-computation}).
 \end{example}
+
+\emph{Brackets of coordinate fields vanish:} in a chart, $[\partial_i, \partial_j]f = \partial_i\partial_jf - \partial_j\partial_if = 0$ by the symmetry of second derivatives
+(Theorem~\ref{real-analysis:theorem-schwarz}). So $n$ vector fields can be the coordinate fields of a chart only if they commute, and conversely commuting fields that are linearly independent
+at a point are the coordinate fields of a chart near it, by the argument in the proof of Theorem~\ref{smooth-manifolds:theorem-frobenius} below. The fields $\partial_x$ and $x\,\partial_y$ of the
+example are independent everywhere but are not coordinate fields of any chart, since their bracket $\partial_y$ is not zero. Note also that the coordinate field $\partial/\partial x^1$ depends on the
+whole chart, not only on the function $x^1$: in the coordinates $(u, v) = (x, y - x)$ of $\RR^2$, $\partial/\partial u = \partial_x + \partial_y \neq \partial_x$, although $u = x$.
 
 \begin{proposition}\label{smooth-manifolds:proposition-bracket}
 $[X, Y]$ is a vector field; the bracket is bilinear, antisymmetric, satisfies the Jacobi identity and $[fX, gY] = fg[X, Y] + f(Xg)Y - g(Yf)X$, so $\mathfrak{X}(M)$ is a Lie algebra. In coordinates,

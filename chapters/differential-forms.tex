@@ -207,6 +207,18 @@ agree on coordinate fields, and by alternation it suffices to take $\partial_{j_
 and $T(\partial_{j_0}, \ldots, \partial_{j_k}) = \sum_m(-1)^m\partial_{j_m}\omega_{J \setminus j_m}$, which is $d\omega(\partial_{j_0}, \ldots, \partial_{j_k})$ by Step 1.
 \end{proof}
 
+\begin{remark}\label{differential-forms:remark-ddf}
+For a function $f$, $df = \sum_j(\partial f/\partial x^j)\,dx^j$ (Remark~\ref{differential-forms:remark-differential-function}) is a $1$-form, a section of the cotangent bundle $T^*M$; it should
+not be confused with the tangent map $Tf \colon TM \to T\RR$, although at each point both are the linear map $v \mapsto v(f)$. The identity $d(df) = 0$ is, in coordinates, the symmetry of second
+derivatives:
+\[
+d(df) = \sum_j d\Bigl(\frac{\partial f}{\partial x^j}\Bigr) \wedge dx^j = \sum_{i,j}\frac{\partial^2f}{\partial x^i\partial x^j}\,dx^i \wedge dx^j
+= \sum_{i<j}\Bigl(\frac{\partial^2f}{\partial x^i\partial x^j} - \frac{\partial^2f}{\partial x^j\partial x^i}\Bigr)dx^i \wedge dx^j = 0
+\]
+(Theorem~\ref{real-analysis:theorem-schwarz}). So a $1$-form $\omega = \sum_j\omega_j\,dx^j$ can be exact only if $\partial_i\omega_j = \partial_j\omega_i$; this necessary condition is $d\omega = 0$, and
+whether it is sufficient is the question answered by de Rham cohomology (Chapter~\ref{de-rham}).
+\end{remark}
+
 \begin{example}\label{differential-forms:example-exterior-derivative-low}
 For $k = 1$ the invariant formula reads $d\omega(X, Y) = X\omega(Y) - Y\omega(X) - \omega([X, Y])$, and in coordinates on $\RR^2$, for $\omega = P\,dx + Q\,dy$,
 $d\omega = (\partial_xQ - \partial_yP)\,dx \wedge dy$: Step 1 with $J = (1, 2)$ gives the coefficient $\partial_1\omega_2 - \partial_2\omega_1$. This is the integrand of Green's theorem,
@@ -554,9 +566,22 @@ The pullback is $r\,dr \wedge d\theta$. A computation gives $d\alpha = 0$, while
 \end{solution}
 
 \begin{exercise}\label{differential-forms:exercise-orientability-projective}
-Show that $\RR\PP^n$ is orientable if and only if $n$ is odd, by computing the effect of the antipodal map on a volume form of $S^n$ (compare
+Show that $\RR\PP^n$, $n \geq 1$, is orientable if and only if $n$ is odd, by computing the effect of the antipodal map on a volume form of $S^n$ (compare
 Exercise~\ref{poincare-duality:exercise-projective-orientability}).
 \end{exercise}
+
+\begin{solution}
+Let $\Omega = dx^1 \wedge \cdots \wedge dx^{n+1}$ and $\omega = (\iota_x\Omega)|_{S^n} = \sum_i(-1)^{i-1}x^i\,dx^1 \wedge \cdots \wedge \widehat{dx^i} \wedge \cdots \wedge dx^{n+1}$, restricted to $S^n$.
+For a basis $v_1, \ldots, v_n$ of $T_xS^n = x^\perp$, $\omega_x(v_1, \ldots, v_n) = \det(x, v_1, \ldots, v_n) \neq 0$, so $\omega$ is a volume form. The antipodal map $a(x) = -x$ changes the sign of every
+$x^i$ and of every $dx^j$, so each term of $\omega$ is multiplied by $(-1)^{n+1}$: $a^*\omega = (-1)^{n+1}\omega$. Let $\pi \colon S^n \to \RR\PP^n$ be the projection, a local diffeomorphism with
+$\pi \circ a = \pi$.
+
+If $n$ is odd, $a^*\omega = \omega$. Define an $n$-form $\eta$ on $\RR\PP^n$ by $\eta = (\sigma^{-1})^*\omega$ on $\pi(U)$, where $U \subseteq S^n$ is open with $U \cap a(U) = \emptyset$ and
+$\sigma = \pi|_U$; the other local inverse is $\pi|_{a(U)} = \sigma \circ a^{-1}$ on $a(U)$, and it gives the same form since $a^*\omega = \omega$. So $\eta$ is well defined, nowhere zero, and
+$\RR\PP^n$ is orientable (Proposition~\ref{differential-forms:proposition-orientation}). If $n$ is even and $\eta$ is a nowhere vanishing $n$-form on $\RR\PP^n$, then $\pi^*\eta = f\omega$ with $f$
+nowhere zero, hence of constant sign since $S^n$ is connected; but $a^*\pi^*\eta = \pi^*\eta$ gives $(f \circ a)(-1)^{n+1}\omega = f\omega$, that is, $f \circ a = -f$, a contradiction. (For
+$n = 0$, $\RR\PP^0$ is a point, which is orientable.)
+\end{solution}
 
 \begin{exercise}\label{differential-forms:exercise-lie-derivative-volume}
 Let $\mu$ be a volume form and $X$ a vector field. Show that $L_X\mu = (\operatorname{div}X)\mu$ defines the divergence, that $\operatorname{div}X = \sum_i\partial_iX^i$ in coordinates with

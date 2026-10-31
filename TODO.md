@@ -14,6 +14,71 @@ references in proofs).
   `de-rham`, `characteristic-classes`, then the other parts; more
   explanations, examples, remarks and exercises everywhere.
 
+### The user's list of 2026-10-31 (work through all of it)
+
+**General.** Rewrite examples slowly; many more exercises, examples and
+counterexamples, also small ones (derivative zero implies constant on a
+connected domain; on a complete measure space $f = g$ a.e. with $f$
+measurable implies $g$ measurable). Name results after people correctly
+(e.g. the lemma that is not Burnside's). Fix badly rendered small formulas
+(e.g. 37.1). Graph of dependencies between results.
+
+- [ ] `logic`/`sets`: continuum hypothesis, incompleteness, Turing's
+  theorem on computability, Banach--Tarski.
+- [ ] `linear-algebra`: definition of vector space, infinite-dimensional
+  examples (polynomials); many more computed examples; generalised Jordan
+  form with blocks; spectral theorem = orthonormal diagonalisation; bilinear
+  forms as $u^TAv$.
+- [ ] `multilinear-algebra` / `differential-forms`: explicit formulas and
+  examples between $\Lambda^k(V^*)$, $(\Lambda^kV)^*$, $\mathrm{Alt}^k(V)$;
+  forms as multilinear maps vs coordinate expressions vs $\mathrm{Alt}(T_pM)$.
+- [ ] `groups`/`representation-theory`: abelianisation and 1-dim
+  representations; Serre relations.
+- [ ] `lie-groups`/`riemannian-geometry`: Lie exponential vs Riemannian
+  exponential (bi-invariant metrics).
+- [ ] `general-topology`: expand a lot; isolated/accumulation/limit points,
+  open/closed, dense iff ...; closed ball vs closure of the ball;
+  characterisations of homeomorphisms; 17.3.5 with
+  $\lim_{x \to x_0}f(x) = f(x_0)$.
+- [ ] `homotopy`/`topological-manifolds`: monodromy, covering theory;
+  several proofs of the fundamental theorem of algebra; same homotopy groups
+  does not imply homotopy equivalent; smooth homotopy; 19.3.2(2) for
+  $G = 1$ and the diagonal; 19.5.8 for smooth manifolds.
+- [ ] `real-analysis`: limit comparison test, combining tests, Stirling;
+  mean value theorem for integrals; improper integrals (and Lebesgue);
+  many computed integrals, Feynman's trick; midpoint convexity; analytic
+  functions; differential of smooth maps vs real analysis.
+- [ ] `measure-theory`: expand a lot; Markov (vs Chebyshev), Jensen,
+  Lebesgue decomposition, locally finite and regular measures (Hausdorff
+  regular?), inner measure exercise, 27.13.2 = Caratheodory's criterion,
+  Hausdorff conventions ($\inf\emptyset$, separability).
+- [ ] `functional-analysis` / `distributions`: expand a lot; Bessel; basis
+  of $L^2([0,1])$; Frechet spaces; Gagliardo--Nirenberg--Sobolev; Fourier
+  transform of distributions.
+- [ ] `smooth-manifolds`: local forms of immersions/submersions; tangent
+  space of a level set $\ker df_p = di_p(T_pS)$; $T_xM \subseteq T_{f(x)}N$
+  for embeddings; proper immersions vs embeddings; Sard's "in particular"
+  and other measures; Riemannian metric inducing a given metric?; brackets
+  of coordinate fields vanish; derivations vs vector fields example; better
+  pullback definition, other induced maps.
+- [ ] `differential-forms` / `de-rham`: $df = \sum\partial_if\,dx^i$,
+  $d(df) = 0$; de Rham cohomology of a point; forms on submanifolds
+  exercise; solution of 35.5.2.
+- [ ] `connections`: Ehresmann connections; horizontal/vertical in the
+  Riemannian case; meaning of torsion.
+- [ ] `riemannian-geometry`: musical isomorphisms; geodesics and parallel
+  transport in space forms and other spaces (cylinder); totally geodesic,
+  umbilical, horospheres; second variation with $H \neq 0$, Laplacian and
+  Ricci formula; 39.3.15 link to the ball volume; 39.6.7 generality; Myers
+  consequences.
+- [ ] symplectic geometry (a lot): tautological form, symplectic
+  structures, $\omega^n$, area, Lagrangian submanifolds, zero section,
+  Weinstein.
+- [ ] `kahler`: Fubini--Study written out (Huybrechts 3.1.9).
+- To discuss: probability, number theory, numerical analysis, PDE; Lean
+  verification; bibliography options; automatic light/dark theme by hour;
+  random page; exercise game; general math site.
+
 ## Done
 
 - [x] **Geometric measure theory; dimension from roots; inversion in Lie

@@ -24,6 +24,31 @@ otherwise.
 
 \section{Linear maps and dimension}\label{linear-algebra:section-dimension}
 
+\begin{definition}\label{linear-algebra:definition-vector-space}
+A \emph{vector space} over a field $k$ is a set $V$ with an addition $V \times V \to V$, $(v, w) \mapsto v + w$, making $V$ an abelian group with neutral element $0$, and a scalar multiplication
+$k \times V \to V$, $(a, v) \mapsto av$, such that $a(v + w) = av + aw$, $(a + b)v = av + bv$, $(ab)v = a(bv)$ and $1v = v$; that is, a module over the ring $k$ (Chapter~\ref{rings}). A
+\emph{linear map} is a homomorphism of modules: $f(v + w) = f(v) + f(w)$ and $f(av) = af(v)$. A \emph{subspace} is a subset containing $0$ and closed under addition and scalar multiplication.
+\end{definition}
+
+From the axioms, $0v = 0$ (as $0v = (0 + 0)v = 0v + 0v$), $a0 = 0$, and $(-1)v = -v$. Bases and dimension are those of free modules (Section~\ref{rings:section-rank}): every vector space
+has a basis, and all bases have the same cardinality, the dimension.
+
+\begin{example}\label{linear-algebra:example-vector-spaces}
+\begin{enumerate}
+\item $k^n$, with the standard basis $e_1, \ldots, e_n$; the matrices $M_{m \times n}(k)$, of dimension $mn$.
+\item \emph{Polynomials.} $k[x]$ is a vector space with basis $1, x, x^2, \ldots$: every polynomial is uniquely a finite combination of monomials. It has infinite (countable) dimension. The
+polynomials of degree at most $d$ form a subspace $k[x]_{\leq d}$ of dimension $d + 1$; for distinct $a_0, \ldots, a_d \in k$ the Lagrange polynomials $\prod_{j \neq i}(x - a_j)/(a_i - a_j)$ form
+another basis, in which the coordinates of $p$ are its values $p(a_i)$.
+\item \emph{Function spaces.} For a set $S$, the functions $S \to k$ form a vector space $k^S$ under pointwise operations; for $S$ finite it is $k^{|S|}$, and for $S$ infinite it has infinite
+dimension, since the indicator functions of points are independent. The continuous functions $C([0, 1])$ form an infinite-dimensional real vector space: the monomials $x^n$ are linearly
+independent, since a nonzero polynomial has finitely many roots. So do the sequences $k^{\NN}$, which contain the subspace $k^{(\NN)}$ of finitely supported sequences, with basis the $e_n$;
+a basis of $k^{\NN}$ itself exists by Zorn's lemma but cannot be written down.
+\item $\RR$ is a vector space over $\QQ$ of uncountable dimension, since a countable-dimensional $\QQ$-vector space is countable; $\CC$ is a real vector space of dimension $2$, with basis $1, i$.
+\item The solutions of a homogeneous linear system $Ax = 0$, or of a homogeneous linear differential equation $y^{\prime\prime} + y = 0$ (basis $\cos$, $\sin$), form vector spaces; the solutions of
+$Ax = b$ with $b \neq 0$ do not, as they do not contain $0$.
+\end{enumerate}
+\end{example}
+
 \begin{proposition}\label{linear-algebra:proposition-subspaces}
 Let $V$ be a vector space and $W \subseteq V$ a subspace.
 \begin{enumerate}
@@ -391,6 +416,19 @@ nilpotent operators, and their Jordan decompositions, organise the limiting beha
 variations of Hodge structure (Chapter~\ref{vhs}).
 \end{example}
 
+\begin{example}\label{linear-algebra:example-jordan-computation}
+\emph{Computing a Jordan basis.} The proof is not constructive as written, but the form is computed as follows. For each eigenvalue $\lambda$, the generalised eigenspace $V^{(\lambda)} =
+\ker(f - \lambda)^n$ is invariant, and $V = \bigoplus_\lambda V^{(\lambda)}$ (Lemma~\ref{linear-algebra:lemma-kernel}); on it $N = f - \lambda$ is nilpotent, and the number of Jordan blocks of size
+at least $j$ is $\dim\ker N^j - \dim\ker N^{j-1}$ (Exercise~\ref{linear-algebra:exercise-jordan-count}). A block of size $e$ corresponds to a \emph{chain} $v, Nv, \ldots, N^{e-1}v$ with
+$N^ev = 0$, where $v \in \ker N^e \setminus \ker N^{e-1}$; in the basis $N^{e-1}v, \ldots, Nv, v$ the matrix of $f$ is $J_e(\lambda)$. For example let
+\[
+A = \begin{pmatrix}2 & 1 & 1\\ 0 & 2 & 1\\ 0 & 0 & 2\end{pmatrix}, \qquad N = A - 2I = \begin{pmatrix}0 & 1 & 1\\ 0 & 0 & 1\\ 0 & 0 & 0\end{pmatrix}, \qquad N^2 = \begin{pmatrix}0 & 0 & 1\\ 0 & 0 & 0\\ 0 & 0 & 0\end{pmatrix},
+\]
+and $N^3 = 0$. Here $\dim\ker N = 1$, $\dim\ker N^2 = 2$, $\dim\ker N^3 = 3$, so there is a single block $J_3(2)$. Take $v_3 = e_3 \notin \ker N^2$, $v_2 = Nv_3 = (1, 1, 0)$, $v_1 = Nv_2 = (1, 0, 0)$.
+Then $Av_1 = 2v_1$, $Av_2 = 2v_2 + v_1$, $Av_3 = 2v_3 + v_2$, so with $P = (v_1\ v_2\ v_3)$, $P^{-1}AP = J_3(2)$. By contrast $B = \operatorname{diag}(J_2(2), 2)$ has $\dim\ker(B - 2) = 2$,
+two blocks, and the same characteristic polynomial $(x - 2)^3$ as $A$; the dimensions of the kernels of the powers distinguish them.
+\end{example}
+
 \begin{counterexample}\label{linear-algebra:counterexample-jordan-real}
 The hypothesis that $\chi_f$ splits cannot be dropped. Over $\RR$, the rotation matrix
 $A = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ is not similar to any block diagonal matrix of
@@ -549,6 +587,10 @@ $W^{\perp_B} = \{v : B(v, w) = 0 \text{ for all } w \in W\}$. A \emph{quadratic 
 a symmetric $B$.
 \end{definition}
 
+In coordinates every bilinear form is given by a matrix: if $v = \sum_ix_iv_i$ and $w = \sum_jy_jv_j$, then $B(v, w) = \sum_{i,j}x_iy_jB(v_i, v_j) = x^TGy$, with $G$ the Gram matrix. Conversely
+every $G \in M_n(k)$ defines the bilinear form $(x, y) \mapsto x^TGy$ on $k^n$; it is symmetric if and only if $G^T = G$, alternating (in characteristic $\neq 2$) if and only if $G^T = -G$, and
+nondegenerate if and only if $\det G \neq 0$, since $v \mapsto B(v, -)$ has matrix $G^T$ in the basis $(v_i)$ and the dual basis. Under a change of basis with matrix $P$ the Gram matrix becomes $P^TGP$.
+
 \begin{lemma}\label{linear-algebra:lemma-orthogonal-complement}
 Let $B$ be symmetric or alternating on a finite-dimensional $V$, and $W \subseteq V$ a subspace on which $B$
 is nondegenerate. Then $V = W \oplus W^{\perp_B}$. An alternating form $B$ satisfies $B(v, w) = -B(w, v)$.
@@ -686,6 +728,12 @@ matrix of $f$. As a complex matrix acting on $\CC^n$ with the standard inner pro
 it has an eigenvalue, which is real, and hence a real root $\lambda$ of $\chi_f$; so $f$ has an eigenvector $u \in V$.
 The line $\RR u$ and its orthogonal complement are invariant under $f = f^\dagger$, and we conclude by induction.
 \end{proof}
+
+In matrix form: a real symmetric matrix $A$ can be written $A = QDQ^T$ with $Q$ orthogonal ($Q^TQ = I$) and $D$ diagonal, the columns of $Q$ being an orthonormal basis of eigenvectors and the
+diagonal of $D$ the eigenvalues; so $A$ is diagonalised by an orthonormal change of basis, for which $Q^{-1} = Q^T$ (Remark~\ref{linear-algebra:remark-change-of-coordinates}). Likewise a Hermitian
+or normal complex matrix is $UDU^*$ with $U$ unitary. For example $A = \bigl(\begin{smallmatrix}2 & 1\\ 1 & 2\end{smallmatrix}\bigr)$ has $\chi_A = (x - 1)(x - 3)$, with unit eigenvectors
+$(1, -1)/\sqrt2$ and $(1, 1)/\sqrt2$, and $A = QDQ^T$ with $Q = \frac1{\sqrt2}\bigl(\begin{smallmatrix}1 & 1\\ -1 & 1\end{smallmatrix}\bigr)$ and $D = \operatorname{diag}(1, 3)$. Eigenvectors for
+distinct eigenvalues of a self-adjoint map are automatically orthogonal: $\lambda\langle v, w\rangle = \langle fv, w\rangle = \langle v, fw\rangle = \mu\langle v, w\rangle$.
 
 \begin{counterexample}\label{linear-algebra:counterexample-spectral}
 Normality is necessary in (1): the matrix $N$ of
