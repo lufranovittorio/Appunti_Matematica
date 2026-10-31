@@ -356,6 +356,7 @@ MathJax.Hub.Config({
 <h1 id="general-topology:section-spaces">17.2 Topological spaces and continuous maps<a class="tag" href="tag/00QV.html" title="Permanent link: tag 00QV">00QV</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
+<p><em>Why open sets.</em> In analysis, “\(x_n\) tends to \(x\)” and “\(f\) is continuous at \(x\)” are expressed with distances: \(|x_n - x| {\lt} \varepsilon \) eventually, \(|f(y) - f(x)| {\lt} \varepsilon \) when \(|y - x| {\lt} \delta \). Looking closely, the actual numbers \(\varepsilon \) and \(\delta \) do not matter, only the sets \(\{ y : |y - x| {\lt} \delta \} \) and, more precisely, the sets that contain such a ball around each of their points, the <em>open</em> sets. For instance \(f \colon \mathbb {R}\to \mathbb {R}\) is continuous if and only if the preimage of every open set is open (Proposition&#160;<a href="general-topology-section-metric.html#general-topology:proposition-metric-continuity">17.3.5</a> below). Open sets have three basic properties, all following from the definition: \(\emptyset \) and the whole space are open; a union of open sets is open (a ball around a point of the union lies in one of the sets); and the intersection of <em>two</em> open sets is open (around a point of the intersection take the smaller of two balls). An infinite intersection need not be open: the intervals \((-\frac1n, \frac1n)\) are open and their intersection is \(\{ 0\} \), which contains no ball. A topology is a choice of “open sets” with exactly these three properties, and nothing else; this is enough to speak of limits and continuity, and it applies to spaces where no natural distance exists, such as quotient spaces, spaces of functions with pointwise convergence, or the Zariski topology of algebraic geometry. </p>
 <div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-topology">
   <div class="definition_thmheading"><a class="tag" href="tag/00QW.html" title="Permanent link: tag 00QW">00QW</a>
     <span class="definition_thmcaption">
@@ -384,7 +385,12 @@ MathJax.Hub.Config({
 </li>
   <li><p>The <em>Sierpiński space</em> is \(\{ 0, 1\} \) with open sets \(\emptyset \), \(\{ 1\} \) and \(\{ 0, 1\} \). </p>
 </li>
+  <li><p>On a two-point set \(\{ a, b\} \) there are exactly four topologies: the indiscrete one, the discrete one, and the two Sierpiński topologies \(\{ \emptyset , \{ a\} , \{ a, b\} \} \) and \(\{ \emptyset , \{ b\} , \{ a, b\} \} \). Indeed a topology must contain \(\emptyset \) and \(\{ a, b\} \), and any choice of which singletons to add satisfies the axioms. The family \(\{ \emptyset , \{ a\} , \{ b\} \} \) is not a topology, since the union \(\{ a\}  \cup \{ b\} \) and the whole space are missing. </p>
+</li>
+  <li><p>The <em>metric topology</em> of \(\mathbb {R}\) (Section&#160;<a href="general-topology-section-metric.html">17.3</a>): \(U\) is open if every \(x \in U\) has an \(\varepsilon {\gt} 0\) with \((x - \varepsilon , x + \varepsilon ) \subseteq U\). Open intervals and their unions are open; \([0, 1)\) is not open (no interval around \(0\) fits inside) and not closed (its complement \((-\infty , 0) \cup [1, \infty )\) is not open at \(1\)). So “not open” does not mean “closed”: a set can be both (\(\emptyset \), \(\mathbb {R}\)), one of the two, or neither. </p>
+</li>
 </ol>
+<p> A finer topology has more open sets. The finer the topology on \(X\), the easier it is for maps <em>from</em> \(X\) to be continuous and the harder for maps <em>to</em> \(X\); every map from a discrete space and every map to an indiscrete space is continuous (Definition&#160;<a href="general-topology-section-spaces.html#general-topology:definition-continuous">17.2.12</a> below). </p>
 
   </div>
 </div>
@@ -412,7 +418,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000513">
+<div class="proof_wrapper" id="a0000000516">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -463,7 +469,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000514">
+<div class="proof_wrapper" id="a0000000517">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -487,12 +493,33 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-closure-computations">
+  <div class="example_thmheading"><a class="tag" href="tag/02W3.html" title="Permanent link: tag 02W3">02W3</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">17.2.8</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> In \(\mathbb {R}\) with its usual topology: </p>
+<ol class="enumerate">
+  <li><p>For \(A = [0, 1)\): \(\operatorname {int}A = (0, 1)\), \(\overline{A} = [0, 1]\) and \(\partial A = \{ 0, 1\} \). For \(A = (0, 1) \cup \{ 2\} \): \(\operatorname {int}A = (0, 1)\), \(\overline{A} = [0, 1] \cup \{ 2\} \), and \(\partial A = \{ 0, 1, 2\} \); the isolated point \(2\) belongs to the boundary although it belongs to \(A\). </p>
+</li>
+  <li><p>For \(A = \mathbb {Q}\): \(\operatorname {int}\mathbb {Q}= \emptyset \) (every interval contains irrationals), \(\overline{\mathbb {Q}} = \mathbb {R}\) (every interval contains rationals), and \(\partial \mathbb {Q}= \mathbb {R}\). </p>
+</li>
+  <li><p>The closure does not commute with intersections: for \(A = (0, 1)\) and \(B = (1, 2)\), \(\overline{A \cap B} = \emptyset \) while \(\overline{A} \cap \overline{B} = \{ 1\} \); in general only \(\overline{A \cap B} \subseteq \overline{A} \cap \overline{B}\) holds. It commutes with finite unions (Lemma&#160;<a href="general-topology-section-spaces.html#general-topology:lemma-closure">17.2.4</a>) but not with infinite ones: the sets \(\{ \frac1n\} \) are closed, while their union has closure \(\{ \frac1n\}  \cup \{ 0\} \). </p>
+</li>
+</ol>
+<p> In the discrete topology every set is open and closed, so \(\operatorname {int}A = A = \overline{A}\) and \(\partial A = \emptyset \). In the indiscrete topology on \(X\), a nonempty \(A \neq X\) has \(\operatorname {int}A = \emptyset \) and \(\overline{A} = X\): the topology is too coarse to distinguish the points of \(A\) from the others. </p>
+
+  </div>
+</div>
 <div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-basis">
   <div class="definition_thmheading"><a class="tag" href="tag/00R0.html" title="Permanent link: tag 00R0">00R0</a>
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">17.2.8</span>
+    <span class="definition_thmlabel">17.2.9</span>
   </div>
   <div class="definition_thmcontent">
   <p> A <em>basis</em> of a topology \(\mathcal{T}\) is a subset \(\mathcal{B} \subseteq \mathcal{T}\) such that every open set is a union of members of \(\mathcal{B}\). A <em>subbasis</em> is a subset \(\mathcal{S} \subseteq \mathcal{T}\) such that the finite intersections of members of \(\mathcal{S}\) (the empty intersection being \(X\)) form a basis. </p>
@@ -504,7 +531,7 @@ MathJax.Hub.Config({
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">17.2.9</span>
+    <span class="lemma_thmlabel">17.2.10</span>
   </div>
   <div class="lemma_thmcontent">
   
@@ -517,7 +544,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000515">
+<div class="proof_wrapper" id="a0000000518">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -530,12 +557,32 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-bases">
+  <div class="example_thmheading"><a class="tag" href="tag/02W4.html" title="Permanent link: tag 02W4">02W4</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">17.2.11</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>In a metric space the open balls form a basis (Section&#160;<a href="general-topology-section-metric.html">17.3</a>). In \(\mathbb {R}\) already the intervals \((p, q)\) with rational endpoints form a basis: if \(x \in U\) open, there is \((x - \varepsilon , x + \varepsilon ) \subseteq U\), and rationals \(p \in (x - \varepsilon , x)\), \(q \in (x, x + \varepsilon )\) give \(x \in (p, q) \subseteq U\). This basis is countable, so \(\mathbb {R}\) is second countable. </p>
+</li>
+  <li><p>The rays \((-\infty , a)\) and \((b, \infty )\) form a subbasis of the topology of \(\mathbb {R}\) which is not a basis: the interval \((0, 1) = (-\infty , 1) \cap (0, \infty )\) is open but not a union of rays. </p>
+</li>
+  <li><p>The half-open intervals \([a, b)\) satisfy the conditions of Lemma&#160;<a href="general-topology-section-spaces.html#general-topology:lemma-basis">17.2.10</a>(1), so they are a basis of a topology, the <em>Sorgenfrey line</em>; it is finer than the usual topology, since \((a, b) = \bigcup _n[a + \frac1n, b)\), and strictly finer, since \([0, 1)\) is open in it. </p>
+</li>
+</ol>
+
+  </div>
+</div>
 <div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-continuous">
   <div class="definition_thmheading"><a class="tag" href="tag/00R2.html" title="Permanent link: tag 00R2">00R2</a>
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">17.2.10</span>
+    <span class="definition_thmlabel">17.2.12</span>
   </div>
   <div class="definition_thmcontent">
   <p> A map \(f \colon X \to Y\) between spaces is <em>continuous</em> if \(f^{-1}(V)\) is open for every open \(V \subseteq Y\). It is a <em>homeomorphism</em> if it is bijective and both \(f\) and \(f^{-1}\) are continuous. It is <em>open</em> (<em>closed</em>) if it maps open (closed) sets to open (closed) sets. </p>
@@ -547,7 +594,7 @@ MathJax.Hub.Config({
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">17.2.11</span>
+    <span class="proposition_thmlabel">17.2.13</span>
   </div>
   <div class="proposition_thmcontent">
   <p> For a map \(f \colon X \to Y\) the following are equivalent: </p>
@@ -567,7 +614,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000516">
+<div class="proof_wrapper" id="a0000000519">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -579,12 +626,32 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-continuity">
+  <div class="example_thmheading"><a class="tag" href="tag/02W5.html" title="Permanent link: tag 02W5">02W5</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">17.2.14</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>Constant maps are continuous: the preimage of any set is \(\emptyset \) or the whole space. The identity of \(X\) is continuous from a finer to a coarser topology, and only in that direction. </p>
+</li>
+  <li><p>The floor function \(\lfloor \cdot \rfloor \colon \mathbb {R}\to \mathbb {R}\) is not continuous: the preimage of the open interval \((-\frac12, \frac12)\) is \([0, 1)\), which is not open. In terms of (4), at \(x = 0\) the open set \(V = (-\frac12, \frac12) \ni 0 = \lfloor 0\rfloor \) contains \(\lfloor U\rfloor \) for no open \(U \ni 0\), since \(U\) contains negative numbers. It is continuous at every non-integer, where it is locally constant. </p>
+</li>
+  <li><p>The indicator function \(\mathbf{1}_\mathbb {Q}\) is continuous at no point, since every interval contains rational and irrational points; restricted to the subspace \(\mathbb {Q}\) it is constant, hence continuous. Continuity depends on the topologies on both sides, and restricting a map to a subspace can make it continuous. </p>
+</li>
+</ol>
+
+  </div>
+</div>
 <div class="counterexample_thmwrapper theorem-style-definition" id="general-topology:counterexample-bijection-not-homeomorphism">
   <div class="counterexample_thmheading"><a class="tag" href="tag/00R4.html" title="Permanent link: tag 00R4">00R4</a>
     <span class="counterexample_thmcaption">
     Counterexample
     </span>
-    <span class="counterexample_thmlabel">17.2.12</span>
+    <span class="counterexample_thmlabel">17.2.15</span>
   </div>
   <div class="counterexample_thmcontent">
   <p> A continuous bijection need not be a homeomorphism: the identity map from \(X\) with the discrete topology to \(X\) with the indiscrete topology is continuous, and its inverse is not if \(X\) has at least two points. </p>
@@ -596,7 +663,7 @@ MathJax.Hub.Config({
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">17.2.13</span>
+    <span class="proposition_thmlabel">17.2.16</span>
   </div>
   <div class="proposition_thmcontent">
   <p> For a bijection \(f \colon X \to Y\) the following are equivalent: </p>
@@ -615,7 +682,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000517">
+<div class="proof_wrapper" id="a0000000520">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -623,17 +690,17 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>For a bijection, \((f^{-1})^{-1}(U) = f(U)\), so \(f^{-1}\) is continuous if and only if \(f\) is open, if and only if (taking complements) \(f\) is closed; this gives (1)\(\Leftrightarrow \)(2)\(\Leftrightarrow \)(3), and (5) is (2) written out. (1)\(\Rightarrow \)(4): by Proposition&#160;<a href="general-topology-section-spaces.html#general-topology:proposition-continuity">17.2.11</a>(3) applied to \(f\) and to \(f^{-1}\), \(f(\overline{A}) \subseteq \overline{f(A)}\) and \(f^{-1}(\overline{f(A)}) \subseteq \overline{A}\). (4)\(\Rightarrow \)(3): \(f\) is continuous by Proposition&#160;<a href="general-topology-section-spaces.html#general-topology:proposition-continuity">17.2.11</a>(3), and if \(C\) is closed, \(f(C) = f(\overline{C}) = \overline{f(C)}\) is closed. </p>
+  <p>For a bijection, \((f^{-1})^{-1}(U) = f(U)\), so \(f^{-1}\) is continuous if and only if \(f\) is open, if and only if (taking complements) \(f\) is closed; this gives (1)\(\Leftrightarrow \)(2)\(\Leftrightarrow \)(3), and (5) is (2) written out. (1)\(\Rightarrow \)(4): by Proposition&#160;<a href="general-topology-section-spaces.html#general-topology:proposition-continuity">17.2.13</a>(3) applied to \(f\) and to \(f^{-1}\), \(f(\overline{A}) \subseteq \overline{f(A)}\) and \(f^{-1}(\overline{f(A)}) \subseteq \overline{A}\). (4)\(\Rightarrow \)(3): \(f\) is continuous by Proposition&#160;<a href="general-topology-section-spaces.html#general-topology:proposition-continuity">17.2.13</a>(3), and if \(C\) is closed, \(f(C) = f(\overline{C}) = \overline{f(C)}\) is closed. </p>
 
   </div>
 </div>
-<p>So a homeomorphism is a bijection of the points that is also a bijection of the open sets: every topological property (being open, closed, dense, compact, connected, Hausdorff, …) is preserved. Two further criteria are proved later: a continuous bijection from a compact space to a Hausdorff space is a homeomorphism (Proposition&#160;<a href="general-topology-section-compactness.html#general-topology:proposition-compact-basic">17.6.2</a>(4)), and by Brouwer’s <em>invariance of domain</em> a continuous injection from an open subset of \(\mathbb {R}^n\) to \(\mathbb {R}^n\) is open, hence a homeomorphism onto an open image <span class="cite">[<a href="Bibliography.html#hatcher-at" >Hat02</a>, Theorem 2B.3]</span>. Examples: \(x \mapsto x/(1 - |x|)\) is a homeomorphism from the open ball \(B(0, 1) \subseteq \mathbb {R}^n\) onto \(\mathbb {R}^n\), with inverse \(y \mapsto y/(1 + |y|)\), so all open balls are homeomorphic to \(\mathbb {R}^n\); \(t \mapsto e^{2\pi it}\) is a continuous bijection \([0, 1) \to S^1\) that is not a homeomorphism, since \(S^1\) is compact and \([0, 1)\) is not; and \(\mathbb {R}\) is not homeomorphic to \(\mathbb {R}^2\), since removing a point disconnects \(\mathbb {R}\) but not \(\mathbb {R}^2\) (Section&#160;<a href="general-topology-section-connectedness.html">17.5</a>). </p>
+<p>So a homeomorphism is a bijection of the points that is also a bijection of the open sets: every topological property (being open, closed, dense, compact, connected, Hausdorff, …) is preserved. Two further criteria are proved later: a continuous bijection from a compact space to a Hausdorff space is a homeomorphism (Proposition&#160;<a href="general-topology-section-compactness.html#general-topology:proposition-compact-basic">17.6.3</a>(4)), and by Brouwer’s <em>invariance of domain</em> a continuous injection from an open subset of \(\mathbb {R}^n\) to \(\mathbb {R}^n\) is open, hence a homeomorphism onto an open image <span class="cite">[<a href="Bibliography.html#hatcher-at" >Hat02</a>, Theorem 2B.3]</span>. Examples: \(x \mapsto x/(1 - |x|)\) is a homeomorphism from the open ball \(B(0, 1) \subseteq \mathbb {R}^n\) onto \(\mathbb {R}^n\), with inverse \(y \mapsto y/(1 + |y|)\), so all open balls are homeomorphic to \(\mathbb {R}^n\); \(t \mapsto e^{2\pi it}\) is a continuous bijection \([0, 1) \to S^1\) that is not a homeomorphism, since \(S^1\) is compact and \([0, 1)\) is not; and \(\mathbb {R}\) is not homeomorphic to \(\mathbb {R}^2\), since removing a point disconnects \(\mathbb {R}\) but not \(\mathbb {R}^2\) (Section&#160;<a href="general-topology-section-connectedness.html">17.5</a>). </p>
 <div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-hausdorff">
   <div class="definition_thmheading"><a class="tag" href="tag/00R5.html" title="Permanent link: tag 00R5">00R5</a>
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">17.2.14</span>
+    <span class="definition_thmlabel">17.2.17</span>
   </div>
   <div class="definition_thmcontent">
   <p> A space \(X\) is <em>Hausdorff</em> if any two distinct points have disjoint open neighbourhoods. A sequence \((x_n)_{n \in \mathbb {N}}\) in \(X\) <em>converges</em> to \(x\) if every open set containing \(x\) contains \(x_n\) for all sufficiently large \(n\). </p>
@@ -645,14 +712,14 @@ MathJax.Hub.Config({
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">17.2.15</span>
+    <span class="lemma_thmlabel">17.2.18</span>
   </div>
   <div class="lemma_thmcontent">
   <p> In a Hausdorff space every sequence has at most one limit, and every finite subset is closed. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000518">
+<div class="proof_wrapper" id="a0000000521">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -669,7 +736,7 @@ MathJax.Hub.Config({
     <span class="counterexample_thmcaption">
     Counterexample
     </span>
-    <span class="counterexample_thmlabel">17.2.16</span>
+    <span class="counterexample_thmlabel">17.2.19</span>
   </div>
   <div class="counterexample_thmcontent">
   <p> The cofinite topology on an infinite set \(X\) is not Hausdorff: two nonempty open sets have finite complements, and the union of these complements is not all of \(X\), so they meet. In this space every injective sequence converges to every point, since an open set misses only finitely many of its terms. </p>
