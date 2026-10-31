@@ -57,8 +57,9 @@
     return data.pages[items[i][6]] + "#" + items[i][0];
   }
 
-  function graphUrl(i, dir, depth) {
-    return "graph.html?tag=" + encodeURIComponent(items[i][1]) + "&dir=" + dir + "&depth=" + depth;
+  function graphUrl(i, dir, depth, v) {
+    return "graph.html?tag=" + encodeURIComponent(items[i][1]) + "&dir=" + dir + "&depth=" + depth
+      + "&view=" + (v || view);
   }
 
   function chapterColor(i) {
@@ -205,7 +206,96 @@
       depths.appendChild(a);
     });
     bar.appendChild(depths);
+    var views = el("div", "search-filters");
+    views.setAttribute("role", "group");
+    views.setAttribute("aria-label", "View");
+    [["tree", "Tree"], ["graph", "Graph"]].forEach(function (pair) {
+      var a = el("a", "filter", pair[1]);
+      a.href = graphUrl(i, dir, depth, pair[0]);
+      a.setAttribute("aria-pressed", pair[0] === view ? "true" : "false");
+      views.appendChild(a);
+    });
+    bar.appendChild(views);
     return bar;
+  }
+
+  // The tree view: the statement at the root, and under each statement the
+  // ones it uses (or that use it), expanded on demand. A statement reached
+  // along several paths appears several times, collapsed after the first.
+  var TREE_LIMIT = 300;
+
+  function tree(i, dir, depth, container) {
+    var adj = dir === "uses" ? uses : usedBy;
+    var maxDepth = depth === "all" ? Infinity : parseInt(depth, 10);
+    var shown = {};
+    var rendered = 0;
+
+    function children(k, level, ancestors, ul) {
+      adj[k].slice().sort(function (a, b) { return a - b; }).forEach(function (j) {
+        if (ancestors[j]) return;
+        ul.appendChild(node(j, level, ancestors));
+      });
+    }
+
+    function node(k, level, ancestors) {
+      rendered++;
+      var li = el("li", "graph-tree-item kind-" + data.kinds[items[k][2]]);
+      li.style.setProperty("--chap", chapterColor(k));
+      var row = el("div", "graph-tree-row" + (k === i ? " main" : ""));
+      var n = adj[k].filter(function (j) { return !ancestors[j]; }).length;
+      var toggle = el("button", "graph-tree-toggle");
+      toggle.type = "button";
+      if (!n) {
+        toggle.disabled = true;
+        toggle.className += " leaf";
+      }
+      row.appendChild(toggle);
+      var text = el("span", "graph-tree-label");
+      var a = el("a", "graph-entry-title");
+      a.href = urlOf(k);
+      a.appendChild(el("span", "result-title", heading(k)));
+      if (items[k][4]) a.appendChild(el("span", "result-name", " (" + items[k][4] + ")"));
+      text.appendChild(a);
+      text.appendChild(document.createTextNode(" "));
+      text.appendChild(tagLink(k));
+      if (k !== i) {
+        var g = el("a", "graph-entry-graph", "graph");
+        g.href = graphUrl(k, dir, depth);
+        g.title = "Dependencies of this statement";
+        text.appendChild(g);
+      }
+      if (shown[k] && k !== i) text.appendChild(el("span", "graph-tree-again", " also above"));
+      row.appendChild(text);
+      li.appendChild(row);
+      var ul = null;
+      var open = false;
+      var inner = Object.create(ancestors);
+      inner[k] = true;
+      var setOpen = function (value) {
+        open = value;
+        if (open && !ul) {
+          ul = el("ul", "graph-tree");
+          children(k, level + 1, inner, ul);
+          li.appendChild(ul);
+          typeset(ul);
+        }
+        if (ul) ul.hidden = !open;
+        toggle.textContent = n ? (open ? "−" : "+") : "";
+        toggle.setAttribute("aria-expanded", n ? String(open) : "false");
+        toggle.setAttribute("aria-label", (open ? "Hide" : "Show") + " the " + n + " statement"
+          + (n === 1 ? "" : "s") + (dir === "uses" ? " it uses" : " that use it"));
+        toggle.title = toggle.getAttribute("aria-label");
+      };
+      toggle.addEventListener("click", function () { setOpen(!open); });
+      setOpen(n > 0 && level < maxDepth && !shown[k] && rendered < TREE_LIMIT);
+      shown[k] = true;
+      return li;
+    }
+
+    var root = el("ul", "graph-tree graph-tree-root");
+    root.appendChild(node(i, 0, {}));
+    container.appendChild(root);
+    typeset(root);
   }
 
   function draw(i, dir, depth, canvasWrap, note) {
@@ -412,10 +502,16 @@
     var note = el("p", "graph-status");
     body.appendChild(note);
     var figure = el("div", "graph-figure");
-    var scroll = el("div", "graph-scroll");
-    figure.appendChild(scroll);
-    body.appendChild(figure);
-    draw(i, dir, depth, scroll, note);
+    if (view === "tree") {
+      figure.className += " graph-figure-tree";
+      body.appendChild(figure);
+      tree(i, dir, depth, figure);
+    } else {
+      var scroll = el("div", "graph-scroll");
+      figure.appendChild(scroll);
+      body.appendChild(figure);
+      draw(i, dir, depth, scroll, note);
+    }
 
     var lists = el("div", "graph-lists");
     [["What it uses directly", uses[i]], ["What uses it directly", usedBy[i]]].forEach(function (pair) {
@@ -443,6 +539,9 @@
   var dir = params.get("dir") === "usedby" ? "usedby" : "uses";
   var depth = params.get("depth") || "2";
   if (depth !== "all" && !(parseInt(depth, 10) >= 1)) depth = "2";
+  // The drawing needs a wide screen; on a phone the tree is the default.
+  var view = params.get("view");
+  if (view !== "tree" && view !== "graph") view = window.innerWidth < 760 ? "tree" : "graph";
   var input = document.getElementById("graph-input");
   if (input && tag) input.value = tag;
 

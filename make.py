@@ -12,6 +12,7 @@
 """
 
 import argparse
+import hashlib
 import html
 import json
 import os
@@ -678,6 +679,27 @@ def postprocess_html(project):
     print(f"html: search index with {count} entries")
     edges = write_dependency_data(project, search_entries, label_tag, uses)
     print(f"html: dependency graph with {edges} edges")
+    version_assets()
+
+
+ASSET_RE = re.compile(r'"((?:styles|js)/[\w.-]+\.(?:css|js))(?:\?v=\w+)?"')
+
+
+def version_assets():
+    """Add ?v=<hash of the stylesheets and scripts> to their links in the pages.
+
+    Browsers keep a stylesheet or script with an unchanged URL in their cache, so
+    after an update a page could be shown with the old styles; a new version
+    string forces them to be fetched again."""
+    digest = hashlib.sha1()
+    for path in sorted(list((HTML_DIR / "styles").glob("*.css")) + list((HTML_DIR / "js").glob("*.js"))):
+        digest.update(path.read_bytes())
+    version = digest.hexdigest()[:10]
+    for path in HTML_DIR.glob("*.html"):
+        text = path.read_text(encoding="utf-8")
+        new = ASSET_RE.sub(lambda m: f'"{m.group(1)}?v={version}"', text)
+        if new != text:
+            path.write_text(new, encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------

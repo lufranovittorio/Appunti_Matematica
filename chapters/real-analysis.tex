@@ -582,6 +582,93 @@ $S_{2m+2} - S_{2m} = -t_{2m+1} + t_{2m+2} \leq 0$ and $S_{2m+3} - S_{2m+1} = t_{
 increase, every odd one is below every even one, and their difference tends to $0$.
 \end{proof}
 
+\emph{Rearranging series.} A finite sum does not depend on the order of its terms, and by Proposition~\ref{real-analysis:proposition-series}(1) neither does the sum of an absolutely convergent
+series. For series that converge but not absolutely the order matters, and Riemann discovered that it matters as much as it possibly could: by reordering the terms one can make the sum anything
+one likes. A series $\sum_na_n$ of real numbers is \emph{conditionally convergent} if it converges but $\sum_n|a_n| = \infty$; the alternating harmonic series $\sum_{n \geq 1}(-1)^{n+1}/n$ is the basic
+example (Lemma~\ref{real-analysis:lemma-alternating} and Proposition~\ref{real-analysis:proposition-series-tests}(1)). Write $a^+ = \max(a, 0)$ and $a^- = \max(-a, 0)$ for the positive and negative parts
+of a real number, so that $a = a^+ - a^-$ and $|a| = a^+ + a^-$.
+
+\begin{lemma}\label{real-analysis:lemma-conditional-parts}
+If $\sum_na_n$ is a conditionally convergent series of real numbers, then $a_n \to 0$ and $\sum_na_n^+ = \sum_na_n^- = \infty$. In particular infinitely many $a_n$ are positive and infinitely
+many are negative.
+\end{lemma}
+
+\begin{proof}
+$a_n \to 0$ by Proposition~\ref{real-analysis:proposition-series-tests}(1). If $\sum_na_n^+$ were finite, then $\sum_na_n^- = \sum_n(a_n^+ - a_n)$ would converge, being the difference of two
+convergent series, and so would $\sum_n|a_n| = \sum_n(a_n^+ + a_n^-)$, a contradiction. The same argument applies to $\sum_na_n^-$. A series of non-negative terms with only finitely many nonzero
+terms is finite, so infinitely many $a_n^+$ and infinitely many $a_n^-$ are nonzero.
+\end{proof}
+
+So the positive terms alone have infinite sum, and so do the negative terms alone; the series converges only because they are interleaved so as to cancel. This is what a rearrangement can
+exploit.
+
+\begin{theorem}[Riemann's rearrangement theorem]\label{real-analysis:theorem-riemann-rearrangement}
+Let $\sum_na_n$ be a conditionally convergent series of real numbers, and let $-\infty \leq \alpha \leq \beta \leq \infty$. There is a bijection $\sigma \colon \NN \to \NN$ such that the partial sums
+$T_N = \sum_{n \leq N}a_{\sigma(n)}$ satisfy
+\[
+\liminf_{N \to \infty}T_N = \alpha \qquad\text{and}\qquad \limsup_{N \to \infty}T_N = \beta .
+\]
+In particular, for every $c \in \RR$ some rearrangement converges to $c$, and some rearrangements diverge to $\infty$ and to $-\infty$.
+\end{theorem}
+
+\begin{proof}
+\emph{Targets.} Choose real numbers $\alpha_k \to \alpha$ and $\beta_k \to \beta$ with $\alpha_k < \beta_k$ and $\alpha_k < \beta_{k+1}$ for all $k \geq k_0$: put $\beta_k = \beta + \frac1k$, $k$ or $-k$
+according as $\beta$ is finite, $+\infty$ or $-\infty$, and $\alpha_k = \alpha - \frac1k$, $k - 1$ or $-k - 2$ according as $\alpha$ is finite, $+\infty$ or $-\infty$. One checks the inequalities case by
+case for $k$ large (recall $\alpha \leq \beta$; for instance if $\alpha = \beta = -\infty$, then $\alpha_k = -k - 2 < -k - 1 = \beta_{k+1}$).
+
+\emph{Construction.} Let $p_1 < p_2 < \cdots$ be the indices $n$ with $a_n \geq 0$ and $q_1 < q_2 < \cdots$ those with $a_n < 0$; both lists are infinite by
+Lemma~\ref{real-analysis:lemma-conditional-parts}, and together they contain every index once. We build the rearrangement in stages $k = k_0, k_0 + 1, \ldots$, each consisting of an \emph{up step} and
+a \emph{down step}. In the up step of stage $k$ we append the next unused terms $a_{p_j}$, in order, as long as the running sum is $\leq \beta_k$, stopping as soon as it exceeds $\beta_k$. In the down step
+we append the next unused terms $a_{q_j}$, in order, until the running sum is $< \alpha_k$. Each step stops after finitely many terms: the unused positive terms are all but finitely many of the $a_n^+$,
+so their sum is still infinite by Lemma~\ref{real-analysis:lemma-conditional-parts}, and likewise for the negative terms.
+
+Every index is used. A down step adds at least one term, because it starts with a sum $> \beta_k > \alpha_k$; an up step of stage $k + 1$ adds at least one term, because it starts with a sum
+$< \alpha_k < \beta_{k+1}$. So infinitely many $p_j$ and infinitely many $q_j$ are used, and since each list is used in order, all of them are. Hence the order in which the terms are appended defines a
+bijection $\sigma \colon \NN \to \NN$.
+
+\emph{The partial sums.} Let $U_k$ be the running sum at the end of the up step of stage $k$ and $L_k$ the one at the end of the down step. If the up step added terms, then just before its last term
+$a_{u_k}$ the sum was $\leq \beta_k$, so
+\[
+\beta_k < U_k \leq \beta_k + a_{u_k}, \qquad\text{and similarly}\qquad \alpha_k + a_{l_k} \leq L_k < \alpha_k,
+\]
+with $a_{l_k} < 0$ the last term of the down step (for $k > k_0$ the up step always adds terms, as shown above). The indices $u_k$ and $l_k$ are distinct for distinct $k$, so they tend to $\infty$, and
+$a_{u_k}, a_{l_k} \to 0$ because $a_n \to 0$. Hence $U_k - \beta_k \to 0$ and $L_k - \alpha_k \to 0$, so $U_k \to \beta$ and $L_k \to \alpha$ (in the extended sense when $\alpha$ or $\beta$ is
+infinite). Within an up step the running sum increases, and within a down step it decreases; so for $N$ in the up step of stage $k$ we have $L_{k-1} \leq T_N \leq U_k$, and for $N$ in the down step
+$L_k \leq T_N \leq U_k$. Therefore $\limsup_NT_N \leq \limsup_kU_k = \beta$ and $\liminf_NT_N \geq \liminf_kL_k = \alpha$; and the values $T_N = U_k$ and $T_N = L_k$ occur for every $k$, so
+equality holds in both. The last statement is the case $\alpha = \beta$.
+\end{proof}
+
+\begin{corollary}\label{real-analysis:corollary-unconditional}
+A series $\sum_na_n$ of real numbers is absolutely convergent if and only if every rearrangement of it converges, and if and only if all its rearrangements converge to the same sum.
+\end{corollary}
+
+\begin{proof}
+If $\sum_n|a_n| < \infty$, every rearrangement converges to the same sum by Proposition~\ref{real-analysis:proposition-series}(1). If $\sum_n|a_n| = \infty$, either the series diverges, and then the
+identity rearrangement does not converge, or it is conditionally convergent, and then Theorem~\ref{real-analysis:theorem-riemann-rearrangement} with $\alpha = \beta = \infty$ gives a rearrangement that
+diverges.
+\end{proof}
+
+\begin{example}\label{real-analysis:example-rearrangement}
+\begin{enumerate}
+\item Let $S = 1 - \frac12 + \frac13 - \frac14 + \cdots$. By Lemma~\ref{real-analysis:lemma-alternating}, $\frac12 = S_1 \leq S \leq S_0 = 1$, so $S \neq 0$. Take one positive term followed by two
+negative ones:
+\[
+1 - \frac12 - \frac14 + \frac13 - \frac16 - \frac18 + \frac15 - \frac1{10} - \frac1{12} + \cdots
+\]
+Every term of $S$ occurs exactly once: the odd denominators in order, and the even denominators in order, two at a time. The $k$-th group of three terms is
+$\frac{1}{2k - 1} - \frac{1}{4k - 2} - \frac{1}{4k} = \frac{1}{4k - 2} - \frac{1}{4k} = \frac12\bigl(\frac{1}{2k - 1} - \frac{1}{2k}\bigr)$. So the partial sums after $3m$ terms are half the partial
+sums of $S$ after $2m$ terms, and tend to $\frac12S$; the partial sums in between differ from these by at most two terms, which tend to $0$. So this rearrangement converges to $\frac12S \neq S$.
+\item The proof of the theorem is an algorithm. To rearrange $S$ so that it converges to $c = 2$: take $1 + \frac13 + \frac15 + \cdots$ until the sum exceeds $2$, which happens at
+$1 + \frac13 + \cdots + \frac1{15} \approx 2.02$ (eight terms), then subtract $\frac12$ to get $\approx 1.52 < 2$, then add $\frac1{17} + \frac1{19} + \cdots$ until the sum exceeds $2$ again, and so on.
+The positive terms are used much faster than the negative ones. This is how it must be: a rearrangement with a larger sum takes more positive terms per negative term, just as in (1)
+taking fewer positive terms per negative term gave a smaller sum.
+\item For complex series the theorem fails as stated: the rearrangements of $\sum_ni(-1)^{n+1}/n$ have as sums exactly the points of the imaginary axis $i\RR$, by the theorem applied to the real series
+$\sum_n(-1)^{n+1}/n$. For series in $\RR^m$ the possible sums of rearrangements form a more complicated set, which can be a line in the plane even when the series does not lie on a line, as the example
+$\sum_n\bigl((-1)^{n+1}/n, (-1)^{n+1}/n + 1/n^2\bigr)$ shows: the second coordinate differs from the first by an absolutely convergent series, whose sum does not change, so every sum lies on the line
+$y = x + \sum_n1/n^2$, and every point of it occurs.
+\end{enumerate}
+\end{example}
+
 \begin{proposition}[Cauchy product]\label{real-analysis:proposition-cauchy-product}
 If $\sum a_n$ and $\sum b_n$ are absolutely convergent series in $\CC$, then $c_n = \sum_{k=0}^na_kb_{n-k}$ defines an absolutely convergent series with
 $\sum c_n = (\sum a_n)(\sum b_n)$.
@@ -1438,7 +1525,19 @@ Show that $\sum 1/n$ diverges while $\sum(-1)^n/n$ converges, and that the latte
 \begin{solution}
 $\sum_{2^j < n \leq 2^{j+1}}1/n \geq 1/2$, so the partial sums are unbounded; the alternating series converges by Lemma~\ref{real-analysis:lemma-alternating}. For a target $c$, add positive terms
 $1/(2k)$ until the partial sum exceeds $c$, then negative terms until it is below $c$, and so on; since both the positive and the negative parts diverge and the terms tend to $0$, the partial sums converge
-to $c$.
+to $c$. This is the special case $\alpha = \beta = c$ of Theorem~\ref{real-analysis:theorem-riemann-rearrangement}, where the details are written out.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-bounded-rearrangement}
+Let $\sum_na_n$ be a convergent series of real numbers and $\sigma \colon \NN \to \NN$ a bijection that moves every index by a bounded amount: $|\sigma(n) - n| \leq K$ for all $n$. Show that
+$\sum_na_{\sigma(n)}$ converges to the same sum. Deduce that the rearrangement of Example~\ref{real-analysis:example-rearrangement}(1) moves some indices arbitrarily far.
+\end{exercise}
+
+\begin{solution}
+Let $S_N = \sum_{n \leq N}a_n$ and $T_N = \sum_{n \leq N}a_{\sigma(n)} = \sum_{m \in \sigma(\{0, \ldots, N\})}a_m$. If $m \leq N - K$, then $\sigma^{-1}(m) \leq m + K \leq N$, so $m \in \sigma(\{0, \ldots, N\})$;
+and every $m \in \sigma(\{0, \ldots, N\})$ satisfies $m \leq N + K$. So $\{0, \ldots, N\}$ and $\sigma(\{0, \ldots, N\})$ differ only in indices between $N - K$ and $N + K$, and
+$|T_N - S_N| \leq \sum_{N - K < m \leq N + K}|a_m|$, a sum of at most $2K$ terms, which tends to $0$ as $a_m \to 0$. Hence $T_N - S_N \to 0$. The rearrangement of the example changes the sum, so it
+cannot move indices by a bounded amount; indeed its $3m$-th term is $-1/(4m)$, the $4m$-th term of $S$, moved by $m$ places.
 \end{solution}
 
 \begin{exercise}\label{real-analysis:exercise-uniform-limit-derivative}
