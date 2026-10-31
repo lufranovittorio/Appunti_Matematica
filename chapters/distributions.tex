@@ -109,6 +109,54 @@ uniquely to an isometry of $L^2$,
 which is surjective because its image contains the dense subspace $\mathcal{S}$.
 \end{proof}
 
+\begin{proposition}\label{distributions:proposition-fourier-l1}
+For $f \in L^1(\RR^n)$ the integral $\hat f(\xi) = \int f(x)e^{-2\pi ix\cdot\xi}\,dx$ defines a continuous function with $\|\hat f\|_\infty \leq \|f\|_1$ and $\hat f(\xi) \to 0$ as $|\xi| \to \infty$ (the
+\emph{Riemann--Lebesgue lemma}). For $f, g \in L^1$, $\widehat{f * g} = \hat f\,\hat g$.
+\end{proposition}
+
+\begin{proof}
+The bound is clear, and continuity follows from dominated convergence. For $f \in \mathcal{S}$, $\hat f \in \mathcal{S}$ tends to $0$ at infinity. In general choose $f_k \in \mathcal{S}$ with $\|f - f_k\|_1 \to 0$
+($C_c^\infty$ is dense in $L^1$, by the argument in the proof of Theorem~\ref{distributions:theorem-fourier-schwartz}(3)); then $\hat f_k \to \hat f$ uniformly, and a uniform limit of functions tending to
+$0$ at infinity tends to $0$ at infinity. For the convolution, $f * g \in L^1$ (Exercise~\ref{measure-theory:exercise-convolution}), and by Fubini's theorem
+$\int\int f(x - y)g(y)e^{-2\pi ix\cdot\xi}\,dy\,dx = \int g(y)e^{-2\pi iy\cdot\xi}\int f(x - y)e^{-2\pi i(x - y)\cdot\xi}\,dx\,dy = \hat f(\xi)\hat g(\xi)$.
+\end{proof}
+
+\begin{example}\label{distributions:example-fourier-computations}
+\begin{enumerate}
+\item The indicator of $[-\frac12, \frac12]$ has $\hat f(\xi) = \int_{-1/2}^{1/2}e^{-2\pi ix\xi}\,dx = \frac{\sin\pi\xi}{\pi\xi}$, which is continuous and tends to $0$, but is not integrable: by the inversion theorem it
+cannot be, since $f$ is not continuous.
+\item $f(x) = e^{-2\pi|x|}$ on $\RR$: $\hat f(\xi) = 2\int_0^\infty e^{-2\pi x}\cos(2\pi x\xi)\,dx = 2\operatorname{Re}\frac{1}{2\pi(1 - i\xi)} = \frac{1}{\pi(1 + \xi^2)}$. A kink of $f$ at $0$ gives a decay
+$|\xi|^{-2}$ only; smoothness of $f$ corresponds to decay of $\hat f$, and decay of $f$ to smoothness of $\hat f$.
+\item Scaling and translation: $\widehat{f(\lambda x)}(\xi) = \lambda^{-n}\hat f(\xi/\lambda)$ and $\widehat{f(x - a)}(\xi) = e^{-2\pi ia\cdot\xi}\hat f(\xi)$. With
+Theorem~\ref{distributions:theorem-fourier-schwartz}(1), $\widehat{e^{-\pi t|x|^2}} = t^{-n/2}e^{-\pi|\xi|^2/t}$ for $t > 0$: the narrower the Gaussian, the wider its transform.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}[Poisson summation]\label{distributions:proposition-poisson}
+For $f \in \mathcal{S}(\RR)$, $\sum_{n \in \ZZ}f(x + n) = \sum_{k \in \ZZ}\hat f(k)e^{2\pi ikx}$ for all $x$; in particular $\sum_nf(n) = \sum_k\hat f(k)$.
+\end{proposition}
+
+\begin{proof}
+The periodisation $P(x) = \sum_nf(x + n)$ converges uniformly with all derivatives on compact sets, as $f$ and its derivatives decay faster than $|x|^{-2}$; so $P$ is a smooth function on $\RR/\ZZ$. Its
+Fourier coefficients are $\int_0^1P(x)e^{-2\pi ikx}\,dx = \sum_n\int_n^{n+1}f(y)e^{-2\pi iky}\,dy = \hat f(k)$. These decay rapidly, so the Fourier series converges absolutely and uniformly to a continuous
+function, which equals $P$ almost everywhere, being its $L^2$ limit (Example~\ref{functional-analysis:example-fourier}), hence everywhere.
+\end{proof}
+
+For $f(x) = e^{-\pi tx^2}$ this gives the transformation formula of the theta function, $\sum_ne^{-\pi tn^2} = t^{-1/2}\sum_ke^{-\pi k^2/t}$ for $t > 0$, which relates large and small $t$ and is
+the starting point of the functional equation of the Riemann zeta function.
+
+\begin{proposition}[Heisenberg's uncertainty principle]\label{distributions:proposition-heisenberg}
+For $f \in \mathcal{S}(\RR)$, $\|f\|_2^2 \leq 4\pi\|xf\|_2\,\|\xi\hat f\|_2$. So $f$ and $\hat f$ cannot both be concentrated near $0$.
+\end{proposition}
+
+\begin{proof}
+Integrating by parts, $\|f\|_2^2 = \int|f|^2\,dx = -\int x\frac{d}{dx}|f|^2\,dx = -2\operatorname{Re}\int x\bar ff^{\prime}\,dx \leq 2\|xf\|_2\|f^{\prime}\|_2$ by Cauchy--Schwarz, and
+$\|f^{\prime}\|_2 = \|2\pi\xi\hat f\|_2$ by Plancherel and Theorem~\ref{distributions:theorem-fourier-schwartz}.
+\end{proof}
+
+Equality holds for the Gaussians $e^{-\pi tx^2}$; after normalising $\|f\|_2 = 1$, the inequality says that the variances of $|f|^2$ and $|\hat f|^2$ have product at least $1/(16\pi^2)$, the mathematical
+content of the uncertainty relation of quantum mechanics.
+
 \begin{definition}\label{distributions:definition-fourier-tempered}
 For $T \in \mathcal{S}'$, $\hat T(\varphi) = T(\hat\varphi)$. By Theorem~\ref{distributions:theorem-fourier-schwartz} this defines a linear bijection of $\mathcal{S}'$ extending the transform on $\mathcal{S}$
 and on $L^2$, with $\mathcal{F}(D^\alpha T) = (2\pi i\xi)^\alpha\hat T$.
@@ -149,6 +197,31 @@ $\sum_k|(2\pi ik)^\alpha\hat u(k)| \leq \left(\sum_k\langle k\rangle^{2s}|\hat u
 finite because $2(s - |\alpha|) > n$ (compare with $\int\langle\xi\rangle^{2(|\alpha|-s)}d\xi$, which converges by polar coordinates). So the Fourier series of $D^\alpha u$ converges absolutely and
 uniformly, and $u$ is $C^k$ with the stated bound. On $\RR^n$ the same computation with integrals shows that $\widehat{D^\alpha u} \in L^1$, so $D^\alpha u$ is continuous and bounded by Fourier inversion.
 \end{proof}
+
+The embedding theorem trades $n/2$ derivatives in $L^2$ for continuity. With $L^p$ norms one can do better, and the exponents are dictated by scaling: for $u_\lambda(x) = u(\lambda x)$,
+$\|u_\lambda\|_q = \lambda^{-n/q}\|u\|_q$ and $\|\nabla u_\lambda\|_p = \lambda^{1 - n/p}\|\nabla u\|_p$, so an inequality $\|u\|_q \leq C\|\nabla u\|_p$ for all $u \in C_c^1(\RR^n)$ can only hold if
+$-n/q = 1 - n/p$, that is, $q = p^* = np/(n - p)$, the \emph{Sobolev exponent}, which requires $p < n$.
+
+\begin{theorem}[Gagliardo--Nirenberg--Sobolev]\label{distributions:theorem-gns}
+Let $n \geq 2$ and $1 \leq p < n$. For $u \in C_c^1(\RR^n)$, $\|u\|_{n/(n-1)} \leq \|\nabla u\|_1$, and $\|u\|_{p^*} \leq C_{n,p}\|\nabla u\|_p$ with $p^* = np/(n - p)$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+\emph{Case $p = 1$, $n = 2$.} By the fundamental theorem of calculus in each variable, $|u(x_1, x_2)| \leq \int_\RR|\partial_1u(y_1, x_2)|\,dy_1 =: g_1(x_2)$ and $|u(x_1, x_2)| \leq g_2(x_1)$ similarly. So
+$|u(x)|^2 \leq g_1(x_2)g_2(x_1)$, and integrating, $\int|u|^2 \leq \int g_1\int g_2 = \|\partial_1u\|_1\|\partial_2u\|_1 \leq \|\nabla u\|_1^2$. For general $n$ the same bounds give
+$|u(x)|^{n/(n-1)} \leq \prod_i g_i^{1/(n-1)}$, where $g_i$ does not depend on $x_i$, and one integrates in $x_1, \ldots, x_n$ in turn, using at each step the generalised H\"older inequality
+$\int\prod_{j=1}^{n-1}|h_j| \leq \prod_j\|h_j\|_{n-1}$; this omitted computation gives $\int|u|^{n/(n-1)} \leq \prod_i\|\partial_iu\|_1^{1/(n-1)}$ \cite[Chapter 9]{brezis-functional}.
+
+\emph{From $p = 1$ to $p > 1$.} Apply the case $p = 1$ to $v = |u|^\gamma$ with $\gamma = p(n - 1)/(n - p) > 1$, which is $C^1$ with $|\nabla v| \leq \gamma|u|^{\gamma - 1}|\nabla u|$. By H\"older's inequality
+(Proposition~\ref{measure-theory:proposition-holder}) with $p^{\prime} = p/(p - 1)$,
+\[
+\Bigl(\int|u|^{\gamma n/(n-1)}\Bigr)^{(n-1)/n} \leq \gamma\int|u|^{\gamma - 1}|\nabla u| \leq \gamma\Bigl(\int|u|^{(\gamma - 1)p^{\prime}}\Bigr)^{1/p^{\prime}}\|\nabla u\|_p .
+\]
+The choice of $\gamma$ makes $\gamma n/(n - 1) = (\gamma - 1)p^{\prime} = p^*$, and dividing gives $\|u\|_{p^*}^{\gamma - p^*/p^{\prime}} \leq \gamma\|\nabla u\|_p$ with $\gamma - p^*/p^{\prime} = 1$.
+\end{proof}
+
+For $p = n$ the inequality fails, $p^* = \infty$: in $\RR^2$ the function $\log\log(1/|x|)$, cut off near $|x| = e^{-1}$, has $\nabla u \in L^2$ but is unbounded near $0$. For $p > n$, functions with
+$\nabla u \in L^p$ are H\"older continuous (Morrey's inequality \cite[Chapter 9]{brezis-functional}), the $L^p$ analogue of Theorem~\ref{distributions:theorem-sobolev-embedding}.
 
 \begin{theorem}[Rellich]\label{distributions:theorem-rellich}
 For $s > t$ the inclusion $H^s(T^n) \to H^t(T^n)$ is a compact operator.

@@ -910,6 +910,33 @@ the difference quotients of $\beta^{(k)}$ at $0$ tend to $0$, which by induction
 Proposition~\ref{real-analysis:proposition-derivative-rules}, and the other properties are clear.
 \end{proof}
 
+\begin{definition}\label{real-analysis:definition-analytic}
+A function $f \colon U \to \RR$ on an open set $U \subseteq \RR$ is \emph{(real) analytic} if every $a \in U$ has a neighbourhood on which $f(x) = \sum_nc_n(x - a)^n$ for a convergent power series.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-analytic}
+\begin{enumerate}
+\item If $f(x) = \sum_na_nx^n$ has radius of convergence $R > 0$ and $|b| < R$, then $f(b + h) = \sum_k\frac{f^{(k)}(b)}{k!}h^k$ for $|h| < R - |b|$. So $f$ is analytic on $(-R, R)$.
+\item An analytic function is smooth, and near each point it equals its Taylor series there.
+\item (Identity theorem) Let $f$ be analytic on an open interval $I$. If all derivatives of $f$ vanish at one point, or if the zeros of $f$ have an accumulation point in $I$, then $f = 0$ on $I$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\sum_n\sum_{k \leq n}|a_n|\binom nk|b|^{n-k}|h|^k = \sum_n|a_n|(|b| + |h|)^n < \infty$, so the double series $\sum_{n,k}a_n\binom nkb^{n-k}h^k$ converges absolutely and may be summed in any order
+(Proposition~\ref{real-analysis:proposition-series}(1)): summing over $k$ first gives $f(b + h)$, and summing over $n$ first gives $\sum_kc_kh^k$ with $c_k = \sum_{n \geq k}a_n\binom nkb^{n-k}$, which is
+$f^{(k)}(b)/k!$ by Theorem~\ref{real-analysis:theorem-power-series-derivative}. (2) follows from Theorem~\ref{real-analysis:theorem-power-series-derivative} applied to the local expansions.
+
+(3) Let $S$ be the set of points of $I$ where all derivatives of $f$ vanish. It is closed in $I$, as the derivatives are continuous, and open: near $x \in S$, $f$ equals its Taylor series at $x$, which is
+$0$, so $f = 0$ near $x$. As $I$ is connected (Theorem~\ref{general-topology:theorem-intervals-connected}), $S = \emptyset$ or $S = I$. If the zeros accumulate at $a \in I$ and $f(x) = \sum c_n(x - a)^n$
+near $a$ with some $c_n \neq 0$, let $m$ be least with $c_m \neq 0$; then $f(x) = (x - a)^mg(x)$ with $g$ continuous and $g(a) = c_m \neq 0$, so $f$ has no zeros near $a$ other than $a$, a contradiction.
+So all derivatives vanish at $a$, and $S = I$.
+\end{proof}
+
+Polynomials, $\exp$, $\sin$ and $\cos$ are analytic on $\RR$, by (1), with radius $\infty$. The function $1/(1 + x^2)$ is smooth on $\RR$, but its Taylor series at $0$, $\sum(-1)^nx^{2n}$, has radius only
+$1$: the obstruction is invisible on $\RR$, and comes from the complex points $\pm i$ where $1/(1 + z^2)$ is not defined; it is nevertheless analytic on all of $\RR$, as holomorphic functions are analytic
+(Chapter~\ref{complex-analysis}). The identity theorem fails for smooth functions:
+
 \begin{counterexample}\label{real-analysis:counterexample-not-analytic}
 The function $\beta$ of Lemma~\ref{real-analysis:lemma-bump} has all derivatives zero at $0$, so its Taylor series at $0$ is zero, but $\beta(t) \neq 0$ for $t > 0$. Smooth functions need not be
 given by their Taylor series; complex differentiable functions are (Chapter~\ref{complex-analysis}).

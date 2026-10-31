@@ -188,6 +188,29 @@ on vectors as $\alpha(v_1, \ldots, v_p) = \langle \alpha, v_1 \wedge \cdots \wed
 $(\varphi_1 \wedge \cdots \wedge \varphi_p)(v_1, \ldots, v_p) = \det(\varphi_i(v_j))$, without a factor $1/p!$.
 \end{notation}
 
+\begin{example}\label{multilinear-algebra:example-forms-dictionary}
+\emph{The three descriptions of an alternating form, explicitly.} Let $e_1, \ldots, e_n$ be a basis of $V$ with dual basis $e_1^*, \ldots, e_n^*$, and for $I = \{i_1 < \cdots < i_p\}$ write
+$e_I = e_{i_1} \wedge \cdots \wedge e_{i_p}$ and $e_I^* = e_{i_1}^* \wedge \cdots \wedge e_{i_p}^*$.
+\begin{enumerate}
+\item \emph{From $\Lambda^p(V^*)$ to $\mathrm{Alt}^p(V)$.} An element $\alpha = \sum_Ia_Ie_I^*$ acts on vectors $v_j = \sum_iv_{ij}e_i$ by
+$\alpha(v_1, \ldots, v_p) = \sum_Ia_I\det(v_{i_kj})_{k,j}$, the sum of the coefficients times the $p \times p$ minors, with rows $I$, of the matrix of coordinates of the $v_j$.
+\item \emph{From $\mathrm{Alt}^p(V)$ to $\Lambda^p(V^*)$.} An alternating $p$-linear map $A$ is $\sum_IA(e_{i_1}, \ldots, e_{i_p})\,e_I^*$: the coefficients are the values on increasing tuples of basis vectors.
+Summing over all tuples instead, $A = \frac1{p!}\sum_{i_1, \ldots, i_p}A(e_{i_1}, \ldots, e_{i_p})\,e_{i_1}^* \wedge \cdots \wedge e_{i_p}^*$, since each increasing tuple appears $p!$ times, with the same
+sign in $A$ and in the wedge product.
+\item \emph{As a linear form on $\Lambda^pV$.} $\alpha$ sends $e_J$ to $a_J$, by Proposition~\ref{multilinear-algebra:proposition-dual-exterior}; so $(e_I^*)$ is the dual basis of $(e_J)$.
+\end{enumerate}
+For instance, on $\RR^3$ let $\alpha = e_1^* \wedge e_2^* + 2e_2^* \wedge e_3^*$. As a bilinear map, $\alpha(v, w) = (v_1w_2 - v_2w_1) + 2(v_2w_3 - v_3w_2) = v^TAw$ with the skew-symmetric matrix $A$ having
+$A_{12} = 1$, $A_{23} = 2$, $A_{13} = 0$; as a linear form on $\Lambda^2\RR^3$ it sends $e_1 \wedge e_2 \mapsto 1$, $e_2 \wedge e_3 \mapsto 2$, $e_1 \wedge e_3 \mapsto 0$; and under the identification
+$\Lambda^2\RR^3 \cong \RR^3$ of the cross product ($e_2 \wedge e_3 \mapsto e_1$, $e_3 \wedge e_1 \mapsto e_2$, $e_1 \wedge e_2 \mapsto e_3$) it is the vector $(2, 0, 1)$, with
+$\alpha(v, w) = \langle(2, 0, 1), v \times w\rangle$. For differential forms the same dictionary holds at each point with $e_i^* = dx^i$ and $e_i = \partial_i$: $\omega = \sum_I\omega_I\,dx^I$ with
+$\omega_I = \omega(\partial_{i_1}, \ldots, \partial_{i_p})$.
+
+\emph{Conventions.} Some books identify $\Lambda^p(V^*)$ with $\mathrm{Alt}^p(V)$ through the \emph{alternation} map $\mathrm{Alt}(T)(v_1, \ldots, v_p) = \frac1{p!}\sum_\sigma\operatorname{sgn}(\sigma)T(v_{\sigma(1)}, \ldots, v_{\sigma(p)})$,
+which gives $(\varphi_1 \wedge \cdots \wedge \varphi_p)(v_1, \ldots, v_p) = \frac1{p!}\det(\varphi_i(v_j))$. In our convention $\varphi_1 \wedge \cdots \wedge \varphi_p = p!\,\mathrm{Alt}(\varphi_1 \otimes \cdots \otimes \varphi_p)$,
+with no factor in the evaluation; for $p = 2$, $(\varphi \wedge \psi)(v, w) = \varphi(v)\psi(w) - \varphi(w)\psi(v)$ for us, and half of it in the other convention. Formulas such as the invariant formula for $d$
+(Chapter~\ref{differential-forms}) change by such factors between books.
+\end{example}
+
 \begin{proposition}\label{multilinear-algebra:proposition-wedge-formula}
 For $\alpha \in \Lambda^p(V^*)$ and $\beta \in \Lambda^q(V^*)$,
 \[
