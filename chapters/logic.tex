@@ -1047,23 +1047,24 @@ characterises first-order logic by its compactness and L\"owenheim--Skolem prope
 
 \section{The incompleteness theorems}\label{logic:section-incompleteness}
 
-The theorems of this section are quoted without proof: their proofs require
-a precise theory of computability, which is not developed in this project.
-Complete proofs can be found in \cite{smith-godel} and
-\cite[Chapter 6]{shoenfield-logic}.
+The completeness theorem says that the deductive calculus captures logical consequence: whatever is true in all models of a theory can be proved from it. The
+incompleteness theorems say something quite different, about \emph{theories}: no reasonable theory of arithmetic decides every arithmetic sentence. The word ``complete'' is
+used in two senses here, and it is worth keeping them apart (Remark~\ref{logic:remark-two-completeness} below).
+
+The incompleteness theorems are quoted without proof: their proofs require a precise theory of computability, which is not developed in this project. Complete proofs can be
+found in \cite{smith-godel} and \cite[Chapter 6]{shoenfield-logic}. We explain what they say, what they do not say, and why computability enters.
 
 \begin{definition}\label{logic:definition-arithmetic}
 \emph{Robinson arithmetic} $Q$ is the theory in the language of arithmetic
 consisting of the sentences
-\begin{align*}
-& \forall x\, (S(x) \neq 0), &
-& \forall x \forall y\, (S(x) = S(y) \to x = y), \\
-& \forall x\, (x \neq 0 \to \exists y\, (x = S(y))), &
-& \forall x\, (x + 0 = x), \\
-& \forall x \forall y\, (x + S(y) = S(x + y)), &
-& \forall x\, (x \cdot 0 = 0), \\
-& \forall x \forall y\, (x \cdot S(y) = x \cdot y + x). & &
-\end{align*}
+\[
+\begin{aligned}
+& \forall x\, (S(x) \neq 0), \qquad && \forall x \forall y\, (S(x) = S(y) \to x = y), \\
+& \forall x\, (x \neq 0 \to \exists y\, (x = S(y))), \qquad && \forall x\, (x + 0 = x), \\
+& \forall x \forall y\, (x + S(y) = S(x + y)), \qquad && \forall x\, (x \cdot 0 = 0), \\
+& \forall x \forall y\, (x \cdot S(y) = x \cdot y + x).
+\end{aligned}
+\]
 \emph{Peano arithmetic} $\mathrm{PA}$ consists of $Q$ together with, for every
 formula $\varphi$ whose free variables are among $x, y_1, \ldots, y_k$, the
 induction axiom
@@ -1085,6 +1086,44 @@ Theorem~\ref{logic:theorem-first-incompleteness} implies that
 $\Th(\mathcal{N})$ is not computably axiomatized.
 \end{example}
 
+\begin{example}\label{logic:example-computably-axiomatized}
+\begin{enumerate}
+\item A finite theory, such as $Q$ or the theory of groups, is computably axiomatized: to decide whether a sentence belongs to it, compare it with the finitely many axioms.
+\item $\mathrm{PA}$ is infinite but computably axiomatized: a sentence belongs to $\mathrm{PA}$ if and only if it is one of the seven axioms of $Q$ or has the shape of an induction
+axiom, and checking the shape is a mechanical inspection of the string of symbols.
+\item The theory of algebraically closed fields of characteristic $0$ (the field axioms, the sentences $\chi_p$ of Exercise~\ref{logic:exercise-characteristic-zero}, and for each
+$n \geq 1$ the sentence saying that every monic polynomial of degree $n$ has a root) is computably axiomatized and infinite. It is also complete, by the Łoś--Vaught test
+(Chapter~\ref{model-theory}). This does not contradict the incompleteness theorem below, which concerns theories in the language of arithmetic that contain $Q$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{logic:remark-two-completeness}
+\emph{Two meanings of ``complete''.} The \emph{completeness theorem} (Corollary~\ref{logic:corollary-completeness}) is about the deductive calculus: $T \vdash \sigma$ if and only if
+$\sigma$ is true in every model of $T$. A \emph{complete theory} (Definition~\ref{logic:definition-complete-theory}) is one that decides every sentence. The two notions are
+linked as follows: by the completeness theorem, a consistent theory $T$ (in a countable language) fails to decide a sentence $\sigma$ exactly when $T \not\models \sigma$ and
+$T \not\models \neg\sigma$, that is, when $\sigma$ is true in some model of $T$ and false in another. So $T$ is complete if and only if all its models satisfy the same sentences.
+\end{remark}
+
+\begin{proposition}\label{logic:proposition-complete-decidable}
+Let $\mathcal{L}$ be countable and $T$ a consistent theory. Then $T$ is complete if and only if any two models of $T$ satisfy the same sentences. If $T$ is complete and
+computably axiomatized, then there is an algorithm deciding, for a sentence $\sigma$, whether $T \vdash \sigma$.
+\end{proposition}
+
+\begin{proof}
+If $T$ is complete and $\mathcal{A}$, $\mathcal{B}$ are models, then for each sentence $\sigma$ either $T \vdash \sigma$ or $T \vdash \neg\sigma$, and by soundness
+(Theorem~\ref{logic:theorem-soundness}) $\sigma$ has the same truth value in $\mathcal{A}$ and $\mathcal{B}$. Conversely, if $T \not\vdash \sigma$ and $T \not\vdash \neg\sigma$, then by the
+completeness theorem $T \not\models \sigma$ and $T \not\models \neg\sigma$: there are a model in which $\sigma$ is false and a model in which $\neg\sigma$ is false.
+
+For the second statement, the deductions from $T$ are finite strings of symbols, and whether a given string is a deduction from $T$ can be checked mechanically, using an algorithm
+for membership in $T$ to check the steps that cite axioms of $T$. So an algorithm can list all deductions from $T$, one after the other. Given $\sigma$, run through this list until a
+deduction of $\sigma$ or of $\neg\sigma$ appears. As $T$ is complete one of them appears after finitely many steps, and as $T$ is consistent at most one of $\sigma$ and $\neg\sigma$ is
+provable, so the answer is correct.
+\end{proof}
+
+The second half of this proposition shows where computability enters: a complete, computably axiomatized theory is decidable. So to prove that a theory is incomplete it
+suffices to prove that it is undecidable, and the first incompleteness theorem is, in essence, an undecidability theorem for arithmetic, proved by the diagonal argument of
+Remark~\ref{logic:remark-turing} below.
+
 \begin{theorem}[First incompleteness theorem]\label{logic:theorem-first-incompleteness}
 Let $T$ be a consistent, computably axiomatized theory in the language of
 arithmetic with $T \vdash \sigma$ for every $\sigma \in Q$. Then $T$ is not
@@ -1094,6 +1133,22 @@ complete.
 This is due to \cite{godel-1931}, under a slightly stronger hypothesis than
 consistency, and in this form to \cite{rosser-1936}; the theory $Q$ is from
 \cite{tarski-mostowski-robinson}.
+
+\begin{remark}\label{logic:remark-reading-incompleteness}
+\emph{What the first incompleteness theorem says, and what it does not say.}
+\begin{enumerate}
+\item It produces, for each such $T$, a sentence $\sigma$ with $T \not\vdash \sigma$ and $T \not\vdash \neg\sigma$. By Proposition~\ref{logic:proposition-complete-decidable}, $T$ has a model in which
+$\sigma$ is true and a model in which it is false. If $\mathcal{N}$ is a model of $T$, as for $T = \mathrm{PA}$, then one of $\sigma$, $\neg\sigma$ is true in $\mathcal{N}$ and not provable in $T$:
+there are true arithmetic statements that $T$ does not prove, and the models in which they fail are nonstandard models, as in Example~\ref{logic:example-nonstandard-arithmetic}.
+\item It does not say that some arithmetic truths are unprovable in an absolute sense: the unprovable sentence of $T$ is provable in the larger theory $T \cup \{\sigma\}$. But this
+larger theory is again consistent and computably axiomatized, so it is incomplete in turn; no computably axiomatized extension of $Q$ captures all of $\Th(\mathcal{N})$, which is
+Example~\ref{logic:example-complete-theory}.
+\item The hypothesis ``computably axiomatized'' cannot be dropped: $\Th(\mathcal{N})$ itself is consistent, complete and contains $Q$. Nor can the hypothesis that $T$ contains
+enough arithmetic: the theory of algebraically closed fields of characteristic $0$ is complete (Example~\ref{logic:example-computably-axiomatized}(3)).
+\item The sentence $\sigma$ produced by G\"odel's proof says, via a coding of formulas and deductions by numbers, ``I am not provable in $T$''. Its truth in $\mathcal{N}$ is a
+consequence of the consistency of $T$, which leads to the second incompleteness theorem.
+\end{enumerate}
+\end{remark}
 
 \begin{theorem}[Second incompleteness theorem]\label{logic:theorem-second-incompleteness}
 Let $T$ be a consistent, computably axiomatized theory in the language of
@@ -1115,6 +1170,24 @@ $\Con_{\mathrm{ZFC}}$. By the second incompleteness theorem, the existence of
 a universe can therefore not be proved in ZFC (if ZFC is consistent): it is a
 genuinely new axiom, of modest strength.
 \end{remark}
+
+\begin{example}\label{logic:example-independent-statements}
+\emph{Natural independent statements.} The sentence of G\"odel's proof is artificial, but later work found statements of ordinary mathematics that are independent.
+\begin{enumerate}
+\item \emph{Goodstein sequences.} Write a number $m$ in \emph{hereditary base $b$}: as a sum of powers of $b$ with coefficients less than $b$, with the exponents again written in
+hereditary base $b$, and so on. For instance $4 = 2^2$ and $26 = 2 \cdot 3^2 + 2 \cdot 3 + 2$ in hereditary bases $2$ and $3$. The Goodstein sequence of $m$ starts with $m_2 = m$;
+to pass from $m_b$ to $m_{b+1}$, write $m_b$ in hereditary base $b$, replace every $b$ by $b + 1$, and subtract $1$. Starting from $3 = 2 + 1$: replacing $2$ by $3$ gives $4$,
+minus one is $3$; then $3 = 3^1$ in base $3$ becomes $4$, minus one is $3$; in base $4$ the number $3$ is a single digit, so the sequence continues $2, 1, 0$. Starting from $4 = 2^2$
+the sequence grows quickly: $4$, $3^3 - 1 = 26$, $2 \cdot 4^2 + 2 \cdot 4 + 2 - 1 = 41$, $2 \cdot 5^2 + 2 \cdot 5 + 1 - 1 = 60$, $2 \cdot 6^2 + 2 \cdot 6 - 1 = 83$, and so on.
+\emph{Goodstein's theorem} \cite{goodstein-1944} says that every Goodstein sequence reaches $0$. The proof replaces each base by the ordinal $\omega$ (Chapter~\ref{sets}): this turns the
+sequence into a strictly decreasing sequence of ordinals, which must be finite since ordinals are well-ordered. The theorem can be stated in the language of arithmetic and is
+true in $\mathcal{N}$, but it is not provable in $\mathrm{PA}$ \cite{kirby-paris-1982}: any proof needs the well-ordering of ordinals beyond the reach of $\mathrm{PA}$.
+\item \emph{The Paris--Harrington theorem}, a strengthening of the finite Ramsey theorem, is likewise true but not provable in $\mathrm{PA}$ \cite{paris-harrington-1977}.
+\item In set theory, the continuum hypothesis is neither provable nor refutable in ZFC, if ZFC is consistent \cite{godel-1938, cohen-1963}
+(see Chapter~\ref{sets}). Unlike the examples above, its independence is proved by constructing models of ZFC in which it holds and
+models in which it fails, as in Proposition~\ref{logic:proposition-complete-decidable}.
+\end{enumerate}
+\end{example}
 
 \begin{remark}\label{logic:remark-turing}
 \emph{Computability and Turing's theorem.} The informal notion of algorithm used in Definition~\ref{logic:definition-complete-theory} was made precise in the 1930s by Turing machines, recursive
@@ -1155,12 +1228,29 @@ of orders and a structure in which
 $\forall y \exists x\, \varphi \to \exists x \forall y\, \varphi$ is false.
 \end{exercise}
 
+\begin{solution}
+Let $\mathcal{A}$ be a structure and $s$ an assignment with $\mathcal{A} \models \exists x \forall y\, \varphi[s]$ (if $x$ and $y$ are the same variable the statement is trivial, so assume
+they are different). Then there is $a \in A$ with $\mathcal{A} \models \forall y\, \varphi[s[x \mapsto a]]$, that is, $\mathcal{A} \models \varphi[s[x \mapsto a][y \mapsto b]]$ for every $b \in A$.
+Given $b$, the element $a$ witnesses $\mathcal{A} \models \exists x\, \varphi[s[y \mapsto b]]$, since $s[y \mapsto b][x \mapsto a] = s[x \mapsto a][y \mapsto b]$. So
+$\mathcal{A} \models \forall y \exists x\, \varphi[s]$. In words: one $x$ that works for all $y$ certainly gives, for each $y$, an $x$ that works. The converse fails: in $(\NN, <)$
+with $\varphi = (y < x)$, the sentence $\forall y \exists x\,(y < x)$ is true (every number has a larger one) and $\exists x \forall y\,(y < x)$ is false (no number is larger than
+all numbers, itself included).
+\end{solution}
+
 \begin{exercise}\label{logic:exercise-well-orders}
 A \emph{well-order} is a total order in which every nonempty subset has a
 least element. Show that there is no theory $T$ in the language of orders
 whose models are exactly the well-ordered sets. (Hint: add constants
 $c_0, c_1, \ldots$ and the sentences $c_{n+1} < c_n$.)
 \end{exercise}
+
+\begin{solution}
+Suppose $T$ were such a theory, and let $T^{\prime} = T \cup \{c_{n+1} < c_n : n \in \NN\}$ in the language with the new constants. A finite subset of $T^{\prime}$ mentions only
+$c_0, \ldots, c_k$ for some $k$. The finite order $\{0, 1, \ldots, k\}$ is well-ordered, hence a model of $T$, and interpreting $c_n$ as $k - n$ for $n \leq k$ and as $0$ for $n > k$
+satisfies the sentences $c_{n+1} < c_n$ with $n < k$. So every finite subset of $T^{\prime}$ is satisfiable, and by the compactness theorem (Theorem~\ref{logic:theorem-compactness}) $T^{\prime}$
+has a model. Its underlying order is a model of $T$, hence well-ordered, but the set $\{c_n\}$ of interpretations of the constants has no least element, since $c_{n+1} < c_n$ for
+all $n$. This is a contradiction. The property ``every nonempty subset has a least element'' quantifies over subsets, which first-order logic cannot do.
+\end{solution}
 
 \begin{exercise}\label{logic:exercise-torsion-groups}
 A group is a \emph{torsion group} if every element has finite order. Show that
@@ -1169,6 +1259,14 @@ torsion groups. Show, on the other hand, that for every $n \geq 1$ there is a
 single sentence whose models among groups are exactly the groups satisfying
 $g^n = e$ for all $g$.
 \end{exercise}
+
+\begin{solution}
+Suppose $T$ were such a theory. Add a constant $c$ and let $T^{\prime} = T \cup \{c^n \neq e : n \geq 1\}$, where $c^n$ is the term $c \cdot c \cdots c$ with $n$ factors. A finite subset of
+$T^{\prime}$ involves only $n < N$ for some $N$, and is satisfied by the cyclic group $\ZZ/N\ZZ$ (written multiplicatively) with $c$ a generator: it is a torsion group, hence a model of
+$T$, and $c^n \neq e$ for $0 < n < N$. By compactness $T^{\prime}$ has a model, a torsion group in which $c$ has infinite order, a contradiction. For the second statement take the
+sentence $\forall x\,(x^n = e)$ together with the group axioms. So ``all elements have order dividing $n$'' is first-order for each fixed $n$, but ``all elements have finite
+order'' would be the infinite disjunction over all $n$, which is not a formula.
+\end{solution}
 
 \begin{exercise}\label{logic:exercise-characteristic-zero}
 Let $T_0$ be the theory of fields in the language of rings, and for a prime
@@ -1180,6 +1278,16 @@ $T_0 \cup \{\sigma\}$ are exactly the fields of characteristic zero. Deduce that
 a sentence true in all fields of characteristic zero is true in all fields
 of sufficiently large prime characteristic.
 \end{exercise}
+
+\begin{solution}
+We first prove the second statement. Let $\tau$ be true in all fields of characteristic zero, so that $T_0 \cup \{\chi_p : p \text{ prime}\} \cup \{\neg\tau\}$ has no model. By the compactness
+theorem some finite subset has no model; enlarging it, $T_0 \cup \{\chi_p : p \leq N\} \cup \{\neg\tau\}$ has no model for some $N$. A field of prime characteristic $q > N$ satisfies
+$T_0$ and $\chi_p$ for $p \leq N$, so it does not satisfy $\neg\tau$: $\tau$ is true in it.
+
+Now suppose the models of $T_0 \cup \{\sigma\}$ are the fields of characteristic zero. Then $\sigma$ is true in all fields of characteristic zero, hence, by what we just proved, in
+$\mathbb{F}_q = \ZZ/q\ZZ$ for a large prime $q$; so $\mathbb{F}_q$ is a model of $T_0 \cup \{\sigma\}$ of characteristic $q$, a contradiction. For example, the sentence ``$1 + 1 \neq 0$'' is
+true in characteristic zero and fails only in characteristic $2$, in accordance with the statement.
+\end{solution}
 
 \begin{exercise}\label{logic:exercise-finite-subset-proves}
 Let $T$ be a theory and $\sigma$ a sentence with $T \models \sigma$. Show,
