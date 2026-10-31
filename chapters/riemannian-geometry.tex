@@ -2391,6 +2391,126 @@ Giusti \cite{bombieri-de-giorgi-giusti-1969} constructed a non-affine entire min
 $S^3 \times S^3 \subseteq \RR^8$. The existence of minimal surfaces spanning a given curve, Plateau's problem, is a separate and deep theory.
 \end{remark}
 
+\emph{Minimal hypersurfaces in a Riemannian manifold.} So far the ambient space was $\RR^{n+1}$. In a curved ambient manifold $\overline{M}$ a new phenomenon appears: the normal
+geodesics leaving a hypersurface converge or diverge according to the curvature of $\overline{M}$, exactly as nearby geodesics do in the Jacobi equation
+(Definition~\ref{riemannian-geometry:definition-jacobi}), and this changes the area of the pushed hypersurface to second order. The relevant curvature is the average over the
+tangent directions of the sectional curvatures of the planes containing the normal: for an orthonormal basis $e_1, \ldots, e_n$ of $T_pM$ and the unit normal $\nu$,
+\[
+\overline{\mathrm{Ric}}(\nu, \nu) = \sum_{a=1}^n\overline{R}(e_a, \nu, \nu, e_a) = \sum_{a=1}^n\overline{K}(e_a, \nu),
+\]
+by Definition~\ref{riemannian-geometry:definition-curvature-tensor} applied to the orthonormal basis $e_1, \ldots, e_n, \nu$ of $T_p\overline{M}$ (the term with $\nu$ vanishes). The
+second variation formula below is the form in which the area variation is usually quoted.
+
+\begin{proposition}[Second variation of area in a Riemannian manifold]\label{riemannian-geometry:proposition-variation-area-riemannian}
+Let $\overline{M}$ be a Riemannian manifold of dimension $n + 1$, with Levi-Civita connection $\overline{\nabla}$ and curvature $\overline{R}$, and let $M \subseteq \overline{M}$ be a
+hypersurface with unit normal field $\nu$, shape operator $S$ and mean curvature $H$ (Definition~\ref{riemannian-geometry:definition-hypersurface-curvatures}). Let
+$x \colon \Omega \to M$ be a parametrisation, $\Omega \subseteq \RR^n$ open, and let $F \colon \Omega \times (-\varepsilon, \varepsilon) \to \overline{M}$ be smooth with $F(u, 0) = x(u)$,
+with $F(u, s) = x(u)$ for $u$ outside a compact set $K \subseteq \Omega$, and with $\partial_sF(u, 0) = \phi(u)\nu(x(u))$ for a smooth function $\phi$. Let
+$g(s)_{ij} = \langle\partial_iF, \partial_jF\rangle$, which is positive definite on $K$ for small $|s|$, and $A(s) = \int_K\sqrt{\det g(s)}\,du$. Then $A^{\prime}(0) = -n\int_KH\phi\,dA$,
+and if $H = 0$,
+\[
+A^{\prime\prime}(0) = \int_K\Bigl(|\nabla\phi|^2 - \bigl(|S|^2 + \overline{\mathrm{Ric}}(\nu, \nu)\bigr)\phi^2\Bigr)\,dA .
+\]
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1: the setting.} Write $F_i = \partial_iF$ and $T = \partial_sF$, vector fields along $F$, and $D_s$, $D_i$ for the covariant derivatives along the curves
+$s \mapsto F(u, s)$ and $u^i \mapsto F(u, s)$ (Proposition~\ref{riemannian-geometry:proposition-covariant-derivative-curves}). Two facts will be used: $D_sF_i = D_iT$ by the symmetry
+lemma (Lemma~\ref{riemannian-geometry:lemma-symmetry}), and $D_sD_iT - D_iD_sT = \overline{R}(T, F_i)T$ by Lemma~\ref{riemannian-geometry:lemma-curvature-families}. At $s = 0$ we
+write $x_i = \partial_ix$, $h_{ij} = h(x_i, x_j)$, and $Z = D_sT|_{s=0}$, the acceleration of the curves $s \mapsto F(u, s)$; for $u \notin K$ these curves are constant, so $T$ and $Z$
+vanish there.
+
+\emph{Step 2: derivatives of the metric.} By the metric property of $D_s$ and the symmetry lemma,
+\[
+g^{\prime}_{ij} = \langle D_iT, F_j\rangle + \langle F_i, D_jT\rangle, \qquad g^{\prime\prime}_{ij} = \langle D_sD_iT, F_j\rangle + \langle F_i, D_sD_jT\rangle + 2\langle D_iT, D_jT\rangle .
+\]
+
+\emph{Step 3: derivatives of the area density.} For a smooth family of invertible matrices, $(\det g)^{\prime} = \det g\,\operatorname{tr}(g^{-1}g^{\prime})$: indeed
+$\det g(s + t) = \det g(s)\det\bigl(I + g(s)^{-1}(g(s + t) - g(s))\bigr)$ and $\det(I + X) = 1 + \operatorname{tr}X + O(|X|^2)$. Also $(g^{-1})^{\prime} = -g^{-1}g^{\prime}g^{-1}$,
+obtained by differentiating $g^{-1}g = I$. Hence
+\[
+\frac{(\sqrt{\det g})^{\prime}}{\sqrt{\det g}} = \frac12\operatorname{tr}(g^{-1}g^{\prime}), \qquad
+\frac{(\sqrt{\det g})^{\prime\prime}}{\sqrt{\det g}} = \frac14\bigl(\operatorname{tr}(g^{-1}g^{\prime})\bigr)^2 + \frac12\operatorname{tr}(g^{-1}g^{\prime\prime}) - \frac12\operatorname{tr}\bigl((g^{-1}g^{\prime})^2\bigr).
+\]
+For a symmetric bilinear form $B$ on $T_pM$, $\sum_{i,j}g^{ij}B(x_i, x_j) = \sum_aB(e_a, e_a)$ for any orthonormal basis $(e_a)$, the trace of $B$ with respect to the metric; we use
+this repeatedly.
+
+\emph{Step 4: the values at $s = 0$.} Since $|\nu| = 1$, $D_i\nu = \overline{\nabla}_{x_i}\nu$ is orthogonal to $\nu$, so it is tangent, and $D_i\nu = -Sx_i$ by
+Definition~\ref{riemannian-geometry:definition-shape-operator}. So $D_iT = (\partial_i\phi)\nu - \phi\,Sx_i$, and
+\[
+\langle D_iT, x_j\rangle = -\phi h_{ij}, \qquad \langle D_iT, D_jT\rangle = \partial_i\phi\,\partial_j\phi + \phi^2\langle Sx_i, Sx_j\rangle .
+\]
+Hence $g^{-1}g^{\prime}$ is the matrix of $-2\phi S$, with trace $-2nH\phi$, and $\operatorname{tr}((g^{-1}g^{\prime})^2) = 4\phi^2|S|^2$. This already gives
+$A^{\prime}(0) = \int_K\frac12(-2nH\phi)\,dA = -n\int_KH\phi\,dA$, differentiating under the integral sign (the integrand is smooth on $K \times (-\varepsilon^{\prime}, \varepsilon^{\prime})$). Further,
+$\sum g^{ij}\langle D_iT, D_jT\rangle = |\nabla\phi|^2 + \phi^2\sum_a|Se_a|^2 = |\nabla\phi|^2 + \phi^2|S|^2$, as $S$ is self-adjoint. Finally
+$D_sD_iT = D_iZ + \phi^2\overline{R}(\nu, x_i)\nu$ at $s = 0$, and
+\[
+\sum_{i,j}g^{ij}\langle\overline{R}(\nu, x_i)\nu, x_j\rangle = \sum_a\overline{R}(\nu, e_a, \nu, e_a) = -\sum_a\overline{R}(e_a, \nu, \nu, e_a) = -\overline{\mathrm{Ric}}(\nu, \nu).
+\]
+So $\frac12\operatorname{tr}(g^{-1}g^{\prime\prime}) = \sum g^{ij}\langle D_iZ, x_j\rangle - \phi^2\,\overline{\mathrm{Ric}}(\nu, \nu) + |\nabla\phi|^2 + \phi^2|S|^2$.
+
+\emph{Step 5: the term with $Z$.} Write $Z = Z^\top + f\nu$ with $Z^\top$ tangent to $M$. Then $\langle D_i(f\nu), x_j\rangle = f\langle D_i\nu, x_j\rangle = -fh_{ij}$, whose trace is
+$-nHf$. By the Gauss formula (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}), the tangential part of $D_iZ^\top = \overline{\nabla}_{x_i}Z^\top$ is $\nabla_{x_i}Z^\top$, so the trace
+of $\langle D_iZ^\top, x_j\rangle$ is $\operatorname{div}_MZ^\top$ (Definition~\ref{riemannian-geometry:definition-gradient-hessian}(3)). So $\sum g^{ij}\langle D_iZ, x_j\rangle = \operatorname{div}_MZ^\top - nHf$.
+
+\emph{Step 6: conclusion.} Now let $H = 0$. Collecting Steps 3--5,
+\[
+\frac{(\sqrt{\det g})^{\prime\prime}(0)}{\sqrt{\det g}} = 0 + \operatorname{div}_MZ^\top - \phi^2\,\overline{\mathrm{Ric}}(\nu, \nu) + |\nabla\phi|^2 + \phi^2|S|^2 - 2\phi^2|S|^2 .
+\]
+The vector field $Z^\top$ vanishes outside $K$, so $\int_K\operatorname{div}_MZ^\top\,dA = 0$ by the divergence theorem
+(Proposition~\ref{riemannian-geometry:proposition-riemannian-divergence}, applied on a compact domain with smooth boundary in $x(\Omega)$ containing $x(K)$ in its interior). Differentiating
+twice under the integral sign gives the formula. (For the variation $F(u, s) = \exp_{x(u)}(s\phi(u)\nu(x(u)))$, which exists for small $|s|$ as at the beginning of
+Section~\ref{riemannian-geometry:section-variation}, the curves $s \mapsto F(u, s)$ are geodesics, $Z = 0$, and Step 5 is not needed.)
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-variation-area-riemannian}
+\emph{Reading the formula.}
+\begin{enumerate}
+\item For $\overline{M} = \RR^{n+1}$, $\overline{\mathrm{Ric}} = 0$ and we recover Proposition~\ref{riemannian-geometry:proposition-variation-area}. As there, Green's formula turns the second
+variation into $A^{\prime\prime}(0) = -\int_K\phi\,L\phi\,dA$ with the \emph{Jacobi operator}
+\[
+L = \Delta + |S|^2 + \overline{\mathrm{Ric}}(\nu, \nu),
+\]
+and a minimal hypersurface is called \emph{stable} if $A^{\prime\prime}(0) \geq 0$ for all compactly supported $\phi$. Both curvature terms make stability harder: the shape of $M$
+through $|S|^2$, and the ambient curvature through $\overline{\mathrm{Ric}}(\nu, \nu)$. Positive Ricci curvature of $\overline{M}$ pushes towards instability, negative towards stability.
+\item \emph{Curves.} For $n = 1$, $M$ is a curve in a surface $\overline{M}$, $A$ is its length, and $S$ is its geodesic curvature, so $H = 0$ means that $M$ is a geodesic and then
+$S = 0$. Since $\overline{\mathrm{Ric}} = Kg$ for a surface ($\overline{\mathrm{Ric}}(\nu, \nu) = \overline{K}(\dot\gamma, \nu)$ by the formula above, with $n = 1$), the formula becomes
+$\int(\phi^{\prime 2} - K\phi^2)\,dt$ for a unit speed geodesic $\gamma$. This is the index form $I(V, V)$ of Proposition~\ref{riemannian-geometry:proposition-second-variation} for
+$V = \phi\nu$: the unit normal $\nu$ is parallel along $\gamma$ (its derivative is orthogonal to $\nu$ and, as $\langle D_t\nu, \dot\gamma\rangle = -\langle\nu, D_t\dot\gamma\rangle = 0$, to
+$\dot\gamma$), so $D_tV = \phi^{\prime}\nu$ and $R(V, \dot\gamma, \dot\gamma, V) = K\phi^2$. So the second variation of area generalises the second variation of geodesics.
+\end{enumerate}
+\end{remark}
+
+\begin{example}\label{riemannian-geometry:example-equator-unstable}
+\emph{The equator of a sphere.} Let $M = S^n = \{x_{n+2} = 0\}$ be the equator of the unit sphere $\overline{M} = S^{n+1} \subseteq \RR^{n+2}$, with the constant unit normal
+$\nu = e_{n+2}$. The derivative of the constant field $\nu$ in $\RR^{n+2}$ is zero, so its tangential projection $\overline{\nabla}_X\nu$ vanishes
+(Corollary~\ref{riemannian-geometry:corollary-tangential-projection}): $S = 0$, the equator is totally geodesic and in particular minimal. As
+$\overline{\mathrm{Ric}} = n\overline{g}$ (Example~\ref{riemannian-geometry:example-curvature}), the proposition with $\phi = 1$ (the computation is pointwise, so it applies on all of
+$S^n$) predicts $A^{\prime\prime}(0) = -n\operatorname{vol}(S^n)$ for the variation by normal geodesics. Directly: the normal geodesic from $p$ is the great circle
+$s \mapsto \cos s\,p + \sin s\,e_{n+2}$, so $F_s(p) = \cos s\,p + \sin s\,e_{n+2}$ maps $S^n$ onto the parallel sphere $\{x_{n+2} = \sin s\}$, with $dF_s = \cos s \cdot \id$ on tangent
+vectors. So $g(s) = \cos^2s\,g$, $A(s) = \cos^ns\operatorname{vol}(S^n)$, and $A^{\prime\prime}(0) = -n\operatorname{vol}(S^n)$, as predicted. The equator is a minimal hypersurface, but it is a
+maximum of the area among the parallel spheres, not a minimum.
+\end{example}
+
+\begin{corollary}\label{riemannian-geometry:corollary-ricci-unstable}
+Let $\overline{M}$ be a Riemannian manifold with $\overline{\mathrm{Ric}}(v, v) > 0$ for all $v \neq 0$, and let $M \subseteq \overline{M}$ be a compact minimal hypersurface without boundary
+with a unit normal field $\nu$. Then pushing $M$ along its normal geodesics, $F_s(p) = \exp_p(s\nu(p))$, decreases its area to second order: $M$ is not stable.
+\end{corollary}
+
+\begin{proof}
+Cover $M$ by finitely many parametrisations and take a subordinate partition of unity $(\rho_k)$ (Proposition~\ref{smooth-manifolds:theorem-partitions-of-unity}). The area of
+$F_s(M)$, computed with the metric $F_s^*\overline{g}$, is $A(s) = \sum_k\int\rho_k\sqrt{\det g(s)}\,du$, each term in the chart of $\rho_k$. Steps 3 to 6 of the proof of
+Proposition~\ref{riemannian-geometry:proposition-variation-area-riemannian} compute $(\sqrt{\det g})^{\prime\prime}(0)$ pointwise, with $\phi = 1$ and $Z = 0$ (the curves are geodesics),
+as $-(|S|^2 + \overline{\mathrm{Ric}}(\nu, \nu))\sqrt{\det g}$. Since $\sum_k\rho_k = 1$,
+\[
+A^{\prime\prime}(0) = -\int_M\bigl(|S|^2 + \overline{\mathrm{Ric}}(\nu, \nu)\bigr)\,dA < 0 .
+\]
+\end{proof}
+
+For example, in the round sphere $S^{n+1}$ every compact minimal hypersurface with a unit normal is unstable, as the equator of
+Example~\ref{riemannian-geometry:example-equator-unstable} illustrates. The proof uses a global unit normal field (that is, $M$ is \emph{two-sided}), since it pushes every point of $M$ to the same side. For a one-sided hypersurface, such as the
+image of the equator $S^2 \subseteq S^3$ in $\RR\PP^3$, which is a totally geodesic copy of $\RR\PP^2$, the variation with $\phi = 1$ is not defined and the argument does not apply.
+
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 
 \begin{definition}\label{riemannian-geometry:definition-hodge-star}
