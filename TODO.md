@@ -13,6 +13,13 @@ references in proofs).
   which device.
 - Thin chapters to expand: `sheaves`, `complex-analysis`,
   `commutative-algebra`, second half of `singular-homology`.
+- **Asked by the user (2026-10-31): enlarge a lot** `measure-theory`, geometric
+  measure theory (Radon measures, Riesz representation, weak-* convergence,
+  covering theorems, differentiation of measures, Hausdorff measure and
+  rectifiability, area and coarea formulas, varifolds/currents as far as
+  reasonable) and `functional-analysis`.
+- `number-theory`: later sections on continued fractions and Pell's equation,
+  $p$-adic numbers, and Dirichlet characters.
 - **Slower rewrite, chapter by chapter** (the user finds the text rushed):
   after `connections`, continue with `vector-bundles`, `differential-forms`,
   `de-rham`, `characteristic-classes`, then the other parts; more

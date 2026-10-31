@@ -1,0 +1,870 @@
+\chapter{Elementary Number Theory}\label{number-theory}
+\chapterstatus{complete}
+
+\section{Introduction}\label{number-theory:section-introduction}
+
+Number theory studies the integers, and above all the way they are built multiplicatively out of primes. The foundations are already in place: divisibility, greatest common divisors,
+B\'ezout's theorem and unique factorisation into primes were proved in Chapter~\ref{number-systems}, the theorems of Euler, Fermat and Wilson in Chapter~\ref{groups}, the Chinese remainder theorem
+in Chapters~\ref{groups} and~\ref{rings}, and the structure of finite fields in Chapter~\ref{fields}. This chapter puts these tools to work on the classical questions of elementary number theory:
+\begin{enumerate}
+\item How does one compute with congruences, and which linear congruences and systems of congruences can be solved (Section~\ref{number-theory:section-congruences})? As an application we explain the RSA
+cryptosystem.
+\item For which $n$ is the group of units modulo $n$ cyclic, that is, when is there a \emph{primitive root} modulo $n$ (Section~\ref{number-theory:section-primitive-roots})?
+\item Which integers are squares modulo a prime $p$? The answer is governed by the \emph{law of quadratic reciprocity}, which relates the question ``is $p$ a square modulo $q$?'' to the question ``is $q$ a square
+modulo $p$?'' (Section~\ref{number-theory:section-quadratic}).
+\item Which integers are sums of two squares, and why is every positive integer a sum of four squares (Section~\ref{number-theory:section-squares})?
+\item How do the multiplicative functions $\varphi$, the number of divisors and the sum of divisors behave, and how does M\"obius inversion work (Section~\ref{number-theory:section-arithmetic-functions})? As
+an application we determine the even perfect numbers.
+\end{enumerate}
+The theme running through the chapter is that questions about the integers become questions about finite groups and rings, $\ZZ/n\ZZ$ and its group of units, or about larger rings such as the Gaussian
+integers $\ZZ[i]$, where the answers are visible. This point of view leads to algebraic number theory, and, through the zeta functions of varieties over finite fields, to the arithmetic side of Hodge theory
+(Chapters~\ref{etale-cohomology} and~\ref{tate-conjecture}).
+
+References: \cite{ireland-rosen}, \cite{serre-arithmetic} and \cite{hardy-wright}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{number-systems} (Number Systems), Chapter~\ref{groups} (Groups), Chapter~\ref{rings} (Rings and Modules) and Chapter~\ref{fields} (Fields and Galois Theory).
+
+\section{Congruences}\label{number-theory:section-congruences}
+
+Gauss introduced congruences in 1801 as a notation that lets one compute with remainders as if they were numbers. The idea is that many questions about integers only depend on remainders: an integer
+is even or odd according to its remainder modulo $2$, the last digit of a number is its remainder modulo $10$, and the day of the week of a date is a remainder modulo $7$.
+
+\begin{definition}\label{number-theory:definition-congruence}
+Let $n \geq 1$. Integers $a$ and $b$ are \emph{congruent modulo $n$}, written $a \equiv b \pmod n$, if $n \mid a - b$. The \emph{residue class} of $a$ is $\bar{a} = a + n\ZZ$, and
+$\ZZ/n\ZZ = \{\bar{0}, \bar{1}, \ldots, \overline{n - 1}\}$ is the quotient ring of $\ZZ$ by the ideal $n\ZZ$ (Theorem~\ref{rings:theorem-quotient-ring}). We write $U_n = (\ZZ/n\ZZ)^\times$ for its group of units
+and $\varphi(n) = |U_n|$; the function $\varphi$ is \emph{Euler's function}.
+\end{definition}
+
+Congruence modulo $n$ is an equivalence relation, its classes are the residue classes, and by division with remainder (Theorem~\ref{number-systems:theorem-division}) every integer is congruent to
+exactly one of $0, 1, \ldots, n - 1$, its \emph{least non-negative residue}. That $\ZZ/n\ZZ$ is a ring says that congruences can be added and multiplied: if $a \equiv a^{\prime}$ and $b \equiv b^{\prime}$, then
+$a + b \equiv a^{\prime} + b^{\prime}$ and $ab \equiv a^{\prime}b^{\prime} \pmod n$. Directly, $ab - a^{\prime}b^{\prime} = a(b - b^{\prime}) + (a - a^{\prime})b^{\prime}$. So in a computation modulo $n$ we may at any
+moment replace a number by any other number congruent to it.
+
+\begin{example}\label{number-theory:example-congruences}
+\begin{enumerate}
+\item \emph{Casting out nines.} Since $10 \equiv 1 \pmod 9$, also $10^k \equiv 1$, so a number $\sum_kd_k10^k$ with digits $d_k$ is congruent modulo $9$ to the sum $\sum_kd_k$ of its digits. For instance
+$2026 \equiv 2 + 0 + 2 + 6 = 10 \equiv 1 \pmod 9$. Similarly $10 \equiv -1 \pmod{11}$, so a number is congruent modulo $11$ to the alternating sum of its digits, starting from the last one:
+$2026 \equiv 6 - 2 + 0 - 2 = 2 \pmod{11}$.
+\item \emph{Squares modulo $4$ and $8$.} Every integer is congruent to $0, 1, 2$ or $3$ modulo $4$, with squares $0, 1, 0, 1$. So a square is congruent to $0$ or $1$ modulo $4$, and a sum of two squares
+is never congruent to $3$ modulo $4$: none of $3, 7, 11, 2027$ is a sum of two squares. Similarly the squares of odd numbers are $\equiv 1 \pmod 8$, since $(2m + 1)^2 = 4m(m + 1) + 1$ and $m(m + 1)$ is
+even.
+\item \emph{Large powers.} To compute $3^{100}$ modulo $7$: $3^2 = 9 \equiv 2$, $3^3 \equiv 6 \equiv -1$, so $3^6 \equiv 1$ and $3^{100} = (3^6)^{16}3^4 \equiv 3^4 = 81 \equiv 4 \pmod 7$.
+\end{enumerate}
+\end{example}
+
+The units of $\ZZ/n\ZZ$ are described by B\'ezout's theorem.
+
+\begin{proposition}\label{number-theory:proposition-units}
+Let $n \geq 1$ and $a \in \ZZ$.
+\begin{enumerate}
+\item $\bar{a}$ is a unit of $\ZZ/n\ZZ$ if and only if $\gcd(a, n) = 1$. So $\varphi(n)$ is the number of $0 \leq a < n$ with $\gcd(a, n) = 1$, as in Corollary~\ref{groups:corollary-euler-fermat}.
+\item $\ZZ/n\ZZ$ is a field if and only if $n$ is prime. For a prime $p$ we write $\mathbb{F}_p = \ZZ/p\ZZ$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $\gcd(a, n) = 1$, B\'ezout's theorem (Theorem~\ref{number-systems:theorem-bezout}) gives $ax + ny = 1$, so $\bar{a}\bar{x} = \bar{1}$. Conversely, if $ax \equiv 1 \pmod n$, then $ax + ny = 1$ for
+some $y$, and every common divisor of $a$ and $n$ divides $1$.
+
+(2) $\ZZ/1\ZZ$ is the zero ring, which is not a field. For $n \geq 2$, $\ZZ/n\ZZ$ is a field if and only if every $\bar{a} \neq 0$, that is every $1 \leq a \leq n - 1$, is a unit, which by (1) means that
+$\gcd(a, n) = 1$ for $1 \leq a < n$. This holds if $n$ is prime, since a positive divisor of $n$ less than $n$ is $1$; and it fails if $n = bc$ with $1 < b < n$, since $\gcd(b, n) = b$.
+\end{proof}
+
+(The notation $\mathbb{F}_p$ is that of Theorem~\ref{fields:theorem-finite-fields}, of which $\ZZ/p\ZZ$ is the case $q = p$.) The proof of (1) is constructive: the inverse of $a$ modulo $n$ is found with the
+Euclidean algorithm (Example~\ref{number-systems:example-euclidean-algorithm}), run backwards to express $1$ as $ax + ny$.
+
+\begin{proposition}[Linear congruences]\label{number-theory:proposition-linear-congruence}
+Let $n \geq 1$, $a, b \in \ZZ$, and $d = \gcd(a, n)$ (with $d = n$ if $a = 0$). The congruence $ax \equiv b \pmod n$ has a solution if and only if $d \mid b$. In that case its solutions form exactly $d$
+residue classes modulo $n$, namely $x_0 + k\frac{n}{d}$ for $k = 0, 1, \ldots, d - 1$, where $x_0$ is any one solution.
+\end{proposition}
+
+\begin{proof}
+If $ax - b = ny$, then $d$ divides $ax - ny = b$. Conversely, if $d \mid b$, write $d = ax_1 + ny_1$ by B\'ezout's theorem; then $x_0 = x_1b/d$ satisfies $ax_0 = b - ny_1b/d \equiv b$. Let $x_0$ be a
+solution. Then $x$ is a solution if and only if $n \mid a(x - x_0)$, that is, $\frac{n}{d} \mid \frac{a}{d}(x - x_0)$. Since $\gcd(\frac{a}{d}, \frac{n}{d}) = 1$ (a common divisor $e > 1$ would make $de$
+a common divisor of $a$ and $n$), this means $\frac{n}{d} \mid x - x_0$, by Euclid's lemma in the form: if $m \mid uv$ and $\gcd(m, u) = 1$, then $m \mid v$ (from $1 = mr + us$, $v = mvr + uvs$). So the
+solutions are the $x \equiv x_0 \pmod{n/d}$, which modulo $n$ are the $d$ distinct classes $x_0 + kn/d$, $0 \leq k < d$.
+\end{proof}
+
+\begin{example}\label{number-theory:example-linear-congruence}
+\begin{enumerate}
+\item $6x \equiv 5 \pmod{10}$ has no solution, since $\gcd(6, 10) = 2 \nmid 5$: indeed $6x$ is even and $10y + 5$ is odd.
+\item $6x \equiv 4 \pmod{10}$: here $d = 2$, and dividing by $2$ gives $3x \equiv 2 \pmod 5$. The inverse of $3$ modulo $5$ is $2$, so $x \equiv 4 \pmod 5$, and modulo $10$ the solutions are $x \equiv 4$
+and $x \equiv 9$. Check: $24 = 2 \cdot 10 + 4$ and $54 = 5 \cdot 10 + 4$.
+\item $17x \equiv 1 \pmod{60}$: the Euclidean algorithm gives $60 = 3 \cdot 17 + 9$, $17 = 9 + 8$, $9 = 8 + 1$, so $1 = 9 - 8 = 9 - (17 - 9) = 2 \cdot 9 - 17 = 2(60 - 3 \cdot 17) - 17 = 2 \cdot 60 - 7 \cdot 17$.
+Hence $x \equiv -7 \equiv 53 \pmod{60}$; indeed $17 \cdot 53 = 901 = 15 \cdot 60 + 1$.
+\end{enumerate}
+\end{example}
+
+Next, several congruences at once. A problem in the Chinese mathematical text of Sunzi (around the fourth century) asks for a number which leaves remainder $2$ when divided by $3$, remainder $3$ when divided
+by $5$ and remainder $2$ when divided by $7$.
+
+\begin{theorem}[Chinese remainder theorem for integers]\label{number-theory:theorem-crt}
+Let $n_1, \ldots, n_k \geq 1$ be pairwise coprime and $N = n_1 \cdots n_k$. For all $a_1, \ldots, a_k \in \ZZ$ the system
+\[
+x \equiv a_1 \pmod{n_1}, \quad \ldots, \quad x \equiv a_k \pmod{n_k}
+\]
+has a solution, unique modulo $N$. Explicitly, put $N_i = N/n_i$ and choose $y_i$ with $N_iy_i \equiv 1 \pmod{n_i}$; then $x = \sum_ia_iN_iy_i$ is a solution. Consequently the map
+$\ZZ/N\ZZ \to \ZZ/n_1\ZZ \times \cdots \times \ZZ/n_k\ZZ$, $\bar{x} \mapsto (x \bmod n_1, \ldots, x \bmod n_k)$, is an isomorphism of rings, and restricts to an isomorphism of groups
+$U_N \cong U_{n_1} \times \cdots \times U_{n_k}$.
+\end{theorem}
+
+\begin{proof}
+$N_i$ is a product of integers coprime to $n_i$, so it is coprime to $n_i$ (a prime dividing $n_i$ and $N_i$ would divide some $n_j$, $j \neq i$, by Lemma~\ref{number-systems:lemma-euclid}), and $y_i$
+exists by Proposition~\ref{number-theory:proposition-units}. For $j \neq i$, $n_j \mid N_i$; so $x \equiv a_jN_jy_j \equiv a_j \pmod{n_j}$. If $x$ and $x^{\prime}$ are two solutions, each $n_j$ divides
+$x - x^{\prime}$, hence so does $N$: by induction, if $n_1 \cdots n_{j-1}$ and $n_j$ divide $m$ and are coprime, write $m = n_1 \cdots n_{j-1}m^{\prime}$; then $n_j \mid n_1 \cdots n_{j-1}m^{\prime}$
+gives $n_j \mid m^{\prime}$, by Euclid's lemma in the form used in the proof of Proposition~\ref{number-theory:proposition-linear-congruence}. So the ring homomorphism of the statement is bijective. A ring
+isomorphism maps units onto units, and the units of a product of rings are the elements all of whose components are units.
+\end{proof}
+
+This is the special case $R = \ZZ$ of Theorem~\ref{rings:theorem-chinese-remainder}, made explicit.
+
+\begin{example}\label{number-theory:example-sunzi}
+In Sunzi's problem $N = 105$, $N_1 = 35 \equiv 2 \pmod 3$, $N_2 = 21 \equiv 1 \pmod 5$ and $N_3 = 15 \equiv 1 \pmod 7$, so we may take $y_1 = 2$, $y_2 = 1$, $y_3 = 1$, and
+$x = 2 \cdot 35 \cdot 2 + 3 \cdot 21 + 2 \cdot 15 = 233 \equiv 23 \pmod{105}$. The answer is $23$, and the solutions are the numbers $23 + 105m$.
+\end{example}
+
+Euler's function can now be computed.
+
+\begin{proposition}\label{number-theory:proposition-euler-function}
+\begin{enumerate}
+\item If $\gcd(m, n) = 1$, then $\varphi(mn) = \varphi(m)\varphi(n)$.
+\item For a prime $p$ and $k \geq 1$, $\varphi(p^k) = p^k - p^{k-1} = p^{k-1}(p - 1)$.
+\item If $n = p_1^{k_1} \cdots p_r^{k_r}$ with distinct primes $p_i$, then $\varphi(n) = n\prod_i\bigl(1 - \frac{1}{p_i}\bigr)$.
+\item (Gauss) $\sum_{d \mid n}\varphi(d) = n$, the sum running over the positive divisors of $n$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is the isomorphism $U_{mn} \cong U_m \times U_n$ of Theorem~\ref{number-theory:theorem-crt}. (2) An integer is coprime to $p^k$ if and only if $p$ does not divide it (its gcd with $p^k$ is a power of
+$p$, by Theorem~\ref{number-systems:theorem-fundamental-arithmetic}); among $0, \ldots, p^k - 1$ the multiples of $p$ are the $p^{k-1}$ numbers $0, p, \ldots, p^k - p$. (3) follows from (1) and (2), since
+the prime powers $p_i^{k_i}$ are pairwise coprime: $\varphi(n) = \prod_ip_i^{k_i}(1 - 1/p_i)$.
+
+(4) Sort the integers $1 \leq a \leq n$ according to $\gcd(a, n)$, which is a divisor $e$ of $n$. Those with $\gcd(a, n) = e$ are the $a = eb$ with $1 \leq b \leq n/e$ and $\gcd(b, n/e) = 1$, and there
+are $\varphi(n/e)$ of them ($\varphi(1) = 1$ counts $b = 1$). Hence $n = \sum_{e \mid n}\varphi(n/e) = \sum_{d \mid n}\varphi(d)$, as $d = n/e$ runs over the divisors of $n$ when $e$ does.
+\end{proof}
+
+\begin{example}\label{number-theory:example-euler-function}
+$\varphi(12) = 12(1 - \frac12)(1 - \frac13) = 4$, the units modulo $12$ being $1, 5, 7, 11$. The divisors of $12$ are $1, 2, 3, 4, 6, 12$, and $\varphi$ of them are $1, 1, 2, 2, 2, 4$, with sum $12$. Also
+$\varphi(100) = 100 \cdot \frac12 \cdot \frac45 = 40$, so by Euler's theorem $a^{40} \equiv 1 \pmod{100}$ for $a$ coprime to $10$: for instance the last two digits of $3^{2026}$ are those of
+$3^{2026 - 50 \cdot 40} = 3^{26}$; and $3^{5} = 243 \equiv 43$, $3^{10} \equiv 43^2 = 1849 \equiv 49$, $3^{20} \equiv 49^2 = 2401 \equiv 1 \pmod{100}$, so $3^{26} \equiv 3^6 = 729 \equiv 29$. The last two digits
+of $3^{2026}$ are $29$.
+\end{example}
+
+The last computation used \emph{repeated squaring}: $a^e$ modulo $n$ is computed with about $2\log_2e$ multiplications of numbers less than $n$, by squaring repeatedly and multiplying together the
+squares $a^{2^j}$ corresponding to the binary digits of $e$. By contrast no efficient method is known to factor a large integer into primes. The RSA cryptosystem (Rivest, Shamir and Adleman, 1977) is built
+on this asymmetry.
+
+\begin{proposition}[RSA]\label{number-theory:proposition-rsa}
+Let $p \neq q$ be primes, $n = pq$, and let $e, d \geq 1$ satisfy $ed \equiv 1 \pmod{(p - 1)(q - 1)}$. Then $m^{ed} \equiv m \pmod n$ for every integer $m$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{number-theory:theorem-crt} it suffices to prove the congruence modulo $p$ and modulo $q$; by symmetry, modulo $p$. Write $ed = 1 + k(p - 1)(q - 1)$ with $k \geq 0$. If $p \mid m$, both sides
+are $\equiv 0$. Otherwise $m^{p-1} \equiv 1 \pmod p$ by Fermat's theorem (Corollary~\ref{groups:corollary-euler-fermat}), and $m^{ed} = m \cdot (m^{p-1})^{k(q-1)} \equiv m \pmod p$.
+\end{proof}
+
+In practice someone chooses two large primes $p$ and $q$ (several hundred digits each), publishes $n = pq$ and an exponent $e$ coprime to $(p - 1)(q - 1)$, and keeps secret the inverse $d$ of $e$ modulo
+$(p - 1)(q - 1)$, computed with the Euclidean algorithm. Anyone can encrypt a message $0 \leq m < n$ as $c \equiv m^e \pmod n$, and by the proposition the owner decrypts it as $m \equiv c^d \pmod n$.
+Computing $d$ from $n$ and $e$ is as hard as factoring $n$ (Exercise~\ref{number-theory:exercise-rsa-factoring} shows that knowing $(p - 1)(q - 1)$ already gives $p$ and $q$). For a toy example take
+$p = 5$, $q = 11$, $n = 55$, $(p - 1)(q - 1) = 40$, $e = 3$ and $d = 27$, as $3 \cdot 27 = 81 \equiv 1 \pmod{40}$: the message $m = 2$ is encrypted as $c = 8$, and $8^{27} \equiv 2 \pmod{55}$.
+
+\section{Orders and primitive roots}\label{number-theory:section-primitive-roots}
+
+The powers of $2$ modulo $11$ are
+\[
+2, \ 4, \ 8, \ 5, \ 10, \ 9, \ 7, \ 3, \ 6, \ 1,
+\]
+so every nonzero residue modulo $11$ is a power of $2$, and $U_{11}$ is a cyclic group generated by $2$. The powers of any $a$ modulo $8$, on the other hand, are only $1$ and $a$, since
+$1^2 = 3^2 - 8 = 5^2 - 24 = 7^2 - 48 = 1$; so $U_8$, of order $4$, is not cyclic. This section determines all $n$ for which $U_n$ is cyclic.
+
+\begin{definition}\label{number-theory:definition-order}
+Let $n \geq 1$ and $\gcd(a, n) = 1$. The \emph{order} of $a$ modulo $n$, written $\operatorname{ord}_n(a)$, is the order of $\bar{a}$ in the group $U_n$: the least $k \geq 1$ with $a^k \equiv 1 \pmod n$.
+An integer $g$ is a \emph{primitive root} modulo $n$ if $\operatorname{ord}_n(g) = \varphi(n)$, that is, if $\bar{g}$ generates $U_n$.
+\end{definition}
+
+\begin{lemma}\label{number-theory:lemma-order}
+Let $G$ be a group and $x \in G$ an element of finite order $m$.
+\begin{enumerate}
+\item $x^k = 1$ if and only if $m \mid k$.
+\item For $k \geq 1$, the order of $x^k$ is $m/\gcd(k, m)$.
+\item If $G$ is cyclic of order $m$ generated by $x$, its generators are the $x^k$ with $\gcd(k, m) = 1$, and there are $\varphi(m)$ of them. For each $d \mid m$, $G$ has exactly one subgroup of order $d$,
+generated by $x^{m/d}$, and the elements of $G$ whose order divides $d$ are exactly the elements of this subgroup.
+\end{enumerate}
+In particular $\operatorname{ord}_n(a)$ divides $\varphi(n)$, and $a^k \equiv 1 \pmod n$ if and only if $\operatorname{ord}_n(a) \mid k$.
+\end{lemma}
+
+\begin{proof}
+(1) Write $k = qm + r$ with $0 \leq r < m$. Then $x^k = (x^m)^qx^r = x^r$ (Lemma~\ref{groups:lemma-powers}), which is $1$ exactly when $r = 0$, by the minimality of $m$.
+
+(2) Let $g = \gcd(k, m)$. By (1), $(x^k)^j = 1$ if and only if $m \mid kj$, that is, $\frac{m}{g} \mid \frac{k}{g}j$, that is, $\frac{m}{g} \mid j$, since $\gcd(\frac{k}{g}, \frac{m}{g}) = 1$ (as in the proof of
+Proposition~\ref{number-theory:proposition-linear-congruence}). So the order of $x^k$ is $m/g$.
+
+(3) Every element is some $x^k$ with $0 \leq k < m$, and by (2) it generates $G$, that is, has order $m$, if and only if $\gcd(k, m) = 1$; the number of such $k$ is $\varphi(m)$. Let $d \mid m$. An element
+$x^k$ has order dividing $d$ if and only if $x^{kd} = 1$, that is, $m \mid kd$, that is, $\frac{m}{d} \mid k$; so these elements are the $d$ powers of $x^{m/d}$, which form the subgroup generated by
+$x^{m/d}$, of order $d$ by (2). Any subgroup $H$ of order $d$ consists of elements of order dividing $d$ (Theorem~\ref{groups:theorem-lagrange}), so $H$ is contained in this subgroup and, having the
+same number of elements, equals it. The last assertion is (1) for $G = U_n$, with Lagrange's theorem.
+\end{proof}
+
+\begin{theorem}\label{number-theory:theorem-primitive-root-prime}
+For every prime $p$ the group $U_p = \mathbb{F}_p^\times$ is cyclic of order $p - 1$: there is a primitive root modulo $p$, and there are exactly $\varphi(p - 1)$ primitive roots among $1, \ldots, p - 1$.
+\end{theorem}
+
+\begin{proof}
+$\mathbb{F}_p^\times$ is a finite subgroup of the multiplicative group of the field $\mathbb{F}_p$, so it is cyclic by Lemma~\ref{fields:lemma-cyclic}. The number of generators is $\varphi(p - 1)$ by
+Lemma~\ref{number-theory:lemma-order}(3).
+\end{proof}
+
+It is worth recalling why this is true, since the proof of Lemma~\ref{fields:lemma-cyclic} is short but indirect. The essential input is that a polynomial of degree $d$ over a field has at most $d$ roots
+(Corollary~\ref{rings:corollary-roots}): so for each $d$ there are at most $d$ residues with $x^d \equiv 1 \pmod p$. In $\ZZ/8\ZZ$, which is not a field, the polynomial $x^2 - 1$ has the four roots
+$1, 3, 5, 7$, and this is exactly why $U_8$ is not cyclic. Exercise~\ref{number-theory:exercise-cyclic-count} gives a second proof of the theorem by counting with
+Proposition~\ref{number-theory:proposition-euler-function}(4).
+
+\begin{example}\label{number-theory:example-primitive-roots}
+\begin{enumerate}
+\item By the list above, $2$ is a primitive root modulo $11$. There are $\varphi(10) = 4$ primitive roots, the powers $2^k$ with $\gcd(k, 10) = 1$: $2^1 = 2$, $2^3 = 8$, $2^7 \equiv 7$ and $2^9 \equiv 6$.
+\item Modulo $7$, the powers of $3$ are $3, 2, 6, 4, 5, 1$, so $3$ is a primitive root; the powers of $2$ are $2, 4, 1$, so $2$ is not.
+\item To find a primitive root modulo $p$ in practice, one tests $g = 2, 3, \ldots$: by Lemma~\ref{number-theory:lemma-order}, $g$ is a primitive root if and only if $g^{(p-1)/\ell} \not\equiv 1 \pmod p$
+for every prime $\ell \mid p - 1$, since a proper divisor of $p - 1$ divides some $(p - 1)/\ell$. For $p = 23$, $p - 1 = 2 \cdot 11$; $2^{11} = 2048 = 89 \cdot 23 + 1$, so $2$ is not a primitive root;
+$5^2 = 25 \equiv 2$ and $5^{11} = 5 \cdot (5^2)^5 \equiv 5 \cdot 2^5 = 160 \equiv -1 \pmod{23}$, so $5$ is a primitive root modulo $23$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{number-theory:remark-artin}
+Whether $2$ is a primitive root modulo infinitely many primes is not known. Artin conjectured in 1927 that every integer $a$ that is neither $-1$ nor a perfect square is a primitive root modulo infinitely
+many primes; this is still open for every single value of $a$.
+\end{remark}
+
+To pass from primes to prime powers we need a lemma on how powers of numbers close to $1$ behave modulo powers of $p$.
+
+\begin{lemma}\label{number-theory:lemma-lifting}
+Let $p$ be a prime and $j \geq 1$, with $j \geq 2$ if $p = 2$. If $x \equiv 1 + p^jc \pmod{p^{j+1}}$ with $p \nmid c$, then $x^p \equiv 1 + p^{j+1}c \pmod{p^{j+2}}$. Consequently, under the same
+hypothesis, $x^{p^i} \equiv 1 + p^{j+i}c \pmod{p^{j+i+1}}$ for all $i \geq 0$.
+\end{lemma}
+
+\begin{proof}
+Write $x = 1 + p^jy$ with $y \equiv c \pmod p$. By the binomial theorem
+\[
+x^p = 1 + p \cdot p^jy + \sum_{k=2}^{p}\binom{p}{k}p^{kj}y^k .
+\]
+The second term is $p^{j+1}y \equiv p^{j+1}c \pmod{p^{j+2}}$. For $2 \leq k \leq p - 1$, $p$ divides $\binom{p}{k} = \frac{p!}{k!(p - k)!}$ (it divides the numerator and not the denominator, by
+Lemma~\ref{number-systems:lemma-euclid}), so the term is divisible by $p^{1 + kj}$, and $1 + kj \geq 1 + 2j \geq j + 2$. The last term $p^{pj}y^p$ is divisible by $p^{j+2}$ if $pj \geq j + 2$, that is,
+$(p - 1)j \geq 2$, which holds if $p \geq 3$ or if $p = 2$ and $j \geq 2$. (For $p = 2$ there are no middle terms.) This proves the first statement; the second follows by induction on $i$, since $x^{p^i}$
+again satisfies the hypothesis, with $j + i$ in place of $j$.
+\end{proof}
+
+\begin{theorem}\label{number-theory:theorem-primitive-root-prime-power}
+Let $p$ be an odd prime and $k \geq 1$. Then $U_{p^k}$ is cyclic. More precisely, if $g$ is a primitive root modulo $p$ with $g^{p-1} \not\equiv 1 \pmod{p^2}$, then $g$ is a primitive root modulo $p^k$
+for every $k \geq 1$; and if $g$ is any primitive root modulo $p$, then $g$ or $g + p$ has this property.
+\end{theorem}
+
+\begin{proof}
+Let $g$ be a primitive root modulo $p$. If $g^{p-1} \equiv 1 \pmod{p^2}$, then by the binomial theorem
+\[
+(g + p)^{p-1} \equiv g^{p-1} + (p - 1)g^{p-2}p \equiv 1 - pg^{p-2} \pmod{p^2},
+\]
+which is $\not\equiv 1$ since $p \nmid g$; and $g + p \equiv g \pmod p$ is again a primitive root modulo $p$. So we may assume $g^{p-1} = 1 + pc$ with $p \nmid c$.
+
+Let $d = \operatorname{ord}_{p^k}(g)$. Then $g^d \equiv 1 \pmod p$, so $p - 1 = \operatorname{ord}_p(g)$ divides $d$, and $d$ divides $\varphi(p^k) = (p - 1)p^{k-1}$
+(Lemma~\ref{number-theory:lemma-order}, Proposition~\ref{number-theory:proposition-euler-function}). Hence $d = (p - 1)p^i$ for some $0 \leq i \leq k - 1$. If $k \geq 2$ and $i \leq k - 2$, then $d$ divides
+$(p - 1)p^{k-2}$, so $g^{(p-1)p^{k-2}} \equiv 1 \pmod{p^k}$; but Lemma~\ref{number-theory:lemma-lifting} with $x = g^{p-1}$ and $j = 1$ gives $g^{(p-1)p^{k-2}} \equiv 1 + p^{k-1}c \pmod{p^k}$, which is
+$\not\equiv 1$. So $i = k - 1$ and $d = \varphi(p^k)$. (For $k = 1$ there is nothing to prove.)
+\end{proof}
+
+\begin{example}\label{number-theory:example-primitive-root-power}
+$3$ is a primitive root modulo $7$, and $3^6 = 729 = 14 \cdot 49 + 43 \not\equiv 1 \pmod{49}$. So $3$ is a primitive root modulo $7^k$ for every $k$: for instance modulo $343$ the powers of $3$ run through
+all $\varphi(343) = 294$ residues prime to $7$. The exceptional case of the theorem does occur, but rarely: $p = 29$, $g = 14$ is a primitive root modulo $29$ with $14^{28} \equiv 1 \pmod{29^2}$
+(Exercise~\ref{number-theory:exercise-wieferich-type}).
+\end{example}
+
+Powers of $2$ behave differently, as $U_8$ already showed.
+
+\begin{theorem}\label{number-theory:theorem-units-two-power}
+$U_2$ and $U_4$ are cyclic, of orders $1$ and $2$. For $k \geq 3$, $\operatorname{ord}_{2^k}(5) = 2^{k-2}$, and the map
+\[
+\ZZ/2\ZZ \times \ZZ/2^{k-2}\ZZ \to U_{2^k}, \qquad (a, b) \mapsto (-1)^a5^b,
+\]
+is an isomorphism of groups. In particular $U_{2^k}$ is not cyclic for $k \geq 3$.
+\end{theorem}
+
+\begin{proof}
+$U_2 = \{\bar{1}\}$ and $U_4 = \{\bar{1}, \bar{3}\}$. Let $k \geq 3$. Since $5 = 1 + 2^2$, Lemma~\ref{number-theory:lemma-lifting} with $p = 2$, $j = 2$, $c = 1$ gives
+$5^{2^i} \equiv 1 + 2^{i+2} \pmod{2^{i+3}}$. For $i = k - 3$ this says $5^{2^{k-3}} \equiv 1 + 2^{k-1} \not\equiv 1 \pmod{2^k}$; for $i = k - 2$ it gives $5^{2^{k-2}} \equiv 1 \pmod{2^k}$. So the order of
+$5$ divides $2^{k-2}$ but not $2^{k-3}$, and equals $2^{k-2}$. The map of the statement is therefore a well defined homomorphism (both $-1$ and $5$ have orders dividing $2$ and $2^{k-2}$, and $U_{2^k}$ is
+abelian). It is injective: if $(-1)^a5^b \equiv 1 \pmod{2^k}$, then reducing modulo $4$, where $5 \equiv 1$, gives $(-1)^a \equiv 1 \pmod 4$, so $a$ is even, and then $5^b \equiv 1$ gives $2^{k-2} \mid b$.
+Both groups have $2 \cdot 2^{k-2} = 2^{k-1} = \varphi(2^k)$ elements, so it is an isomorphism. Finally $\ZZ/2\ZZ \times \ZZ/2^{k-2}\ZZ$ has the three elements $(1, 0)$, $(0, 2^{k-3})$, $(1, 2^{k-3})$ of
+order $2$, while a cyclic group has at most one, by Lemma~\ref{number-theory:lemma-order}(3) with $d = 2$.
+\end{proof}
+
+\begin{theorem}[Gauss]\label{number-theory:theorem-primitive-roots}
+Let $n \geq 1$. There is a primitive root modulo $n$ if and only if $n$ is $1$, $2$, $4$, $p^k$ or $2p^k$, with $p$ an odd prime and $k \geq 1$.
+\end{theorem}
+
+\begin{proof}
+For $n = 1, 2, 4$ and $p^k$ this is Theorems~\ref{number-theory:theorem-units-two-power} and~\ref{number-theory:theorem-primitive-root-prime-power}, and $U_{2p^k} \cong U_2 \times U_{p^k} \cong U_{p^k}$ by
+Theorem~\ref{number-theory:theorem-crt}, as $U_2$ is trivial. Conversely, a product $A \times B$ of two finite groups of even order is not cyclic: by Cauchy's theorem (Theorem~\ref{groups:theorem-cauchy})
+there are $x \in A$ and $y \in B$ of order $2$, and then $(x, 1)$, $(1, y)$ and $(x, y)$ are three elements of order $2$, while a cyclic group has at most one. Now $\varphi(p^k) = p^{k-1}(p - 1)$ is even
+for odd $p$, and $\varphi(2^k) = 2^{k-1}$ is even for $k \geq 2$.
+
+Now let $n$ be not of the listed forms. If $n$ is a power of $2$, then $n = 2^k$ with $k \geq 3$, and $U_n$ is not cyclic by Theorem~\ref{number-theory:theorem-units-two-power}. Otherwise $n$ has an odd
+prime factor $p$; write $n = p^km$ with $k \geq 1$ and $p \nmid m$. Since $n$ is neither $p^k$ nor $2p^k$, we have $m \geq 3$. If $m$ has an odd prime factor $q$, write $m = q^lm^{\prime}$ with
+$q \nmid m^{\prime}$; then $\varphi(m) = \varphi(q^l)\varphi(m^{\prime})$ is even. If $m$ has no odd prime factor, then $m = 2^a$ with $a \geq 2$, and $\varphi(m) = 2^{a-1}$ is even. In both cases
+$U_n \cong U_{p^k} \times U_m$ (Theorem~\ref{number-theory:theorem-crt}) is a product of two groups of even order, hence not cyclic.
+\end{proof}
+
+A primitive root $g$ modulo $p$ turns multiplication into addition, as a logarithm does: every $a$ prime to $p$ is $a \equiv g^t$ for a unique $t$ modulo $p - 1$, the \emph{index} or \emph{discrete
+logarithm} of $a$. This immediately answers the question of which residues are $k$-th powers.
+
+\begin{proposition}\label{number-theory:proposition-power-residues}
+Let $p$ be a prime, $k \geq 1$, $d = \gcd(k, p - 1)$, and $p \nmid a$. The congruence $x^k \equiv a \pmod p$ has a solution if and only if $a^{(p-1)/d} \equiv 1 \pmod p$, and then it has exactly $d$ solutions
+modulo $p$. The $k$-th powers form a subgroup of $U_p$ of index $d$.
+\end{proposition}
+
+\begin{proof}
+Fix a primitive root $g$ (Theorem~\ref{number-theory:theorem-primitive-root-prime}); then $t \mapsto g^t$ is an isomorphism $\ZZ/(p - 1)\ZZ \to U_p$, under which $x \mapsto x^k$ becomes
+$s \mapsto ks$. Write $a = g^t$ and $x = g^s$. The congruence becomes $ks \equiv t \pmod{p - 1}$, which by Proposition~\ref{number-theory:proposition-linear-congruence} is solvable if and only if $d \mid t$,
+and then has $d$ solutions $s$ modulo $p - 1$, that is, $d$ solutions $x$ modulo $p$. Finally $a^{(p-1)/d} = g^{t(p-1)/d} \equiv 1$ if and only if $p - 1 \mid t(p - 1)/d$, that is, $d \mid t$. The $k$-th
+powers are the image of the homomorphism $x \mapsto x^k$, whose kernel has $d$ elements (the solutions for $a = 1$), so the image has $(p - 1)/d$ elements and index $d$.
+\end{proof}
+
+For instance, for $p \equiv 2 \pmod 3$ every residue is a cube modulo $p$ (as $d = \gcd(3, p - 1) = 1$), while for $p \equiv 1 \pmod 3$ exactly a third of the nonzero residues are cubes. The case $k = 2$,
+where $d = 2$ for every odd prime, is the subject of the next section.
+
+\section{Quadratic residues and quadratic reciprocity}\label{number-theory:section-quadratic}
+
+Which numbers are squares modulo a prime $p$? Modulo $p = 2$ every number is a square, so let $p$ be odd. The squares of $1, 2, \ldots, 10$ modulo $11$ are $1, 4, 9, 5, 3, 3, 5, 9, 4, 1$: exactly half of the
+nonzero residues, $1, 3, 4, 5, 9$, are squares, each twice, as $x^2 = (-x)^2$. The question has a surprisingly deep answer, the law of quadratic reciprocity, which Euler conjectured and Gauss first proved
+in 1796.
+
+\begin{definition}\label{number-theory:definition-legendre}
+Let $p$ be an odd prime. An integer $a$ with $p \nmid a$ is a \emph{quadratic residue} modulo $p$ if $x^2 \equiv a \pmod p$ has a solution, and a \emph{quadratic nonresidue} otherwise. The
+\emph{Legendre symbol} is
+\[
+\Bigl(\frac{a}{p}\Bigr) = \begin{cases} 1 & \text{if } p \nmid a \text{ and } a \text{ is a quadratic residue modulo } p, \\ -1 & \text{if } a \text{ is a quadratic nonresidue modulo } p, \\
+0 & \text{if } p \mid a. \end{cases}
+\]
+\end{definition}
+
+By definition $(\frac{a}{p})$ depends only on $a$ modulo $p$. The following criterion of Euler reduces its computation to a power, and shows that it is multiplicative in $a$.
+
+\begin{proposition}[Euler's criterion]\label{number-theory:proposition-euler-criterion}
+Let $p$ be an odd prime.
+\begin{enumerate}
+\item For every integer $a$, $\bigl(\frac{a}{p}\bigr) \equiv a^{(p-1)/2} \pmod p$.
+\item There are exactly $\frac{p-1}{2}$ quadratic residues and $\frac{p-1}{2}$ quadratic nonresidues among $1, \ldots, p - 1$.
+\item $\bigl(\frac{ab}{p}\bigr) = \bigl(\frac{a}{p}\bigr)\bigl(\frac{b}{p}\bigr)$ for all integers $a, b$. So the product of two residues or of two nonresidues is a residue, and the product of a residue and a
+nonresidue is a nonresidue.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $p \mid a$ both sides are $\equiv 0$. Otherwise let $y = a^{(p-1)/2}$. Then $y^2 = a^{p-1} \equiv 1$ by Fermat's theorem, so $y \equiv \pm1$, because $y^2 - 1 = (y - 1)(y + 1)$ and $\mathbb{F}_p$ is a
+field. By Proposition~\ref{number-theory:proposition-power-residues} with $k = 2$ and $d = \gcd(2, p - 1) = 2$, $a$ is a quadratic residue if and only if $y \equiv 1$. So $y \equiv 1$ when
+$(\frac{a}{p}) = 1$ and $y \equiv -1$ when $(\frac{a}{p}) = -1$.
+
+(2) The squares form a subgroup of index $d = 2$ of $U_p$, by Proposition~\ref{number-theory:proposition-power-residues}.
+
+(3) By (1), both sides are congruent to $(ab)^{(p-1)/2} = a^{(p-1)/2}b^{(p-1)/2}$ modulo $p$. Both sides lie in $\{-1, 0, 1\}$, and distinct elements of this set are not congruent modulo $p \geq 3$; so they
+are equal.
+\end{proof}
+
+By (3), to compute $(\frac{a}{p})$ it suffices to factor $a$ and know $(\frac{-1}{p})$, $(\frac{2}{p})$ and $(\frac{q}{p})$ for odd primes $q$. The first is immediate.
+
+\begin{corollary}\label{number-theory:corollary-minus-one}
+For an odd prime $p$, $\bigl(\frac{-1}{p}\bigr) = (-1)^{(p-1)/2}$: the congruence $x^2 \equiv -1 \pmod p$ is solvable if and only if $p \equiv 1 \pmod 4$.
+\end{corollary}
+
+\begin{proof}
+By Euler's criterion $(\frac{-1}{p}) \equiv (-1)^{(p-1)/2} \pmod p$, and both sides are $\pm1$. The exponent $(p - 1)/2$ is even exactly when $p \equiv 1 \pmod 4$.
+\end{proof}
+
+For $p \equiv 1 \pmod 4$ an explicit square root of $-1$ is $\bigl(\frac{p-1}{2}\bigr)!$ (Exercise~\ref{number-theory:exercise-wilson-square-root}); for instance modulo $13$, $6! = 720 \equiv 5$ and
+$5^2 = 25 \equiv -1$. The corollary already has a pleasant consequence, an analogue of Euclid's theorem for a single residue class.
+
+\begin{proposition}\label{number-theory:proposition-primes-one-mod-four}
+There are infinitely many primes $p \equiv 1 \pmod 4$.
+\end{proposition}
+
+\begin{proof}
+Let $p_1, \ldots, p_k$ be primes and $N = (2p_1 \cdots p_k)^2 + 1$. Let $q$ be a prime dividing $N$ (Theorem~\ref{number-systems:theorem-fundamental-arithmetic}). Then $q$ is odd, as $N$ is odd, and
+$x = 2p_1 \cdots p_k$ satisfies $x^2 \equiv -1 \pmod q$; by Corollary~\ref{number-theory:corollary-minus-one}, $q \equiv 1 \pmod 4$. And $q \neq p_i$, since $p_i \mid N - 1$. So no finite list contains all
+primes $\equiv 1 \pmod 4$.
+\end{proof}
+
+More generally, Dirichlet's theorem says that every residue class $a \bmod n$ with $\gcd(a, n) = 1$ contains infinitely many primes; its proof requires analysis \cite{serre-arithmetic}. For the class of $3$ modulo $4$ see
+Exercise~\ref{number-theory:exercise-three-mod-four}.
+
+To compute $(\frac{2}{p})$ and $(\frac{q}{p})$ we use a lemma of Gauss, which counts signs in the proof of Euler's criterion.
+
+\begin{lemma}[Gauss's lemma]\label{number-theory:lemma-gauss}
+Let $p$ be an odd prime, $h = \frac{p-1}{2}$, and $p \nmid a$. Let $\mu$ be the number of $k \in \{1, \ldots, h\}$ for which the least non-negative residue of $ka$ modulo $p$ is greater than $\frac{p}{2}$.
+Then $\bigl(\frac{a}{p}\bigr) = (-1)^\mu$.
+\end{lemma}
+
+\begin{proof}
+For $1 \leq k \leq h$, let $t_k$ be the least non-negative residue of $ka$; it is not $0$, as $p \nmid ka$. Put $r_k = t_k$ and $\varepsilon_k = 1$ if $t_k < p/2$, and $r_k = p - t_k$ and $\varepsilon_k = -1$ if
+$t_k > p/2$. Then $ka \equiv \varepsilon_kr_k \pmod p$ with $r_k \in \{1, \ldots, h\}$, and exactly $\mu$ of the signs $\varepsilon_k$ are $-1$. The $r_k$ are distinct: if $r_k = r_l$, then
+$ka \equiv \pm la$, so $k \equiv \pm l \pmod p$ (cancel the unit $a$); since $1 \leq k, l \leq h$ we have $0 < k + l < p$ and $|k - l| < p$, so $k \equiv -l$ is impossible and $k = l$. Hence
+$\{r_1, \ldots, r_h\} = \{1, \ldots, h\}$, and multiplying the congruences $ka \equiv \varepsilon_kr_k$ for $k = 1, \ldots, h$ gives
+\[
+a^h\,h! \equiv (-1)^\mu\,h! \pmod p .
+\]
+Since $h!$ is prime to $p$, $a^h \equiv (-1)^\mu$, and Euler's criterion gives $(\frac{a}{p}) \equiv (-1)^\mu$; both sides are $\pm1$, so they are equal.
+\end{proof}
+
+\begin{example}\label{number-theory:example-gauss-lemma}
+For $p = 11$, $h = 5$ and $a = 3$: the residues of $3, 6, 9, 12, 15$ are $3, 6, 9, 1, 4$, of which $6$ and $9$ exceed $5.5$. So $\mu = 2$ and $(\frac{3}{11}) = 1$; indeed $5^2 = 25 \equiv 3$. For
+$a = 2$: the residues $2, 4, 6, 8, 10$ include $6, 8, 10$ above $5.5$, so $\mu = 3$ and $(\frac{2}{11}) = -1$, in agreement with the list of squares modulo $11$ above.
+\end{example}
+
+\begin{proposition}[The second supplementary law]\label{number-theory:proposition-two}
+For an odd prime $p$, $\bigl(\frac{2}{p}\bigr) = (-1)^{(p^2-1)/8}$: the number $2$ is a quadratic residue modulo $p$ if and only if $p \equiv \pm1 \pmod 8$.
+\end{proposition}
+
+\begin{proof}
+For $a = 2$ the numbers $2k$, $1 \leq k \leq h$, already lie in $\{1, \ldots, p - 1\}$, and $2k > p/2$ exactly when $k > p/4$. So $\mu = h - \lfloor p/4\rfloor$. Writing $p = 8m + r$ with
+$r \in \{1, 3, 5, 7\}$:
+\[
+\begin{aligned}
+r = 1 &: \quad h = 4m, \ \lfloor p/4\rfloor = 2m, \ \mu = 2m; \qquad & r = 3 &: \quad h = 4m + 1, \ \lfloor p/4\rfloor = 2m, \ \mu = 2m + 1; \\
+r = 5 &: \quad h = 4m + 2, \ \lfloor p/4\rfloor = 2m + 1, \ \mu = 2m + 1; \qquad & r = 7 &: \quad h = 4m + 3, \ \lfloor p/4\rfloor = 2m + 1, \ \mu = 2m + 2.
+\end{aligned}
+\]
+So $\mu$ is even exactly for $p \equiv \pm1 \pmod 8$, and Gauss's lemma gives the first assertion in the form ``$(\frac{2}{p}) = 1$ if and only if $p \equiv \pm1 \pmod 8$''. Finally $(p^2 - 1)/8$ is even for
+$p = 8m \pm 1$, where it equals $8m^2 \pm 2m$, and odd for $p = 8m \pm 3$, where it equals $8m^2 \pm 6m + 1$.
+\end{proof}
+
+For odd $a$ the count $\mu$ in Gauss's lemma can be expressed through integer parts, which is the key to the reciprocity law.
+
+\begin{lemma}[Eisenstein]\label{number-theory:lemma-eisenstein}
+Let $p$ be an odd prime, $h = \frac{p-1}{2}$, and $a$ an odd integer with $p \nmid a$. Then, with $\mu$ as in Gauss's lemma,
+\[
+\mu \equiv \sum_{k=1}^{h}\Bigl\lfloor\frac{ka}{p}\Bigr\rfloor \pmod 2, \qquad\text{so}\qquad \Bigl(\frac{a}{p}\Bigr) = (-1)^{\sum_{k=1}^{h}\lfloor ka/p\rfloor} .
+\]
+\end{lemma}
+
+\begin{proof}
+Divide: $ka = p\lfloor ka/p\rfloor + t_k$ with $t_k$ the least non-negative residue. Let $b_1, \ldots, b_\mu$ be the $t_k$ greater than $p/2$ and $c_1, \ldots, c_\lambda$ the others ($\lambda + \mu = h$). In
+the proof of Gauss's lemma we saw that the numbers $c_1, \ldots, c_\lambda, p - b_1, \ldots, p - b_\mu$ are $1, \ldots, h$ in some order. Summing the divisions and this rearrangement,
+\[
+a\sum_{k=1}^{h}k = p\sum_{k=1}^{h}\Bigl\lfloor\frac{ka}{p}\Bigr\rfloor + \sum_ib_i + \sum_ic_i, \qquad \sum_{k=1}^{h}k = \sum_ic_i + \mu p - \sum_ib_i .
+\]
+Subtracting, $(a - 1)\sum_kk = p\sum_k\lfloor ka/p\rfloor - \mu p + 2\sum_ib_i$. Modulo $2$, the left side is $0$ because $a$ is odd, and $p \equiv 1$; so $0 \equiv \sum_k\lfloor ka/p\rfloor - \mu$. The
+formula for the symbol is Gauss's lemma.
+\end{proof}
+
+\begin{theorem}[Law of quadratic reciprocity]\label{number-theory:theorem-quadratic-reciprocity}
+Let $p \neq q$ be odd primes. Then
+\[
+\Bigl(\frac{p}{q}\Bigr)\Bigl(\frac{q}{p}\Bigr) = (-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}} .
+\]
+That is, $(\frac{p}{q}) = (\frac{q}{p})$ unless $p \equiv q \equiv 3 \pmod 4$, in which case $(\frac{p}{q}) = -(\frac{q}{p})$.
+\end{theorem}
+
+\begin{proof}
+Let $h = \frac{p-1}{2}$ and $h^{\prime} = \frac{q-1}{2}$, and count the points with integer coordinates in the rectangle $R = \{(x, y) : 1 \leq x \leq h, \ 1 \leq y \leq h^{\prime}\}$; there are $hh^{\prime}$
+of them. None lies on the line $py = qx$: if $py = qx$ with $1 \leq x \leq h$, then $p \mid qx$, so $p \mid x$ by Euclid's lemma, which is impossible for $0 < x < p$.
+
+The points of $R$ with $py < qx$, that is, below the line: for fixed $x \in \{1, \ldots, h\}$ these are the $y$ with $1 \leq y < qx/p$, and all such $y$ satisfy $y \leq h^{\prime}$, since
+$qx/p < q/2$ and so $y < q/2$, that is $y \leq (q - 1)/2$. Their number is $\lfloor qx/p\rfloor$ (as $qx/p$ is not an integer). So there are $\sum_{x=1}^{h}\lfloor qx/p\rfloor$ points below the line, and
+symmetrically $\sum_{y=1}^{h^{\prime}}\lfloor py/q\rfloor$ points above it. Hence
+\[
+\sum_{x=1}^{h}\Bigl\lfloor\frac{qx}{p}\Bigr\rfloor + \sum_{y=1}^{h^{\prime}}\Bigl\lfloor\frac{py}{q}\Bigr\rfloor = hh^{\prime} .
+\]
+By Eisenstein's lemma (Lemma~\ref{number-theory:lemma-eisenstein}), applied to the odd number $q$ modulo $p$ and to $p$ modulo $q$, the left side is the sum of the exponents in
+$(\frac{q}{p}) = (-1)^{\sum\lfloor qx/p\rfloor}$ and $(\frac{p}{q}) = (-1)^{\sum\lfloor py/q\rfloor}$. So $(\frac{p}{q})(\frac{q}{p}) = (-1)^{hh^{\prime}}$. Finally $hh^{\prime}$ is odd if and only if both
+$h$ and $h^{\prime}$ are odd, that is, $p \equiv q \equiv 3 \pmod 4$.
+\end{proof}
+
+To see the proof at work, take $p = 11$ and $q = 7$, so $h = 5$ and $h^{\prime} = 3$. The rectangle contains the $15$ points $(x, y)$ with $1 \leq x \leq 5$ and $1 \leq y \leq 3$. Below the line
+$11y = 7x$ lie, for $x = 1, \ldots, 5$, respectively $\lfloor 7/11\rfloor, \lfloor 14/11\rfloor, \ldots = 0, 1, 1, 2, 3$ points, $7$ in all; to the left of it lie, for $y = 1, 2, 3$, respectively
+$\lfloor 11/7\rfloor, \lfloor 22/7\rfloor, \lfloor 33/7\rfloor = 1, 3, 4$ points, $8$ in all. So $(\frac{7}{11}) = (-1)^7 = -1$ and $(\frac{11}{7}) = (-1)^8 = 1$, and their product is
+$-1 = (-1)^{15}$. Directly: $(\frac{11}{7}) = (\frac{4}{7}) = 1$, and the squares modulo $11$ are $1, 3, 4, 5, 9$, which do not include $7$.
+
+Together with Euler's criterion and the two supplementary laws, Corollary~\ref{number-theory:corollary-minus-one} and Proposition~\ref{number-theory:proposition-two}, reciprocity computes every Legendre symbol
+quickly, by repeatedly reducing the top modulo the bottom, factoring, and flipping.
+
+\begin{example}\label{number-theory:example-reciprocity}
+\begin{enumerate}
+\item \emph{Is $30$ a square modulo the prime $103$?} $(\frac{30}{103}) = (\frac{2}{103})(\frac{3}{103})(\frac{5}{103})$. As $103 \equiv 7 \pmod 8$, $(\frac{2}{103}) = 1$. As $103 \equiv 3 \pmod 4$ and
+$3 \equiv 3 \pmod 4$, $(\frac{3}{103}) = -(\frac{103}{3}) = -(\frac{1}{3}) = -1$. As $5 \equiv 1 \pmod 4$, $(\frac{5}{103}) = (\frac{103}{5}) = (\frac{3}{5}) = -1$, the squares modulo $5$ being $1$ and $4$.
+So $(\frac{30}{103}) = 1 \cdot (-1) \cdot (-1) = 1$: $30$ is a square modulo $103$. Indeed $37^2 = 1369 = 13 \cdot 103 + 30$. Note that reciprocity decides the question without finding the square root.
+\item \emph{For which primes is $3$ a square?} For $p > 3$, $(\frac{3}{p}) = (-1)^{(p-1)/2}(\frac{p}{3})$, and $(\frac{p}{3}) = 1$ if and only if $p \equiv 1 \pmod 3$. So $(\frac{3}{p}) = 1$ if and only if
+$p \equiv 1 \pmod 4$ and $p \equiv 1 \pmod 3$, or $p \equiv 3 \pmod 4$ and $p \equiv 2 \pmod 3$; that is, by the Chinese remainder theorem, if and only if $p \equiv \pm1 \pmod{12}$.
+\item \emph{For which primes is $5$ a square?} For $p \neq 2, 5$, $(\frac{5}{p}) = (\frac{p}{5})$, which is $1$ if and only if $p \equiv \pm1 \pmod 5$. This is the remarkable feature of the law: whether $q$
+is a square modulo $p$ depends only on $p$ modulo $4q$, although the squares modulo $p$ seem to have nothing to do with $q$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{number-theory:remark-reciprocity}
+Gauss called the law the \emph{theorema aureum} and gave several proofs of it; the one above, by counting lattice points, is due to Eisenstein. Another proof uses Gauss sums: the sum
+$g = \sum_{a=1}^{q-1}(\frac{a}{q})\zeta^a$, with $\zeta$ a primitive $q$-th root of unity, satisfies $g^2 = (-1)^{(q-1)/2}q$, so the cyclotomic field $\QQ(\zeta)$ of
+Theorem~\ref{fields:theorem-cyclotomic} contains a square root of $\pm q$, and comparing $g^p$ with $g$ modulo $p$ gives the law \cite{ireland-rosen}. This is the beginning of a Galois theoretic
+explanation, in which $(\frac{p}{q})$ describes how the automorphism $\zeta \mapsto \zeta^p$ acts on that square root; its generalisation to all abelian extensions of number fields is class field
+theory.
+\end{remark}
+
+\section{Sums of squares}\label{number-theory:section-squares}
+
+Which integers are sums of two squares? The first few are
+\[
+0, 1, 2, 4, 5, 8, 9, 10, 13, 16, 17, 18, 20, 25, 26, 29, \ldots,
+\]
+and among the odd primes, $5, 13, 17, 29, 37, 41$ appear, while $3, 7, 11, 19, 23, 31$ do not. By Example~\ref{number-theory:example-congruences}(2), no number $\equiv 3 \pmod 4$ is a sum of two squares.
+Fermat stated in 1640 that every prime $p \equiv 1 \pmod 4$ is one; Euler gave the first proof. We give a proof through the Gaussian integers, in which a sum of two squares factors:
+$a^2 + b^2 = (a + bi)(a - bi)$.
+
+Recall from Example~\ref{rings:example-gaussian-integers} that $\ZZ[i] = \{a + bi : a, b \in \ZZ\}$ is a Euclidean domain for the norm $N(a + bi) = a^2 + b^2 = |a + bi|^2$, hence a PID and a UFD
+(Theorem~\ref{rings:theorem-euclidean-pid-ufd}). The norm is multiplicative, $N(zw) = |zw|^2 = N(z)N(w)$. Its units are the elements of norm $1$, namely $\pm1$ and $\pm i$: if $zw = 1$ then
+$N(z)N(w) = 1$ in $\NN$, so $N(z) = 1$; conversely $N(z) = z\bar{z} = 1$ gives $z^{-1} = \bar{z} \in \ZZ[i]$.
+
+\begin{theorem}[Fermat]\label{number-theory:theorem-fermat-two-squares}
+An odd prime $p$ is a sum of two squares if and only if $p \equiv 1 \pmod 4$. In that case the representation $p = a^2 + b^2$ is unique up to order and signs of $a$ and $b$.
+\end{theorem}
+
+\begin{proof}
+If $p = a^2 + b^2$ then $p \not\equiv 3 \pmod 4$ by Example~\ref{number-theory:example-congruences}(2), so $p \equiv 1 \pmod 4$. Conversely let $p \equiv 1 \pmod 4$. By
+Corollary~\ref{number-theory:corollary-minus-one} there is $x \in \ZZ$ with $p \mid x^2 + 1 = (x + i)(x - i)$. But $p$ divides neither factor in $\ZZ[i]$, since $(x \pm i)/p = x/p \pm i/p$ does not have
+integer coefficients. So $p$ is not a prime element of $\ZZ[i]$, and since $\ZZ[i]$ is a UFD, $p$ is not irreducible (Lemma~\ref{rings:lemma-ufd-criterion}): $p = zw$ with $z$, $w$ not units. Then
+$p^2 = N(p) = N(z)N(w)$ with $N(z), N(w) > 1$, so $N(z) = p$, and writing $z = a + bi$, $p = a^2 + b^2$.
+
+For uniqueness, let $p = a^2 + b^2 = c^2 + d^2$. Then $z = a + bi$ is irreducible: if $z = uv$, then $p = N(u)N(v)$, so one of $N(u)$, $N(v)$ is $1$. In a UFD irreducible elements are prime, and $z$
+divides $p = (c + di)(c - di)$, so $z$ divides $c + di$ or $c - di$; as both have norm $p = N(z)$, the quotient has norm $1$ and is a unit. So $c + di$ or $c - di$ is $\pm(a + bi)$ or
+$\pm i(a + bi) = \mp(b - ai)$, and $(c, d)$ is $(a, b)$ or $(b, a)$ up to order and signs.
+\end{proof}
+
+\begin{example}\label{number-theory:example-fermat}
+$5 = 1^2 + 2^2$, $13 = 2^2 + 3^2$, $17 = 1^2 + 4^2$, $29 = 2^2 + 5^2$, $37 = 1^2 + 6^2$, $41 = 4^2 + 5^2$, and $1013 = 22^2 + 23^2$. The proof can be made into an algorithm: find $x$ with
+$x^2 \equiv -1 \pmod p$, and compute a greatest common divisor of $p$ and $x + i$ in $\ZZ[i]$ with the Euclidean algorithm. For $p = 13$, $x = 5$: dividing $13$ by $5 + i$ gives
+$13/(5 + i) = 13(5 - i)/26 = (5 - i)/2$, rounded to $q = 2$ (or $3 - i$), with remainder $13 - 2(5 + i) = 3 - 2i$; and $(5 + i)/(3 - 2i) = (5 + i)(3 + 2i)/13 = (13 + 13i)/13 = 1 + i$ exactly. So the gcd
+is $3 - 2i$, and $13 = 3^2 + 2^2$.
+\end{example}
+
+Products of sums of two squares are sums of two squares, by the multiplicativity of the norm: writing out $N(zw) = N(z)N(w)$ for $z = a + bi$, $w = c + di$ gives the identity of Brahmagupta and Fibonacci,
+\begin{equation}\label{number-theory:equation-two-squares-identity}
+(a^2 + b^2)(c^2 + d^2) = (ac - bd)^2 + (ad + bc)^2 .
+\end{equation}
+
+\begin{theorem}\label{number-theory:theorem-two-squares}
+An integer $n \geq 1$ is a sum of two squares if and only if every prime $q \equiv 3 \pmod 4$ occurs in the prime factorisation of $n$ with an even exponent.
+\end{theorem}
+
+\begin{proof}
+Suppose the condition holds. Then $n$ is a product of factors $2 = 1^2 + 1^2$, primes $p \equiv 1 \pmod 4$, which are sums of two squares by Theorem~\ref{number-theory:theorem-fermat-two-squares}, and
+squares $q^2 = q^2 + 0^2$; by \eqref{number-theory:equation-two-squares-identity} and induction on the number of factors, so is $n$.
+
+Conversely let $n = a^2 + b^2$ and let $q \equiv 3 \pmod 4$ be a prime dividing $n$. We claim that $q \mid a$ and $q \mid b$. If $q \nmid b$, let $b^{\prime}$ be an inverse of $b$ modulo $q$; then
+$a^2 \equiv -b^2$ gives $(ab^{\prime})^2 \equiv -1 \pmod q$, contradicting Corollary~\ref{number-theory:corollary-minus-one}. So $q \mid b$, hence $q \mid a^2$ and $q \mid a$. Then $q^2 \mid n$ and
+$n/q^2 = (a/q)^2 + (b/q)^2$ is again a sum of two squares. By induction on $n$, the exponent of $q$ in $n/q^2$ is even, hence so is its exponent in $n$.
+\end{proof}
+
+\begin{example}\label{number-theory:example-two-squares}
+$2026 = 2 \cdot 1013$ with $1013 \equiv 1 \pmod 4$ prime, so $2026$ is a sum of two squares; by \eqref{number-theory:equation-two-squares-identity} with $2 = 1^2 + 1^2$ and $1013 = 22^2 + 23^2$,
+$2026 = (22 - 23)^2 + (23 + 22)^2 = 1^2 + 45^2$. The number $65 = 5 \cdot 13$ has the two essentially different representations $1^2 + 8^2$ and $4^2 + 7^2$, coming from $(1 + 2i)(2 + 3i) = -4 + 7i$ and
+$(1 + 2i)(2 - 3i) = 8 + i$. On the other hand $21 = 3 \cdot 7$ and $2027 \equiv 3 \pmod 4$ are not sums of two squares, while $9 \cdot 7^2 = 441 = 21^2 + 0^2$ is.
+\end{example}
+
+Not every positive integer is a sum of three squares: no number $\equiv 7 \pmod 8$ is, since squares are $\equiv 0, 1, 4 \pmod 8$ and no three of these add up to $7$. (Legendre and Gauss proved that the
+numbers that are not sums of three squares are exactly those of the form $4^a(8b + 7)$; we do not prove this, see \cite{serre-arithmetic}.) Four squares always suffice. The proof follows the same pattern as for two squares,
+with an identity of Euler in place of \eqref{number-theory:equation-two-squares-identity}, and Fermat's method of descent in place of the Gaussian integers.
+
+\begin{lemma}[Euler's four-square identity]\label{number-theory:lemma-four-squares-identity}
+For all $a_1, \ldots, a_4, b_1, \ldots, b_4$ in a commutative ring,
+\[
+\Bigl(\sum_{i=1}^{4}a_i^2\Bigr)\Bigl(\sum_{i=1}^{4}b_i^2\Bigr) = z_1^2 + z_2^2 + z_3^2 + z_4^2,
+\]
+where
+\[
+\begin{aligned}
+z_1 &= a_1b_1 + a_2b_2 + a_3b_3 + a_4b_4, & z_2 &= a_1b_2 - a_2b_1 + a_3b_4 - a_4b_3, \\
+z_3 &= a_1b_3 - a_3b_1 + a_4b_2 - a_2b_4, & z_4 &= a_1b_4 - a_4b_1 + a_2b_3 - a_3b_2 .
+\end{aligned}
+\]
+\end{lemma}
+
+\begin{proof}
+Expand. Each $z_k^2$ contains four squares $a_i^2b_j^2$, and the sixteen squares that occur are all the $a_i^2b_j^2$, each once: $z_1$ contains the products $a_ib_i$, and $z_2$, $z_3$, $z_4$ contain the
+products $a_ib_j$ for the pairs $\{i, j\}$ equal to $\{1, 2\}$ and $\{3, 4\}$, to $\{1, 3\}$ and $\{2, 4\}$, and to $\{1, 4\}$ and $\{2, 3\}$ respectively. The cross terms cancel in pairs; for instance the
+terms containing $a_1a_2$ are $2a_1a_2b_1b_2$ from $z_1^2$, $-2a_1a_2b_2b_1$ from $z_2^2$, $-2a_1a_2b_3b_4$ from $z_3^2$ and $2a_1a_2b_4b_3$ from $z_4^2$, with sum $0$; the other five pairs $a_ia_j$ are
+handled in the same way. (The identity expresses the multiplicativity of the norm of quaternions, $|xy|^2 = |x|^2|y|^2$.)
+\end{proof}
+
+\begin{theorem}[Lagrange]\label{number-theory:theorem-four-squares}
+Every positive integer is a sum of four squares of integers.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{number-theory:lemma-four-squares-identity} and the factorisation into primes, and since $1 = 1^2 + 0^2 + 0^2 + 0^2$ and $2 = 1^2 + 1^2 + 0^2 + 0^2$, it suffices to treat an odd prime $p$.
+
+\emph{Step 1: some multiple $mp$ with $1 \leq m < p$ is a sum of four squares.} The $\frac{p+1}{2}$ numbers $x^2$, $0 \leq x \leq \frac{p-1}{2}$, are pairwise incongruent modulo $p$: if
+$x^2 \equiv x^{\prime2}$, then $p \mid (x - x^{\prime})(x + x^{\prime})$, and $0 \leq x + x^{\prime} < p$, $|x - x^{\prime}| < p$, so $x = x^{\prime}$. Likewise the $\frac{p+1}{2}$ numbers $-1 - y^2$,
+$0 \leq y \leq \frac{p-1}{2}$, are pairwise incongruent. Since $\frac{p+1}{2} + \frac{p+1}{2} > p$, some $x^2$ is congruent to some $-1 - y^2$, so $x^2 + y^2 + 1^2 + 0^2 = mp$ for some $m \geq 1$, and
+$mp \leq 2\bigl(\frac{p-1}{2}\bigr)^2 + 1 < p^2$, so $m < p$.
+
+\emph{Step 2: descent.} Let $m$ be the least positive integer such that $mp$ is a sum of four squares; by Step 1, $m < p$. Suppose $m > 1$, and write $mp = x_1^2 + x_2^2 + x_3^2 + x_4^2$.
+
+If $m$ is even, then $\sum x_i^2$ is even, so an even number of the $x_i$ are odd, and we may number them so that $x_1 \equiv x_2$ and $x_3 \equiv x_4 \pmod 2$. Then
+\[
+\frac{m}{2}p = \Bigl(\frac{x_1 + x_2}{2}\Bigr)^2 + \Bigl(\frac{x_1 - x_2}{2}\Bigr)^2 + \Bigl(\frac{x_3 + x_4}{2}\Bigr)^2 + \Bigl(\frac{x_3 - x_4}{2}\Bigr)^2,
+\]
+a sum of four squares of integers, contradicting the minimality of $m$.
+
+If $m$ is odd, $m \geq 3$, choose $y_i \equiv x_i \pmod m$ with $|y_i| < m/2$ (possible since $m$ is odd). Then $\sum y_i^2 \equiv \sum x_i^2 = mp \equiv 0 \pmod m$, so $\sum y_i^2 = mr$ with
+$0 \leq r$, and $mr < 4(m/2)^2 = m^2$, so $r < m$. If $r = 0$, all $y_i = 0$, so $m$ divides every $x_i$, $m^2 \mid mp$ and $m \mid p$, impossible for $1 < m < p$. So $1 \leq r < m$. By
+Lemma~\ref{number-theory:lemma-four-squares-identity},
+\[
+m^2rp = \Bigl(\sum x_i^2\Bigr)\Bigl(\sum y_i^2\Bigr) = z_1^2 + z_2^2 + z_3^2 + z_4^2,
+\]
+with the $z_k$ formed from $a_i = x_i$, $b_i = y_i$. Since $y_i \equiv x_i \pmod m$, $z_1 \equiv \sum x_i^2 \equiv 0$, and $z_2 \equiv x_1x_2 - x_2x_1 + x_3x_4 - x_4x_3 = 0 \pmod m$, and likewise
+$z_3 \equiv z_4 \equiv 0$. So $rp = \sum(z_k/m)^2$ is a sum of four squares of integers with $1 \leq r < m$, again contradicting the minimality of $m$. Hence $m = 1$.
+\end{proof}
+
+\begin{example}\label{number-theory:example-four-squares}
+$7 = 2^2 + 1^2 + 1^2 + 1^2$ needs four squares, as $7 \equiv 7 \pmod 8$. Also $2026 = 45^2 + 1^2 + 0^2 + 0^2$, $15 = 3^2 + 2^2 + 1^2 + 1^2$ and $2027 = 45^2 + 1^2 + 1^2 + 0^2$.
+\end{example}
+
+\section{Arithmetic functions and M\"obius inversion}\label{number-theory:section-arithmetic-functions}
+
+Euler's function is one of many functions on the positive integers that are determined by their values on prime powers. This section develops the algebra of such functions.
+
+\begin{definition}\label{number-theory:definition-arithmetic-function}
+An \emph{arithmetic function} is a function $f \colon \{1, 2, 3, \ldots\} \to \CC$. It is \emph{multiplicative} if $f(1) = 1$ and $f(mn) = f(m)f(n)$ whenever $\gcd(m, n) = 1$, and \emph{completely
+multiplicative} if moreover $f(mn) = f(m)f(n)$ for all $m, n$. The \emph{Dirichlet convolution} of arithmetic functions $f$ and $g$ is
+\[
+(f * g)(n) = \sum_{d \mid n}f(d)\,g\Bigl(\frac{n}{d}\Bigr) = \sum_{de = n}f(d)\,g(e),
+\]
+the sums running over the positive divisors $d$ of $n$, that is, over the pairs of positive integers $(d, e)$ with $de = n$.
+\end{definition}
+
+A multiplicative function is determined by its values at prime powers: $f(p_1^{k_1} \cdots p_r^{k_r}) = f(p_1^{k_1}) \cdots f(p_r^{k_r})$. We use the following functions:
+\begin{itemize}
+\item $\varepsilon(1) = 1$ and $\varepsilon(n) = 0$ for $n > 1$; $\mathbf{1}(n) = 1$ for all $n$; $\mathrm{N}(n) = n$. These are completely multiplicative.
+\item Euler's function $\varphi$, multiplicative by Proposition~\ref{number-theory:proposition-euler-function}.
+\item $\tau(n)$, the number of positive divisors of $n$, and $\sigma(n)$, their sum. By definition $\tau = \mathbf{1} * \mathbf{1}$ and $\sigma = \mathrm{N} * \mathbf{1}$.
+\item The \emph{M\"obius function}: $\mu(1) = 1$, $\mu(n) = (-1)^r$ if $n$ is a product of $r$ distinct primes, and $\mu(n) = 0$ if $n$ is divisible by the square of a prime. It is multiplicative but not
+completely multiplicative: $\mu(4) = 0 \neq \mu(2)^2$.
+\end{itemize}
+In this notation Proposition~\ref{number-theory:proposition-euler-function}(4) reads $\varphi * \mathbf{1} = \mathrm{N}$.
+
+\begin{proposition}\label{number-theory:proposition-dirichlet-ring}
+\begin{enumerate}
+\item Dirichlet convolution is commutative and associative, and $\varepsilon$ is its identity element. With pointwise addition, the arithmetic functions form a commutative ring.
+\item An arithmetic function $f$ has an inverse for $*$ if and only if $f(1) \neq 0$.
+\item If $f$ and $g$ are multiplicative, so is $f * g$; and the inverse of a multiplicative function is multiplicative.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Commutativity holds because $(f * g)(n) = \sum_{de = n}f(d)g(e)$ is symmetric in the roles of $d$ and $e$. Associativity: both $((f * g) * h)(n)$ and $(f * (g * h))(n)$ equal
+$\sum_{cde = n}f(c)g(d)h(e)$, the sum over the triples of positive integers with product $n$. Further $(\varepsilon * f)(n) = \sum_{de = n}\varepsilon(d)f(e) = f(n)$. Distributivity over addition is clear.
+
+(2) If $f * g = \varepsilon$, then $f(1)g(1) = 1$. Conversely, if $f(1) \neq 0$, define $g$ recursively by $g(1) = 1/f(1)$ and, for $n > 1$,
+\[
+g(n) = -\frac{1}{f(1)}\sum_{d \mid n, \ d > 1}f(d)\,g\Bigl(\frac{n}{d}\Bigr),
+\]
+which only involves values of $g$ at numbers less than $n$. This says exactly that $(f * g)(1) = 1$ and $(f * g)(n) = 0$ for $n > 1$.
+
+(3) Let $\gcd(m, n) = 1$. By unique factorisation, every divisor $d$ of $mn$ is uniquely a product $d = d_1d_2$ with $d_1 \mid m$ and $d_2 \mid n$ (namely $d_1 = \gcd(d, m)$, $d_2 = \gcd(d, n)$), and then
+$\gcd(d_1, d_2) = \gcd(m/d_1, n/d_2) = 1$. Hence
+\[
+(f * g)(mn) = \sum_{d_1 \mid m, \ d_2 \mid n}f(d_1)f(d_2)\,g\Bigl(\frac{m}{d_1}\Bigr)g\Bigl(\frac{n}{d_2}\Bigr) = (f * g)(m)\,(f * g)(n),
+\]
+and $(f * g)(1) = 1$. For the inverse, let $f$ be multiplicative, $g$ its inverse, and let $h$ be the multiplicative function with $h(p^k) = g(p^k)$ for all prime powers. Then $f * h$ is multiplicative by
+what we just proved, and $(f * h)(p^k) = \sum_{j=0}^{k}f(p^j)g(p^{k-j}) = (f * g)(p^k) = \varepsilon(p^k)$, because the divisors of $p^k$ are the $p^j$. So $f * h$ and $\varepsilon$ are multiplicative
+functions that agree on prime powers, hence $f * h = \varepsilon$ and $h = g$ by uniqueness of inverses.
+\end{proof}
+
+\begin{proposition}\label{number-theory:proposition-mobius}
+$\mu * \mathbf{1} = \varepsilon$; that is, $\sum_{d \mid n}\mu(d) = 0$ for every $n > 1$.
+\end{proposition}
+
+\begin{proof}
+Both sides are multiplicative (Proposition~\ref{number-theory:proposition-dirichlet-ring}(3)), so it suffices to compare them at $n = p^k$, $k \geq 1$: the divisors are $1, p, \ldots, p^k$, and
+$\sum_{j=0}^{k}\mu(p^j) = 1 - 1 + 0 + \cdots + 0 = 0 = \varepsilon(p^k)$.
+\end{proof}
+
+\begin{theorem}[M\"obius inversion]\label{number-theory:theorem-mobius-inversion}
+For arithmetic functions $f$ and $g$,
+\[
+g(n) = \sum_{d \mid n}f(d) \ \text{for all } n \qquad\text{if and only if}\qquad f(n) = \sum_{d \mid n}\mu(d)\,g\Bigl(\frac{n}{d}\Bigr) \ \text{for all } n .
+\]
+\end{theorem}
+
+\begin{proof}
+The left side says $g = f * \mathbf{1}$, the right side $f = g * \mu$. Since $\mu$ is the inverse of $\mathbf{1}$ (Proposition~\ref{number-theory:proposition-mobius}), multiplying $g = f * \mathbf{1}$ by $\mu$
+gives $g * \mu = f$, and multiplying $f = g * \mu$ by $\mathbf{1}$ gives $f * \mathbf{1} = g$.
+\end{proof}
+
+\begin{example}\label{number-theory:example-mobius}
+\begin{enumerate}
+\item From $\varphi * \mathbf{1} = \mathrm{N}$, inversion gives $\varphi(n) = \sum_{d \mid n}\mu(d)\frac{n}{d} = n\sum_{d \mid n}\frac{\mu(d)}{d}$. Only squarefree $d$ contribute, and for
+$n = p_1^{k_1} \cdots p_r^{k_r}$ the sum is $\prod_i(1 - 1/p_i)$, recovering Proposition~\ref{number-theory:proposition-euler-function}(3).
+\item $\tau$ and $\sigma$ are multiplicative, being convolutions of multiplicative functions, and $\tau(p^k) = k + 1$, $\sigma(p^k) = 1 + p + \cdots + p^k = \frac{p^{k+1} - 1}{p - 1}$. So
+$\tau(n) = \prod_i(k_i + 1)$ and $\sigma(n) = \prod_i\frac{p_i^{k_i+1} - 1}{p_i - 1}$. For instance $\tau(12) = 3 \cdot 2 = 6$ and $\sigma(12) = 7 \cdot 4 = 28 = 1 + 2 + 3 + 4 + 6 + 12$.
+\item \emph{Counting irreducible polynomials.} Let $I_d$ be the number of monic irreducible polynomials of degree $d$ over $\mathbb{F}_p$. We claim that $p^n = \sum_{d \mid n}dI_d$. By
+Theorem~\ref{fields:theorem-finite-fields}(2), $\mathbb{F}_{p^n}$ consists of the $p^n$ roots of $x^{p^n} - x$, which are distinct. Each $\alpha \in \mathbb{F}_{p^n}$ has a minimal polynomial over $\mathbb{F}_p$
+(Proposition~\ref{fields:proposition-minimal-polynomial}), monic irreducible of some degree $d = [\mathbb{F}_p(\alpha) : \mathbb{F}_p]$, which divides $n$ by the tower law
+(Theorem~\ref{fields:theorem-tower}). Conversely, a monic irreducible $f$ of degree $d \mid n$ has a root $\beta$ in a field $\mathbb{F}_p(\beta) = \mathbb{F}_p[x]/(f)$ with $p^d$ elements, so
+$\beta^{p^d} = \beta$ by Theorem~\ref{fields:theorem-finite-fields}(2), hence $\beta^{p^n} = \beta$ (apply $x \mapsto x^{p^d}$ $n/d$ times), and $f$, being the minimal polynomial of $\beta$, divides
+$x^{p^n} - x$. As $x^{p^n} - x$ is the product of the $x - \alpha$ over the $p^n$ distinct $\alpha \in \mathbb{F}_{p^n}$, $f$ has exactly $d$ distinct roots in $\mathbb{F}_{p^n}$, and these are exactly the
+elements with minimal polynomial $f$. Counting the elements of $\mathbb{F}_{p^n}$ according to their minimal polynomials gives the claim. M\"obius inversion, applied to $g(n) = p^n$ and $f(d) = dI_d$, gives
+$nI_n = \sum_{d \mid n}\mu(d)p^{n/d}$. For $n = 2$: $I_2 = (p^2 - p)/2$; for $p = 2$, $n = 4$: $I_4 = (16 - 4)/4 = 3$, namely $x^4 + x + 1$, $x^4 + x^3 + 1$ and $x^4 + x^3 + x^2 + x + 1$. In particular
+$I_n > 0$ for all $n$: the term $d = 1$ of the sum is $p^n$, and the others have absolute value at most $p^{n/d} \leq p^{n/2}$, so
+$nI_n \geq p^n - \sum_{e=0}^{\lfloor n/2\rfloor}p^e > p^n - p^{\lfloor n/2\rfloor + 1} \geq 0$ for $n \geq 2$.
+\end{enumerate}
+\end{example}
+
+A number $n$ is \emph{perfect} if it is the sum of its divisors smaller than itself, that is, if $\sigma(n) = 2n$: for instance $6 = 1 + 2 + 3$, $28 = 1 + 2 + 4 + 7 + 14$, $496$ and $8128$. Euclid observed
+that $2^{k-1}(2^k - 1)$ is perfect when $2^k - 1$ is prime; Euler proved the converse for even numbers.
+
+\begin{theorem}[Euclid, Euler]\label{number-theory:theorem-perfect}
+An even number $n$ is perfect if and only if $n = 2^{k-1}(2^k - 1)$ with $k \geq 2$ and $2^k - 1$ prime.
+\end{theorem}
+
+\begin{proof}
+If $q = 2^k - 1$ is prime, then by multiplicativity $\sigma(2^{k-1}q) = \sigma(2^{k-1})\sigma(q) = (2^k - 1)(q + 1) = (2^k - 1)2^k = 2n$.
+
+Conversely let $n$ be even and perfect, and write $n = 2^{k-1}m$ with $k \geq 2$ and $m$ odd. Then
+\[
+2^km = 2n = \sigma(n) = \sigma(2^{k-1})\sigma(m) = (2^k - 1)\sigma(m).
+\]
+Since $2^k - 1$ is odd, it is coprime to $2^k$, so it divides $m$: $m = (2^k - 1)M$, and then $\sigma(m) = 2^kM = m + M$. Now $m$ and $M$ are distinct divisors of $m$, as $2^k - 1 \geq 3$, and
+$\sigma(m) = m + M$ says that they are the only divisors of $m$. As $1$ divides $m$, $M = 1$, and $m = 2^k - 1$ has only the divisors $1$ and $m$: it is prime.
+\end{proof}
+
+\begin{remark}\label{number-theory:remark-perfect}
+Primes of the form $2^k - 1$ are called \emph{Mersenne primes}; $k$ must then be prime (Exercise~\ref{number-theory:exercise-mersenne}), but this is not sufficient: $2^{11} - 1 = 2047 = 23 \cdot 89$. It is
+unknown whether there are infinitely many Mersenne primes, and whether any odd perfect number exists.
+\end{remark}
+
+\section{Exercises}\label{number-theory:section-exercises}
+
+\begin{exercise}\label{number-theory:exercise-three-mod-four}
+Show that there are infinitely many primes $p \equiv 3 \pmod 4$. (Consider $N = 4p_1 \cdots p_k - 1$.)
+\end{exercise}
+
+\begin{solution}
+Let $p_1, \ldots, p_k$ be primes $\equiv 3 \pmod 4$ and $N = 4p_1 \cdots p_k - 1 \equiv 3 \pmod 4$. $N$ is odd, so its prime factors are $\equiv 1$ or $3 \pmod 4$; if all were $\equiv 1$, their product $N$
+would be $\equiv 1 \pmod 4$. So some prime $q \equiv 3 \pmod 4$ divides $N$, and $q \neq p_i$, since $p_i \mid N + 1$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-wilson-converse}
+Show that an integer $n \geq 2$ is prime if and only if $(n - 1)! \equiv -1 \pmod n$.
+\end{exercise}
+
+\begin{solution}
+If $n$ is prime this is Wilson's theorem (Corollary~\ref{groups:corollary-euler-fermat}). If $n = ab$ with $1 < a < n$, then $a$ divides $(n - 1)!$, so if $n \mid (n - 1)! + 1$, then $a$ divides
+$(n - 1)! + 1$ and hence $1$, which is absurd.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-wilson-square-root}
+Let $p \equiv 1 \pmod 4$ be prime. Show that $x = \bigl(\frac{p-1}{2}\bigr)!$ satisfies $x^2 \equiv -1 \pmod p$.
+\end{exercise}
+
+\begin{solution}
+Let $h = \frac{p-1}{2}$. Pairing $k$ with $p - k \equiv -k$, Wilson's theorem gives $-1 \equiv (p - 1)! = \prod_{k=1}^{h}k(p - k) \equiv \prod_{k=1}^{h}(-k^2) = (-1)^h(h!)^2 \pmod p$. As $h$ is even,
+$(h!)^2 \equiv -1$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-phi-even}
+Show that $\varphi(n)$ is even for $n \geq 3$, and that $\varphi(n) \geq \sqrt{n/2}$ for all $n \geq 1$.
+\end{exercise}
+
+\begin{solution}
+For $n \geq 3$ the map $a \mapsto n - a$ is an involution of the set of $1 \leq a < n$ prime to $n$ without fixed points: $a = n - a$ would mean $n = 2a$, and then $\gcd(a, n) = a = 1$ forces $n = 2$. So
+the set has an even number of elements. For the inequality, by multiplicativity it suffices to note that $\varphi(p^k) = p^{k-1}(p - 1) \geq \sqrt{p^k}$ for odd $p$ (as $p - 1 \geq \sqrt{p}$ for $p \geq 3$
+and $p^{k-1} \geq p^{(k-1)/2}$), and $\varphi(2^k) = 2^{k-1} \geq \sqrt{2^k/2}$; multiplying over the prime powers in $n$, with the factor $1/\sqrt{2}$ appearing at most once, gives
+$\varphi(n) \geq \sqrt{n/2}$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-cyclic-count}
+Give a second proof of Theorem~\ref{number-theory:theorem-primitive-root-prime}: for $d \mid p - 1$ let $\psi(d)$ be the number of elements of order $d$ in $U_p$. Show that $\psi(d) \leq \varphi(d)$, using
+that $x^d - 1$ has at most $d$ roots in $\mathbb{F}_p$, and deduce from Proposition~\ref{number-theory:proposition-euler-function}(4) that $\psi(d) = \varphi(d)$, in particular $\psi(p - 1) \geq 1$.
+\end{exercise}
+
+\begin{solution}
+If there is an element $x$ of order $d$, its powers $1, x, \ldots, x^{d-1}$ are $d$ distinct roots of $x^d - 1$, hence all of its roots (Corollary~\ref{rings:corollary-roots}); so every element of order $d$
+is a power of $x$, and those of order $d$ are the $x^k$ with $\gcd(k, d) = 1$ (Lemma~\ref{number-theory:lemma-order}(2)), $\varphi(d)$ in number. So $\psi(d) \in \{0, \varphi(d)\}$. Every element has an order
+dividing $p - 1$, so $\sum_{d \mid p-1}\psi(d) = p - 1 = \sum_{d \mid p-1}\varphi(d)$. As $\psi(d) \leq \varphi(d)$ termwise, equality holds termwise.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-wieferich-type}
+Check that $14$ is a primitive root modulo $29$ and that $14^{28} \equiv 1 \pmod{29^2}$. Which of $14$ and $43$ is a primitive root modulo $29^2$?
+\end{exercise}
+
+\begin{solution}
+$29 - 1 = 28 = 2^2 \cdot 7$, so by Example~\ref{number-theory:example-primitive-roots}(3) it suffices to check $14^{14} \not\equiv 1$ and $14^4 \not\equiv 1 \pmod{29}$. Modulo $29$: $14^2 = 196 \equiv 22 \equiv -7$,
+$14^4 \equiv 49 \equiv 20$, $14^7 = 14^4 \cdot 14^2 \cdot 14 \equiv 20 \cdot (-7) \cdot 14 = -1960 \equiv -1960 + 68 \cdot 29 = 12$, and $14^{14} \equiv 144 \equiv -1$. So $14$ is a primitive root. Modulo
+$841 = 29^2$: $14^2 = 196$, $14^4 = 38416 = 45 \cdot 841 + 571$, so $14^4 \equiv 571$; $14^7 = 14^4 \cdot 14^2 \cdot 14 \equiv 571 \cdot 196 \cdot 14$, and $571 \cdot 196 = 111916 = 133 \cdot 841 + 63$, so
+$14^7 \equiv 63 \cdot 14 = 882 \equiv 41$; $14^{14} \equiv 41^2 = 1681 = 2 \cdot 841 - 1 \equiv -1$, and $14^{28} \equiv 1 \pmod{841}$. So $14$ is not a primitive root modulo $841$, and by
+Theorem~\ref{number-theory:theorem-primitive-root-prime-power} $43 = 14 + 29$ is.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-square-roots-one}
+Show that for $k \geq 3$ the congruence $x^2 \equiv 1 \pmod{2^k}$ has exactly four solutions modulo $2^k$, namely $\pm1$ and $\pm1 + 2^{k-1}$, while for an odd prime $p$ the congruence
+$x^2 \equiv 1 \pmod{p^k}$ has only the solutions $\pm1$. How many solutions does $x^2 \equiv 1 \pmod n$ have in general?
+\end{exercise}
+
+\begin{solution}
+The solutions are the elements of order dividing $2$ in $U_{2^k}$. By Theorem~\ref{number-theory:theorem-units-two-power} this group is $\ZZ/2\ZZ \times \ZZ/2^{k-2}\ZZ$, which has four such elements; and
+$\pm1$, $\pm1 + 2^{k-1}$ are four distinct solutions, as $(\pm1 + 2^{k-1})^2 = 1 \pm 2^k + 2^{2k-2} \equiv 1$ for $k \geq 2$, so they are all. For odd $p$, $U_{p^k}$ is cyclic
+(Theorem~\ref{number-theory:theorem-primitive-root-prime-power}) of even order, and has exactly two elements of order dividing $2$ (Lemma~\ref{number-theory:lemma-order}(3)), namely $\pm1$. By the Chinese
+remainder theorem, if $n = 2^ap_1^{k_1} \cdots p_r^{k_r}$ with distinct odd primes $p_i$, the number of solutions is $2^r$ times $1$, $2$ or $4$ according as $a \leq 1$, $a = 2$ or $a \geq 3$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-minus-three}
+Show that for a prime $p > 3$, $\bigl(\frac{-3}{p}\bigr) = 1$ if and only if $p \equiv 1 \pmod 3$. Deduce that there are infinitely many primes $p \equiv 1 \pmod 3$ (consider
+$N = (2p_1 \cdots p_k)^2 + 3$).
+\end{exercise}
+
+\begin{solution}
+By Euler's criterion, Corollary~\ref{number-theory:corollary-minus-one} and reciprocity, $(\frac{-3}{p}) = (\frac{-1}{p})(\frac{3}{p}) = (-1)^{\frac{p-1}{2}} \cdot (-1)^{\frac{p-1}{2}}(\frac{p}{3}) = (\frac{p}{3})$,
+which is $1$ exactly when $p \equiv 1 \pmod 3$. Given primes $p_1, \ldots, p_k \equiv 1 \pmod 3$, let $N = (2p_1 \cdots p_k)^2 + 3$, which is odd and not divisible by $3$ (it is $\equiv 1 \pmod 3$, as
+$p_i \neq 3$ and $4 \equiv 1$). A prime $q \mid N$ satisfies $q > 3$ and $x^2 \equiv -3 \pmod q$ with $x = 2p_1 \cdots p_k$, so $q \equiv 1 \pmod 3$; and $q \neq p_i$, as otherwise $q \mid 3$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-jacobi}
+For an odd $n = p_1 \cdots p_r$ (primes not necessarily distinct) and any integer $a$, the \emph{Jacobi symbol} is $(\frac{a}{n}) = \prod_i(\frac{a}{p_i})$. Show that it is multiplicative in $a$ and in $n$,
+that $(\frac{-1}{n}) = (-1)^{(n-1)/2}$, $(\frac{2}{n}) = (-1)^{(n^2-1)/8}$, and $(\frac{m}{n})(\frac{n}{m}) = (-1)^{\frac{m-1}{2}\cdot\frac{n-1}{2}}$ for coprime odd positive $m$, $n$. Use it to compute
+$(\frac{1001}{9907})$ without factoring $1001$, given that $9907$ is prime. Show by an example that $(\frac{a}{n}) = 1$ does not imply that $a$ is a square modulo $n$.
+\end{exercise}
+
+\begin{solution}
+Multiplicativity in $n$ is the definition, and in $a$ follows from Proposition~\ref{number-theory:proposition-euler-criterion}(3). The functions $u \mapsto (-1)^{(u-1)/2}$ and $u \mapsto (-1)^{(u^2-1)/8}$
+are multiplicative on odd integers: for odd $u, v$, $\frac{uv - 1}{2} - \frac{u - 1}{2} - \frac{v - 1}{2} = \frac{(u - 1)(v - 1)}{2} \equiv 0 \pmod 2$, and
+$\frac{u^2v^2 - 1}{8} - \frac{u^2 - 1}{8} - \frac{v^2 - 1}{8} = \frac{(u^2 - 1)(v^2 - 1)}{8} \equiv 0 \pmod 2$, as $8 \mid u^2 - 1$ (Example~\ref{number-theory:example-congruences}(2)). So the two
+supplementary laws pass from primes to products. Likewise $(m, n) \mapsto (-1)^{\frac{m-1}{2}\frac{n-1}{2}}$ is multiplicative in each variable, so reciprocity for the Jacobi symbol follows from the prime
+case by writing both $m$ and $n$ as products of primes. Now $1001 \equiv 1 \pmod 4$, so $(\frac{1001}{9907}) = (\frac{9907}{1001}) = (\frac{898}{1001}) = (\frac{2}{1001})(\frac{449}{1001})$. As
+$1001 \equiv 1 \pmod 8$, $(\frac{2}{1001}) = 1$, and $449 \equiv 1 \pmod 4$ gives $(\frac{449}{1001}) = (\frac{1001}{449}) = (\frac{103}{449}) = (\frac{449}{103}) = (\frac{37}{103}) = (\frac{103}{37}) =
+(\frac{29}{37}) = (\frac{37}{29}) = (\frac{8}{29}) = (\frac{2}{29})^3 = -1$, as $29 \equiv 5 \pmod 8$. So $(\frac{1001}{9907}) = -1$, and $1001$ is not a square modulo $9907$. Finally
+$(\frac{2}{15}) = (\frac{2}{3})(\frac{2}{5}) = (-1)(-1) = 1$, but $2$ is not a square modulo $15$, since it is not a square modulo $3$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-mersenne}
+Show that if $2^k - 1$ is prime, then $k$ is prime. Show that every prime divisor $q$ of $2^p - 1$, for $p$ an odd prime, satisfies $q \equiv 1 \pmod{2p}$, and use this to show that $2^{11} - 1$ is
+composite and $2^{13} - 1 = 8191$ is prime.
+\end{exercise}
+
+\begin{solution}
+If $k = ab$ with $1 < a < k$, then $2^a - 1$ divides $2^{ab} - 1 = (2^a - 1)(2^{a(b-1)} + \cdots + 2^a + 1)$, and $1 < 2^a - 1 < 2^k - 1$. If $q \mid 2^p - 1$, then $2^p \equiv 1 \pmod q$, so
+$\operatorname{ord}_q(2)$ divides the prime $p$ and is not $1$; so it is $p$, and $p \mid q - 1$ by Lemma~\ref{number-theory:lemma-order}. As $q$ is odd, $q \equiv 1 \pmod{2p}$. For $p = 11$ the candidates
+are $23, 67, 89, \ldots$, and $2047 = 23 \cdot 89$. For $p = 13$ the candidates are the primes $q \equiv 1 \pmod{26}$ with $q \leq \sqrt{8191} < 91$, namely $53$ and $79$; neither divides $8191$
+($8191 = 154 \cdot 53 + 29 = 103 \cdot 79 + 54$), so $8191$ is prime.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-rsa-factoring}
+Let $n = pq$ with $p \neq q$ prime. Show that $p$ and $q$ can be computed from $n$ and $\varphi(n)$, as the roots of a quadratic equation. Find $p$ and $q$ for $n = 2021$ and $\varphi(n) = 1932$.
+\end{exercise}
+
+\begin{solution}
+$\varphi(n) = (p - 1)(q - 1) = n - (p + q) + 1$ gives $p + q = n + 1 - \varphi(n)$, and $pq = n$; so $p$ and $q$ are the roots of $X^2 - (n + 1 - \varphi(n))X + n$. For $n = 2021$: $p + q = 90$ and
+$pq = 2021$, so $X^2 - 90X + 2021 = (X - 43)(X - 47)$, and $2021 = 43 \cdot 47$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-mobius-sum}
+Show that $\sum_{d \mid n}\mu(d)\tau(n/d) = 1$ and $\sum_{d \mid n}\mu(d)\sigma(n/d) = n$ for all $n$, and that $\sum_{d \mid n}|\mu(d)| = 2^r$ if $n$ has $r$ distinct prime factors.
+\end{exercise}
+
+\begin{solution}
+$\mu * \tau = \mu * \mathbf{1} * \mathbf{1} = \varepsilon * \mathbf{1} = \mathbf{1}$ and $\mu * \sigma = \mu * \mathbf{1} * \mathrm{N} = \mathrm{N}$, by Propositions~\ref{number-theory:proposition-dirichlet-ring}
+and~\ref{number-theory:proposition-mobius}. The function $|\mu| * \mathbf{1}$ is multiplicative and takes the value $1 + 1 = 2$ at every prime power $p^k$, $k \geq 1$; so its value at $n$ is $2^r$.
+\end{solution}
