@@ -350,7 +350,8 @@ MathJax.Hub.Config({
 <h1 id="logic:section-incompleteness">2.8 The incompleteness theorems<a class="tag" href="tag/0063.html" title="Permanent link: tag 0063">0063</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
-<p>The theorems of this section are quoted without proof: their proofs require a precise theory of computability, which is not developed in this project. Complete proofs can be found in <span class="cite">[<a href="Bibliography.html#smith-godel" >Smi13</a>]</span> and <span class="cite">[<a href="Bibliography.html#shoenfield-logic" >Sho67</a>, Chapter 6]</span>. </p>
+<p>The completeness theorem says that the deductive calculus captures logical consequence: whatever is true in all models of a theory can be proved from it. The incompleteness theorems say something quite different, about <em>theories</em>: no reasonable theory of arithmetic decides every arithmetic sentence. The word “complete” is used in two senses here, and it is worth keeping them apart (Remark&#160;<a href="logic-section-incompleteness.html#logic:remark-two-completeness">2.8.5</a> below). </p>
+<p>The incompleteness theorems are quoted without proof: their proofs require a precise theory of computability, which is not developed in this project. Complete proofs can be found in <span class="cite">[<a href="Bibliography.html#smith-godel" >Smi13</a>]</span> and <span class="cite">[<a href="Bibliography.html#shoenfield-logic" >Sho67</a>, Chapter 6]</span>. We explain what they say, what they do not say, and why computability enters. </p>
 <div class="definition_thmwrapper theorem-style-definition" id="logic:definition-arithmetic">
   <div class="definition_thmheading"><a class="tag" href="tag/0064.html" title="Permanent link: tag 0064">0064</a>
     <span class="definition_thmcaption">
@@ -361,7 +362,7 @@ MathJax.Hub.Config({
   <div class="definition_thmcontent">
   <p> <em>Robinson arithmetic</em> \(Q\) is the theory in the language of arithmetic consisting of the sentences </p>
 <div class="displaymath" id="a0000000029">
-  \begin{align*} &  \forall x\,  (S(x) \neq 0), & &  \forall x \forall y\,  (S(x) = S(y) \to x = y), \\ &  \forall x\,  (x \neq 0 \to \exists y\,  (x = S(y))), & &  \forall x\,  (x + 0 = x), \\ &  \forall x \forall y\,  (x + S(y) = S(x + y)), & &  \forall x\,  (x \cdot 0 = 0), \\ &  \forall x \forall y\,  (x \cdot S(y) = x \cdot y + x). & & \end{align*}
+  \[  \begin{aligned} &  \forall x\,  (S(x) \neq 0), \qquad & &  \forall x \forall y\,  (S(x) = S(y) \to x = y), \\ &  \forall x\,  (x \neq 0 \to \exists y\,  (x = S(y))), \qquad & &  \forall x\,  (x + 0 = x), \\ &  \forall x \forall y\,  (x + S(y) = S(x + y)), \qquad & &  \forall x\,  (x \cdot 0 = 0), \\ &  \forall x \forall y\,  (x \cdot S(y) = x \cdot y + x). \end{aligned}  \]
 </div>
 <p> <em>Peano arithmetic</em> \(\mathrm{PA}\) consists of \(Q\) together with, for every formula \(\varphi \) whose free variables are among \(x, y_1, \ldots , y_k\), the induction axiom \(\forall y_1 \cdots \forall y_k\,  \bigl((\varphi [0/x] \wedge \forall x\, (\varphi \to \varphi [S(x)/x])) \to \forall x\, \varphi \bigr)\). </p>
 
@@ -387,16 +388,74 @@ MathJax.Hub.Config({
     <span class="example_thmlabel">2.8.3</span>
   </div>
   <div class="example_thmcontent">
-  <p> For every structure \(\mathcal{A}\), the theory \(\operatorname {Th}(\mathcal{A})\) is complete and consistent. For the structure \(\mathcal{N}\) of Example&#160;<a href="logic-section-compactness.html#logic:example-nonstandard-arithmetic">2.7.5</a>, Theorem&#160;<a href="logic-section-incompleteness.html#logic:theorem-first-incompleteness">2.8.4</a> implies that \(\operatorname {Th}(\mathcal{N})\) is not computably axiomatized. </p>
+  <p> For every structure \(\mathcal{A}\), the theory \(\operatorname {Th}(\mathcal{A})\) is complete and consistent. For the structure \(\mathcal{N}\) of Example&#160;<a href="logic-section-compactness.html#logic:example-nonstandard-arithmetic">2.7.5</a>, Theorem&#160;<a href="logic-section-incompleteness.html#logic:theorem-first-incompleteness">2.8.7</a> implies that \(\operatorname {Th}(\mathcal{N})\) is not computably axiomatized. </p>
 
   </div>
 </div>
+<div class="example_thmwrapper theorem-style-definition" id="logic:example-computably-axiomatized">
+  <div class="example_thmheading"><a class="tag" href="tag/02X6.html" title="Permanent link: tag 02X6">02X6</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">2.8.4</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>A finite theory, such as \(Q\) or the theory of groups, is computably axiomatized: to decide whether a sentence belongs to it, compare it with the finitely many axioms. </p>
+</li>
+  <li><p>\(\mathrm{PA}\) is infinite but computably axiomatized: a sentence belongs to \(\mathrm{PA}\) if and only if it is one of the seven axioms of \(Q\) or has the shape of an induction axiom, and checking the shape is a mechanical inspection of the string of symbols. </p>
+</li>
+  <li><p>The theory of algebraically closed fields of characteristic \(0\) (the field axioms, the sentences \(\chi _p\) of Exercise&#160;<a href="logic-section-exercises.html#logic:exercise-characteristic-zero">2.9.5</a>, and for each \(n \geq 1\) the sentence saying that every monic polynomial of degree \(n\) has a root) is computably axiomatized and infinite. It is also complete, by the Łoś–Vaught test (Chapter&#160;<a href="model-theory.html">5</a>). This does not contradict the incompleteness theorem below, which concerns theories in the language of arithmetic that contain \(Q\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="logic:remark-two-completeness">
+  <div class="remark_thmheading"><a class="tag" href="tag/02X7.html" title="Permanent link: tag 02X7">02X7</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">2.8.5</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> <em>Two meanings of “complete”.</em> The <em>completeness theorem</em> (Corollary&#160;<a href="logic-section-completeness.html#logic:corollary-completeness">2.6.2</a>) is about the deductive calculus: \(T \vdash \sigma \) if and only if \(\sigma \) is true in every model of \(T\). A <em>complete theory</em> (Definition&#160;<a href="logic-section-incompleteness.html#logic:definition-complete-theory">2.8.2</a>) is one that decides every sentence. The two notions are linked as follows: by the completeness theorem, a consistent theory \(T\) (in a countable language) fails to decide a sentence \(\sigma \) exactly when \(T \not\models \sigma \) and \(T \not\models \neg \sigma \), that is, when \(\sigma \) is true in some model of \(T\) and false in another. So \(T\) is complete if and only if all its models satisfy the same sentences. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="logic:proposition-complete-decidable">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02X8.html" title="Permanent link: tag 02X8">02X8</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">2.8.6</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(\mathcal{L}\) be countable and \(T\) a consistent theory. Then \(T\) is complete if and only if any two models of \(T\) satisfy the same sentences. If \(T\) is complete and computably axiomatized, then there is an algorithm deciding, for a sentence \(\sigma \), whether \(T \vdash \sigma \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000030">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(T\) is complete and \(\mathcal{A}\), \(\mathcal{B}\) are models, then for each sentence \(\sigma \) either \(T \vdash \sigma \) or \(T \vdash \neg \sigma \), and by soundness (Theorem&#160;<a href="logic-section-deductions.html#logic:theorem-soundness">2.5.6</a>) \(\sigma \) has the same truth value in \(\mathcal{A}\) and \(\mathcal{B}\). Conversely, if \(T \not\vdash \sigma \) and \(T \not\vdash \neg \sigma \), then by the completeness theorem \(T \not\models \sigma \) and \(T \not\models \neg \sigma \): there are a model in which \(\sigma \) is false and a model in which \(\neg \sigma \) is false. </p>
+<p>For the second statement, the deductions from \(T\) are finite strings of symbols, and whether a given string is a deduction from \(T\) can be checked mechanically, using an algorithm for membership in \(T\) to check the steps that cite axioms of \(T\). So an algorithm can list all deductions from \(T\), one after the other. Given \(\sigma \), run through this list until a deduction of \(\sigma \) or of \(\neg \sigma \) appears. As \(T\) is complete one of them appears after finitely many steps, and as \(T\) is consistent at most one of \(\sigma \) and \(\neg \sigma \) is provable, so the answer is correct. </p>
+
+  </div>
+</div>
+<p>The second half of this proposition shows where computability enters: a complete, computably axiomatized theory is decidable. So to prove that a theory is incomplete it suffices to prove that it is undecidable, and the first incompleteness theorem is, in essence, an undecidability theorem for arithmetic, proved by the diagonal argument of Remark&#160;<a href="logic-section-incompleteness.html#logic:remark-turing">2.8.12</a> below. </p>
 <div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-first-incompleteness">
   <div class="theorem_thmheading"><a class="tag" href="tag/0067.html" title="Permanent link: tag 0067">0067</a>
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.8.4</span>
+    <span class="theorem_thmlabel">2.8.7</span>
     <span class="theorem_thmtitle">First incompleteness theorem</span>
   </div>
   <div class="theorem_thmcontent">
@@ -405,12 +464,34 @@ MathJax.Hub.Config({
   </div>
 </div>
 <p>This is due to <span class="cite">[<a href="Bibliography.html#godel-1931" >G3̎1</a>]</span>, under a slightly stronger hypothesis than consistency, and in this form to <span class="cite">[<a href="Bibliography.html#rosser-1936" >Ros36</a>]</span>; the theory \(Q\) is from <span class="cite">[<a href="Bibliography.html#tarski-mostowski-robinson" >TMR53</a>]</span>. </p>
+<div class="remark_thmwrapper theorem-style-remark" id="logic:remark-reading-incompleteness">
+  <div class="remark_thmheading"><a class="tag" href="tag/02X9.html" title="Permanent link: tag 02X9">02X9</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">2.8.8</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> <em>What the first incompleteness theorem says, and what it does not say.</em> </p>
+<ol class="enumerate">
+  <li><p>It produces, for each such \(T\), a sentence \(\sigma \) with \(T \not\vdash \sigma \) and \(T \not\vdash \neg \sigma \). By Proposition&#160;<a href="logic-section-incompleteness.html#logic:proposition-complete-decidable">2.8.6</a>, \(T\) has a model in which \(\sigma \) is true and a model in which it is false. If \(\mathcal{N}\) is a model of \(T\), as for \(T = \mathrm{PA}\), then one of \(\sigma \), \(\neg \sigma \) is true in \(\mathcal{N}\) and not provable in \(T\): there are true arithmetic statements that \(T\) does not prove, and the models in which they fail are nonstandard models, as in Example&#160;<a href="logic-section-compactness.html#logic:example-nonstandard-arithmetic">2.7.5</a>. </p>
+</li>
+  <li><p>It does not say that some arithmetic truths are unprovable in an absolute sense: the unprovable sentence of \(T\) is provable in the larger theory \(T \cup \{ \sigma \} \). But this larger theory is again consistent and computably axiomatized, so it is incomplete in turn; no computably axiomatized extension of \(Q\) captures all of \(\operatorname {Th}(\mathcal{N})\), which is Example&#160;<a href="logic-section-incompleteness.html#logic:example-complete-theory">2.8.3</a>. </p>
+</li>
+  <li><p>The hypothesis “computably axiomatized” cannot be dropped: \(\operatorname {Th}(\mathcal{N})\) itself is consistent, complete and contains \(Q\). Nor can the hypothesis that \(T\) contains enough arithmetic: the theory of algebraically closed fields of characteristic \(0\) is complete (Example&#160;<a href="logic-section-incompleteness.html#logic:example-computably-axiomatized">2.8.4</a>(3)). </p>
+</li>
+  <li><p>The sentence \(\sigma \) produced by Gödel’s proof says, via a coding of formulas and deductions by numbers, “I am not provable in \(T\)”. Its truth in \(\mathcal{N}\) is a consequence of the consistency of \(T\), which leads to the second incompleteness theorem. </p>
+</li>
+</ol>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="logic:theorem-second-incompleteness">
   <div class="theorem_thmheading"><a class="tag" href="tag/0068.html" title="Permanent link: tag 0068">0068</a>
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.8.5</span>
+    <span class="theorem_thmlabel">2.8.9</span>
     <span class="theorem_thmtitle">Second incompleteness theorem</span>
   </div>
   <div class="theorem_thmcontent">
@@ -424,10 +505,30 @@ MathJax.Hub.Config({
     <span class="remark_thmcaption">
     Remark
     </span>
-    <span class="remark_thmlabel">2.8.6</span>
+    <span class="remark_thmlabel">2.8.10</span>
   </div>
   <div class="remark_thmcontent">
   <p> Both theorems apply, with the same proofs, to any consistent computably axiomatized theory in which arithmetic can be interpreted, such as ZFC: if ZFC is consistent, it does not prove its own consistency <span class="cite">[<a href="Bibliography.html#kunen-set-theory" >Kun11</a>]</span>. This affects the foundations of this project. In Chapter&#160;<a href="sets.html">3</a> we assume the existence of a Grothendieck universe, and a universe is a model of ZFC; so ZFC together with this assumption proves \(\operatorname {Con}_{\mathrm{ZFC}}\). By the second incompleteness theorem, the existence of a universe can therefore not be proved in ZFC (if ZFC is consistent): it is a genuinely new axiom, of modest strength. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="logic:example-independent-statements">
+  <div class="example_thmheading"><a class="tag" href="tag/02XA.html" title="Permanent link: tag 02XA">02XA</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">2.8.11</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>Natural independent statements.</em> The sentence of Gödel’s proof is artificial, but later work found statements of ordinary mathematics that are independent. </p>
+<ol class="enumerate">
+  <li><p><em>Goodstein sequences.</em> Write a number \(m\) in <em>hereditary base \(b\)</em>: as a sum of powers of \(b\) with coefficients less than \(b\), with the exponents again written in hereditary base \(b\), and so on. For instance \(4 = 2^2\) and \(26 = 2 \cdot 3^2 + 2 \cdot 3 + 2\) in hereditary bases \(2\) and \(3\). The Goodstein sequence of \(m\) starts with \(m_2 = m\); to pass from \(m_b\) to \(m_{b+1}\), write \(m_b\) in hereditary base \(b\), replace every \(b\) by \(b + 1\), and subtract \(1\). Starting from \(3 = 2 + 1\): replacing \(2\) by \(3\) gives \(4\), minus one is \(3\); then \(3 = 3^1\) in base \(3\) becomes \(4\), minus one is \(3\); in base \(4\) the number \(3\) is a single digit, so the sequence continues \(2, 1, 0\). Starting from \(4 = 2^2\) the sequence grows quickly: \(4\), \(3^3 - 1 = 26\), \(2 \cdot 4^2 + 2 \cdot 4 + 2 - 1 = 41\), \(2 \cdot 5^2 + 2 \cdot 5 + 1 - 1 = 60\), \(2 \cdot 6^2 + 2 \cdot 6 - 1 = 83\), and so on. <em>Goodstein’s theorem</em> <span class="cite">[<a href="Bibliography.html#goodstein-1944" >Goo44</a>]</span> says that every Goodstein sequence reaches \(0\). The proof replaces each base by the ordinal \(\omega \) (Chapter&#160;<a href="sets.html">3</a>): this turns the sequence into a strictly decreasing sequence of ordinals, which must be finite since ordinals are well-ordered. The theorem can be stated in the language of arithmetic and is true in \(\mathcal{N}\), but it is not provable in \(\mathrm{PA}\) <span class="cite">[<a href="Bibliography.html#kirby-paris-1982" >KP82</a>]</span>: any proof needs the well-ordering of ordinals beyond the reach of \(\mathrm{PA}\). </p>
+</li>
+  <li><p><em>The Paris–Harrington theorem</em>, a strengthening of the finite Ramsey theorem, is likewise true but not provable in \(\mathrm{PA}\) <span class="cite">[<a href="Bibliography.html#paris-harrington-1977" >PH77</a>]</span>. </p>
+</li>
+  <li><p>In set theory, the continuum hypothesis is neither provable nor refutable in ZFC, if ZFC is consistent <span class="cite">[<a href="Bibliography.html#godel-1938" >G3̎8</a>, <a href="Bibliography.html#cohen-1963" >Coh63</a>]</span> (see Chapter&#160;<a href="sets.html">3</a>). Unlike the examples above, its independence is proved by constructing models of ZFC in which it holds and models in which it fails, as in Proposition&#160;<a href="logic-section-incompleteness.html#logic:proposition-complete-decidable">2.8.6</a>. </p>
+</li>
+</ol>
 
   </div>
 </div>
@@ -436,7 +537,7 @@ MathJax.Hub.Config({
     <span class="remark_thmcaption">
     Remark
     </span>
-    <span class="remark_thmlabel">2.8.7</span>
+    <span class="remark_thmlabel">2.8.12</span>
   </div>
   <div class="remark_thmcontent">
   <p> <em>Computability and Turing’s theorem.</em> The informal notion of algorithm used in Definition&#160;<a href="logic-section-incompleteness.html#logic:definition-complete-theory">2.8.2</a> was made precise in the 1930s by Turing machines, recursive functions and the \(\lambda \)-calculus, which turned out to define the same class of computable functions (the <em>Church–Turing thesis</em> asserts that this class captures all effective procedures). <em>Turing’s theorem</em> <span class="cite">[<a href="Bibliography.html#turing-1937" >Tur37</a>]</span> says that the <em>halting problem</em> is undecidable: there is no algorithm which, given a program \(P\) and an input \(x\), decides whether \(P\) halts on \(x\). The idea is a diagonal argument. If \(H\) were such an algorithm, consider the program \(D\) which, on input a program \(P\), runs \(H\) on \((P, P)\) and loops forever if the answer is “halts”, and halts otherwise; then \(D\) halts on input \(D\) if and only if it does not. The same diagonal mechanism, with provability in place of halting, underlies the first incompleteness theorem; and Turing’s theorem implies that first-order validity is not decidable (Church and Turing’s negative answer to Hilbert’s <em>Entscheidungsproblem</em>), although by the completeness theorem the valid sentences can be listed by an algorithm. </p>
