@@ -18,6 +18,15 @@ Chapter~\ref{categories} (Categories) and Chapter~\ref{linear-algebra} (Linear A
 
 \section{Topological spaces and continuous maps}\label{general-topology:section-spaces}
 
+\emph{Why open sets.} In analysis, ``$x_n$ tends to $x$'' and ``$f$ is continuous at $x$'' are expressed with distances: $|x_n - x| < \varepsilon$ eventually, $|f(y) - f(x)| < \varepsilon$ when
+$|y - x| < \delta$. Looking closely, the actual numbers $\varepsilon$ and $\delta$ do not matter, only the sets $\{y : |y - x| < \delta\}$ and, more precisely, the sets that contain such a ball around each of
+their points, the \emph{open} sets. For instance $f \colon \RR \to \RR$ is continuous if and only if the preimage of every open set is open (Proposition~\ref{general-topology:proposition-metric-continuity}
+below). Open sets have three basic properties, all following from the definition: $\emptyset$ and the whole space are open; a union of open sets is open (a ball around a point of the union lies in one of
+the sets); and the intersection of \emph{two} open sets is open (around a point of the intersection take the smaller of two balls). An infinite intersection need not be open: the intervals
+$(-\frac1n, \frac1n)$ are open and their intersection is $\{0\}$, which contains no ball. A topology is a choice of ``open sets'' with exactly these three properties, and nothing else; this is enough to
+speak of limits and continuity, and it applies to spaces where no natural distance exists, such as quotient spaces, spaces of functions with pointwise convergence, or the Zariski topology of algebraic
+geometry.
+
 \begin{definition}\label{general-topology:definition-topology}
 A \emph{topology} on a set $X$ is a set $\mathcal{T}$ of subsets of $X$, called \emph{open} sets, such that $\emptyset$ and $X$
 are open, every union of open sets is open, and every finite intersection of open sets is open. A \emph{topological space}
@@ -33,7 +42,15 @@ coarsest topologies on $X$.
 \item The \emph{cofinite} topology on $X$ consists of $\emptyset$ and the complements of finite sets. The \emph{cocountable} topology
 consists of $\emptyset$ and the complements of countable sets.
 \item The \emph{Sierpi\'nski space} is $\{0, 1\}$ with open sets $\emptyset$, $\{1\}$ and $\{0, 1\}$.
+\item On a two-point set $\{a, b\}$ there are exactly four topologies: the indiscrete one, the discrete one, and the two Sierpi\'nski topologies $\{\emptyset, \{a\}, \{a, b\}\}$ and
+$\{\emptyset, \{b\}, \{a, b\}\}$. Indeed a topology must contain $\emptyset$ and $\{a, b\}$, and any choice of which singletons to add satisfies the axioms. The family $\{\emptyset, \{a\}, \{b\}\}$ is not a
+topology, since the union $\{a\} \cup \{b\}$ and the whole space are missing.
+\item The \emph{metric topology} of $\RR$ (Section~\ref{general-topology:section-metric}): $U$ is open if every $x \in U$ has an $\varepsilon > 0$ with $(x - \varepsilon, x + \varepsilon) \subseteq U$. Open
+intervals and their unions are open; $[0, 1)$ is not open (no interval around $0$ fits inside) and not closed (its complement $(-\infty, 0) \cup [1, \infty)$ is not open at $1$). So ``not open'' does not mean
+``closed'': a set can be both ($\emptyset$, $\RR$), one of the two, or neither.
 \end{enumerate}
+A finer topology has more open sets. The finer the topology on $X$, the easier it is for maps \emph{from} $X$ to be continuous and the harder for maps \emph{to} $X$; every map from a discrete space and every
+map to an indiscrete space is continuous (Definition~\ref{general-topology:definition-continuous} below).
 \end{example}
 
 \begin{definition}\label{general-topology:definition-closure}
@@ -94,6 +111,20 @@ and is closed. $\QQ$ is dense, with $\QQ^{\prime} = \RR$, and has empty interior
 least two points, every point is an accumulation point of every nonempty set other than a singleton, and (5) fails: the space is not Hausdorff.
 \end{example}
 
+\begin{example}\label{general-topology:example-closure-computations}
+In $\RR$ with its usual topology:
+\begin{enumerate}
+\item For $A = [0, 1)$: $\operatorname{int}A = (0, 1)$, $\overline{A} = [0, 1]$ and $\partial A = \{0, 1\}$. For $A = (0, 1) \cup \{2\}$: $\operatorname{int}A = (0, 1)$, $\overline{A} = [0, 1] \cup \{2\}$, and
+$\partial A = \{0, 1, 2\}$; the isolated point $2$ belongs to the boundary although it belongs to $A$.
+\item For $A = \QQ$: $\operatorname{int}\QQ = \emptyset$ (every interval contains irrationals), $\overline{\QQ} = \RR$ (every interval contains rationals), and $\partial\QQ = \RR$.
+\item The closure does not commute with intersections: for $A = (0, 1)$ and $B = (1, 2)$, $\overline{A \cap B} = \emptyset$ while $\overline{A} \cap \overline{B} = \{1\}$; in general only
+$\overline{A \cap B} \subseteq \overline{A} \cap \overline{B}$ holds. It commutes with finite unions (Lemma~\ref{general-topology:lemma-closure}) but not with infinite ones: the sets $\{\frac1n\}$ are closed,
+while their union has closure $\{\frac1n\} \cup \{0\}$.
+\end{enumerate}
+In the discrete topology every set is open and closed, so $\operatorname{int}A = A = \overline{A}$ and $\partial A = \emptyset$. In the indiscrete topology on $X$, a nonempty $A \neq X$ has
+$\operatorname{int}A = \emptyset$ and $\overline{A} = X$: the topology is too coarse to distinguish the points of $A$ from the others.
+\end{example}
+
 \begin{definition}\label{general-topology:definition-basis}
 A \emph{basis} of a topology $\mathcal{T}$ is a subset $\mathcal{B} \subseteq \mathcal{T}$ such that every open set is a union of members
 of $\mathcal{B}$. A \emph{subbasis} is a subset $\mathcal{S} \subseteq \mathcal{T}$ such that the finite intersections of members of $\mathcal{S}$
@@ -122,6 +153,16 @@ satisfies the conditions of (1). The topology it generates contains $\mathcal{S}
 $\mathcal{B}$ and all unions of its members.
 \end{proof}
 
+\begin{example}\label{general-topology:example-bases}
+\begin{enumerate}
+\item In a metric space the open balls form a basis (Section~\ref{general-topology:section-metric}). In $\RR$ already the intervals $(p, q)$ with rational endpoints form a basis: if $x \in U$ open, there is
+$(x - \varepsilon, x + \varepsilon) \subseteq U$, and rationals $p \in (x - \varepsilon, x)$, $q \in (x, x + \varepsilon)$ give $x \in (p, q) \subseteq U$. This basis is countable, so $\RR$ is second countable.
+\item The rays $(-\infty, a)$ and $(b, \infty)$ form a subbasis of the topology of $\RR$ which is not a basis: the interval $(0, 1) = (-\infty, 1) \cap (0, \infty)$ is open but not a union of rays.
+\item The half-open intervals $[a, b)$ satisfy the conditions of Lemma~\ref{general-topology:lemma-basis}(1), so they are a basis of a topology, the \emph{Sorgenfrey line}; it is finer than the usual topology,
+since $(a, b) = \bigcup_n[a + \frac1n, b)$, and strictly finer, since $[0, 1)$ is open in it.
+\end{enumerate}
+\end{example}
+
 \begin{definition}\label{general-topology:definition-continuous}
 A map $f \colon X \to Y$ between spaces is \emph{continuous} if $f^{-1}(V)$ is open for every open $V \subseteq Y$. It is a
 \emph{homeomorphism} if it is bijective and both $f$ and $f^{-1}$ are continuous. It is \emph{open} (\emph{closed}) if it maps open
@@ -147,6 +188,17 @@ so $\overline{A} \subseteq A$. (1)$\Rightarrow$(4): take $U = f^{-1}(V)$. (4)$\R
 by (4) for its points. (1)$\Leftrightarrow$(5): preimages commute with unions and intersections, and every open set is a union of finite
 intersections of members of the subbasis. The last statement follows from $(g \circ f)^{-1}(W) = f^{-1}(g^{-1}(W))$.
 \end{proof}
+
+\begin{example}\label{general-topology:example-continuity}
+\begin{enumerate}
+\item Constant maps are continuous: the preimage of any set is $\emptyset$ or the whole space. The identity of $X$ is continuous from a finer to a coarser topology, and only in that direction.
+\item The floor function $\lfloor\cdot\rfloor \colon \RR \to \RR$ is not continuous: the preimage of the open interval $(-\frac12, \frac12)$ is $[0, 1)$, which is not open. In terms of (4), at $x = 0$ the open
+set $V = (-\frac12, \frac12) \ni 0 = \lfloor0\rfloor$ contains $\lfloor U\rfloor$ for no open $U \ni 0$, since $U$ contains negative numbers. It is continuous at every non-integer, where it is locally
+constant.
+\item The indicator function $\mathbf{1}_\QQ$ is continuous at no point, since every interval contains rational and irrational points; restricted to the subspace $\QQ$ it is constant, hence continuous.
+Continuity depends on the topologies on both sides, and restricting a map to a subspace can make it continuous.
+\end{enumerate}
+\end{example}
 
 \begin{counterexample}\label{general-topology:counterexample-bijection-not-homeomorphism}
 A continuous bijection need not be a homeomorphism: the identity map from $X$ with the discrete topology to $X$ with the
@@ -362,6 +414,16 @@ $X$, and its closed sets are the sets $C \cap A$ with $C$ closed in $X$. An \emp
 onto $f(X)$ with the subspace topology.
 \end{definition}
 
+\begin{example}\label{general-topology:example-subspaces}
+\begin{enumerate}
+\item In $A = [0, 1] \subseteq \RR$ the set $[0, \frac12) = (-1, \frac12) \cap A$ is open, although it is not open in $\RR$: ``open'' is relative to the ambient space. Similarly $[0, 1]$ is open and closed in
+itself. If $A$ is open in $X$, the open subsets of $A$ are exactly the open subsets of $X$ contained in $A$; if $A$ is closed, the same holds for closed subsets.
+\item $\ZZ \subseteq \RR$ has the discrete topology: $\{n\} = (n - \frac12, n + \frac12) \cap \ZZ$ is open. The subspace $\{0\} \cup \{\frac1n : n \geq 1\}$ is not discrete, as every open set containing
+$0$ contains some $\frac1n$; and $\QQ$ is not discrete either. So two subspaces can be in bijection without being homeomorphic: $\ZZ$ and $\{0\} \cup \{\frac1n\}$ are both countable.
+\item The inclusion $A \to X$ of a subspace is continuous, and a map $Z \to A$ is continuous if and only if its composite with the inclusion is (Proposition~\ref{general-topology:proposition-initial-final}).
+\end{enumerate}
+\end{example}
+
 \begin{lemma}[Pasting lemma]\label{general-topology:lemma-pasting}
 Let $f \colon X \to Y$ be a map and suppose $X = \bigcup_i A_i$, where either all $A_i$ are open, or there are finitely many $A_i$ and all are closed.
 If every restriction $f|_{A_i}$ is continuous, then $f$ is continuous.
@@ -574,6 +636,21 @@ $\RR^{n+1} \setminus \{0\}$ under $x \mapsto x/\|x\|_2$.
 An \emph{open cover} of a space $X$ is a family of open sets whose union is $X$. The space $X$ is \emph{compact} if every open cover has a finite
 subcover. A subset is compact if it is compact as a subspace, that is, if every cover of it by open subsets of $X$ has a finite subcover.
 \end{definition}
+
+Compactness is the topological substitute for finiteness: many statements about finite sets, such as ``a real function on it has a maximum'', extend to compact spaces, because one can reduce to
+finitely many open sets. To prove that a space is \emph{not} compact one exhibits a single open cover without finite subcover; to prove that it is compact one has to handle every cover.
+
+\begin{example}\label{general-topology:example-compactness}
+\begin{enumerate}
+\item Every finite space is compact, and so is every space with finitely many open sets. An infinite discrete space is not: the singletons cover it.
+\item $(0, 1]$ is not compact: the open sets $(\frac1n, 1]$ cover it, and finitely many of them have union $(\frac1N, 1]$ for the largest $N$ used, which misses $\frac1{2N}$. Likewise $\RR$ is not compact
+(cover by $(-n, n)$), and $\QQ \cap [0, 1]$ is not (cover by the sets $\{q : |q - \alpha| > \frac1n\}$ for an irrational $\alpha \in (0, 1)$).
+\item $K = \{0\} \cup \{\frac1n : n \geq 1\}$ is compact: given an open cover, some member $U$ contains $0$, hence all $\frac1n$ with $n > N$ for some $N$, and finitely many further members cover
+$1, \frac12, \ldots, \frac1N$. A convergent sequence together with its limit is always compact, by the same argument.
+\item Every set with the cofinite topology is compact: one member of a cover misses only finitely many points, each of which lies in some member.
+\item In a non-Hausdorff space compact sets need not be closed: in the Sierpi\'nski space $\{1\}$ is compact but not closed, and in an indiscrete space every subset is compact.
+\end{enumerate}
+\end{example}
 
 \begin{proposition}\label{general-topology:proposition-compact-basic}
 \begin{enumerate}
@@ -1172,3 +1249,55 @@ $f^+ \colon X^+ \to Y^+$ with $f^+(\infty) = \infty$ is continuous.
 Let $q \colon X \to Y$ be a quotient map and $K$ a compact Hausdorff space. Show that $q \times \id_K \colon X \times K \to Y \times K$ is a quotient map. (Hint:
 use the tube lemma from the proof of Proposition~\ref{general-topology:proposition-finite-products}.)
 \end{exercise}
+
+\begin{exercise}\label{general-topology:exercise-interior-union}
+Show that $\operatorname{int}(A \cap B) = \operatorname{int}A \cap \operatorname{int}B$ but only $\operatorname{int}(A \cup B) \supseteq \operatorname{int}A \cup \operatorname{int}B$, with an example where the
+inclusion is strict.
+\end{exercise}
+
+\begin{solution}
+$\operatorname{int}A \cap \operatorname{int}B$ is open and contained in $A \cap B$, hence in $\operatorname{int}(A \cap B)$; conversely $\operatorname{int}(A \cap B)$ is an open subset of $A$ and of $B$. For
+unions, $\operatorname{int}A \cup \operatorname{int}B$ is an open subset of $A \cup B$. For $A = \QQ$ and $B = \RR \setminus \QQ$ in $\RR$, both interiors are empty while $\operatorname{int}(A \cup B) = \RR$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-boundary-clopen}
+Show that $\partial A = \emptyset$ if and only if $A$ is both open and closed, and deduce that a space is connected (Section~\ref{general-topology:section-connectedness}) if and only if every subset other
+than $\emptyset$ and $X$ has nonempty boundary.
+\end{exercise}
+
+\begin{solution}
+$\partial A = \overline{A} \setminus \operatorname{int}A$ is empty if and only if $\overline{A} = \operatorname{int}A$, and since $\operatorname{int}A \subseteq A \subseteq \overline{A}$ this means
+$\operatorname{int}A = A = \overline{A}$, that is, $A$ is open and closed. A space is connected exactly when its only clopen subsets are $\emptyset$ and $X$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-dense-image}
+Let $f \colon X \to Y$ be continuous and surjective and $A \subseteq X$ dense. Show that $f(A)$ is dense in $Y$. Show also that two continuous maps $f, g \colon X \to Y$ to a Hausdorff space that agree on a
+dense subset are equal; give an example showing that the Hausdorff condition is needed.
+\end{exercise}
+
+\begin{solution}
+$Y = f(X) = f(\overline{A}) \subseteq \overline{f(A)}$ by Proposition~\ref{general-topology:proposition-continuity}(3). The set $\{x : f(x) = g(x)\}$ is the preimage of the diagonal under $(f, g)$, which is
+closed as $Y$ is Hausdorff (Exercise~\ref{general-topology:exercise-hausdorff-diagonal}); it contains the dense set, hence is everything. For $Y$ the Sierpi\'nski space $\{0, 1\}$ and $X = [0, 1]$, the
+constant map $1$ and the map that is $0$ at $0$ and $1$ elsewhere are continuous (the preimage of the open set $\{1\}$ is $X$, respectively $(0, 1]$) and agree on the dense set $(0, 1]$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-distance-set}
+Let $A$ be a nonempty subset of a metric space and $d(x, A) = \inf_{a \in A}d(x, a)$. Show that $|d(x, A) - d(y, A)| \leq d(x, y)$, so that $x \mapsto d(x, A)$ is continuous, and that
+$\overline{A} = \{x : d(x, A) = 0\}$. Deduce that every closed set in a metric space is the zero set of a continuous function, and that every open set is a countable union of closed sets.
+\end{exercise}
+
+\begin{solution}
+For $a \in A$, $d(x, A) \leq d(x, a) \leq d(x, y) + d(y, a)$; taking the infimum over $a$ gives $d(x, A) \leq d(x, y) + d(y, A)$, and symmetrically. If $d(x, A) = 0$ there are $a_n \in A$ with
+$d(x, a_n) \to 0$, so $x \in \overline{A}$; conversely if $d(x, A) = r > 0$, the ball $B(x, r)$ misses $A$. For $C$ closed, $C = \{d(\cdot, C) = 0\}$, and an open $U$ is the union of the closed sets
+$\{x : d(x, X \setminus U) \geq \frac1n\}$ (if $U \neq X$).
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-two-point-continuous}
+Let $S = \{0, 1\}$ be the Sierpi\'nski space, with $\{1\}$ open. Show that continuous maps $X \to S$ correspond bijectively to open subsets of $X$, via $f \mapsto f^{-1}(1)$; and that continuous maps
+$X \to \{0, 1\}$ with the discrete topology correspond to subsets of $X$ that are open and closed.
+\end{exercise}
+
+\begin{solution}
+A map $f \colon X \to S$ is continuous if and only if the preimages of the three open sets $\emptyset$, $\{1\}$, $S$ are open, that is, if and only if $f^{-1}(1)$ is open; and every subset $U$ is
+$f^{-1}(1)$ for exactly one map, $f = \mathbf{1}_U$. For the discrete topology also $f^{-1}(0) = X \setminus f^{-1}(1)$ must be open.
+\end{solution}
