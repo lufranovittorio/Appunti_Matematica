@@ -95,6 +95,7 @@ class Reference:
     where: str
     position: int
     context: str  # "proof", "prerequisites" or "text"
+    owner: str = None  # the numbered statement whose statement or proof contains it
 
 
 @dataclass
@@ -103,6 +104,7 @@ class Project:
     labels: dict = field(default_factory=dict)
     references: list = field(default_factory=list)
     citations: list = field(default_factory=list)  # (key, where)
+    equation_owner: dict = field(default_factory=dict)  # equation label -> statement
     errors: list = field(default_factory=list)
     warnings: list = field(default_factory=list)
     position: int = 0
@@ -171,6 +173,9 @@ def scan_chapter(project, chapter):
     stack = []  # entries [environment, line, labelled]
     in_section = False
     has_chapter_label = False
+    # The last labelled numbered environment: references inside it or inside
+    # the proof that follows it are dependencies of that statement.
+    last_item = None
 
     # A shell or a script can turn "\r", "\t", "\b", "\f" in "\ref", "\theta",
     # "\beta", "\frac" into control characters; report any that are left.
@@ -218,6 +223,11 @@ def scan_chapter(project, chapter):
                 if name == chapter.slug:
                     has_chapter_label = True
                 add_label(project, Label(name, chapter.slug, where, project.next_position()))
+                innermost = stack[-1][0] if stack else None
+                if innermost in THEOREM_ENVS:
+                    last_item = name
+                elif innermost in EQUATION_ENVS and in_statement(stack) and last_item:
+                    project.equation_owner[name] = last_item
             elif m.group("ref"):
                 if any(entry[0] in PROOF_ENVS for entry in stack):
                     context = "proof"
@@ -225,9 +235,10 @@ def scan_chapter(project, chapter):
                     context = "prerequisites"
                 else:
                     context = "text"
+                owner = last_item if in_statement(stack) else None
                 for target in m.group("ref").split(","):
                     project.references.append(Reference(
-                        target.strip(), chapter.slug, where, project.next_position(), context))
+                        target.strip(), chapter.slug, where, project.next_position(), context, owner))
             elif m.group("cite"):
                 for key in m.group("cite").split(","):
                     project.citations.append((key.strip(), where))
@@ -243,6 +254,27 @@ def scan_chapter(project, chapter):
         project.errors.append(f"{rel}: the chapter must be labelled \\label{{{chapter.slug}}}")
     if not chapter.status:
         project.errors.append(f"{rel}: missing \\chapterstatus{{...}}")
+
+
+def in_statement(stack):
+    """Whether the current position is inside a numbered environment or a proof."""
+    return any(entry[0] in THEOREM_ENVS or entry[0] in PROOF_ENVS for entry in stack)
+
+
+def dependency_graph(project):
+    """Map each numbered statement to the numbered statements it refers to.
+
+    A statement depends on what its statement and its proof refer to; a
+    reference to an equation counts as one to the statement containing it."""
+    uses = {}
+    for ref in project.references:
+        target = project.equation_owner.get(ref.target, ref.target)
+        if not ref.owner or target == ref.owner or target not in project.labels:
+            continue
+        kind = target.partition(":")[2].split("-")[0]
+        if kind in THEOREM_ENVS:
+            uses.setdefault(ref.owner, set()).add(target)
+    return uses
 
 
 _ACCENT_MACRO_RE = None
@@ -567,11 +599,21 @@ def tag_badge(tag):
     return f'<a class="tag" href="tag/{tag}.html" title="Permanent link: tag {tag}">{tag}</a>'
 
 
+def graph_badge(tag):
+    return (f'<a class="graph-link" href="graph.html?tag={tag}" title="Dependencies of tag {tag}: what it uses and '
+            f'what uses it" aria-label="Dependency graph of tag {tag}"><svg viewBox="0 0 16 16" width="13" height="13" '
+            f'aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" '
+            f'fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 '
+            f'8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>')
+
+
 def postprocess_html(project):
     label_tag = {label: tag for tag, label in read_tags()}
     chapters = {c.slug: c for c in project.chapters}
     locations = {}
     search_entries = []
+    uses = dependency_graph(project)
+    in_graph = set(uses).union(*uses.values()) if uses else set()
 
     for path in sorted(HTML_DIR.glob("*.html")):
         text = path.read_text(encoding="utf-8")
@@ -579,7 +621,9 @@ def postprocess_html(project):
 
         def thm(m):
             tag = label_tag.get(m.group(2))
-            return m.group(0) + (tag_badge(tag) if tag else "")
+            if not tag:
+                return m.group(0)
+            return m.group(0) + tag_badge(tag) + (graph_badge(tag) if m.group(2) in in_graph else "")
 
         def heading(m):
             level, label, content = m.group(1), m.group(2), m.group(3)
@@ -632,6 +676,8 @@ def postprocess_html(project):
         print(f"html: {len(missing)} tagged label(s) not found in the website, e.g. {missing[0]}")
     count = write_search_index(project, search_entries, label_tag)
     print(f"html: search index with {count} entries")
+    edges = write_dependency_data(project, search_entries, label_tag, uses)
+    print(f"html: dependency graph with {edges} edges")
 
 
 # ---------------------------------------------------------------------------
@@ -748,6 +794,87 @@ def write_search_index(project, entries, label_tag):
     shutil.copy2(ROOT / "web" / "print.js", HTML_DIR / "js" / "print.js")
     (HTML_DIR / "print.html").write_text(PRINT_PAGE.replace("@MATHJAX_URL@", MATHJAX_URL), encoding="utf-8")
     return len(items)
+
+
+def write_dependency_data(project, entries, label_tag, uses):
+    """Write deps.js, the data used by graph.html, and the page itself."""
+    chapter_index = {c.slug: i for i, c in enumerate(project.chapters)}
+    kinds = sorted(THEOREM_ENVS)
+    pages, page_index = [], {}
+    items, item_index = [], {}
+    for _, kind, label, number, name, _, url, _ in sorted(entries):
+        if kind not in THEOREM_ENVS or label in item_index:
+            continue
+        page = url.partition("#")[0]
+        if page not in page_index:
+            page_index[page] = len(pages)
+            pages.append(page)
+        item_index[label] = len(items)
+        items.append([label, label_tag.get(label, ""), kinds.index(kind), number, name,
+                      chapter_index.get(project.labels[label].chapter, -1), page_index[page]])
+    edges = [[] for _ in items]
+    count = 0
+    for owner, targets in uses.items():
+        if owner not in item_index:
+            continue
+        edges[item_index[owner]] = sorted(item_index[t] for t in targets if t in item_index)
+        count += len(edges[item_index[owner]])
+    data = {"kinds": kinds,
+            "chapters": [[c.number, c.title, c.slug] for c in project.chapters],
+            "pages": pages, "items": items, "uses": edges}
+    (HTML_DIR / "deps.js").write_text(
+        "window.HODGE_DEPS = " + json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+        .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029") + ";\n",
+        encoding="utf-8")
+    shutil.copy2(ROOT / "web" / "graph.js", HTML_DIR / "js" / "graph.js")
+    (HTML_DIR / "graph.html").write_text(GRAPH_PAGE.replace("@MATHJAX_URL@", MATHJAX_URL), encoding="utf-8")
+    return count
+
+
+GRAPH_PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dependencies - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\\\(", "\\\\)"]], displayMath: [["\\\\[", "\\\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  skipStartupTypeset: true,
+  messageStyle: "none"
+});
+</script>
+<script src="@MATHJAX_URL@"></script>
+<link rel="stylesheet" href="styles/theme-hodge.css" />
+</head>
+<body class="graph-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="graph-form" action="graph.html" method="get">
+    <label class="visually-hidden" for="graph-input">Show the dependencies of a tag</label>
+    <input id="graph-input" name="tag" type="search" placeholder="Tag, e.g. 02WM" autocomplete="off" spellcheck="false" />
+    <button type="submit">Show</button>
+  </form>
+  <a class="header-link" href="search.html">Search</a>
+  <a class="header-link" href="tags.html">Tags</a>
+</header>
+<main class="content graph-content" id="main">
+<h1 id="graph-title">Dependencies</h1>
+<p class="graph-status" id="graph-status" aria-live="polite">Loading the dependency data&hellip;</p>
+<div id="graph-body"></div>
+<noscript><p>This page needs JavaScript. The <a href="tags.html">list of tags</a> works without it.</p></noscript>
+</main>
+<script src="deps.js"></script>
+<script src="js/graph.js"></script>
+</body>
+</html>
+"""
 
 
 PRINT_PAGE = """<!DOCTYPE html>

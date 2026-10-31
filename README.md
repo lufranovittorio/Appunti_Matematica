@@ -36,6 +36,11 @@ definitions, results, examples, exercises and remarks. The index,
 website, and the search runs entirely in the browser. `tags.html` lists all
 tags.
 
+Next to the tag of a numbered statement, an icon opens `graph.html`, the
+dependency graph: the statements its statement and proof refer to with
+`\ref`, and those that refer to it, drawn to a chosen depth. The data,
+`deps.js`, is also written by `python make.py html`.
+
 ## Publishing
 
 The sources live on the `main` branch of

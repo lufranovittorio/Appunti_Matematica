@@ -16,7 +16,9 @@ Language: English.
 - `web/Themes/hodge/` — plasTeX theme: layouts, `styles/theme-hodge.css`, `js/site.js`.
   Every `.js` file in the theme is loaded on every page, so page-specific
   scripts live elsewhere: `web/search.js` drives `search.html`, which
-  `make.py html` writes together with the index `search-index.js`.
+  `make.py html` writes together with the index `search-index.js`; likewise
+  `web/graph.js` drives `graph.html`, the dependency graph built from the
+  `\ref`s inside statements and proofs (data in `deps.js`).
 - `output/` — generated; never edit by hand.
 - `OLD_NOT_Needed/` — the user's earlier experiments and the reference PDF on
   the Hodge conjecture that the Part IX chapters were based on. Ignored by git

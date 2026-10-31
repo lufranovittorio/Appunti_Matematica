@@ -9,8 +9,6 @@ references in proofs).
 
 - Small results worth adding whenever they come up while reading: write them
   here with the chapter they belong to.
-- Dependency graph of results (from the references inside proofs), shown on
-  the website for each tag.
 - Badly rendered formula in 37.1: waiting for the user to say which one and on
   which device.
 - Thin chapters to expand: `sheaves`, `complex-analysis`,
