@@ -8,8 +8,10 @@ representative. The proof solves the equation $\Delta u = f$ in a space of gener
 smooth. The functional analysis needed for the first step is in this chapter: Hilbert spaces and orthogonal projections, the
 consequences of Baire's theorem, compact operators, the spectral theorem for compact self-adjoint operators
 (Theorem~\ref{functional-analysis:theorem-spectral-compact}) and the Fredholm alternative
-(Theorem~\ref{functional-analysis:theorem-fredholm-alternative}). References: \cite{brezis-functional}, \cite{rudin-fa},
-\cite{reed-simon-1}.
+(Theorem~\ref{functional-analysis:theorem-fredholm-alternative}). The guiding theme is what survives from finite-dimensional linear algebra and what does not: in infinite
+dimensions linear maps need not be continuous, norms need not be equivalent, closed bounded sets need not be compact, injective operators need not be surjective, and bases have to be replaced by
+orthonormal bases, whose expansions are convergent series. We also introduce Fr\'echet spaces, such as the space of smooth functions, whose topology is given by countably many seminorms; they are the
+natural home of distributions (Chapter~\ref{distributions}). References: \cite{brezis-functional}, \cite{rudin-fa}, \cite{reed-simon-1}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{measure-theory} (Measure and Integration) and Chapter~\ref{linear-algebra} (Linear Algebra).
 
@@ -36,6 +38,40 @@ Proposition~\ref{general-topology:proposition-complete-examples} and Theorem~\re
 $\|x_n - x_m\| \geq 1/2$: given the finite-dimensional, hence closed (all norms on it are equivalent and it is complete), subspace $Y_n$ spanned by $x_1, \ldots, x_n$, choose $x \notin Y_n$ and $y \in Y_n$ with
 $\|x - y\| \leq 2\operatorname{dist}(x, Y_n)$; then $x_{n+1} = (x - y)/\|x - y\|$ has distance at least $1/2$ from $Y_n$. Such a sequence has no convergent subsequence.
 \end{proof}
+
+\begin{example}\label{functional-analysis:example-norms}
+\begin{enumerate}
+\item On $\mathbb{K}^n$ the norms $\|x\|_p = (\sum_i|x_i|^p)^{1/p}$ ($1 \leq p < \infty$) and $\|x\|_\infty = \max_i|x_i|$ are all equivalent (Lemma~\ref{real-analysis:lemma-norms}); for instance
+$\|x\|_\infty \leq \|x\|_2 \leq \|x\|_1 \leq n\|x\|_\infty$. Their unit balls are a cube, a ball and a cross-polytope.
+\item On $C([0, 1])$ the norms $\|f\|_\infty$ and $\|f\|_1 = \int_0^1|f|$ are not equivalent: $\|f\|_1 \leq \|f\|_\infty$, but $f_n(x) = x^n$ has $\|f_n\|_\infty = 1$ and $\|f_n\|_1 = 1/(n + 1)$. So
+$f_n \to 0$ in one norm and not in the other, and $C([0, 1])$ is complete for $\|\cdot\|_\infty$ but not for $\|\cdot\|_1$ (Exercise~\ref{functional-analysis:exercise-l1-incomplete}).
+\item \emph{Norms of operators.} A matrix $A \colon \mathbb{K}^n \to \mathbb{K}^m$ with Euclidean norms has $\|A\| = $ its largest singular value, the square root of the largest eigenvalue of $A^*A$
+(Proposition~\ref{linear-algebra:proposition-svd}). For $g \in L^\infty([0, 1])$ the multiplication operator $M_gf = gf$ on $L^2([0, 1])$ has $\|M_g\| = \|g\|_\infty$
+(Exercise~\ref{functional-analysis:exercise-multiplication-operator}). For a continuous kernel $k$ on $[0, 1]^2$, $(Tf)(x) = \int_0^1k(x, y)f(y)\,dy$ is bounded on $C([0, 1])$ with
+$\|T\| \leq \sup_x\int_0^1|k(x, y)|\,dy$.
+\end{enumerate}
+\end{example}
+
+\begin{lemma}\label{functional-analysis:lemma-banach-series}
+A normed space $X$ is complete if and only if every absolutely convergent series ($\sum\|x_n\| < \infty$) converges. If $X$ is a Banach space and $M \subseteq X$ a closed subspace, the quotient $X/M$ with
+$\|x + M\| = \operatorname{dist}(x, M)$ is a Banach space, and the projection $X \to X/M$ has norm at most $1$.
+\end{lemma}
+
+\begin{proof}
+If $X$ is complete, the partial sums of an absolutely convergent series are Cauchy (Proposition~\ref{real-analysis:proposition-series}(1)). Conversely, given a Cauchy sequence choose $n_1 < n_2 < \cdots$ with
+$\|x_{n_{k+1}} - x_{n_k}\| < 2^{-k}$; the series $x_{n_1} + \sum_k(x_{n_{k+1}} - x_{n_k})$ converges absolutely, so the subsequence converges, and then so does the Cauchy sequence. For the quotient,
+$\|x + M\| = 0$ forces $x \in \overline{M} = M$, and the other axioms are clear, so it is a norm. If $\sum\|x_n + M\| < \infty$, choose $m_n \in M$ with $\|x_n - m_n\| \leq \|x_n + M\| + 2^{-n}$; then
+$\sum(x_n - m_n)$ converges absolutely in $X$, to some $x$, and $\sum(x_n + M)$ converges to $x + M$.
+\end{proof}
+
+\begin{remark}\label{functional-analysis:remark-separable-bases}
+A normed space is \emph{separable} if it has a countable dense subset. $\ell^p$ and $L^p([0, 1])$ for $p < \infty$, and $C([0, 1])$, are separable (finitely supported sequences with rational entries;
+step functions or polynomials with rational coefficients, Corollary~\ref{real-analysis:corollary-weierstrass}). $\ell^\infty$ is not: the indicator sequences $\mathbf{1}_S$ of the uncountably many
+subsets $S \subseteq \NN$ are at mutual distance $1$. A \emph{Hamel basis}, a basis in the sense of linear algebra, of an infinite-dimensional Banach space is uncountable: if $e_1, e_2, \ldots$ were one,
+$X$ would be the countable union of the closed subspaces $\operatorname{span}(e_1, \ldots, e_n)$, which have empty interior, contradicting Baire's theorem
+(Theorem~\ref{general-topology:theorem-baire}). This is why in analysis one works with expansions $x = \sum_n c_ne_n$ as convergent series instead: orthonormal bases in Hilbert spaces
+(Theorem~\ref{functional-analysis:theorem-orthonormal-basis}) and, more generally, \emph{Schauder bases}.
+\end{remark}
 
 \section{Hilbert spaces}\label{functional-analysis:section-hilbert}
 
@@ -74,6 +110,23 @@ $\|T\| = \sup_{\|x\|, \|y\| \leq 1}|\langle Tx, y \rangle|$, which is symmetric 
 complements.
 \end{proof}
 
+\begin{proposition}[Bessel's inequality]\label{functional-analysis:proposition-bessel}
+Let $(e_i)_{i \in I}$ be an orthonormal family in an inner product space $H$. For every $x \in H$,
+\[
+\sum_{i \in I}|\langle x, e_i \rangle|^2 \leq \|x\|^2;
+\]
+in particular only countably many coefficients $\langle x, e_i\rangle$ are nonzero, and $\langle x, e_n\rangle \to 0$ for an orthonormal sequence.
+\end{proposition}
+
+\begin{proof}
+For a finite $J \subseteq I$ let $y = \sum_{i \in J}\langle x, e_i \rangle e_i$. Then $\langle x - y, e_j\rangle = 0$ for $j \in J$, so $x - y \perp y$ and, by Pythagoras,
+$\|x\|^2 = \|y\|^2 + \|x - y\|^2 \geq \|y\|^2 = \sum_{i \in J}|\langle x, e_i \rangle|^2$. A sum of nonnegative terms is the supremum of its finite partial sums. For each $k$ at most $k\|x\|^2$ indices
+have $|\langle x, e_i\rangle|^2 \geq 1/k$, so the set of nonzero coefficients is a countable union of finite sets.
+\end{proof}
+
+The vector $y$ in the proof is the best approximation of $x$ by combinations of $e_i$, $i \in J$: $\|x - y\|^2 = \|x\|^2 - \sum_{i \in J}|\langle x, e_i\rangle|^2$, and equality in Bessel's inequality for all $x$ is
+Parseval's identity, which characterises orthonormal bases.
+
 \begin{theorem}[Orthonormal bases]\label{functional-analysis:theorem-orthonormal-basis}
 Let $(e_i)_{i \in I}$ be an orthonormal family in a Hilbert space $H$. The following are equivalent: its span is dense; $x = \sum_i\langle x, e_i \rangle e_i$ for all $x$ (with at most countably many nonzero
 terms, in any order); $\|x\|^2 = \sum_i|\langle x, e_i \rangle|^2$ for all $x$ (Parseval). Such a family is an \emph{orthonormal basis}; every Hilbert space has one, and $H$ is separable if and only if it has a
@@ -93,6 +146,29 @@ The functions $e_n(t) = e^{2\pi int}$, $n \in \ZZ$, form an orthonormal basis of
 trigonometric polynomials) is dense in $C(S^1)$ for the supremum norm (Corollary~\ref{real-analysis:corollary-weierstrass}), hence in $L^2$, and $C(S^1)$ is dense in $L^2(S^1)$: by
 Proposition~\ref{measure-theory:proposition-density} the continuous functions with compact support in $(0, 1)$ are dense in $L^2([0, 1])$, and they extend to continuous functions on $S^1$. So every $f \in L^2(S^1)$ is the $L^2$-limit of its Fourier series $\sum_n\hat f(n)e_n$ with $\hat f(n) = \int_0^1f(t)e^{-2\pi int}\,dt$, and
 $\|f\|_2^2 = \sum_n|\hat f(n)|^2$.
+\end{example}
+
+\begin{example}\label{functional-analysis:example-bases-l2}
+\emph{Orthonormal bases of $L^2([0, 1])$.} Up to the null set $\{1\}$, $[0, 1)$ is the circle $\RR/\ZZ$, so Example~\ref{functional-analysis:example-fourier} gives the basis $e^{2\pi int}$, $n \in \ZZ$.
+\begin{enumerate}
+\item \emph{Real Fourier basis.} Taking real and imaginary parts, $1$, $\sqrt2\cos(2\pi nt)$, $\sqrt2\sin(2\pi nt)$ ($n \geq 1$) is an orthonormal basis of the real space $L^2([0, 1])$: these functions are
+orthonormal ($\int_0^1\cos^2(2\pi nt)\,dt = \frac12$), and they span the same space of trigonometric polynomials, over $\CC$, as the $e^{\pm2\pi int}$.
+\item \emph{Legendre polynomials.} Gram--Schmidt (Theorem~\ref{linear-algebra:theorem-gram-schmidt}) applied to $1, x, x^2, \ldots$ gives orthonormal polynomials $P_0, P_1, P_2, \ldots$ with
+$\deg P_n = n$. With $\langle f, g\rangle = \int_0^1fg$: $P_0 = 1$; $x - \langle x, 1\rangle = x - \frac12$ has norm$^2$ $\int_0^1(x - \frac12)^2 = \frac1{12}$, so $P_1 = \sqrt3(2x - 1)$; and
+$x^2 - \langle x^2, P_0\rangle P_0 - \langle x^2, P_1\rangle P_1 = x^2 - \frac13 - \frac{\sqrt3}{6}\sqrt3(2x - 1) = x^2 - x + \frac16$, whose norm$^2$ is $\frac1{180}$, so $P_2 = \sqrt5(6x^2 - 6x + 1)$.
+They form an orthonormal basis: their span is the space of all polynomials, which is dense in $C([0, 1])$ for the supremum norm (Corollary~\ref{real-analysis:corollary-weierstrass}), hence in
+$L^2$ (since $\|f\|_2 \leq \|f\|_\infty$ and $C([0, 1])$ is dense in $L^2$, Proposition~\ref{measure-theory:proposition-density}), and Theorem~\ref{functional-analysis:theorem-orthonormal-basis} applies.
+\item \emph{The Haar basis.} Let $h = \mathbf{1}_{[0, 1/2)} - \mathbf{1}_{[1/2, 1)}$ and $h_{n,k}(t) = 2^{n/2}h(2^nt - k)$ for $n \geq 0$, $0 \leq k < 2^n$. Together with $1$ these are orthonormal: two of them
+either have disjoint supports, or the support of one lies in an interval where the other is constant, and then the integral of the first vanishes. The $2^N$ functions $1$ and $h_{n,k}$ with $n < N$ lie
+in the $2^N$-dimensional space of functions constant on the dyadic intervals $[j2^{-N}, (j + 1)2^{-N})$ and are independent, so they span it. Such step functions approximate continuous functions
+uniformly, so the span is dense, and this is an orthonormal basis; unlike the Fourier basis it consists of functions with small support, the starting point of wavelets.
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{functional-analysis:example-basel}
+\emph{Parseval and $\sum 1/n^2$.} For $f(t) = t$ on $[0, 1)$, $\hat f(0) = \frac12$ and, integrating by parts, $\hat f(n) = \int_0^1te^{-2\pi int}\,dt = \bigl[\frac{te^{-2\pi int}}{-2\pi in}\bigr]_0^1 = \frac{i}{2\pi n}$
+for $n \neq 0$. Parseval's identity gives $\frac13 = \int_0^1t^2\,dt = \frac14 + \sum_{n \neq 0}\frac{1}{4\pi^2n^2}$, that is, $\sum_{n \geq 1}\frac1{n^2} = \frac{\pi^2}6$. Note that the Fourier series of $f$
+converges to $f$ in $L^2$, not pointwise at $t = 0$, where the $1$-periodic extension of $f$ jumps.
 \end{example}
 
 \section{The Hahn--Banach and Baire theorems}\label{functional-analysis:section-hahn-banach}
@@ -231,6 +307,51 @@ every $\lambda$ with $|\lambda| < 1$ as an eigenvalue, with eigenvector $(1, \la
 \end{enumerate}
 \end{counterexample}
 
+\section{Fr\'echet spaces}\label{functional-analysis:section-frechet}
+
+The space $C^\infty(U)$ of smooth functions on an open set $U \subseteq \RR^n$ has a natural notion of convergence, uniform convergence of all derivatives on compact sets, which does not come from a
+norm. It is described by countably many seminorms.
+
+\begin{definition}\label{functional-analysis:definition-frechet}
+Let $X$ be a vector space with a sequence of seminorms $p_1 \leq p_2 \leq \cdots$ (Theorem~\ref{functional-analysis:theorem-hahn-banach}) that \emph{separates points}: $p_j(x) = 0$ for all $j$ only if
+$x = 0$. The sets $x + \{y : p_j(y) < \varepsilon\}$ form a basis of a topology, in which $x_k \to x$ if and only if $p_j(x_k - x) \to 0$ for every $j$. It is induced by the translation invariant metric
+\[
+d(x, y) = \sum_{j \geq 1}2^{-j}\min\bigl(1, p_j(x - y)\bigr),
+\]
+and $X$ is a \emph{Fr\'echet space} if this metric is complete.
+\end{definition}
+
+That the sets form a basis and that $d$ induces the topology follow from the inequalities: $d(x, y) < 2^{-j}\varepsilon$ implies $p_j(x - y) < \varepsilon$ for $\varepsilon \leq 1$, and conversely
+$p_j(x - y) < \varepsilon$ implies $d(x, y) < \varepsilon + 2^{-j}$ (the terms with index $\leq j$ are at most $2^{-i}\varepsilon$ since the seminorms increase, and the tail is at most $2^{-j}$).
+Banach spaces are Fr\'echet spaces with $p_j = \|\cdot\|$ for all $j$.
+
+\begin{example}\label{functional-analysis:example-frechet}
+\begin{enumerate}
+\item $C(\RR)$ with $p_j(f) = \sup_{[-j, j]}|f|$: convergence is uniform convergence on compact sets, and completeness follows from that of $C([-j, j])$ for each $j$.
+\item $C^\infty(U)$, with an exhaustion $K_1 \subseteq K_2 \subseteq \cdots$ of $U$ by compact sets ($K_j \subseteq \operatorname{int}K_{j+1}$, $\bigcup K_j = U$) and
+$p_j(f) = \sum_{|\alpha| \leq j}\sup_{K_j}|\partial^\alpha f|$. A Cauchy sequence has all derivatives uniformly Cauchy on each $K_j$; the limits are continuous, and they are the derivatives of the limit
+of the functions, by the theorem on uniform convergence of derivatives (Theorem~\ref{real-analysis:theorem-uniform-derivative}) applied in each variable. So $C^\infty(U)$ is a Fr\'echet space.
+\item The \emph{Schwartz space} $\mathcal{S}(\RR^n)$ of smooth functions all of whose derivatives decay faster than every power, with $p_j(f) = \sup_x(1 + |x|)^j\sum_{|\alpha| \leq j}|\partial^\alpha f(x)|$; it
+contains $e^{-|x|^2}$ and is the domain of the Fourier transform in Chapter~\ref{distributions}.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{functional-analysis:proposition-not-normable}
+The topology of $C(\RR)$ in Example~\ref{functional-analysis:example-frechet}(1) is not induced by any norm.
+\end{proposition}
+
+\begin{proof}
+Suppose a norm induces it, with unit ball $W$. Then $W$ contains a basic neighbourhood $\{f : p_j(f) < \varepsilon\}$, and the neighbourhood $U = \{f : p_{j+1}(f) < 1\}$ of $0$ contains a ball $tW$,
+$t > 0$, of the norm. Let $\phi$ be continuous, supported in $(j, j + 1)$, with maximum $1$. For every $c > 0$, $p_j(c\phi) = 0$, so $c\phi \in W$ and $tc\phi \in tW \subseteq U$; but
+$p_{j+1}(tc\phi) = tc$, which exceeds $1$ for $c$ large. Contradiction.
+\end{proof}
+
+The Baire category theorem applies to Fr\'echet spaces, since they are complete metric spaces, and the uniform boundedness, open mapping and closed graph theorems hold for them with the same proofs
+\cite[Chapter 2]{rudin-fa}. A linear map $T \colon X \to Y$ of Fr\'echet spaces, with seminorms $(p_k)$ and $(q_j)$, is continuous if and only if for every $j$ there are $k$ and $C$ with $q_j(Tx) \leq Cp_k(x)$
+\cite[Chapter 1]{rudin-fa}; for example
+$\partial/\partial x^i \colon C^\infty(U) \to C^\infty(U)$ is continuous, with $p_j(\partial_if) \leq p_{j+1}(f)$, although differentiation is unbounded for every norm on $C^1$
+(Counterexample~\ref{functional-analysis:counterexample-unbounded}).
+
 \section{Weak topologies}\label{functional-analysis:section-weak}
 
 \begin{definition}\label{functional-analysis:definition-weak}
@@ -282,3 +403,55 @@ Show that the functional $f \mapsto f(0)$ on $C([-1,1])$ is not continuous for t
 Let $T$ be compact self-adjoint with eigenvalues $\lambda_k$ and orthonormal eigenvectors $e_k$. Show that $Tx = \sum_k\lambda_k\langle x, e_k \rangle e_k$, that $T$ is a norm limit of the finite rank operators
 obtained by truncating this sum, and that $\|T\| = \max_k|\lambda_k|$.
 \end{exercise}
+
+\begin{exercise}\label{functional-analysis:exercise-l1-incomplete}
+Show that $C([0, 1])$ with the norm $\|f\|_1 = \int_0^1|f|$ is not complete, by exhibiting a Cauchy sequence converging in $L^1$ to $\mathbf{1}_{[1/2, 1]}$.
+\end{exercise}
+
+\begin{solution}
+Let $f_n$ be $0$ on $[0, \frac12 - \frac1n]$, $1$ on $[\frac12, 1]$ and linear in between. Then $\|f_n - f_m\|_1 \leq \frac1{\min(n, m)}$, and $\|f_n - \mathbf{1}_{[1/2, 1]}\|_1 \leq \frac1n$. If $f_n \to f$ in
+$\|\cdot\|_1$ with $f$ continuous, then $f = \mathbf{1}_{[1/2, 1]}$ almost everywhere, which is impossible: $f$ would be $0$ on $[0, \frac12)$ and $1$ on $(\frac12, 1]$ by continuity, and could not be
+continuous at $\frac12$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-multiplication-operator}
+Let $g \in L^\infty([0, 1])$. Show that $M_gf = gf$ defines a bounded operator on $L^2([0, 1])$ with $\|M_g\| = \|g\|_\infty$, that $M_g^* = M_{\bar g}$, and that $M_g$ is compact only if $g = 0$.
+\end{exercise}
+
+\begin{solution}
+$\|gf\|_2 \leq \|g\|_\infty\|f\|_2$. For $\varepsilon > 0$ the set $E = \{|g| > \|g\|_\infty - \varepsilon\}$ has positive measure, and $f = \mathbf{1}_E$ gives $\|gf\|_2 \geq (\|g\|_\infty - \varepsilon)\|f\|_2$.
+$\langle gf, h\rangle = \int gf\bar h = \langle f, \bar gh\rangle$. If $g \neq 0$, some $E = \{|g| > \delta\}$ has positive measure, and $L^2(E)$ is infinite-dimensional (it contains the indicator functions
+of disjoint subsets of $E$ of positive measure, which exist since $t \mapsto \lambda(E \cap [0, t])$ is continuous). On $L^2(E)$, $M_g$ has the bounded inverse $M_{1/g}$, so if it were compact the
+identity of $L^2(E)$ would be compact, contradicting Proposition~\ref{functional-analysis:proposition-banach-examples}(3).
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-bessel-equality}
+Let $(e_n)$ be an orthonormal sequence in a Hilbert space and $(c_n) \in \ell^2$. Show that $\sum_nc_ne_n$ converges, that its norm is $(\sum|c_n|^2)^{1/2}$, and that $c_n = \langle x, e_n\rangle$ for its
+sum $x$ (the Riesz--Fischer theorem for orthonormal sequences).
+\end{exercise}
+
+\begin{solution}
+By Pythagoras $\|\sum_{n=M}^Nc_ne_n\|^2 = \sum_{n=M}^N|c_n|^2$, so the partial sums are Cauchy and converge by completeness, with the stated norm in the limit. By continuity of the inner product,
+$\langle x, e_m\rangle = \lim_N\sum_{n \leq N}c_n\langle e_n, e_m\rangle = c_m$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-legendre}
+Compute the next orthonormal polynomial $P_3$ of Example~\ref{functional-analysis:example-bases-l2}(2), and find the polynomial $q$ of degree at most $2$ minimising $\int_0^1(e^t - q(t))^2\,dt$.
+\end{exercise}
+
+\begin{solution}
+Gram--Schmidt on $x^3$ gives $P_3 = \sqrt7(20x^3 - 30x^2 + 12x - 1)$: one checks that $20x^3 - 30x^2 + 12x - 1$ is orthogonal to $1$, $x$, $x^2$ (its integrals against them are $5 - 10 + 6 - 1 = 0$,
+$4 - 7.5 + 4 - 0.5 = 0$ and $\frac{20}{6} - 6 + 3 - \frac13 = 0$) and has norm$^2$ $\frac17$. The best approximation is the orthogonal projection $q = \sum_{n \leq 2}\langle e^t, P_n\rangle P_n$, with
+$\langle e^t, P_0\rangle = e - 1$, $\langle e^t, P_1\rangle = \sqrt3(3 - e)$ and $\langle e^t, P_2\rangle = \sqrt5(7e - 19)$, using $\int_0^1te^t = 1$ and $\int_0^1t^2e^t = e - 2$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-frechet-polynomials}
+Show that a sequence of polynomials converging in $C^\infty(\RR)$ (Example~\ref{functional-analysis:example-frechet}(2)) to a function $f$ need not have bounded degrees, but that if the degrees are bounded
+by $d$, then $f$ is a polynomial of degree at most $d$. Deduce that the polynomials of degree at most $d$ form a closed subspace, and that all polynomials form a dense, non-closed subspace of $C^\infty(\RR)$.
+\end{exercise}
+
+\begin{solution}
+The partial sums of $\sum x^k/k!$ converge to $e^x$ in $C^\infty(\RR)$, as all derivatives converge uniformly on compact sets. If $\deg p_k \leq d$, then $p_k^{(d+1)} = 0$ converges to $f^{(d+1)}$, so
+$f^{(d+1)} = 0$ and $f$ is a polynomial of degree at most $d$ (Theorem~\ref{real-analysis:theorem-mean-value} applied repeatedly). Density: by the Weierstrass theorem applied to $f^{(j)}$ on $[-R, R]$ and
+integrating $j$ times, every smooth function is approximated with its first $j$ derivatives on $[-R, R]$ by polynomials; the space is not closed since $e^x$ is not a polynomial.
+\end{solution}

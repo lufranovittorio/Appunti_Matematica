@@ -81,6 +81,24 @@ measurable implies $g$ measurable). Name results after people correctly
 
 ## Done
 
+- [x] **From the user's list of 2026-10-31, second part**: series tests
+  (limit comparison, condensation, ratio vs root, Dirichlet) with combined
+  examples, mean value theorem for integrals, Stirling's formula, computed
+  integrals, derivative zero, midpoint convexity; improper integrals vs
+  Lebesgue, differentiation under the integral sign and Feynman's trick
+  (Dirichlet integral); orbit-counting lemma (not Burnside's);
+  one-dimensional representations and abelianisation; Serre relations;
+  functional analysis expanded (norms, quotients, separability, Hamel vs
+  Schauder, Bessel, bases of $L^2([0,1])$: Fourier, Legendre, Haar,
+  $\zeta(2)$, Frechet spaces); proper immersions and embeddings; which
+  distances are Riemannian; musical isomorphisms; Lie vs Riemannian
+  exponential; second variation with $H \neq 0$ and the Jacobi operator;
+  totally geodesic and umbilical submanifolds, horospheres; Fubini--Study in
+  coordinates; new chapter `symplectic-geometry` (linear algebra,
+  $\omega^n$, tautological form, Lagrangian graphs and conormals, Lagrangian
+  splitting from a torsion-free connection, Hamiltonian fields and Poisson
+  brackets, Archimedes, Darboux and Moser, Weinstein).
+
 - [x] **Geometric measure theory; dimension from roots; inversion in Lie
   groups** (`measure-theory`, `riemannian-geometry`, `representation-theory`,
   `lie-groups`): Hausdorff measures (metric outer measures, Lipschitz images,

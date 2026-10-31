@@ -47,6 +47,27 @@ triangle inequality for $d$ are clear, and $d(p, q) > 0$ for $p \neq q$ because 
 have length bounded below. The same comparison shows that the $d$-balls form a basis of the topology.
 \end{proof}
 
+\begin{remark}\label{riemannian-geometry:remark-which-metrics}
+\emph{Which distances are Riemannian?} By the proposition every smooth manifold, being metrisable, carries Riemannian metrics whose distance induces its topology. A given metric $d_0$
+inducing the topology is in general not of this form. A Riemannian distance $d$ is a \emph{length metric}: if $\gamma$ is a curve from $p$ to $q$ with $L(\gamma) < d(p, q) + \varepsilon$ and $m$ is the point
+dividing it into two arcs of equal length, then $d(p, m)$, $d(m, q) \leq L(\gamma)/2$, so $m$ is an approximate midpoint. On $\RR$ the metric $d_0(x, y) = |x - y|^{1/2}$ induces the usual topology but has no
+approximate midpoints: $d_0(0, m) + d_0(m, 1) = \sqrt{|m|} + \sqrt{|1 - m|} \geq 1$, with values close to $1$ only for $m$ near $0$ or $1$, where one of the two terms is close to $1 = d_0(0, 1)$. So $d_0$ is
+not the distance of any Riemannian metric. Similarly the bounded metric $\min(|x - y|, 1)$ on $\RR$ is not Riemannian, since in a length metric points at distance $2$ have a point at distance about $1$ from
+both.
+\end{remark}
+
+\begin{remark}\label{riemannian-geometry:remark-musical}
+\emph{The musical isomorphisms.} A metric identifies each tangent space with its dual: $v \mapsto v^\flat = g(v, -)$ is an isomorphism $T_pM \to T_p^*M$, with inverse $\alpha \mapsto \alpha^\sharp$, and these
+give isomorphisms of vector bundles $\flat \colon TM \to T^*M$ and $\sharp \colon T^*M \to TM$ (``lowering and raising indices''). In coordinates, with $(g^{ij})$ the inverse matrix of $(g_{ij})$,
+\[
+\Bigl(\sum_iv^i\partial_i\Bigr)^\flat = \sum_{i,j}g_{ij}v^i\,dx^j, \qquad \Bigl(\sum_i\alpha_i\,dx^i\Bigr)^\sharp = \sum_{i,j}g^{ij}\alpha_i\,\partial_j .
+\]
+The gradient is $\operatorname{grad}f = (df)^\sharp = \sum_{i,j}g^{ij}\partial_if\,\partial_j$ (Section~\ref{riemannian-geometry:section-gradient}), and the metric on $T^*M$ making $\flat$ an isometry is
+$\langle\alpha, \beta\rangle = \sum g^{ij}\alpha_i\beta_j$. For the Euclidean metric $g_{ij} = \delta_{ij}$ the musical isomorphisms are invisible, which is why in vector calculus vectors and covectors are not
+distinguished. In polar coordinates on $\RR^2$, $g = dr^2 + r^2d\theta^2$, so $(\partial_\theta)^\flat = r^2\,d\theta$, $(d\theta)^\sharp = r^{-2}\partial_\theta$, and
+$\operatorname{grad}f = \partial_rf\,\partial_r + r^{-2}\partial_\theta f\,\partial_\theta$; the coefficient $r^{-2}$, not $r^{-1}$, appears because $\partial_\theta$ has length $r$.
+\end{remark}
+
 \begin{example}\label{riemannian-geometry:example-metrics}
 The Euclidean metric on $\RR^n$; the induced metric on a submanifold, for instance the round metric on $S^n \subseteq \RR^{n+1}$; the hyperbolic metric $(dx^2 + dy^2)/y^2$ on the upper half plane; a
 left-invariant metric on a Lie group, obtained from any inner product on $\mathfrak{g}$, which is bi-invariant when $G$ is compact (average over Haar measure,
@@ -706,6 +727,22 @@ Completeness is needed. In $M = \RR^2 \setminus \{0\}$ with the Euclidean metric
 and bounded but not compact. The points $(1, 0)$ and $(-1, 0)$ have distance $2$, the infimum of the lengths of curves avoiding the origin, but no
 curve of length $2$ joins them in $M$, since in $\RR^2$ the only such curve is the segment through the origin.
 \end{counterexample}
+
+\begin{example}\label{riemannian-geometry:example-lie-exponential}
+\emph{The exponential of a Lie group and the Riemannian exponential.} Let $G$ be a Lie group with a bi-invariant metric, for instance a compact group
+(Example~\ref{riemannian-geometry:example-metrics}). Then the geodesics through $e$ are the one-parameter subgroups, and the Riemannian exponential $\exp_e \colon T_eG \to G$ is the exponential map of the
+Lie group (Theorem~\ref{lie-groups:theorem-exponential}). Indeed, for left-invariant fields $X$, $Y$, $Z$ the functions $g(Y, Z)$ etc.\ are constant, and the metric on $\mathfrak{g}$ is $\Ad$-invariant, since $\Ad(h) = d(L_h \circ R_{h^{-1}})$ is the differential of an isometry; differentiating, as in the proof of
+Proposition~\ref{lie-groups:proposition-compact-invariant-product}, gives $g([A, B], C) = -g(B, [A, C])$; the Koszul formula (Theorem~\ref{riemannian-geometry:theorem-levi-civita}) then reduces to
+$2g(\nabla_XY, Z) = g([X, Y], Z) - g([X, Z], Y) - g([Y, Z], X) = g([X, Y], Z)$, that is,
+\[
+\nabla_XY = \tfrac12[X, Y].
+\]
+In particular $\nabla_XX = 0$, so the integral curves of $X$, which are $t \mapsto g\exp(tX)$, are geodesics. For a left-invariant metric that is not bi-invariant this fails. On the group of affine maps
+$x \mapsto ax + b$ ($a > 0$), identified with the half plane $\{(a, b) : a > 0\}$ with the product $(a, b)(a^{\prime}, b^{\prime}) = (aa^{\prime}, ab^{\prime} + b)$, left translations are the maps
+$(a^{\prime}, b^{\prime}) \mapsto (aa^{\prime}, ab^{\prime} + b)$, which preserve the hyperbolic metric $(da^2 + db^2)/a^2$; so this metric is left-invariant. The one-parameter subgroup $c(t) = (e^t, e^t - 1)$ is
+not a geodesic: the Christoffel symbols of this metric are $\Gamma^a_{aa} = -\frac1a$, $\Gamma^a_{bb} = \frac1a$, $\Gamma^b_{ab} = \Gamma^b_{ba} = -\frac1a$ and $0$ otherwise, and the first geodesic equation
+$\ddot a - \dot a^2/a + \dot b^2/a = 0$ gives $e^t \neq 0$ along $c$.
+\end{example}
 
 \begin{remark}\label{riemannian-geometry:remark-non-unique-geodesics}
 Minimising geodesics need not be unique: on the round sphere every half great circle joins two antipodal points, and has length $\pi$. And geodesics stop minimising: a great circle arc longer than $\pi$ is a geodesic
@@ -1737,6 +1774,44 @@ and for a hypersurface of $\RR^{n+1}$, where $\overline{R} = 0$ and $\mathrm{II}
 last one.
 \end{remark}
 
+\begin{definition}\label{riemannian-geometry:definition-umbilical}
+A submanifold $M \subseteq \overline{M}$ is \emph{totally geodesic} if $\mathrm{II} = 0$, and \emph{totally umbilical} if $\mathrm{II}(X, Y) = g(X, Y)\,\eta$ for a normal vector field $\eta$; for a hypersurface
+the second condition says $S = \lambda\,\id$, all principal curvatures being equal at each point. A point where $S$ is a multiple of the identity is an \emph{umbilic}.
+\end{definition}
+
+By the Gauss formula (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}), $M$ is totally geodesic if and only if every geodesic of $M$ is a geodesic of $\overline{M}$: a curve in $M$ has
+$\overline{\nabla}_{\dot\gamma}\dot\gamma = \nabla_{\dot\gamma}\dot\gamma + \mathrm{II}(\dot\gamma, \dot\gamma)$, and $\mathrm{II}$ is determined by its values $\mathrm{II}(v, v)$ by polarisation.
+
+\begin{proposition}\label{riemannian-geometry:proposition-umbilical}
+\begin{enumerate}
+\item Affine hyperplanes of $\RR^{n+1}$ are totally geodesic, and spheres of radius $r$ are totally umbilical with $S = -\frac1r\id$ for the outward normal.
+\item A connected totally umbilical hypersurface $M \subseteq \RR^{n+1}$, $n \geq 2$, is an open subset of a hyperplane or of a sphere.
+\item In the half-space model of hyperbolic space, $|dx|^2/x_n^2$, the \emph{horospheres} $\{x_n = c\}$ are totally umbilical, with $S = \id$ for the normal $\nu = x_n\partial_n$; their induced metric
+$|dx^{\prime}|^2/c^2$ is flat. The vertical hyperplanes $\{x_1 = c\}$ are totally geodesic.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) For a hyperplane the unit normal is constant, so $S = -d\nu = 0$. For the sphere $|x| = r$, $\nu(x) = x/r$, so $d\nu = \frac1r\id$ and $S = -\frac1r\id$
+(Remark~\ref{riemannian-geometry:remark-second-fundamental-form-notation}).
+
+(2) Let $S = \lambda\id$ with $\lambda$ a smooth function, so $d\nu(X) = -\lambda X$ for tangent $X$. For coordinate fields $X = \partial_i$, $Y = \partial_j$ of a parametrisation $x$,
+$\partial_i\partial_j\nu = -\partial_i(\lambda\,\partial_jx) = -(\partial_i\lambda)\partial_jx - \lambda\partial_i\partial_jx$; exchanging $i$ and $j$ and subtracting gives
+$(\partial_i\lambda)\partial_jx = (\partial_j\lambda)\partial_ix$. For $i \neq j$ the vectors $\partial_ix$, $\partial_jx$ are independent ($n \geq 2$), so $\partial_i\lambda = 0$: $\lambda$ is locally constant,
+hence constant on the connected $M$. If $\lambda = 0$, $\nu$ is constant and $\langle x, \nu\rangle$ is constant (its differential is $\langle dx, \nu\rangle = 0$): $M$ lies in a hyperplane. If $\lambda \neq 0$,
+$d(\nu + \lambda x) = -\lambda\,dx + \lambda\,dx = 0$, so $\nu + \lambda x = \lambda c$ is constant and $|x - c| = |\nu|/|\lambda| = 1/|\lambda|$: $M$ lies in a sphere. In both cases $M$ is contained in a hypersurface $N$, and the inclusion
+$M \to N$ is smooth (Proposition~\ref{smooth-manifolds:proposition-restrict-codomain}) and an injective immersion between manifolds of the same dimension, hence open by the inverse function theorem.
+
+(3) With $g_{ij} = \delta_{ij}x_n^{-2}$, the formula of Theorem~\ref{riemannian-geometry:theorem-levi-civita} gives, for $i, j < n$, $\Gamma^n_{ij} = \frac12x_n^2(-\partial_ng_{ij}) = \delta_{ij}/x_n$ and
+$\Gamma^k_{ij} = 0$ for $k < n$. So $\nabla_{\partial_i}\partial_j = \delta_{ij}x_n^{-1}\partial_n$ is normal to the horosphere: $\mathrm{II}(\partial_i, \partial_j) = \delta_{ij}x_n^{-1}\partial_n$, and with the unit
+normal $\nu = x_n\partial_n$, $h(\partial_i, \partial_j) = \delta_{ij}x_n^{-1}x_ng(\partial_n, \partial_n) = \delta_{ij}x_n^{-2} = g(\partial_i, \partial_j)$. So $h = g$ and $S = \id$. The induced metric on
+$x_n = c$ is $|dx^{\prime}|^2/c^2$, a constant multiple of the Euclidean one. For $\{x_1 = c\}$, the reflection $x_1 \mapsto 2c - x_1$ is an isometry fixing it pointwise; it maps a geodesic of
+hyperbolic space tangent to the hyperplane to a geodesic with the same initial data, hence to itself, so such geodesics stay in the hyperplane, which is therefore totally geodesic.
+\end{proof}
+
+The horospheres illustrate the Gauss equation: an umbilical surface with principal curvatures $1$ in a space of curvature $-1$ has $K = -1 + 1 \cdot 1 = 0$ (Theorem~\ref{riemannian-geometry:theorem-gauss-codazzi}),
+and indeed it is flat. In $\RR^3$ an umbilical surface has $K = \lambda^2 \geq 0$, by the Theorema Egregium below.
+
 \begin{corollary}[Theorema Egregium]\label{riemannian-geometry:corollary-theorema-egregium}
 Let $M^n \subseteq \RR^{n+1}$ be a hypersurface with unit normal $\nu$. Then
 $R(X, Y, Z, W) = h(Y, Z)h(X, W) - h(X, Z)h(Y, W)$, and for orthonormal principal directions $e_i$, $e_j$ the sectional curvature is $K(e_i, e_j) = \kappa_i\kappa_j$. In
@@ -2120,6 +2195,22 @@ uniformly on $K$. Now $\operatorname{tr}Y = -2\phi\operatorname{tr}S = -2nH\phi$
 coefficient of $s$ is $-nH\phi$, and if $H = 0$ the coefficient of $s^2$ is $\frac12(|\nabla\phi|^2 + \phi^2|S|^2) - \phi^2|S|^2 = \frac12(|\nabla\phi|^2 - |S|^2\phi^2)$. Integrating
 over $K$ gives $A^{\prime}(0)$ and $A^{\prime\prime}(0)$.
 \end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-second-variation-general}
+\emph{The second variation without $H = 0$, and the Jacobi operator.} The computation in the proof gives, without assuming $H = 0$, the coefficient of $s^2$ as
+$\frac12\operatorname{tr}Z + \frac18(\operatorname{tr}Y)^2 - \frac14\operatorname{tr}(Y^2) = \frac12(|\nabla\phi|^2 - |S|^2\phi^2 + n^2H^2\phi^2)$, so
+\[
+A^{\prime\prime}(0) = \int_K\bigl(|\nabla\phi|^2 - |S|^2\phi^2 + n^2H^2\phi^2\bigr)\,dA .
+\]
+For the sphere of radius $r$ in $\RR^3$ and $\phi = 1$ (the computation is local, so it applies to the whole sphere), $|S|^2 = 2/r^2$ and $n^2H^2 = 4/r^2$, so $A^{\prime\prime}(0) = \frac{2}{r^2} \cdot 4\pi r^2 = 8\pi$,
+in agreement with $A(s) = 4\pi(r + s)^2$. When $H = 0$, Green's formula (Proposition~\ref{riemannian-geometry:proposition-riemannian-divergence}, applied on a compact domain with smooth boundary
+containing the support of $\phi$) gives $\int|\nabla\phi|^2 = -\int\phi\,\Delta\phi$, hence
+\[
+A^{\prime\prime}(0) = -\int_K\phi\,L\phi\,dA, \qquad L = \Delta + |S|^2,
+\]
+the \emph{Jacobi operator}, or stability operator, of the minimal hypersurface: $M$ is \emph{stable} (the area does not decrease to second order under compactly supported normal variations) if and only if
+$-L$ is nonnegative on such $\phi$. For instance a minimal graph is stable, since it minimises area (Proposition~\ref{riemannian-geometry:proposition-graphs-minimise} below).
+\end{remark}
 
 \begin{definition}\label{riemannian-geometry:definition-minimal}
 A hypersurface $M \subseteq \RR^{n+1}$ is \emph{minimal} if $H = 0$ everywhere. A minimal hypersurface is \emph{stable} if $A^{\prime\prime}(0) \geq 0$ for all variations as in

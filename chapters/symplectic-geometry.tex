@@ -1,0 +1,390 @@
+\chapter{Symplectic Geometry}\label{symplectic-geometry}
+\chapterstatus{complete}
+
+\section{Introduction}\label{symplectic-geometry:section-introduction}
+
+A Riemannian metric is a symmetric nondegenerate bilinear form on each tangent space; a \emph{symplectic form} is an \emph{antisymmetric} one, which moreover is closed as a differential form. The
+change of symmetry changes everything. A Riemannian metric has local invariants, the curvature, while by Darboux's theorem all symplectic forms of the same dimension look alike near a point; on the
+other hand symplectic forms are rigid globally, and live only on manifolds with nonzero even-dimensional cohomology. Symplectic geometry is the geometry of classical mechanics: the phase space of a
+mechanical system is the cotangent bundle $T^*Q$ of its configuration space, which carries a canonical symplectic form, and the evolution of the system is the flow of a Hamiltonian vector field. It is also
+the geometry behind Kähler manifolds (Chapter~\ref{kahler}), whose K\"ahler form is a symplectic form compatible with the complex structure, and behind the Hodge-theoretic notion of polarisation.
+
+The chapter goes as follows.
+\begin{enumerate}
+\item Symplectic linear algebra: $\omega^n \neq 0$, isotropic, coisotropic and Lagrangian subspaces, Lagrangian complements and compatible complex structures
+(Section~\ref{symplectic-geometry:section-linear}).
+\item Symplectic manifolds: the Liouville volume form, the cohomological obstruction $[\omega]^n \neq 0$, examples (Section~\ref{symplectic-geometry:section-manifolds}).
+\item The cotangent bundle: the tautological $1$-form, the canonical symplectic form, Lagrangian graphs of closed $1$-forms, conormal bundles, and the splitting of $T(T^*M)$ into two Lagrangian
+subbundles given by a torsion-free connection (Section~\ref{symplectic-geometry:section-cotangent}).
+\item Hamiltonian vector fields, Poisson brackets and Liouville's theorem; area on the sphere and Archimedes' theorem (Section~\ref{symplectic-geometry:section-hamiltonian}).
+\item Darboux's theorem and Moser's theorem on area forms, by Moser's method (Section~\ref{symplectic-geometry:section-darboux}).
+\item Lagrangian submanifolds and Weinstein's neighbourhood theorem (Section~\ref{symplectic-geometry:section-lagrangian}).
+\end{enumerate}
+References: \cite{cannas-da-silva}, \cite{mcduff-salamon}, \cite[Chapter 22]{lee-smooth-manifolds}.
+
+\noindent\textbf{Prerequisites.} Chapter~\ref{linear-algebra} (Linear Algebra), Chapter~\ref{differential-forms} (Differential Forms and Integration), Chapter~\ref{de-rham} (de Rham Cohomology),
+Chapter~\ref{connections} (Connections and Curvature) and Chapter~\ref{riemannian-geometry} (Riemannian Geometry).
+
+\section{Symplectic linear algebra}\label{symplectic-geometry:section-linear}
+
+\begin{definition}\label{symplectic-geometry:definition-symplectic-vector-space}
+A \emph{symplectic vector space} is a finite-dimensional real vector space $V$ with a nondegenerate alternating bilinear form $\omega$. For a subspace $W$, its \emph{symplectic complement} is
+$W^\omega = \{v \in V : \omega(v, w) = 0 \text{ for all } w \in W\}$. The subspace $W$ is \emph{isotropic} if $W \subseteq W^\omega$ (that is, $\omega|_W = 0$), \emph{coisotropic} if $W^\omega \subseteq W$,
+\emph{Lagrangian} if $W = W^\omega$, and \emph{symplectic} if $W \cap W^\omega = 0$. A linear map preserving $\omega$ is \emph{symplectic}, and the symplectic automorphisms of $V$ form the
+\emph{symplectic group} $\mathrm{Sp}(V, \omega)$.
+\end{definition}
+
+By Theorem~\ref{linear-algebra:theorem-symplectic-basis}, $\dim V = 2n$ is even and $V$ has a symplectic basis $e_1, \ldots, e_n, f_1, \ldots, f_n$; with the dual basis,
+$\omega = \sum_ie_i^* \wedge f_i^*$. The model is $\RR^{2n}$ with coordinates $(x, y)$ and $\omega_0 = \sum_idx^i \wedge dy^i$, that is, $\omega_0(u, v) = u^TJ_0v$ with
+$J_0 = \bigl(\begin{smallmatrix}0 & I\\ -I & 0\end{smallmatrix}\bigr)$; its symplectic group is $\mathrm{Sp}_{2n}(\RR) = \{A : A^TJ_0A = J_0\}$, whose Lie algebra is $\mathfrak{sp}_{2n}(\RR)$
+(Example~\ref{representation-theory:example-classical}). In contrast to inner products, there is no notion of length: $\omega(v, v) = 0$ for every $v$.
+
+\begin{proposition}\label{symplectic-geometry:proposition-linear}
+Let $(V, \omega)$ be a symplectic vector space of dimension $2n$ and $W \subseteq V$ a subspace.
+\begin{enumerate}
+\item An alternating form $\sigma$ on a $2n$-dimensional space is nondegenerate if and only if $\sigma^n \neq 0$. Symplectic maps have determinant $1$.
+\item $\dim W + \dim W^\omega = 2n$ and $(W^\omega)^\omega = W$.
+\item Isotropic subspaces have dimension at most $n$, and a subspace is Lagrangian if and only if it is isotropic of dimension $n$. Every isotropic subspace is contained in a Lagrangian one.
+\item Every Lagrangian subspace $L$ has a Lagrangian complement $L^{\prime}$, and then $v \mapsto \omega(\cdot, v)|_L$ is an isomorphism $L^{\prime} \to L^*$; a basis $e_1, \ldots, e_n$ of $L$ and the dual basis
+$f_1, \ldots, f_n$ of $L^{\prime}$ ($\omega(e_i, f_j) = \delta_{ij}$) form a symplectic basis. So $(V, \omega) \cong (L \oplus L^*, \omega_L)$ with $\omega_L((u, \alpha), (v, \beta)) = \beta(u) - \alpha(v)$.
+\item There is a complex structure $J$ with $\omega(Ju, Jv) = \omega(u, v)$ and $g(u, v) = \omega(u, Jv)$ an inner product (a \emph{compatible} complex structure). For such $J$ and a Lagrangian $L$,
+$JL$ is a Lagrangian complement of $L$, equal to the orthogonal complement $L^\perp$ for $g$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $\sigma$ is nondegenerate, $\sigma^n \neq 0$ by Proposition~\ref{multilinear-algebra:proposition-symplectic-determinant}, which also gives the statement on determinants. If $\sigma$ is degenerate,
+choose $v \neq 0$ with $\iota_v\sigma = 0$; as $\iota_v$ is an antiderivation, $\iota_v(\sigma^n) = n(\iota_v\sigma) \wedge \sigma^{n-1} = 0$, so the top form $\sigma^n$ vanishes on every basis containing $v$,
+hence $\sigma^n = 0$.
+
+(2) The map $V \to W^*$, $v \mapsto \omega(v, \cdot)|_W$, is the composite of the isomorphism $V \to V^*$ given by $\omega$ and the surjective restriction $V^* \to W^*$; its kernel is $W^\omega$. So
+$\dim W^\omega = 2n - \dim W$. Clearly $W \subseteq (W^\omega)^\omega$, and both have the same dimension.
+
+(3) If $W \subseteq W^\omega$, then $2\dim W \leq \dim W + \dim W^\omega = 2n$. An isotropic $W$ of dimension $n$ has $\dim W^\omega = n$, so $W = W^\omega$; conversely a Lagrangian is isotropic of dimension
+$n$ by (2). If $W$ is isotropic with $\dim W < n$, then $\dim W^\omega > n > \dim W$, so there is $v \in W^\omega \setminus W$, and $W + \RR v$ is isotropic since $\omega(v, v) = 0$; repeat.
+
+(5) Let $e_i$, $f_i$ be a symplectic basis and $Je_i = f_i$, $Jf_i = -e_i$. Then $J^2 = -1$, $J$ preserves $\omega$ (check on basis vectors), and $\omega(u, Jv)$ is the standard inner product in this basis:
+$\omega(e_i, Je_j) = \omega(e_i, f_j) = \delta_{ij}$, $\omega(f_i, Jf_j) = -\omega(f_i, e_j) = \delta_{ij}$, and the mixed terms vanish. Given compatible $J$ and Lagrangian $L$, $JL$ is isotropic since
+$\omega(Ju, Jv) = \omega(u, v) = 0$, hence Lagrangian; and for $u, v \in L$, $g(u, Jv) = \omega(u, J^2v) = -\omega(u, v) = 0$, so $JL \subseteq L^\perp$, with equality by dimension. In particular
+$L \cap JL = 0$.
+
+(4) A Lagrangian complement exists by (5). For $v \in L^{\prime}$, if $\omega(u, v) = 0$ for all $u \in L$, then $v \in L^\omega \cap L^{\prime} = L \cap L^{\prime} = 0$; so $L^{\prime} \to L^*$ is injective, hence an isomorphism.
+The dual basis $f_j$ of $L^{\prime}$ satisfies $\omega(e_i, f_j) = \delta_{ij}$, and $\omega(e_i, e_j) = 0 = \omega(f_i, f_j)$ as $L$ and $L^{\prime}$ are isotropic. Identifying $L^{\prime}$ with $L^*$ by
+$f \mapsto \omega(\cdot, f)|_L$, for $u, v \in L$ and $f, f^{\prime} \in L^{\prime}$ corresponding to $\alpha$, $\beta$: $\omega(u + f, v + f^{\prime}) = \omega(u, f^{\prime}) - \omega(v, f) = \beta(u) - \alpha(v)$.
+\end{proof}
+
+\begin{example}\label{symplectic-geometry:example-linear}
+\begin{enumerate}
+\item In $(\RR^2, dx \wedge dy)$ every line is Lagrangian, and $\omega(u, v) = \det(u, v)$ is the signed area of the parallelogram spanned by $u$ and $v$. Symplectic maps of $\RR^2$ are the area- and
+orientation-preserving linear maps: $\mathrm{Sp}_2(\RR) = \mathrm{SL}_2(\RR)$. In higher dimensions $\mathrm{Sp}_{2n}(\RR) \subsetneq \mathrm{SL}_{2n}(\RR)$: preserving $\omega$ is much stronger than
+preserving the volume $\omega^n/n!$.
+\item In $(\RR^4, dx^1 \wedge dy^1 + dx^2 \wedge dy^2)$ the planes $\{y = 0\}$, $\{x = 0\}$ and the graph $\{y = Sx\}$ of a symmetric matrix $S$ are Lagrangian; the graph of $A \colon \RR^2 \to \RR^2$ is
+Lagrangian if and only if $A$ is symmetric, since $\omega((x, Ax), (x^{\prime}, Ax^{\prime})) = x^TAx^{\prime} - x^{\prime T}Ax$. The plane $\{x^2 = y^2 = 0\}$ is symplectic, and the hyperplane
+$\{y^2 = 0\}$ is coisotropic, with $\{y^2 = 0\}^\omega = \RR\partial_{x^2}$.
+\item On $\CC^n = \RR^{2n}$ with $z = x + iy$, $\omega_0 = \sum dx^i \wedge dy^i = \frac i2\sum dz^i \wedge d\bar z^i$, and $J$ = multiplication by $i$ is compatible: $\omega_0(u, iv) = \operatorname{Re}\langle u, v\rangle$
+for the standard Hermitian product (Proposition~\ref{linear-algebra:proposition-compatible-metric}). The real subspace $\RR^n$ is Lagrangian, and $i\RR^n$ is its orthogonal Lagrangian complement.
+\end{enumerate}
+\end{example}
+
+\section{Symplectic manifolds}\label{symplectic-geometry:section-manifolds}
+
+\begin{definition}\label{symplectic-geometry:definition-symplectic-manifold}
+A \emph{symplectic form} on a manifold $M$ is a closed $2$-form $\omega$ that is nondegenerate at every point; $(M, \omega)$ is a \emph{symplectic manifold}. A \emph{symplectomorphism} is a
+diffeomorphism $\varphi$ with $\varphi^*\omega = \omega$. A submanifold $S \subseteq M$ is isotropic, coisotropic, Lagrangian or symplectic if each $T_pS \subseteq T_pM$ is.
+\end{definition}
+
+Each tangent space is a symplectic vector space, so $\dim M = 2n$ is even. By Proposition~\ref{symplectic-geometry:proposition-linear}(1), $\omega^n$ vanishes nowhere: \emph{$\omega^n/n!$ is a volume
+form}, the \emph{Liouville form}, and every symplectic manifold is oriented by it. Nondegeneracy means that $X \mapsto \iota_X\omega$ is an isomorphism of vector bundles $TM \to T^*M$, an analogue of the
+musical isomorphism of a metric (Remark~\ref{riemannian-geometry:remark-musical}), which identifies vector fields with $1$-forms.
+
+\begin{proposition}\label{symplectic-geometry:proposition-cohomology}
+If $(M, \omega)$ is a compact symplectic manifold without boundary of dimension $2n$, then $[\omega]^k \neq 0$ in $H^{2k}_{\mathrm{dR}}(M)$ for $0 \leq k \leq n$. In particular $H^{2k}_{\mathrm{dR}}(M) \neq 0$, and
+the spheres $S^{2n}$ with $n \geq 2$ carry no symplectic form.
+\end{proposition}
+
+\begin{proof}
+With the orientation given by $\omega^n$, $\int_M\omega^n > 0$ (Corollary~\ref{differential-forms:corollary-volume}), so $\omega^n$ is not exact by Stokes' theorem
+(Theorem~\ref{differential-forms:theorem-stokes}), and $[\omega]^n = [\omega^n] \neq 0$. Since $[\omega]^n = [\omega]^k[\omega]^{n-k}$, also $[\omega]^k \neq 0$. For $n \geq 2$, $H^2_{\mathrm{dR}}(S^{2n}) = 0$
+(Example~\ref{de-rham:example-spheres}).
+\end{proof}
+
+\begin{example}\label{symplectic-geometry:example-manifolds}
+\begin{enumerate}
+\item $(\RR^{2n}, \omega_0)$, and every open subset of it.
+\item \emph{Surfaces.} On an oriented surface, an area form is a symplectic form: it is closed for degree reasons, and a $2$-form on a $2$-dimensional space is nondegenerate if and only if it is nonzero.
+So every orientable surface is symplectic, and symplectic forms on surfaces are just area forms. Symplectomorphisms of surfaces are the area-preserving diffeomorphisms.
+\item \emph{Products.} If $(M_1, \omega_1)$, $(M_2, \omega_2)$ are symplectic, so is $M_1 \times M_2$ with $\mathrm{pr}_1^*\omega_1 + \mathrm{pr}_2^*\omega_2$; for instance the torus $T^{2n}$ with the form
+induced from $\omega_0$, and $S^2 \times S^2$. On the other hand $S^2 \times S^4$ is not symplectic, although it is orientable with $H^2 \neq 0$: by the K\"unneth formula
+(Theorem~\ref{de-rham:theorem-kunneth}) a symplectic form $\omega$ would have $[\omega] = c\,a$ with $a$ the pullback of a generator of $H^2(S^2)$, and $a^2 = 0$, as it is pulled back from
+$H^4(S^2) = 0$; so $[\omega]^3 = 0$, contradicting Proposition~\ref{symplectic-geometry:proposition-cohomology}.
+\item \emph{K\"ahler manifolds}, such as $\CC\PP^n$ with the Fubini--Study form and all complex projective manifolds, are symplectic (Chapter~\ref{kahler}).
+\item \emph{Cotangent bundles} carry a canonical symplectic form (Section~\ref{symplectic-geometry:section-cotangent}).
+\end{enumerate}
+\end{example}
+
+\section{The cotangent bundle}\label{symplectic-geometry:section-cotangent}
+
+Let $M$ be a manifold of dimension $n$ and $\pi \colon T^*M \to M$ its cotangent bundle. A chart with coordinates $q^1, \ldots, q^n$ on $U \subseteq M$ gives coordinates $(q, p)$ on $T^*U$, where a covector
+$\xi = \sum_ip_i\,dq^i|_q$ has coordinates $(q^1, \ldots, q^n, p_1, \ldots, p_n)$.
+
+\begin{definition}\label{symplectic-geometry:definition-tautological}
+The \emph{tautological} (or \emph{Liouville}) $1$-form $\lambda$ on $T^*M$ is defined at a point $\xi \in T^*_qM$ by
+\[
+\lambda_\xi(Y) = \xi\bigl(d\pi(Y)\bigr), \qquad Y \in T_\xi(T^*M);
+\]
+a point of $T^*M$ is a covector on $M$, and $\lambda$ applies it to the projection of $Y$ to $M$. The \emph{canonical symplectic form} is $\omega = -d\lambda$.
+\end{definition}
+
+\begin{proposition}\label{symplectic-geometry:proposition-tautological}
+\begin{enumerate}
+\item In coordinates $\lambda = \sum_ip_i\,dq^i$ and $\omega = \sum_idq^i \wedge dp_i$; so $\omega$ is a symplectic form.
+\item $\lambda$ is characterised by the property $\alpha^*\lambda = \alpha$ for every $1$-form $\alpha$ on $M$, regarded as a section $\alpha \colon M \to T^*M$. Consequently $\alpha^*\omega = -d\alpha$.
+\item For a diffeomorphism $f \colon M \to N$, the \emph{cotangent lift} $F \colon T^*M \to T^*N$, $F(\xi) = \xi \circ (d_qf)^{-1}$ for $\xi \in T^*_qM$, satisfies $F^*\lambda_N = \lambda_M$; so it is a
+symplectomorphism.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A tangent vector at $\xi = \sum p_i\,dq^i$ is $Y = \sum_i(a^i\partial_{q^i} + b_i\partial_{p_i})$, and $d\pi(Y) = \sum_ia^i\partial_{q^i}$, so $\lambda(Y) = \sum_ip_ia^i$: $\lambda = \sum_ip_i\,dq^i$. Then
+$\omega = -\sum_idp_i \wedge dq^i = \sum_idq^i \wedge dp_i$, which is closed and, at each point, the standard form in the basis $\partial_{q^i}$, $\partial_{p_i}$.
+
+(2) Since $\pi \circ \alpha = \id$, $(\alpha^*\lambda)_q(v) = \lambda_{\alpha_q}(d\alpha(v)) = \alpha_q(d\pi\,d\alpha(v)) = \alpha_q(v)$. Conversely, let $\mu = \sum_i(A_i\,dq^i + B^i\,dp_i)$ in coordinates
+satisfy $\alpha^*\mu = \alpha$ for all $\alpha = \sum_ia_i\,dq^i$; then $\sum_iA_i(q, a(q))\,dq^i + \sum_kB^k(q, a(q))\,da_k = \sum_ia_i\,dq^i$. Constant $a_i = c_i$ give $A_i(q, c) = c_i$; then at a point $q_0$,
+the functions $a_k = c_k + \sum_jd_{kj}(q^j - q_0^j)$ give $\sum_kB^k(q_0, c)d_{ki} = 0$ for every matrix $(d_{kj})$, so $B^k = 0$. Hence $\mu = \lambda$. Finally $\alpha^*\omega = -d\alpha^*\lambda = -d\alpha$.
+
+(3) $\pi_N \circ F = f \circ \pi_M$, so $(F^*\lambda_N)_\xi(Y) = F(\xi)(d\pi_N\,dF(Y)) = F(\xi)(df\,d\pi_M(Y)) = \xi(d\pi_M(Y)) = \lambda_M(Y)$.
+\end{proof}
+
+\begin{corollary}\label{symplectic-geometry:corollary-lagrangian-graphs}
+\begin{enumerate}
+\item The graph $\alpha(M)$ of a $1$-form $\alpha$ is a Lagrangian submanifold of $T^*M$ if and only if $d\alpha = 0$. In particular the zero section and the graphs $df(M)$ of differentials of functions are
+Lagrangian.
+\item The fibres $T^*_qM$ are Lagrangian.
+\item For a submanifold $S \subseteq M$, the \emph{conormal bundle} $N^*S = \{\xi \in T^*_qM : q \in S, \ \xi|_{T_qS} = 0\}$ is a Lagrangian submanifold of $T^*M$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) $\alpha \colon M \to T^*M$ is an embedding onto its graph, of dimension $n$, and the restriction of $\omega$ to it corresponds to $\alpha^*\omega = -d\alpha$. (2) In coordinates the fibre is
+$\{q = \text{const}\}$, on which every $dq^i$ vanishes. (3) In a slice chart with $S = \{q^{k+1} = \cdots = q^n = 0\}$, $N^*S = \{q^{k+1} = \cdots = q^n = 0, \ p_1 = \cdots = p_k = 0\}$, a submanifold of dimension
+$n$ with coordinates $q^1, \ldots, q^k, p_{k+1}, \ldots, p_n$, on which each term $dq^i \wedge dp_i$ vanishes.
+\end{proof}
+
+Along the zero section $0_M$ the tangent spaces split canonically: $T_{0_q}(T^*M) = T_q(0_M) \oplus T_{0_q}(T^*_qM) \cong T_qM \oplus T^*_qM$, the second summand being the vertical subspace
+(Definition~\ref{connections:definition-vertical}). Both summands are Lagrangian, and in coordinates $\omega(\sum a^i\partial_{q^i}, \sum b_i\partial_{p_i}) = \sum a^ib_i$: the symplectic form pairs them by the
+duality $T_qM \times T_q^*M \to \RR$, as in Proposition~\ref{symplectic-geometry:proposition-linear}(4). Away from the zero section the vertical subspace is still canonical, but a horizontal complement requires a
+choice, a connection (Section~\ref{connections:section-horizontal}).
+
+\begin{proposition}\label{symplectic-geometry:proposition-connection-lagrangian}
+Let $\nabla$ be a connection on $TM$, with the induced connection on $T^*M$ and its horizontal distribution $H \subseteq T(T^*M)$ (Proposition~\ref{connections:proposition-horizontal}). The vertical
+distribution $V$ is Lagrangian, and $H$ is Lagrangian if and only if $\nabla$ is torsion-free. In that case $T(T^*M) = H \oplus V$ with $H_\xi \cong T_qM$, $V_\xi \cong T^*_qM$ and
+$\omega(h, v) = \langle v, d\pi(h)\rangle$ for $h \in H_\xi$ and $v \in V_\xi$ (identified with a covector by the vertical lift).
+\end{proposition}
+
+\begin{proof}
+$V$ is the tangent bundle of the fibres, Lagrangian by Corollary~\ref{symplectic-geometry:corollary-lagrangian-graphs}(2). With $\nabla_{\partial_i}\partial_k = \sum_j\Gamma^j_{ik}\partial_j$, the dual connection
+satisfies $\nabla_{\partial_i}dq^j = -\sum_k\Gamma^j_{ik}\,dq^k$, so for $\alpha = \sum_jp_j\,dq^j$, $\nabla_{\partial_i}\alpha = \sum_k(\partial_ip_k - \sum_j\Gamma^j_{ik}p_j)\,dq^k$. By
+Proposition~\ref{connections:proposition-horizontal}, $H$ is spanned by the horizontal lifts of the coordinate fields,
+\[
+X_i = \partial_{q^i} + \sum_{j,k}\Gamma^j_{ik}p_j\,\partial_{p_k}.
+\]
+Then $\omega(X_i, X_l) = dp_i(X_l) - dp_l(X_i) = \sum_jp_j(\Gamma^j_{li} - \Gamma^j_{il}) = -\sum_jp_jT^j_{il}$, where $T(\partial_i, \partial_l) = \sum_jT^j_{il}\partial_j$ is the torsion
+(Exercise~\ref{connections:exercise-torsion}). This vanishes for all $p$ if and only if $T = 0$; and $H$ has dimension $n$. Finally $\omega(X_i, \partial_{p_k}) = \delta_{ik}$, which is the stated pairing.
+\end{proof}
+
+So a torsion-free connection, for instance the Levi-Civita connection of a metric, splits $T(T^*M)$ into two transverse Lagrangian subbundles paired by duality, extending the canonical splitting along the
+zero section, where every horizontal distribution is tangent to the zero section.
+
+\section{Hamiltonian vector fields}\label{symplectic-geometry:section-hamiltonian}
+
+\begin{definition}\label{symplectic-geometry:definition-hamiltonian}
+Let $(M, \omega)$ be symplectic. The \emph{Hamiltonian vector field} of a function $H$ is the unique vector field $X_H$ with $\iota_{X_H}\omega = dH$. The \emph{Poisson bracket} of two functions is
+$\{F, G\} = \omega(X_F, X_G) = dF(X_G) = X_GF$.
+\end{definition}
+
+On $T^*\RR^n$ with $\omega = \sum dq^i \wedge dp_i$, $X_H = \sum_i\bigl(\frac{\partial H}{\partial p_i}\partial_{q^i} - \frac{\partial H}{\partial q^i}\partial_{p_i}\bigr)$, since then
+$\iota_{X_H}\omega = \sum_i(\partial_{p_i}H\,dp_i + \partial_{q^i}H\,dq^i) = dH$. So the integral curves of $X_H$ solve \emph{Hamilton's equations}
+\[
+\dot q^i = \frac{\partial H}{\partial p_i}, \qquad \dot p_i = -\frac{\partial H}{\partial q^i},
+\]
+and $\{F, G\} = \sum_i(\partial_{q^i}F\,\partial_{p_i}G - \partial_{p_i}F\,\partial_{q^i}G)$.
+
+\begin{lemma}\label{symplectic-geometry:lemma-interior-bracket}
+For vector fields $X$, $Y$ on a manifold, $\iota_{[X, Y]} = L_X\iota_Y - \iota_YL_X$ on differential forms.
+\end{lemma}
+
+\begin{proof}
+Both sides are local antiderivations of degree $-1$: the right side is the commutator of the derivation $L_X$ of degree $0$ (Proposition~\ref{differential-forms:proposition-cartan}) with the antiderivation
+$\iota_Y$, and the antiderivation rules combine as in Step 2 of that proof. Both vanish on functions, and on an exact $1$-form $dg$ the left side is $[X, Y]g$ and the right side is
+$L_X(Yg) - \iota_YdL_Xg = XYg - YXg$. As in Step 3 of the proof of Proposition~\ref{differential-forms:proposition-cartan}, they agree everywhere.
+\end{proof}
+
+\begin{proposition}\label{symplectic-geometry:proposition-hamiltonian}
+Let $H$, $F$, $G$ be functions on a symplectic manifold.
+\begin{enumerate}
+\item $H$ is constant along the integral curves of $X_H$ (conservation of energy), and the flow of $X_H$ preserves $\omega$ and the Liouville volume (Liouville's theorem).
+\item $\{F, G\} = -\{G, F\}$, the bracket satisfies the Jacobi identity and the Leibniz rule $\{F, GK\} = \{F, G\}K + G\{F, K\}$, and $[X_F, X_G] = -X_{\{F, G\}}$.
+\item $F$ is constant along the flow of $X_G$ if and only if $\{F, G\} = 0$, if and only if $G$ is constant along the flow of $X_F$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $X_HH = dH(X_H) = \omega(X_H, X_H) = 0$. By Cartan's formula, $L_{X_H}\omega = d\iota_{X_H}\omega + \iota_{X_H}d\omega = d\,dH = 0$, so the flow preserves $\omega$
+(Proposition~\ref{differential-forms:proposition-cartan}) and hence $\omega^n$.
+
+(2) Antisymmetry is that of $\omega$, and the Leibniz rule holds since $X_G$ is linear in $G$ and $\{F, G\} = -X_FG$ is a derivation in $G$. By Lemma~\ref{symplectic-geometry:lemma-interior-bracket},
+$\iota_{[X_F, X_G]}\omega = L_{X_F}\iota_{X_G}\omega - \iota_{X_G}L_{X_F}\omega = L_{X_F}dG = d(X_FG) = -d\{F, G\}$, so $[X_F, X_G] = -X_{\{F, G\}}$. For the Jacobi identity, use $\{A, B\} = X_BA$:
+$\{\{F, G\}, K\} = X_KX_GF$, $\{\{K, F\}, G\} = X_G\{K, F\} = -X_GX_KF$, and $\{\{G, K\}, F\} = -\{F, \{G, K\}\} = -X_{\{G, K\}}F = [X_G, X_K]F$. The sum is $[X_K, X_G]F + [X_G, X_K]F = 0$.
+
+(3) $\frac{d}{dt}F(\varphi_t(p)) = (X_GF)(\varphi_t(p)) = \{F, G\}(\varphi_t(p))$, and antisymmetry.
+\end{proof}
+
+\begin{example}\label{symplectic-geometry:example-hamiltonian}
+\begin{enumerate}
+\item \emph{The harmonic oscillator} $H = \frac12(q^2 + p^2)$ on $\RR^2$: Hamilton's equations $\dot q = p$, $\dot p = -q$ give the rotations $(q, p) \mapsto (q\cos t + p\sin t, -q\sin t + p\cos t)$, which preserve
+$H$ (circles) and area.
+\item \emph{The pendulum} $H = \frac12p^2 - \cos q$ on $T^*S^1$: $\dot q = p$, $\ddot q = \dot p = -\sin q$. The level sets of $H$ are the phase curves: closed curves around $(0, 0)$ for $H < 1$ (oscillations), curves
+going around the cylinder for $H > 1$ (rotations), and the separatrix $H = 1$ through the unstable equilibrium $(\pi, 0)$.
+\item \emph{Geodesic flow.} On $T^*M$ for a Riemannian manifold, $H(\xi) = \frac12|\xi|^2$ (the metric on covectors, Remark~\ref{riemannian-geometry:remark-musical}): in coordinates $H = \frac12\sum g^{ij}p_ip_j$, and
+Hamilton's equations are $\dot q^k = \sum_ig^{ki}p_i$, $\dot p_k = -\frac12\sum_{i,j}\partial_kg^{ij}p_ip_j$. Eliminating $p$ by $p_i = \sum_jg_{ij}\dot q^j$ and using
+$\partial_kg^{ij} = -\sum_{a,b}g^{ia}\partial_kg_{ab}g^{bj}$, they become $\frac{d}{dt}\sum_jg_{kj}\dot q^j = \frac12\sum_{a,b}\partial_kg_{ab}\dot q^a\dot q^b$, which, expanding the left side and multiplying by
+$(g^{lk})$, is the geodesic equation $\ddot q^l + \sum\Gamma^l_{ab}\dot q^a\dot q^b = 0$ (Theorem~\ref{riemannian-geometry:theorem-levi-civita}). So
+geodesics are the projections of the integral curves of a Hamiltonian vector field, and the geodesic flow preserves the Liouville measure of $T^*M$.
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{symplectic-geometry:example-archimedes}
+\emph{Area on the sphere and Archimedes' theorem.} On $S^2 \subseteq \RR^3$ use the cylindrical coordinates $(\theta, z) \in (0, 2\pi) \times (-1, 1)$, $x = (r\cos\theta, r\sin\theta, z)$ with $r = \sqrt{1 - z^2}$.
+Then $x_\theta = (-r\sin\theta, r\cos\theta, 0)$ and $x_z = (-\frac zr\cos\theta, -\frac zr\sin\theta, 1)$ are orthogonal, with lengths $r$ and $1/r$, and $x_\theta \times x_z = x$ is the outer normal. So
+the area form of the outward orientation is
+\[
+dA = |x_\theta \times x_z|\,d\theta \wedge dz = d\theta \wedge dz :
+\]
+the projection from the sphere to the cylinder $\{r = 1\}$ along horizontal rays from the axis preserves area. This is \emph{Archimedes' theorem}; in particular the zone $\{a < z < b\}$ has area $2\pi(b - a)$,
+independently of where it is, and the whole sphere has area $4\pi$. For the symplectic form $dA$, $\iota_{\partial_\theta}(d\theta \wedge dz) = dz$, so the Hamiltonian vector field of the height function $z$
+is $\partial_\theta$, the rotation about the vertical axis: the height is the conserved quantity of the rotation, its \emph{moment map}.
+\end{example}
+
+\section{Darboux's theorem and Moser's method}\label{symplectic-geometry:section-darboux}
+
+Let $X_t$, $t \in [0, 1]$, be a time-dependent vector field, smooth in $(t, x)$, and $\varphi_t$ its flow, $\frac{d}{dt}\varphi_t(x) = X_t(\varphi_t(x))$ with $\varphi_0 = \id$, defined where the solutions exist
+(Theorem~\ref{real-analysis:theorem-picard-lindelof}). For a smooth family of forms $\omega_t$,
+\begin{equation}\label{symplectic-geometry:equation-moser}
+\frac{d}{dt}\varphi_t^*\omega_t = \varphi_t^*\Bigl(L_{X_t}\omega_t + \frac{d\omega_t}{dt}\Bigr);
+\end{equation}
+this is the time-dependent version of the formula $\frac{d}{dt}\Phi_t^*\omega = \Phi_t^*L_X\omega$ of Proposition~\ref{differential-forms:proposition-cartan}, with the same proof \cite[Chapter 22]{lee-smooth-manifolds}.
+\emph{Moser's method} constructs a diffeomorphism $\varphi_1$ with $\varphi_1^*\omega_1 = \omega_0$ by choosing $X_t$ so that the right side vanishes.
+
+\begin{theorem}[Darboux]\label{symplectic-geometry:theorem-darboux}
+Every point of a symplectic manifold $(M, \omega)$ of dimension $2n$ has a chart with coordinates $(x^1, \ldots, x^n, y^1, \ldots, y^n)$ in which $\omega = \sum_idx^i \wedge dy^i$.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Choose a chart centred at the given point; after a linear change of coordinates (Theorem~\ref{linear-algebra:theorem-symplectic-basis}) the form $\omega_1 = \omega$ agrees at $0$ with the constant form
+$\omega_0 = \sum dx^i \wedge dy^i$. Let $\omega_t = \omega_0 + t(\omega_1 - \omega_0)$. At $0$ all $\omega_t$ equal $\omega_0$, so by compactness of $[0, 1]$ and continuity of the determinant they are
+nondegenerate on a ball $B$ around $0$ for all $t \in [0, 1]$. The closed form $\omega_1 - \omega_0$ is $d\beta$ on $B$ (Theorem~\ref{de-rham:theorem-homotopy-invariance}), and subtracting a constant
+$1$-form we may assume $\beta(0) = 0$. By nondegeneracy there is a unique $X_t$ with $\iota_{X_t}\omega_t = -\beta$; it is smooth in $(t, x)$ and vanishes at $0$, so its flow fixes $0$ and, by continuous
+dependence on initial conditions, is defined for $t \in [0, 1]$ on a smaller ball. By \eqref{symplectic-geometry:equation-moser} and Cartan's formula,
+\[
+\frac{d}{dt}\varphi_t^*\omega_t = \varphi_t^*\bigl(d\iota_{X_t}\omega_t + \iota_{X_t}d\omega_t + \omega_1 - \omega_0\bigr) = \varphi_t^*(-d\beta + 0 + d\beta) = 0 .
+\]
+So $\varphi_1^*\omega_1 = \omega_0$, and composing the chart with $\varphi_1$ gives the required coordinates. The omitted verification is formula \eqref{symplectic-geometry:equation-moser}.
+\end{proof}
+
+So symplectic manifolds have no local invariants: there is no symplectic analogue of curvature. Compare with Riemannian geometry, where a metric is locally Euclidean only if it is flat
+(Theorem~\ref{connections:theorem-flat-local-systems} applied to the Levi-Civita connection).
+
+\begin{theorem}[Moser]\label{symplectic-geometry:theorem-moser-area}
+Let $\Sigma$ be a compact connected oriented surface and $\omega_0$, $\omega_1$ area forms (positive for the orientation) with $\int_\Sigma\omega_0 = \int_\Sigma\omega_1$. Then there is a diffeomorphism
+$\varphi$ of $\Sigma$ with $\varphi^*\omega_1 = \omega_0$. In particular two compact connected orientable surfaces with area forms are symplectomorphic if and only if they are diffeomorphic and have the same area.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+The forms $\omega_t = (1 - t)\omega_0 + t\omega_1$ are positive, as convex combinations of positive top forms, hence area forms. Since $\int_\Sigma(\omega_1 - \omega_0) = 0$, the form $\omega_1 - \omega_0$ is
+exact (Corollary~\ref{de-rham:corollary-consequences}), say $d\beta$. Define $X_t$ by $\iota_{X_t}\omega_t = -\beta$; as $\Sigma$ is compact its flow is defined for all $t \in [0, 1]$, and the computation in the
+proof of Theorem~\ref{symplectic-geometry:theorem-darboux} gives $\varphi_1^*\omega_1 = \omega_0$. The same argument, with ``area form'' replaced by ``volume form'', applies in every dimension; it again uses
+formula \eqref{symplectic-geometry:equation-moser}.
+\end{proof}
+
+\section{Lagrangian submanifolds}\label{symplectic-geometry:section-lagrangian}
+
+Lagrangian submanifolds are the most important submanifolds of symplectic manifolds: graphs of closed $1$-forms (Corollary~\ref{symplectic-geometry:corollary-lagrangian-graphs}), and, as the next example
+shows, graphs of symplectomorphisms.
+
+\begin{example}\label{symplectic-geometry:example-lagrangian}
+\begin{enumerate}
+\item Every curve in a surface is Lagrangian: a line in a $2$-dimensional symplectic vector space is Lagrangian.
+\item \emph{Graphs of symplectomorphisms.} For a diffeomorphism $\varphi$ of $(M, \omega)$, the graph $\Gamma_\varphi = \{(x, \varphi(x))\} \subseteq M \times M$ is Lagrangian for the form
+$\mathrm{pr}_2^*\omega - \mathrm{pr}_1^*\omega$ if and only if $\varphi$ is a symplectomorphism: the parametrisation $x \mapsto (x, \varphi(x))$ pulls the form back to $\varphi^*\omega - \omega$.
+\item The torus $\{|z_1| = \cdots = |z_n| = 1\} \subseteq (\CC^n, \omega_0)$ is Lagrangian. Its tangent space at $z$ is spanned by the vectors $iz_je_j$, with $(e_j)$ the standard basis, and since
+$\omega_0(u, v) = \operatorname{Re}\langle u, -iv\rangle$ (Example~\ref{symplectic-geometry:example-linear}(3)), $\omega_0(iz_je_j, iz_ke_k) = \operatorname{Re}\langle iz_je_j, z_ke_k\rangle = \delta_{jk}\operatorname{Re}(i|z_j|^2) = 0$.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[Weinstein's Lagrangian neighbourhood theorem]\label{symplectic-geometry:theorem-weinstein}
+Let $L$ be a compact Lagrangian submanifold of a symplectic manifold $(M, \omega)$. Then a neighbourhood of $L$ in $M$ is symplectomorphic to a neighbourhood of the zero section in $(T^*L, -d\lambda)$, by a
+symplectomorphism that is the identity on $L$ (identified with the zero section).
+\end{theorem}
+
+This is \cite{cannas-da-silva} (Lagrangian neighbourhood theorem) or \cite{mcduff-salamon}. The proof chooses a compatible almost complex structure, uses $J$ to identify the normal bundle of $L$ with $TL$, and the
+metric with $T^*L$ (Proposition~\ref{symplectic-geometry:proposition-linear}(4),(5), pointwise), so that a tubular neighbourhood gives a diffeomorphism which is symplectic along $L$; Moser's method, relative to
+$L$, then corrects it to a symplectomorphism. Consequences:
+\begin{enumerate}
+\item \emph{Nearby Lagrangians.} A Lagrangian submanifold $C^1$-close to $L$ corresponds, under the theorem, to a submanifold of $T^*L$ close to the zero section and transverse to the fibres, hence to the graph of a
+$1$-form, which is closed by Corollary~\ref{symplectic-geometry:corollary-lagrangian-graphs}. So the Lagrangians near $L$ are parametrised by the closed $1$-forms on $L$ near $0$. The graphs of exact forms
+$df$ are the images of the zero section under the time-one maps of the Hamiltonians $-f \circ \pi$ (Exercise~\ref{symplectic-geometry:exercise-generating-function}, in a chart).
+\item \emph{Symplectomorphisms near the identity.} Applied to the diagonal of $M \times M$, the graph of the identity, which is Lagrangian for $\mathrm{pr}_2^*\omega - \mathrm{pr}_1^*\omega$ by
+Example~\ref{symplectic-geometry:example-lagrangian}(2), the theorem shows that symplectomorphisms $C^1$-close to the identity correspond to closed $1$-forms on $M$ near $0$; in particular such a
+symplectomorphism, corresponding to $\alpha$, is joined to the identity by the path of symplectomorphisms corresponding to $t\alpha$, $0 \leq t \leq 1$.
+\end{enumerate}
+
+\section{Exercises}\label{symplectic-geometry:section-exercises}
+
+\begin{exercise}\label{symplectic-geometry:exercise-nondegenerate-r4}
+For which real numbers $a$ is $\sigma = dx^1 \wedge dy^1 + a\,dx^1 \wedge dx^2 + dx^2 \wedge dy^2$ a symplectic form on $\RR^4$? Find a Lagrangian plane for it.
+\end{exercise}
+
+\begin{solution}
+$\sigma$ is closed (constant coefficients). $\sigma^2 = 2\,dx^1 \wedge dy^1 \wedge dx^2 \wedge dy^2$, since $dx^1 \wedge dx^2$ wedges to zero with the other two terms and with itself; so $\sigma$ is symplectic for
+every $a$ (Proposition~\ref{symplectic-geometry:proposition-linear}(1)). The plane $\{x^1 = x^2 = 0\}$ is Lagrangian, as every term contains $dx^1$ or $dx^2$.
+\end{solution}
+
+\begin{exercise}\label{symplectic-geometry:exercise-archimedes-cap}
+Using Example~\ref{symplectic-geometry:example-archimedes}, compute the area of the spherical cap $\{z > \cos\vartheta_0\}$ and compare with the holonomy of the sphere computed in
+Example~\ref{connections:example-transport}(2).
+\end{exercise}
+
+\begin{solution}
+The cap is $\{\cos\vartheta_0 < z < 1\}$, of area $2\pi(1 - \cos\vartheta_0)$; this is the angle of the rotation produced by parallel transport around its boundary circle, modulo $2\pi$, in accordance with the
+Gauss--Bonnet theorem for the curvature $1$.
+\end{solution}
+
+\begin{exercise}\label{symplectic-geometry:exercise-not-symplectic}
+Show that $S^4$, $S^2 \times S^4$ and $S^1 \times S^3$ admit no symplectic form, and that $T^4$, $S^2 \times S^2$ and $S^2 \times T^2$ do.
+\end{exercise}
+
+\begin{solution}
+$H^2_{\mathrm{dR}}$ vanishes for $S^4$ and for $S^1 \times S^3$ (K\"unneth, Theorem~\ref{de-rham:theorem-kunneth}), and for $S^2 \times S^4$ the square of every class in $H^2$ vanishes, as in
+Example~\ref{symplectic-geometry:example-manifolds}(3); Proposition~\ref{symplectic-geometry:proposition-cohomology} applies. Products of symplectic manifolds (tori, area forms on $S^2$) are symplectic.
+\end{solution}
+
+\begin{exercise}\label{symplectic-geometry:exercise-generating-function}
+Let $f \colon \RR^n \to \RR$ be smooth. Show that $\Phi(q, p) = (q, p + df(q))$ is a symplectomorphism of $T^*\RR^n$, the time-one map of the Hamiltonian $H(q, p) = -f(q)$, which maps the zero section onto the
+Lagrangian graph of $df$.
+\end{exercise}
+
+\begin{solution}
+$\Phi^*\sum dq^i \wedge dp_i = \sum dq^i \wedge (dp_i + \sum_j\partial_i\partial_jf\,dq^j) = \sum dq^i \wedge dp_i$, since $\sum_{i,j}\partial_i\partial_jf\,dq^i \wedge dq^j = 0$ by symmetry. For $H = -f(q)$,
+Hamilton's equations are $\dot q = 0$, $\dot p = \nabla f(q)$, with time-one map $\Phi$.
+\end{solution}
+
+\begin{exercise}\label{symplectic-geometry:exercise-poisson-r2n}
+On $T^*\RR^n$ compute $\{q^i, q^j\}$, $\{p_i, p_j\}$ and $\{q^i, p_j\}$, and show that the angular momentum $L = q^1p_2 - q^2p_1$ Poisson-commutes with every rotation-invariant Hamiltonian
+$H = h(|q|^2, |p|^2, \langle q, p\rangle)$ on $T^*\RR^2$.
+\end{exercise}
+
+\begin{solution}
+With $\{F, G\} = \sum_k(\partial_{q^k}F\,\partial_{p_k}G - \partial_{p_k}F\,\partial_{q^k}G)$: $\{q^i, q^j\} = \{p_i, p_j\} = 0$ and $\{q^i, p_j\} = \delta_{ij}$. The flow of $X_L$ is $\dot q = (-q^2, q^1)$,
+$\dot p = (-p_2, p_1)$, the simultaneous rotation of $q$ and $p$, which preserves $|q|^2$, $|p|^2$ and $\langle q, p\rangle$; so $H$ is constant along it, and $\{H, L\} = X_LH = 0$
+(Proposition~\ref{symplectic-geometry:proposition-hamiltonian}(3)).
+\end{solution}

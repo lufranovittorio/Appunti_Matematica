@@ -252,6 +252,54 @@ and irrational points, so $L(\mathbf{1}_\QQ, P) = 0$ and $U(\mathbf{1}_\QQ, P) =
 enumeration of $\QQ \cap [0, 1]$: the Riemann integral does not behave well under monotone limits, which is what the Lebesgue integral repairs (Theorem~\ref{measure-theory:theorem-monotone-convergence}).
 \end{counterexample}
 
+\begin{proposition}[Improper integrals]\label{measure-theory:proposition-improper}
+Let $f \colon [a, \infty) \to \RR$ be continuous, and call $\lim_{b \to \infty}\int_a^bf$, when it exists, the \emph{improper (Riemann) integral} $\int_a^\infty f$.
+\begin{enumerate}
+\item If $f \geq 0$, then $\int_{[a, \infty)}f\,d\lambda = \lim_{b \to \infty}\int_a^bf$ in $[0, \infty]$.
+\item $f \in L^1([a, \infty))$ if and only if $\int_a^\infty|f| < \infty$, and then the improper integral exists and equals the Lebesgue integral.
+\item The improper integral can exist without $f$ being Lebesgue integrable: $\int_\pi^\infty\frac{\sin x}{x}\,dx$ converges, but $\int_\pi^\infty\frac{|\sin x|}{x}\,dx = \infty$.
+\end{enumerate}
+The same holds for continuous functions on $(a, b]$ with a singularity at $a$; for instance $\int_0^1x^{-p}\,dx$ is finite if and only if $p < 1$.
+\end{proposition}
+
+\begin{proof}
+(1) $f\mathbf{1}_{[a, b]}$ increases to $f$ as $b \to \infty$ (along any sequence $b_n \uparrow \infty$), and $\int_{[a, b]}f\,d\lambda = \int_a^bf$ (Proposition~\ref{measure-theory:proposition-riemann-lebesgue});
+apply monotone convergence. (2) The first statement is (1) for $|f|$. Then $|f\mathbf{1}_{[a, b]}| \leq |f|$, and dominated convergence gives $\int_a^bf \to \int f\,d\lambda$. (3) On
+$[k\pi, (k + 1)\pi]$ the integral of $|\sin x|/x$ is at least $\frac{2}{(k + 1)\pi}$, and $\sum_k\frac1{k + 1} = \infty$. The integrals $c_k = \int_{k\pi}^{(k+1)\pi}\frac{\sin x}{x}\,dx$ alternate in sign,
+decrease in absolute value (substitute $x \mapsto x + \pi$) and tend to $0$, so $\sum_kc_k$ converges (Lemma~\ref{real-analysis:lemma-alternating}); and for $b$ between $k\pi$ and $(k + 1)\pi$,
+$\int_\pi^b$ differs from $\sum_{j < k}c_j$ by at most $|c_k| \to 0$. For $x^{-p}$, $\int_\varepsilon^1x^{-p}\,dx = \frac{1 - \varepsilon^{1-p}}{1 - p}$ for $p \neq 1$ and $-\log\varepsilon$ for $p = 1$.
+\end{proof}
+
+So for nonnegative functions the improper integral is the Lebesgue integral, and in general Lebesgue integrability is absolute convergence of the improper integral; the convergent improper integrals
+of non-integrable functions are the analogue of conditionally convergent series.
+
+\begin{proposition}[Differentiation under the integral sign]\label{measure-theory:proposition-differentiation-integral}
+Let $(X, \mu)$ be a measure space, $I \subseteq \RR$ an open interval, and $f \colon X \times I \to \RR$ such that $f(\cdot, t)$ is integrable for every $t$, $f(x, \cdot)$ is differentiable for every $x$,
+and $|\partial_tf(x, t)| \leq g(x)$ for an integrable $g$ independent of $t$. Then $F(t) = \int_Xf(x, t)\,d\mu(x)$ is differentiable, with $F^{\prime}(t) = \int_X\partial_tf(x, t)\,d\mu(x)$.
+\end{proposition}
+
+\begin{proof}
+For $h_n \to 0$, $(f(x, t + h_n) - f(x, t))/h_n \to \partial_tf(x, t)$, and by the mean value theorem these quotients are bounded by $g(x)$. So $\partial_tf(\cdot, t)$ is measurable, as a limit of
+measurable functions, and dominated convergence gives $(F(t + h_n) - F(t))/h_n \to \int\partial_tf(x, t)\,d\mu$.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-feynman}
+\emph{Feynman's trick.} Introducing a parameter and differentiating under the integral sign computes integrals that have no elementary antiderivative.
+\begin{enumerate}
+\item $F(t) = \int_0^1\frac{x^t - 1}{\log x}\,dx$ for $t > -1$: here $\partial_t\frac{x^t - 1}{\log x} = x^t$, dominated by $x^{s}$ for $t \geq s > -1$, so $F^{\prime}(t) = \int_0^1x^t\,dx = \frac{1}{t + 1}$, and
+$F(0) = 0$ gives $F(t) = \log(1 + t)$.
+\item $F(t) = \int_\RR e^{-x^2}\cos(tx)\,dx$. Differentiating, with domination by $|x|e^{-x^2}$, and integrating by parts,
+$F^{\prime}(t) = -\int_\RR xe^{-x^2}\sin(tx)\,dx = -\frac t2F(t)$; so $F(t) = F(0)e^{-t^2/4} = \sqrt\pi\,e^{-t^2/4}$ by Example~\ref{measure-theory:example-gaussian}. This is the Fourier transform of the
+Gaussian.
+\item \emph{The Dirichlet integral} $\int_0^\infty\frac{\sin x}{x}\,dx = \frac\pi2$ (an improper integral, Proposition~\ref{measure-theory:proposition-improper}(3)). For $t > 0$ let
+$F(t) = \int_0^\infty e^{-tx}\frac{\sin x}{x}\,dx$, a Lebesgue integral. On $t \geq \delta > 0$ the derivative $-e^{-tx}\sin x$ is dominated by $e^{-\delta x}$, so
+$F^{\prime}(t) = -\int_0^\infty e^{-tx}\sin x\,dx = -\operatorname{Im}\int_0^\infty e^{-(t - i)x}\,dx = -\operatorname{Im}\frac{1}{t - i} = -\frac{1}{1 + t^2}$. Since $|\sin x/x| \leq 1$,
+$|F(t)| \leq 1/t \to 0$ as $t \to \infty$; hence $F(t) = \frac\pi2 - \arctan t$, with $\arctan$ the inverse of $\tan \colon (-\frac\pi2, \frac\pi2) \to \RR$. Finally $F(t) \to \int_0^\infty\frac{\sin x}x$ as
+$t \to 0^+$: for a nonincreasing $C^1$ function $u \geq 0$, integrating by parts, $|\int_R^Su(x)\sin x\,dx| \leq 2u(R)$; with $u(x) = e^{-tx}/x$ this bounds the tails beyond $R$ by $2/R$ for all
+$t \geq 0$, while $|\int_0^R(e^{-tx} - 1)\frac{\sin x}{x}\,dx| \leq \int_0^Rtx\,dx = \frac{tR^2}2$. Choosing first $R$ large and then $t$ small gives the limit.
+\end{enumerate}
+\end{example}
+
 \section{Lebesgue spaces}\label{measure-theory:section-lp}
 
 \begin{definition}\label{measure-theory:definition-lp}
@@ -710,6 +758,30 @@ is $\leq 0$ and the right side is $\geq \mu(E)$, so $\mu(E) = 0$ and $\nu(E) = 0
 $k \to \infty$, monotone convergence gives $\nu(E) = \int_Eh\,d\mu$ with $h = g/(1 - g)$. If $h'$ also works, $\int_E(h - h')\,d\mu = 0$ for $E = \{h > h'\}$ and $\{h < h'\}$ (intersected with sets of finite measure), so
 $h = h'$ a.e.
 \end{proof}
+
+Two measures $\mu$, $\nu$ on $(X, \mathcal{A})$ are \emph{mutually singular}, $\nu \perp \mu$, if there is $S \in \mathcal{A}$ with $\mu(S) = 0$ and $\nu(X \setminus S) = 0$: they live on disjoint sets.
+
+\begin{theorem}[Lebesgue decomposition]\label{measure-theory:theorem-lebesgue-decomposition}
+Let $\mu$, $\nu$ be $\sigma$-finite measures on $(X, \mathcal{A})$. There are unique measures $\nu_a \ll \mu$ and $\nu_s \perp \mu$ with $\nu = \nu_a + \nu_s$; and $\nu_a = h\,\mu$ for a measurable $h \geq 0$.
+\end{theorem}
+
+\begin{proof}
+As in Theorem~\ref{measure-theory:theorem-radon-nikodym} we may assume $\mu$, $\nu$ finite. Let $\rho = \mu + \nu$. Since $\nu \ll \rho$, Theorem~\ref{measure-theory:theorem-radon-nikodym} gives $g \geq 0$ with
+$\nu(E) = \int_Eg\,d\rho$; from $\nu(E) \leq \rho(E)$ for all $E$, $g \leq 1$ $\rho$-almost everywhere, and we may take $0 \leq g \leq 1$. Writing $\int_Eg\,d\rho = \int_Eg\,d\mu + \int_Eg\,d\nu$ gives
+\[
+\int_E(1 - g)\,d\nu = \int_Eg\,d\mu \qquad (E \in \mathcal{A}).
+\]
+Let $S = \{g = 1\}$. For $E = S$ the left side vanishes, so $\int_Sg\,d\mu = \mu(S) = 0$. Put $\nu_s(E) = \nu(E \cap S)$ and $\nu_a(E) = \nu(E \setminus S)$; then $\nu_s \perp \mu$. If $\mu(E) = 0$, the identity gives
+$\int_E(1 - g)\,d\nu = 0$, so $1 - g = 0$ $\nu$-almost everywhere on $E$, that is, $\nu(E \setminus S) = 0$: $\nu_a \ll \mu$, and $\nu_a = h\,\mu$ by Theorem~\ref{measure-theory:theorem-radon-nikodym}. For
+uniqueness, let $\nu = \nu_a^{\prime} + \nu_s^{\prime}$ be another decomposition, with $\nu_s^{\prime}$ living on a $\mu$-null set $S^{\prime}$. On subsets of $X \setminus (S \cup S^{\prime})$ both singular parts vanish,
+so $\nu_a = \nu = \nu_a^{\prime}$; on subsets of the $\mu$-null set $S \cup S^{\prime}$ both absolutely continuous parts vanish. Hence $\nu_a = \nu_a^{\prime}$, and $\nu_s = \nu - \nu_a = \nu_s^{\prime}$ ($\nu$ being finite).
+\end{proof}
+
+\begin{example}\label{measure-theory:example-lebesgue-decomposition}
+With respect to Lebesgue measure $\lambda$ on $\RR$: $\nu = \delta_0 + \mathbf{1}_{[0,1]}\lambda$ has $\nu_a = \mathbf{1}_{[0,1]}\lambda$ and $\nu_s = \delta_0$, living on $\{0\}$. The measure $\mu_F$ of the
+Cantor function (Lemma~\ref{measure-theory:lemma-stieltjes}) is singular, living on the Cantor set, but has no atoms. In general the singular part splits further into a \emph{discrete} part, a countable sum of
+point masses, and a \emph{singular continuous} part without atoms, like $\mu_F$: the atoms of a $\sigma$-finite measure form a countable set, and the discrete part is the restriction to it.
+\end{example}
 
 \begin{theorem}[Riesz--Markov]\label{measure-theory:theorem-riesz-markov}
 Let $X$ be a locally compact Hausdorff space and $\Lambda \colon C_c(X, \RR) \to \RR$ a linear map with $\Lambda(f) \geq 0$ for $f \geq 0$. There is a unique regular Borel measure $\mu$, finite on compact sets, with
@@ -1197,4 +1269,29 @@ $x_u = (-r\sin u\cos v, -r\sin u\sin v, r\cos u)$ and $x_v = (-(R + r\cos u)\sin
 $Jx = |x_u \times x_v| = r(R + r\cos u)$ and $Dx$ is injective. The point $x(u, v)$ determines $v$ modulo $2\pi$ (its projection to the plane $z = 0$ has argument $v$) and then $u$ modulo
 $2\pi$, so $x$ is injective on $(0, 2\pi)^2$. Its image is $T$ minus the two circles $u = 0$ and $v = 0$, which have finite $\mathcal{H}^1$-measure and are therefore $\mathcal{H}^2$-null. By the area
 formula, $\mathcal{H}^2(T) = \int_0^{2\pi}\int_0^{2\pi}r(R + r\cos u)\,du\,dv = 4\pi^2Rr$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-ae-measurable}
+Let $(X, \mathcal{A}, \mu)$ be a complete measure space, $f$ measurable and $g = f$ almost everywhere. Show that $g$ is measurable. Deduce that for Lebesgue measure, changing a measurable function on a null set
+gives a measurable function, so that ``measurable function defined almost everywhere'' makes sense.
+\end{exercise}
+
+\begin{solution}
+Let $N \in \mathcal{A}$ be a null set with $f = g$ outside $N$. For $a \in \RR$, $\{g > a\} = (\{f > a\} \setminus N) \cup (\{g > a\} \cap N)$. The first set is measurable, and the second is a subset of
+the null set $N$, hence measurable by completeness. So $g$ is measurable (Proposition~\ref{measure-theory:proposition-measurable-functions}(1)). Lebesgue measure is complete
+(Theorem~\ref{measure-theory:theorem-lebesgue-measure}).
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-inner-measure}
+For $A \subseteq [0, 1]$ define the \emph{inner measure} $\lambda_*(A) = \sup\{\lambda(K) : K \subseteq A \text{ compact}\}$, approximating $A$ from inside instead of from outside. Show that
+$\lambda_*(A) = 1 - \lambda^*([0, 1] \setminus A)$, that $\lambda_*(A) \leq \lambda^*(A)$, and that $A$ is Lebesgue measurable if and only if $\lambda_*(A) = \lambda^*(A)$. (This was Lebesgue's original
+definition of measurability.)
+\end{exercise}
+
+\begin{solution}
+Compact subsets $K \subseteq A$ correspond to relatively open sets $V = [0, 1] \setminus K \supseteq [0, 1] \setminus A$, with $\lambda(K) = 1 - \lambda(V)$; and $\lambda^*(B)$ is the infimum of $\lambda(U \cap [0, 1])$
+over open $U \supseteq B$ for $B \subseteq [0, 1]$ (enlarge the covering boxes, as in the proof of Theorem~\ref{measure-theory:theorem-lebesgue-measure}). This gives the formula. If $K \subseteq A \subseteq U$
+then $\lambda(K) \leq \lambda^*(A) \leq \lambda(U)$, so $\lambda_* \leq \lambda^*$. If $A$ is measurable, equality is inner regularity. Conversely, if $\lambda_*(A) = \lambda^*(A)$, choose compact $K_n \subseteq A$
+and open $U_n \supseteq A$ with $\lambda(K_n) \to \lambda_*(A)$ and $\lambda(U_n) \to \lambda^*(A)$; then $F = \bigcup K_n \subseteq A \subseteq G = \bigcap U_n$ are Borel sets with
+$\lambda(G \setminus F) = \lambda(G) - \lambda(F) = 0$, so $A = F \cup (A \setminus F)$ with $A \setminus F \subseteq G \setminus F$ null, and $A$ is measurable by completeness.
 \end{solution}

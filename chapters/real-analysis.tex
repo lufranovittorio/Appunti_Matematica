@@ -525,6 +525,54 @@ $(1 - z)\sum_{n \leq N}z^n = 1 - z^{N+1}$, and $|z|^N \to 0$: if $0 < |z| < 1$ w
 $B(X, V)$ of bounded maps is complete (Proposition~\ref{general-topology:proposition-complete-examples}).
 \end{proof}
 
+\begin{proposition}[More convergence tests]\label{real-analysis:proposition-series-tests}
+Let $(a_n)$, $(b_n)$ be sequences of real numbers.
+\begin{enumerate}
+\item If $\sum a_n$ converges, then $a_n \to 0$. The converse fails: the harmonic series $\sum_{n \geq 1}1/n$ diverges.
+\item (Limit comparison) If $a_n, b_n > 0$ and $a_n/b_n \to L \in (0, \infty)$, then $\sum a_n$ and $\sum b_n$ both converge or both diverge. In particular this holds if $a_n \sim b_n$, that is,
+$a_n/b_n \to 1$.
+\item (Cauchy condensation) If $a_1 \geq a_2 \geq \cdots \geq 0$, then $\sum_{n \geq 1}a_n$ converges if and only if $\sum_{k \geq 0}2^ka_{2^k}$ converges. Consequently $\sum_{n \geq 1}n^{-p}$
+converges if and only if $p > 1$, and $\sum_{n \geq 2}1/(n(\log n)^p)$ converges if and only if $p > 1$.
+\item (Ratio and root) If $a_n > 0$, then $\liminf\frac{a_{n+1}}{a_n} \leq \liminf a_n^{1/n} \leq \limsup a_n^{1/n} \leq \limsup\frac{a_{n+1}}{a_n}$; so whenever the ratio test applies, the root test
+does too. If $a_{n+1} \geq a_n > 0$ for large $n$, the series diverges. If the limit of the ratios or of the roots is $1$, no conclusion is possible: $\sum 1/n$ diverges and $\sum 1/n^2$
+converges, and both have limit $1$.
+\item (Dirichlet) If $b_n \in \CC$ have bounded partial sums $B_n = \sum_{k \leq n}b_k$ and $a_n \geq a_{n+1} \to 0$, then $\sum a_nb_n$ converges. For $b_n = (-1)^n$ this is the alternating
+series test (Lemma~\ref{real-analysis:lemma-alternating} below).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $a_n = s_n - s_{n-1} \to s - s = 0$. For the harmonic series, $s_{2n} - s_n = \sum_{n < k \leq 2n}\frac1k \geq n \cdot \frac1{2n} = \frac12$, so the partial sums are not Cauchy.
+
+(2) A series of positive terms converges if and only if its partial sums are bounded (Proposition~\ref{real-analysis:proposition-monotone}). For large $n$, $\frac L2b_n \leq a_n \leq 2Lb_n$, so
+the partial sums are bounded for both series or for neither.
+
+(3) For $2^k \leq n < 2^{k+1}$ there are $2^k$ terms, each between $a_{2^{k+1}}$ and $a_{2^k}$, so
+$\frac12 2^{k+1}a_{2^{k+1}} \leq \sum_{n = 2^k}^{2^{k+1} - 1}a_n \leq 2^ka_{2^k}$. Summing over $k \leq K$ shows that the partial sums of the two series bound each other, up to a factor
+$2$ and the term $a_1$. For $a_n = n^{-p}$ with $p > 0$, $2^ka_{2^k} = (2^{1-p})^k$, a geometric series converging if and only if $p > 1$; for $p \leq 0$ the terms do not tend to $0$. For
+$a_n = 1/(n(\log n)^p)$, $2^ka_{2^k} = (k\log 2)^{-p}$, which reduces to the previous case.
+
+(4) If $\limsup a_{n+1}/a_n < q$, then $a_{n+1} \leq qa_n$ for $n \geq N$, so $a_n \leq Cq^n$ and $a_n^{1/n} \leq C^{1/n}q \to q$; hence $\limsup a_n^{1/n} \leq q$. The inequality for the $\liminf$
+is proved in the same way. If $a_n$ is eventually nondecreasing and positive, it does not tend to $0$.
+
+(5) Summation by parts: for $m \leq N$, $\sum_{n=m}^Na_nb_n = a_NB_N - a_mB_{m-1} + \sum_{n=m}^{N-1}(a_n - a_{n+1})B_n$. With $|B_n| \leq M$ and $a_n - a_{n+1} \geq 0$, the absolute value is
+at most $M(a_N + a_m + (a_m - a_N)) = 2Ma_m$, which tends to $0$; so the partial sums are Cauchy.
+\end{proof}
+
+\begin{example}\label{real-analysis:example-series-tests}
+\emph{Combining tests.} The tests are sufficient conditions, and in practice one combines them: first replace $a_n$ by a simpler sequence with the same behaviour (limit comparison with an
+asymptotic equivalent), then apply the ratio, root or condensation test to it.
+\begin{enumerate}
+\item $\sum n!/n^n$: the ratio is $(n/(n + 1))^n = (1 + 1/n)^{-n} \to 1/e < 1$, so the series converges.
+\item $\sum\sin(1/n)$ diverges and $\sum(1 - \cos(1/n))$ converges, by limit comparison with $\sum 1/n$ and $\sum 1/(2n^2)$, since $\sin t/t \to 1$ and $(1 - \cos t)/t^2 \to \frac12$ as $t \to 0$.
+\item $\sqrt{n + 1} - \sqrt n = 1/(\sqrt{n + 1} + \sqrt n) \sim 1/(2\sqrt n)$; so $\sum(\sqrt{n + 1} - \sqrt n)$ diverges (its partial sums are $\sqrt{N + 1} - 1$) and
+$\sum(\sqrt{n + 1} - \sqrt n)/n$ converges, by comparison with $\sum n^{-3/2}$.
+\item $\sum_{n \geq 1}\sin(n)/n$ converges by Dirichlet's test: from $2\sin\frac12\sin k = \cos(k - \frac12) - \cos(k + \frac12)$ the partial sums of $\sum\sin k$ telescope and are bounded by
+$1/\sin\frac12$. It does not converge absolutely, since $|\sin n| \geq \sin^2n = \frac12(1 - \cos 2n)$ and $\sum\cos(2n)/n$ converges by the same argument while $\sum 1/n$ diverges.
+\item $\sum n^2/2^n$ converges by the root test ($n^{2/n} \to 1$), and $\sum 2^n/n^2$ diverges since its terms tend to $\infty$.
+\end{enumerate}
+\end{example}
+
 \begin{lemma}[Alternating series]\label{real-analysis:lemma-alternating}
 If $t_0 \geq t_1 \geq \cdots \geq 0$ and $t_k \to 0$, then $S = \sum_k(-1)^kt_k$ converges and $S_{2m+1} \leq S \leq S_{2m}$ for all $m$, where $S_N$ are the partial sums.
 \end{lemma}
@@ -605,6 +653,13 @@ Let $f, g \colon [a, b] \to \RR$ be continuous and differentiable on $(a, b)$.
 $\xi \in (a, b)$, and $f'(\xi) = 0$ by Lemma~\ref{real-analysis:lemma-fermat}. (2) Apply (1) to $f(x) - \frac{f(b) - f(a)}{b - a}(x - a)$, and to
 $(f(b) - f(a))g(x) - (g(b) - g(a))f(x)$. (3) Apply (2) on subintervals.
 \end{proof}
+
+\begin{remark}\label{real-analysis:remark-derivative-zero}
+Both hypotheses of (3) matter. On a set that is not an interval a function with zero derivative need not be constant: $f = 0$ on $(0, 1)$ and $f = 1$ on $(2, 3)$. And ``$f^{\prime} = 0$'' must hold at
+every point: the Cantor function (Chapter~\ref{measure-theory}) is continuous, nondecreasing and nonconstant on $[0, 1]$, with $f^{\prime} = 0$ outside a set of measure zero. On the other hand finitely
+many exceptional points do not matter: if $f$ is continuous on $[a, b]$ and $f^{\prime} = 0$ except at $c_1 < \cdots < c_k$, applying (3) on each interval between consecutive points and using continuity
+shows that $f$ is constant.
+\end{remark}
 
 \begin{proposition}\label{real-analysis:proposition-inverse-one}
 Let $f \colon I \to \RR$ be continuous and strictly monotone. Then $J = f(I)$ is an interval, $f^{-1} \colon J \to I$ is continuous, and if $f$ is differentiable at $a$ with
@@ -922,6 +977,56 @@ without boundary, the derivative can be moved from one factor to the other at th
 functions (Chapter~\ref{measure-theory}), and on a region with boundary the boundary term becomes an integral over the boundary (Green's identities, Chapter~\ref{riemannian-geometry}).
 \end{enumerate}
 \end{example}
+
+\begin{proposition}[Mean value theorem for integrals]\label{real-analysis:proposition-mean-value-integrals}
+Let $f, g \colon [a, b] \to \RR$ be continuous with $g \geq 0$. Then there is $c \in [a, b]$ with $\int_a^bfg = f(c)\int_a^bg$. In particular $\int_a^bf = f(c)(b - a)$ for some $c$: the average
+value of a continuous function is attained.
+\end{proposition}
+
+\begin{proof}
+Let $m$, $M$ be the minimum and maximum of $f$ (Corollary~\ref{general-topology:corollary-extreme-value}). Then $mg \leq fg \leq Mg$, so $m\int g \leq \int fg \leq M\int g$. If $\int g = 0$ any $c$ works;
+otherwise $\int fg/\int g \in [m, M]$ is a value of $f$ by the intermediate value theorem (Corollary~\ref{general-topology:corollary-ivt}).
+\end{proof}
+
+The hypotheses matter: for $g(x) = x$ on $[-1, 1]$ and $f = g$, $\int fg = \frac23$ while $\int g = 0$; and for vector-valued $f$ the statement fails, since $f(t) = e^{it}$ on $[0, 2\pi]$ has integral $0$
+but never vanishes.
+
+\begin{example}\label{real-analysis:example-computing-integrals}
+\emph{Computing integrals.} The fundamental theorem of calculus reduces integration to finding antiderivatives, and the rules of Corollary~\ref{real-analysis:corollary-integration-rules} are the
+main tools.
+\begin{enumerate}
+\item \emph{Substitution.} With $u = 1 + x^2$, $du = 2x\,dx$: $\int_0^1\frac{x}{1 + x^2}\,dx = \frac12\int_1^2\frac{du}{u} = \frac12\log 2$.
+\item \emph{Partial fractions.} $\frac{1}{x^2 - 1} = \frac12\bigl(\frac{1}{x - 1} - \frac{1}{x + 1}\bigr)$, so $\int_2^3\frac{dx}{x^2 - 1} = \frac12\bigl[\log\frac{x - 1}{x + 1}\bigr]_2^3 = \frac12\log\frac32$.
+In general every rational function is a polynomial plus a combination of terms $(x - a)^{-k}$ and $(Ax + B)((x - p)^2 + q^2)^{-k}$, whose antiderivatives involve only rational functions,
+$\log$ and $\arctan$.
+\item \emph{Trigonometric substitution.} With $x = \sin\theta$: $\int_{-1}^1\sqrt{1 - x^2}\,dx = \int_{-\pi/2}^{\pi/2}\cos^2\theta\,d\theta = \frac\pi2$, the area of a half disc; here
+$\cos^2\theta = \frac12(1 + \cos 2\theta)$.
+\item \emph{Symmetry.} $\int_{-a}^af = 0$ for odd $f$, as the substitution $x \mapsto -x$ shows; for instance $\int_{-1}^1x^3e^{x^2}\,dx = 0$ without computing an antiderivative.
+\item \emph{Recursion by parts}, as for Wallis' integrals in Example~\ref{real-analysis:example-integration-by-parts}: $\int_0^1x^ne^x\,dx = e - n\int_0^1x^{n-1}e^x\,dx$.
+\end{enumerate}
+Many integrals have no elementary antiderivative, such as $\int e^{-x^2}\,dx$; they are computed by other means, such as polar coordinates for $\int_\RR e^{-x^2} = \sqrt\pi$ and differentiation with
+respect to a parameter (Chapter~\ref{measure-theory}).
+\end{example}
+
+\begin{theorem}[Stirling's formula]\label{real-analysis:theorem-stirling}
+$n! \sim \sqrt{2\pi n}\,(n/e)^n$, that is, $n!\,e^n/(n^{n + 1/2}\sqrt{2\pi}) \to 1$ as $n \to \infty$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: $a_n = n!\,e^n/n^{n + 1/2}$ converges to some $C > 0$.} For $t \geq 0$, $t - \frac{t^2}2 \leq \log(1 + t) \leq t - \frac{t^2}2 + \frac{t^3}3$: the differences vanish at $0$ and have
+derivatives $\frac{t^2}{1 + t} \geq 0$ and $\frac{t^3}{1 + t} \geq 0$. Now $\log(a_n/a_{n+1}) = (n + \frac12)\log(1 + \frac1n) - 1$, and with $t = 1/n$ the two bounds give
+$-\frac{1}{4n^2} \leq \log(a_n/a_{n+1}) \leq \frac{1}{12n^2} + \frac{1}{6n^3} \leq \frac{1}{4n^2}$. So $\sum_n\log(a_n/a_{n+1})$ converges absolutely, $\log a_n$ converges, and $a_n \to C > 0$.
+
+\emph{Step 2: $C = \sqrt{2\pi}$.} With Wallis' integrals $I_k$ (Example~\ref{real-analysis:example-integration-by-parts}), $\sin^{2m+1} \leq \sin^{2m} \leq \sin^{2m-1}$ on $[0, \frac\pi2]$ gives
+$I_{2m+1} \leq I_{2m} \leq I_{2m-1} = \frac{2m+1}{2m}I_{2m+1}$, so $I_{2m}/I_{2m+1} \to 1$. Using $2 \cdot 4 \cdots 2m = 2^mm!$ and $1 \cdot 3 \cdots (2m - 1) = (2m)!/(2^mm!)$, this says
+\[
+\frac\pi2 = \lim_{m \to \infty}\frac{2^{4m}(m!)^4}{((2m)!)^2(2m + 1)}
+\]
+(Wallis' product). Substituting $m! = a_mm^{m + 1/2}e^{-m}$ and $(2m)! = a_{2m}(2m)^{2m + 1/2}e^{-2m}$, the right side is $\frac{a_m^4}{a_{2m}^2}\cdot\frac{m}{2(2m + 1)} \to \frac{C^2}{4}$. Hence
+$C^2 = 2\pi$.
+\end{proof}
+
+For example $10! = 3628800$, while $\sqrt{20\pi}(10/e)^{10} \approx 3598696$, an error of less than $1\%$; the relative error is about $1/(12n)$, in accordance with the bound in Step 1.
 
 \begin{proposition}\label{real-analysis:proposition-parameter-integrals}
 Let $f \colon [c, d] \times [a, b] \to \CC$ be continuous.
@@ -1396,4 +1501,26 @@ Compute $\int_0^\pi x^2\sin x\,dx$, and show by integration by parts and inducti
 Twice by parts: $\int_0^\pi x^2\sin x\,dx = [-x^2\cos x]_0^\pi + 2\int_0^\pi x\cos x\,dx = \pi^2 + 2\bigl([x\sin x]_0^\pi - \int_0^\pi\sin x\,dx\bigr) = \pi^2 + 2(0 - 2) = \pi^2 - 4$. For the second, let
 $B(m, n)$ be the integral. For $n \geq 1$, take $f(x) = x^{m+1}/(m + 1)$ and $g(x) = (1 - x)^n$; the boundary term vanishes at both ends, and $B(m, n) = \frac{n}{m+1}B(m + 1, n - 1)$. Iterating,
 $B(m, n) = \frac{n(n-1) \cdots 1}{(m+1)(m+2) \cdots (m+n)}B(m + n, 0)$, and $B(m + n, 0) = \frac{1}{m + n + 1}$, which gives $\frac{m!\,n!}{(m + n + 1)!}$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-midpoint-convex}
+Let $f \colon I \to \RR$ be continuous on an interval and \emph{midpoint convex}: $f(\frac{x + y}2) \leq \frac{f(x) + f(y)}2$ for all $x, y \in I$. Show that $f$ is convex. (Without continuity this
+fails: a $\QQ$-linear map $\RR \to \RR$ that is not $\RR$-linear, which exists by choosing a basis of $\RR$ over $\QQ$, is midpoint affine but not convex.)
+\end{exercise}
+
+\begin{solution}
+By induction on $k$, $f(\sum_ix_i/2^k) \leq \sum_if(x_i)/2^k$ for $2^k$ points $x_i \in I$ (split them into two halves and apply midpoint convexity to the two averages). Given $x, y$ and a dyadic
+$t = j/2^k \in [0, 1]$, take $j$ copies of $x$ and $2^k - j$ copies of $y$: $f(tx + (1 - t)y) \leq tf(x) + (1 - t)f(y)$. Dyadic numbers are dense in $[0, 1]$, and both sides are continuous in
+$t$, so the inequality holds for all $t \in [0, 1]$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-series-tests}
+Decide whether the following series converge: $\sum_{n \geq 1}\frac{n^n}{n!\,3^n}$, $\sum_{n \geq 2}\frac{1}{(\log n)^{\log n}}$, $\sum_{n \geq 1}\bigl(1 - \frac1n\bigr)^{n^2}$,
+$\sum_{n \geq 2}\frac{(-1)^n}{\sqrt n + (-1)^n}$.
+\end{exercise}
+
+\begin{solution}
+(1) The ratio is $\frac13(1 + \frac1n)^n \to \frac e3 < 1$: converges. (2) $(\log n)^{\log n} = n^{\log\log n} \geq n^2$ once $\log\log n \geq 2$, so it converges by comparison with $\sum n^{-2}$.
+(3) The $n$-th root is $(1 - \frac1n)^n \to e^{-1} < 1$: converges. (4) $\frac{(-1)^n}{\sqrt n + (-1)^n} = \frac{(-1)^n}{\sqrt n} - \frac{1}{\sqrt n(\sqrt n + (-1)^n)}$; the first series converges
+(alternating), the second diverges by limit comparison with $\sum\frac1n$; so the series diverges, although its terms are alternating and tend to $0$ (they are not monotone in absolute value).
 \end{solution}

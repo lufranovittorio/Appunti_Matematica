@@ -947,6 +947,45 @@ local diffeomorphism onto $f(M)$, hence a diffeomorphism (Theorem~\ref{smooth-ma
 (Proposition~\ref{general-topology:proposition-compact-basic}(4)).
 \end{proof}
 
+\begin{proposition}\label{smooth-manifolds:proposition-proper-immersion}
+An injective immersion $f \colon M \to N$ that is proper (preimages of compact sets are compact) is an embedding, and its image is a closed submanifold.
+\end{proposition}
+
+\begin{proof}
+$N$ is locally compact and Hausdorff, so the proper continuous map $f$ is closed (Proposition~\ref{general-topology:proposition-proper-closed}). A closed continuous injection is a homeomorphism onto its
+image, which is closed: the image of a closed subset $C \subseteq M$ is $f(C)$, closed in $N$ and hence in $f(M)$. So $f$ is an embedding, and $f(M)$ is a submanifold by
+Proposition~\ref{smooth-manifolds:proposition-local-forms}(2).
+\end{proof}
+
+\begin{counterexample}\label{smooth-manifolds:counterexample-proper-immersion}
+Each hypothesis is needed. The map $t \mapsto (\cos 2t, \sin 2t)$ from $S^1 = \RR/2\pi\ZZ$ to $\RR^2$ is a proper immersion, but not injective, as it winds twice around the circle, and it is not an
+embedding. The curve $t \mapsto (t^2, t^3)$ is injective, proper and smooth, but not an immersion, as its velocity vanishes at $t = 0$. And injective immersions that are not proper need not be embeddings:
+the figure eight and the dense line on the torus of Counterexample~\ref{smooth-manifolds:counterexample-immersions} below.
+\end{counterexample}
+
+\begin{example}\label{smooth-manifolds:example-not-submanifold}
+\emph{Homeomorphic to a manifold, but not a submanifold.} Let $\Gamma = \{(x, |x|) : x \in \RR\} \subseteq \RR^2$, the graph of $|x|$, and $C = \{(x, y, z) : z = \sqrt{x^2 + y^2}\} \subseteq \RR^3$, the cone.
+\begin{enumerate}
+\item \emph{They are smooth manifolds.} The projections $\Gamma \to \RR$, $(x, |x|) \mapsto x$, and $C \to \RR^2$, $(x, y, z) \mapsto (x, y)$, are homeomorphisms (continuous bijections with continuous inverses
+$x \mapsto (x, |x|)$ and $(x, y) \mapsto (x, y, \sqrt{x^2 + y^2})$). So $\Gamma$ and $C$ are topological manifolds, and each of them carries a smooth structure: a homeomorphism $h \colon X \to N$ onto a
+smooth manifold transports the atlas of $N$ to the atlas $\{\varphi \circ h\}$ of $X$, whose transition maps are those of $N$; for this structure $h$ is a diffeomorphism. Being homeomorphic to a smooth
+manifold is a topological property, and so is ``admitting a smooth structure''.
+\item \emph{They are not submanifolds.} A subset of $\RR^n$ has a preferred smooth structure only when it is a submanifold (Definition~\ref{smooth-manifolds:definition-immersion}): then the slice charts give
+the unique structure for which the inclusion is an embedding (Proposition~\ref{smooth-manifolds:proposition-local-forms}(2)). Neither $\Gamma$ nor $C$ is a submanifold near the origin. Suppose $S \subseteq \RR^n$ is a
+$k$-dimensional submanifold with a slice chart $\varphi$ at $0 \in S$, and put $T = d(\varphi^{-1})_{\varphi(0)}(\RR^k \times \{0\})$, a $k$-dimensional subspace. If $c \colon [0, \varepsilon) \to \RR^n$ is a curve
+with values in $S$, $c(0) = 0$, differentiable from the right at $0$, then $c^{\prime}(0) \in T$: the curve $\varphi \circ c$ takes values in $\RR^k \times \{0\}$, so its right derivative lies in this closed
+subspace, and $c^{\prime}(0) = d(\varphi^{-1})((\varphi \circ c)^{\prime}(0))$ by the chain rule. For $\Gamma$ the rays $t \mapsto (t, t)$ and $t \mapsto (-t, t)$, $t \geq 0$, have velocities $(1, 1)$ and
+$(-1, 1)$, which span $\RR^2$, so no line $T$ contains them: $\Gamma$ is not a $1$-dimensional submanifold. For $C$ the rays $t \mapsto (tu, t)$ with $u \in S^1$ have velocities $(u, 1)$, which span
+$\RR^3$, so $C$ is not a $2$-dimensional submanifold. (Neither is a submanifold of any other dimension, since it is a topological manifold of dimension $1$, respectively $2$.)
+\item \emph{What goes wrong with the transported structure.} For the smooth structure on $\Gamma$ transported from $\RR$, the inclusion $\Gamma \to \RR^2$ is, in the chart $x$, the map $x \mapsto (x, |x|)$,
+which is not differentiable at $0$. Any other smooth structure for which the inclusion is smooth makes it a non-immersion at the origin, since an injective immersion that is a homeomorphism onto its
+image is an embedding, whose image would be a submanifold; for instance $t \mapsto (t^3, |t|^3)$ is $C^2$ but not an immersion at $0$. So $\Gamma$ is a smooth manifold, but not with ``the structure
+induced from $\RR^2$'', because there is no such structure: the corner is invisible to topology and visible to calculus.
+\end{enumerate}
+By contrast the graph of a smooth function $f \colon U \to \RR^m$ is always a submanifold (Proposition~\ref{smooth-manifolds:proposition-graph-submanifold}), and the projection to $U$ is then a diffeomorphism
+for the induced structure.
+\end{example}
+
 \begin{theorem}[Regular value theorem]\label{smooth-manifolds:theorem-regular-value}
 Let $f \colon M^n \to N^m$ be smooth and $q \in N$ a \emph{regular value}: $d_pf$ is surjective for every $p \in f^{-1}(q)$. Then $f^{-1}(q)$ is a submanifold of dimension $n - m$, with
 $T_p(f^{-1}(q)) = \ker d_pf$.
