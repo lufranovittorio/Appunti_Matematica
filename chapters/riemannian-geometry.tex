@@ -2602,6 +2602,185 @@ For example, in the round sphere $S^{n+1}$ every compact minimal hypersurface wi
 Example~\ref{riemannian-geometry:example-equator-unstable} illustrates. The proof uses a global unit normal field (that is, $M$ is \emph{two-sided}), since it pushes every point of $M$ to the same side. For a one-sided hypersurface, such as the
 image of the equator $S^2 \subseteq S^3$ in $\RR\PP^3$, which is a totally geodesic copy of $\RR\PP^2$, the variation with $\phi = 1$ is not defined and the argument does not apply.
 
+\section{The Laplace--Beltrami operator}\label{riemannian-geometry:section-laplace-beltrami}
+
+The Laplacian $\Delta_g = \operatorname{div}\operatorname{grad}$ of Definition~\ref{riemannian-geometry:definition-gradient-hessian}, called the \emph{Laplace--Beltrami operator} when one wants to
+stress that it lives on a Riemannian manifold, has already appeared several times: in coordinates (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(1)),
+\[
+\Delta_gf = \frac{1}{\sqrt{\det g}}\sum_{i,j}\partial_i\bigl(\sqrt{\det g}\,g^{ij}\partial_jf\bigr),
+\]
+as the trace of the Hessian (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(3)), and in the Jacobi operator of a minimal hypersurface
+(Remark~\ref{riemannian-geometry:remark-variation-area-riemannian}). This section collects its basic properties: it is symmetric and nonpositive, it measures how $f$ differs from its
+averages, it detects minimal submanifolds, and on spheres its eigenfunctions are the spherical harmonics. We use the analysts' sign, so that $\Delta_g = \sum_i\partial_i^2$ on
+$\RR^n$; the Hodge Laplacian of Section~\ref{riemannian-geometry:section-hodge-star} below is $-\Delta_g$ on functions. Throughout, $(M, g)$ is a Riemannian manifold of dimension $n$
+and we write $\Delta$ for $\Delta_g$.
+
+\begin{proposition}[Green's identities]\label{riemannian-geometry:proposition-laplacian-symmetric}
+Let $M$ be oriented and without boundary, and let $f$, $h$ be smooth functions, one of which has compact support. Then
+\[
+\int_Mf\,\Delta h\,\mathrm{vol}_g = -\int_M\langle\operatorname{grad}f, \operatorname{grad}h\rangle\,\mathrm{vol}_g = \int_Mh\,\Delta f\,\mathrm{vol}_g .
+\]
+In particular $\int_M\Delta f\,\mathrm{vol}_g = 0$ and $\int_Mf\,\Delta f\,\mathrm{vol}_g = -\int_M|\operatorname{grad}f|^2\,\mathrm{vol}_g \leq 0$ for compactly supported $f$: the operator $\Delta$ is
+\emph{symmetric} and \emph{nonpositive}. Moreover $\Delta$ is the only operator $P \colon C^\infty(M) \to C^\infty(M)$ with $\int_MfPh\,\mathrm{vol}_g = -\int_M\langle\operatorname{grad}f, \operatorname{grad}h\rangle\,\mathrm{vol}_g$
+for all $h$ and all compactly supported $f$.
+\end{proposition}
+
+\begin{proof}
+The vector field $X = f\operatorname{grad}h$ has compact support and $\operatorname{div}X = \langle\operatorname{grad}f, \operatorname{grad}h\rangle + f\Delta h$, by the Leibniz rule
+$\nabla_v(fY) = v(f)Y + f\nabla_vY$ inside the trace. By Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(5), $(\operatorname{div}X)\,\mathrm{vol}_g = d(\iota_X\mathrm{vol}_g)$ is
+the exterior derivative of a compactly supported form, so its integral vanishes by Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}) with $\partial M = \emptyset$. This is
+the first equality; the second follows by exchanging $f$ and $h$, as the middle term is symmetric. For the special cases take $h = 1$, so that $\int\Delta f = \int f\,\Delta1 = 0$, and $h = f$. For uniqueness, if $P$ has the property, then $u = Ph - \Delta h$ is smooth and $\int_Mfu\,\mathrm{vol}_g = 0$ for all
+compactly supported $f$. Taking $f = \rho u$ for a bump function $\rho \geq 0$ gives $\int_M\rho u^2\,\mathrm{vol}_g = 0$, so $u = 0$ where $\rho > 0$; as $\rho$ is arbitrary, $u = 0$.
+\end{proof}
+
+The identity $\int f\Delta h = \int h\Delta f$ is the analogue for $\Delta$ of the symmetry of a symmetric matrix, with the $L^2$ inner product $(f, h) = \int_Mfh\,\mathrm{vol}_g$ in place of
+the dot product; $\int f\Delta f \leq 0$ says that $\Delta$ is ``negative semidefinite''. As for symmetric matrices, this has consequences for eigenvalues.
+
+\begin{corollary}\label{riemannian-geometry:corollary-laplacian-compact}
+Let $M$ be compact, oriented and without boundary.
+\begin{enumerate}
+\item A function with $\Delta f \geq 0$ everywhere (a \emph{subharmonic} function), in particular a \emph{harmonic} function, $\Delta f = 0$, is locally constant.
+\item If $\Delta f = -\lambda f$ with $f \neq 0$, then $\lambda = \int|\operatorname{grad}f|^2/\int f^2 \geq 0$, and $\lambda = 0$ only for locally constant $f$. So the eigenvalues of $-\Delta$
+are nonnegative.
+\item Eigenfunctions $\Delta f_1 = -\lambda_1f_1$, $\Delta f_2 = -\lambda_2f_2$ with $\lambda_1 \neq \lambda_2$ are orthogonal: $\int_Mf_1f_2\,\mathrm{vol}_g = 0$.
+\item If the equation $\Delta u = h$ has a solution, then $\int_Mh\,\mathrm{vol}_g = 0$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+All functions have compact support. (1) $\int\Delta f = 0$ and $\Delta f \geq 0$ force $\Delta f = 0$; then $\int|\operatorname{grad}f|^2 = -\int f\Delta f = 0$, so $df = 0$ and $f$ is constant
+on each connected component. (2) $\lambda\int f^2 = -\int f\Delta f = \int|\operatorname{grad}f|^2$; if $\lambda = 0$ then $df = 0$. (3) $-\lambda_1\int f_1f_2 = \int f_2\Delta f_1 =
+\int f_1\Delta f_2 = -\lambda_2\int f_1f_2$. (4) $\int h = \int\Delta u = 0$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-laplacian-eigen}
+\begin{enumerate}
+\item On the circle $\RR/2\pi\ZZ$ with $g = d\theta^2$, $\Delta = d^2/d\theta^2$; the functions $\cos k\theta$ and $\sin k\theta$ are eigenfunctions of $-\Delta$ with eigenvalue $k^2$, and part (3)
+of the corollary is the orthogonality of the Fourier basis. On the flat torus $\RR^n/2\pi\ZZ^n$ the functions $\cos\langle k, x\rangle$ and $\sin\langle k, x\rangle$, $k \in \ZZ^n$, have eigenvalue $|k|^2$.
+\item On the round sphere $S^n$, the restriction of a linear function $\langle a, x\rangle$ is an eigenfunction of $-\Delta$ with eigenvalue $n$
+(Exercise~\ref{riemannian-geometry:exercise-height-sphere}); more eigenfunctions are found in Corollary~\ref{riemannian-geometry:corollary-spherical-harmonics} below.
+\item On a noncompact manifold part (1) fails: $x$ is a nonconstant harmonic function on $\RR^n$. Compactness enters through the absence of boundary terms in Green's identities.
+\end{enumerate}
+\end{example}
+
+\emph{What the Laplacian measures.} On $\RR$, $f^{\prime\prime}(p) > 0$ means that $f$ bends upwards, so that $\frac12(f(p + r) + f(p - r)) > f(p)$ for small $r$: the average of $f$ over the
+two points at distance $r$ exceeds $f(p)$, and $f^{\prime\prime}(p) = \lim_{r\to0}\frac{2}{r^2}\bigl(\frac12(f(p + r) + f(p - r)) - f(p)\bigr)$. The Laplacian is the same quantity in higher
+dimension, with the two points replaced by a small sphere.
+
+\begin{proposition}[The Laplacian as a mean value]\label{riemannian-geometry:proposition-laplacian-mean}
+Let $p \in M$, identify $T_pM$ with $\RR^n$ by an orthonormal basis, let $S \subseteq T_pM$ be the unit sphere with its Riemannian measure $\sigma$, and for small $r > 0$ let
+$m_f(r) = \frac{1}{\sigma(S)}\int_Sf(\exp_p(rv))\,d\sigma(v)$, the average of $f$ over the points at distance $r$ from $p$ in all directions. Then
+\[
+m_f(r) = f(p) + \frac{r^2}{2n}\Delta f(p) + O(r^3), \qquad\text{so}\qquad \Delta f(p) = \lim_{r\to0}\frac{2n}{r^2}\bigl(m_f(r) - f(p)\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+The map $(r, v) \mapsto f(\exp_p(rv))$ is smooth on $[0, r_0] \times S$ for small $r_0$, as $\exp$ is smooth on an open set containing $0 \in T_pM$. For fixed $v$, the curve
+$\gamma(r) = \exp_p(rv)$ is the geodesic with $\gamma(0) = p$ and $\dot\gamma(0) = v$, so by Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(4) and Taylor's formula,
+$f(\exp_p(rv)) = f(p) + r\,df_p(v) + \frac{r^2}2\operatorname{Hess}f_p(v, v) + R(r, v)$ with $|R(r, v)| \leq Cr^3$, where $C$ bounds the third derivative in $r$ on the compact set
+$[0, r_0] \times S$. Now average over $v \in S$. The orthogonal maps of $\RR^n$ preserve $S$ and are isometries of it, so they preserve $\sigma$. The reflection
+$v_i \mapsto -v_i$ shows $\int_Sv_i\,d\sigma = 0$ and $\int_Sv_iv_j\,d\sigma = 0$ for $i \neq j$; the coordinate permutations show that $\int_Sv_i^2\,d\sigma$ does not depend on $i$, and as
+$\sum_iv_i^2 = 1$ on $S$ it equals $\sigma(S)/n$. Writing $df_p(v) = \sum_ia_iv_i$ and $\operatorname{Hess}f_p(v, v) = \sum_{i,j}b_{ij}v_iv_j$, the averages are $0$ and
+$\frac1n\sum_ib_{ii} = \frac1n\Delta f(p)$ (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(3)).
+\end{proof}
+
+So $\Delta f(p) > 0$ means that near $p$ the values of $f$ are on average larger than $f(p)$: $p$ lies in a ``valley'' of $f$. A harmonic function equals its averages up to order
+$r^3$; on $\RR^2$ it equals them exactly (the mean value property of harmonic functions, Chapter~\ref{complex-analysis}). At a local maximum, $\operatorname{Hess}f_p \leq 0$ (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(4)),
+so $\Delta f(p) \leq 0$; hence a function with $\Delta f > 0$ everywhere has no local maximum. This explains the heat equation $\partial_tu = \Delta u$: the temperature rises at points
+whose surroundings are warmer on average.
+
+\emph{The Laplacian of the coordinates of a submanifold.} For a submanifold $M \subseteq \RR^N$ with the induced metric, the coordinates $x^1, \ldots, x^N$ restrict to functions on $M$,
+and we write $\Delta x = (\Delta x^1, \ldots, \Delta x^N)$, a map $M \to \RR^N$. Let $\mathrm{II}$ be the second fundamental form (Theorem~\ref{riemannian-geometry:theorem-gauss-formula}) and
+$\vec{H} = \frac1n\sum_a\mathrm{II}(e_a, e_a)$ the \emph{mean curvature vector}, a normal vector; for a hypersurface with unit normal $\nu$, $\vec{H} = H\nu$
+(Definition~\ref{riemannian-geometry:definition-hypersurface-curvatures}).
+
+\begin{proposition}[Beltrami's formula]\label{riemannian-geometry:proposition-beltrami-formula}
+For a submanifold $M^n \subseteq \RR^N$, $\operatorname{Hess}x^k(X, Y) = \langle\mathrm{II}(X, Y), e_k\rangle$ for each coordinate $x^k$, and
+\[
+\Delta x = n\vec{H} .
+\]
+In particular $M$ is minimal ($\vec{H} = 0$) if and only if its coordinate functions are harmonic on $M$.
+\end{proposition}
+
+\begin{proof}
+For a tangent vector field $Y$, regarded as a map $M \to \RR^N$, $Yx^k = \langle Y, e_k\rangle$ is the $k$-th component of $Y$. Differentiating along a tangent field $X$,
+$X(Yx^k) = \langle D_XY, e_k\rangle$, where $D_XY$ is the ordinary derivative of the vector-valued function $Y$ along $X$. By the Gauss formula and
+Corollary~\ref{riemannian-geometry:corollary-tangential-projection}, $D_XY = \nabla_XY + \mathrm{II}(X, Y)$, so
+$\operatorname{Hess}x^k(X, Y) = X(Yx^k) - (\nabla_XY)x^k = \langle D_XY - \nabla_XY, e_k\rangle = \langle\mathrm{II}(X, Y), e_k\rangle$. Taking the trace,
+$\Delta x^k = \sum_a\langle\mathrm{II}(e_a, e_a), e_k\rangle = n\langle\vec{H}, e_k\rangle$.
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-beltrami-formula}
+\begin{enumerate}
+\item \emph{The sphere.} For the unit sphere $S^n \subseteq \RR^{n+1}$ and tangent fields $X$, $Y$, differentiating $\langle Y, x\rangle = 0$ gives $\langle D_XY, x\rangle = -\langle Y, X\rangle$, so
+$\mathrm{II}(X, Y) = -\langle X, Y\rangle x$, $\vec{H} = -x$ and $\Delta x = -nx$: each coordinate function is an eigenfunction of $-\Delta$ with eigenvalue $n$, as in
+Example~\ref{riemannian-geometry:example-laplacian-eigen}(2).
+\item \emph{The catenoid} $x(u, v) = (\cosh v\cos u, \cosh v\sin u, v)$ has $E = G = \cosh^2v$, $F = 0$ (Example~\ref{riemannian-geometry:example-minimal-surfaces}), so in these conformal coordinates
+$\Delta = \cosh^{-2}v\,(\partial_u^2 + \partial_v^2)$ (Example~\ref{riemannian-geometry:example-gradient-hessian}(3)). The coordinates $\cosh v\cos u$, $\cosh v\sin u$ and $v$ are harmonic for
+$\partial_u^2 + \partial_v^2$ (for the first, $\partial_u^2$ gives $-\cosh v\cos u$ and $\partial_v^2$ gives $+\cosh v\cos u$), confirming that the catenoid is minimal.
+\end{enumerate}
+\end{example}
+
+\begin{corollary}\label{riemannian-geometry:corollary-no-compact-minimal}
+There is no compact oriented minimal submanifold $M \subseteq \RR^N$ without boundary and of positive dimension.
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{riemannian-geometry:proposition-beltrami-formula} the coordinate functions are harmonic on $M$, hence constant on each component of $M$
+(Corollary~\ref{riemannian-geometry:corollary-laplacian-compact}(1)). So each component of $M$ is a point, which contradicts $\dim M > 0$.
+\end{proof}
+
+So a soap film always needs a wire: a closed soap bubble is not a minimal surface, and indeed it has constant mean curvature $H \neq 0$, balancing the pressure difference
+between inside and outside.
+
+\emph{Spherical coordinates and spherical harmonics.} On $\RR^n \setminus \{0\}$ write $x = r\theta$ with $r = |x| > 0$ and $\theta \in S^{n-1}$, and let $\theta^1, \ldots, \theta^{n-1}$ be local
+coordinates on $S^{n-1}$. The map $(r, \theta) \mapsto r\theta$ sends $\partial_r$ to $\theta$, a unit vector, and $\partial_{\theta^a}$ to $r\,\partial_a\theta$, which is orthogonal to $\theta$
+(differentiate $|\theta|^2 = 1$). So the Euclidean metric is
+\[
+g = dr^2 + r^2g_{S^{n-1}},
+\]
+with $\sqrt{\det g} = r^{n-1}\sqrt{\det g_{S^{n-1}}}$, $g^{rr} = 1$, $g^{ra} = 0$ and $g^{ab} = r^{-2}g_{S^{n-1}}^{ab}$.
+
+\begin{proposition}\label{riemannian-geometry:proposition-laplacian-polar}
+For a smooth function $f$ on $\RR^n \setminus \{0\}$,
+\[
+\Delta f = \frac{\partial^2f}{\partial r^2} + \frac{n-1}{r}\frac{\partial f}{\partial r} + \frac{1}{r^2}\Delta_{S^{n-1}}f,
+\]
+where $\Delta_{S^{n-1}}f$ is the Laplacian of the round unit sphere applied to $\theta \mapsto f(r\theta)$ for fixed $r$.
+\end{proposition}
+
+\begin{proof}
+Insert the metric above into the coordinate formula for $\Delta$. The terms with $i = j = r$ give $r^{1-n}\partial_r(r^{n-1}\partial_rf) = \partial_r^2f + \frac{n-1}r\partial_rf$, and the terms with
+$i, j$ among the $\theta^a$ give $r^{-2}$ times the coordinate formula for $\Delta_{S^{n-1}}$, since the factor $r^{n-1}$ in $\sqrt{\det g}$ does not depend on $\theta$ and cancels.
+\end{proof}
+
+For $n = 2$ this is the formula $f_{rr} + \frac1rf_r + \frac1{r^2}f_{\theta\theta}$ of Example~\ref{riemannian-geometry:example-gradient-hessian}(2), and for radial functions it is
+Exercise~\ref{riemannian-geometry:exercise-gradient-identities}.
+
+\begin{corollary}[Spherical harmonics]\label{riemannian-geometry:corollary-spherical-harmonics}
+Let $P$ be a homogeneous polynomial of degree $k$ on $\RR^n$ with $\Delta P = 0$, and $Y = P|_{S^{n-1}}$. Then
+\[
+\Delta_{S^{n-1}}Y = -k(k + n - 2)\,Y .
+\]
+\end{corollary}
+
+\begin{proof}
+By homogeneity $P(r\theta) = r^kY(\theta)$. By Proposition~\ref{riemannian-geometry:proposition-laplacian-polar},
+$0 = \Delta P = \bigl(k(k - 1) + (n - 1)k\bigr)r^{k-2}Y + r^{k-2}\Delta_{S^{n-1}}Y$, and $k(k - 1) + (n - 1)k = k(k + n - 2)$.
+\end{proof}
+
+For $k = 1$ the eigenvalue of $-\Delta_{S^{n-1}}$ is $n - 1 = \dim S^{n-1}$, as in Example~\ref{riemannian-geometry:example-beltrami-formula}(1). For $k = 2$ and $n = 3$, the harmonic
+polynomials $xy$, $yz$, $zx$, $x^2 - y^2$ and $x^2 + y^2 - 2z^2$ give eigenfunctions on $S^2$ with eigenvalue $6$; in physics these are the orbitals with angular momentum $\ell = 2$, and
+the eigenvalue $\ell(\ell + 1)$ is the square of the angular momentum.
+
+\begin{remark}\label{riemannian-geometry:remark-laplacians}
+\emph{Other Laplacians.} The formula $\Delta f = \operatorname{tr}_g\operatorname{Hess}f = \sum_a(\nabla^2f)(e_a, e_a)$ makes sense for any tensor field $T$ in place of $f$:
+$\nabla^*\nabla T = -\sum_a(\nabla_{e_a}\nabla_{e_a}T - \nabla_{\nabla_{e_a}e_a}T)$ is the \emph{rough} or \emph{connection Laplacian} (with the geometers' sign). On differential forms there is
+also the Hodge Laplacian $d\delta + \delta d$ of the next section, which equals $-\Delta$ on functions; on forms of positive degree the two differ by a curvature term (the
+Weitzenb\"ock formula), which is the source of the Bochner vanishing theorems mentioned there.
+\end{remark}
+
 \section{The Hodge star and the Laplacian}\label{riemannian-geometry:section-hodge-star}
 
 \begin{definition}\label{riemannian-geometry:definition-hodge-star}
@@ -3020,6 +3199,38 @@ $\alpha \wedge *\beta = \langle\alpha,\beta\rangle\mathrm{vol}$. The sign is $(-
 \begin{exercise}\label{riemannian-geometry:exercise-laplacian-sphere}
 Compute the Laplacian on functions on the round sphere $S^2$ in spherical coordinates, and verify that the restrictions of linear functions of $\RR^3$ are eigenfunctions with eigenvalue $2$.
 \end{exercise}
+
+\begin{solution}
+With $x = (\sin\vartheta\cos\varphi, \sin\vartheta\sin\varphi, \cos\vartheta)$ the metric is $d\vartheta^2 + \sin^2\vartheta\,d\varphi^2$, and Example~\ref{riemannian-geometry:example-gradient-hessian}(2) gives
+$\Delta f = \frac{1}{\sin\vartheta}\partial_\vartheta(\sin\vartheta\,f_\vartheta) + \frac{1}{\sin^2\vartheta}f_{\varphi\varphi}$. For $f = \cos\vartheta$:
+$\frac{1}{\sin\vartheta}\partial_\vartheta(-\sin^2\vartheta) = -2\cos\vartheta$. For $f = \sin\vartheta\cos\varphi$: the first term is
+$\frac{\cos\varphi}{\sin\vartheta}(\cos^2\vartheta - \sin^2\vartheta)$ and the second $-\frac{\cos\varphi}{\sin\vartheta}$, with sum $\frac{\cos\varphi}{\sin\vartheta}(-2\sin^2\vartheta) = -2\sin\vartheta\cos\varphi$; the
+same computation applies to $\sin\vartheta\sin\varphi$. So $\Delta x_i = -2x_i$, eigenvalue $2$ for $-\Delta$, in accordance with Example~\ref{riemannian-geometry:example-beltrami-formula}(1).
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-laplacian-composition}
+Show that $\Delta(\phi \circ f) = \phi^{\prime}(f)\,\Delta f + \phi^{\prime\prime}(f)\,|\operatorname{grad}f|^2$ for smooth $f \colon M \to \RR$ and $\phi \colon \RR \to \RR$. Deduce that if $f$ is harmonic and
+$\phi$ is convex, then $\phi \circ f$ is subharmonic, and that on a compact oriented manifold without boundary a harmonic function $f$ has $\int_M|\operatorname{grad}f|^2e^{f}\,\mathrm{vol}_g = 0$.
+\end{exercise}
+
+\begin{solution}
+$\operatorname{grad}(\phi \circ f) = \phi^{\prime}(f)\operatorname{grad}f$, since $d(\phi \circ f) = \phi^{\prime}(f)\,df$. By the Leibniz rule for the divergence
+(as in the proof of Proposition~\ref{riemannian-geometry:proposition-laplacian-symmetric}), $\operatorname{div}(\phi^{\prime}(f)\operatorname{grad}f) = \phi^{\prime}(f)\Delta f + \langle\operatorname{grad}\phi^{\prime}(f), \operatorname{grad}f\rangle$, and
+$\operatorname{grad}\phi^{\prime}(f) = \phi^{\prime\prime}(f)\operatorname{grad}f$. If $\Delta f = 0$ and $\phi^{\prime\prime} \geq 0$, then $\Delta(\phi \circ f) = \phi^{\prime\prime}(f)|\operatorname{grad}f|^2 \geq 0$. For $\phi = \exp$,
+$\int_M\Delta(e^f)\,\mathrm{vol}_g = 0$ by Proposition~\ref{riemannian-geometry:proposition-laplacian-symmetric} gives the last statement, and hence $\operatorname{grad}f = 0$: another proof of
+Corollary~\ref{riemannian-geometry:corollary-laplacian-compact}(1) for harmonic functions.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-spherical-harmonic-quadratic}
+Show that $x_n^2 - \frac1n|x|^2$ is a harmonic polynomial on $\RR^n$, and deduce that $Y = x_n^2 - \frac1n$ satisfies $\Delta_{S^{n-1}}Y = -2nY$ on the unit sphere $S^{n-1}$. Check that
+$\int_{S^{n-1}}Y\,d\sigma = 0$, as Corollary~\ref{riemannian-geometry:corollary-laplacian-compact}(4) requires.
+\end{exercise}
+
+\begin{solution}
+$\Delta(x_n^2) = 2$ and $\Delta|x|^2 = \sum_i\Delta(x_i^2) = 2n$, so $\Delta(x_n^2 - \frac1n|x|^2) = 2 - 2 = 0$; the polynomial is homogeneous of degree $2$ and restricts to $Y$ on the sphere. By
+Corollary~\ref{riemannian-geometry:corollary-spherical-harmonics} with $k = 2$, $\Delta_{S^{n-1}}Y = -2n\,Y$. By the symmetry argument in the proof of
+Proposition~\ref{riemannian-geometry:proposition-laplacian-mean}, $\int x_n^2\,d\sigma = \sigma(S^{n-1})/n$, so $\int Y\,d\sigma = 0$; and indeed $Y = -\frac{1}{2n}\Delta_{S^{n-1}}Y$ has integral $0$.
+\end{solution}
 
 \begin{exercise}\label{riemannian-geometry:exercise-bi-invariant}
 Let $G$ be a compact Lie group with a bi-invariant metric. Show that the geodesics through $e$ are the one-parameter subgroups, and that $\nabla_XY = \frac12[X, Y]$ for left-invariant fields.
