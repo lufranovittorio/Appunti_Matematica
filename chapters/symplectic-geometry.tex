@@ -15,7 +15,8 @@ The chapter goes as follows.
 (Section~\ref{symplectic-geometry:section-linear}).
 \item Symplectic manifolds: the Liouville volume form, the cohomological obstruction $[\omega]^n \neq 0$, examples (Section~\ref{symplectic-geometry:section-manifolds}).
 \item The cotangent bundle: the tautological $1$-form, the canonical symplectic form, Lagrangian graphs of closed $1$-forms, conormal bundles, and the splitting of $T(T^*M)$ into two Lagrangian
-subbundles given by a torsion-free connection (Section~\ref{symplectic-geometry:section-cotangent}).
+subbundles given by a torsion-free connection; the derivative of a $1$-form regarded as a map $M \to T^*M$, whose antisymmetric part is the exterior derivative, and the graph of $df$, whose
+tangent spaces are given by the Hessian of $f$ (Section~\ref{symplectic-geometry:section-cotangent}).
 \item Hamiltonian vector fields, Poisson brackets and Liouville's theorem; area on the sphere and Archimedes' theorem (Section~\ref{symplectic-geometry:section-hamiltonian}).
 \item Darboux's theorem and Moser's theorem on area forms, by Moser's method (Section~\ref{symplectic-geometry:section-darboux}).
 \item Lagrangian submanifolds and Weinstein's neighbourhood theorem (Section~\ref{symplectic-geometry:section-lagrangian}).
@@ -194,6 +195,132 @@ Then $\omega(X_i, X_l) = dp_i(X_l) - dp_l(X_i) = \sum_jp_j(\Gamma^j_{li} - \Gamm
 
 So a torsion-free connection, for instance the Levi-Civita connection of a metric, splits $T(T^*M)$ into two transverse Lagrangian subbundles paired by duality, extending the canonical splitting along the
 zero section, where every horizontal distribution is tangent to the zero section.
+
+\emph{The derivative of a $1$-form regarded as a map.} A $1$-form $\alpha$ on $M$ can be differentiated in two quite different ways, and it is worth seeing how the two are related. Its
+exterior derivative $d\alpha$ is a $2$-form on $M$. But $\alpha$ is also a smooth map $\alpha \colon M \to T^*M$, a section of $\pi$, and as such it has at each point $q$ a differential, a linear map
+\[
+\alpha_* \colon T_qM \to T_{\alpha_q}(T^*M),
+\]
+which we write $\alpha_*$ rather than $d_q\alpha$ so as not to confuse it with the exterior derivative. Its image is the tangent space of the graph $\alpha(M)$ at the point $\alpha_q$. For $\alpha = df$ one may
+ask whether the identity $d(df) = 0$ (Remark~\ref{differential-forms:remark-ddf}) means that the map $df \colon M \to T^*M$ has zero differential. It does not, and it could not: $\pi \circ df = \id_M$, so
+$d\pi \circ (df)_* = \id$ and $(df)_*$ is injective. We shall see that $(df)_*$ is, apart from a part that is the same for every $1$-form, the Hessian of $f$. What $d(df) = 0$ says is subtler: the exterior
+derivative only sees the \emph{antisymmetric part} of the derivative of a $1$-form, and the Hessian is symmetric. Geometrically, it says that the tangent spaces of the graph of $df$ are Lagrangian, which is
+Corollary~\ref{symplectic-geometry:corollary-lagrangian-graphs}(1) seen pointwise.
+
+\begin{proposition}\label{symplectic-geometry:proposition-derivative-section}
+Let $\alpha$ be a $1$-form on $M$, $q \in M$, and $\alpha_* \colon T_qM \to T_{\alpha_q}(T^*M)$ the differential of $\alpha$ regarded as a map $M \to T^*M$.
+\begin{enumerate}
+\item In coordinates, if $\alpha = \sum_ia_i\,dq^i$ and $v = \sum_jv^j\partial_{q^j}$, then
+\[
+\alpha_*(v) = \sum_jv^j\,\partial_{q^j} + \sum_{i,j}\frac{\partial a_i}{\partial q^j}(q)\,v^j\,\partial_{p_i}.
+\]
+So in the bases $\partial_{q^j}$ of $T_qM$ and $\partial_{q^j}$, $\partial_{p_i}$ of $T_{\alpha_q}(T^*M)$, the matrix of $\alpha_*$ is $\begin{pmatrix} I \\ A \end{pmatrix}$, where $A = (\partial a_i/\partial q^j)$ is the
+Jacobian matrix of the components of $\alpha$, with rows indexed by $i$ and columns by $j$.
+\item For $u, v \in T_qM$,
+\[
+\omega(\alpha_*u, \alpha_*v) = -d\alpha(u, v) = u^{T}(A - A^{T})v,
+\]
+where in the last expression $u$ and $v$ are the columns of their components. So $d\alpha$ is, up to sign, the antisymmetric part of the Jacobian matrix of $\alpha$.
+\item Let $\nabla$ be a connection on $TM$, with the induced connection on $T^*M$ and its horizontal distribution (Proposition~\ref{connections:proposition-horizontal}). Then
+\[
+\alpha_*(v) = v^h_{\alpha_q} + \mathrm{vl}_{\alpha_q}(\nabla_v\alpha):
+\]
+the horizontal part of $\alpha_*(v)$ is the horizontal lift of $v$, the same for all $1$-forms, and its vertical part is the covariant derivative $\nabla_v\alpha \in T^*_qM$. If $\nabla$ is torsion-free, then
+\[
+d\alpha(u, v) = (\nabla_u\alpha)(v) - (\nabla_v\alpha)(u), \qquad u, v \in T_qM .
+\]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) In the coordinates $(q, p)$ of $T^*U$, the map $\alpha$ is $q \mapsto (q, a_1(q), \ldots, a_n(q))$. Its Jacobian matrix has the identity matrix in the rows of the coordinates $q^j$ and the matrix
+$(\partial a_i/\partial q^j)$ in the rows of the coordinates $p_i$; this is the formula.
+
+(2) By the definition of the pullback, $(\alpha^*\omega)_q(u, v) = \omega(\alpha_*u, \alpha_*v)$, and $\alpha^*\omega = -d\alpha$ by Proposition~\ref{symplectic-geometry:proposition-tautological}(2). For the matrix
+expression we compute both sides in coordinates. By (1), $\alpha_*u$ has components $(u, Au)$ and $\alpha_*v$ has components $(v, Av)$, and $\omega = \sum_idq^i \wedge dp_i$ gives
+\[
+\omega(\alpha_*u, \alpha_*v) = \sum_i\bigl(u^i(Av)_i - v^i(Au)_i\bigr) = u^{T}Av - v^{T}Au = u^{T}(A - A^{T})v .
+\]
+On the other side $d\alpha = \sum_{i,j}\partial_ja_i\,dq^j \wedge dq^i$, so $d\alpha(u, v) = \sum_{i,j}\partial_ja_i\,(u^jv^i - v^ju^i) = v^{T}Au - u^{T}Av$, which is the same number with the opposite sign.
+
+(3) The first formula is Proposition~\ref{connections:proposition-horizontal}(2), applied to the bundle $T^*M$ with the induced connection and to its section $\alpha$. For the second, extend $u$ and $v$ to
+vector fields $U$ and $V$ near $q$. By the Leibniz rule $(\nabla_U\alpha)(V) = U(\alpha(V)) - \alpha(\nabla_UV)$ (Proposition~\ref{connections:proposition-induced-connections}(1)),
+\[
+(\nabla_U\alpha)(V) - (\nabla_V\alpha)(U) = U(\alpha(V)) - V(\alpha(U)) - \alpha(\nabla_UV - \nabla_VU) = U(\alpha(V)) - V(\alpha(U)) - \alpha([U, V]),
+\]
+since $\nabla_UV - \nabla_VU = [U, V]$ for a torsion-free connection. The right-hand side is $d\alpha(U, V)$ by the invariant formula for the exterior derivative
+(Theorem~\ref{differential-forms:theorem-exterior-derivative}); evaluate at $q$.
+\end{proof}
+
+So the derivative of $\alpha$ as a map has two parts. The horizontal part carries no information about $\alpha$. The vertical part is a bilinear form $(u, v) \mapsto (\nabla_u\alpha)(v)$ on $T_qM$, which
+depends on the choice of the connection; but its antisymmetric part is $d\alpha$, which does not. For the flat connection of a chart, whose Christoffel symbols vanish, the horizontal lift of
+$\partial_{q^j}$ is $\partial_{q^j}$ and $(\nabla_{\partial_{q^j}}\alpha)(\partial_{q^i}) = \partial a_i/\partial q^j$, and (3) reduces to (1). The symmetric part of $\nabla\alpha$ has no meaning
+independent of the connection, except where $\alpha$ vanishes, as we now see for $\alpha = df$.
+
+\begin{corollary}\label{symplectic-geometry:corollary-graph-differential}
+Let $f$ be a smooth function on $M$, and give $M$ a Riemannian metric with its Levi-Civita connection.
+\begin{enumerate}
+\item The differential of the map $df \colon M \to T^*M$ at $q$ is
+\[
+(df)_*(v) = v^h + \mathrm{vl}\bigl(\operatorname{Hess}f(v, \cdot)\bigr), \qquad v \in T_qM,
+\]
+so the tangent space of the graph $df(M)$ at $d_qf$ is the graph of the linear map $T_qM \to T^*_qM$, $v \mapsto \operatorname{Hess}f(v, \cdot)$, in the splitting $H \oplus V$.
+\item For $u, v \in T_qM$,
+\[
+\omega\bigl((df)_*u, (df)_*v\bigr) = -d(df)(u, v) = \operatorname{Hess}f(v, u) - \operatorname{Hess}f(u, v) = 0 .
+\]
+Thus the identity $d(df) = 0$, the symmetry of the Hessian, and the fact that the graph of $df$ is Lagrangian are one and the same statement.
+\item Let $q$ be a critical point of $f$, so that $d_qf = 0_q$ lies on the zero section. In the canonical splitting $T_{0_q}(T^*M) = T_qM \oplus T^*_qM$,
+\[
+(df)_*(v) = \bigl(v, \operatorname{Hess}f_q(v, \cdot)\bigr),
+\]
+where $\operatorname{Hess}f_q(v, w) = \sum_{i,j}v^iw^j\,\partial_i\partial_jf(q)$ in any chart does not depend on the metric. The tangent spaces at $0_q$ of the graph $df(M)$ and of the zero section $0_M$
+intersect in $\{(v, 0) : \operatorname{Hess}f_q(v, \cdot) = 0\}$, and they span $T_{0_q}(T^*M)$ if and only if $\operatorname{Hess}f_q$ is nondegenerate.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) By Proposition~\ref{symplectic-geometry:proposition-derivative-section}(3) with $\alpha = df$, the vertical part of $(df)_*(v)$ is $\nabla_vdf = \operatorname{Hess}f(v, \cdot)$
+(Definition~\ref{riemannian-geometry:definition-gradient-hessian}(2)).
+
+(2) The first equality is Proposition~\ref{symplectic-geometry:proposition-derivative-section}(2). By Proposition~\ref{symplectic-geometry:proposition-derivative-section}(3), since the Levi-Civita
+connection is torsion-free, $d(df)(u, v) = (\nabla_udf)(v) - (\nabla_vdf)(u) = \operatorname{Hess}f(u, v) - \operatorname{Hess}f(v, u)$, and this vanishes, either because $d(df) = 0$ or because the
+Hessian is symmetric (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(3)).
+
+(3) In the coordinates of the proof of Proposition~\ref{symplectic-geometry:proposition-connection-lagrangian}, the horizontal lifts of the coordinate fields are
+$X_i = \partial_{q^i} + \sum_{j,k}\Gamma^j_{ik}p_j\,\partial_{p_k}$, which at a point with $p = 0$ equal $\partial_{q^i}$; so at $0_q$ the horizontal lift of $v$ is the vector $(v, 0)$, tangent to the zero
+section $\{p = 0\}$. By (1), $(df)_*(v) = (v, \operatorname{Hess}f_q(v, \cdot))$, and the Hessian at a critical point has the stated form and does not depend on the metric by
+Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(4). Write $H_q \colon T_qM \to T^*_qM$, $v \mapsto \operatorname{Hess}f_q(v, \cdot)$. The two tangent spaces are $\{(v, H_qv)\}$ and
+$\{(v, 0)\}$. A vector lies in both when $(v, H_qv) = (w, 0)$, that is, $w = v$ and $H_qv = 0$. Their sum contains every $(v, 0)$ and every $(0, H_qv) = (v, H_qv) - (v, 0)$, so it is
+$T_qM \oplus H_q(T_qM)$; it is everything if and only if $H_q$ is surjective, that is (as $\dim T_qM = \dim T^*_qM$), an isomorphism, which means that $\operatorname{Hess}f_q$ is nondegenerate.
+\end{proof}
+
+\begin{remark}\label{symplectic-geometry:remark-graph-differential}
+A critical point $q$ with $\operatorname{Hess}f_q$ nondegenerate is called \emph{nondegenerate}, and a function all of whose critical points are nondegenerate is a \emph{Morse function}. Two submanifolds
+whose tangent spaces at a common point span the whole tangent space meet \emph{transversally} there. So (3) says: the critical points of $f$ are the points where the graph of $df$ meets the zero section,
+and the nondegenerate ones are those where it meets the zero section transversally. Both are Lagrangian submanifolds of dimension $n$ in the $2n$-dimensional manifold $T^*M$, so a transverse
+intersection point is isolated (Exercise~\ref{symplectic-geometry:exercise-morse-isolated}). This picture, critical points of functions as intersections of Lagrangian submanifolds, is the starting point
+of Morse theory and of its symplectic generalisations, which we do not develop.
+\end{remark}
+
+\begin{example}\label{symplectic-geometry:example-derivative-section}
+\begin{enumerate}
+\item On $\RR^2$ with coordinates $(x, y) = (q^1, q^2)$, let $f = \frac12(x^2 - y^2)$. Then $df = x\,dx - y\,dy$, and the map $df \colon \RR^2 \to T^*\RR^2 = \RR^4$ is
+$(x, y) \mapsto (x, y, x, -y)$. Its differential has matrix $\begin{pmatrix} I \\ A \end{pmatrix}$ with $A = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$, the Hessian matrix of $f$, which is symmetric.
+The graph is the plane $\{p_1 = q^1, \ p_2 = -q^2\}$, on which $\omega = dq^1 \wedge dp_1 + dq^2 \wedge dp_2$ restricts to $dq^1 \wedge dq^1 - dq^2 \wedge dq^2 = 0$: it is Lagrangian. It meets the
+zero section $\{p = 0\}$ only at the origin, the critical point of $f$, and transversally, as $A$ is invertible: the origin is a nondegenerate critical point (a saddle).
+\item On $\RR$, let $f = x^3$. Then $df = 3x^2\,dx$ and the graph of $df$ is the parabola $\{p = 3q^2\}$ in the plane $T^*\RR = \RR^2$. It touches the zero section $\{p = 0\}$ at the origin, tangentially:
+the critical point $0$ is degenerate, as $f^{\prime\prime}(0) = 0$. (On a $1$-dimensional manifold every curve in $T^*M$ is Lagrangian, so here the Lagrangian condition says nothing.)
+\item On $\RR^2$, let $\alpha = x\,dy$, so $a_1 = 0$ and $a_2 = x$. The Jacobian matrix is $A = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}$, which is not symmetric:
+$\alpha_*(\partial_x) = \partial_{q^1} + \partial_{p_2}$ and $\alpha_*(\partial_y) = \partial_{q^2}$, and
+\[
+\omega\bigl(\alpha_*\partial_x, \alpha_*\partial_y\bigr) = (dq^2 \wedge dp_2)(\partial_{p_2}, \partial_{q^2}) = -1 = -d\alpha(\partial_x, \partial_y),
+\]
+as $d\alpha = dx \wedge dy$. So the graph of $\alpha$ is not Lagrangian, and $\alpha$ is not the differential of a function. Splitting $A$ into its symmetric and antisymmetric parts corresponds to writing
+$\alpha = \frac12\,d(xy) + \frac12(x\,dy - y\,dx)$: the exact part $\frac12\,d(xy)$ has the symmetric Jacobian $\frac12\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$, the Hessian of $\frac12xy$, and the
+part $\frac12(x\,dy - y\,dx)$ has the antisymmetric Jacobian $\frac12\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$, which carries all of $d\alpha$.
+\end{enumerate}
+\end{example}
 
 \section{Hamiltonian vector fields}\label{symplectic-geometry:section-hamiltonian}
 
@@ -387,4 +514,30 @@ $H = h(|q|^2, |p|^2, \langle q, p\rangle)$ on $T^*\RR^2$.
 With $\{F, G\} = \sum_k(\partial_{q^k}F\,\partial_{p_k}G - \partial_{p_k}F\,\partial_{q^k}G)$: $\{q^i, q^j\} = \{p_i, p_j\} = 0$ and $\{q^i, p_j\} = \delta_{ij}$. The flow of $X_L$ is $\dot q = (-q^2, q^1)$,
 $\dot p = (-p_2, p_1)$, the simultaneous rotation of $q$ and $p$, which preserves $|q|^2$, $|p|^2$ and $\langle q, p\rangle$; so $H$ is constant along it, and $\{H, L\} = X_LH = 0$
 (Proposition~\ref{symplectic-geometry:proposition-hamiltonian}(3)).
+\end{solution}
+
+\begin{exercise}\label{symplectic-geometry:exercise-morse-isolated}
+Let $q_0$ be a nondegenerate critical point of a smooth function $f$ on $M$ (Remark~\ref{symplectic-geometry:remark-graph-differential}). Show that $q_0$ has a neighbourhood containing no other critical
+point of $f$. Deduce that a Morse function on a compact manifold has finitely many critical points.
+\end{exercise}
+
+\begin{solution}
+In a chart around $q_0$, the critical points of $f$ are the zeros of $F = (\partial_1f, \ldots, \partial_nf)$, a smooth map from an open subset of $\RR^n$ to $\RR^n$. Its Jacobian matrix at $q_0$ is
+$(\partial_j\partial_if(q_0))$, the matrix of $\operatorname{Hess}f_{q_0}$ (Corollary~\ref{symplectic-geometry:corollary-graph-differential}(3)), which is invertible. By the inverse function theorem
+(Theorem~\ref{smooth-manifolds:theorem-inverse-function-manifolds}), $F$ maps a neighbourhood $W$ of $q_0$ bijectively onto an open set; so $F$ vanishes on $W$ only at $q_0$. If $M$ is compact and $f$ is a
+Morse function, the set of critical points is closed (the zero set of the continuous map $df$ into $T^*M$, a preimage of the closed zero section) hence compact, and each of its points has a
+neighbourhood containing no other; a cover of it by such neighbourhoods has a finite subcover, so it is finite.
+\end{solution}
+
+\begin{exercise}\label{symplectic-geometry:exercise-derivative-section-connection}
+Let $\alpha$ be a $1$-form on $M$ and $\nabla$ a connection on $TM$ with Christoffel symbols $\Gamma^k_{ij}$. Show that in coordinates the vertical part of $\alpha_*(\partial_{q^j})$
+(Proposition~\ref{symplectic-geometry:proposition-derivative-section}(3)) is $\sum_k\bigl(\partial_ja_k - \sum_i\Gamma^i_{jk}a_i\bigr)\,dq^k$. Deduce that at a point where $\alpha$ vanishes, the vertical part
+of $\alpha_*$ does not depend on the connection, and that elsewhere it does: for $\alpha = dq^1$ on $\RR^2$, find a torsion-free connection for which $\nabla_{\partial_{q^1}}\alpha \neq 0$, although the
+Jacobian matrix of $\alpha$ vanishes.
+\end{exercise}
+
+\begin{solution}
+By Proposition~\ref{connections:proposition-induced-connections}(1), $(\nabla_{\partial_j}\alpha)(\partial_k) = \partial_j(a_k) - \alpha(\nabla_{\partial_j}\partial_k) = \partial_ja_k - \sum_i\Gamma^i_{jk}a_i$, which is the
+formula. Where all $a_i$ vanish it reduces to $\partial_ja_k$, which does not involve $\Gamma$. For $\alpha = dq^1$, so $a_1 = 1$ and $a_2 = 0$, take the connection with $\Gamma^1_{11} = 1$ and all other
+symbols zero; it is torsion-free, since $\Gamma^k_{ij} = \Gamma^k_{ji}$. Then $(\nabla_{\partial_1}\alpha)(\partial_1) = 0 - \Gamma^1_{11} = -1$, while $\partial_ja_k = 0$ for all $j, k$.
 \end{solution}
