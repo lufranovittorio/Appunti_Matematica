@@ -393,7 +393,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000823">
+<div class="proof_wrapper" id="a0000000827">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -421,13 +421,13 @@ MathJax.Hub.Config({
 </li>
   <li><p>The integral is linear on integrable functions and \(|\int f| \leq \int |f|\). </p>
 </li>
-  <li><p>For measurable \(f \geq 0\), \(\int f = 0\) if and only if \(f = 0\) a.e.; and \(\mu (\{ f \geq t\} ) \leq \frac1t\int f\) (Chebyshev). </p>
+  <li><p>For measurable \(f \geq 0\), \(\int f = 0\) if and only if \(f = 0\) a.e.; and \(\mu (\{ f \geq t\} ) \leq \frac1t\int f\) for \(t {\gt} 0\) (Markov’s inequality). </p>
 </li>
 </ol>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000824">
+<div class="proof_wrapper" id="a0000000828">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -439,12 +439,83 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<div class="remark_thmwrapper theorem-style-remark" id="measure-theory:remark-markov-chebyshev">
+  <div class="remark_thmheading"><a class="tag" href="tag/02SU.html" title="Permanent link: tag 02SU">02SU</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">27.4.4</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> <em>Names.</em> The inequality \(\mu (\{ f \geq t\} ) \leq \frac1t\int f\) is usually called <em>Markov’s inequality</em>, and some books call it Chebyshev’s. <em>Chebyshev’s inequality</em> proper is the special case applied to \((f - m)^2\): for a probability measure, \(f \in L^2\) with mean \(m = \int f\) and variance \(\sigma ^2 = \int (f - m)^2\), </p>
+<div class="displaymath" id="a0000000829">
+  \[  \mu (\{ |f - m| \geq t\} ) = \mu (\{ (f - m)^2 \geq t^2\} ) \leq \frac{\sigma ^2}{t^2}.  \]
+</div>
+<p> More generally \(\mu (\{ |f| \geq t\} ) \leq t^{-p}\int |f|^p\) for \(p {\gt} 0\). The proof is one line, \(t\mathbf{1}_{\{ f \geq t\} } \leq f\), and it is often all one needs: for instance it shows that convergence in \(L^p\) implies convergence in measure (Proposition&#160;<a href="measure-theory-section-modes.html#measure-theory:proposition-modes">27.6.3</a>). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-jensen">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02SV.html" title="Permanent link: tag 02SV">02SV</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">27.4.5</span>
+    <span class="proposition_thmtitle">Jensen’s inequality</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(\mu \) be a probability measure, \(I \subseteq \mathbb {R}\) an open interval, \(\varphi \colon I \to \mathbb {R}\) convex, and \(f\) an integrable function with values in \(I\). Then \(\int f \in I\), and </p>
+<div class="displaymath" id="a0000000830">
+  \[  \varphi \Bigl(\int f\, d\mu \Bigr) \leq \int \varphi \circ f\, d\mu ,  \]
+</div>
+<p> where the right side is defined in \((-\infty , \infty ]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000831">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Convex functions.</em> For \(s {\lt} t {\lt} u\) in \(I\), writing \(t = \lambda s + (1 - \lambda )u\), convexity \(\varphi (t) \leq \lambda \varphi (s) + (1 - \lambda )\varphi (u)\) is equivalent to each of the inequalities between slopes </p>
+<div class="displaymath" id="a0000000832">
+  \[  \frac{\varphi (t) - \varphi (s)}{t - s} \leq \frac{\varphi (u) - \varphi (s)}{u - s} \leq \frac{\varphi (u) - \varphi (t)}{u - t}.  \]
+</div>
+<p> So for \(c \in I\) the slope \((\varphi (t) - \varphi (c))/(t - c)\) is nondecreasing in \(t \neq c\); with \(m = \sup _{t {\lt} c}(\varphi (t) - \varphi (c))/(t - c) \leq \inf _{t {\gt} c}(\varphi (t) - \varphi (c))/(t - c)\), a finite number, \(\varphi (t) \geq \varphi (c) + m(t - c)\) for all \(t \in I\): the graph lies above a line through \((c, \varphi (c))\). The same monotonicity shows that \(\varphi \) has finite one-sided derivatives, so it is continuous, and \(\varphi \circ f\) is measurable. </p>
+<p><em>Jensen.</em> Let \(c = \int f\). If \(I\) is bounded above by \(b\), then \(c \leq b\), and \(c = b\) would force \(\int (b - f) = 0\) with \(b - f {\gt} 0\), which is impossible; similarly at the lower end, so \(c \in I\). With \(m\) as above, \(\varphi (f(x)) \geq \varphi (c) + m(f(x) - c)\); the right side is integrable, so \(\int \varphi \circ f\) is defined in \((-\infty , \infty ]\), and integrating, using \(\mu (X) = 1\), gives \(\int \varphi \circ f \geq \varphi (c) + m(c - c) = \varphi (c)\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-jensen">
+  <div class="example_thmheading"><a class="tag" href="tag/02SW.html" title="Permanent link: tag 02SW">02SW</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.4.6</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>With the convex function \(\varphi (t) = |t|^p\) on \(\mathbb {R}\), \(p \geq 1\), applied to \(|f|\): \((\int |f|)^p \leq \int |f|^p\) for a probability measure. </p>
+</li>
+  <li><p>With \(\varphi = \exp \): \(\exp (\int f) \leq \int e^f\). </p>
+</li>
+  <li><p><em>Arithmetic and geometric means.</em> Let \(\mu \) give mass \(\frac1n\) to each of \(n\) points, where \(f\) takes the values \(a_1, \ldots , a_n {\gt} 0\), and \(\varphi = -\log \). Then \(-\log (\frac1n\sum a_i) \leq -\frac1n\sum \log a_i\), that is, \((a_1\cdots a_n)^{1/n} \leq \frac1n(a_1 + \cdots + a_n)\). </p>
+</li>
+</ol>
+<p> The hypothesis \(\mu (X) = 1\) matters: for Lebesgue measure on \([0, 2]\) and \(f = 1\), \(\varphi (t) = t^2\) gives \(\varphi (\int f) = 4 {\gt} 2 = \int \varphi (f)\). </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-dominated-convergence">
   <div class="theorem_thmheading"><a class="tag" href="tag/013F.html" title="Permanent link: tag 013F">013F</a>
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">27.4.4</span>
+    <span class="theorem_thmlabel">27.4.7</span>
     <span class="theorem_thmtitle">Dominated convergence</span>
   </div>
   <div class="theorem_thmcontent">
@@ -452,7 +523,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000825">
+<div class="proof_wrapper" id="a0000000833">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -469,14 +540,14 @@ MathJax.Hub.Config({
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">27.4.5</span>
+    <span class="proposition_thmlabel">27.4.8</span>
   </div>
   <div class="proposition_thmcontent">
   <p> For continuous \(f \colon [a, b] \to \mathbb {C}\), the Lebesgue integral \(\int _{[a,b]}f\, d\lambda \) equals the Riemann integral. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000826">
+<div class="proof_wrapper" id="a0000000834">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -493,14 +564,14 @@ MathJax.Hub.Config({
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">27.4.6</span>
+    <span class="proposition_thmlabel">27.4.9</span>
   </div>
   <div class="proposition_thmcontent">
   <p> Every bounded Riemann integrable function \(f \colon [a, b] \to \mathbb {R}\) (Definition&#160;<a href="real-analysis-section-riemann.html#real-analysis:definition-riemann">26.8.1</a>) is Lebesgue measurable and Lebesgue integrable, with the same integral. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000827">
+<div class="proof_wrapper" id="a0000000835">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -517,7 +588,7 @@ MathJax.Hub.Config({
     <span class="counterexample_thmcaption">
     Counterexample
     </span>
-    <span class="counterexample_thmlabel">27.4.7</span>
+    <span class="counterexample_thmlabel">27.4.10</span>
   </div>
   <div class="counterexample_thmcontent">
   <p> The converse fails. The Dirichlet function \(\mathbf{1}_\mathbb {Q}\) on \([0, 1]\) is Lebesgue integrable with integral \(0\), since \(\mathbb {Q}\) is countable and hence of measure zero. It is not Riemann integrable: every nondegenerate interval contains rational and irrational points, so \(L(\mathbf{1}_\mathbb {Q}, P) = 0\) and \(U(\mathbf{1}_\mathbb {Q}, P) = 1\) for every partition \(P\). It is the increasing pointwise limit of the Riemann integrable functions \(\mathbf{1}_{\{ q_1, \ldots , q_n\} }\), each of integral \(0\), for an enumeration of \(\mathbb {Q}\cap [0, 1]\): the Riemann integral does not behave well under monotone limits, which is what the Lebesgue integral repairs (Theorem&#160;<a href="measure-theory-section-integral.html#measure-theory:theorem-monotone-convergence">27.4.2</a>). </p>

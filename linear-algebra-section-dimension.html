@@ -353,12 +353,49 @@ MathJax.Hub.Config({
 <h1 id="linear-algebra:section-dimension">10.2 Linear maps and dimension<a class="tag" href="tag/00IG.html" title="Permanent link: tag 00IG">00IG</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
+<div class="definition_thmwrapper theorem-style-definition" id="linear-algebra:definition-vector-space">
+  <div class="definition_thmheading"><a class="tag" href="tag/02T2.html" title="Permanent link: tag 02T2">02T2</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10.2.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>vector space</em> over a field \(k\) is a set \(V\) with an addition \(V \times V \to V\), \((v, w) \mapsto v + w\), making \(V\) an abelian group with neutral element \(0\), and a scalar multiplication \(k \times V \to V\), \((a, v) \mapsto av\), such that \(a(v + w) = av + aw\), \((a + b)v = av + bv\), \((ab)v = a(bv)\) and \(1v = v\); that is, a module over the ring \(k\) (Chapter&#160;<a href="rings.html">8</a>). A <em>linear map</em> is a homomorphism of modules: \(f(v + w) = f(v) + f(w)\) and \(f(av) = af(v)\). A <em>subspace</em> is a subset containing \(0\) and closed under addition and scalar multiplication. </p>
+
+  </div>
+</div>
+<p>From the axioms, \(0v = 0\) (as \(0v = (0 + 0)v = 0v + 0v\)), \(a0 = 0\), and \((-1)v = -v\). Bases and dimension are those of free modules (Section&#160;<a href="rings-section-rank.html">8.8</a>): every vector space has a basis, and all bases have the same cardinality, the dimension. </p>
+<div class="example_thmwrapper theorem-style-definition" id="linear-algebra:example-vector-spaces">
+  <div class="example_thmheading"><a class="tag" href="tag/02T3.html" title="Permanent link: tag 02T3">02T3</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">10.2.2</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>\(k^n\), with the standard basis \(e_1, \ldots , e_n\); the matrices \(M_{m \times n}(k)\), of dimension \(mn\). </p>
+</li>
+  <li><p><em>Polynomials.</em> \(k[x]\) is a vector space with basis \(1, x, x^2, \ldots \): every polynomial is uniquely a finite combination of monomials. It has infinite (countable) dimension. The polynomials of degree at most \(d\) form a subspace \(k[x]_{\leq d}\) of dimension \(d + 1\); for distinct \(a_0, \ldots , a_d \in k\) the Lagrange polynomials \(\prod _{j \neq i}(x - a_j)/(a_i - a_j)\) form another basis, in which the coordinates of \(p\) are its values \(p(a_i)\). </p>
+</li>
+  <li><p><em>Function spaces.</em> For a set \(S\), the functions \(S \to k\) form a vector space \(k^S\) under pointwise operations; for \(S\) finite it is \(k^{|S|}\), and for \(S\) infinite it has infinite dimension, since the indicator functions of points are independent. The continuous functions \(C([0, 1])\) form an infinite-dimensional real vector space: the monomials \(x^n\) are linearly independent, since a nonzero polynomial has finitely many roots. So do the sequences \(k^{\mathbb {N}}\), which contain the subspace \(k^{(\mathbb {N})}\) of finitely supported sequences, with basis the \(e_n\); a basis of \(k^{\mathbb {N}}\) itself exists by Zorn’s lemma but cannot be written down. </p>
+</li>
+  <li><p>\(\mathbb {R}\) is a vector space over \(\mathbb {Q}\) of uncountable dimension, since a countable-dimensional \(\mathbb {Q}\)-vector space is countable; \(\mathbb {C}\) is a real vector space of dimension \(2\), with basis \(1, i\). </p>
+</li>
+  <li><p>The solutions of a homogeneous linear system \(Ax = 0\), or of a homogeneous linear differential equation \(y^{\prime \prime } + y = 0\) (basis \(\cos \), \(\sin \)), form vector spaces; the solutions of \(Ax = b\) with \(b \neq 0\) do not, as they do not contain \(0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
 <div class="proposition_thmwrapper theorem-style-plain" id="linear-algebra:proposition-subspaces">
   <div class="proposition_thmheading"><a class="tag" href="tag/00IH.html" title="Permanent link: tag 00IH">00IH</a>
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">10.2.1</span>
+    <span class="proposition_thmlabel">10.2.3</span>
   </div>
   <div class="proposition_thmcontent">
   <p> Let \(V\) be a vector space and \(W \subseteq V\) a subspace. </p>
@@ -390,7 +427,7 @@ MathJax.Hub.Config({
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">10.2.2</span>
+    <span class="theorem_thmlabel">10.2.4</span>
     <span class="theorem_thmtitle">Rank–nullity</span>
   </div>
   <div class="theorem_thmcontent">
@@ -406,7 +443,7 @@ MathJax.Hub.Config({
     <span class="expand-proof">â–¼</span>
   </div>
   <div class="proof_content">
-  <p>The isomorphism is the first isomorphism theorem (Proposition&#160;<a href="rings-section-modules.html#rings:proposition-module-basics">8.7.3</a>); combine with Proposition&#160;<a href="linear-algebra-section-dimension.html#linear-algebra:proposition-subspaces">10.2.1</a>(1). If \(\dim V = \dim W = n\), then \(f\) is injective iff \(\dim \operatorname {im}f = n\) iff \(\operatorname {im}f = W\) by Proposition&#160;<a href="linear-algebra-section-dimension.html#linear-algebra:proposition-subspaces">10.2.1</a>(2). </p>
+  <p>The isomorphism is the first isomorphism theorem (Proposition&#160;<a href="rings-section-modules.html#rings:proposition-module-basics">8.7.3</a>); combine with Proposition&#160;<a href="linear-algebra-section-dimension.html#linear-algebra:proposition-subspaces">10.2.3</a>(1). If \(\dim V = \dim W = n\), then \(f\) is injective iff \(\dim \operatorname {im}f = n\) iff \(\operatorname {im}f = W\) by Proposition&#160;<a href="linear-algebra-section-dimension.html#linear-algebra:proposition-subspaces">10.2.3</a>(2). </p>
 
   </div>
 </div>
@@ -415,7 +452,7 @@ MathJax.Hub.Config({
     <span class="counterexample_thmcaption">
     Counterexample
     </span>
-    <span class="counterexample_thmlabel">10.2.3</span>
+    <span class="counterexample_thmlabel">10.2.5</span>
   </div>
   <div class="counterexample_thmcontent">
   <p> The last statement fails in infinite dimension. On \(V = k^{(\mathbb {N})}\) the <em>shift</em> \(e_n \mapsto e_{n+1}\) is injective but not surjective, and \(e_0 \mapsto 0\), \(e_{n+1} \mapsto e_n\) is surjective but not injective. </p>
