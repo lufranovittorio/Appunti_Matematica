@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Self-similar sets - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="measure-theory-section-hausdorff.html" /><link rel="next" href="measure-theory-section-rademacher.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2 active">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+  <ul><li class="level-3">
+  <a href="measure-theory-section-introduction.html"><span class="toc_ref">28.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-measures.html"><span class="toc_ref">28.2</span> <span class="toc_entry">Measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lebesgue.html"><span class="toc_ref">28.3</span> <span class="toc_entry">Outer measures and Lebesgue measure</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-integral.html"><span class="toc_ref">28.4</span> <span class="toc_entry">The integral</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lp.html"><span class="toc_ref">28.5</span> <span class="toc_entry">Lebesgue spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-modes.html"><span class="toc_ref">28.6</span> <span class="toc_entry">Modes of convergence</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-borel-cantelli.html"><span class="toc_ref">28.7</span> <span class="toc_entry">Independence and the Borel–Cantelli lemmas</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lusin.html"><span class="toc_ref">28.8</span> <span class="toc_entry">Littlewood’s principles and Lusin’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation.html"><span class="toc_ref">28.9</span> <span class="toc_entry">Differentiation of integrals</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-fubini.html"><span class="toc_ref">28.10</span> <span class="toc_entry">Product measures and Fubini’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-change-of-variables.html"><span class="toc_ref">28.11</span> <span class="toc_entry">Change of variables</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon-nikodym.html"><span class="toc_ref">28.12</span> <span class="toc_entry">The Radon–Nikodym and Riesz representation theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-absolutely-continuous.html"><span class="toc_ref">28.13</span> <span class="toc_entry">Absolutely continuous functions</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon.html"><span class="toc_ref">28.14</span> <span class="toc_entry">Radon measures and the Riesz representation theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-weak-convergence.html"><span class="toc_ref">28.15</span> <span class="toc_entry">Weak convergence of measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation-measures.html"><span class="toc_ref">28.16</span> <span class="toc_entry">Differentiation of measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-hausdorff.html"><span class="toc_ref">28.17</span> <span class="toc_entry">Hausdorff measures</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="measure-theory-section-self-similar.html"><span class="toc_ref">28.18</span> <span class="toc_entry">Self-similar sets</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-rademacher.html"><span class="toc_ref">28.19</span> <span class="toc_entry">Lipschitz maps and Rademacher’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-area-formula.html"><span class="toc_ref">28.20</span> <span class="toc_entry">The area formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-coarea.html"><span class="toc_ref">28.21</span> <span class="toc_entry">The coarea formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-densities.html"><span class="toc_ref">28.22</span> <span class="toc_entry">Densities and rectifiability</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-exercises.html"><span class="toc_ref">28.23</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="measure-theory.html">28 Measure and Integration</a></li></ol>
+
+<article class="main-text">
+<h1 id="measure-theory:section-self-similar">28.18 Self-similar sets<a class="tag" href="tag/034O.html" title="Permanent link: tag 034O">034O</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>The Cantor set \(C\) is the union of two copies of itself, \(C/3\) and \(C/3 + 2/3\), each scaled by the factor \(\frac13\). If we only knew that \(0 {\lt} \mathcal{H}^s(C) {\lt} \infty \) for some \(s\), the scaling property of Proposition&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:proposition-hausdorff">28.17.3</a>(3) would already give the value of \(s\): the two copies are disjoint Borel sets, so \(\mathcal{H}^s(C) = 2 \cdot 3^{-s}\mathcal{H}^s(C)\), and \(3^s = 2\). Many sets that come up in analysis and dynamics, usually called <em>fractals</em>, are built in the same way from finitely many scaled copies of themselves, and their dimension can be read off from the scaling factors. This section makes the heuristic rigorous: we construct such sets in general (Theorem&#160;<a href="measure-theory-section-self-similar.html#measure-theory:theorem-hutchinson">28.18.5</a>), and compute their dimension when the copies are disjoint (Theorem&#160;<a href="measure-theory-section-self-similar.html#measure-theory:theorem-moran">28.18.10</a>). Along the way we meet a second notion of dimension, which is cruder than the Hausdorff dimension but easier to compute. References: <span class="cite">[<a href="Bibliography.html#falconer-fractal" >Fal90</a>]</span>, <span class="cite">[<a href="Bibliography.html#hutchinson-1981" >Hut81</a>]</span>. </p>
+<h2 id="measure-theory:subsection-box-dimension">28.18.1 Box-counting dimension<a class="tag" href="tag/034P.html" title="Permanent link: tag 034P">034P</a></h2>
+
+<p>Hausdorff measure allows covers by sets of very different sizes, and this is what makes it a measure. If instead we cover a set by sets of one fixed size \(\delta \) and only count them, we get a simpler quantity. A segment of length \(1\) needs about \(1/\delta \) sets of diameter \(\delta \), a square about \(\delta ^{-2}\), a cube about \(\delta ^{-3}\): the exponent is the dimension. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="measure-theory:definition-box-dimension">
+  <div class="definition_thmheading"><a class="tag" href="tag/034Q.html" title="Permanent link: tag 034Q">034Q</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">28.18.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For a nonempty bounded \(A \subseteq \mathbb {R}^n\) and \(\delta {\gt} 0\), let \(N_\delta (A)\) be the smallest number of sets of diameter at most \(\delta \) that cover \(A\). The <em>lower</em> and <em>upper box-counting dimensions</em> of \(A\) are </p>
+<div class="displaymath" id="a0000001080">
+  \[  \underline{\dim }_BA = \liminf _{\delta \to 0}\frac{\log N_\delta (A)}{-\log \delta }, \qquad \overline{\dim }_BA = \limsup _{\delta \to 0}\frac{\log N_\delta (A)}{-\log \delta }.  \]
+</div>
+<p> If they are equal, their common value is the <em>box-counting dimension</em> \(\dim _BA\). </p>
+
+  </div>
+</div>
+<p>The number \(N_\delta (A)\) is finite: \(A\) lies in a cube, which is a finite union of small cubes. The definition says that \(N_\delta (A)\) is roughly \(\delta ^{-\dim _BA}\); more precisely, \(\overline{\dim }_BA {\lt} t\) if and only if \(N_\delta (A) \leq \delta ^{-t^{\prime }}\) for some \(t^{\prime } {\lt} t\) and all small \(\delta \). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-dimension-properties">
+  <div class="proposition_thmheading"><a class="tag" href="tag/034R.html" title="Permanent link: tag 034R">034R</a><a class="graph-link" href="graph.html?tag=034R" title="Dependencies of tag 034R: what it uses and what uses it" aria-label="Dependency graph of tag 034R"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">28.18.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(A, A_1, A_2, \ldots \) be subsets of \(\mathbb {R}^n\). </p>
+<ol class="enumerate">
+  <li><p>(<em>Countable stability</em>) \(\dim _{\mathcal{H}}\bigcup _kA_k = \sup _k\dim _{\mathcal{H}}A_k\). In particular countable sets have Hausdorff dimension \(0\). </p>
+</li>
+  <li><p>If \(A\) is nonempty and bounded, \(N_\delta (A) = N_\delta (\overline A)\), so \(A\) and its closure have the same box-counting dimensions. </p>
+</li>
+  <li><p>If \(A\) is nonempty and bounded, \(\dim _{\mathcal{H}}A \leq \underline{\dim }_BA \leq \overline{\dim }_BA \leq n\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001081">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) Since \(\mathcal{H}^s\) is monotone, \(\dim _{\mathcal{H}}A_k \leq \dim _{\mathcal{H}}\bigcup _kA_k\) for every \(k\). Conversely, if \(s {\gt} \sup _k\dim _{\mathcal{H}}A_k\), then \(\mathcal{H}^s(A_k) = 0\) for every \(k\), and \(\mathcal{H}^s(\bigcup _kA_k) = 0\) by countable subadditivity; so \(\dim _{\mathcal{H}}\bigcup _kA_k \leq s\). A point has \(\mathcal{H}^s\)-measure \(0\) for every \(s {\gt} 0\), since it is covered by one set of diameter \(0\); so a point has dimension \(0\), and so has a countable set. </p>
+<p>(2) A cover of \(A\) by sets of diameter at most \(\delta \) gives the cover of \(\overline A\) by their closures, which have the same diameters, since a finite union of closed sets is closed. So \(N_\delta (\overline A) \leq N_\delta (A)\), and the other inequality holds as \(A \subseteq \overline A\). </p>
+<p>(3) The middle inequality is clear. For the last one, let \(A\) lie in a cube of side \(\ell \). Dividing it into \(m^n\) cubes of side \(\ell /m\), of diameter \(\ell \sqrt n/m\), with \(m\) the smallest integer \(\geq \ell \sqrt n/\delta \), gives \(N_\delta (A) \leq m^n \leq (\ell \sqrt n/\delta + 1)^n\), and \(\log N_\delta (A)/(-\log \delta ) \leq n\log (\ell \sqrt n + \delta )/(-\log \delta ) + n\), whose \(\limsup \) as \(\delta \to 0\) is \(n\). For the first inequality, let \(s {\gt} t {\gt} \underline{\dim }_BA\). There are \(\delta _j \to 0\) with \(\log N_{\delta _j}(A) {\lt} t(-\log \delta _j)\), that is, \(N_{\delta _j}(A) {\lt} \delta _j^{-t}\). Covering \(A\) by \(N_{\delta _j}(A)\) sets of diameter at most \(\delta _j\) gives </p>
+<div class="displaymath" id="a0000001082">
+  \[  \mathcal{H}^s_{\delta _j}(A) \leq \alpha (s)N_{\delta _j}(A)\delta _j^s \leq \alpha (s)\delta _j^{s - t} \to 0 .  \]
+</div>
+<p> As \(\mathcal{H}^s_\delta (A)\) increases when \(\delta \) decreases, \(\mathcal{H}^s(A) = \lim _j\mathcal{H}^s_{\delta _j}(A) = 0\), so \(\dim _{\mathcal{H}}A \leq s\). Since \(s {\gt} \underline{\dim }_BA\) was arbitrary, the inequality follows. </p>
+
+  </div>
+</div>
+<p>By (2), box-counting dimension cannot see the difference between a set and its closure: \(\mathbb {Q}\cap [0, 1]\) has box-counting dimension \(1\), like \([0, 1]\), while its Hausdorff dimension is \(0\) by (1). So box-counting dimension is not countably stable, and in general it is not attached to a measure. The inequality in (3) can be strict even for compact sets. </p>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-box-hausdorff">
+  <div class="example_thmheading"><a class="tag" href="tag/034S.html" title="Permanent link: tag 034S">034S</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.18.3</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>A compact countable set of box-counting dimension \(\frac12\).</em> Let \(E = \{ 0\}  \cup \{ 1/m : m \geq 1\} \). It is countable, so \(\dim _{\mathcal{H}}E = 0\). We show that \(\dim _BE = \frac12\). Let \(0 {\lt} \delta {\lt} 1\). </p>
+<ol class="enumerate">
+  <li><p><em>Lower bound.</em> Let \(m = \lfloor \delta ^{-1/2}\rfloor \geq 1\). For \(2 \leq j \leq m\) the consecutive points \(1/(j-1)\) and \(1/j\) are at distance \(\frac1{j(j-1)} {\gt} \frac1{m^2} \geq \delta \). So the points \(1, \frac12, \ldots , \frac1m\) are pairwise more than \(\delta \) apart, a set of diameter at most \(\delta \) contains at most one of them, and \(N_\delta (E) \geq m {\gt} \delta ^{-1/2} - 1\). </p>
+</li>
+  <li><p><em>Upper bound.</em> Let \(m = \lceil \delta ^{-1/2}\rceil \). The interval \([0, \frac1m]\), which contains all points \(1/j\) with \(j \geq m\), is covered by \(\lceil \frac1{m\delta }\rceil \) intervals of length \(\delta \), and the remaining \(m - 1\) points are covered by singletons. Since \(m - 1 {\lt} \delta ^{-1/2}\) and \(\frac1{m\delta } \leq \delta ^{-1/2}\), \(N_\delta (E) \leq 2\delta ^{-1/2} + 1 \leq 3\delta ^{-1/2}\). </p>
+</li>
+</ol>
+<p> Taking logarithms, \(\log (\delta ^{-1/2} - 1)/(-\log \delta )\) and \((\log 3 + \frac12(-\log \delta ))/(-\log \delta )\) both tend to \(\frac12\) as \(\delta \to 0\). The reason is that the points \(1/j\) are spread out for \(j\) small and crowded for \(j\) large: at scale \(\delta \) one sees about \(\delta ^{-1/2}\) separate points, and the rest look like an interval of length about \(\delta ^{1/2}\). </p>
+
+  </div>
+</div>
+<h2 id="measure-theory:subsection-iterated-function-systems">28.18.2 Iterated function systems<a class="tag" href="tag/034T.html" title="Permanent link: tag 034T">034T</a></h2>
+
+<p>A map \(f \colon \mathbb {R}^n \to \mathbb {R}^n\) is a <em>similarity with ratio \(r {\gt} 0\)</em> if \(|f(x) - f(y)| = r|x - y|\) for all \(x, y\); for example \(f(x) = rOx + b\) with \(O\) orthogonal (every similarity has this form, but we do not need this). A similarity with ratio \(r\) multiplies diameters by \(r\), and by Proposition&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:proposition-hausdorff">28.17.3</a>(3), applied to \(f\) and to its inverse, \(\mathcal{H}^s(f(A)) = r^s\mathcal{H}^s(A)\) for every \(A\) and \(s\). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="measure-theory:definition-ifs">
+  <div class="definition_thmheading"><a class="tag" href="tag/034U.html" title="Permanent link: tag 034U">034U</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">28.18.4</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> An <em>iterated function system</em> (of similarities) is a finite family \(f_1, \ldots , f_N\) of similarities of \(\mathbb {R}^n\) with ratios \(r_1, \ldots , r_N \in (0, 1)\), where \(N \geq 2\). For a set \(A\) write \(F(A) = f_1(A) \cup \cdots \cup f_N(A)\). A nonempty compact set \(K\) with \(F(K) = K\) is called the <em>attractor</em> of the system, or a <em>self-similar set</em>. </p>
+
+  </div>
+</div>
+<p>It is convenient to use words in the alphabet \(\{ 1, \ldots , N\} \). For a word \(w = w_1 \cdots w_k\) of length \(|w| = k\) let </p>
+<div class="displaymath" id="a0000001083">
+  \[  f_w = f_{w_1} \circ f_{w_2} \circ \cdots \circ f_{w_k}, \qquad r_w = r_{w_1}r_{w_2} \cdots r_{w_k},  \]
+</div>
+<p> so that \(f_w\) is a similarity with ratio \(r_w\); for the empty word \(\varnothing \), \(f_\varnothing \) is the identity and \(r_\varnothing = 1\). Write \(wi\) for the word \(w\) followed by the letter \(i\), and \(r = \max _ir_i {\lt} 1\), so that \(r_w \leq r^{|w|}\). For an infinite sequence \(\omega = \omega _1\omega _2\cdots \) of letters, \(\omega |k = \omega _1 \cdots \omega _k\) is its beginning of length \(k\). Since \(F(A) = \bigcup _if_i(A)\), induction on \(k\) gives \(F^k(A) = \bigcup _{|w| = k}f_w(A)\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-hutchinson">
+  <div class="theorem_thmheading"><a class="tag" href="tag/034V.html" title="Permanent link: tag 034V">034V</a><a class="graph-link" href="graph.html?tag=034V" title="Dependencies of tag 034V: what it uses and what uses it" aria-label="Dependency graph of tag 034V"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.18.5</span>
+    <span class="theorem_thmtitle">Hutchinson</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Every iterated function system has a unique attractor \(K\). Moreover: </p>
+<ol class="enumerate">
+  <li><p>If \(B\) is a nonempty compact set with \(F(B) \subseteq B\), then \(K = \bigcap _kF^k(B)\); in particular \(K \subseteq B\). </p>
+</li>
+  <li><p>Let \(K_w = f_w(K)\). Then \(K = \bigcup _{|w| = k}K_w\) for every \(k\), and \(K_w = \bigcup _iK_{wi}\), with \(\operatorname {diam}K_w = r_w\operatorname {diam}K\). </p>
+</li>
+  <li><p>Every \(x \in K\) has an <em>address</em>: an infinite sequence \(\omega \) with \(x \in K_{\omega |k}\) for all \(k\). For every infinite sequence \(\omega \), \(\bigcap _kK_{\omega |k}\) is a single point. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001084">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Existence, and (1).</em> First, a compact set \(B\) with \(F(B) \subseteq B\) exists: let \(R = \max _i|f_i(0)|/(1 - r)\) and let \(B\) be the closed ball of radius \(R\) about \(0\). For \(|x| \leq R\), \(|f_i(x)| \leq |f_i(x) - f_i(0)| + |f_i(0)| \leq rR + (1 - r)R = R\). Now let \(B\) be any nonempty compact set with \(F(B) \subseteq B\). Applying \(F\), which preserves inclusions, gives \(B \supseteq F(B) \supseteq F^2(B) \supseteq \cdots \), a decreasing sequence of nonempty compact sets (finite unions of continuous images of compact sets). Their intersection \(K\) is nonempty and compact. To see \(F(K) = K\), note that \(f_i(K) = \bigcap _kf_i(F^k(B))\) since \(f_i\) is injective, so </p>
+<div class="displaymath" id="a0000001085">
+  \[  F(K) = \bigcup _i\bigcap _kf_i(F^k(B)) \qquad \text{and}\qquad K = \bigcap _kF^{k+1}(B) = \bigcap _k\bigcup _if_i(F^k(B)).  \]
+</div>
+<p> The first set is contained in the second. Conversely, if \(x\) lies in \(\bigcup _if_i(F^k(B))\) for every \(k\), then there is one \(i\) with \(x \in f_i(F^k(B))\) for infinitely many \(k\), and so for all \(k\), as these sets decrease with \(k\). So the two sets are equal. </p>
+<p><em>Uniqueness.</em> Let \(A\) and \(K\) be nonempty compact sets with \(F(A) = A\) and \(F(K) = K\), and \(D = \max \{ |a - y| : a \in A, y \in K\} \). Fix \(k\). Since \(A = F^k(A)\), every \(a \in A\) is \(f_w(a^{\prime })\) for a word \(w\) of length \(k\) and some \(a^{\prime } \in A\). For any \(y \in K\), the point \(f_w(y)\) lies in \(F^k(K) = K\), and \(|a - f_w(y)| = r_w|a^{\prime } - y| \leq r^kD\). So every point of \(A\) is within \(r^kD\) of \(K\), for every \(k\); as \(K\) is closed, \(A \subseteq K\). By symmetry \(K \subseteq A\). </p>
+<p>(2) The first statement is \(K = F^k(K)\), the second is \(f_w(K) = f_w(F(K)) = \bigcup _if_w(f_i(K))\), and the third holds because \(f_w\) multiplies distances by \(r_w\). </p>
+<p>(3) Since \(K = \bigcup _if_i(K)\), a point \(x \in K\) can be written \(x = f_{\omega _1}(x_1)\) with \(x_1 \in K\); then \(x_1 = f_{\omega _2}(x_2)\) with \(x_2 \in K\), and so on. Then \(x = f_{\omega |k}(x_k) \in K_{\omega |k}\) for all \(k\). For any \(\omega \), the sets \(K_{\omega |k}\) are nonempty, compact, decreasing by (2), and of diameter at most \(r^k\operatorname {diam}K \to 0\); so their intersection is one point. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="measure-theory:remark-hutchinson">
+  <div class="remark_thmheading"><a class="tag" href="tag/034W.html" title="Permanent link: tag 034W">034W</a><a class="graph-link" href="graph.html?tag=034W" title="Dependencies of tag 034W: what it uses and what uses it" aria-label="Dependency graph of tag 034W"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">28.18.6</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Hutchinson’s original proof <span class="cite">[<a href="Bibliography.html#hutchinson-1981" >Hut81</a>]</span> is an application of the Banach fixed point theorem. The nonempty compact subsets of \(\mathbb {R}^n\) form a complete metric space for the <em>Hausdorff distance</em> \(d_H(A, B) = \inf \{ \varepsilon {\gt} 0 : A \subseteq B_\varepsilon , B \subseteq A_\varepsilon \} \), where \(A_\varepsilon \) is the set of points at distance less than \(\varepsilon \) from \(A\), and \(F\) is a contraction with constant \(r\) for this distance; the attractor is its fixed point, and \(F^k(B) \to K\) for every nonempty compact \(B\). This also explains the name: starting from any picture \(B\), repeatedly replacing it by \(N\) smaller copies of itself converges to \(K\). The uniqueness proof above is the contraction argument in disguise. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-ifs">
+  <div class="example_thmheading"><a class="tag" href="tag/034X.html" title="Permanent link: tag 034X">034X</a><a class="graph-link" href="graph.html?tag=034X" title="Dependencies of tag 034X: what it uses and what uses it" aria-label="Dependency graph of tag 034X"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.18.7</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>The Cantor set.</em> \(f_1(x) = x/3\), \(f_2(x) = x/3 + 2/3\) on \(\mathbb {R}\). The Cantor set \(C\), the set of \(\sum _ka_k3^{-k}\) with all \(a_k \in \{ 0, 2\} \), satisfies \(f_1(C) = \{ a_1 = 0\} \) and \(f_2(C) = \{ a_1 = 2\} \), so \(F(C) = C\) and \(C\) is the attractor. The sets \(C_w\) are the parts of \(C\) in the intervals \(I_w\) of Example&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:example-cantor-dimension">28.17.6</a>, and the address of a point is its sequence of ternary digits, with \(1\) and \(2\) standing for the digits \(0\) and \(2\). </p>
+</li>
+  <li><p><em>An interval.</em> \(f_1(x) = x/2\), \(f_2(x) = x/2 + 1/2\). Here \(F([0, 1]) = [0, 1]\), so the attractor is \([0, 1]\); addresses are binary expansions, and the dyadic rationals have two addresses. </p>
+</li>
+  <li><p><em>The Sierpiński gasket.</em> Let \(p_1, p_2, p_3\) be the vertices of a triangle \(T\) in \(\mathbb {R}^2\) and \(f_i(x) = (x + p_i)/2\). Then \(f_i(T)\) is the triangle with vertex \(p_i\) and the midpoints of the two sides through \(p_i\), so \(F(T) \subseteq T\) and the attractor is \(S = \bigcap _kF^k(T)\) by (1): at each step every triangle is replaced by its three corner triangles, and the open middle one is removed. </p>
+</li>
+  <li><p><em>The Koch curve.</em> In \(\mathbb {R}^2 = \mathbb {C}\) let \(\zeta = e^{i\pi /3}\) and </p>
+<div class="displaymath" id="a0000001086">
+  \[  f_1(z) = \tfrac z3, \quad f_2(z) = \tfrac {\zeta z + 1}{3}, \quad f_3(z) = \tfrac {\bar{\zeta }z}{3} + \tfrac 12 + \tfrac {i\sqrt3}{6}, \quad f_4(z) = \tfrac {z + 2}{3}.  \]
+</div>
+<p> They map the segment \([0, 1]\) to the four sides of the polygon \(0, \frac13, \frac12 + \frac{i\sqrt3}{6}, \frac23, 1\), whose middle part is the tip of an equilateral triangle erected on the middle third of \([0, 1]\): for instance \(f_2(1) = \frac{1 + \zeta }{3} = \frac12 + \frac{i\sqrt3}{6} = f_3(0)\) and \(f_3(1) = \frac{\bar{\zeta }}{3} + \frac12 + \frac{i\sqrt3}{6} = \frac23 = f_4(0)\). The attractor is the limit of the polygons \(F^k([0, 1])\), in the sense of Remark&#160;<a href="measure-theory-section-self-similar.html#measure-theory:remark-hutchinson">28.18.6</a>. </p>
+</li>
+  <li><p><em>The four-corner Cantor set.</em> For \(a \in \{ 0, \frac34\} ^2\) let \(f_a(x) = \frac x4 + a\) on \(\mathbb {R}^2\). The four squares \(f_a([0, 1]^2)\) are the corner squares of side \(\frac14\) of the unit square, so the attractor \(K_4 \subseteq [0, 1]^2\) is obtained by repeatedly replacing every square by its four corner squares of a quarter of the size. It contains the fixed points \((0, 0)\) and \((1, 1)\) of \(f_{(0, 0)}\) and \(f_{(3/4, 3/4)}\), so \(\operatorname {diam}K_4 = \sqrt2\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<h2 id="measure-theory:subsection-similarity-dimension">28.18.3 The similarity dimension<a class="tag" href="tag/034Y.html" title="Permanent link: tag 034Y">034Y</a></h2>
+
+<p>The function \(s \mapsto \sum _ir_i^s\) is continuous and strictly decreasing on \([0, \infty )\), equal to \(N \geq 2\) at \(s = 0\) and tending to \(0\) as \(s \to \infty \). So there is a unique \(s {\gt} 0\) with </p>
+<div class="equation" id="measure-theory:equation-moran">
+<p>
+  <div class="equation_content">
+    \begin{equation} r_1^s + r_2^s + \cdots + r_N^s = 1, \end{equation}
+  </div>
+  <span class="equation_label">28.1</span>
+</p>
+</div>
+<p> the <em>similarity dimension</em> of the system. If all ratios equal \(\rho \), then \(N\rho ^s = 1\) and \(s = \log N/\log (1/\rho )\): for the Cantor set \(s = \log 2/\log 3\), for the interval of Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-ifs">28.18.7</a>(2) \(s = 1\), for the Sierpiński gasket \(s = \log 3/\log 2 \approx 1.585\), for the Koch curve \(s = \log 4/\log 3 \approx 1.262\), and for the four-corner set \(s = \log 4/\log 4 = 1\). To cover \(K\) efficiently by the pieces \(K_w\) one should use pieces of comparable sizes, not of equal word length; the following lemma organises this. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="measure-theory:lemma-cut-sets">
+  <div class="lemma_thmheading"><a class="tag" href="tag/0350.html" title="Permanent link: tag 0350">0350</a><a class="graph-link" href="graph.html?tag=0350" title="Dependencies of tag 0350: what it uses and what uses it" aria-label="Dependency graph of tag 0350"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">28.18.8</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For \(0 {\lt} \rho {\lt} 1\) let \(Q_\rho \) be the set of nonempty words \(w\) with \(r_w \leq \rho {\lt} r_{w^-}\), where \(w^-\) is \(w\) with its last letter removed. Then every infinite sequence \(\omega \) has exactly one beginning \(\omega |k\) in \(Q_\rho \), the set \(Q_\rho \) is finite, and </p>
+<div class="displaymath" id="a0000001087">
+  \[  \sum _{w \in Q_\rho }r_w^s = 1, \qquad \# Q_\rho \leq (\rho \, r_{\min })^{-s}, \qquad K = \bigcup _{w \in Q_\rho }K_w,  \]
+</div>
+<p> where \(s\) is the similarity dimension and \(r_{\min } = \min _ir_i\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001088">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Along \(\omega \) the numbers \(r_{\omega |k}\) decrease strictly from \(r_{\omega |0} = 1 {\gt} \rho \) to \(0\), so there is exactly one \(k \geq 1\) with \(r_{\omega |k} \leq \rho {\lt} r_{\omega |(k - 1)}\). Let \(k_0\) be such that \(r^{k_0} \leq \rho \). Every word \(w\) of length at least \(k_0 + 1\) has \(r_{w^-} \leq r^{k_0} \leq \rho \), so it is not in \(Q_\rho \); hence \(Q_\rho \) is finite. Every word \(v\) of length \(k_0\) has \(r_v \leq \rho \), so, applying the first statement to any infinite sequence beginning with \(v\), \(v\) has exactly one beginning in \(Q_\rho \). Grouping the words of length \(k_0\) according to this beginning, and using that the words of length \(k_0\) extending a given \(w\) are the \(wu\) with \(|u| = k_0 - |w|\), </p>
+<div class="displaymath" id="a0000001089">
+  \[  1 = \Bigl(\sum _ir_i^s\Bigr)^{k_0} = \sum _{|v| = k_0}r_v^s = \sum _{w \in Q_\rho }\  \sum _{|u| = k_0 - |w|}r_w^sr_u^s = \sum _{w \in Q_\rho }r_w^s\Bigl(\sum _ir_i^s\Bigr)^{k_0 - |w|} = \sum _{w \in Q_\rho }r_w^s .  \]
+</div>
+<p> Each \(w \in Q_\rho \) has \(r_w = r_{w^-}r_{w_{|w|}} {\gt} \rho \, r_{\min }\), so \(1 \geq \# Q_\rho \, (\rho \, r_{\min })^s\). Finally, if \(x \in K\) has address \(\omega \) and \(\omega |k \in Q_\rho \), then \(x \in K_{\omega |k}\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-similarity-upper">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0351.html" title="Permanent link: tag 0351">0351</a><a class="graph-link" href="graph.html?tag=0351" title="Dependencies of tag 0351: what it uses and what uses it" aria-label="Dependency graph of tag 0351"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">28.18.9</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(K\) be the attractor of an iterated function system with similarity dimension \(s\). Then \(\mathcal{H}^s(K) \leq \alpha (s)(\operatorname {diam}K)^s\), and \(\dim _{\mathcal{H}}K \leq \overline{\dim }_BK \leq s\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001090">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We may assume \(d = \operatorname {diam}K {\gt} 0\). For \(0 {\lt} \rho {\lt} 1\) the sets \(K_w\), \(w \in Q_\rho \), cover \(K\) by Lemma&#160;<a href="measure-theory-section-self-similar.html#measure-theory:lemma-cut-sets">28.18.8</a> and have diameter \(r_wd \leq \rho d\), so </p>
+<div class="displaymath" id="a0000001091">
+  \[  \mathcal{H}^s_{\rho d}(K) \leq \sum _{w \in Q_\rho }\alpha (s)(r_wd)^s = \alpha (s)d^s,  \]
+</div>
+<p> and \(\rho \to 0\) gives the first claim. With \(\delta = \rho d\) they also show \(N_\delta (K) \leq \# Q_\rho \leq (r_{\min }\delta /d)^{-s}\) for \(0 {\lt} \delta {\lt} d\), so \(\log N_\delta (K)/(-\log \delta ) \leq s + s\log (d/r_{\min })/(-\log \delta )\), whose \(\limsup \) is \(s\). The remaining inequality is Proposition&#160;<a href="measure-theory-section-self-similar.html#measure-theory:proposition-dimension-properties">28.18.2</a>(3). </p>
+
+  </div>
+</div>
+<p>The upper bound can be far from the truth when the pieces overlap: for \(f_1(x) = f_2(x) = x/2\) the attractor is the point \(\{ 0\} \), while \(s = 1\). The lower bound needs a condition which prevents such overlaps. The simplest one is that the pieces are disjoint. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-moran">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0352.html" title="Permanent link: tag 0352">0352</a><a class="graph-link" href="graph.html?tag=0352" title="Dependencies of tag 0352: what it uses and what uses it" aria-label="Dependency graph of tag 0352"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.18.10</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(K\) be the attractor of an iterated function system with similarity dimension \(s\), and suppose that the sets \(f_1(K), \ldots , f_N(K)\) are pairwise disjoint (the <em>strong separation condition</em>). Then </p>
+<div class="displaymath" id="a0000001092">
+  \[  \alpha (s)(r_{\min }\eta )^s \leq \mathcal{H}^s(K) \leq \alpha (s)(\operatorname {diam}K)^s, \qquad \eta = \min _{i \neq j}d(f_i(K), f_j(K)) {\gt} 0,  \]
+</div>
+<p> and \(\dim _{\mathcal{H}}K = \dim _BK = s\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001093">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Step 1: separation at all scales.</em> \(\eta {\gt} 0\) because the \(f_i(K)\) are disjoint compact sets. For a word \(w\) and \(i \neq j\), \(f_w\) multiplies distances by \(r_w\), so \(d(K_{wi}, K_{wj}) = r_wd(f_i(K), f_j(K)) \geq r_w\eta \). Let \(x, y \in K\) with addresses \(\omega \) and \(\omega ^{\prime }\), and suppose these first differ at position \(j\); let \(u = \omega |(j - 1)\). Then \(x \in K_{u\omega _j}\) and \(y \in K_{u\omega ^{\prime }_j}\), so </p>
+<div class="equation" id="measure-theory:equation-separation">
+<p>
+  <div class="equation_content">
+    \begin{equation} |x - y| \geq r_{\omega |(j - 1)}\, \eta . \end{equation}
+  </div>
+  <span class="equation_label">28.2</span>
+</p>
+</div>
+<p> In particular, for each \(k\) the \(N^k\) sets \(K_w\) with \(|w| = k\) are pairwise disjoint, and each of them is open in \(K\), its complement in \(K\) being the finite union of the others, which is compact. </p>
+<p><em>Step 2: the natural measure.</em> Put \(p_w = r_w^s\), so that \(\sum _ip_{wi} = p_w\sum _ir_i^s = p_w\), and by induction \(\sum _{|u| = l}p_{wu} = p_w\) for every \(l\). Fix \(x_0 \in K\), put \(x_w = f_w(x_0) \in K_w\), and for \(\varphi \in C(K)\) let </p>
+<div class="displaymath" id="a0000001094">
+  \[  S_k(\varphi ) = \sum _{|w| = k}p_w\, \varphi (x_w) .  \]
+</div>
+<p> Let \(\omega _\varphi (t) = \sup \{ |\varphi (x) - \varphi (y)| : |x - y| \leq t\} \), which tends to \(0\) as \(t \to 0\) since \(\varphi \) is uniformly continuous on the compact set \(K\). For \(l {\gt} k\), regrouping the words of length \(l\) by their beginnings of length \(k\), </p>
+<div class="displaymath" id="a0000001095">
+  \[  |S_l(\varphi ) - S_k(\varphi )| = \Bigl|\sum _{|w| = k}\sum _{|u| = l - k}p_{wu}\bigl(\varphi (x_{wu}) - \varphi (x_w)\bigr)\Bigr| \leq \omega _\varphi (r^k\operatorname {diam}K)\sum _{|w| = k}p_w = \omega _\varphi (r^k\operatorname {diam}K),  \]
+</div>
+<p> since \(x_{wu}\) and \(x_w\) both lie in \(K_w\). So \((S_k(\varphi ))_k\) is a Cauchy sequence, and \(\Lambda (\varphi ) = \lim _kS_k(\varphi )\) is a positive linear functional on \(C(K) = C_c(K)\) with \(\Lambda (1) = 1\). By the Riesz–Markov theorem (Theorem&#160;<a href="measure-theory-section-radon.html#measure-theory:theorem-riesz-markov">28.14.6</a>) there is a Borel probability measure \(\mu \) on \(K\) with \(\int \varphi \, d\mu = \Lambda (\varphi )\). By Step 1 the indicator function \(\mathbf{1}_{K_w}\) is continuous on \(K\), and for \(l \geq k = |w|\) the points \(x_v\) with \(|v| = l\) lying in \(K_w\) are those with \(v\) beginning with \(w\). Hence </p>
+<div class="displaymath" id="a0000001096">
+  \[  \mu (K_w) = \lim _lS_l(\mathbf{1}_{K_w}) = \sum _{|u| = l - k}p_{wu} = p_w = r_w^s .  \]
+</div>
+<p><em>Step 3: the mass of small sets.</em> Let \(U\) be a closed set with \(d = \operatorname {diam}U {\lt} \eta \); we show \(\mu (U \cap K) \leq (d/(r_{\min }\eta ))^s\). This is clear if \(U \cap K = \emptyset \). Let \(x \in U \cap K\) have address \(\omega \). If \(d = 0\), then \(\mu (U \cap K) = \mu (\{ x\} ) \leq \mu (K_{\omega |k}) = r_{\omega |k}^s \to 0\). If \(d {\gt} 0\), the numbers \(r_{\omega |k}\eta \) decrease from \(\eta {\gt} d\) to \(0\), so there is a least \(k \geq 1\) with \(r_{\omega |k}\eta \leq d\), and \(r_{\omega |(k - 1)}\eta {\gt} d\). Every \(y \in U \cap K\) lies in \(K_{\omega |(k - 1)}\): otherwise an address of \(y\) first differs from \(\omega \) at a position \(j \leq k - 1\), and <a href="measure-theory-section-self-similar.html#measure-theory:equation-separation" class="eqref">28.2</a> gives \(|x - y| \geq r_{\omega |(j - 1)}\eta \geq r_{\omega |(k - 1)}\eta {\gt} d\), which is impossible. Therefore </p>
+<div class="displaymath" id="a0000001097">
+  \[  \mu (U \cap K) \leq \mu (K_{\omega |(k - 1)}) = r_{\omega |(k - 1)}^s \leq \Bigl(\frac{d}{r_{\min }\eta }\Bigr)^s,  \]
+</div>
+<p> the last step because \(d \geq r_{\omega |k}\eta = r_{\omega |(k - 1)}r_{\omega _k}\eta \geq r_{\omega |(k - 1)}r_{\min }\eta \). </p>
+<p><em>Step 4: conclusion.</em> Let \(\delta {\lt} \eta \) and let \((U_i)\) be a cover of \(K\) by closed sets of diameter at most \(\delta \); closed covers suffice to compute \(\mathcal{H}^s_\delta \). By Step 3, </p>
+<div class="displaymath" id="a0000001098">
+  \[  1 = \mu (K) \leq \sum _i\mu (U_i \cap K) \leq (r_{\min }\eta )^{-s}\sum _i(\operatorname {diam}U_i)^s,  \]
+</div>
+<p> so \(\mathcal{H}^s_\delta (K) \geq \alpha (s)(r_{\min }\eta )^s\), and the lower bound follows. With Proposition&#160;<a href="measure-theory-section-self-similar.html#measure-theory:proposition-similarity-upper">28.18.9</a>, \(0 {\lt} \mathcal{H}^s(K) {\lt} \infty \), so \(\dim _{\mathcal{H}}K = s\), and \(s = \dim _{\mathcal{H}}K \leq \underline{\dim }_BK \leq \overline{\dim }_BK \leq s\) by Proposition&#160;<a href="measure-theory-section-self-similar.html#measure-theory:proposition-dimension-properties">28.18.2</a>(3). </p>
+
+  </div>
+</div>
+<p>Step 3 is the mass distribution principle of Example&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:example-cantor-dimension">28.17.6</a> again; the new ingredient is that the measure is built for us by the Riesz–Markov theorem, once we know what it should give to the pieces \(K_w\). The measure \(\mu \) is in fact the normalised restriction of \(\mathcal{H}^s\) to \(K\) (Exercise&#160;<a href="measure-theory-section-exercises.html#measure-theory:exercise-natural-measure">28.23.20</a>). </p>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-similarity-dimension">
+  <div class="example_thmheading"><a class="tag" href="tag/0354.html" title="Permanent link: tag 0354">0354</a><a class="graph-link" href="graph.html?tag=0354" title="Dependencies of tag 0354: what it uses and what uses it" aria-label="Dependency graph of tag 0354"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.18.11</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>The Cantor set.</em> \(f_1(C) \subseteq [0, \frac13]\) and \(f_2(C) \subseteq [\frac23, 1]\) are disjoint, at distance \(\eta = \frac13\), the distance between the points \(\frac13\) and \(\frac23\) of \(C\). The theorem gives \(\dim _{\mathcal{H}}C = \dim _BC = \log 2/\log 3\) and \(\alpha (s)/4 \leq \mathcal{H}^s(C) \leq \alpha (s)\), as \((r_{\min }\eta )^s = 9^{-s} = \frac14\); the direct argument of Example&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:example-cantor-dimension">28.17.6</a> gave the better lower bound \(\alpha (s)/2\). In fact \(\mathcal{H}^s(C) = \alpha (s)\) <span class="cite">[<a href="Bibliography.html#falconer-fractal" >Fal90</a>]</span>, but this requires a finer argument. </p>
+</li>
+  <li><p><em>A totally disconnected set of dimension \(1\).</em> For the four-corner set \(K_4\) of Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-ifs">28.18.7</a>(5) the four pieces lie in the four corner squares of side \(\frac14\), which are pairwise at distance at least \(\frac12\). So \(\dim _{\mathcal{H}}K_4 = 1\) and \(0 {\lt} \mathcal{H}^1(K_4) \leq \alpha (1)\sqrt2 = \sqrt2\) (note \(\alpha (1) = 1\)). Yet \(K_4\) contains no segment, indeed no connected set with more than one point: the sets \((K_4)_w\) are open and closed in \(K_4\) by Step 1, and every point has such neighbourhoods of arbitrarily small diameter. So \(K_4\) has the dimension and the finite positive length of a curve, but none of its geometry; Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-four-corner-projections">28.18.12</a> and Section&#160;<a href="measure-theory-section-densities.html">28.22</a> return to this. </p>
+</li>
+  <li><p><em>Products.</em> \(C \times C \subseteq \mathbb {R}^2\) is the attractor of the four maps \((x, y) \mapsto (x/3 + a, y/3 + b)\) with \(a, b \in \{ 0, \frac23\} \) (by uniqueness, since \(C \times C\) is compact and invariant), whose images lie in the four corner squares of side \(\frac13\). So \(\dim _{\mathcal{H}}(C \times C) = \log 4/\log 3 = 2\dim _{\mathcal{H}}C\). </p>
+</li>
+  <li><p><em>Middle-\(\lambda \) Cantor sets.</em> Removing open middle intervals of relative length \(\lambda \in (0, 1)\) instead of \(\frac13\) gives the attractor of \(x \mapsto \rho x\) and \(x \mapsto \rho x + 1 - \rho \) with \(\rho = (1 - \lambda )/2\), of dimension \(\log 2/\log (2/(1 - \lambda ))\). As \(\lambda \) runs through \((0, 1)\) this takes every value in \((0, 1)\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-four-corner-projections">
+  <div class="example_thmheading"><a class="tag" href="tag/0355.html" title="Permanent link: tag 0355">0355</a><a class="graph-link" href="graph.html?tag=0355" title="Dependencies of tag 0355: what it uses and what uses it" aria-label="Dependency graph of tag 0355"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.18.12</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>Shadows of the four-corner set.</em> Let \(K_4\) be as in Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-ifs">28.18.7</a>(5). Its projection \(\pi _1(x, y) = x\) to the first axis satisfies \(\pi _1 \circ f_a = g_{a_1} \circ \pi _1\) with \(g_0(t) = t/4\) and \(g_{3/4}(t) = t/4 + \frac34\). So \(\pi _1(K_4)\) is a nonempty compact set with \(\pi _1(K_4) = g_0(\pi _1(K_4)) \cup g_{3/4}(\pi _1(K_4))\), the attractor of \(\{ g_0, g_{3/4}\} \), whose pieces lie in \([0, \frac14]\) and \([\frac34, 1]\). By Theorem&#160;<a href="measure-theory-section-self-similar.html#measure-theory:theorem-moran">28.18.10</a> it has dimension \(\log 2/\log 4 = \frac12\), hence length \(0\). Now project instead by \(\pi (x, y) = x + y/2\). Then \(\pi \circ f_a = h_a \circ \pi \) with \(h_a(t) = t/4 + \pi (a)\), and \(\pi (a)\) runs through \(0, \frac38, \frac34, \frac98\) as \(a\) runs through \((0, 0), (0, \frac34), (\frac34, 0), (\frac34, \frac34)\). The interval \([0, \frac32]\) satisfies </p>
+<div class="displaymath" id="a0000001099">
+  \[  \bigcup _ah_a\bigl([0, \tfrac 32]\bigr) = [0, \tfrac 38] \cup [\tfrac 38, \tfrac 34] \cup [\tfrac 34, \tfrac 98] \cup [\tfrac 98, \tfrac 32] = [0, \tfrac 32],  \]
+</div>
+<p> so by uniqueness of attractors \(\pi (K_4) = [0, \frac32]\). The orthogonal projection onto the line spanned by \((2, 1)\) is \(\frac{2}{\sqrt5}\pi \) up to an isometry of the line, so the shadow of \(K_4\) in this direction has length \(\frac{3}{\sqrt5}\), while in the direction of the first axis it has length \(0\). As orthogonal projections are \(1\)-Lipschitz, this also gives </p>
+<div class="displaymath" id="a0000001100">
+  \[  \frac{3}{\sqrt5} \leq \mathcal{H}^1(K_4) \leq \sqrt2,  \]
+</div>
+<p> that is, \(1.341\ldots \leq \mathcal{H}^1(K_4) \leq 1.414\ldots \), a much better lower bound than Theorem&#160;<a href="measure-theory-section-self-similar.html#measure-theory:theorem-moran">28.18.10</a> gives. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="measure-theory:remark-open-set-condition">
+  <div class="remark_thmheading"><a class="tag" href="tag/0356.html" title="Permanent link: tag 0356">0356</a><a class="graph-link" href="graph.html?tag=0356" title="Dependencies of tag 0356: what it uses and what uses it" aria-label="Dependency graph of tag 0356"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">28.18.13</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> <em>Touching pieces.</em> For the Sierpiński gasket and the Koch curve the pieces \(f_i(K)\) touch, so Theorem&#160;<a href="measure-theory-section-self-similar.html#measure-theory:theorem-moran">28.18.10</a> does not apply, and Proposition&#160;<a href="measure-theory-section-self-similar.html#measure-theory:proposition-similarity-upper">28.18.9</a> only gives the upper bounds \(\log 3/\log 2\) and \(\log 4/\log 3\) for their dimensions. Equality holds under the weaker <em>open set condition</em>: there is a nonempty bounded open set \(V\) with \(f_i(V) \subseteq V\) and the \(f_i(V)\) pairwise disjoint (for the gasket, the open triangle; for the Koch curve, the open isosceles triangle with base \([0, 1]\) and apex \(\frac12 + \frac{i\sqrt3}{6}\)). Under this condition \(0 {\lt} \mathcal{H}^s(K) {\lt} \infty \) and \(\dim _{\mathcal{H}}K = \dim _BK = s\) <span class="cite">[<a href="Bibliography.html#hutchinson-1981" >Hut81</a>]</span>, <span class="cite">[<a href="Bibliography.html#falconer-fractal" >Fal90</a>, Chapter 9]</span>. The proof follows the same plan: the natural measure exists without any condition, and the open set condition replaces <a href="measure-theory-section-self-similar.html#measure-theory:equation-separation" class="eqref">28.2</a> by a volume argument showing that a ball of radius \(\rho \) meets a bounded number of pieces \(K_w\), \(w \in Q_\rho \). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="measure-theory-section-hausdorff.html"><span class="dir">Previous</span> Hausdorff measures</a><a class="next" href="measure-theory-section-rademacher.html"><span class="dir">Next</span> Lipschitz maps and Rademacher’s theorem</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>

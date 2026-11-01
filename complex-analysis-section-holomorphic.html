@@ -365,24 +365,47 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<p>The definition looks exactly like the one for real functions, but \(h\) now tends to \(0\) through all complex numbers, from every direction at once, and the difference quotient must have the same limit along all of them. This single requirement turns out to be extraordinarily strong: it implies that \(f\) has derivatives of all orders and is given by its Taylor series (Theorem&#160;<a href="complex-analysis-section-cauchy-formula.html#complex-analysis:theorem-analytic">29.4.2</a> and Corollary&#160;<a href="complex-analysis-section-cauchy-formula.html#complex-analysis:corollary-smooth-harmonic">29.4.3</a>). Before seeing why, let us compute a few derivatives directly from the definition. </p>
+<div class="example_thmwrapper theorem-style-definition" id="complex-analysis:example-derivative-definition">
+  <div class="example_thmheading"><a class="tag" href="tag/036E.html" title="Permanent link: tag 036E">036E</a><a class="graph-link" href="graph.html?tag=036E" title="Dependencies of tag 036E: what it uses and what uses it" aria-label="Dependency graph of tag 036E"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">29.2.2</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(a \in \mathbb {C}\) and \(h \in \mathbb {C}^\times \) small. </p>
+<ol class="enumerate">
+  <li><p>\(f(z) = z^n\), \(n \geq 1\). By the binomial theorem \((a + h)^n - a^n = na^{n-1}h + \sum _{k = 2}^n\binom nka^{n-k}h^k\), so the difference quotient is \(na^{n-1} + \sum _{k = 2}^n\binom nka^{n-k}h^{k-1} \to na^{n-1}\). So \((z^n)^{\prime } = nz^{n-1}\), as over \(\mathbb {R}\). </p>
+</li>
+  <li><p>\(f(z) = 1/z\) on \(\mathbb {C}^\times \). For \(a \neq 0\) and \(|h| {\lt} |a|\), \(\frac1h\bigl(\frac1{a + h} - \frac1a\bigr) = \frac{-1}{a(a + h)} \to -\frac1{a^2}\). </p>
+</li>
+  <li><p>\(f(z) = \bar z\). The difference quotient is \(\bar h/h\), which equals \(1\) for real \(h\) and \(-1\) for purely imaginary \(h\). So the limit exists at no point: \(\bar z\) is a perfectly smooth map of the plane, an isometry even, but it is nowhere complex differentiable. The same happens for \(\operatorname {Re}z\), whose quotient \(\operatorname {Re}h/h\) is \(1\) on the real axis and \(0\) on the imaginary axis. </p>
+</li>
+  <li><p>\(f(z) = |z|^2 = z\bar z\). Here \(|a + h|^2 - |a|^2 = \bar ah + a\bar h + |h|^2\), so the quotient is \(\bar a + a\, \bar h/h + \bar h\). For \(a = 0\) it is \(\bar h \to 0\); for \(a \neq 0\) the middle term \(a\, \bar h/h\) has no limit, by (3). So \(|z|^2\) is complex differentiable at \(0\) and nowhere else. A function can be complex differentiable at a single point; “holomorphic” asks for it at every point of an open set, and all the theory below depends on this. </p>
+</li>
+</ol>
+
+  </div>
+</div>
 <div class="proposition_thmwrapper theorem-style-plain" id="complex-analysis:proposition-cauchy-riemann">
   <div class="proposition_thmheading"><a class="tag" href="tag/0149.html" title="Permanent link: tag 0149">0149</a><a class="graph-link" href="graph.html?tag=0149" title="Dependencies of tag 0149: what it uses and what uses it" aria-label="Dependency graph of tag 0149"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">29.2.2</span>
+    <span class="proposition_thmlabel">29.2.3</span>
     <span class="proposition_thmtitle">Cauchy–Riemann</span>
   </div>
   <div class="proposition_thmcontent">
   <p> Identify \(\mathbb {C}\) with \(\mathbb {R}^2\) and write \(f = u + iv\). Then \(f\) is holomorphic at \(a\) if and only if \(f\) is differentiable at \(a\) as a map of real variables (Definition&#160;<a href="real-analysis-section-several-variables.html#real-analysis:definition-differentiable">27.10.2</a>) and its derivative is complex linear, which holds if and only if </p>
-<div class="displaymath" id="a0000001094">
+<div class="displaymath" id="a0000001159">
   \[  \partial _xu = \partial _yv, \qquad \partial _yu = -\partial _xv \quad \text{at } a.  \]
 </div>
 <p> Then \(f'(a) = \partial _xu + i\partial _xv\). Sums, products, quotients and composites of holomorphic functions are holomorphic, with the usual rules. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001095">
+<div class="proof_wrapper" id="a0000001160">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -415,10 +438,70 @@ MathJax.Hub.Config({
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">29.2.3</span>
+    <span class="example_thmlabel">29.2.4</span>
   </div>
   <div class="example_thmcontent">
   <p> Polynomials are entire; \(1/z\) is holomorphic on \(\mathbb {C}^\times \); power series are holomorphic in their disc of convergence, with the termwise derivative (Theorem&#160;<a href="real-analysis-section-one-variable.html#real-analysis:theorem-power-series-derivative">27.6.20</a>); \(\exp \) is entire with \(\exp ' = \exp \). The function \(\bar z\) is nowhere holomorphic, since \(\partial _xu = 1 \neq -1 = \partial _yv\). </p>
+
+  </div>
+</div>
+<p>The Cauchy–Riemann equations have a geometric meaning. A real linear map \(\mathbb {R}^2 \to \mathbb {R}^2\) is complex linear exactly when its matrix is \(\left(\begin{smallmatrix}  \alpha 
+
+&  -\beta 
+
+\\ \beta 
+
+&  \alpha 
+
+\end{smallmatrix}\right)\), that is, when it is multiplication by \(c = \alpha + i\beta = |c|e^{i\varphi }\): a rotation by \(\varphi \) followed by a dilation by \(|c|\). So near a point where \(f^{\prime }(a) \neq 0\), a holomorphic map looks, to first order, like a rotation and a dilation, which preserve angles and orientation. Maps with this property are called <em>conformal</em>, and the converse also holds. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="complex-analysis:proposition-conformal">
+  <div class="proposition_thmheading"><a class="tag" href="tag/036F.html" title="Permanent link: tag 036F">036F</a><a class="graph-link" href="graph.html?tag=036F" title="Dependencies of tag 036F: what it uses and what uses it" aria-label="Dependency graph of tag 036F"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">29.2.5</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>Let \(f\) be holomorphic near \(a\) with \(f^{\prime }(a) \neq 0\), and let \(\gamma _1, \gamma _2\) be \(C^1\) curves with \(\gamma _1(0) = \gamma _2(0) = a\) and nonzero tangent vectors \(\gamma _1^{\prime }(0), \gamma _2^{\prime }(0)\). Then \((f \circ \gamma _j)^{\prime }(0) = f^{\prime }(a)\gamma _j^{\prime }(0)\). Hence the image curves have tangent vectors rotated by the same angle \(\arg f^{\prime }(a)\) and stretched by the same factor \(|f^{\prime }(a)|\), and the oriented angle between them equals that between \(\gamma _1\) and \(\gamma _2\). </p>
+</li>
+  <li><p>Conversely, let \(f\) be real differentiable at \(a\) with \(A = Df(a)\) invertible, and suppose that \(A\) preserves oriented angles, that is, \(Aw/Av\) and \(w/v\) have the same argument for all nonzero \(v, w \in \mathbb {C}\). Then \(f\) is complex differentiable at \(a\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001161">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) By the chain rule (Proposition&#160;<a href="real-analysis-section-one-variable.html#real-analysis:proposition-derivative-rules">27.6.2</a>) and Proposition&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:proposition-cauchy-riemann">29.2.3</a>, \((f \circ \gamma _j)^{\prime }(0) = Df(a)\gamma _j^{\prime }(0) = f^{\prime }(a)\gamma _j^{\prime }(0)\). The quotient of the two image tangent vectors is \(\gamma _2^{\prime }(0)/\gamma _1^{\prime }(0)\), the same as for the original ones, and the oriented angle from one vector to another is the argument of this quotient. </p>
+<p>(2) Let \(p = A(1) \neq 0\) and \(q = A(i)\). The oriented angle from \(1\) to \(i\) is \(\frac\pi 2\), so \(q/p\) has argument \(\frac\pi 2\): \(q = itp\) for some \(t {\gt} 0\). The oriented angle from \(1\) to \(1 + i\) is \(\frac\pi 4\), so \(A(1 + i)/A(1) = (p + q)/p = 1 + it\) has argument \(\frac\pi 4\), which forces \(t = 1\). Hence \(A(x + iy) = xp + yip = (x + iy)p\): \(A\) is multiplication by \(p\), so it is complex linear, and \(f\) is complex differentiable at \(a\) with \(f^{\prime }(a) = p\) by Proposition&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:proposition-cauchy-riemann">29.2.3</a>. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="complex-analysis:example-conformal">
+  <div class="example_thmheading"><a class="tag" href="tag/036G.html" title="Permanent link: tag 036G">036G</a><a class="graph-link" href="graph.html?tag=036G" title="Dependencies of tag 036G: what it uses and what uses it" aria-label="Dependency graph of tag 036G"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">29.2.6</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Critical points.</em> For \(f(z) = z^2\) and \(a = 0\), where \(f^{\prime }(0) = 0\), angles are not preserved but doubled: the ray \(\{ re^{i\theta } : r {\gt} 0\} \) is mapped to the ray \(\{ r^2e^{2i\theta }\} \). In general, near a zero of order \(m\) of \(f^{\prime }\) the map multiplies angles by \(m + 1\); this follows from the local form of holomorphic maps (Theorem&#160;<a href="complex-analysis-section-residues.html#complex-analysis:theorem-open-mapping">29.5.12</a>). </p>
+</li>
+  <li><p><em>The exponential.</em> \(e^{x + iy} = e^xe^{iy}\) maps the vertical line \(x = x_0\) onto the circle of radius \(e^{x_0}\), and the horizontal line \(y = y_0\) onto the ray of argument \(y_0\). The lines of the grid meet at right angles, and so do their images, circles and rays from the origin, as Proposition&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:proposition-conformal">29.2.5</a> predicts, since \(\exp ^{\prime } = \exp \) never vanishes. </p>
+</li>
+  <li><p><em>Reflection.</em> \(z \mapsto \bar z\) preserves the size of angles but reverses their orientation, and it is not holomorphic (Example&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:example-derivative-definition">29.2.2</a>(3)). The argument in (2) adapts: an invertible real linear map that preserves unoriented angles is either complex linear or of the form \(z \mapsto p\bar z\), so the maps that preserve unoriented angles, at points where the derivative is invertible, are the holomorphic and the <em>antiholomorphic</em> ones (those \(f\) with \(\bar f\) holomorphic). </p>
+</li>
+</ol>
 
   </div>
 </div>
@@ -427,11 +510,11 @@ MathJax.Hub.Config({
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">29.2.4</span>
+    <span class="definition_thmlabel">29.2.7</span>
   </div>
   <div class="definition_thmcontent">
   <p> A <em>path</em> is a piecewise continuously differentiable map \(\gamma \colon [a, b] \to \mathbb {C}\); it is <em>closed</em> if \(\gamma (a) = \gamma (b)\). Its image is \(\gamma ^*\) and its length is \(L(\gamma ) = \int _a^b|\gamma '(t)|\, dt\). For continuous \(f\) on \(\gamma ^*\), </p>
-<div class="displaymath" id="a0000001096">
+<div class="displaymath" id="a0000001162">
   \[  \int _\gamma f(z)\, dz = \int _a^bf(\gamma (t))\gamma '(t)\, dt.  \]
 </div>
 
@@ -442,14 +525,14 @@ MathJax.Hub.Config({
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">29.2.5</span>
+    <span class="lemma_thmlabel">29.2.8</span>
   </div>
   <div class="lemma_thmcontent">
   <p> The integral is unchanged by increasing \(C^1\) reparametrisations, changes sign under reversal, and \(|\int _\gamma f| \leq L(\gamma )\sup _{\gamma ^*}|f|\). If \(f = F'\) for a holomorphic \(F\) on an open set containing \(\gamma ^*\), then \(\int _\gamma f = F(\gamma (b)) - F(\gamma (a))\); in particular \(\int _\gamma f = 0\) for closed \(\gamma \). For the circle \(\gamma (t) = a + re^{2\pi it}\), \(t \in [0, 1]\), one has \(\int _\gamma (z - a)^n\, dz = 0\) for \(n \neq -1\) and \(= 2\pi i\) for \(n = -1\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001097">
+<div class="proof_wrapper" id="a0000001163">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -458,6 +541,26 @@ MathJax.Hub.Config({
   </div>
   <div class="proof_content">
   <p>Reparametrisation and reversal follow from the substitution rule (Corollary&#160;<a href="real-analysis-section-riemann.html#real-analysis:corollary-integration-rules">27.8.4</a>), the estimate from Proposition&#160;<a href="real-analysis-section-riemann.html#real-analysis:proposition-riemann">27.8.2</a>. If \(f = F'\), then \((F \circ \gamma )' = f(\gamma )\gamma '\) on each \(C^1\) piece, so the integral telescopes by the fundamental theorem of calculus. For the circle and \(n \neq -1\), \((z - a)^n\) has the primitive \((z - a)^{n+1}/(n + 1)\); for \(n = -1\) the integral is \(\int _0^12\pi i\, dt\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="complex-analysis:example-path-integrals">
+  <div class="example_thmheading"><a class="tag" href="tag/036H.html" title="Permanent link: tag 036H">036H</a><a class="graph-link" href="graph.html?tag=036H" title="Dependencies of tag 036H: what it uses and what uses it" aria-label="Dependency graph of tag 036H"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">29.2.9</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>A function without primitive.</em> Let \(\gamma (t) = e^{2\pi it}\), \(t \in [0, 1]\), be the unit circle. On it \(\bar z = e^{-2\pi it}\) and \(\gamma ^{\prime }(t) = 2\pi ie^{2\pi it}\), so \(\int _\gamma \bar z\, dz = \int _0^12\pi i\, dt = 2\pi i \neq 0\). By Lemma&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:lemma-path-integral">29.2.8</a>, \(\bar z\) is not the derivative of a holomorphic function on any open set containing the circle. </p>
+</li>
+  <li><p><em>Dependence on the path.</em> Integrate \(\bar z\) from \(0\) to \(1 + i\) in two ways. Along the segment \(\gamma (t) = t(1 + i)\): \(\int _0^1t(1 - i)(1 + i)\, dt = \int _0^12t\, dt = 1\). Along the segment from \(0\) to \(1\) followed by the segment from \(1\) to \(1 + i\), parametrised by \(t\) and \(1 + it\): \(\int _0^1t\, dt + \int _0^1(1 - it)\, i\, dt = \frac12 + \bigl(i + \frac12\bigr) = 1 + i\). The results differ. For a function with a primitive, such as \(z^2 = (z^3/3)^{\prime }\), every path from \(0\) to \(1 + i\) gives \((1 + i)^3/3\). </p>
+</li>
+  <li><p><em>A holomorphic function without primitive.</em> \(1/z\) is holomorphic on \(\mathbb {C}^\times \), yet \(\int _\gamma dz/z = 2\pi i\) over the unit circle (Lemma&#160;<a href="complex-analysis-section-holomorphic.html#complex-analysis:lemma-path-integral">29.2.8</a>); so \(1/z\) has no primitive on \(\mathbb {C}^\times \), that is, there is no holomorphic logarithm on \(\mathbb {C}^\times \). What goes wrong is the hole at \(0\): Cauchy’s theorem below says that integrals of holomorphic functions over closed paths vanish when the path can be shrunk to a point inside the domain. </p>
+</li>
+</ol>
 
   </div>
 </div>

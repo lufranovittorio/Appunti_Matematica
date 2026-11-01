@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Densities and rectifiability - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="measure-theory-section-coarea.html" /><link rel="next" href="measure-theory-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2 active">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+  <ul><li class="level-3">
+  <a href="measure-theory-section-introduction.html"><span class="toc_ref">28.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-measures.html"><span class="toc_ref">28.2</span> <span class="toc_entry">Measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lebesgue.html"><span class="toc_ref">28.3</span> <span class="toc_entry">Outer measures and Lebesgue measure</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-integral.html"><span class="toc_ref">28.4</span> <span class="toc_entry">The integral</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lp.html"><span class="toc_ref">28.5</span> <span class="toc_entry">Lebesgue spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-modes.html"><span class="toc_ref">28.6</span> <span class="toc_entry">Modes of convergence</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-borel-cantelli.html"><span class="toc_ref">28.7</span> <span class="toc_entry">Independence and the Borel–Cantelli lemmas</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lusin.html"><span class="toc_ref">28.8</span> <span class="toc_entry">Littlewood’s principles and Lusin’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation.html"><span class="toc_ref">28.9</span> <span class="toc_entry">Differentiation of integrals</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-fubini.html"><span class="toc_ref">28.10</span> <span class="toc_entry">Product measures and Fubini’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-change-of-variables.html"><span class="toc_ref">28.11</span> <span class="toc_entry">Change of variables</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon-nikodym.html"><span class="toc_ref">28.12</span> <span class="toc_entry">The Radon–Nikodym and Riesz representation theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-absolutely-continuous.html"><span class="toc_ref">28.13</span> <span class="toc_entry">Absolutely continuous functions</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon.html"><span class="toc_ref">28.14</span> <span class="toc_entry">Radon measures and the Riesz representation theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-weak-convergence.html"><span class="toc_ref">28.15</span> <span class="toc_entry">Weak convergence of measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation-measures.html"><span class="toc_ref">28.16</span> <span class="toc_entry">Differentiation of measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-hausdorff.html"><span class="toc_ref">28.17</span> <span class="toc_entry">Hausdorff measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-self-similar.html"><span class="toc_ref">28.18</span> <span class="toc_entry">Self-similar sets</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-rademacher.html"><span class="toc_ref">28.19</span> <span class="toc_entry">Lipschitz maps and Rademacher’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-area-formula.html"><span class="toc_ref">28.20</span> <span class="toc_entry">The area formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-coarea.html"><span class="toc_ref">28.21</span> <span class="toc_entry">The coarea formula</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="measure-theory-section-densities.html"><span class="toc_ref">28.22</span> <span class="toc_entry">Densities and rectifiability</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-exercises.html"><span class="toc_ref">28.23</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="measure-theory.html">28 Measure and Integration</a></li></ol>
+
+<article class="main-text">
+<h1 id="measure-theory:section-densities">28.22 Densities and rectifiability<a class="tag" href="tag/035E.html" title="Permanent link: tag 035E">035E</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>By the Lebesgue density theorem (Corollary&#160;<a href="measure-theory-section-differentiation.html#measure-theory:corollary-density">28.9.5</a>) a measurable set \(A \subseteq \mathbb {R}^n\) fills almost all of every small ball centred at almost every one of its points. For a set of dimension \(s {\lt} n\) the analogous question is whether \(\mathcal{H}^s(A \cap \overline{B}(x, r))\) is comparable to \(\alpha (s)(2r)^s\), the \(s\)-dimensional “volume” of a ball of radius \(r\). For smooth curves and surfaces the answer is yes, with ratio tending to \(1\); for the Cantor set the ratio oscillates forever. This difference turns out to be the difference between the sets on which one can do calculus, the rectifiable ones, and the others. Throughout, \(X\) is a metric space and \(\overline{B}(x, r) = \{ y : d(x, y) \leq r\} \). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="measure-theory:definition-density">
+  <div class="definition_thmheading"><a class="tag" href="tag/035F.html" title="Permanent link: tag 035F">035F</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">28.22.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For \(A \subseteq X\), \(s {\gt} 0\) and \(x \in X\), the <em>upper</em> and <em>lower \(s\)-dimensional densities</em> of \(A\) at \(x\) are </p>
+<div class="displaymath" id="a0000001122">
+  \[  \Theta ^{*s}(A, x) = \limsup _{r \to 0}\frac{\mathcal{H}^s(A \cap \overline{B}(x, r))}{\alpha (s)(2r)^s}, \qquad \Theta ^s_*(A, x) = \liminf _{r \to 0}\frac{\mathcal{H}^s(A \cap \overline{B}(x, r))}{\alpha (s)(2r)^s}.  \]
+</div>
+<p> If they are equal, the common value is the <em>density</em> \(\Theta ^s(A, x)\). </p>
+
+  </div>
+</div>
+<p>The normalisation is chosen so that flat pieces have density \(1\). For \(A \subseteq \mathbb {R}^n\) Lebesgue measurable and \(s = n\), \(\mathcal{H}^n = \lambda ^n\) and \(\alpha (n)(2r)^n = \lambda ^n(\overline{B}(x, r))\), so by the density theorem \(\Theta ^n(A, x) = 1\) for almost every \(x \in A\) and \(\Theta ^n(A, x) = 0\) for almost every \(x \notin A\) (spheres are null, so closed and open balls give the same ratios). </p>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-density-curve">
+  <div class="example_thmheading"><a class="tag" href="tag/035G.html" title="Permanent link: tag 035G">035G</a><a class="graph-link" href="graph.html?tag=035G" title="Dependencies of tag 035G: what it uses and what uses it" aria-label="Dependency graph of tag 035G"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.22.2</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>Curves have density \(1\).</em> Let \(\gamma \colon (a, b) \to \mathbb {R}^m\) be an injective \(C^1\) map with \(\gamma ^{\prime } \neq 0\) which is a homeomorphism onto its image \(\Gamma \). Then \(\Theta ^1(\Gamma , x) = 1\) for every \(x \in \Gamma \). Let \(x = \gamma (t_0)\), \(c = |\gamma ^{\prime }(t_0)| {\gt} 0\), and \(0 {\lt} \varepsilon {\lt} 1\). Choose \(\delta {\gt} 0\) with \([t_0 - \delta , t_0 + \delta ] \subseteq (a, b)\) and \(|\gamma ^{\prime }(t) - \gamma ^{\prime }(t_0)| \leq \varepsilon c\) there. By the mean value inequality, applied to \(\gamma (t) - \gamma ^{\prime }(t_0)(t - t_0)\), </p>
+<div class="displaymath" id="a0000001123">
+  \[  (1 - \varepsilon )c|t - t_0| \leq |\gamma (t) - x| \leq (1 + \varepsilon )c|t - t_0| \qquad (|t - t_0| \leq \delta ),  \]
+</div>
+<p> and \((1 - \varepsilon )c \leq |\gamma ^{\prime }(t)| \leq (1 + \varepsilon )c\) there. Since \(\gamma ^{-1}\) is continuous at \(x\), there is \(r_0 \in (0, (1 - \varepsilon )c\delta ]\) such that \(|\gamma (t) - x| \leq r_0\) implies \(|t - t_0| \leq \delta \). For \(r {\lt} r_0\) the set \(I_r = \{ t : |\gamma (t) - x| \leq r\} \) therefore satisfies </p>
+<div class="displaymath" id="a0000001124">
+  \[  \bigl[t_0 - \tfrac {r}{(1 + \varepsilon )c}, t_0 + \tfrac {r}{(1 + \varepsilon )c}\bigr] \subseteq I_r \subseteq \bigl[t_0 - \tfrac {r}{(1 - \varepsilon )c}, t_0 + \tfrac {r}{(1 - \varepsilon )c}\bigr].  \]
+</div>
+<p> By the area formula (Theorem&#160;<a href="measure-theory-section-area-formula.html#measure-theory:theorem-area-formula">28.20.3</a>), \(\mathcal{H}^1(\Gamma \cap \overline{B}(x, r)) = \int _{I_r}|\gamma ^{\prime }|\) lies between \(2r\frac{1 - \varepsilon }{1 + \varepsilon }\) and \(2r\frac{1 + \varepsilon }{1 - \varepsilon }\). As \(\alpha (1) = 1\) and \(\varepsilon \) was arbitrary, the ratio tends to \(1\). The homeomorphism condition matters: for a curve shaped like the digit \(6\), whose end \(\gamma (t)\), \(t \to b\), runs into an interior point \(x\) from one side, a small ball around \(x\) contains the arc of the curve through \(x\), of length about \(2r\), and the end arc, of length about \(r\), and \(\Theta ^1(\Gamma , x) = \frac32\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-density-cantor">
+  <div class="example_thmheading"><a class="tag" href="tag/035H.html" title="Permanent link: tag 035H">035H</a><a class="graph-link" href="graph.html?tag=035H" title="Dependencies of tag 035H: what it uses and what uses it" aria-label="Dependency graph of tag 035H"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.22.3</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>The Cantor set has no density at \(0\).</em> Let \(C\) be the Cantor set, \(s = \log 2/\log 3\), and \(c = \mathcal{H}^s(C)\), so that \(\alpha (s)/2 \leq c \leq \alpha (s)\) (Example&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:example-cantor-dimension">28.17.6</a>). For \(k \geq 0\), \(C \cap [0, 3^{-k}] = 3^{-k}C\) (the piece \(C_w\) for \(w = 1\cdots 1\) of length \(k\), in the notation of Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-ifs">28.18.7</a>), so \(\mathcal{H}^s(C \cap [0, 3^{-k}]) = 3^{-ks}c = 2^{-k}c\). Moreover \(C\) does not meet the gap \((3^{-k-1}, 2 \cdot 3^{-k-1})\), so \(C \cap [0, 2 \cdot 3^{-k-1}]\) is \(C \cap [0, 3^{-k-1}]\) plus the single point \(2 \cdot 3^{-k-1}\). Hence, with \(r = 3^{-k}\) and \(r = 2 \cdot 3^{-k-1}\) respectively, </p>
+<div class="displaymath" id="a0000001125">
+  \[  \frac{\mathcal{H}^s(C \cap \overline{B}(0, 3^{-k}))}{\alpha (s)(2 \cdot 3^{-k})^s} = \frac{2^{-k}c}{\alpha (s)2^s2^{-k}} = \frac{c}{\alpha (s)2^s}, \qquad \frac{\mathcal{H}^s(C \cap \overline{B}(0, 2 \cdot 3^{-k-1}))}{\alpha (s)(4 \cdot 3^{-k-1})^s} = \frac{2^{-k-1}c}{\alpha (s)4^s2^{-k-1}} = \frac{c}{\alpha (s)4^s}.  \]
+</div>
+<p> So \(\Theta ^{*s}(C, 0) \geq c/(\alpha (s)2^s)\) and \(\Theta ^s_*(C, 0) \leq c/(\alpha (s)4^s)\), which is smaller by the factor \(2^s \approx 1.55\); as \(c {\gt} 0\), the density does not exist. The same computation works at the left endpoint \(f_w(0)\) of every interval \(I_w\): for \(r {\lt} 3^{-|w|}\) the ball \(\overline{B}(f_w(0), r)\) meets \(C\) in \(f_w(C \cap [0, 3^{|w|}r])\), because \(C\) has a gap of length at least \(3^{-|w|}\) to the left of \(I_w\) (Example&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:example-cantor-dimension">28.17.6</a>(2)), and \(\mathcal{H}^s\) scales by \(3^{-|w|s}\) under \(f_w\). These endpoints are dense in \(C\). </p>
+
+  </div>
+</div>
+<p>For a general set we cannot expect the density to exist, but the upper density is bounded below almost everywhere, by a short covering argument that uses nothing but the definition of \(\mathcal{H}^s\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-upper-density">
+  <div class="theorem_thmheading"><a class="tag" href="tag/035I.html" title="Permanent link: tag 035I">035I</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.22.4</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(A \subseteq X\) with \(\mathcal{H}^s(A) {\lt} \infty \), \(s {\gt} 0\). Then \(\Theta ^{*s}(A, x) \geq 2^{-s}\) for \(\mathcal{H}^s\)-almost every \(x \in A\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001126">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(0 {\lt} t {\lt} 2^{-s}\) and \(k \geq 1\) let </p>
+<div class="displaymath" id="a0000001127">
+  \[  A_{t, k} = \bigl\{ x \in A : \mathcal{H}^s(A \cap \overline{B}(x, r)) \leq t\, \alpha (s)(2r)^s \text{ for all } 0 {\lt} r {\lt} 1/k\bigr\} .  \]
+</div>
+<p> A point \(x \in A\) with \(\Theta ^{*s}(A, x) {\lt} 2^{-s}\) lies in some \(A_{t, k}\) with \(t\) rational; so it suffices to show \(\mathcal{H}^s(A_{t, k}) = 0\) for all \(t\) and \(k\), by countable subadditivity. </p>
+<p>Fix \(t, k\), let \(0 {\lt} \delta {\lt} 1/k\) and \(\varepsilon {\gt} 0\), and choose a cover \((C_i)\) of \(A_{t, k}\) by sets of diameter at most \(\delta \) with \(\sum _i\alpha (s)(\operatorname {diam}C_i)^s \leq \mathcal{H}^s_\delta (A_{t, k}) + \varepsilon \). We may discard the \(C_i\) that do not meet \(A_{t, k}\). For the others pick \(x_i \in C_i \cap A_{t, k}\) and let \(d_i = \operatorname {diam}C_i\). If \(d_i {\gt} 0\), then \(C_i \subseteq \overline{B}(x_i, d_i)\) with \(d_i {\lt} 1/k\), so by the definition of \(A_{t, k}\) </p>
+<div class="displaymath" id="a0000001128">
+  \[  \mathcal{H}^s(A_{t, k} \cap C_i) \leq \mathcal{H}^s(A \cap \overline{B}(x_i, d_i)) \leq t\, \alpha (s)(2d_i)^s = t2^s\, \alpha (s)d_i^s .  \]
+</div>
+<p> If \(d_i = 0\), then \(C_i\) is a point and both sides are \(0\). Summing, and using countable subadditivity of \(\mathcal{H}^s\), </p>
+<div class="displaymath" id="a0000001129">
+  \[  \mathcal{H}^s(A_{t, k}) \leq \sum _i\mathcal{H}^s(A_{t, k} \cap C_i) \leq t2^s\bigl(\mathcal{H}^s_\delta (A_{t, k}) + \varepsilon \bigr) \leq t2^s\bigl(\mathcal{H}^s(A_{t, k}) + \varepsilon \bigr).  \]
+</div>
+<p> Let \(\varepsilon \to 0\). Since \(\mathcal{H}^s(A_{t, k}) \leq \mathcal{H}^s(A) {\lt} \infty \) and \(t2^s {\lt} 1\), this forces \(\mathcal{H}^s(A_{t, k}) = 0\). </p>
+
+  </div>
+</div>
+<p>The bound \(2^{-s}\) comes from the comparison \(C_i \subseteq \overline{B}(x_i, \operatorname {diam}C_i)\), which loses a factor \(2\) in the radius; in \(\mathbb {R}^n\), finer covering theorems give the complementary inequalities, which we quote. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-density-bounds">
+  <div class="theorem_thmheading"><a class="tag" href="tag/035J.html" title="Permanent link: tag 035J">035J</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.22.5</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(A \subseteq \mathbb {R}^n\) be \(\mathcal{H}^s\)-measurable with \(\mathcal{H}^s(A) {\lt} \infty \). Then \(2^{-s} \leq \Theta ^{*s}(A, x) \leq 1\) for \(\mathcal{H}^s\)-almost every \(x \in A\), and \(\Theta ^{*s}(A, x) = 0\) for \(\mathcal{H}^s\)-almost every \(x \in \mathbb {R}^n \setminus A\) <span class="cite">[<a href="Bibliography.html#evans-gariepy" >EG92</a>, Section 2.3]</span>, <span class="cite">[<a href="Bibliography.html#falconer-gofs" >Fal85</a>]</span>. </p>
+
+  </div>
+</div>
+<p>So every set of finite \(s\)-dimensional measure is, at almost all of its points, at least somewhat dense and at most as dense as a flat piece. Whether the density exists, that is, whether the lower density equals the upper one, is a deep geometric property, and it is related to the following class of sets. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="measure-theory:definition-rectifiable">
+  <div class="definition_thmheading"><a class="tag" href="tag/035K.html" title="Permanent link: tag 035K">035K</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">28.22.6</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(k \geq 1\) be an integer. A set \(A \subseteq \mathbb {R}^n\) is <em>countably \(k\)-rectifiable</em> if there are Lipschitz maps \(g_j \colon E_j \to \mathbb {R}^n\), \(E_j \subseteq \mathbb {R}^k\), \(j = 1, 2, \ldots \), such that </p>
+<div class="displaymath" id="a0000001130">
+  \[  \mathcal{H}^k\Bigl(A \setminus \bigcup _jg_j(E_j)\Bigr) = 0 .  \]
+</div>
+<p> It is <em>purely \(k\)-unrectifiable</em> if \(\mathcal{H}^k(A \cap g(E)) = 0\) for every Lipschitz map \(g \colon E \to \mathbb {R}^n\) with \(E \subseteq \mathbb {R}^k\). </p>
+
+  </div>
+</div>
+<p>So a rectifiable set is, up to a null set, a countable union of Lipschitz images of pieces of \(\mathbb {R}^k\), and on such pieces Rademacher’s theorem and the area formula give tangent planes and a calculus. A purely unrectifiable set meets each Lipschitz image of a piece of \(\mathbb {R}^k\) only in a null set. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-rectifiable">
+  <div class="proposition_thmheading"><a class="tag" href="tag/035L.html" title="Permanent link: tag 035L">035L</a><a class="graph-link" href="graph.html?tag=035L" title="Dependencies of tag 035L: what it uses and what uses it" aria-label="Dependency graph of tag 035L"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">28.22.7</span>
+  </div>
+  <div class="proposition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>Subsets and countable unions of countably \(k\)-rectifiable sets are countably \(k\)-rectifiable. </p>
+</li>
+  <li><p>A countably \(k\)-rectifiable set \(A\) has \(\dim _{\mathcal{H}}A \leq k\), and \(A \cap \bigcup _jg_j(E_j)\) has \(\sigma \)-finite \(\mathcal{H}^k\)-measure. </p>
+</li>
+  <li><p>If \(U \subseteq \mathbb {R}^k\) is open and \(g \colon U \to \mathbb {R}^n\) is of class \(C^1\), then \(g(U)\) is countably \(k\)-rectifiable. </p>
+</li>
+  <li><p>If \(A\) is countably \(k\)-rectifiable and \(B\) is purely \(k\)-unrectifiable, then \(\mathcal{H}^k(A \cap B) = 0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001131">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) is clear from the definition: a subset can use the same maps, and countably many countable families of maps form a countable family. </p>
+<p>(2) Let \(L_j\) be a Lipschitz constant of \(g_j\). For \(m \geq 1\), Proposition&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:proposition-hausdorff">28.17.3</a>(3) and Theorem&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:theorem-hausdorff-lebesgue">28.17.5</a> give \(\mathcal{H}^k(g_j(E_j \cap [-m, m]^k)) \leq L_j^k\mathcal{H}^k([-m, m]^k) = L_j^k(2m)^k {\lt} \infty \). So \(\bigcup _jg_j(E_j)\) is a countable union of sets of finite \(\mathcal{H}^k\)-measure, each of which has \(\mathcal{H}^t\)-measure \(0\) for \(t {\gt} k\) (Proposition&#160;<a href="measure-theory-section-hausdorff.html#measure-theory:proposition-hausdorff">28.17.3</a>(4)); the remaining part of \(A\) is \(\mathcal{H}^k\)-null, hence also \(\mathcal{H}^t\)-null for \(t {\gt} k\). </p>
+<p>(3) \(U\) is the union of the countably many closed balls \(\overline{B} \subseteq U\) with rational centres and radii. On such a ball, which is compact and convex, \(\| Dg\| \) is bounded, say by \(L\), and the mean value inequality (Proposition&#160;<a href="real-analysis-section-several-variables.html#real-analysis:proposition-derivative-basic">27.10.3</a>(4)) shows that \(g\) is \(L\)-Lipschitz on \(\overline{B}\). </p>
+<p>(4) \(A \cap B\) is contained in the union of the \(\mathcal{H}^k\)-null set \(A \setminus \bigcup _jg_j(E_j)\) and the sets \(B \cap g_j(E_j)\), which are \(\mathcal{H}^k\)-null by assumption. </p>
+
+  </div>
+</div>
+<p>By (3), images of \(C^1\) maps, such as the curves of Example&#160;<a href="measure-theory-section-densities.html#measure-theory:example-density-curve">28.22.2</a>, graphs of \(C^1\) or Lipschitz functions, and \(k\)-dimensional submanifolds of \(\mathbb {R}^n\) (which are covered by countably many images of charts), are countably \(k\)-rectifiable. At the other extreme, the four-corner Cantor set \(K_4\) of Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-similarity-dimension">28.18.11</a>(2), which has \(0 {\lt} \mathcal{H}^1(K_4) {\lt} \infty \), is purely \(1\)-unrectifiable <span class="cite">[<a href="Bibliography.html#falconer-gofs" >Fal85</a>]</span>, <span class="cite">[<a href="Bibliography.html#mattila-1995" >Mat95</a>]</span>. The two classes are distinguished by densities and by projections, and these are among the deepest results of the subject. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-rectifiability-criteria">
+  <div class="theorem_thmheading"><a class="tag" href="tag/035M.html" title="Permanent link: tag 035M">035M</a><a class="graph-link" href="graph.html?tag=035M" title="Dependencies of tag 035M: what it uses and what uses it" aria-label="Dependency graph of tag 035M"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.22.8</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(A \subseteq \mathbb {R}^n\) be \(\mathcal{H}^k\)-measurable with \(0 {\lt} \mathcal{H}^k(A) {\lt} \infty \), \(k\) an integer with \(1 \leq k {\lt} n\). </p>
+<ol class="enumerate">
+  <li><p>(<em>Densities</em>) \(A\) is countably \(k\)-rectifiable if and only if \(\Theta ^k(A, x) = 1\) for \(\mathcal{H}^k\)-almost every \(x \in A\), and if and only if \(\Theta ^k(A, x)\) exists and is positive for \(\mathcal{H}^k\)-almost every \(x \in A\). </p>
+</li>
+  <li><p>(<em>Projections, Besicovitch–Federer</em>) If \(A\) is countably \(k\)-rectifiable, then its orthogonal projections to almost all \(k\)-dimensional linear subspaces have positive \(\mathcal{H}^k\)-measure. If \(A\) is purely \(k\)-unrectifiable, then its projections to almost all \(k\)-dimensional linear subspaces are \(\mathcal{H}^k\)-null. </p>
+</li>
+</ol>
+<p> Here “almost all” refers to the rotation-invariant measure on the set of \(k\)-dimensional subspaces; for \(k = 1\), \(n = 2\) it means almost all angles. See <span class="cite">[<a href="Bibliography.html#mattila-1995" >Mat95</a>]</span>, <span class="cite">[<a href="Bibliography.html#federer-gmt" >Fed69</a>]</span>; the last statement of (1) is Preiss’s theorem <span class="cite">[<a href="Bibliography.html#preiss-1987" >Pre87</a>]</span>. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="measure-theory:remark-densities">
+  <div class="remark_thmheading"><a class="tag" href="tag/035N.html" title="Permanent link: tag 035N">035N</a><a class="graph-link" href="graph.html?tag=035N" title="Dependencies of tag 035N: what it uses and what uses it" aria-label="Dependency graph of tag 035N"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">28.22.9</span>
+  </div>
+  <div class="remark_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Non-integral dimensions.</em> If \(0 {\lt} \mathcal{H}^s(A) {\lt} \infty \) and the density \(\Theta ^s(A, x)\) exists and is positive at almost every point of \(A\), then \(s\) is an integer (Marstrand, see <span class="cite">[<a href="Bibliography.html#mattila-1995" >Mat95</a>]</span>). So sets of non-integral dimension, such as the Cantor set (Example&#160;<a href="measure-theory-section-densities.html#measure-theory:example-density-cantor">28.22.3</a>) and the self-similar sets of Section&#160;<a href="measure-theory-section-self-similar.html">28.18</a>, are always irregular: their densities oscillate. </p>
+</li>
+  <li><p><em>The four-corner set again.</em> Example&#160;<a href="measure-theory-section-self-similar.html#measure-theory:example-four-corner-projections">28.18.12</a> computed two projections of \(K_4\): in the direction of the axes it has length \(0\), as Theorem&#160;<a href="measure-theory-section-densities.html#measure-theory:theorem-rectifiability-criteria">28.22.8</a>(2) predicts for almost all directions, while in the direction of \((2, 1)\) it is an interval. So the exceptional set of directions in the Besicovitch–Federer theorem is not empty. For a segment the situation is reversed: its projection has positive length in every direction except the perpendicular one. </p>
+</li>
+  <li><p><em>Besicovitch and Kakeya sets.</em> A <em>Besicovitch set</em> is a compact subset of \(\mathbb {R}^n\) that contains a segment of length \(1\) in every direction. Besicovitch showed that such sets exist in \(\mathbb {R}^2\) with Lebesgue measure \(0\); correspondingly, a needle of length \(1\) can be turned around completely inside a region of arbitrarily small area (<em>Kakeya’s needle problem</em>). Every Besicovitch set in \(\mathbb {R}^2\) has Hausdorff dimension \(2\) (Davies), see <span class="cite">[<a href="Bibliography.html#falconer-gofs" >Fal85</a>]</span>. Whether Besicovitch sets in \(\mathbb {R}^n\) must have Hausdorff dimension \(n\) is the <em>Kakeya conjecture</em>, a central problem linking geometric measure theory with harmonic analysis and analytic number theory. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="measure-theory-section-coarea.html"><span class="dir">Previous</span> The coarea formula</a><a class="next" href="measure-theory-section-exercises.html"><span class="dir">Next</span> Exercises</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>

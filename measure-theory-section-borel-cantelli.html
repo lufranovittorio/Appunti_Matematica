@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Independence and the Borel–Cantelli lemmas - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="measure-theory-section-modes.html" /><link rel="next" href="measure-theory-section-lusin.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2 active">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+  <ul><li class="level-3">
+  <a href="measure-theory-section-introduction.html"><span class="toc_ref">28.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-measures.html"><span class="toc_ref">28.2</span> <span class="toc_entry">Measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lebesgue.html"><span class="toc_ref">28.3</span> <span class="toc_entry">Outer measures and Lebesgue measure</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-integral.html"><span class="toc_ref">28.4</span> <span class="toc_entry">The integral</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lp.html"><span class="toc_ref">28.5</span> <span class="toc_entry">Lebesgue spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-modes.html"><span class="toc_ref">28.6</span> <span class="toc_entry">Modes of convergence</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="measure-theory-section-borel-cantelli.html"><span class="toc_ref">28.7</span> <span class="toc_entry">Independence and the Borel–Cantelli lemmas</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-lusin.html"><span class="toc_ref">28.8</span> <span class="toc_entry">Littlewood’s principles and Lusin’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation.html"><span class="toc_ref">28.9</span> <span class="toc_entry">Differentiation of integrals</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-fubini.html"><span class="toc_ref">28.10</span> <span class="toc_entry">Product measures and Fubini’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-change-of-variables.html"><span class="toc_ref">28.11</span> <span class="toc_entry">Change of variables</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon-nikodym.html"><span class="toc_ref">28.12</span> <span class="toc_entry">The Radon–Nikodym and Riesz representation theorems</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-absolutely-continuous.html"><span class="toc_ref">28.13</span> <span class="toc_entry">Absolutely continuous functions</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-radon.html"><span class="toc_ref">28.14</span> <span class="toc_entry">Radon measures and the Riesz representation theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-weak-convergence.html"><span class="toc_ref">28.15</span> <span class="toc_entry">Weak convergence of measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-differentiation-measures.html"><span class="toc_ref">28.16</span> <span class="toc_entry">Differentiation of measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-hausdorff.html"><span class="toc_ref">28.17</span> <span class="toc_entry">Hausdorff measures</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-self-similar.html"><span class="toc_ref">28.18</span> <span class="toc_entry">Self-similar sets</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-rademacher.html"><span class="toc_ref">28.19</span> <span class="toc_entry">Lipschitz maps and Rademacher’s theorem</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-area-formula.html"><span class="toc_ref">28.20</span> <span class="toc_entry">The area formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-coarea.html"><span class="toc_ref">28.21</span> <span class="toc_entry">The coarea formula</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-densities.html"><span class="toc_ref">28.22</span> <span class="toc_entry">Densities and rectifiability</span></a>
+</li>
+<li class="level-3">
+  <a href="measure-theory-section-exercises.html"><span class="toc_ref">28.23</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="measure-theory.html">28 Measure and Integration</a></li></ol>
+
+<article class="main-text">
+<h1 id="measure-theory:section-borel-cantelli">28.7 Independence and the Borel–Cantelli lemmas<a class="tag" href="tag/0360.html" title="Permanent link: tag 0360">0360</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>Measure theory is also the language of probability. A <em>probability space</em> is a measure space \((\Omega , \mathcal{F}, P)\) with \(P(\Omega ) = 1\); its measurable sets are called <em>events</em>, measurable functions are <em>random variables</em>, and “almost everywhere” becomes <em>almost surely</em>. A typical question asks whether infinitely many of a sequence of events happen. For events \(A_1, A_2, \ldots \) the event “\(A_k\) happens for infinitely many \(k\)” is </p>
+<div class="displaymath" id="a0000000999">
+  \[  \limsup _kA_k = \bigcap _{n \geq 1}\bigcup _{k \geq n}A_k = \{ \omega : \omega \in A_k \text{ for infinitely many } k\} ,  \]
+</div>
+<p> and its complement is \(\liminf _kA_k^c = \bigcup _n\bigcap _{k \geq n}A_k^c\), “from some index on, no \(A_k\) happens”. The two Borel–Cantelli lemmas decide, in many cases, whether \(\limsup _kA_k\) has probability \(0\) or \(1\). The first needs nothing; the second needs independence, which we now define. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="measure-theory:definition-independent">
+  <div class="definition_thmheading"><a class="tag" href="tag/0361.html" title="Permanent link: tag 0361">0361</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">28.7.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Events \(A_1, A_2, \ldots \) (finitely or countably many) in a probability space are <em>independent</em> if </p>
+<div class="displaymath" id="a0000001000">
+  \[  P(A_{k_1} \cap A_{k_2} \cap \cdots \cap A_{k_m}) = P(A_{k_1})P(A_{k_2}) \cdots P(A_{k_m})  \]
+</div>
+<p> for all \(m\) and all distinct indices \(k_1, \ldots , k_m\). </p>
+
+  </div>
+</div>
+<p>The condition must be imposed on all subfamilies, not only on pairs. </p>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-pairwise-independent">
+  <div class="example_thmheading"><a class="tag" href="tag/0362.html" title="Permanent link: tag 0362">0362</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.7.2</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Toss two fair coins: \(\Omega = \{ HH, HT, TH, TT\} \), each point with probability \(\frac14\). Let \(A\) = “the first coin shows heads”, \(B\) = “the second coin shows heads”, \(C\) = “the two coins agree”. Each event has probability \(\frac12\), and each intersection of two of them has probability \(\frac14\); so they are pairwise independent. But \(A \cap B \cap C = \{ HH\} \) has probability \(\frac14 \neq \frac18\): if two of the events happen, so does the third. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="measure-theory:lemma-independent-complements">
+  <div class="lemma_thmheading"><a class="tag" href="tag/0363.html" title="Permanent link: tag 0363">0363</a><a class="graph-link" href="graph.html?tag=0363" title="Dependencies of tag 0363: what it uses and what uses it" aria-label="Dependency graph of tag 0363"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">28.7.3</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(A_1, A_2, \ldots \) are independent, so are the events obtained by replacing any of the \(A_k\) by their complements. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001001">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>It suffices to replace one event, say \(A_1\), by \(A_1^c\); replacing several is done one at a time. Let \(k_2, \ldots , k_m\) be distinct indices different from \(1\) and \(B = A_{k_2} \cap \cdots \cap A_{k_m}\) (with \(B = \Omega \) if \(m = 1\)). Then \(P(A_1^c \cap B) = P(B) - P(A_1 \cap B) = P(B) - P(A_1)P(B) = P(A_1^c)P(B)\), and \(P(B)\) is the product of the \(P(A_{k_j})\). Intersections not involving \(A_1^c\) are unchanged. </p>
+
+  </div>
+</div>
+<p>The basic example of independence lives on \([0, 1)\) with Lebesgue measure: the binary digits of a number chosen at random behave like independent tosses of a fair coin. For \(x \in [0, 1)\) and \(k \geq 1\) let </p>
+<div class="displaymath" id="a0000001002">
+  \[  d_k(x) = \lfloor 2^kx\rfloor - 2\lfloor 2^{k-1}x\rfloor \in \{ 0, 1\} ,  \]
+</div>
+<p> the \(k\)-th digit of the binary expansion \(x = \sum _kd_k(x)2^{-k}\) that does not end with infinitely many \(1\)s. For \(K \geq 1\) the integer \(\lfloor 2^Kx\rfloor \) has binary digits \(d_1(x), \ldots , d_K(x)\), so \(d_1(x) = \delta _1, \ldots , d_K(x) = \delta _K\) holds exactly on the interval \([N2^{-K}, (N + 1)2^{-K})\) with \(N = \sum _{k \leq K}\delta _k2^{K-k}\), of length \(2^{-K}\). Call a set \(E \subseteq [0, 1)\) <em>determined by</em> a finite set \(S\) of positions if whether \(x \in E\) depends only on the digits \(d_k(x)\), \(k \in S\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="measure-theory:lemma-binary-digits">
+  <div class="lemma_thmheading"><a class="tag" href="tag/0364.html" title="Permanent link: tag 0364">0364</a><a class="graph-link" href="graph.html?tag=0364" title="Dependencies of tag 0364: what it uses and what uses it" aria-label="Dependency graph of tag 0364"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">28.7.4</span>
+  </div>
+  <div class="lemma_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>For a finite set \(S\) of positions and prescribed digits \(\delta _k \in \{ 0, 1\} \), \(k \in S\), the set \(\{ x : d_k(x) = \delta _k \text{ for } k \in S\} \) has measure \(2^{-|S|}\). </p>
+</li>
+  <li><p>If \(E_1, \ldots , E_m\) are determined by pairwise disjoint finite sets of positions \(S_1, \ldots , S_m\), then \(\lambda (E_1 \cap \cdots \cap E_m) = \lambda (E_1) \cdots \lambda (E_m)\). Consequently, events \(E_1, E_2, \ldots \) determined by pairwise disjoint finite sets of positions are independent; in particular the events \(\{ d_k = 1\} \), \(k \geq 1\), are independent of probability \(\frac12\). </p>
+</li>
+  <li><p>If \(g_i = G_i\bigl((d_k)_{k \in S_i}\bigr)\) for functions \(G_i\) of finitely many digits and pairwise disjoint \(S_1, \ldots , S_m\), then \(\int _0^1g_1 \cdots g_m\, d\lambda = \prod _i\int _0^1g_i\, d\lambda \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001003">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) Let \(K = \max S\) (the case \(S = \emptyset \) is trivial). The set is the disjoint union, over the \(2^{K - |S|}\) choices of the digits at the positions in \(\{ 1, \ldots , K\}  \setminus S\), of intervals of length \(2^{-K}\), so its measure is \(2^{K - |S|}2^{-K}\). </p>
+<p>(2) A set determined by \(S_i\) is a disjoint union of \(n_i\) sets as in (1), one for each admissible pattern of digits on \(S_i\), so \(\lambda (E_i) = n_i2^{-|S_i|}\). With \(S = S_1 \cup \cdots \cup S_m\), the intersection \(E_1 \cap \cdots \cap E_m\) is the disjoint union of the sets of (1) for the patterns on \(S\) whose restriction to each \(S_i\) is admissible for \(E_i\); there are \(n_1 \cdots n_m\) of them, so its measure is \(n_1 \cdots n_m2^{-|S|} = \prod _in_i2^{-|S_i|}\). A subfamily of the \(E_k\) is again determined by disjoint sets of positions, which gives independence. </p>
+<p>(3) Each \(g_i\) is a finite linear combination of indicator functions of sets determined by \(S_i\); expand the product and apply (2) to each term. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-borel-cantelli">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0365.html" title="Permanent link: tag 0365">0365</a><a class="graph-link" href="graph.html?tag=0365" title="Dependencies of tag 0365: what it uses and what uses it" aria-label="Dependency graph of tag 0365"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.7.5</span>
+    <span class="theorem_thmtitle">Borel–Cantelli lemmas</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(A_1, A_2, \ldots \) be events in a probability space. </p>
+<ol class="enumerate">
+  <li><p>If \(\sum _kP(A_k) {\lt} \infty \), then \(P(\limsup _kA_k) = 0\): almost surely only finitely many \(A_k\) happen. </p>
+</li>
+  <li><p>If the \(A_k\) are independent and \(\sum _kP(A_k) = \infty \), then \(P(\limsup _kA_k) = 1\): almost surely infinitely many \(A_k\) happen. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001004">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) For every \(n\), \(\limsup _kA_k \subseteq \bigcup _{k \geq n}A_k\), so \(P(\limsup _kA_k) \leq \sum _{k \geq n}P(A_k)\), the tail of a convergent series, which tends to \(0\) as \(n \to \infty \). </p>
+<p>(2) We show that the complement \(\bigcup _n\bigcap _{k \geq n}A_k^c\) is null; it suffices to show \(P(\bigcap _{k \geq n}A_k^c) = 0\) for each \(n\). For \(N \geq n\), the events \(A_k^c\) are independent (Lemma&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:lemma-independent-complements">28.7.3</a>), and \(1 - t \leq e^{-t}\) for real \(t\) (the exponential lies above its tangent line at \(0\)), so </p>
+<div class="displaymath" id="a0000001005">
+  \[  P\Bigl(\bigcap _{k = n}^NA_k^c\Bigr) = \prod _{k = n}^N\bigl(1 - P(A_k)\bigr) \leq \exp \Bigl(-\sum _{k = n}^NP(A_k)\Bigr) \longrightarrow 0 \qquad (N \to \infty ).  \]
+</div>
+<p> These sets decrease in \(N\) to \(\bigcap _{k \geq n}A_k^c\), so by continuity of measures (Proposition&#160;<a href="measure-theory-section-measures.html#measure-theory:proposition-measure-properties">28.2.4</a>) its probability is \(0\). </p>
+
+  </div>
+</div>
+<p>For independent events \(\limsup _kA_k\) therefore has probability \(0\) or \(1\), never anything in between: a first instance of a <em>zero-one law</em>. The first lemma was already used, without the name, in the proof of Proposition&#160;<a href="measure-theory-section-modes.html#measure-theory:proposition-modes">28.6.3</a>(2). </p>
+<div class="counterexample_thmwrapper theorem-style-definition" id="measure-theory:counterexample-borel-cantelli">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/0366.html" title="Permanent link: tag 0366">0366</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">28.7.6</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Independence cannot be dropped in (2). On \([0, 1)\) let \(A_k = [0, 1/k)\). Then \(\sum _k\lambda (A_k) = \sum _k1/k = \infty \), but the sets decrease, so \(\limsup _kA_k = \bigcap _kA_k = \{ 0\} \), a null set. The events are far from independent: \(\lambda (A_j \cap A_k) = 1/\max (j, k)\), not \(1/(jk)\). Even more simply, \(A_k = A\) for all \(k\) with \(\lambda (A) = \frac12\) gives \(\limsup _kA_k = A\), of probability \(\frac12\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-infinite-monkey">
+  <div class="example_thmheading"><a class="tag" href="tag/0367.html" title="Permanent link: tag 0367">0367</a><a class="graph-link" href="graph.html?tag=0367" title="Dependencies of tag 0367: what it uses and what uses it" aria-label="Dependency graph of tag 0367"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.7.7</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>Every pattern appears infinitely often.</em> Fix a block \(\beta = (\beta _1, \ldots , \beta _m)\) of binary digits. For \(j \geq 0\) let \(B_j\) be the event that the digits at positions \(jm + 1, \ldots , jm + m\) form the block \(\beta \). These events are determined by the disjoint sets of positions \(\{ jm + 1, \ldots , jm + m\} \), so they are independent, each of probability \(2^{-m}\) (Lemma&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:lemma-binary-digits">28.7.4</a>). Since \(\sum _j2^{-m} = \infty \), almost every \(x \in [0, 1)\) lies in infinitely many \(B_j\). There are countably many blocks, so for almost every \(x\) every finite block of digits occurs infinitely often in the binary expansion of \(x\). (Encoding letters by blocks of digits, this is the “infinite monkey theorem”: a random infinite text contains every book infinitely often.) </p>
+
+  </div>
+</div>
+<p>The probability of a long block is small, and this limits how long the runs of \(1\)s in a random expansion can be. Let \(R_n(x)\) be the length of the run of \(1\)s starting at position \(n\): the largest \(r \geq 0\) with \(d_n(x) = \cdots = d_{n+r-1}(x) = 1\), which is finite because the expansion does not end with infinitely many \(1\)s. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="measure-theory:proposition-long-runs">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0368.html" title="Permanent link: tag 0368">0368</a><a class="graph-link" href="graph.html?tag=0368" title="Dependencies of tag 0368: what it uses and what uses it" aria-label="Dependency graph of tag 0368"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">28.7.8</span>
+    <span class="proposition_thmtitle">Long runs</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> For almost every \(x \in [0, 1)\), \(\displaystyle \limsup _{n \to \infty }\frac{R_n(x)}{\log _2n} = 1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001006">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>Upper bound.</em> For \(r {\gt} 0\), \(R_n \geq r\) means that the \(\lceil r\rceil \) digits from position \(n\) on are \(1\), so \(\lambda (R_n \geq r) = 2^{-\lceil r\rceil } \leq 2^{-r}\) by Lemma&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:lemma-binary-digits">28.7.4</a>(1). For \(\varepsilon {\gt} 0\) and \(r = (1 + \varepsilon )\log _2n\) this is at most \(n^{-1-\varepsilon }\), which is summable. By Theorem&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:theorem-borel-cantelli">28.7.5</a>(1), for almost every \(x\) we have \(R_n(x) {\lt} (1 + \varepsilon )\log _2n\) for all large \(n\), so the \(\limsup \) is at most \(1 + \varepsilon \). Let \(\varepsilon = 1/m\), \(m = 1, 2, \ldots \), and discard countably many null sets. </p>
+<p><em>Lower bound.</em> We need independent events, so we use disjoint windows. For \(j \geq 2\) let \(L_j = \lfloor \log _2j\rfloor \geq 1\), \(s_2 = 1\) and \(s_{j+1} = s_j + L_j\), so that the windows \(W_j = \{ s_j, \ldots , s_j + L_j - 1\} \) are disjoint. Let \(E_j\) be the event that all digits in \(W_j\) are \(1\); then \(E_j \subseteq \{ R_{s_j} \geq L_j\} \), and \(\lambda (E_j) = 2^{-L_j} \geq 1/j\). The \(E_j\) are independent (Lemma&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:lemma-binary-digits">28.7.4</a>(2)) and \(\sum _j1/j = \infty \), so by Theorem&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:theorem-borel-cantelli">28.7.5</a>(2) almost every \(x\) lies in infinitely many \(E_j\). Now \(s_j = 1 + \sum _{2 \leq i {\lt} j}L_i \leq j\log _2j\), so \(\log _2s_j \leq \log _2j + \log _2\log _2j\), while \(L_j \geq \log _2j - 1\). Hence for such \(x\), </p>
+<div class="displaymath" id="a0000001007">
+  \[  \frac{R_{s_j}(x)}{\log _2s_j} \geq \frac{\log _2j - 1}{\log _2j + \log _2\log _2j}  \]
+</div>
+<p> for infinitely many \(j\), and the right side tends to \(1\). So the \(\limsup \) is at least \(1\). </p>
+
+  </div>
+</div>
+<p>So among the first \(n\) tosses of a fair coin one should expect a run of heads of length about \(\log _2n\), and no essentially longer one: about \(10\) in a thousand tosses, \(20\) in a million. This is a form of the <em>Erdős–Rényi law of long runs</em>; people asked to write down “random” sequences typically avoid such long runs, which is a simple way to detect fake randomness. </p>
+<p>The most famous application of the first lemma is Borel’s theorem that almost every number is <em>normal</em>: its digits appear with the frequencies one expects. We prove the simplest case. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="measure-theory:theorem-borel-normal">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0369.html" title="Permanent link: tag 0369">0369</a><a class="graph-link" href="graph.html?tag=0369" title="Dependencies of tag 0369: what it uses and what uses it" aria-label="Dependency graph of tag 0369"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">28.7.9</span>
+    <span class="theorem_thmtitle">Borel’s normal number theorem</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For almost every \(x \in [0, 1)\), </p>
+<div class="displaymath" id="a0000001008">
+  \[  \lim _{n \to \infty }\frac{d_1(x) + d_2(x) + \cdots + d_n(x)}{n} = \frac12 .  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001009">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\rho _k = 2d_k - 1 \in \{ -1, 1\} \) and \(S_n = \rho _1 + \cdots + \rho _n\); the claim is \(S_n/n \to 0\) almost everywhere. </p>
+<p><em>Step 1: the fourth moment.</em> Expanding, \(\int _0^1S_n^4 = \sum _{i, j, k, l \leq n}\int _0^1\rho _i\rho _j\rho _k\rho _l\). Since \(\rho ^2 = 1\), a product \(\rho _i\rho _j\rho _k\rho _l\) in which some index occurs an odd number of times reduces to a product \(\rho _a\) or \(\rho _a\rho _b\) (\(a \neq b\)), whose integral is \(\int \rho _a \cdot \int \rho _b = 0\) by Lemma&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:lemma-binary-digits">28.7.4</a>(3), because \(\int _0^1\rho _a = \frac12 - \frac12 = 0\). The remaining terms equal \(1\): either all four indices are equal (\(n\) terms), or they take two different values, each twice (\(3n(n - 1)\) terms: choose which of the three pairings of the four places carry equal indices, then the two values in order). So \(\int _0^1S_n^4 = n + 3n(n - 1) \leq 3n^2\). </p>
+<p><em>Step 2: Borel–Cantelli.</em> Let \(\varepsilon {\gt} 0\). By Markov’s inequality (Corollary&#160;<a href="measure-theory-section-integral.html#measure-theory:corollary-integral-properties">28.4.4</a>(4)) applied to \(S_n^4\), </p>
+<div class="displaymath" id="a0000001010">
+  \[  \lambda \bigl(|S_n| \geq \varepsilon n\bigr) \leq \frac{1}{\varepsilon ^4n^4}\int _0^1S_n^4 \leq \frac{3}{\varepsilon ^4n^2},  \]
+</div>
+<p> which is summable in \(n\). By Theorem&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:theorem-borel-cantelli">28.7.5</a>(1), for almost every \(x\) we have \(|S_n(x)| {\lt} \varepsilon n\) for all large \(n\). Taking \(\varepsilon = 1/m\) for all \(m\) and discarding countably many null sets, \(S_n/n \to 0\) almost everywhere. Since \(d_k = (1 + \rho _k)/2\), the average of the first \(n\) digits is \(\frac12 + S_n/(2n) \to \frac12\). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="measure-theory:remark-normal-numbers">
+  <div class="remark_thmheading"><a class="tag" href="tag/036A.html" title="Permanent link: tag 036A">036A</a><a class="graph-link" href="graph.html?tag=036A" title="Dependencies of tag 036A: what it uses and what uses it" aria-label="Dependency graph of tag 036A"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">28.7.10</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> The same argument, applied to the blocks of Example&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:example-infinite-monkey">28.7.7</a> and to expansions in any base \(b \geq 2\), shows that almost every real number is <em>normal in every base</em>: in base \(b\), each block of \(m\) digits occurs with limiting frequency \(b^{-m}\) <span class="cite">[<a href="Bibliography.html#borel-1909" >Bor09</a>]</span>. The theorem is the strong law of large numbers for fair coin tosses. It is a striking example of an existence proof by measure: almost all numbers are normal, yet it is not known whether \(\sqrt2\), \(e\) or \(\pi \) is normal in any base. Explicit normal numbers can be constructed, such as Champernowne’s number \(0.123456789101112\ldots \), obtained by writing the positive integers one after another, which is normal in base \(10\) <span class="cite">[<a href="Bibliography.html#champernowne-1933" >Cha33</a>]</span>. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="measure-theory:example-diophantine">
+  <div class="example_thmheading"><a class="tag" href="tag/036B.html" title="Permanent link: tag 036B">036B</a><a class="graph-link" href="graph.html?tag=036B" title="Dependencies of tag 036B: what it uses and what uses it" aria-label="Dependency graph of tag 036B"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">28.7.11</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>Almost no number is very well approximable.</em> By Dirichlet’s approximation theorem (Exercise&#160;<a href="measure-theory-section-exercises.html#measure-theory:exercise-dirichlet-approximation">28.23.24</a>), every irrational \(x\) has infinitely many approximations \(p/q\) with \(|x - p/q| {\lt} 1/q^2\). The exponent \(2\) cannot be improved for almost all \(x\). Fix \(\varepsilon {\gt} 0\) and for \(q \geq 1\) let \(A_q\) be the set of \(x \in [0, 1]\) for which some integer \(p\) satisfies \(|x - p/q| {\lt} q^{-2-\varepsilon }\). Only \(p = -1, 0, \ldots , q + 1\) can occur, so \(A_q\) is covered by \(q + 3\) intervals of length \(2q^{-2-\varepsilon }\), and \(\lambda (A_q) \leq 2(q + 3)q^{-2-\varepsilon } \leq 8q^{-1-\varepsilon }\), which is summable. By Theorem&#160;<a href="measure-theory-section-borel-cantelli.html#measure-theory:theorem-borel-cantelli">28.7.5</a>(1), almost every \(x\) lies in only finitely many \(A_q\), and hence has only finitely many approximations with \(|x - p/q| {\lt} q^{-2-\varepsilon }\). In particular the <em>Liouville numbers</em>, the irrational \(x\) that for every \(n\) have an approximation \(p/q\) with \(q \geq 2\) and \(|x - p/q| {\lt} q^{-n}\), form a null set. An example is \(\sum _{k \geq 1}10^{-k!}\): cutting the series after the term \(k = m\) gives \(p/q\) with \(q = 10^{m!}\) and error less than \(2 \cdot 10^{-(m+1)!} = 2q^{-(m+1)}\). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="measure-theory-section-modes.html"><span class="dir">Previous</span> Modes of convergence</a><a class="next" href="measure-theory-section-lusin.html"><span class="dir">Next</span> Littlewood’s principles and Lusin’s theorem</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>
