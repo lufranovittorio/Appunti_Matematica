@@ -15,6 +15,10 @@ modulo $p$?'' (Section~\ref{number-theory:section-quadratic}).
 \item Which integers are sums of two squares, and why is every positive integer a sum of four squares (Section~\ref{number-theory:section-squares})?
 \item How do the multiplicative functions $\varphi$, the number of divisors and the sum of divisors behave, and how does M\"obius inversion work (Section~\ref{number-theory:section-arithmetic-functions})? As
 an application we determine the even perfect numbers.
+\item What are the primes of the Gaussian integers $\ZZ[i]$ and of the Eisenstein integers $\ZZ[\omega]$, in how many ways is $n$ a sum of two squares, and how can unique factorisation fail
+(Section~\ref{number-theory:section-gaussian})?
+\item Which primes are of the form $x^2 + 2y^2$, $x^2 + 5y^2$, $x^2 + 7y^2$? Gauss's reduction theory of binary quadratic forms and the class number answer such questions, and explain why
+$n^2 + n + 41$ is prime for $0 \leq n \leq 39$; this leads to the Heegner numbers $1, 2, 3, 7, 11, 19, 43, 67, 163$ (Section~\ref{number-theory:section-quadratic-forms}).
 \end{enumerate}
 The theme running through the chapter is that questions about the integers become questions about finite groups and rings, $\ZZ/n\ZZ$ and its group of units, or about larger rings such as the Gaussian
 integers $\ZZ[i]$, where the answers are visible. This point of view leads to algebraic number theory, and, through the zeta functions of varieties over finite fields, to the arithmetic side of Hodge theory
@@ -736,6 +740,333 @@ Primes of the form $2^k - 1$ are called \emph{Mersenne primes}; $k$ must then be
 unknown whether there are infinitely many Mersenne primes, and whether any odd perfect number exists.
 \end{remark}
 
+\section{Gaussian and Eisenstein integers}\label{number-theory:section-gaussian}
+
+In Section~\ref{number-theory:section-squares} the Gaussian integers were a tool for proving Fermat's theorem on sums of two squares. Here we study the ring $\ZZ[i]$ for its own sake: we determine
+all its primes, which describes how each rational prime factors there, and we use the factorisation to count the representations of an integer as a sum of two squares. The same method applied to the
+ring $\ZZ[\omega]$ of Eisenstein integers answers the analogous question for $x^2 + xy + y^2$. Finally, the ring $\ZZ[\sqrt{-5}]$ shows that unique factorisation, on which everything here rests, can fail;
+measuring this failure is one of the origins of algebraic number theory.
+
+Recall that $\ZZ[i]$ is a Euclidean domain, hence a UFD, with multiplicative norm $N(a + bi) = a^2 + b^2$ and units $\pm1$, $\pm i$ (Section~\ref{number-theory:section-squares}). Two elements are
+\emph{associates} if they differ by a unit factor; in a UFD every nonzero nonunit is a product of primes, unique up to order and associates (Theorem~\ref{rings:theorem-euclidean-pid-ufd}), and
+irreducible elements are prime. An element whose norm is a rational prime is irreducible: if $z = uv$, then $N(u)N(v)$ is prime, so $N(u) = 1$ or $N(v) = 1$.
+
+\begin{theorem}[Gaussian primes]\label{number-theory:theorem-gaussian-primes}
+Up to associates, the primes of $\ZZ[i]$ are:
+\begin{enumerate}
+\item $1 + i$, with $2 = -i(1 + i)^2$;
+\item the rational primes $q \equiv 3 \pmod 4$;
+\item for each rational prime $p \equiv 1 \pmod 4$, written $p = a^2 + b^2$, the two elements $a + bi$ and $a - bi$, which are not associates, with $p = (a + bi)(a - bi)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The elements listed are prime. $N(1 + i) = 2$ and $N(a \pm bi) = p$ are rational primes, so these elements are irreducible, hence prime. A rational prime $q \equiv 3 \pmod 4$ is irreducible in $\ZZ[i]$: if
+$q = zw$ with nonunits, then $q^2 = N(z)N(w)$ forces $N(z) = q$, so $q$ would be a sum of two squares, contradicting Theorem~\ref{number-theory:theorem-fermat-two-squares}. The associates of $a + bi$ are
+$a + bi$, $-a - bi$, $-b + ai$ and $b - ai$; if $a - bi$ were one of them, then $b = 0$, or $a = 0$, or $a = \pm b$, and $p = a^2 + b^2$ would be a square or even, which it is not.
+
+Every prime is associate to one of them. Let $\pi$ be a prime of $\ZZ[i]$. Then $\pi$ divides $N(\pi) = \pi\bar\pi$, a positive integer greater than $1$; factoring it into rational primes, $\pi$ divides
+one of them, say $p$. Then $N(\pi)$ divides $N(p) = p^2$, so $N(\pi) = p$ or $p^2$. If $N(\pi) = p^2$, then $p/\pi$ has norm $1$, so $\pi$ is associate to $p$, and $p$ is prime in $\ZZ[i]$; this excludes
+$p = 2 = -i(1 + i)^2$ and $p \equiv 1 \pmod 4$, which are products of two nonunits, so $p \equiv 3 \pmod 4$. If $N(\pi) = p$, then $p$ is a sum of two squares, so $p = 2$ or $p \equiv 1 \pmod 4$. For
+$p = 2$, $\pi = x + yi$ with $x^2 + y^2 = 2$, so $x, y = \pm1$ and $\pi$ is associate to $1 + i$. For $p \equiv 1 \pmod 4$, $\pi$ divides $p = (a + bi)(a - bi)$, hence divides one of the two factors, which
+has the same norm; so $\pi$ is associate to $a + bi$ or to $a - bi$.
+\end{proof}
+
+So a rational prime $p$ behaves in one of three ways in $\ZZ[i]$: it \emph{ramifies} ($p = 2$ becomes a unit times the square of a prime), it stays \emph{inert} ($p \equiv 3 \pmod 4$ remains prime), or it
+\emph{splits} into two non-associate primes ($p \equiv 1 \pmod 4$). Which case occurs is decided by $p$ modulo $4$, that is, by the Legendre symbol $(\frac{-1}{p})$
+(Corollary~\ref{number-theory:corollary-minus-one}); this is the simplest instance of a \emph{reciprocity law}, describing the factorisation of primes in an extension by congruence conditions.
+
+\begin{example}\label{number-theory:example-gaussian-factorisation}
+To factor $z = 7 + i$, factor its norm: $N(z) = 50 = 2 \cdot 5^2$. So $z$ is divisible by $1 + i$ and by two primes of norm $5$, each associate to $2 + i$ or $2 - i$. Indeed
+$(7 + i)/(1 + i) = (7 + i)(1 - i)/2 = 4 - 3i$, and $4 - 3i = -i(3 + 4i) = -i(2 + i)^2$, so
+\[
+7 + i = -i(1 + i)(2 + i)^2 .
+\]
+Note that $2 - i$ does not divide $7 + i$, although it divides $N(7 + i)$: the two primes above $5$ must be kept apart. As an application, $7 + i$ is not a square times a unit, although its norm $50$ is
+twice a square.
+\end{example}
+
+The factorisation counts the representations of an integer as a sum of two squares, refining Theorem~\ref{number-theory:theorem-two-squares}. Let $r_2(n)$ be the number of pairs
+$(x, y) \in \ZZ^2$ with $x^2 + y^2 = n$, signs and order counted; and let $\chi$ be the function on positive integers with $\chi(d) = 0$ for even $d$, $\chi(d) = 1$ for $d \equiv 1 \pmod 4$ and
+$\chi(d) = -1$ for $d \equiv 3 \pmod 4$. It is completely multiplicative, since the product of two odd numbers is $\equiv 1 \pmod 4$ exactly when both or neither are $\equiv 3 \pmod 4$.
+
+\begin{theorem}[Jacobi's two squares theorem]\label{number-theory:theorem-jacobi-two-squares}
+For every $n \geq 1$,
+\[
+r_2(n) = 4\sum_{d \mid n}\chi(d) = 4\bigl(d_1(n) - d_3(n)\bigr),
+\]
+where $d_1(n)$ and $d_3(n)$ are the numbers of positive divisors of $n$ congruent to $1$ and to $3$ modulo $4$.
+\end{theorem}
+
+\begin{proof}
+$r_2(n)$ is the number of $z \in \ZZ[i]$ with $N(z) = n$. Write $n = 2^e\prod_jp_j^{a_j}\prod_kq_k^{b_k}$ with distinct primes $p_j \equiv 1$ and $q_k \equiv 3 \pmod 4$, and choose primes $\pi_j$ with
+$p_j = \pi_j\bar\pi_j$ (Theorem~\ref{number-theory:theorem-gaussian-primes}). By unique factorisation, every nonzero $z$ is uniquely
+\[
+z = u(1 + i)^{e^{\prime}}\prod_j\pi_j^{s_j}\bar\pi_j^{t_j}\prod_kq_k^{c_k}\cdot w,
+\]
+with $u$ a unit and $w$ a product of primes not dividing $n$, and then $N(z) = 2^{e^{\prime}}\prod_jp_j^{s_j + t_j}\prod_kq_k^{2c_k}N(w)$. So $N(z) = n$ if and only if $w = 1$, $e^{\prime} = e$,
+$s_j + t_j = a_j$ and $2c_k = b_k$. If some $b_k$ is odd there is no solution; otherwise there are $4$ choices of $u$ and $a_j + 1$ choices of $(s_j, t_j)$ for each $j$, so
+$r_2(n) = 4\prod_j(a_j + 1)$.
+
+On the other side, $\chi * \mathbf{1}$, $n \mapsto \sum_{d \mid n}\chi(d)$, is multiplicative (Proposition~\ref{number-theory:proposition-dirichlet-ring}(3)), and on prime powers it takes the values
+$\sum_{i=0}^e\chi(2^i) = 1$, $\sum_{i=0}^a\chi(p^i) = a + 1$ for $p \equiv 1 \pmod 4$, and $\sum_{i=0}^b(-1)^i$, which is $1$ for even $b$ and $0$ for odd $b$, for $q \equiv 3 \pmod 4$. The product of these values is
+$\prod_j(a_j + 1)$ if all $b_k$ are even and $0$ otherwise.
+\end{proof}
+
+\begin{example}\label{number-theory:example-jacobi}
+$r_2(5) = 4(2 - 0) = 8$: $(\pm1, \pm2)$, $(\pm2, \pm1)$. $r_2(25) = 4 \cdot 3 = 12$: $(0, \pm5)$, $(\pm5, 0)$, $(\pm3, \pm4)$, $(\pm4, \pm3)$. $r_2(9) = 4(2 - 1) = 4$: only $(\pm3, 0)$ and $(0, \pm3)$, as
+$9 = 3^2$ with $3$ inert. $r_2(3) = 4(1 - 1) = 0$. A pretty consequence, which uses areas and is only sketched here: $\sum_{n \leq N}r_2(n)$ counts the points of $\ZZ^2$ in the disc of radius $\sqrt N$, about
+$\pi N$ of them, while by the theorem it equals $4\sum_{d \leq N}\chi(d)\lfloor N/d\rfloor$, which is about $4N(1 - \frac13 + \frac15 - \cdots)$; this is how Gauss's circle problem yields Leibniz's series
+$1 - \frac13 + \frac15 - \cdots = \frac\pi4$.
+\end{example}
+
+\subsection{Eisenstein integers}\label{number-theory:subsection-eisenstein}
+
+Let $\omega = e^{2\pi i/3} = \frac{-1 + \sqrt{-3}}{2}$, a root of $x^2 + x + 1$, so that $\omega^2 = -1 - \omega = \bar\omega$. The ring of \emph{Eisenstein integers} is
+$\ZZ[\omega] = \{a + b\omega : a, b \in \ZZ\}$; it is closed under multiplication because $\omega^2 = -1 - \omega$. Its elements form the triangular lattice in $\CC$, and the norm is
+\[
+N(a + b\omega) = |a + b\omega|^2 = (a + b\omega)(a + b\bar\omega) = a^2 - ab + b^2,
+\]
+using $\omega + \bar\omega = -1$ and $\omega\bar\omega = 1$. It is multiplicative, with values in $\NN$. Note that $\sqrt{-3} = 1 + 2\omega \in \ZZ[\omega]$.
+
+\begin{proposition}\label{number-theory:proposition-eisenstein}
+\begin{enumerate}
+\item $\ZZ[\omega]$ is a Euclidean domain for $N$, hence a UFD.
+\item Its units are the six elements $\pm1$, $\pm\omega$, $\pm\omega^2$ of norm $1$, the sixth roots of unity.
+\item Up to associates its primes are: $1 - \omega$, with $3 = -\omega^2(1 - \omega)^2$; the rational primes $q \equiv 2 \pmod 3$; and for each rational prime $p \equiv 1 \pmod 3$ two non-associate primes
+$\pi$, $\bar\pi$ with $p = \pi\bar\pi$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Let $a, b \in \ZZ[\omega]$ with $b \neq 0$, and write $a/b = u + v\omega$ with $u, v \in \RR$ (possible since $1$ and $\omega$ are a basis of $\CC$ over $\RR$). Choose integers $m$, $n$ with
+$|u - m|, |v - n| \leq \frac12$, and put $q = m + n\omega$, $r = a - qb$. With $s = u - m$ and $t = v - n$, $|a/b - q|^2 = s^2 - st + t^2 \leq \frac14 + \frac14 + \frac14 < 1$, so $N(r) < N(b)$. A Euclidean
+domain is a UFD (Theorem~\ref{rings:theorem-euclidean-pid-ufd}).
+
+(2) As for $\ZZ[i]$, the units are the elements of norm $1$. From $4(a^2 - ab + b^2) = (2a - b)^2 + 3b^2 = 4$ we get $b \in \{0, \pm1\}$, and the solutions are $\pm1$, $\pm\omega$ and $\pm(1 + \omega) = \mp\omega^2$.
+
+(3) Since $1 - \omega$ has norm $1 + 1 + 1 = 3$, it is prime, and $(1 - \omega)^2 = 1 - 2\omega + \omega^2 = -3\omega$, so $3 = -\omega^2(1 - \omega)^2$. The values of the norm modulo $3$:
+$4N(a + b\omega) = (2a - b)^2 + 3b^2 \equiv (2a - b)^2 \pmod 3$, which is $0$ or $1$; as $4 \equiv 1$, no norm is $\equiv 2 \pmod 3$. Hence a rational prime $q \equiv 2 \pmod 3$ is prime in $\ZZ[\omega]$, by the
+argument used for $\ZZ[i]$. Let $p \equiv 1 \pmod 3$. By quadratic reciprocity (Theorem~\ref{number-theory:theorem-quadratic-reciprocity}) and Corollary~\ref{number-theory:corollary-minus-one},
+\[
+\Bigl(\frac{-3}{p}\Bigr) = \Bigl(\frac{-1}{p}\Bigr)\Bigl(\frac{3}{p}\Bigr) = (-1)^{\frac{p-1}{2}}\cdot(-1)^{\frac{p-1}{2}}\Bigl(\frac{p}{3}\Bigr) = \Bigl(\frac{p}{3}\Bigr) = \Bigl(\frac{1}{3}\Bigr) = 1,
+\]
+using that the Legendre symbol is multiplicative (Proposition~\ref{number-theory:proposition-euler-criterion}). So there is $x$ with $p \mid x^2 + 3 = (x + \sqrt{-3})(x - \sqrt{-3})$. Now $p$ divides
+neither factor: $(x \pm \sqrt{-3})/p = (x \pm 1)/p \pm (2/p)\omega$ does not lie in $\ZZ[\omega]$, as $p$ is odd. So $p$ is not prime, $p = \pi\pi^{\prime}$ with nonunits, and $N(\pi) = p$, so $\pi$ is prime
+and $p = \pi\bar\pi$.
+
+$\pi = a + b\omega$ and $\bar\pi$ are not associates. Otherwise $\pi$ divides $\bar\pi$, hence the integer $\pi + \bar\pi = 2a - b$ and the element $\pi - \bar\pi = b(\omega - \bar\omega) = b\sqrt{-3}$. If $\pi$
+divides an element $z$, then $p = N(\pi)$ divides $N(z)$; so $p \mid (2a - b)^2$ and $p \mid 3b^2$, hence $p \mid b$ (as $p \neq 3$), then $p \mid 2a$ and $p \mid a$. But then $p^2 \mid a^2 - ab + b^2 = p$,
+which is absurd.
+
+Finally let $\pi$ be any prime. As in Theorem~\ref{number-theory:theorem-gaussian-primes}, $\pi$ divides a rational prime $p$, and $N(\pi) = p$ or $p^2$. If $N(\pi) = p^2$, then $\pi$ is associate to $p$, so $p$
+is prime in $\ZZ[\omega]$; this excludes $p = 3$ and $p \equiv 1 \pmod 3$, which are products of two nonunits, so $p \equiv 2 \pmod 3$. If $N(\pi) = p$, then $p \not\equiv 2 \pmod 3$; for $p = 3$, $\pi$
+divides $(1 - \omega)^2$, hence is associate to $1 - \omega$, and for $p \equiv 1 \pmod 3$, $\pi$ divides one of the two primes of norm $p$ found above and is associate to it.
+\end{proof}
+
+\begin{corollary}\label{number-theory:corollary-eisenstein-primes}
+A prime $p$ can be written as $p = x^2 + xy + y^2$ with $x, y \in \ZZ$ if and only if $p = 3$ or $p \equiv 1 \pmod 3$; and as $p = x^2 + 3y^2$ if and only if $p = 3$ or $p \equiv 1 \pmod 3$.
+\end{corollary}
+
+\begin{proof}
+$a^2 - ab + b^2 = x^2 + xy + y^2$ with $x = a$, $y = -b$, so the primes of the first form are the norms of elements of $\ZZ[\omega]$, which by the proposition are $3$ and the $p \equiv 1 \pmod 3$. For the
+second form: $3 = 0^2 + 3 \cdot 1^2$, and $x^2 + 3y^2 = N(x + y\sqrt{-3})$ is a norm, so the condition is necessary. Conversely let $p \equiv 1 \pmod 3$ and $p = N(a + b\omega)$. Among the six associates
+$\varepsilon(a + b\omega)$ choose one, $c + d\omega$, with $d$ even: multiplying by $\omega$ sends $a + b\omega$ to $a\omega + b\omega^2 = -b + (a - b)\omega$, so the second coordinates of
+$a + b\omega$, $\omega(a + b\omega)$, $\omega^2(a + b\omega)$ are $b$, $a - b$, $-a$, and one of $b$, $a - b$, $a$ is even. Then $c + d\omega = (c - d/2) + (d/2)\sqrt{-3}$, and
+$p = (c - d/2)^2 + 3(d/2)^2$.
+\end{proof}
+
+For example $7 = 2^2 + 2 + 1 = 2^2 + 3 \cdot 1^2$, $13 = 3^2 + 3 + 1 = 1^2 + 3 \cdot 2^2$, $31 = 5^2 + 5 + 1 = 2^2 + 3 \cdot 3^2$, while $5$, $11$, $17$ are of neither form. The ring $\ZZ[\omega]$ is
+the setting of Euler's proof of Fermat's last theorem for exponent $3$, and its sixfold symmetry is that of the hexagonal lattice and of the elliptic curve $\CC/\ZZ[\omega]$
+(Chapter~\ref{abelian-varieties}).
+
+\subsection{Failure of unique factorisation}\label{number-theory:subsection-failure-ufd}
+
+\begin{example}\label{number-theory:example-sqrt-minus-five}
+In $\ZZ[\sqrt{-5}] = \{a + b\sqrt{-5} : a, b \in \ZZ\}$, with multiplicative norm $N(a + b\sqrt{-5}) = a^2 + 5b^2$,
+\[
+6 = 2 \cdot 3 = (1 + \sqrt{-5})(1 - \sqrt{-5})
+\]
+are two factorisations into irreducible elements that do not correspond to each other. The norms of $2$, $3$, $1 \pm \sqrt{-5}$ are $4$, $9$, $6$, $6$. The units are $\pm1$, the only elements of norm $1$. A
+proper factor of one of these four elements would have norm $2$ or $3$, but $a^2 + 5b^2$ never equals $2$ or $3$ (if $b \neq 0$ it is at least $5$). So all four are irreducible, and $2$ is not associate to
+$1 \pm \sqrt{-5}$, having a different norm. Hence $\ZZ[\sqrt{-5}]$ is not a UFD, and $2$ is irreducible but not prime: it divides $(1 + \sqrt{-5})(1 - \sqrt{-5})$ but neither factor.
+\end{example}
+
+Kummer and Dedekind restored unique factorisation by passing from elements to \emph{ideals}: in $\ZZ[\sqrt{-5}]$ the ideals $\mathfrak{p} = (2, 1 + \sqrt{-5})$, $\mathfrak{q} = (3, 1 + \sqrt{-5})$ and
+$\bar{\mathfrak{q}} = (3, 1 - \sqrt{-5})$ are prime, and $(6) = \mathfrak{p}^2\mathfrak{q}\bar{\mathfrak{q}}$, with $(2) = \mathfrak{p}^2$, $(3) = \mathfrak{q}\bar{\mathfrak{q}}$ and
+$(1 \pm \sqrt{-5}) = \mathfrak{p}\mathfrak{q}$ or $\mathfrak{p}\bar{\mathfrak{q}}$; the two factorisations of $6$ are two groupings of the same four prime ideals. The failure of unique factorisation of
+elements is measured by the \emph{class group}, the group of ideals modulo principal ideals, which is finite; its order, the \emph{class number}, is $2$ for $\ZZ[\sqrt{-5}]$. We do not develop ideal theory here and only state these facts \cite{ireland-rosen}; ideals of rings are studied in Chapter~\ref{commutative-algebra}. The next section computes
+class numbers in the equivalent language of quadratic forms, which is how Gauss found them.
+
+\section{Binary quadratic forms}\label{number-theory:section-quadratic-forms}
+
+Fermat's theorem says which primes are $x^2 + y^2$, and Corollary~\ref{number-theory:corollary-eisenstein-primes} which are $x^2 + xy + y^2$ and $x^2 + 3y^2$. What about $x^2 + 5y^2$? The primes
+$29 = 3^2 + 5 \cdot 2^2$ and $41 = 6^2 + 5 \cdot 1^2$ are of this form, but $3$ and $7$ are not, although $-20$ is a square modulo $3$ and $7$. They are represented instead by the form
+$2x^2 + 2xy + 3y^2$, at $(x, y) = (0, 1)$ and $(1, 1)$. Lagrange and Gauss understood that one should study all forms of a given discriminant at once, up to changes of
+variables. This theory, reduction of forms and the class number, explains the examples, and leads to Euler's famous prime-producing polynomial $n^2 + n + 41$ and to the Heegner numbers.
+
+\begin{definition}\label{number-theory:definition-binary-form}
+A \emph{binary quadratic form} is $f(x, y) = ax^2 + bxy + cy^2$ with $a, b, c \in \ZZ$, written $f = (a, b, c)$. Its \emph{discriminant} is $D = b^2 - 4ac$. The form is \emph{positive definite} if
+$f(x, y) > 0$ for all $(x, y) \in \RR^2 \setminus \{0\}$. An integer $m$ is \emph{represented} by $f$ if $m = f(x, y)$ with $x, y \in \ZZ$, and \emph{properly} represented if moreover $\gcd(x, y) = 1$. Two forms
+$f$ and $g$ are \emph{equivalent} if $g(x, y) = f(px + qy, rx + sy)$ for some integers $p, q, r, s$ with $ps - qr = 1$, that is, for a matrix in $\SL_2(\ZZ)$.
+\end{definition}
+
+The discriminant satisfies $D \equiv b^2 \equiv 0$ or $1 \pmod 4$. Completing the square, $4af(x, y) = (2ax + by)^2 - Dy^2$; so $f$ is positive definite if and only if $D < 0$ and $a > 0$, and then $c > 0$
+as well. Equivalence is an equivalence relation, because $\SL_2(\ZZ)$ is a group; it preserves the discriminant, and equivalent forms represent the same integers, properly or not, since a matrix in
+$\SL_2(\ZZ)$ permutes $\ZZ^2$ and the primitive vectors. In matrix terms, $f(x, y) = (x\ y)\,M_f\,(x\ y)^T$ with $M_f = \bigl(\begin{smallmatrix}a & b/2\\ b/2 & c\end{smallmatrix}\bigr)$, $D = -4\det M_f$, and
+substituting $(x, y)^T \mapsto P(x, y)^T$ replaces $M_f$ by $P^TM_fP$, which has the same determinant. Two substitutions are used constantly:
+\[
+(a, b, c) \sim (a, b + 2at, at^2 + bt + c) \quad \bigl(x \mapsto x + ty\bigr), \qquad (a, b, c) \sim (c, -b, a) \quad \bigl((x, y) \mapsto (-y, x)\bigr).
+\]
+
+\begin{definition}\label{number-theory:definition-reduced-form}
+A positive definite form $(a, b, c)$ is \emph{reduced} if $|b| \leq a \leq c$, and $b \geq 0$ whenever $|b| = a$ or $a = c$.
+\end{definition}
+
+\begin{theorem}[Lagrange, Gauss]\label{number-theory:theorem-reduction}
+Every positive definite form is equivalent to exactly one reduced form. If $(a, b, c)$ is reduced of discriminant $D$, then $a \leq \sqrt{|D|/3}$; hence there are only finitely many reduced forms of a
+given discriminant.
+\end{theorem}
+
+\begin{proof}
+\emph{Existence.} Let $f = (a, b, c)$ be positive definite. Using the first substitution with a suitable $t$ we can achieve $|b| \leq a$, since $b + 2at$ runs through a residue class modulo $2a$. If
+then $a > c$, the second substitution replaces $a$ by the smaller positive integer $c$. Alternate these two steps; since $a$ decreases strictly at each use of the second step, after finitely many steps
+$|b| \leq a \leq c$. Finally, if $b = -a$, the first substitution with $t = 1$ gives $(a, a, c)$ (as $a - a + c = c$); and if $a = c$ and $b < 0$, the second gives $(a, -b, a)$. The result is reduced.
+
+\emph{The bound.} If $|b| \leq a \leq c$, then $|D| = 4ac - b^2 \geq 4a^2 - a^2 = 3a^2$.
+
+\emph{Uniqueness.} Let $f = (a, b, c)$ satisfy $|b| \leq a \leq c$. For integers $x$, $y$: if $|x| \geq |y|$, then
+$f(x, y) \geq ax^2 - |b||x||y| + cy^2 \geq (a - |b|)x^2 + cy^2$, and if $|y| \geq |x|$, similarly $f(x, y) \geq ax^2 + (c - |b|)y^2$. Hence $f(x, y) \geq a$ if $(x, y) \neq 0$, $f(x, y) \geq c$ if $y \neq 0$
+(for $x = 0$ this is $cy^2 \geq c$, and for $xy \neq 0$ both bounds give at least $a - |b| + c \geq c$), and, when $|b| < a < c$, $f(x, y) > a$ for all $(x, y) \neq (\pm1, 0)$, the bound for $xy \neq 0$ then
+being $a - |b| + c > c > a$.
+
+Consequently $a$ is the smallest nonzero value of $f$ on $\ZZ^2$, and $c$ is the smallest value $f(w)$ for $w$ linearly independent of a vector $v$ with $f(v) = a$. (For $v = (1, 0)$ the vectors $w$ independent
+of $v$ have $y \neq 0$, so $f(w) \geq c = f(0, 1)$. If $f(v) = a$ with $v = (x, y)$, $y \neq 0$, then $a = f(v) \geq c$, so $a = c$, every $w$ has $f(w) \geq a = c$, and $w = (1, 0)$ is independent of $v$ with $f(w) = c$.) These two numbers are unchanged by an
+equivalence, which maps $\ZZ^2$ bijectively to itself and preserves linear independence. So equivalent reduced forms have the same $a$ and $c$, hence the same $|b| = \sqrt{D + 4ac}$.
+
+It remains to exclude that $(a, b, c)$ and $(a, -b, c)$, with $b > 0$, are both reduced and equivalent. If $(a, -b, c)$ is reduced, then $|b| < a < c$ by the sign condition. Suppose
+$(a, b, c)(x, y) = g(px + qy, rx + sy)$ with $g = (a, -b, c)$ and $ps - qr = 1$. Taking $(x, y) = (1, 0)$ gives $g(p, r) = a$, so $(p, r) = \pm(1, 0)$ by the strict inequality above, applied to $g$. Then
+$ps = 1$ gives $s = p = \pm1$, and the substitution is $\pm(x + q^{\prime}y, y)$ with $q^{\prime} = \pm q$; as $g(-v) = g(v)$, $(a, b, c)$ is obtained from $g$ by the first substitution with $t = q^{\prime}$, so
+$b = -b + 2aq^{\prime}$. Then $2|b| = 2a|q^{\prime}|$ with $0 < |b| < a$, which is impossible.
+\end{proof}
+
+The number of reduced forms of discriminant $D$ is called the \emph{class number} $h(D)$ (often one counts only \emph{primitive} forms, with $\gcd(a, b, c) = 1$; for the discriminants below the two counts
+agree unless noted). The reduced forms are found by a finite search: $b \equiv D \pmod 2$, $|b| \leq a \leq \sqrt{|D|/3}$, and $c = (b^2 - D)/4a$ must be an integer with $c \geq a$.
+
+\begin{example}\label{number-theory:example-reduced-forms}
+\begin{enumerate}
+\item $D = -4$: $a \leq 1$, so $(a, b, c) = (1, 0, 1)$, and $h(-4) = 1$. $D = -3$: $(1, 1, 1)$. $D = -8$: $a \leq 1$, $b = 0$, $(1, 0, 2)$. $D = -7$: $(1, 1, 2)$. So each of these discriminants has the single
+reduced form $x^2 + y^2$, $x^2 + xy + y^2$, $x^2 + 2y^2$, $x^2 + xy + 2y^2$ respectively.
+\item $D = -12$: $a \leq 2$; $a = 1$ gives $(1, 0, 3)$; $a = 2$ requires $b \in \{0, 2\}$ and $c = (b^2 + 12)/8$, which gives $(2, 2, 2)$. This form is not primitive and represents only even numbers;
+the primitive class number is $h(-12) = 1$.
+\item $D = -20$: $a \leq 2$; $(1, 0, 5)$, and for $a = 2$, $b \in \{0, 2\}$ with $c = (b^2 + 20)/8$, giving $(2, 2, 3)$. So $h(-20) = 2$, with the forms $x^2 + 5y^2$ and $2x^2 + 2xy + 3y^2$, matching the class
+number $2$ of $\ZZ[\sqrt{-5}]$ in Example~\ref{number-theory:example-sqrt-minus-five}.
+\item $D = -23$: $a \leq 2$, $b$ odd; $b = \pm1$, $ac = 6$: $(1, 1, 6)$, $(2, 1, 3)$, $(2, -1, 3)$, all reduced (for $a = 2$ we have $|b| < a < c$, so both signs are allowed). So $h(-23) = 3$: the forms
+$2x^2 \pm xy + 3y^2$ are \emph{improperly} equivalent (by $(x, y) \mapsto (x, -y)$) but not equivalent under $\SL_2(\ZZ)$.
+\end{enumerate}
+\end{example}
+
+To connect forms with primes we need to know which forms represent a given number.
+
+\begin{lemma}\label{number-theory:lemma-representation}
+Let $D < 0$ and $m \geq 1$. Then $m$ is properly represented by some form of discriminant $D$ if and only if $D \equiv b^2 \pmod{4m}$ for some integer $b$. More precisely, if $D = b^2 - 4mc$, then $m$ is
+properly represented by $(m, b, c)$; and if $f(x_0, y_0) = m$ with $\gcd(x_0, y_0) = 1$, then $f$ is equivalent to a form $(m, b, c)$.
+\end{lemma}
+
+\begin{proof}
+If $D = b^2 - 4mc$, then $(m, b, c)$ has discriminant $D$ and $m = f(1, 0)$. Conversely let $f(x_0, y_0) = m$ with $\gcd(x_0, y_0) = 1$. By B\'ezout's identity choose $q$, $s$ with $x_0s - qy_0 = 1$; the
+substitution $(x, y) \mapsto (x_0x + qy, y_0x + sy)$ lies in $\SL_2(\ZZ)$ and transforms $f$ into a form $g$ with $g(1, 0) = f(x_0, y_0) = m$, that is, $g = (m, b, c)$, and $D = b^2 - 4mc \equiv b^2 \pmod{4m}$.
+\end{proof}
+
+\begin{corollary}\label{number-theory:corollary-class-number-one}
+Let $D < 0$ be a discriminant such that the only reduced form of discriminant $D$ is $f_0$. Then a prime $p$ is represented by $f_0$ if and only if $D$ is a square modulo $4p$. In particular:
+\begin{enumerate}
+\item (Fermat) an odd prime $p$ is $x^2 + y^2$ if and only if $p \equiv 1 \pmod 4$;
+\item an odd prime $p$ is $x^2 + 2y^2$ if and only if $p \equiv 1, 3 \pmod 8$;
+\item a prime $p \neq 7$ is $x^2 + xy + 2y^2$, equivalently $x^2 + 7y^2$ when $p$ is odd, if and only if $(\frac{p}{7}) = 1$, that is, $p \equiv 1, 2, 4 \pmod 7$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+A prime is properly represented whenever it is represented, since $f(x, y) = p$ forces $\gcd(x, y)^2 \mid p$. So by Lemma~\ref{number-theory:lemma-representation}, $p$ is represented by some form of
+discriminant $D$ if and only if $D$ is a square modulo $4p$; and every such form is equivalent to its reduced form $f_0$ (Theorem~\ref{number-theory:theorem-reduction}), which represents the same numbers.
+
+For odd $p$, $D \equiv b^2 \pmod{4p}$ has a solution if and only if $D$ is a square modulo $p$: given $D \equiv b^2 \pmod p$ we may change $b$ by $p$ to make $b \equiv D \pmod 2$, and then $b^2 \equiv D \pmod 4$
+as well (both sides are $\equiv 0$ or $\equiv 1 \pmod 4$ according to their parity), so $b^2 \equiv D \pmod{4p}$ by the Chinese remainder theorem. Now (1) is $D = -4$, where $-4$ is a square modulo $p$ if and
+only if $-1$ is (Corollary~\ref{number-theory:corollary-minus-one}). For (2), $D = -8$ and $(\frac{-2}{p}) = (\frac{-1}{p})(\frac{2}{p})$ equals $1$ exactly for $p \equiv 1, 3 \pmod 8$, by
+Corollary~\ref{number-theory:corollary-minus-one} and Proposition~\ref{number-theory:proposition-two}. For (3), $D = -7$; for odd $p \neq 7$, reciprocity gives
+$(\frac{-7}{p}) = (-1)^{\frac{p-1}{2}}(\frac{7}{p}) = (-1)^{\frac{p-1}{2}}(-1)^{\frac{p-1}{2}\cdot3}(\frac{p}{7}) = (\frac{p}{7})$, and the squares modulo $7$ are $1, 2, 4$. For $p = 2$, $-7 \equiv 1 = 1^2 \pmod 8$
+and $2 = x^2 + xy + 2y^2$ with $(x, y) = (0, 1)$, consistent with $2 \equiv 2 \pmod 7$. Finally, for odd values, $4(x^2 + xy + 2y^2) = (2x + y)^2 + 7y^2$, and $p = x^2 + xy + 2y^2$ odd forces $y$ even (if $y$
+were odd, $x^2 + xy = x(x + y)$ would be even and the value even), so $p = (x + y/2)^2 + 7(y/2)^2$; conversely $x^2 + 7y^2 = (x - y)^2 + (x - y)(2y) + 2(2y)^2$.
+\end{proof}
+
+When $h(D) > 1$ the corollary only says that $p$ is represented by \emph{one of} the reduced forms. For $D = -20$, an odd prime $p \neq 5$ is represented by $x^2 + 5y^2$ or by $2x^2 + 2xy + 3y^2$ exactly
+when $(\frac{-5}{p}) = 1$, that is (by reciprocity) when $p \equiv 1, 3, 7, 9 \pmod{20}$. Congruences separate the two forms: $x^2 + 5y^2$ takes odd prime values only $\equiv 1, 9 \pmod{20}$, and
+$2x^2 + 2xy + 3y^2$ only $\equiv 3, 7 \pmod{20}$ (Exercise~\ref{number-theory:exercise-x2-5y2}). So $p = x^2 + 5y^2$ if and only if $p \equiv 1, 9 \pmod{20}$, as Euler conjectured. For $D = -23$ no such
+congruence description exists for $x^2 + xy + 6y^2$; the answer requires class field theory \cite{cox-primes}.
+
+\subsection{Euler's polynomial and the Heegner numbers}\label{number-theory:subsection-heegner}
+
+Euler observed in 1772 that $n^2 + n + 41$ is prime for $n = 0, 1, \ldots, 39$: the values are $41, 43, 47, 53, 61, 71, \ldots, 1601$. (For $n = 40$ the value is $41^2$.) The explanation is that $-163$,
+the discriminant of $x^2 + xy + 41y^2$, has class number one.
+
+\begin{theorem}[Rabinowitsch]\label{number-theory:theorem-rabinowitsch}
+Let $p$ be a prime and $D = 1 - 4p$. The following are equivalent:
+\begin{enumerate}
+\item the only reduced form of discriminant $D$ is $x^2 + xy + py^2$;
+\item $n^2 + n + p$ is prime for $n = 0, 1, \ldots, p - 2$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Note $4(n^2 + n + p) = (2n + 1)^2 - D$.
+
+(1) $\Rightarrow$ (2). Let $0 \leq n \leq p - 2$ and $N = n^2 + n + p$, and suppose $N$ is not prime. Then it has a prime factor $q \leq \sqrt N$, and $N \leq (p - 2)^2 + (p - 2) + p = p^2 - 2p + 2 < p^2$,
+so $q < p$. Since $q \mid N$, $(2n + 1)^2 - D = 4N$ is divisible by $4q$, and $(q, 2n + 1, N/q)$ is a form of discriminant $D$ representing $q$. By (1) and Theorem~\ref{number-theory:theorem-reduction} it
+is equivalent to $x^2 + xy + py^2$, so $q = x^2 + xy + py^2$ for some integers $x$, $y$. If $y = 0$, $q = x^2$ is not prime. If $y \neq 0$,
+\[
+q = \Bigl(x + \frac y2\Bigr)^2 + \frac{4p - 1}{4}y^2 \geq \frac{4p - 1}{4} > p - 1,
+\]
+so $q \geq p$, a contradiction.
+
+(2) $\Rightarrow$ (1). Let $(a, b, c)$ be reduced of discriminant $D$. Then $b$ is odd, $b = \pm(2n + 1)$ with $n \geq 0$, and $ac = (b^2 - D)/4 = n^2 + n + p$. By Theorem~\ref{number-theory:theorem-reduction},
+$2n + 1 = |b| \leq a \leq \sqrt{(4p - 1)/3}$, so $n < \sqrt{p/3} \leq p - 2$ for $p \geq 3$, while for $p = 2$ the bound gives $n = 0$. So $ac$ is prime by (2), and $a \leq c$ forces $a = 1$, hence
+$|b| \leq 1$, $b = 1$ (the sign condition for $|b| = a$), and $c = p$.
+\end{proof}
+
+\begin{corollary}\label{number-theory:corollary-euler-polynomial}
+$n^2 + n + 41$ is prime for $n = 0, 1, \ldots, 39$.
+\end{corollary}
+
+\begin{proof}
+We check condition (1) of Theorem~\ref{number-theory:theorem-rabinowitsch} for $D = -163$. A reduced form $(a, b, c)$ has $b$ odd, $|b| \leq a \leq \sqrt{163/3} < 8$, and $ac = (b^2 + 163)/4$. For
+$b = \pm1, \pm3, \pm5, \pm7$ this is $41$, $43$, $47$, $53$, all prime; as $a \leq c$, $a = 1$, and then $|b| \leq 1$ and $b = 1$. So $(1, 1, 41)$ is the only reduced form.
+\end{proof}
+
+Forty values were checked by an argument involving eight. The same computation applies to $p = 2, 3, 5, 11, 17, 41$, with $D = -7, -11, -19, -43, -67, -163$ (Exercise~\ref{number-theory:exercise-heegner-check}).
+
+\begin{remark}\label{number-theory:remark-heegner}
+\begin{enumerate}
+\item \emph{The Heegner numbers.} The negative discriminants $D$ for which every primitive positive definite form is equivalent to the principal one, $x^2 - \frac D4y^2$ or $x^2 + xy + \frac{1 - D}4y^2$,
+are exactly
+\[
+D = -3, -4, -7, -8, -11, -12, -16, -19, -27, -28, -43, -67, -163 .
+\]
+Equivalently, the imaginary quadratic fields $\QQ(\sqrt{-d})$, $d > 0$ squarefree, whose ring of integers is a UFD are those with $d \in \{1, 2, 3, 7, 11, 19, 43, 67, 163\}$, the \emph{Heegner numbers}. Gauss
+conjectured that the list is complete; it was proved by Heegner in 1952, whose argument was long considered incomplete, and by Baker and Stark in 1966--1967 \cite{cox-primes}. Combined with
+Theorem~\ref{number-theory:theorem-rabinowitsch}, it determines the primes $p$ for which $n^2 + n + p$ is prime for $0 \leq n \leq p - 2$: $1 - 4p$ must be one of the odd discriminants in the list, which gives
+$p \in \{2, 3, 5, 7, 11, 17, 41\}$, and $p = 7$ fails because of the non-primitive reduced form $(3, 3, 3)$ of discriminant $-27$ (indeed $1 + 1 + 7 = 9$). So the primes are $2, 3, 5, 11, 17, 41$, and Euler's
+$41$ is the largest.
+\item \emph{An almost integer.} The number $e^{\pi\sqrt{163}} = 262537412640768743.99999999999925\ldots$ is extraordinarily close to the integer $640320^3 + 744$. The reason is again $h(-163) = 1$: the
+$j$-invariant of the elliptic curve $\CC/\ZZ[\frac{1 + \sqrt{-163}}{2}]$ is then an integer, equal to $-640320^3$, and the expansion $j(\tau) = e^{-2\pi i\tau} + 744 + 196884e^{2\pi i\tau} + \cdots$ at
+$\tau = \frac{1 + \sqrt{-163}}{2}$, where $e^{2\pi i\tau} = -e^{-\pi\sqrt{163}}$ is tiny, gives $-e^{\pi\sqrt{163}} + 744 \approx -640320^3$ \cite{cox-primes}. This is the theory of complex
+multiplication, which connects class numbers with elliptic curves (Chapter~\ref{abelian-varieties}).
+\item \emph{Class numbers grow.} Although $h(D) = 1$ only finitely often, $h(D) \to \infty$ as $D \to -\infty$ (Heilbronn, 1934); roughly, $h(D)$ is of size $\sqrt{|D|}$. The class number is also given
+by Dirichlet's \emph{class number formula}, which for $D < -4$ fundamental reads $h(D) = -\frac1{|D|}\sum_{m=1}^{|D|}\bigl(\frac{D}{m}\bigr)m$ with the Kronecker symbol \cite{cox-primes}; for $D = -23$ it
+gives $3$.
+\end{enumerate}
+\end{remark}
+
 \section{Exercises}\label{number-theory:section-exercises}
 
 \begin{exercise}\label{number-theory:exercise-three-mod-four}
@@ -867,4 +1198,72 @@ Show that $\sum_{d \mid n}\mu(d)\tau(n/d) = 1$ and $\sum_{d \mid n}\mu(d)\sigma(
 \begin{solution}
 $\mu * \tau = \mu * \mathbf{1} * \mathbf{1} = \varepsilon * \mathbf{1} = \mathbf{1}$ and $\mu * \sigma = \mu * \mathbf{1} * \mathrm{N} = \mathrm{N}$, by Propositions~\ref{number-theory:proposition-dirichlet-ring}
 and~\ref{number-theory:proposition-mobius}. The function $|\mu| * \mathbf{1}$ is multiplicative and takes the value $1 + 1 = 2$ at every prime power $p^k$, $k \geq 1$; so its value at $n$ is $2^r$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-gaussian-factor}
+Factor $11 + 7i$ into Gaussian primes, and list all representations of $65$ as a sum of two squares, checking the count against Theorem~\ref{number-theory:theorem-jacobi-two-squares}.
+\end{exercise}
+
+\begin{solution}
+$N(11 + 7i) = 170 = 2 \cdot 5 \cdot 17$. Dividing by $1 + i$: $(11 + 7i)(1 - i)/2 = 9 - 2i$, of norm $85$. Of the primes $2 \pm i$ of norm $5$, $2 - i$ divides: $(9 - 2i)(2 + i)/5 = 4 + i$, of norm $17$.
+So $11 + 7i = (1 + i)(2 - i)(4 + i)$. For $65 = 5 \cdot 13$, $r_2(65) = 4(d_1 - d_3) = 4 \cdot 4 = 16$, the divisors $1, 5, 13, 65$ all being $\equiv 1 \pmod 4$; the representations are
+$(\pm1, \pm8)$, $(\pm8, \pm1)$, $(\pm4, \pm7)$, $(\pm7, \pm4)$, coming from $65 = 1 + 64 = 16 + 49$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-sqrt-minus-two}
+Show that $\ZZ[\sqrt{-2}]$ is a Euclidean domain for $N(a + b\sqrt{-2}) = a^2 + 2b^2$, and deduce again that an odd prime $p$ is of the form $x^2 + 2y^2$ if and only if $p \equiv 1, 3 \pmod 8$. Show that
+$\ZZ[\sqrt{-3}]$ is not a UFD.
+\end{exercise}
+
+\begin{solution}
+For $a/b = u + v\sqrt{-2}$ choose integers $m, n$ with $|u - m|, |v - n| \leq \frac12$; then $N(a/b - (m + n\sqrt{-2})) \leq \frac14 + \frac24 < 1$. If $(\frac{-2}{p}) = 1$, which by
+Corollary~\ref{number-theory:corollary-minus-one} and Proposition~\ref{number-theory:proposition-two} means $p \equiv 1, 3 \pmod 8$, then $p \mid x^2 + 2 = (x + \sqrt{-2})(x - \sqrt{-2})$ without dividing either
+factor, so $p$ is not prime in the UFD $\ZZ[\sqrt{-2}]$ and $p = N(\pi) = a^2 + 2b^2$ as in Theorem~\ref{number-theory:theorem-fermat-two-squares}. Conversely, if $p = x^2 + 2y^2$ then $p \nmid y$ and
+$(xy^{-1})^2 \equiv -2 \pmod p$. In $\ZZ[\sqrt{-3}]$, $4 = 2 \cdot 2 = (1 + \sqrt{-3})(1 - \sqrt{-3})$; all these factors have norm $4$, no element has norm $2$ ($a^2 + 3b^2 \neq 2$), so they are irreducible, and
+$2$ is not associate to $1 \pm \sqrt{-3}$ since the only units are $\pm1$. (In the larger ring $\ZZ[\omega] \ni \frac{1 + \sqrt{-3}}{2}$ the factorisations agree: $1 + \sqrt{-3} = 2(1 + \omega)$, and $1 + \omega$ is a unit.)
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-x2-5y2}
+Show that an odd prime $p \neq 5$ of the form $x^2 + 5y^2$ is $\equiv 1, 9 \pmod{20}$, and one of the form $2x^2 + 2xy + 3y^2$ is $\equiv 3, 7 \pmod{20}$. Using Lemma~\ref{number-theory:lemma-representation},
+Example~\ref{number-theory:example-reduced-forms}(3) and quadratic reciprocity, conclude that $p = x^2 + 5y^2$ if and only if $p \equiv 1, 9 \pmod{20}$.
+\end{exercise}
+
+\begin{solution}
+If $p = x^2 + 5y^2$, then $p \equiv x^2 \equiv \pm1 \pmod 5$, and since $p$ is odd exactly one of $x$, $y$ is odd, so $p \equiv x^2 + y^2 \equiv 1 \pmod 4$; hence $p \equiv 1, 9 \pmod{20}$. If
+$p = 2x^2 + 2xy + 3y^2$, then $2p = (2x + y)^2 + 5y^2 \equiv (2x + y)^2 \pmod 5$, so $2p \equiv \pm1$ and $p \equiv \pm2 \pmod 5$; and $y$ is odd (else $p$ is even), so one of $x$, $x + y$ is even and
+$p = 2x(x + y) + 3y^2 \equiv 3 \pmod 4$; hence $p \equiv 3, 7 \pmod{20}$. Now if $p \equiv 1, 9 \pmod{20}$, then $(\frac{-5}{p}) = (\frac{-1}{p})(\frac{p}{5}) = 1 \cdot 1$, so $-20$ is a square modulo $4p$
+(as in the proof of Corollary~\ref{number-theory:corollary-class-number-one}), and $p$ is represented by one of the two reduced forms of discriminant $-20$; by the congruences it is not the second.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-reduced-forms}
+Find all reduced forms of discriminants $-15$, $-24$ and $-56$, and check that $h(-15) = 2$, $h(-24) = 2$ and $h(-56) = 4$.
+\end{exercise}
+
+\begin{solution}
+$D = -15$: $a \leq 2$, $b$ odd; $b = \pm1$, $ac = 4$: $(1, 1, 4)$ and $(2, 1, 2)$ (for $a = c = 2$ only $b \geq 0$ is allowed). $D = -24$: $a \leq 2$, $b$ even; $b = 0$, $ac = 6$: $(1, 0, 6)$ and $(2, 0, 3)$;
+$b = \pm2$ would need $a = 2$ and $c = 28/8$. $D = -56$: $a \leq 4$, $b$ even; $b = 0$, $ac = 14$: $(1, 0, 14)$, $(2, 0, 7)$; $b = \pm2$, $ac = 15$, $a \geq 2$: $(3, \pm2, 5)$; $b = \pm4$, $ac = 18$, $a = 4$: no.
+So the reduced forms are $(1, 0, 14)$, $(2, 0, 7)$, $(3, 2, 5)$, $(3, -2, 5)$.
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-heegner-check}
+Verify condition (1) of Theorem~\ref{number-theory:theorem-rabinowitsch} for $p = 11$ and $p = 17$, so that $n^2 + n + 11$ and $n^2 + n + 17$ are prime for $0 \leq n \leq 9$ and $0 \leq n \leq 15$. Show that
+$n^2 + n + 13$ is not always prime for $0 \leq n \leq 11$ and find the corresponding non-principal reduced form of discriminant $-51$.
+\end{exercise}
+
+\begin{solution}
+$p = 11$, $D = -43$: $a \leq \sqrt{43/3} < 4$, $b \in \{\pm1, \pm3\}$, $ac = 11$ or $13$, both prime, so $a = 1$ and the form is $(1, 1, 11)$. $p = 17$, $D = -67$: $a < 5$, $b \in \{\pm1, \pm3\}$, $ac = 17$ or
+$19$, prime, so only $(1, 1, 17)$. For $p = 13$: $1 + 1 + 13 = 15 = 3 \cdot 5$; correspondingly $D = -51$ has the reduced form $(3, 3, 5)$ (with $b = 3$, $ac = (9 + 51)/4 = 15$).
+\end{solution}
+
+\begin{exercise}\label{number-theory:exercise-represent-numbers}
+Let $f$ be a positive definite form. Show that $f(x, y) = f(-x, -y)$, so that every number represented by $f$ is represented an even number of times; and show that $x^2 + y^2$ represents $n$ properly
+if and only if $n$ is not divisible by $4$ nor by any prime $q \equiv 3 \pmod 4$.
+\end{exercise}
+
+\begin{solution}
+The first statement is clear. By Lemma~\ref{number-theory:lemma-representation} and $h(-4) = 1$, $n$ is properly represented by $x^2 + y^2$ if and only if $-4 \equiv b^2 \pmod{4n}$ for some $b$, that is,
+$b = 2b^{\prime}$ with $b^{\prime 2} \equiv -1 \pmod n$. This congruence is solvable modulo $q \equiv 3 \pmod 4$ never, modulo $4$ never, modulo $2$ always, and modulo powers $p^k$ of primes $p \equiv 1 \pmod 4$
+always: the unit group $U_{p^k}$ is cyclic of order $p^{k-1}(p - 1)$ (Theorem~\ref{number-theory:theorem-primitive-root-prime-power}), which is divisible by $4$, so it has an element $x$ of order $4$,
+and $x^2$ is the unique element of order $2$, namely $-1$. By the
+Chinese remainder theorem (Theorem~\ref{number-theory:theorem-crt}) it is solvable modulo $n$ exactly under the stated condition.
 \end{solution}
