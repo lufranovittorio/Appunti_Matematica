@@ -8,12 +8,16 @@ representative. The proof solves the equation $\Delta u = f$ in a space of gener
 smooth. The functional analysis needed for the first step is in this chapter: Hilbert spaces and orthogonal projections, the
 consequences of Baire's theorem, compact operators, the spectral theorem for compact self-adjoint operators
 (Theorem~\ref{functional-analysis:theorem-spectral-compact}) and the Fredholm alternative
-(Theorem~\ref{functional-analysis:theorem-fredholm-alternative}). The guiding theme is what survives from finite-dimensional linear algebra and what does not: in infinite
+(Theorem~\ref{functional-analysis:theorem-fredholm-alternative}). Around this core we develop the classical theory: the applications of Baire's theorem,
+among them a continuous function whose Fourier series diverges (Theorem~\ref{functional-analysis:theorem-divergent-fourier}); the spectrum of a bounded operator and the
+spectral radius formula (Theorem~\ref{functional-analysis:theorem-spectrum}); the separation of convex sets, weak closures and the direct method of the calculus of variations
+(Section~\ref{functional-analysis:section-separation}); and dual spaces and reflexivity (Section~\ref{functional-analysis:section-duality}). The guiding theme is what survives from finite-dimensional linear algebra and what does not: in infinite
 dimensions linear maps need not be continuous, norms need not be equivalent, closed bounded sets need not be compact, injective operators need not be surjective, and bases have to be replaced by
 orthonormal bases, whose expansions are convergent series. We also introduce Fr\'echet spaces, such as the space of smooth functions, whose topology is given by countably many seminorms; they are the
 natural home of distributions (Chapter~\ref{distributions}). References: \cite{brezis-functional}, \cite{rudin-fa}, \cite{reed-simon-1}.
 
-\noindent\textbf{Prerequisites.} Chapter~\ref{measure-theory} (Measure and Integration) and Chapter~\ref{linear-algebra} (Linear Algebra).
+\noindent\textbf{Prerequisites.} Chapter~\ref{measure-theory} (Measure and Integration), Chapter~\ref{linear-algebra} (Linear Algebra) and Chapter~\ref{complex-analysis}
+(Complex Analysis).
 
 All vector spaces are over $\mathbb{K} = \RR$ or $\CC$.
 
@@ -218,6 +222,140 @@ In finite dimensions every linear functional is continuous (Lemma~\ref{real-anal
 \end{enumerate}
 \end{counterexample}
 
+\section{Applications of the Baire theorems}\label{functional-analysis:section-baire-applications}
+
+The three theorems of Theorem~\ref{functional-analysis:theorem-baire-consequences} turn qualitative information (a limit exists for every vector, a map is bijective, a graph is closed) into
+quantitative information (a uniform bound). We give some classical consequences, culminating in the existence of continuous functions whose Fourier series diverge.
+
+\begin{corollary}\label{functional-analysis:corollary-equivalent-norms}
+Let $X$ be a vector space that is complete for two norms $\|\cdot\|_1$ and $\|\cdot\|_2$, with $\|x\|_1 \leq C\|x\|_2$ for all $x$. Then the two norms are equivalent: $\|x\|_2 \leq C^{\prime}\|x\|_1$ for some
+$C^{\prime}$.
+\end{corollary}
+
+\begin{proof}
+The identity map $(X, \|\cdot\|_2) \to (X, \|\cdot\|_1)$ is bounded and bijective between Banach spaces, so its inverse is bounded by the open mapping theorem
+(Theorem~\ref{functional-analysis:theorem-baire-consequences}(2)).
+\end{proof}
+
+For instance, $C^1([0, 1])$ is complete both for $\|f\|_\infty + \|f^{\prime}\|_\infty$ and for $|f(0)| + \|f^{\prime}\|_\infty$ (Exercise~\ref{functional-analysis:exercise-equivalent-norms}), and the second norm is
+bounded by the first, so they are equivalent. On the other hand $C([0, 1])$ is complete for $\|\cdot\|_\infty$ and not for $\|\cdot\|_1 \leq \|\cdot\|_\infty$, and these norms are not equivalent
+(Example~\ref{functional-analysis:example-norms}(2)): completeness of both norms cannot be dropped.
+
+\begin{corollary}[Hellinger--Toeplitz]\label{functional-analysis:corollary-hellinger-toeplitz}
+Let $H$ be a Hilbert space and $T \colon H \to H$ a linear map, not assumed continuous, with $\langle Tx, y \rangle = \langle x, Ty \rangle$ for all $x, y \in H$. Then $T$ is bounded.
+\end{corollary}
+
+\begin{proof}
+We show that the graph of $T$ is closed and apply the closed graph theorem (Theorem~\ref{functional-analysis:theorem-baire-consequences}(3)). Let $x_n \to x$ and $Tx_n \to z$. For every $y$,
+$\langle z, y \rangle = \lim_n\langle Tx_n, y \rangle = \lim_n\langle x_n, Ty \rangle = \langle x, Ty \rangle = \langle Tx, y \rangle$, so $z = Tx$.
+\end{proof}
+
+The operators of quantum mechanics, such as the position operator $f(x) \mapsto xf(x)$ or the momentum operator $f \mapsto -i f^{\prime}$ on $L^2(\RR)$, are symmetric and unbounded. By the
+Hellinger--Toeplitz theorem they cannot be defined on all of $L^2(\RR)$: they are only defined on dense subspaces, which is the origin of the theory of unbounded operators.
+
+\begin{corollary}[Banach--Steinhaus]\label{functional-analysis:corollary-banach-steinhaus}
+Let $X$, $Y$ be Banach spaces and $T_n \in B(X, Y)$ such that $Tx = \lim_nT_nx$ exists for every $x \in X$. Then $\sup_n\|T_n\| < \infty$, and $T$ is a bounded operator with
+$\|T\| \leq \liminf_n\|T_n\|$.
+\end{corollary}
+
+\begin{proof}
+Convergent sequences are bounded, so $\sup_n\|T_nx\| < \infty$ for every $x$, and the uniform boundedness principle (Theorem~\ref{functional-analysis:theorem-baire-consequences}(1)) gives
+$\sup_n\|T_n\| < \infty$. The limit $T$ is clearly linear, and $\|Tx\| = \lim_n\|T_nx\| \leq \liminf_n\|T_n\|\,\|x\|$.
+\end{proof}
+
+\subsection{Divergence of Fourier series}\label{functional-analysis:subsection-fourier-divergence}
+
+The Fourier series of $f \in L^2(S^1)$ converges to $f$ in $L^2$ (Example~\ref{functional-analysis:example-fourier}), but this says nothing about convergence at a given point. For a continuous $f$ one
+might hope that the Fourier series converges at every point. The uniform boundedness principle shows that this fails. Throughout, $S^1 = \RR/\ZZ$, functions on $S^1$ are $1$-periodic functions on $\RR$, and
+for $f \in L^1(S^1)$ we write
+\[
+\hat f(n) = \int_0^1f(t)e^{-2\pi int}\,dt, \qquad S_Nf(x) = \sum_{n=-N}^N\hat f(n)e^{2\pi inx}.
+\]
+Integrals of $1$-periodic functions over an interval of length $1$ do not depend on the interval, and are invariant under $t \mapsto t + c$ and $t \mapsto -t$.
+
+\begin{lemma}[The Dirichlet kernel]\label{functional-analysis:lemma-dirichlet-kernel}
+For $f \in L^1(S^1)$, $S_Nf(x) = \int_0^1f(x - t)D_N(t)\,dt$, where
+\[
+D_N(t) = \sum_{n=-N}^Ne^{2\pi int} = \frac{\sin((2N + 1)\pi t)}{\sin(\pi t)} \quad (t \notin \ZZ), \qquad D_N(t) = 2N + 1 \quad (t \in \ZZ).
+\]
+The \emph{Lebesgue constants} $L_N = \int_0^1|D_N(t)|\,dt$ satisfy $L_N \geq \frac{4}{\pi^2}\sum_{k=1}^N\frac1k$; in particular $L_N \to \infty$.
+\end{lemma}
+
+\begin{proof}
+Inserting the definition of $\hat f(n)$, $S_Nf(x) = \int_0^1f(s)\sum_{|n| \leq N}e^{2\pi in(x - s)}\,ds = \int_0^1f(s)D_N(x - s)\,ds$, and the substitution $t = x - s$ gives the first formula. For
+$q = e^{2\pi it} \neq 1$, the geometric sum is
+\[
+\sum_{n=-N}^Nq^n = \frac{q^{N+1} - q^{-N}}{q - 1} = \frac{q^{N + 1/2} - q^{-N - 1/2}}{q^{1/2} - q^{-1/2}} = \frac{\sin((2N + 1)\pi t)}{\sin(\pi t)},
+\]
+with $q^{1/2} = e^{\pi it}$ and $e^{i\theta} - e^{-i\theta} = 2i\sin\theta$. Since $D_N$ is even and $1$-periodic, $L_N = 2\int_0^{1/2}|D_N(t)|\,dt$. On $(0, \frac12]$ we have $0 < \sin(\pi t) \leq \pi t$, so,
+substituting $u = (2N + 1)t$,
+\[
+L_N \geq 2\int_0^{1/2}\frac{|\sin((2N + 1)\pi t)|}{\pi t}\,dt = \frac2\pi\int_0^{N + 1/2}\frac{|\sin(\pi u)|}{u}\,du \geq \frac2\pi\sum_{k=0}^{N-1}\frac{1}{k + 1}\int_k^{k+1}|\sin(\pi u)|\,du
+= \frac{4}{\pi^2}\sum_{k=1}^N\frac1k,
+\]
+as $\int_k^{k+1}|\sin(\pi u)|\,du = 2/\pi$. The harmonic series diverges, so $L_N \to \infty$.
+\end{proof}
+
+The numbers $L_N$ grow like $\frac{4}{\pi^2}\log N$. The kernel $D_N$ is large near $0$ and oscillates with slowly decaying amplitude elsewhere; its integral is $\int_0^1D_N = 1$, but the integral of its
+absolute value is unbounded. This is what makes pointwise convergence delicate.
+
+\begin{theorem}[du Bois-Reymond]\label{functional-analysis:theorem-divergent-fourier}
+There is a continuous function $f$ on $S^1$ whose Fourier series diverges at $0$: $\sup_N|S_Nf(0)| = \infty$. More precisely, the set of continuous functions with $\sup_N|S_Nf(0)| = \infty$
+contains a countable intersection of dense open subsets of $C(S^1)$, and in particular it is dense.
+\end{theorem}
+
+\begin{proof}
+Consider the Banach space $C(S^1)$ with the supremum norm and the linear functionals $\Lambda_N(f) = S_Nf(0) = \int_0^1f(-t)D_N(t)\,dt = \int_0^1f(t)D_N(t)\,dt$, using that $D_N$ is even. Clearly
+$|\Lambda_Nf| \leq L_N\|f\|_\infty$. We claim $\|\Lambda_N\| = L_N$. The function $g = \operatorname{sign}D_N$ takes the values $\pm1$ except at the finitely many zeros $j/(2N + 1)$ of $D_N$ in $[0, 1]$, and is
+constant between consecutive zeros. Let $f_k$ be the continuous $1$-periodic function that equals $g$ outside the intervals of length $1/k$ centred at the zeros, and is linear on these intervals; then
+$|f_k| \leq 1$ and $f_k \to g$ except at the zeros, so $\Lambda_N(f_k) \to \int_0^1gD_N = L_N$ by dominated convergence (Theorem~\ref{measure-theory:theorem-dominated-convergence}). Hence
+$\|\Lambda_N\| = L_N \to \infty$ by Lemma~\ref{functional-analysis:lemma-dirichlet-kernel}.
+
+Now let $F_n = \{f \in C(S^1) : |\Lambda_Nf| \leq n \text{ for all } N\}$, a closed set. If some $F_n$ had nonempty interior, the argument in the proof of the uniform boundedness principle
+(Theorem~\ref{functional-analysis:theorem-baire-consequences}(1)) would give $\sup_N\|\Lambda_N\| < \infty$, which is false. So each $F_n$ is closed with empty interior, its complement $U_n$ is dense and open,
+and $\bigcap_nU_n$, which is the set of $f$ with $\sup_N|S_Nf(0)| = \infty$, is dense by Baire's theorem (Theorem~\ref{general-topology:theorem-baire}).
+\end{proof}
+
+Translating, for every point $x$ there are continuous functions whose Fourier series diverges at $x$, and with a little more work one finds continuous functions whose Fourier series diverges on a
+dense set of points. The proof is not constructive, although explicit examples exist. On the positive side:
+\begin{enumerate}
+\item If $f$ is differentiable at $x$, or merely satisfies $|f(t) - f(x)| \leq C|t - x|$ near $x$, then $S_Nf(x) \to f(x)$ (Exercise~\ref{functional-analysis:exercise-dini}).
+\item The averages $\sigma_Nf = \frac{1}{N + 1}(S_0f + \cdots + S_Nf)$ converge uniformly to $f$ for every continuous $f$ (Fej\'er's theorem, Exercise~\ref{functional-analysis:exercise-fejer}): averaging
+replaces $D_N$ by a positive kernel.
+\item For $f \in L^2(S^1)$ the Fourier series converges almost everywhere; this deep theorem is due to Carleson \cite{carleson-1966}. For $L^1$ it fails: Kolmogorov constructed an integrable function
+whose Fourier series diverges almost everywhere \cite{kolmogorov-1923}.
+\end{enumerate}
+
+\begin{proposition}[Riemann--Lebesgue lemma]\label{functional-analysis:proposition-riemann-lebesgue}
+For $f \in L^1(S^1)$, $|\hat f(n)| \leq \|f\|_1$ and $\hat f(n) \to 0$ as $|n| \to \infty$. The map $\mathcal{F} \colon L^1(S^1) \to c_0(\ZZ)$, $f \mapsto (\hat f(n))_{n \in \ZZ}$, into the Banach space of sequences
+tending to $0$ with the supremum norm, is linear, bounded and injective.
+\end{proposition}
+
+\begin{proof}
+The bound is clear from $|e^{-2\pi int}| = 1$. The trigonometric polynomials are dense in $L^1(S^1)$: continuous functions are dense in $L^1([0, 1])$, as in Example~\ref{functional-analysis:example-fourier}
+(Proposition~\ref{measure-theory:proposition-density} with $p = 1$), and trigonometric polynomials approximate continuous functions on $S^1$ uniformly (Corollary~\ref{real-analysis:corollary-weierstrass}), hence
+in $L^1$ since $\|\cdot\|_1 \leq \|\cdot\|_\infty$. Given $\varepsilon > 0$, choose a trigonometric polynomial $p$ with $\|f - p\|_1 < \varepsilon$; then $\hat p(n) = 0$ for $|n|$ large, and for such $n$,
+$|\hat f(n)| \leq |\hat p(n)| + \|f - p\|_1 < \varepsilon$. So $\mathcal{F}$ takes values in $c_0(\ZZ)$, which is a closed subspace of the Banach space $\ell^\infty(\ZZ)$, and $\|\mathcal{F}\| \leq 1$.
+
+For injectivity let $\hat f = 0$. Then $\int_0^1fp = 0$ for every trigonometric polynomial $p$, and by uniform approximation $\int_0^1f\phi = 0$ for every continuous $\phi$ on $S^1$, since
+$|\int f(\phi - p)| \leq \|f\|_1\|\phi - p\|_\infty$. For $0 < a < b < 1$ there are continuous functions $\phi_k$ with $0 \leq \phi_k \leq 1$, supported in $(0, 1)$, converging pointwise to $\mathbf{1}_{[a, b]}$
+(piecewise linear), so $\int_a^bf = 0$ by dominated convergence. Then the averages $\frac{1}{2r}\int_{x-r}^{x+r}f$ vanish for $0 < x - r < x + r < 1$, and the Lebesgue differentiation theorem
+(Theorem~\ref{measure-theory:theorem-lebesgue-differentiation}) gives $f = 0$ almost everywhere.
+\end{proof}
+
+\begin{proposition}\label{functional-analysis:proposition-fourier-not-onto}
+The map $\mathcal{F} \colon L^1(S^1) \to c_0(\ZZ)$ is not surjective: there are sequences tending to $0$ that are not the Fourier coefficients of any integrable function.
+\end{proposition}
+
+\begin{proof}
+If $\mathcal{F}$ were surjective, it would be a bounded bijection between Banach spaces, so by the open mapping theorem there would be a constant $C$ with $\|f\|_1 \leq C\sup_n|\hat f(n)|$ for all
+$f \in L^1(S^1)$. Apply this to $f = D_N$: its Fourier coefficients are $1$ for $|n| \leq N$ and $0$ otherwise, so $L_N = \|D_N\|_1 \leq C$ for all $N$, contradicting
+Lemma~\ref{functional-analysis:lemma-dirichlet-kernel}.
+\end{proof}
+
+In contrast, on $L^2$ the Fourier transform is an isometry onto $\ell^2(\ZZ)$ (Theorem~\ref{functional-analysis:theorem-orthonormal-basis}): on $L^2$ the coefficients are characterised by
+$\sum|c_n|^2 < \infty$, while no such description of the Fourier coefficients of integrable functions is known.
+
 \section{Compact operators}\label{functional-analysis:section-compact-operators}
 
 \begin{definition}\label{functional-analysis:definition-compact-operator}
@@ -307,6 +445,149 @@ every $\lambda$ with $|\lambda| < 1$ as an eigenvalue, with eigenvector $(1, \la
 \end{enumerate}
 \end{counterexample}
 
+\section{The spectrum of a bounded operator}\label{functional-analysis:section-spectrum}
+
+In finite dimensions an operator $T$ fails to be invertible exactly at its eigenvalues. In infinite dimensions $T - \lambda$ can be injective without being surjective, and the right generalisation of the set
+of eigenvalues is the spectrum. Throughout this section $X$ is a complex Banach space and $B(X) = B(X, X)$; note that $\|ST\| \leq \|S\|\,\|T\|$, so $\|T^n\| \leq \|T\|^n$.
+
+\begin{lemma}[Neumann series]\label{functional-analysis:lemma-neumann}
+Let $T \in B(X)$ with $\|T\| < 1$. Then $I - T$ is invertible in $B(X)$, with
+\[
+(I - T)^{-1} = \sum_{n \geq 0}T^n, \qquad \|(I - T)^{-1}\| \leq \frac{1}{1 - \|T\|}.
+\]
+More generally, if $S \in B(X)$ is invertible and $\|R\| < \|S^{-1}\|^{-1}$, then $S - R$ is invertible, and $(S - R)^{-1} \to S^{-1}$ as $R \to 0$. So the invertible operators form an open subset of $B(X)$, on
+which inversion is continuous.
+\end{lemma}
+
+\begin{proof}
+The series converges absolutely, $\sum\|T^n\| \leq \sum\|T\|^n = (1 - \|T\|)^{-1}$, so it converges in the Banach space $B(X)$ (Proposition~\ref{functional-analysis:proposition-banach-examples}(1) and
+Lemma~\ref{functional-analysis:lemma-banach-series}). Its sum $A$ satisfies $(I - T)\sum_{n \leq N}T^n = I - T^{N+1} = (\sum_{n \leq N}T^n)(I - T)$, and $T^{N+1} \to 0$, so $(I - T)A = I = A(I - T)$. For the
+second statement write $S - R = S(I - S^{-1}R)$ with $\|S^{-1}R\| \leq \|S^{-1}\|\,\|R\| < 1$; then $(S - R)^{-1} = \sum_{n \geq 0}(S^{-1}R)^nS^{-1}$, and
+$\|(S - R)^{-1} - S^{-1}\| \leq \sum_{n \geq 1}(\|S^{-1}\|\,\|R\|)^n\|S^{-1}\| \to 0$ as $R \to 0$.
+\end{proof}
+
+\begin{definition}\label{functional-analysis:definition-spectrum}
+Let $T \in B(X)$. The \emph{resolvent set} $\rho(T)$ is the set of $\lambda \in \CC$ such that $T - \lambda = T - \lambda I$ is bijective; then its inverse $R(\lambda) = (T - \lambda)^{-1}$, the \emph{resolvent}, is bounded
+by the open mapping theorem (Theorem~\ref{functional-analysis:theorem-baire-consequences}(2)). The \emph{spectrum} is $\sigma(T) = \CC \setminus \rho(T)$, and the \emph{spectral radius} is
+$r(T) = \sup\{|\lambda| : \lambda \in \sigma(T)\}$. The \emph{point spectrum} $\sigma_p(T) \subseteq \sigma(T)$ is the set of eigenvalues, the $\lambda$ for which $T - \lambda$ is not injective.
+\end{definition}
+
+If $\dim X < \infty$, an injective operator is bijective, so $\sigma(T) = \sigma_p(T)$ is the set of eigenvalues, the roots of the characteristic polynomial.
+
+\begin{theorem}\label{functional-analysis:theorem-spectrum}
+Let $X \neq 0$ be a complex Banach space and $T \in B(X)$.
+\begin{enumerate}
+\item The spectrum $\sigma(T)$ is compact and contained in the disc $\{|\lambda| \leq \|T\|\}$.
+\item (\emph{Resolvent identity}) $R(\lambda) - R(\mu) = (\lambda - \mu)R(\lambda)R(\mu)$ for $\lambda, \mu \in \rho(T)$, and for every bounded linear functional $\Phi$ on $B(X)$, the function $\lambda \mapsto \Phi(R(\lambda))$ is
+holomorphic on the open set $\rho(T)$.
+\item (\emph{Gelfand}) $\sigma(T)$ is nonempty.
+\item (\emph{Spectral radius formula}) $r(T) = \lim_{n \to \infty}\|T^n\|^{1/n} = \inf_{n \geq 1}\|T^n\|^{1/n}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) If $|\lambda| > \|T\|$, then $T - \lambda = -\lambda(I - \lambda^{-1}T)$ is invertible by Lemma~\ref{functional-analysis:lemma-neumann}. If $\lambda \in \rho(T)$ and $|\mu - \lambda| < \|R(\lambda)\|^{-1}$, then
+$T - \mu = (T - \lambda) - (\mu - \lambda)I$ is invertible by the same lemma. So $\rho(T)$ is open and $\sigma(T)$ is closed and bounded, hence compact (Theorem~\ref{general-topology:theorem-heine-borel}).
+
+(2) $R(\lambda) - R(\mu) = R(\lambda)\bigl((T - \mu) - (T - \lambda)\bigr)R(\mu) = (\lambda - \mu)R(\lambda)R(\mu)$. As $\mu \to \lambda$, $R(\mu) \to R(\lambda)$ by the continuity of inversion
+(Lemma~\ref{functional-analysis:lemma-neumann}), so $\frac{R(\mu) - R(\lambda)}{\mu - \lambda} = R(\mu)R(\lambda) \to R(\lambda)^2$ in norm, and $\Phi(R(\mu))$ has the complex derivative $\Phi(R(\lambda)^2)$ at $\lambda$.
+
+(3) Suppose $\sigma(T) = \emptyset$. For $|\lambda| \geq 2\|T\|$, the Neumann series gives $R(\lambda) = -\lambda^{-1}\sum_{n \geq 0}\lambda^{-n}T^n$, so $\|R(\lambda)\| \leq |\lambda|^{-1}\sum_n2^{-n} = 2/|\lambda|$, which tends to
+$0$ as $|\lambda| \to \infty$. For $\Phi \in B(X)^*$, the entire function $\Phi(R(\lambda))$ is therefore bounded (by continuity on the compact disc $|\lambda| \leq 2\|T\| + 1$, and by $2\|\Phi\|/|\lambda|$ outside), hence
+constant by Liouville's theorem (Corollary~\ref{complex-analysis:corollary-liouville}), and the constant is its limit $0$ at infinity. As this holds for every $\Phi$, the Hahn--Banach theorem
+(Theorem~\ref{functional-analysis:theorem-hahn-banach}), applied in the normed space $B(X)$, gives $R(0) = 0$. But $R(0) = T^{-1}$ is invertible, and an invertible operator on $X \neq 0$ is not zero.
+
+(4) First, $r(T) \leq \|T^n\|^{1/n}$ for every $n \geq 1$. Indeed, if $\lambda \in \sigma(T)$, then $\lambda^n \in \sigma(T^n)$: we have $T^n - \lambda^n = (T - \lambda)P = P(T - \lambda)$ with
+$P = \sum_{k=0}^{n-1}\lambda^{n-1-k}T^k$, and if $T^n - \lambda^n$ had an inverse $Q$, then $PQ$ would be a right inverse and $QP$ a left inverse of $T - \lambda$, which would be bijective. So $|\lambda|^n \leq \|T^n\|$
+by (1). Hence $r(T) \leq \inf_n\|T^n\|^{1/n} \leq \liminf_n\|T^n\|^{1/n}$.
+
+Second, $\limsup_n\|T^n\|^{1/n} \leq r(T)$. Let $\Phi \in B(X)^*$, and consider $g(w) = \Phi(R(1/w))$ for $0 < |w| < 1/r(T)$ (where $1/r(T) = \infty$ if $r(T) = 0$), holomorphic by (2). For $0 < |w| < 1/\|T\|$ the
+Neumann series gives
+\[
+g(w) = -\sum_{n \geq 0}\Phi(T^n)w^{n+1},
+\]
+a convergent power series, so $g$ extends holomorphically to $w = 0$ by $g(0) = 0$, and is then holomorphic on the whole disc $D(0, 1/r(T))$. By Theorem~\ref{complex-analysis:theorem-analytic}, its Taylor series at
+$0$ converges on this whole disc; its coefficients are $g^{(n+1)}(0)/(n + 1)! = -\Phi(T^n)$, the coefficients of the series above. So for every $\lambda$ with $|\lambda| > r(T)$ the series
+$\sum_n\Phi(T^n)\lambda^{-n-1}$ converges, and in particular $\sup_n|\Phi(T^n/\lambda^{n+1})| < \infty$ for every $\Phi \in B(X)^*$. Now apply the uniform boundedness principle to the family of bounded linear
+functionals $\Phi \mapsto \Phi(T^n/\lambda^{n+1})$ on the Banach space $B(X)^*$: their norms are $\|T^n\|/|\lambda|^{n+1}$ by the Hahn--Banach theorem, so $\|T^n\| \leq C|\lambda|^{n+1}$ for some $C$ and all $n$. Hence
+$\limsup_n\|T^n\|^{1/n} \leq |\lambda|$, and letting $|\lambda|$ decrease to $r(T)$ gives the claim. Together with the first part, the limit exists and equals $r(T) = \inf_n\|T^n\|^{1/n}$.
+\end{proof}
+
+The proof of (4) is a nice interplay of the three main tools of this chapter: complex analysis enters through the radius of convergence of the Taylor series of the resolvent, and the uniform
+boundedness principle converts the bounds on each $\Phi(T^n)$ into a bound on $\|T^n\|$. Note that $r(T)$ can be much smaller than $\|T\|$.
+
+\begin{example}\label{functional-analysis:example-spectra}
+\begin{enumerate}
+\item \emph{Matrices.} For $A = \bigl(\begin{smallmatrix}0 & 1\\ 0 & 0\end{smallmatrix}\bigr)$, $\sigma(A) = \{0\}$ and $r(A) = 0 < 1 = \|A\|$, in accordance with $A^2 = 0$. For a matrix, $r(A)$ is the largest absolute value
+of an eigenvalue, and the spectral radius formula says that $\|A^n\|$ grows like $r(A)^n$, up to subexponential factors: for $A = \bigl(\begin{smallmatrix}1 & 1\\ 0 & 1\end{smallmatrix}\bigr)$,
+$A^n = \bigl(\begin{smallmatrix}1 & n\\ 0 & 1\end{smallmatrix}\bigr)$ has norm between $n$ and $n + 2$, and $\|A^n\|^{1/n} \to 1$.
+\item \emph{Multiplication operators.} Let $g$ be a continuous function on $[0, 1]$ and $M_gf = gf$ on $L^2([0, 1])$. Then $\sigma(M_g) = g([0, 1])$. If $\lambda \notin g([0, 1])$, then $1/(g - \lambda)$ is continuous,
+hence bounded, and $M_{1/(g - \lambda)}$ is the inverse of $M_g - \lambda$. If $\lambda = g(x_0)$, then for every $k$ there is an interval $I_k \ni x_0$ of positive length on which $|g - \lambda| < 1/k$, and
+$f_k = \mathbf{1}_{I_k}/\|\mathbf{1}_{I_k}\|_2$ satisfies $\|(M_g - \lambda)f_k\|_2 \leq 1/k$ with $\|f_k\|_2 = 1$; so $M_g - \lambda$ has no bounded inverse, and $\lambda \in \sigma(M_g)$. The eigenvalues are the $\lambda$
+for which $\{g = \lambda\}$ has positive measure. For $g(x) = x$, the spectrum of the self-adjoint operator $M_x$ is the whole interval $[0, 1]$, and there are no eigenvalues at all.
+\item \emph{Shifts.} For the left shift $L(x_1, x_2, \ldots) = (x_2, x_3, \ldots)$ on $\ell^2$, every $\lambda$ with $|\lambda| < 1$ is an eigenvalue (Counterexample~\ref{functional-analysis:counterexample-no-eigenvalues}(2)),
+and $\|L\| = 1$; as $\sigma(L)$ is closed, $\sigma(L)$ is the closed unit disc. The right shift $S = L^*$ has the same spectrum (Exercise~\ref{functional-analysis:exercise-spectrum-adjoint}), although it has no
+eigenvalues.
+\item \emph{The Volterra operator} $Vf(x) = \int_0^xf(t)\,dt$ on $L^2([0, 1])$. By induction and Fubini's theorem,
+\[
+V^nf(x) = \int_0^x\frac{(x - t)^{n-1}}{(n - 1)!}f(t)\,dt,
+\]
+so $|V^nf(x)| \leq \|f\|_1/(n - 1)! \leq \|f\|_2/(n - 1)!$ and $\|V^n\| \leq 1/(n - 1)!$. For every $K \geq 1$, the factors $K + 1, \ldots, n - 1$ of $(n - 1)!$ are at least $K$, so
+$((n - 1)!)^{1/n} \geq K^{(n - 1 - K)/n} \to K$; hence $\|V^n\|^{1/n} \to 0$ and $r(V) = 0$. So $\sigma(V) = \{0\}$, nonempty as Gelfand's theorem requires: $V$ is not surjective, since $Vf$ is always
+continuous. For $\lambda \neq 0$ the inverse of $V - \lambda$ is a Neumann series, which solves Volterra's integral equation (Exercise~\ref{functional-analysis:exercise-volterra-equation}).
+\end{enumerate}
+\end{example}
+
+For compact operators on Hilbert spaces the spectrum is as close to the finite-dimensional case as possible.
+
+\begin{corollary}\label{functional-analysis:corollary-spectrum-compact}
+Let $H$ be an infinite-dimensional complex Hilbert space and $K \in B(H)$ compact. Then $0 \in \sigma(K)$, every nonzero $\lambda \in \sigma(K)$ is an eigenvalue with finite-dimensional eigenspace, and for every
+$\varepsilon > 0$ only finitely many points of $\sigma(K)$ satisfy $|\lambda| \geq \varepsilon$. So $\sigma(K)$ is countable, and $0$ is its only possible accumulation point.
+\end{corollary}
+
+\begin{proof}
+If $0 \notin \sigma(K)$, then $I = KK^{-1}$ would be compact (Proposition~\ref{functional-analysis:proposition-compact-operators}(1)), contradicting
+Proposition~\ref{functional-analysis:proposition-banach-examples}(3). For $\lambda \neq 0$, $K - \lambda = -\lambda(I - \lambda^{-1}K)$ with $\lambda^{-1}K$ compact, so by the Fredholm alternative
+(Theorem~\ref{functional-analysis:theorem-fredholm-alternative}) it is bijective as soon as it is injective, and its kernel is finite-dimensional. Suppose there were infinitely many distinct eigenvalues
+$\lambda_1, \lambda_2, \ldots$ with $|\lambda_n| \geq \varepsilon$, with eigenvectors $x_n$. Eigenvectors for distinct eigenvalues are linearly independent (as in finite dimensions: applying $K - \lambda_j$ to a shortest nontrivial linear relation
+$\sum c_ix_i = 0$, for an index $j$ occurring in it, would give a shorter one). Let $M_n = \operatorname{span}(x_1, \ldots, x_n)$, and choose unit vectors $y_n \in M_n \cap M_{n-1}^\perp$. Since $(K - \lambda_n)x_j = (\lambda_j - \lambda_n)x_j$,
+we have $(K - \lambda_n)M_n \subseteq M_{n-1}$. For $m < n$,
+\[
+Ky_n - Ky_m = \lambda_ny_n + \bigl((K - \lambda_n)y_n - Ky_m\bigr),
+\]
+where the bracket lies in $M_{n-1}$ and $y_n \perp M_{n-1}$, so $\|Ky_n - Ky_m\| \geq |\lambda_n| \geq \varepsilon$. So $(Ky_n)$ has no convergent subsequence, contradicting compactness.
+\end{proof}
+
+\begin{proposition}\label{functional-analysis:proposition-spectrum-self-adjoint}
+Let $H \neq 0$ be a complex Hilbert space, $T \in B(H)$ self-adjoint, and $m = \inf_{\|x\| = 1}\langle Tx, x \rangle$, $M = \sup_{\|x\| = 1}\langle Tx, x \rangle$. Then $\sigma(T) \subseteq [m, M]$, both $m$ and $M$
+lie in $\sigma(T)$, and $r(T) = \|T\| = \max(|m|, |M|)$.
+\end{proposition}
+
+\begin{proof}
+The numbers $\langle Tx, x \rangle = \langle x, Tx \rangle = \overline{\langle Tx, x \rangle}$ are real. Call an operator $A$ \emph{bounded below} if $\|Ax\| \geq c\|x\|$ for some $c > 0$; then $A$ is injective with closed image (the
+preimages of a Cauchy sequence in the image form a Cauchy sequence). Let $\lambda = \alpha + i\beta$ with $\beta \neq 0$. Then
+$\|(T - \lambda)x\|\,\|x\| \geq |\operatorname{Im}\langle (T - \lambda)x, x \rangle| = |\beta|\,\|x\|^2$, so $T - \lambda$ is bounded below; its image is closed, and dense because its orthogonal complement is
+$\ker(T - \lambda)^* = \ker(T - \bar\lambda) = 0$ (Theorem~\ref{functional-analysis:theorem-riesz-representation}), the same estimate applying to $\bar\lambda$. So $\lambda \in \rho(T)$. If $\lambda > M$ is real, then
+$\langle (\lambda - T)x, x \rangle \geq (\lambda - M)\|x\|^2$, and the same argument shows $\lambda \in \rho(T)$; similarly for $\lambda < m$. So $\sigma(T) \subseteq [m, M]$.
+
+The sesquilinear form $[x, y] = \langle (M - T)x, y \rangle$ is Hermitian and positive semidefinite, so it satisfies the Cauchy--Schwarz inequality $|[x, y]|^2 \leq [x, x][y, y]$: choosing $|c| = 1$ with $c[y, x] = |[x, y]|$, the real quadratic polynomial
+$[x + tcy, x + tcy] = [x, x] + 2t|[x, y]| + t^2[y, y]$ is nonnegative for all real $t$, which forces $[x, y] = 0$ if $[y, y] = 0$, and a nonpositive discriminant otherwise. Choose unit vectors $x_n$ with $\langle Tx_n, x_n \rangle \to M$, so $[x_n, x_n] \to 0$. With $y = (M - T)x_n$,
+\[
+\|(M - T)x_n\|^4 = [x_n, y]^2 \leq [x_n, x_n]\,[y, y] \leq [x_n, x_n]\,\|M - T\|\,\|(M - T)x_n\|^2,
+\]
+so $(M - T)x_n \to 0$ while $\|x_n\| = 1$. Thus $M - T$ is not bounded below and has no bounded inverse: $M \in \sigma(T)$. Applying this to $-T$ gives $m \in \sigma(T)$. Finally $\|T\| = \sup_{\|x\| = 1}|\langle Tx, x \rangle| = \max(|m|, |M|)$ by
+the first step of the proof of Theorem~\ref{functional-analysis:theorem-spectral-compact}(1), which did not use compactness, and $\max(|m|, |M|) \leq r(T) \leq \|T\|$ since $m, M \in \sigma(T)$.
+\end{proof}
+
+\begin{remark}\label{functional-analysis:remark-spectral-theorem}
+The spectral theorem for compact self-adjoint operators (Theorem~\ref{functional-analysis:theorem-spectral-compact}) diagonalises $T$ in an orthonormal basis. A general bounded self-adjoint operator, such as
+$M_x$ in Example~\ref{functional-analysis:example-spectra}(2), may have no eigenvectors at all, and the correct generalisation is: \emph{every bounded self-adjoint operator on a separable Hilbert space is unitarily
+equivalent to a multiplication operator}. That is, there are a finite measure space $(\Omega, \mu)$, a bounded real measurable function $g$ on $\Omega$ and a unitary $U \colon H \to L^2(\Omega, \mu)$ with
+$UTU^{-1} = M_g$ \cite[Chapter VII]{reed-simon-1}. It yields a \emph{functional calculus}: $f(T) = U^{-1}M_{f \circ g}U$ for bounded Borel functions $f$ on $\sigma(T)$, with $\|f(T)\| \leq \sup_{\sigma(T)}|f|$ (equality
+for continuous $f$) and $\sigma(f(T)) = f(\sigma(T))$ for continuous $f$; for instance $\sqrt{T}$ for $T \geq 0$, $e^{itT}$, or the spectral projections $\mathbf{1}_{(-\infty, c]}(T)$. The same holds for normal operators
+($TT^* = T^*T$), with complex $g$, and, with more work, for the unbounded self-adjoint operators of quantum mechanics and for the Laplacian \cite[Chapter VIII]{reed-simon-1}.
+\end{remark}
+
 \section{Fr\'echet spaces}\label{functional-analysis:section-frechet}
 
 The space $C^\infty(U)$ of smooth functions on an open set $U \subseteq \RR^n$ has a natural notion of convergence, uniform convergence of all derivatives on compact sets, which does not come from a
@@ -375,6 +656,223 @@ some $x$ by Theorem~\ref{functional-analysis:theorem-riesz-representation}.
 Weak convergence does not imply norm convergence: an orthonormal sequence $(e_n)$ in a Hilbert space satisfies $e_n \rightharpoonup 0$ by Bessel's inequality, while $\|e_n\| = 1$. By
 Proposition~\ref{functional-analysis:proposition-banach-examples}(3), the closed unit ball of an infinite-dimensional space is never norm compact, although it is weakly compact for Hilbert spaces.
 \end{counterexample}
+
+\section{Convexity and the geometric Hahn--Banach theorem}\label{functional-analysis:section-separation}
+
+In the plane, two disjoint convex sets, one of them open, can be separated by a line. In a normed space $X$ the role of lines is played by the real \emph{hyperplanes}
+$\{x : \operatorname{Re}\Lambda(x) = c\}$ for $0 \neq \Lambda \in X^*$ and $c \in \RR$, and the separation theorem is a geometric form of the Hahn--Banach theorem. It needs the following version of the extension
+theorem, in which the seminorm is replaced by a \emph{sublinear} function.
+
+\begin{lemma}\label{functional-analysis:lemma-sublinear-extension}
+Let $X$ be a real vector space and $p \colon X \to \RR$ \emph{sublinear}: $p(x + y) \leq p(x) + p(y)$ and $p(tx) = tp(x)$ for $t \geq 0$. If $\ell$ is a linear functional on a subspace $Y$ with $\ell \leq p$ on $Y$,
+there is a linear functional $L$ on $X$ extending $\ell$ with $L \leq p$ on $X$.
+\end{lemma}
+
+\begin{proof}
+This is the real case of the proof of Theorem~\ref{functional-analysis:theorem-hahn-banach}, which uses only these two properties; we repeat it. By Zorn's lemma there is a maximal extension $(Z, m)$ with
+$m \leq p$ on $Z$, extensions being ordered by inclusion of graphs. Suppose $x \notin Z$. For $z, z^{\prime} \in Z$, $m(z) + m(z^{\prime}) = m(z + z^{\prime}) \leq p(z + x) + p(z^{\prime} - x)$, so
+$a = \sup_{z^{\prime} \in Z}(m(z^{\prime}) - p(z^{\prime} - x)) \leq b = \inf_{z \in Z}(p(z + x) - m(z))$. Choose $c \in [a, b]$ and put $m(z + tx) = m(z) + tc$. For $t > 0$,
+$m(z) + tc = t(m(z/t) + c) \leq tp(z/t + x) = p(z + tx)$ since $c \leq b$; for $t = -s < 0$, $m(z) - sc = s(m(z/s) - c) \leq sp(z/s - x) = p(z - sx)$ since $c \geq a$. This contradicts maximality.
+\end{proof}
+
+\begin{lemma}[Minkowski functional]\label{functional-analysis:lemma-minkowski}
+Let $C$ be an open convex subset of a real normed space $X$ with $0 \in C$, and $p_C(x) = \inf\{t > 0 : x \in tC\}$. Then $p_C$ is sublinear, $0 \leq p_C(x) \leq \|x\|/r$ if $B(0, r) \subseteq C$, and
+$C = \{x : p_C(x) < 1\}$.
+\end{lemma}
+
+\begin{proof}
+If $t > \|x\|/r$, then $\|x/t\| < r$, so $x \in tC$; hence $p_C(x) \leq \|x\|/r$. If $x \in tC$ and $t^{\prime} > t$, then $x/t^{\prime} = \frac{t}{t^{\prime}}(x/t) + (1 - \frac{t}{t^{\prime}})0 \in C$ by convexity, so $x \in t^{\prime}C$.
+Since $x \in tC$ if and only if $sx \in stC$, $p_C(sx) = sp_C(x)$ for $s > 0$ (and trivially for $s = 0$). Given $\varepsilon > 0$, put $s = p_C(x) + \varepsilon$ and $s^{\prime} = p_C(y) + \varepsilon$; then $x/s, y/s^{\prime} \in C$ and
+\[
+\frac{x + y}{s + s^{\prime}} = \frac{s}{s + s^{\prime}}\cdot\frac xs + \frac{s^{\prime}}{s + s^{\prime}}\cdot\frac{y}{s^{\prime}} \in C,
+\]
+so $p_C(x + y) \leq p_C(x) + p_C(y) + 2\varepsilon$. If $x \in C$, then $(1 + \delta)x \in C$ for small $\delta > 0$ as $C$ is open, so $p_C(x) \leq 1/(1 + \delta) < 1$; if $p_C(x) < 1$, then $x \in tC$ for some $t < 1$, hence
+$x \in C$.
+\end{proof}
+
+For the unit ball, $p_C$ is the norm; in general $p_C$ is the ``norm'' whose unit ball is $C$, possibly asymmetric.
+
+\begin{theorem}[Separation of convex sets]\label{functional-analysis:theorem-separation}
+Let $A$ and $B$ be nonempty disjoint convex subsets of a normed space $X$ over $\mathbb{K}$.
+\begin{enumerate}
+\item If $A$ is open, there are $\Lambda \in X^*$ and $c \in \RR$ with $\operatorname{Re}\Lambda(a) < c \leq \operatorname{Re}\Lambda(b)$ for all $a \in A$, $b \in B$.
+\item If $A$ is compact and $B$ is closed, there are $\Lambda \in X^*$ and $c_1 < c_2$ with $\operatorname{Re}\Lambda(a) \leq c_1 < c_2 \leq \operatorname{Re}\Lambda(b)$ for all $a \in A$, $b \in B$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Suppose first $\mathbb{K} = \RR$. (1) Fix $a_0 \in A$, $b_0 \in B$, put $x_0 = b_0 - a_0$ and $C = A - B + x_0 = \{a - b + x_0\}$. Then $C$ is convex, open (a union of translates of the open set $A$), contains
+$0$, and does not contain $x_0$, since $A \cap B = \emptyset$. Choose $r > 0$ with $B(0, r) \subseteq C$, and let $p = p_C$ be the Minkowski functional of $C$
+(Lemma~\ref{functional-analysis:lemma-minkowski}), so $p(x_0) \geq 1$. On $\RR x_0$ define $\ell(tx_0) = t$; then
+$\ell(tx_0) \leq tp(x_0) = p(tx_0)$ for $t \geq 0$, and $\ell(tx_0) \leq 0 \leq p(tx_0)$ for $t < 0$. By Lemma~\ref{functional-analysis:lemma-sublinear-extension}, $\ell$ extends to a linear $\Lambda \leq p$ on $X$. Then
+$\Lambda(x) \leq p(x) \leq \|x\|/r$ and $-\Lambda(x) = \Lambda(-x) \leq \|x\|/r$, so $\Lambda \in X^*$. For $a \in A$ and $b \in B$, $\Lambda(a) - \Lambda(b) + 1 = \Lambda(a - b + x_0) \leq p(a - b + x_0) < 1$, so
+$\Lambda(a) < \Lambda(b)$. Let $c = \inf_{b \in B}\Lambda(b)$, so $\Lambda(a) \leq c \leq \Lambda(b)$. Since $\Lambda \neq 0$, choose $v$ with $\Lambda(v) = 1$; for $a \in A$, $a + sv \in A$ for small $s > 0$, so
+$\Lambda(a) + s \leq c$, and $\Lambda(a) < c$.
+
+(2) The continuous function $a \mapsto \operatorname{dist}(a, B)$ is positive on the compact set $A$, since $B$ is closed, so it has a positive minimum $\delta$. The set $A^{\prime} = A + B(0, \delta/2)$ is open, convex and disjoint
+from $B$. By (1) there are $\Lambda \neq 0$ and $c$ with $\Lambda(a + u) < c \leq \Lambda(b)$ for $a \in A$, $\|u\| < \delta/2$, $b \in B$. Taking the supremum over $u$ gives $\Lambda(a) + \frac{\delta}{2}\|\Lambda\| \leq c$,
+so (2) holds with $c_1 = \sup_A\Lambda \leq c - \frac\delta2\|\Lambda\|$ and $c_2 = c$.
+
+If $\mathbb{K} = \CC$, regard $X$ as a real normed space, and let $\Lambda_\RR$ be the real functional just constructed. Then $\Lambda(x) = \Lambda_\RR(x) - i\Lambda_\RR(ix)$ is complex linear, as
+$\Lambda(ix) = \Lambda_\RR(ix) + i\Lambda_\RR(x) = i\Lambda(x)$, with $\operatorname{Re}\Lambda = \Lambda_\RR$; and it is bounded, since for $|\Lambda(x)| = e^{-i\theta}\Lambda(x) = \Lambda(e^{-i\theta}x)$ this number is real, hence equal to
+$\Lambda_\RR(e^{-i\theta}x) \leq \|\Lambda_\RR\|\,\|x\|$.
+\end{proof}
+
+The compactness in (2) cannot be weakened to closedness: in $\RR^2$ the closed convex sets $\{y \leq 0\}$ and $\{y \geq e^x\}$ are disjoint, and every line separating them is horizontal, with $\{y = 0\}$
+the only one; no line separates them strictly.
+
+\begin{corollary}[Mazur]\label{functional-analysis:corollary-mazur}
+Let $X$ be a normed space.
+\begin{enumerate}
+\item A convex subset of $X$ is weakly closed if and only if it is norm closed.
+\item If $x_n \rightharpoonup x$ weakly, then for every $k$ there is a convex combination $y_k$ of $x_k, x_{k+1}, \ldots$ (a finite one) with $\|y_k - x\| < 1/k$; in particular $y_k \to x$ in norm.
+\item If $x_n \rightharpoonup x$, then $\|x\| \leq \liminf_n\|x_n\|$.
+\item A subspace $M \subseteq X$ is dense if and only if every $\Lambda \in X^*$ vanishing on $M$ is zero.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Every $\Lambda \in X^*$ is norm continuous, so weakly open sets are norm open, and weakly closed sets norm closed. Conversely let $C$ be convex and norm closed, and $x \notin C$. By
+Theorem~\ref{functional-analysis:theorem-separation}(2) applied to $\{x\}$ and $C$ there are $\Lambda$ and $c_2$ with $\operatorname{Re}\Lambda(x) < c_2 \leq \operatorname{Re}\Lambda(y)$ for $y \in C$; the weakly open set
+$\{y : \operatorname{Re}\Lambda(y) < c_2\}$ contains $x$ and misses $C$. So the complement of $C$ is weakly open.
+
+(2) The norm closure $K$ of the convex hull of $\{x_n : n \geq k\}$ is convex (the closure of a convex set is convex) and norm closed, hence weakly closed by (1); it contains $x_n$ for $n \geq k$, hence the weak
+limit $x$ (if $x \notin K$, a weakly open neighbourhood of $x$ missing $K$ would contain $x_n$ for large $n$). So $x$ is a norm limit of convex combinations of the $x_n$, $n \geq k$.
+
+(3) By Theorem~\ref{functional-analysis:theorem-hahn-banach} there is $\Lambda$ with $\|\Lambda\| = 1$ and $\Lambda(x) = \|x\|$; then $\|x\| = \lim_n|\Lambda(x_n)| \leq \liminf_n\|x_n\|$.
+
+(4) If $M$ is dense and $\Lambda|_M = 0$, then $\Lambda = 0$ by continuity. If $\overline{M} \neq X$, choose $x \notin \overline{M}$ and separate $\{x\}$ from the closed subspace $\overline{M}$ as in (1):
+$\operatorname{Re}\Lambda(x) < c_2 \leq \operatorname{Re}\Lambda(m)$ for $m \in \overline{M}$. Applying this to $tm$ for all real $t$ shows $\operatorname{Re}\Lambda = 0$ on $\overline{M}$, hence $\Lambda = 0$ on $\overline{M}$ (for
+$\mathbb{K} = \CC$ use $\Lambda(m) = \operatorname{Re}\Lambda(m) - i\operatorname{Re}\Lambda(im)$); and $\Lambda \neq 0$ because $\operatorname{Re}\Lambda(x) < c_2 \leq 0$.
+\end{proof}
+
+\begin{example}\label{functional-analysis:example-weak-closure-sphere}
+\emph{The weak closure of the sphere.} Let $X$ be an infinite-dimensional normed space, $S = \{\|x\| = 1\}$ and $\overline{B} = \{\|x\| \leq 1\}$. Then the weak closure of $S$ is $\overline{B}$. Indeed $\overline{B}$ is convex
+and norm closed, hence weakly closed by Mazur's theorem, and contains $S$. Conversely, let $\|x\| < 1$ and let $V = \{y : |\Lambda_i(y - x)| < \varepsilon, \ i = 1, \ldots, k\}$ be a basic weak neighbourhood of $x$.
+The subspace $N = \bigcap_i\ker\Lambda_i$ is the kernel of the linear map $X \to \mathbb{K}^k$, $y \mapsto (\Lambda_i(y))_i$, so it has codimension at most $k$ and contains some $v \neq 0$. The continuous function
+$t \mapsto \|x + tv\|$ on $[0, \infty)$ is less than $1$ at $t = 0$ and tends to infinity, so it takes the value $1$ at some $t$, and $x + tv \in S \cap V$. So the norm-closed set $S$ is not weakly closed: for
+instance an orthonormal sequence in a Hilbert space lies on $S$ and converges weakly to $0$ (Counterexample~\ref{functional-analysis:counterexample-weak}). This also shows that in (3) of the corollary the
+inequality can be strict.
+\end{example}
+
+\begin{proposition}[The direct method]\label{functional-analysis:proposition-direct-method}
+Let $H$ be a separable Hilbert space and $F \colon H \to \RR$ a continuous convex function with $F(x) \to \infty$ as $\|x\| \to \infty$. Then $F$ attains its minimum.
+\end{proposition}
+
+\begin{proof}
+Let $m = \inf F$, possibly $-\infty$ a priori, and choose $x_n$ with $F(x_n) \to m$. Since $F$ is coercive, $(x_n)$ is bounded, and by the Banach--Alaoglu theorem for Hilbert spaces
+(Theorem~\ref{functional-analysis:theorem-alaoglu}) a subsequence converges weakly to some $x$. For every $t > m$ the sublevel set $\{F \leq t\}$ is convex (by convexity of $F$) and norm closed (by
+continuity), hence weakly closed by Corollary~\ref{functional-analysis:corollary-mazur}(1); it contains $x_n$ for $n$ large, hence the weak limit $x$. So $F(x) \leq t$ for every $t > m$, and $F(x) = m$; in particular
+$m > -\infty$.
+\end{proof}
+
+This is the abstract form of \emph{Dirichlet's principle}: to solve a boundary value problem, minimise an energy such as $\int|\nabla u|^2$ over a suitable Hilbert space. Weak compactness gives a weak
+limit of a minimising sequence, convexity makes the energy weakly lower semicontinuous, and it remains to show that the minimiser is a smooth solution, which is a regularity question. In Hodge
+theory the harmonic representative of a cohomology class is likewise the closed form of least energy in its class (Chapter~\ref{hodge-theorem}). The theorem holds more generally in reflexive Banach spaces, for instance in $L^p$ with $1 < p < \infty$, by the results quoted
+in Remark~\ref{functional-analysis:remark-reflexive}. Without convexity the conclusion fails: on $\ell^2$ the function $F(x) = (\|x\|^2 - 1)^2 + \sum_n2^{-n}|x_n|^2$ is continuous and coercive, and
+$F(e_N) = 2^{-N} \to 0$, but $F > 0$ everywhere, since $F(x) = 0$ would require both $\|x\| = 1$ and $x = 0$.
+
+\section{Dual spaces and reflexivity}\label{functional-analysis:section-duality}
+
+To understand a Banach space one often determines its dual. For sequence spaces this is elementary. Let $c_0 \subseteq \ell^\infty$ be the closed subspace of sequences tending to $0$, and for $1 \leq p \leq \infty$ let
+$q$ be the \emph{conjugate exponent}, $1/p + 1/q = 1$ (with $q = \infty$ for $p = 1$ and $q = 1$ for $p = \infty$). For a sequence $y$, let $\Lambda_y(x) = \sum_nx_ny_n$ whenever this converges absolutely.
+
+\begin{proposition}\label{functional-analysis:proposition-sequence-duals}
+\begin{enumerate}
+\item For $1 \leq p < \infty$, the map $y \mapsto \Lambda_y$ is an isometric isomorphism $\ell^q \to (\ell^p)^*$.
+\item The map $y \mapsto \Lambda_y$ is an isometric isomorphism $\ell^1 \to (c_0)^*$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By H\"older's inequality for the counting measure (Proposition~\ref{measure-theory:proposition-holder}), $|\Lambda_y(x)| \leq \|x\|_p\|y\|_q$, so $\Lambda_y \in (\ell^p)^*$ with $\|\Lambda_y\| \leq \|y\|_q$, and
+$y \mapsto \Lambda_y$ is linear and injective, as $\Lambda_y(e_n) = y_n$ for the unit vectors $e_n$. Let $\Lambda \in (\ell^p)^*$ and $y_n = \Lambda(e_n)$; we show $\|y\|_q \leq \|\Lambda\|$ and $\Lambda = \Lambda_y$. If $p = 1$,
+$|y_n| = |\Lambda(e_n)| \leq \|\Lambda\|$, so $\|y\|_\infty \leq \|\Lambda\|$. If $1 < p < \infty$, so $q < \infty$ and $(q - 1)p = q$, let $x^{(N)}_n = |y_n|^{q-2}\bar y_n$ for $n \leq N$ (and $0$ if $y_n = 0$ or $n > N$).
+Then
+\[
+\sum_{n \leq N}|y_n|^q = \Lambda(x^{(N)}) \leq \|\Lambda\|\,\|x^{(N)}\|_p = \|\Lambda\|\Bigl(\sum_{n \leq N}|y_n|^{(q-1)p}\Bigr)^{1/p} = \|\Lambda\|\Bigl(\sum_{n \leq N}|y_n|^q\Bigr)^{1/p},
+\]
+so $(\sum_{n \leq N}|y_n|^q)^{1/q} \leq \|\Lambda\|$ for all $N$, and $\|y\|_q \leq \|\Lambda\|$. In both cases $\Lambda$ and $\Lambda_y$ are continuous and agree on the finitely supported sequences, which are dense in
+$\ell^p$ for $p < \infty$ (for $x \in \ell^p$ the tail $\sum_{n > N}|x_n|^p$ tends to $0$); so $\Lambda = \Lambda_y$, and $\|\Lambda\| \leq \|y\|_q \leq \|\Lambda\|$.
+
+(2) In the same way, $|\Lambda_y(x)| \leq \|x\|_\infty\|y\|_1$ for $x \in c_0$ and $y \in \ell^1$. Given $\Lambda \in c_0^*$, put $y_n = \Lambda(e_n)$ and $x^{(N)}_n = \bar y_n/|y_n|$ for $n \leq N$, $y_n \neq 0$ (and $0$
+otherwise); then $\|x^{(N)}\|_\infty \leq 1$ and $\sum_{n \leq N}|y_n| = \Lambda(x^{(N)}) \leq \|\Lambda\|$. The finitely supported sequences are dense in $c_0$, so again $\Lambda = \Lambda_y$ and $\|\Lambda\| = \|y\|_1$.
+\end{proof}
+
+The dual of $\ell^\infty$ is strictly larger than $\ell^1$. The subspace $c_0$ is closed and not dense in $\ell^\infty$, since $\mathbf{1} = (1, 1, \ldots)$ has distance $1$ from it, so by
+Corollary~\ref{functional-analysis:corollary-mazur}(4) there is $0 \neq \Lambda \in (\ell^\infty)^*$ vanishing on $c_0$. It is not of the form $\Lambda_y$ with $y \in \ell^1$, since then $y_n = \Lambda(e_n) = 0$ for all
+$n$. Such functionals are invisible on every finite part of a sequence, like the \emph{Banach limits} of Exercise~\ref{functional-analysis:exercise-banach-limit}; they are produced by the Hahn--Banach theorem, that is, by
+Zorn's lemma, and no explicit formula for one is known.
+
+\begin{lemma}\label{functional-analysis:lemma-hahn-banach-distance}
+Let $M$ be a closed subspace of a normed space $X$ and $x_0 \notin M$, with $d = \operatorname{dist}(x_0, M)$. There is $\Lambda \in X^*$ with $\|\Lambda\| = 1$, $\Lambda|_M = 0$ and $\Lambda(x_0) = d$.
+\end{lemma}
+
+\begin{proof}
+The quotient $X/M$ with $\|x + M\| = \operatorname{dist}(x, M)$ is a normed space (the proof of Lemma~\ref{functional-analysis:lemma-banach-series} that this is a norm did not use completeness), and the
+projection $\pi \colon X \to X/M$ has norm at most $1$. As $\|x_0 + M\| = d > 0$, the Hahn--Banach theorem gives $\lambda \in (X/M)^*$ with $\|\lambda\| = 1$ and $\lambda(x_0 + M) = d$. Then $\Lambda = \lambda \circ \pi$
+vanishes on $M$, has $\|\Lambda\| \leq 1$ and $\Lambda(x_0) = d$; and for $m \in M$, $d = |\Lambda(x_0 - m)| \leq \|\Lambda\|\,\|x_0 - m\|$, so taking the infimum over $m$, $d \leq \|\Lambda\|d$ and $\|\Lambda\| = 1$.
+\end{proof}
+
+\begin{lemma}\label{functional-analysis:lemma-dual-separable}
+If the dual $X^*$ of a normed space $X$ is separable, then $X$ is separable.
+\end{lemma}
+
+\begin{proof}
+We may assume $X \neq 0$. Let $(\Lambda_n)$ be dense in $X^*$, and choose unit vectors $x_n$ with $|\Lambda_n(x_n)| \geq \|\Lambda_n\|/2$. The closed span $M$ of the $x_n$ is separable (finite combinations with
+coefficients in $\QQ$ or $\QQ + i\QQ$ are dense in it). If $M \neq X$, Lemma~\ref{functional-analysis:lemma-hahn-banach-distance} gives $\Lambda$ with $\|\Lambda\| = 1$ and $\Lambda|_M = 0$. Choose $n$ with
+$\|\Lambda - \Lambda_n\| < \frac13$. Then $\|\Lambda_n\| > \frac23$, so $|\Lambda_n(x_n)| > \frac13$; but $|\Lambda_n(x_n)| = |(\Lambda_n - \Lambda)(x_n)| < \frac13$. So $M = X$.
+\end{proof}
+
+The converse fails: $\ell^1$ is separable, but its dual $\ell^\infty$ (Proposition~\ref{functional-analysis:proposition-sequence-duals}) is not (Remark~\ref{functional-analysis:remark-separable-bases}).
+
+\begin{definition}\label{functional-analysis:definition-reflexive}
+The \emph{bidual} of a normed space $X$ is $X^{**} = (X^*)^*$, and the \emph{canonical map} $J \colon X \to X^{**}$ is $(Jx)(\Lambda) = \Lambda(x)$. By Theorem~\ref{functional-analysis:theorem-hahn-banach},
+$\|Jx\| = \sup_{\|\Lambda\| \leq 1}|\Lambda(x)| = \|x\|$, so $J$ is a linear isometry. $X$ is \emph{reflexive} if $J$ is surjective. A reflexive space is complete, being isometric to the Banach space $X^{**}$.
+\end{definition}
+
+\begin{proposition}\label{functional-analysis:proposition-reflexive-examples}
+\begin{enumerate}
+\item Finite-dimensional normed spaces and Hilbert spaces are reflexive.
+\item $\ell^p$ is reflexive for $1 < p < \infty$.
+\item A Banach space $X$ is reflexive if and only if $X^*$ is reflexive.
+\item $c_0$, $\ell^1$ and $\ell^\infty$ are not reflexive.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $\dim X < \infty$, then $\dim X^{**} = \dim X$ and the injective map $J$ is bijective. Let $H$ be a Hilbert space, and $\Phi \colon H \to H^*$, $\Phi(y) = \langle \cdot, y \rangle$, the conjugate-linear
+bijection of Theorem~\ref{functional-analysis:theorem-riesz-representation}. Given $\xi \in H^{**}$, the map $y \mapsto \overline{\xi(\Phi(y))}$ is linear (as $\Phi(ty) = \bar t\Phi(y)$) and bounded, so it is
+$\langle y, x \rangle$ for some $x \in H$. Then $\xi(\Phi(y)) = \overline{\langle y, x \rangle} = \langle x, y \rangle = \Phi(y)(x) = (Jx)(\Phi(y))$ for all $y$, and as $\Phi$ is onto, $\xi = Jx$.
+
+(2) Let $\xi \in (\ell^p)^{**}$. By Proposition~\ref{functional-analysis:proposition-sequence-duals}(1), $y \mapsto \xi(\Lambda_y)$ is a bounded linear functional on $\ell^q$, and since $1 < q < \infty$ the same proposition
+gives $x \in \ell^p$ with $\xi(\Lambda_y) = \sum_ny_nx_n = \Lambda_y(x) = (Jx)(\Lambda_y)$. As every element of $(\ell^p)^*$ is some $\Lambda_y$, $\xi = Jx$.
+
+(3) Write $J_X$ and $J_{X^*}$ for the canonical maps. Suppose $X$ reflexive and $\varphi \in X^{***}$. Then $\Lambda = \varphi \circ J_X \in X^*$, and for $\xi = J_Xx \in X^{**}$,
+$\varphi(\xi) = \Lambda(x) = \xi(\Lambda) = (J_{X^*}\Lambda)(\xi)$; so $\varphi = J_{X^*}\Lambda$, and $X^*$ is reflexive. Conversely, suppose $X^*$ reflexive and $J_X(X) \neq X^{**}$. Since $X$ is complete and
+$J_X$ is an isometry, $J_X(X)$ is closed, and Lemma~\ref{functional-analysis:lemma-hahn-banach-distance} gives $0 \neq \varphi \in X^{***}$ vanishing on $J_X(X)$. Write $\varphi = J_{X^*}\Lambda$; then
+$0 = \varphi(J_Xx) = (J_Xx)(\Lambda) = \Lambda(x)$ for all $x$, so $\Lambda = 0$ and $\varphi = 0$, a contradiction.
+
+(4) By Proposition~\ref{functional-analysis:proposition-sequence-duals}, every $\xi \in c_0^{**}$ is determined by the sequence $z_n = \xi(\Lambda_{e_n})$, which is bounded, $|z_n| \leq \|\xi\|$, and every bounded
+sequence $z$ arises, from $\xi(\Lambda_y) = \sum_ny_nz_n$. For $x \in c_0$, $(Jx)(\Lambda_{e_n}) = x_n$. So the element $\xi$ with $z = (1, 1, \ldots)$ is not in $J(c_0)$, and $c_0$ is not reflexive. If $\ell^1$ were
+reflexive, then its bidual $(\ell^1)^{**} \cong (\ell^\infty)^*$ would be isometric to the separable space $\ell^1$, so $\ell^\infty$ would be separable by Lemma~\ref{functional-analysis:lemma-dual-separable},
+which it is not. Finally $\ell^\infty \cong (\ell^1)^*$, so by (3) it is not reflexive either.
+\end{proof}
+
+\begin{remark}\label{functional-analysis:remark-reflexive}
+\begin{enumerate}
+\item \emph{Duals of $L^p$.} For a $\sigma$-finite measure space and $1 \leq p < \infty$, every bounded linear functional on $L^p(\mu)$ is $f \mapsto \int fg\,d\mu$ for a unique $g \in L^q(\mu)$, and
+$(L^p)^* \cong L^q$ isometrically; hence $L^p$ is reflexive for $1 < p < \infty$. The spaces $L^1([0, 1])$ and $L^\infty([0, 1])$ are not reflexive. See \cite[Chapter 4]{brezis-functional}; for $p = 2$ this is the
+Riesz representation theorem.
+\item \emph{The dual of $C(K)$.} For a compact metric space $K$, $C(K)^*$ is the space of signed (or complex) finite Borel measures with the total variation norm; for positive functionals this is the
+Riesz--Markov theorem (Theorem~\ref{measure-theory:theorem-riesz-markov}, Remark~\ref{measure-theory:remark-riesz-markov}). Weak-$*$ convergence in $C(K)^*$ is then weak convergence of measures, and
+Theorem~\ref{measure-theory:theorem-weak-compactness} is a case of the Banach--Alaoglu theorem.
+\item \emph{Weak compactness.} A Banach space is reflexive if and only if its closed unit ball is weakly compact (Kakutani), and then every bounded sequence has a weakly convergent subsequence
+(Eberlein--\v{S}mulian). Every uniformly convex space, such as $L^p$ with $1 < p < \infty$, is reflexive (Milman--Pettis). See \cite[Chapter 3]{brezis-functional}. This is why the direct method
+(Proposition~\ref{functional-analysis:proposition-direct-method}) works in $L^p$ and in the Sobolev spaces built from it, and fails in $L^1$: there the integrable functions $n\mathbf{1}_{[0, 1/n]}$, of norm $1$,
+concentrate at a point and have no weakly convergent subsequence in $L^1$, their limit being the Dirac measure, which lies outside $L^1$.
+\end{enumerate}
+\end{remark}
 
 \section{Exercises}\label{functional-analysis:section-exercises}
 
@@ -454,4 +952,107 @@ by $d$, then $f$ is a polynomial of degree at most $d$. Deduce that the polynomi
 The partial sums of $\sum x^k/k!$ converge to $e^x$ in $C^\infty(\RR)$, as all derivatives converge uniformly on compact sets. If $\deg p_k \leq d$, then $p_k^{(d+1)} = 0$ converges to $f^{(d+1)}$, so
 $f^{(d+1)} = 0$ and $f$ is a polynomial of degree at most $d$ (Theorem~\ref{real-analysis:theorem-mean-value} applied repeatedly). Density: by the Weierstrass theorem applied to $f^{(j)}$ on $[-R, R]$ and
 integrating $j$ times, every smooth function is approximated with its first $j$ derivatives on $[-R, R]$ by polynomials; the space is not closed since $e^x$ is not a polynomial.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-equivalent-norms}
+Show that $C^1([0, 1])$ is complete for the norm $\|f\|_\infty + \|f^{\prime}\|_\infty$ and for the norm $|f(0)| + \|f^{\prime}\|_\infty$, and deduce from Corollary~\ref{functional-analysis:corollary-equivalent-norms} that these
+norms are equivalent. Find an explicit constant.
+\end{exercise}
+
+\begin{solution}
+If $(f_k)$ is Cauchy for the first norm, then $f_k \to f$ and $f_k^{\prime} \to g$ uniformly, and $f^{\prime} = g$ by Theorem~\ref{real-analysis:theorem-uniform-derivative}, so $f \in C^1$ and $f_k \to f$ in the norm. For the second
+norm, if $(f_k)$ is Cauchy then $f_k(0) \to a$ and $f_k^{\prime} \to g$ uniformly, and $f_k(x) = f_k(0) + \int_0^xf_k^{\prime}$ converges uniformly to $f(x) = a + \int_0^xg$, which is $C^1$ with $f^{\prime} = g$. Clearly
+$|f(0)| + \|f^{\prime}\|_\infty \leq \|f\|_\infty + \|f^{\prime}\|_\infty$, so the corollary applies. Explicitly, $|f(x)| \leq |f(0)| + \|f^{\prime}\|_\infty$ by the mean value theorem, so
+$\|f\|_\infty + \|f^{\prime}\|_\infty \leq 2(|f(0)| + \|f^{\prime}\|_\infty)$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-fejer}
+For $f \in C(S^1)$ let $\sigma_Nf = \frac{1}{N + 1}\sum_{k=0}^NS_kf$. Show that $\sigma_Nf(x) = \int_0^1f(x - t)F_N(t)\,dt$ with the \emph{Fej\'er kernel}
+\[
+F_N(t) = \frac{1}{N + 1}\sum_{k=0}^ND_k(t) = \frac{1}{N + 1}\Bigl(\frac{\sin((N + 1)\pi t)}{\sin(\pi t)}\Bigr)^2,
+\]
+and deduce Fej\'er's theorem: $\sigma_Nf \to f$ uniformly. Conclude again that trigonometric polynomials are dense in $C(S^1)$.
+\end{exercise}
+
+\begin{solution}
+The integral formula follows from Lemma~\ref{functional-analysis:lemma-dirichlet-kernel} by averaging. With $s = \pi t$, $2\sin s\sin((2k + 1)s) = \cos(2ks) - \cos((2k + 2)s)$, so the sum telescopes:
+$\sum_{k=0}^N\sin((2k + 1)s) = \frac{1 - \cos(2(N + 1)s)}{2\sin s} = \frac{\sin^2((N + 1)s)}{\sin s}$; dividing by $\sin s$ gives the formula for $F_N$. Hence $F_N \geq 0$, $\int_0^1F_N = 1$ (as
+$\int_0^1D_k = 1$), and for $0 < \delta \leq |t| \leq \frac12$, $F_N(t) \leq \frac{1}{(N + 1)\sin^2(\pi\delta)}$. Given $\varepsilon > 0$, uniform continuity gives $\delta$ with $|f(x - t) - f(x)| < \varepsilon$ for
+$|t| < \delta$, and then, integrating over $[-\frac12, \frac12]$,
+\[
+|\sigma_Nf(x) - f(x)| \leq \int F_N(t)|f(x - t) - f(x)|\,dt \leq \varepsilon + \frac{2\|f\|_\infty}{(N + 1)\sin^2(\pi\delta)},
+\]
+which is less than $2\varepsilon$ for $N$ large, uniformly in $x$. Each $\sigma_Nf$ is a trigonometric polynomial.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-dini}
+Let $f \in L^1(S^1)$ and suppose $t \mapsto (f(t) - f(0))/t$ is integrable on $[-\frac12, \frac12]$; for instance, $f$ is continuous and differentiable at $0$, or Lipschitz near $0$. Show that $S_Nf(0) \to f(0)$
+(\emph{Dini's criterion}). Deduce that the Fourier series of $f(t) = t$ on $[-\frac12, \frac12)$, extended periodically, converges to $t$ for $|t| < \frac12$, and evaluate it at $t = \frac14$ to obtain
+$1 - \frac13 + \frac15 - \cdots = \frac\pi4$.
+\end{exercise}
+
+\begin{solution}
+Since $\int_0^1D_N = 1$ and $D_N$ is even, $S_Nf(0) - f(0) = \int_{-1/2}^{1/2}(f(t) - f(0))D_N(t)\,dt = \int_{-1/2}^{1/2}g(t)\sin((2N + 1)\pi t)\,dt$ with $g(t) = (f(t) - f(0))/\sin(\pi t)$, which is
+integrable because $|\sin(\pi t)| \geq 2|t|$ on $[-\frac12, \frac12]$ (concavity of $\sin$ on $[0, \frac\pi2]$). Writing $\sin((2N + 1)\pi t) = \frac{1}{2i}(e^{\pi it}e^{2\pi iNt} - e^{-\pi it}e^{-2\pi iNt})$, the integral is a
+combination of Fourier coefficients $\hat h_\pm(\mp N)$ of the integrable functions $h_\pm(t) = g(t)e^{\pm\pi it}$ on $[-\frac12, \frac12)$, which tend to $0$ by the Riemann--Lebesgue lemma
+(Proposition~\ref{functional-analysis:proposition-riemann-lebesgue}). If $f$ is differentiable at $0$, the quotient $(f(t) - f(0))/t$ is bounded for $|t| < \delta$, for some $\delta > 0$, and for $|t| \geq \delta$ it is at most $(|f(t)| + |f(0)|)/\delta$, which is
+integrable; so the hypothesis holds.
+For $f(t) = t$: $\hat f(0) = 0$ and, integrating by parts, $\hat f(n) = \frac{(-1)^ni}{2\pi n}$ for $n \neq 0$, so the Fourier series is $\sum_{n \geq 1}\frac{(-1)^{n+1}}{\pi n}\sin(2\pi nt)$. At an interior point
+$x$, apply the criterion to the translate $f(\cdot + x)$, whose Fourier coefficients are $\hat f(n)e^{2\pi inx}$. At $t = \frac14$, $\sin(2\pi n/4)$ is $0$ for even $n$ and $(-1)^{(n-1)/2}$ for odd $n$, giving
+$\frac14 = \frac1\pi(1 - \frac13 + \frac15 - \cdots)$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-volterra-equation}
+Let $V$ be the Volterra operator. Show that for every $\lambda \in \CC$ and $g \in L^2([0, 1])$ the integral equation $f(x) - \lambda\int_0^xf(t)\,dt = g(x)$ has the unique solution
+$f = \sum_{n \geq 0}\lambda^nV^ng$ in $L^2([0, 1])$, and compute it for $g = 1$.
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{functional-analysis:example-spectra}(4), $\|\lambda^nV^n\| \leq |\lambda|^n/(n - 1)!$, so the series $\sum\lambda^nV^n$ converges absolutely in $B(L^2)$, and as in Lemma~\ref{functional-analysis:lemma-neumann} its sum is
+the inverse of $I - \lambda V$. For $g = 1$, $V^n1 = x^n/n!$, so $f(x) = \sum_n\lambda^nx^n/n! = e^{\lambda x}$; indeed $e^{\lambda x} - \lambda\int_0^xe^{\lambda t}\,dt = 1$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-spectrum-adjoint}
+Let $H$ be a complex Hilbert space and $T \in B(H)$. Show that $\sigma(T^*) = \{\bar\lambda : \lambda \in \sigma(T)\}$, that the spectrum of a unitary operator lies on the unit circle, and that the right
+shift on $\ell^2$ has the closed unit disc as its spectrum.
+\end{exercise}
+
+\begin{solution}
+If $A$ is invertible, then $(A^{-1})^*A^* = (AA^{-1})^* = I$ and $A^*(A^{-1})^* = I$, so $A^*$ is invertible; the converse follows from $A^{**} = A$ (Exercise~\ref{functional-analysis:exercise-adjoint-properties}).
+Apply this to $A = T - \lambda$, with $A^* = T^* - \bar\lambda$. If $U$ is unitary, $\|U\| = \|U^{-1}\| = 1$, so $\sigma(U)$ and $\sigma(U^{-1})$ lie in the closed unit disc, and $0 \notin \sigma(U)$. For $\lambda \neq 0$,
+$U - \lambda = -\lambda U(U^{-1} - \lambda^{-1})$, so $\lambda \in \sigma(U)$ implies $\lambda^{-1} \in \sigma(U^{-1})$ and $|\lambda| \geq 1$. The right shift is the adjoint of the left shift, whose spectrum is the closed unit
+disc (Example~\ref{functional-analysis:example-spectra}(3)), which is invariant under conjugation.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-weak-unit-vectors}
+Show that the unit vectors $e_n$ converge weakly to $0$ in $c_0$ and in $\ell^p$ for $1 < p < \infty$, but not in $\ell^1$.
+\end{exercise}
+
+\begin{solution}
+By Proposition~\ref{functional-analysis:proposition-sequence-duals}, every functional on $\ell^p$ ($1 < p < \infty$) is $\Lambda_y$ with $y \in \ell^q$, $q < \infty$, and every functional on $c_0$ is $\Lambda_y$ with $y \in \ell^1$; in both
+cases $\Lambda_y(e_n) = y_n \to 0$. On $\ell^1$, the functional $\Lambda_{\mathbf{1}}$ given by $\mathbf{1} = (1, 1, \ldots) \in \ell^\infty$ has $\Lambda_{\mathbf{1}}(e_n) = 1$ for all $n$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-banach-limit}
+Let $\ell^\infty$ be the real space of bounded real sequences and $(Sx)_n = x_{n+1}$ the left shift. Show that there is a linear functional $L$ on $\ell^\infty$, a \emph{Banach limit}, with
+$\liminf_nx_n \leq L(x) \leq \limsup_nx_n$, $L(Sx) = L(x)$ for all $x$, and hence $L(x) = \lim_nx_n$ for convergent $x$. Compute $L(1, 0, 1, 0, \ldots)$, and show that $L$ is not of the form $\Lambda_y$ with
+$y \in \ell^1$. (Hint: apply Lemma~\ref{functional-analysis:lemma-sublinear-extension} with $p(x) = \limsup_n\frac{x_1 + \cdots + x_n}{n}$.)
+\end{exercise}
+
+\begin{solution}
+$p$ is sublinear, and on the subspace $c$ of convergent sequences $p(x) = \lim x_n$, since Ces\`aro means of a convergent sequence converge to the same limit. Extend $\lim$ from $c$ to a linear $L \leq p$.
+Then $L(x) \leq p(x) \leq \limsup x_n$ and $-L(x) = L(-x) \leq \limsup(-x_n) = -\liminf x_n$. Moreover $p(x - Sx) = \limsup_n\frac{x_1 - x_{n+1}}{n} = 0$ for bounded $x$, and likewise $p(Sx - x) = 0$, so
+$L(x - Sx) \leq 0$ and $L(Sx - x) \leq 0$, that is, $L(Sx) = L(x)$. For $x = (1, 0, 1, 0, \ldots)$, $x + Sx = \mathbf{1}$, so $2L(x) = L(\mathbf{1}) = 1$ and $L(x) = \frac12$. If $L = \Lambda_y$ with $y \in \ell^1$, then
+$y_n = L(e_n) = 0$, as $e_n$ converges to $0$; so $L = 0$, contradicting $L(\mathbf{1}) = 1$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-closed-subspace-reflexive}
+Let $X$ be a reflexive Banach space and $M \subseteq X$ a closed subspace. Show that $M$ is reflexive. (Hint: given $\xi \in M^{**}$, define $\eta \in X^{**}$ by $\eta(\Lambda) = \xi(\Lambda|_M)$, write $\eta = Jx$, and
+use Lemma~\ref{functional-analysis:lemma-hahn-banach-distance} to show $x \in M$.)
+\end{exercise}
+
+\begin{solution}
+Restriction $X^* \to M^*$ has norm at most $1$, so $\eta$ is bounded, and $\eta = Jx$ for some $x \in X$. If $x \notin M$, the lemma gives $\Lambda \in X^*$ vanishing on $M$ with $\Lambda(x) \neq 0$; but
+$\Lambda(x) = \eta(\Lambda) = \xi(\Lambda|_M) = \xi(0) = 0$. So $x \in M$. For $\lambda \in M^*$, extend it to $\Lambda \in X^*$ by the Hahn--Banach theorem; then $\xi(\lambda) = \xi(\Lambda|_M) = \eta(\Lambda) = \Lambda(x) = \lambda(x)$.
+So $\xi = J_Mx$.
 \end{solution}
