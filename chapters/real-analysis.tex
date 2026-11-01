@@ -7,7 +7,7 @@ This chapter develops calculus in one and several real variables with complete p
 continuous functions and the theorems of Bolzano, Weierstrass and Heine--Cantor, the mean value theorems, de l'H\^opital's rule, Taylor's formula and convexity;
 then series and power series, the exponential
 and trigonometric functions (including a definition of $\pi$), the Riemann integral, uniform convergence of sequences of functions (with a continuous nowhere differentiable function), derivatives of maps between Euclidean spaces,
-the inverse and implicit function theorems, ordinary differential equations, and the approximation and compactness theorems of
+the inverse and implicit function theorems, extrema in several variables with Lagrange multipliers and the Karush--Kuhn--Tucker conditions of optimisation, ordinary differential equations, and the approximation and compactness theorems of
 Stone--Weierstrass and Arzel\`a--Ascoli. The topological background (metric spaces, compactness, completeness, uniform convergence,
 the Banach fixed point theorem) is in Chapter~\ref{general-topology}. References: \cite{rudin-principles}, \cite{dieudonne-foundations},
 \cite{spivak-calculus-manifolds}, \cite{lang-real-functional} and \cite{hartman-ode}.
@@ -1388,6 +1388,396 @@ More generally, if $Df$ has constant rank $r$ near $a$, there are local diffeomo
 holomorphic functions are known to be $C^\infty$ (Chapter~\ref{several-complex-variables}).
 \end{remark}
 
+\section{Extrema in several variables, Lagrange multipliers and the Karush--Kuhn--Tucker conditions}\label{real-analysis:section-extrema}
+
+In one variable, Fermat's lemma and the second derivative test (Lemma~\ref{real-analysis:lemma-fermat}, Corollary~\ref{real-analysis:corollary-second-derivative-test}) locate the extrema of a function.
+This section does the same in several variables, first for functions on open sets, then for functions restricted to a set defined by equations (Lagrange multipliers), and finally to a set
+defined by equations and inequalities (the Karush--Kuhn--Tucker conditions), which is the basic situation of optimisation theory. The tools are the chain rule, Taylor's formula and the implicit
+function theorem of the previous sections, together with one piece of convex geometry, Farkas' lemma.
+
+\subsection{Gradient and Hessian}\label{real-analysis:subsection-gradient-hessian}
+
+Let $U \subseteq \RR^n$ be open and $f \colon U \to \RR$ differentiable at $a$. The \emph{gradient} of $f$ at $a$ is the vector $\nabla f(a) = (\partial_1f(a), \ldots, \partial_nf(a)) \in \RR^n$; by
+Proposition~\ref{real-analysis:proposition-derivative-basic}(1) it represents the derivative through the standard inner product,
+\[
+Df(a)h = \langle\nabla f(a), h\rangle \qquad (h \in \RR^n).
+\]
+If $\nabla f(a) \neq 0$, the Cauchy--Schwarz inequality shows that among unit vectors $h$ the \emph{directional derivative} $\langle\nabla f(a), h\rangle$ is largest for $h = \nabla f(a)/\|\nabla f(a)\|$: the
+gradient points in the direction of steepest increase, and its length is the rate of increase in that direction. It is orthogonal to the level set through $a$, in the sense that
+$\langle\nabla f(a), \gamma'(0)\rangle = (f \circ \gamma)'(0) = 0$ for every differentiable curve $\gamma$ with $\gamma(0) = a$ on which $f$ is constant.
+
+If $f$ is $C^2$, its \emph{Hessian} at $a$ is the matrix $D^2f(a) = (\partial_i\partial_jf(a))_{i,j}$, which is symmetric by Schwarz's theorem (Theorem~\ref{real-analysis:theorem-schwarz}). We write
+$D^2f(a)(h, h) = h^TD^2f(a)h = \sum_{i,j}\partial_i\partial_jf(a)h_ih_j$ for the associated quadratic form. With this notation Taylor's theorem (Theorem~\ref{real-analysis:theorem-taylor-several}) for $k = 1$ reads
+\begin{equation}\label{real-analysis:equation-taylor-hessian}
+f(a + h) = f(a) + \langle\nabla f(a), h\rangle + \tfrac12D^2f(\xi)(h, h) \qquad \text{for some } \xi \in (a, a + h),
+\end{equation}
+since $\sum_{|\alpha| = 2}\frac{\partial^\alpha f}{\alpha!}h^\alpha = \frac12\sum_{i,j}\partial_i\partial_jfh_ih_j$ (a diagonal term $\alpha = 2e_i$ has $\alpha! = 2$ and occurs once, an off-diagonal pair $\{i, j\}$ has
+$\alpha! = 1$ and occurs twice in the double sum). Along a line, if $g(t) = f(a + th)$, the chain rule gives
+\begin{equation}\label{real-analysis:equation-line-derivatives}
+g'(t) = \langle\nabla f(a + th), h\rangle, \qquad g''(t) = D^2f(a + th)(h, h).
+\end{equation}
+
+A real symmetric matrix $H$, or its quadratic form, is \emph{positive definite} if $h^THh > 0$ for all $h \neq 0$, \emph{positive semidefinite} if $h^THh \geq 0$ for all $h$, \emph{negative (semi)definite} if
+$-H$ is positive (semi)definite, and \emph{indefinite} if $h^THh$ takes both signs. By the spectral theorem (Theorem~\ref{linear-algebra:theorem-spectral}), $H = QDQ^T$ with $Q$ orthogonal, and
+$h^THh = \sum_i\lambda_iy_i^2$ with $y = Q^Th$: so $H$ is positive definite if and only if all its eigenvalues are positive, positive semidefinite if and only if they are all $\geq 0$, and indefinite if
+and only if it has eigenvalues of both signs.
+
+\begin{definition}\label{real-analysis:definition-local-extremum-several}
+Let $S \subseteq \RR^n$ and $f \colon S \to \RR$. Then $f$ has a \emph{local minimum} at $a \in S$ if there is $\delta > 0$ with $f(x) \geq f(a)$ for all $x \in S$ with $\|x - a\| < \delta$, and a \emph{strict local
+minimum} if moreover $f(x) > f(a)$ for these $x \neq a$; similarly for (strict) local maxima. A \emph{global minimum} on $S$ is a point $a$ with $f(x) \geq f(a)$ for all $x \in S$. When $S$ is given by
+equations or inequalities and $f$ is the restriction of a function defined on a larger open set, one speaks of a \emph{constrained} extremum. A point $a$ of an open set $U$ where $f$ is differentiable
+is a \emph{critical point} of $f$ if $\nabla f(a) = 0$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-hessian-test}
+Let $U \subseteq \RR^n$ be open, $f \colon U \to \RR$ of class $C^2$, and $a \in U$.
+\begin{enumerate}
+\item If $f$ has a local minimum at $a$, then $\nabla f(a) = 0$ and $D^2f(a)$ is positive semidefinite.
+\item If $\nabla f(a) = 0$ and $D^2f(a)$ is positive definite, then $f$ has a strict local minimum at $a$.
+\item If $\nabla f(a) = 0$ and $D^2f(a)$ is indefinite, then $f$ has no local extremum at $a$ (a \emph{saddle point}).
+\end{enumerate}
+The same holds for maxima with ``negative'' in place of ``positive''.
+\end{proposition}
+
+\begin{proof}
+(1) Let $h \in \RR^n$ and $g(t) = f(a + th)$, defined and $C^2$ on an interval around $0$, with a local minimum at $0$. By Lemma~\ref{real-analysis:lemma-fermat} and
+\eqref{real-analysis:equation-line-derivatives}, $0 = g'(0) = \langle\nabla f(a), h\rangle$; as $h$ is arbitrary, $\nabla f(a) = 0$. If $g''(0) = D^2f(a)(h, h)$ were negative, $g$ would have a strict local
+maximum at $0$ by Corollary~\ref{real-analysis:corollary-second-derivative-test}, so $g(t) < g(0) \leq g(t)$ for small $t \neq 0$, which is absurd. Hence $D^2f(a)(h, h) \geq 0$.
+
+(2) The unit sphere $\{\|u\| = 1\}$ is compact (Theorem~\ref{general-topology:theorem-heine-borel}) and $u \mapsto D^2f(a)(u, u)$ is continuous and positive on it, so it has a minimum $m > 0$
+(Corollary~\ref{general-topology:corollary-extreme-value}). For $\|u\| = 1$,
+$|D^2f(\xi)(u, u) - D^2f(a)(u, u)| \leq \sum_{i,j}|\partial_i\partial_jf(\xi) - \partial_i\partial_jf(a)|$, which is $< m/2$ for $\|\xi - a\| < \delta$ with $\delta$ small, by continuity of the second
+derivatives. Then for $0 < \|h\| < \delta$ (and $\overline{B}(a, \delta) \subseteq U$), \eqref{real-analysis:equation-taylor-hessian} with $\nabla f(a) = 0$ gives
+\[
+f(a + h) - f(a) = \tfrac12\|h\|^2D^2f(\xi)\bigl(\tfrac{h}{\|h\|}, \tfrac{h}{\|h\|}\bigr) \geq \tfrac{m}{4}\|h\|^2 > 0.
+\]
+
+(3) By (1), applied to $f$ and to $-f$, a local minimum forces $D^2f(a)$ positive semidefinite and a local maximum forces it negative semidefinite; an indefinite form is neither.
+\end{proof}
+
+\begin{example}\label{real-analysis:example-hessian-two-variables}
+For $n = 2$ write $D^2f(a) = \bigl(\begin{smallmatrix} A & B\\ B & C\end{smallmatrix}\bigr)$. Completing the square, $Ah_1^2 + 2Bh_1h_2 + Ch_2^2 = A(h_1 + \frac BAh_2)^2 + \frac{AC - B^2}{A}h_2^2$ when
+$A \neq 0$. So the Hessian is positive definite if and only if $A > 0$ and $AC - B^2 > 0$, negative definite if and only if $A < 0$ and $AC - B^2 > 0$, and indefinite if $AC - B^2 < 0$ (the
+determinant is the product of the two eigenvalues). For instance:
+\begin{enumerate}
+\item $f(x, y) = x^2 + xy + y^2 - 3x$ has the single critical point $(2, -1)$, with $A = C = 2$, $B = 1$, $AC - B^2 = 3$: a strict local minimum, in fact global, as $f$ minus its value there is a positive
+definite quadratic form in $(x - 2, y + 1)$.
+\item $f(x, y) = x^3 - 3x + y^2$ has critical points $(\pm1, 0)$, with $D^2f = \operatorname{diag}(6x, 2)$: a strict local minimum at $(1, 0)$ and a saddle point at $(-1, 0)$. The local minimum is not
+global, since $f(x, 0) \to -\infty$ as $x \to -\infty$.
+\item $x^2 + y^4$, $x^2 - y^4$ and $x^2 + y^3$ all have the critical point $0$ with the semidefinite Hessian $\operatorname{diag}(2, 0)$, and they have a minimum, a saddle and a saddle there:
+when the Hessian is degenerate the test says nothing, as in Counterexample~\ref{real-analysis:counterexample-second-derivative}.
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{real-analysis:counterexample-lines}
+Checking all lines through $a$ is not enough. Let $f(x, y) = (y - x^2)(y - 3x^2)$. On every line through $0$ the restriction of $f$ has a strict local minimum at $0$: on the $x$-axis $f = 3x^4$, and on
+$y = mx$ we get $f = m^2x^2 - 4mx^3 + 3x^4$, whose second derivative at $0$ is $2m^2 > 0$ for $m \neq 0$ (and on the $y$-axis $f = y^2$). But $f < 0$ between the two parabolas, at $(x, 2x^2)$, arbitrarily
+close to $0$; so $0$ is not a local minimum. Here $D^2f(0) = \operatorname{diag}(0, 2)$ is only semidefinite, as Proposition~\ref{real-analysis:proposition-hessian-test}(2) requires.
+\end{counterexample}
+
+\subsection{Lagrange multipliers}\label{real-analysis:subsection-lagrange}
+
+Suppose we want the extrema of $f(x, y)$ on the curve $M = \{h(x, y) = 0\}$. Walking along $M$, the value of $f$ stops increasing at a point $a$ where $M$ does not cross the level curve of $f$
+through $a$ but touches it. There the two curves have the same tangent line, so their normals $\nabla f(a)$ and $\nabla h(a)$ are parallel: $\nabla f(a) = \lambda\nabla h(a)$ for some number $\lambda$, the
+\emph{Lagrange multiplier}. In this way a constrained problem in $n$ unknowns becomes an unconstrained system of $n + 1$ equations ($\nabla f = \lambda\nabla h$ and $h = 0$) in $n + 1$ unknowns. To prove
+this we need curves inside the constraint set with a prescribed velocity; they are provided by the submersion theorem.
+
+\begin{lemma}\label{real-analysis:lemma-curves-level-set}
+Let $U \subseteq \RR^n$ be open, $h = (h_1, \ldots, h_q) \colon U \to \RR^q$ of class $C^k$ with $k \geq 1$, and $a \in U$ with $h(a) = 0$ and $Dh(a)$ surjective, that is, with $\nabla h_1(a), \ldots,
+\nabla h_q(a)$ linearly independent. For every $d \in \ker Dh(a)$ there are $\varepsilon > 0$ and a $C^k$ curve $x \colon (-\varepsilon, \varepsilon) \to U$ with $x(0) = a$, $x'(0) = d$ and $h(x(t)) = 0$ for
+all $t$.
+\end{lemma}
+
+\begin{proof}
+By Theorem~\ref{real-analysis:theorem-submersion-immersion}(1) there is a $C^k$-diffeomorphism $\psi$ from an open $V \ni a$ onto an open $W \subseteq \RR^n$ with $h \circ \psi^{-1} = \pi$, where
+$\pi(z) = (z_1, \ldots, z_q)$. (If $q = 0$ there is nothing to prove: take $x(t) = a + td$.) Thus $h = \pi \circ \psi$ on $V$, so $\pi(\psi(a)) = h(a) = 0$ and, by the chain rule, $\pi(D\psi(a)d) =Dh(a)d = 0$.
+Put $v = D\psi(a)d$ and $x(t) = \psi^{-1}(\psi(a) + tv)$, defined for $|t| < \varepsilon$ since $W$ is open. Then $h(x(t)) = \pi(\psi(a)) + t\pi(v) = 0$, and by the chain rule and
+Theorem~\ref{real-analysis:theorem-inverse-function}, $x'(0) = D\psi(a)^{-1}v = d$.
+\end{proof}
+
+\begin{theorem}[Lagrange multipliers]\label{real-analysis:theorem-lagrange}
+Let $U \subseteq \RR^n$ be open, $f \colon U \to \RR$ and $h = (h_1, \ldots, h_q) \colon U \to \RR^q$ of class $C^1$, and $M = \{x \in U : h(x) = 0\}$. Let $a \in M$ be a point where
+$\nabla h_1(a), \ldots, \nabla h_q(a)$ are linearly independent. If $f|_M$ has a local extremum at $a$, there are unique numbers $\lambda_1, \ldots, \lambda_q$ with
+\begin{equation}\label{real-analysis:equation-lagrange}
+\nabla f(a) = \lambda_1\nabla h_1(a) + \cdots + \lambda_q\nabla h_q(a).
+\end{equation}
+Equivalently, $(a, \lambda)$ is a critical point of the \emph{Lagrangian} $L(x, \lambda) = f(x) - \sum_j\lambda_jh_j(x)$ on $U \times \RR^q$.
+\end{theorem}
+
+\begin{proof}
+Let $d \in \ker Dh(a)$, and let $x(t)$ be the curve of Lemma~\ref{real-analysis:lemma-curves-level-set}. Since $x(t) \in M$ and $x(t) \to a$, the function $f \circ x$ has a local extremum at $t = 0$, so
+by Lemma~\ref{real-analysis:lemma-fermat} and the chain rule $0 = (f \circ x)'(0) = \langle\nabla f(a), d\rangle$. Thus $\nabla f(a)$ is orthogonal to $\ker Dh(a)$. Now $\ker Dh(a)$ is exactly the orthogonal
+complement of the span $R$ of the rows $\nabla h_j(a)$ of the Jacobian matrix, so $\nabla f(a) \in (R^\perp)^\perp = R$ (in a finite-dimensional inner product space $(R^\perp)^\perp = R$, since
+$R \subseteq (R^\perp)^\perp$ and both have dimension $\dim R$). Uniqueness of the $\lambda_j$ is the linear independence of the $\nabla h_j(a)$. Finally, $\partial L/\partial x_i = 0$ for all $i$ is
+\eqref{real-analysis:equation-lagrange}, and $\partial L/\partial\lambda_j = -h_j = 0$ is the constraint.
+\end{proof}
+
+The space $\ker Dh(a)$ is the \emph{tangent space} of $M$ at $a$: by the lemma it is the set of velocities of curves in $M$ through $a$, and by the submersion theorem $M$ is, near $a$, a submanifold of
+dimension $n - q$ in the sense of Chapter~\ref{smooth-manifolds}. The theorem says that at a constrained extremum the gradient of $f$ is normal to $M$. The linear independence hypothesis
+cannot be dropped:
+
+\begin{counterexample}\label{real-analysis:counterexample-lagrange-cusp}
+Minimise $f(x, y) = x$ on the cusp $M = \{h = 0\}$, $h(x, y) = y^2 - x^3$. On $M$, $x^3 = y^2 \geq 0$, so $x \geq 0$ and the minimum is at $(0, 0)$. But $\nabla f = (1, 0)$, while
+$\nabla h = (-3x^2, 2y)$ vanishes at the origin, so no $\lambda$ satisfies $\nabla f(0) = \lambda\nabla h(0)$. Solving the Lagrange system $1 = -3\lambda x^2$, $0 = 2\lambda y$, $y^2 = x^3$ gives no solution at all:
+the method finds nothing, and the minimum sits at the singular point of $M$. In practice one must examine separately the points of $M$ where the gradients of the constraints are dependent.
+\end{counterexample}
+
+\begin{example}\label{real-analysis:example-lagrange}
+\begin{enumerate}
+\item \emph{Extrema of $x + y$ on the circle $x^2 + y^2 = 1$.} The circle is compact, so both extrema exist (Corollary~\ref{general-topology:corollary-extreme-value}), and $\nabla h = (2x, 2y) \neq 0$ on it.
+The system $(1, 1) = \lambda(2x, 2y)$ gives $x = y = \frac1{2\lambda}$, and $x^2 + y^2 = 1$ gives $(x, y) = \pm(\frac1{\sqrt2}, \frac1{\sqrt2})$: maximum $\sqrt2$, minimum $-\sqrt2$.
+\item \emph{The inequality of the means.} Maximise $f(x) = x_1x_2\cdots x_k$ on the compact set $\Delta = \{x : x_i \geq 0, \sum_ix_i = k\}$. The maximum is positive (take all $x_i = 1$), so it is attained at a
+point with all $x_i > 0$, which is a local maximum of $f$ on $M = \{x \in U : \sum_ix_i = k\}$ with $U = \{x_i > 0\}$. With $h = \sum_ix_i - k$, $\nabla h = (1, \ldots, 1)$ and
+$\partial_if = f(x)/x_i$, so $f(x)/x_i = \lambda$ for all $i$: all $x_i$ are equal, hence equal to $1$, and $f \leq 1$ on $\Delta$. By homogeneity, $\sqrt[k]{x_1\cdots x_k} \leq \frac1k\sum_ix_i$ for $x_i \geq 0$,
+which recovers Corollary~\ref{real-analysis:corollary-am-gm} by a quite different route.
+\item \emph{Eigenvectors as critical points.} Let $A$ be a real symmetric $n \times n$ matrix and $q(x) = x^TAx$, so that $\nabla q(x) = 2Ax$. On the compact unit sphere, $h(x) = \|x\|^2 - 1$ with
+$\nabla h(x) = 2x \neq 0$, the function $q$ has a maximum at some $u$, and \eqref{real-analysis:equation-lagrange} reads $Au = \lambda u$: \emph{$u$ is an eigenvector}, and $\lambda = u^TAu$ is the maximum
+of $q$ on the sphere, the largest eigenvalue. This proves, without the fundamental theorem of algebra, that a real symmetric matrix has a real eigenvector, which is the key step of
+Theorem~\ref{linear-algebra:theorem-spectral}(2). More generally the critical points of the \emph{Rayleigh quotient} $x^TAx/x^Tx$ on $\RR^n \setminus \{0\}$ are exactly the eigenvectors.
+\item \emph{Nearest points.} Let $h \colon \RR^n \to \RR$ be $C^1$, $M = \{h = 0\}$ nonempty with $\nabla h \neq 0$ on $M$, and $p \in \RR^n$. Since $M$ is closed, $f(x) = \|x - p\|^2$ attains a minimum on
+$M$ (on the compact set $M \cap \overline{B}(p, R)$ for $R$ large). At the minimum $a$, $2(a - p) = \lambda\nabla h(a)$: \emph{the segment from $p$ to the nearest point is normal to $M$}. For the hyperplane
+$\langle n, x\rangle = c$ this gives $a = p + tn$ with $t = (c - \langle n, p\rangle)/\|n\|^2$, and the familiar distance $|c - \langle n, p\rangle|/\|n\|$.
+\end{enumerate}
+\end{example}
+
+The multiplier has a meaning of its own: it is the rate at which the optimal value changes when the constraint is relaxed.
+
+\begin{proposition}\label{real-analysis:proposition-multiplier-sensitivity}
+Let $f, h \colon U \to \RR$ be $C^1$ on an open $U \subseteq \RR^n$, $J$ an open interval, and $c \mapsto x(c)$ a differentiable map $J \to U$ such that for every $c \in J$, $h(x(c)) = c$ and
+$\nabla f(x(c)) = \lambda(c)\nabla h(x(c))$ for some number $\lambda(c)$. Then $V(c) = f(x(c))$ is differentiable on $J$ and $V'(c) = \lambda(c)$.
+\end{proposition}
+
+\begin{proof}
+By the chain rule, $V'(c) = \langle\nabla f(x(c)), x'(c)\rangle = \lambda(c)\langle\nabla h(x(c)), x'(c)\rangle = \lambda(c)\frac{d}{dc}h(x(c)) = \lambda(c)$.
+\end{proof}
+
+For example, the largest product $xy$ with $x + y = c$ is $V(c) = c^2/4$, at $x = y = c/2$, where $(y, x) = \frac c2(1, 1)$: indeed $\lambda = c/2 = V'(c)$. In economics, where $f$ is a profit and $h \leq c$ a
+budget, $\lambda$ is the \emph{shadow price} of the resource: the extra profit that one more unit of it would bring. In mechanics, where Lagrange introduced the method in his \emph{M\'ecanique
+analytique} (1788), $\lambda\nabla h$ is the force by which the constraint keeps the system on $M$.
+
+\subsection{Second-order conditions}\label{real-analysis:subsection-second-order}
+
+A critical point of the Lagrangian need not be an extremum, and as in Proposition~\ref{real-analysis:proposition-hessian-test} one looks at second derivatives. The correct quadratic form is
+not the Hessian of $f$ but that of the Lagrangian, and only in tangent directions: the curvature of $M$ contributes through the multipliers.
+
+\begin{theorem}\label{real-analysis:theorem-lagrange-second-order}
+Let $f$ and $h = (h_1, \ldots, h_q)$ be $C^2$ on the open set $U \subseteq \RR^n$, $M = \{h = 0\}$, and $a \in M$ with $\nabla f(a) = \sum_j\lambda_j\nabla h_j(a)$. Put
+$L = f - \sum_j\lambda_jh_j$ (with these fixed $\lambda_j$) and $T = \ker Dh(a)$.
+\begin{enumerate}
+\item If $\nabla h_1(a), \ldots, \nabla h_q(a)$ are linearly independent and $f|_M$ has a local minimum at $a$, then $D^2L(a)(d, d) \geq 0$ for all $d \in T$.
+\item If $D^2L(a)(d, d) > 0$ for all nonzero $d \in T$, then $f|_M$ has a strict local minimum at $a$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Note that $\nabla L(a) = 0$ and that $L = f$ on $M$.
+
+(1) Let $d \in T$ and let $x(t)$ be the $C^2$ curve of Lemma~\ref{real-analysis:lemma-curves-level-set}, and $\varphi(t) = f(x(t)) = L(x(t))$. Differentiating
+$\varphi^{\prime}(t) = \sum_i\partial_iL(x(t))x_i^{\prime}(t)$ once more,
+\[
+\varphi^{\prime\prime}(0) = \sum_{i,j}\partial_j\partial_iL(a)x_i^{\prime}(0)x_j^{\prime}(0) + \sum_i\partial_iL(a)x_i^{\prime\prime}(0) = D^2L(a)(d, d),
+\]
+because $\nabla L(a) = 0$; this is where the Lagrangian, rather than $f$, is needed, since $x''(0)$ is unknown. Now $\varphi$ has a local minimum at $0$, and as in the proof of
+Proposition~\ref{real-analysis:proposition-hessian-test}(1), $\varphi''(0) \geq 0$.
+
+(2) Suppose not. Then there are $x_k \in M$ with $x_k \neq a$, $x_k \to a$ and $f(x_k) \leq f(a)$. Write $x_k = a + t_kd_k$ with $t_k = \|x_k - a\| \to 0$ and $\|d_k\| = 1$; passing to a subsequence
+(the unit sphere is compact), $d_k \to d$ with $\|d\| = 1$. From $h(x_k) = h(a) = 0$ we get $0 = (h(a + t_kd_k) - h(a))/t_k \to Dh(a)d$, so $d \in T$. By \eqref{real-analysis:equation-taylor-hessian} for $L$,
+with $\nabla L(a) = 0$,
+\[
+0 \geq f(x_k) - f(a) = L(x_k) - L(a) = \tfrac12t_k^2D^2L(\xi_k)(d_k, d_k)
+\]
+with $\xi_k \to a$. Dividing by $t_k^2/2$ and letting $k \to \infty$, $D^2L(a)(d, d) \leq 0$, contradicting the hypothesis.
+\end{proof}
+
+\begin{example}\label{real-analysis:example-second-order}
+Let $M$ be the parabola $y = x^2$, $h(x, y) = y - x^2$, and $f(x, y) = y + cx^2$ with a constant $c$. At $a = 0$, $\nabla f = (0, 1) = 1 \cdot \nabla h(0)$, so $\lambda = 1$ and $T = \RR(1, 0)$. Then
+$D^2L = D^2f - D^2h = \operatorname{diag}(2c + 2, 0)$, so $D^2L(0)(e_1, e_1) = 2(1 + c)$: by the theorem, $0$ is a strict local minimum of $f|_M$ for $c > -1$ and a strict local maximum for $c < -1$.
+This is correct, since $f = (1 + c)x^2$ on $M$. The Hessian of $f$ alone gives $D^2f(0)(e_1, e_1) = 2c$, which has the wrong sign for $-1 < c < 0$: the term $-\lambda D^2h$ records the bending of $M$.
+\end{example}
+
+\begin{example}[The bordered Hessian in two variables]\label{real-analysis:example-bordered-hessian}
+Let $n = 2$, $q = 1$, $\nabla h(a) = (h_x, h_y) \neq 0$ and $D^2L(a) = \bigl(\begin{smallmatrix} L_{xx} & L_{xy}\\ L_{xy} & L_{yy}\end{smallmatrix}\bigr)$. Then $T$ is spanned by $d = (-h_y, h_x)$ and
+\[
+D^2L(a)(d, d) = L_{xx}h_y^2 - 2L_{xy}h_xh_y + L_{yy}h_x^2 = -\det\begin{pmatrix} 0 & h_x & h_y\\ h_x & L_{xx} & L_{xy}\\ h_y & L_{xy} & L_{yy}\end{pmatrix},
+\]
+as one sees by expanding the determinant along the first row. So if the \emph{bordered Hessian} on the right has negative determinant, $a$ is a strict local minimum of $f|_M$, and if it has positive
+determinant, a strict local maximum. In Example~\ref{real-analysis:example-lagrange}(1), at $\pm(\frac1{\sqrt2}, \frac1{\sqrt2})$ we have $\lambda = \pm\frac1{\sqrt2}$, $D^2L = -2\lambda I$ and
+$(h_x, h_y) = \pm(\sqrt2, \sqrt2)$; the determinant is $-(-2\lambda)(h_x^2 + h_y^2) = 8\lambda$, positive at the maximum and negative at the minimum.
+\end{example}
+
+\subsection{Inequality constraints and Farkas' lemma}\label{real-analysis:subsection-kkt}
+
+Many problems constrain the unknowns by inequalities: quantities are nonnegative, budgets are bounded. Consider
+\begin{equation}\label{real-analysis:equation-nlp}
+\text{minimise } f(x) \quad \text{subject to} \quad g_i(x) \leq 0 \ (1 \leq i \leq p), \qquad h_j(x) = 0 \ (1 \leq j \leq q),
+\end{equation}
+where $f, g_i, h_j \colon U \to \RR$ are $C^1$ on an open $U \subseteq \RR^n$; the \emph{feasible set} is the set $F$ of $x \in U$ satisfying the constraints. At a feasible point $a$, the inequality $g_i \leq 0$
+is \emph{active} if $g_i(a) = 0$; let $I(a)$ be the set of active indices. An inactive constraint, $g_i(a) < 0$, still holds near $a$ and plays no role locally; an active one behaves like a wall.
+
+To see what to expect, take one inequality $g \leq 0$ and no equations. If the minimum $a$ is interior ($g(a) < 0$), then $\nabla f(a) = 0$. If $g(a) = 0$, the minimum lies on the wall $\{g = 0\}$, so
+$\nabla f(a) = \lambda\nabla g(a)$ by Theorem~\ref{real-analysis:theorem-lagrange}; and now the \emph{sign} of $\lambda$ is determined: moving into the feasible region, in the direction $-\nabla g(a)$, must not
+decrease $f$, so $\nabla f(a)$ points into the feasible region and $-\nabla f(a) = \mu\nabla g(a)$ with $\mu \geq 0$. The general statement needs a lemma of linear algebra over the ordered field $\RR$.
+
+\begin{lemma}[Farkas]\label{real-analysis:lemma-farkas}
+Let $v_1, \ldots, v_r, b \in \RR^n$. Exactly one of the following holds:
+\begin{enumerate}
+\item $b = c_1v_1 + \cdots + c_rv_r$ with all $c_i \geq 0$;
+\item there is $w \in \RR^n$ with $\langle w, v_i\rangle \leq 0$ for all $i$ and $\langle w, b\rangle > 0$.
+\end{enumerate}
+\end{lemma}
+
+Geometrically: either $b$ lies in the convex cone $C = \{\sum_ic_iv_i : c_i \geq 0\}$, or a hyperplane through $0$, with normal $w$, separates $b$ from $C$.
+
+\begin{proof}
+Both cannot hold, since then $\langle w, b\rangle = \sum_ic_i\langle w, v_i\rangle \leq 0$. Assume (1) fails, that is, $b \notin C$.
+
+\emph{Step 1: $C$ is closed.} First, every $y \in C$ is a nonnegative combination of a linearly independent subset of the $v_i$ (\emph{Carath\'eodory's lemma}). Indeed, choose
+$y = \sum_{i \in S}c_iv_i$ with all $c_i > 0$ and $S$ as small as possible. If the $v_i$ with $i \in S$ were dependent, there would be a relation $\sum_{i \in S}\gamma_iv_i = 0$ with some $\gamma_i > 0$
+(change the sign of $\gamma$ if necessary); with $t = \min\{c_i/\gamma_i : \gamma_i > 0\}$, $y = \sum_{i \in S}(c_i - t\gamma_i)v_i$ has nonnegative coefficients, one of which vanishes, contradicting the
+minimality of $S$. So $C$ is the union of the finitely many cones $C_S$ spanned by linearly independent subsets $S$, and it suffices that each $C_S$ is closed. The map $\RR^S \to \RR^n$,
+$c \mapsto \sum_{i \in S}c_iv_i$, is injective and linear, so on the compact unit sphere of $\RR^S$ its norm has a positive minimum $m$, and $\|\sum_ic_iv_i\| \geq m\|c\|$. If
+$\sum_ic_i^{(k)}v_i \to y$ with $c^{(k)} \geq 0$, then $(c^{(k)})$ is a Cauchy sequence, with a limit $c \geq 0$, and $y = \sum_ic_iv_i \in C_S$.
+
+\emph{Step 2: a nearest point.} The continuous function $x \mapsto \|b - x\|$ attains a minimum on the compact set $C \cap \overline{B}(b, \|b\|)$, which contains $0$; the minimum point $p$ is then a
+nearest point to $b$ in all of $C$.
+
+\emph{Step 3: separation.} Let $w = b - p$, nonzero since $b \notin C$. For $c \in C$ and $0 < t \leq 1$, $(1 - t)p + tc \in C$, so
+$\|w - t(c - p)\|^2 \geq \|w\|^2$, that is, $-2t\langle w, c - p\rangle + t^2\|c - p\|^2 \geq 0$; dividing by $t$ and letting $t \to 0$, $\langle w, c - p\rangle \leq 0$. With $c = 0$ and $c = 2p$ this gives
+$\langle w, p\rangle = 0$, hence $\langle w, c\rangle \leq 0$ for all $c \in C$, in particular $\langle w, v_i\rangle \leq 0$. Finally $\langle w, b\rangle = \langle w, w + p\rangle = \|w\|^2 > 0$.
+\end{proof}
+
+\begin{theorem}[Karush--Kuhn--Tucker]\label{real-analysis:theorem-kkt}
+In the situation \eqref{real-analysis:equation-nlp}, let $a \in F$ be a local minimum of $f$ on $F$, and assume the \emph{linear independence constraint qualification}: the gradients $\nabla g_i(a)$ for
+$i \in I(a)$ and $\nabla h_j(a)$ for $1 \leq j \leq q$ are linearly independent. Then there are unique numbers $\mu_1, \ldots, \mu_p$ and $\lambda_1, \ldots, \lambda_q$ with
+\begin{equation}\label{real-analysis:equation-kkt}
+\nabla f(a) + \sum_{i=1}^p\mu_i\nabla g_i(a) + \sum_{j=1}^q\lambda_j\nabla h_j(a) = 0, \qquad \mu_i \geq 0, \qquad \mu_ig_i(a) = 0 \quad (1 \leq i \leq p).
+\end{equation}
+\end{theorem}
+
+The last condition, \emph{complementary slackness}, says that $\mu_i = 0$ unless the $i$-th constraint is active. The signs of the $\lambda_j$ are not restricted, and for $p = 0$ the theorem is
+Theorem~\ref{real-analysis:theorem-lagrange} for minima (with $-\lambda_j$ in place of $\lambda_j$).
+
+\begin{proof}
+Write $I = I(a)$.
+
+\emph{Step 1.} Let $d \in \RR^n$ with $\langle\nabla g_i(a), d\rangle < 0$ for $i \in I$ and $Dh(a)d = 0$. We show $\langle\nabla f(a), d\rangle \geq 0$. The $\nabla h_j(a)$ are linearly independent, so
+Lemma~\ref{real-analysis:lemma-curves-level-set} gives a $C^1$ curve $x(t)$ with $x(0) = a$, $x'(0) = d$ and $h(x(t)) = 0$. For $i \in I$, $\varphi_i(t) = g_i(x(t))$ has $\varphi_i(0) = 0$ and
+$\varphi_i'(0) = \langle\nabla g_i(a), d\rangle < 0$, so $\varphi_i(t) < 0$ for small $t > 0$; for $i \notin I$, $g_i(x(t)) < 0$ for small $t$ by continuity. So $x(t) \in F$ for small $t > 0$, and since
+$x(t) \to a$, $f(x(t)) \geq f(a)$ for small $t > 0$. Hence $\langle\nabla f(a), d\rangle = \lim_{t \to 0^+}(f(x(t)) - f(a))/t \geq 0$.
+
+\emph{Step 2.} The same holds if only $\langle\nabla g_i(a), d\rangle \leq 0$ for $i \in I$ and $Dh(a)d = 0$. Indeed, the linear map $d \mapsto ((\langle\nabla g_i(a), d\rangle)_{i \in I}, Dh(a)d)$ has linearly
+independent rows, hence is surjective, so there is $d_0$ with $\langle\nabla g_i(a), d_0\rangle = -1$ for $i \in I$ and $Dh(a)d_0 = 0$. For $\varepsilon > 0$, $d + \varepsilon d_0$ satisfies the hypothesis of
+Step~1, so $\langle\nabla f(a), d + \varepsilon d_0\rangle \geq 0$; let $\varepsilon \to 0$.
+
+\emph{Step 3.} Apply Lemma~\ref{real-analysis:lemma-farkas} to $b = -\nabla f(a)$ and the vectors $\nabla g_i(a)$ ($i \in I$), $\nabla h_j(a)$ and $-\nabla h_j(a)$ ($1 \leq j \leq q$). Alternative (2) would give
+$w$ with $\langle\nabla g_i(a), w\rangle \leq 0$ for $i \in I$, $\langle\pm\nabla h_j(a), w\rangle \leq 0$, that is, $Dh(a)w = 0$, and $\langle\nabla f(a), w\rangle < 0$, contradicting Step~2. So alternative (1)
+holds: $-\nabla f(a) = \sum_{i \in I}\mu_i\nabla g_i(a) + \sum_j(c_j^+ - c_j^-)\nabla h_j(a)$ with $\mu_i, c_j^\pm \geq 0$. Put $\lambda_j = c_j^+ - c_j^-$ and $\mu_i = 0$ for $i \notin I$; this gives
+\eqref{real-analysis:equation-kkt}. Uniqueness follows from the linear independence, since $\mu_i = 0$ is forced for $i \notin I$.
+\end{proof}
+
+The conditions were found by W.~Karush in his 1939 master's thesis and, independently, by H.~W.~Kuhn and A.~W.~Tucker in 1951, at the start of nonlinear programming. In the language of the
+introduction to this subsection: at a constrained minimum, $-\nabla f(a)$, the direction of steepest descent, lies in the cone spanned by the outward normals $\nabla g_i(a)$ of the active walls (and the
+normal space of the equations), so that every feasible direction is uphill to first order.
+
+\begin{counterexample}\label{real-analysis:counterexample-kkt}
+Without a constraint qualification the conclusion can fail. Minimise $f(x, y) = x$ subject to $g_1 = y - x^3 \leq 0$ and $g_2 = -y \leq 0$. Feasibility means $0 \leq y \leq x^3$, so $x \geq 0$, and the minimum
+is at $(0, 0)$, where both constraints are active. There $\nabla f = (1, 0)$, $\nabla g_1 = (0, 1)$ and $\nabla g_2 = (0, -1)$, and $(1, 0) + \mu_1(0, 1) + \mu_2(0, -1) = 0$ is impossible. The two active
+gradients are dependent: the feasible set has a cusp at the origin, and the linearised constraints $\langle\nabla g_i, d\rangle \leq 0$, which allow every $d = (d_1, 0)$, do not describe the feasible
+directions, which have $d_1 \geq 0$.
+\end{counterexample}
+
+\begin{remark}\label{real-analysis:remark-constraint-qualifications}
+Reading the proof again shows that weaker hypotheses suffice for the existence of multipliers (not for their uniqueness, which used the full linear independence).
+\begin{enumerate}
+\item \emph{Mangasarian--Fromovitz condition:} the $\nabla h_j(a)$ are linearly independent and there is $d_0$ with $Dh(a)d_0 = 0$ and $\langle\nabla g_i(a), d_0\rangle < 0$ for $i \in I(a)$. Step~1
+used only the independence of the $\nabla h_j(a)$, Step~2 only the existence of such a $d_0$, and Step~3 nothing else.
+\item \emph{Affine constraints:} if all $g_i$ and $h_j$ are affine, no qualification is needed. Indeed, for $d$ with $\langle\nabla g_i(a), d\rangle \leq 0$ ($i \in I(a)$) and $Dh(a)d = 0$, the points
+$a + td$ are feasible for small $t > 0$ (for active $i$, $g_i(a + td) = t\langle\nabla g_i(a), d\rangle \leq 0$), so $\langle\nabla f(a), d\rangle \geq 0$ directly, and Step~3 applies.
+\end{enumerate}
+\end{remark}
+
+\subsection{Convex problems}\label{real-analysis:subsection-convex-problems}
+
+The conditions of the Karush--Kuhn--Tucker theorem are necessary. For convex problems they are also sufficient, and give global minima. A function $f$ on a convex set $K \subseteq \RR^n$ is
+\emph{convex} if $f((1 - t)x + ty) \leq (1 - t)f(x) + tf(y)$ for all $x, y \in K$ and $t \in [0, 1]$, that is, if its restriction to every segment is convex in the sense of
+Definition~\ref{real-analysis:definition-convex}, and \emph{strictly convex} if the inequality is strict whenever $x \neq y$ and $0 < t < 1$. A sublevel set $\{x \in K : f(x) \leq c\}$ of a convex
+function is convex, and so is the zero set of an affine function; hence the feasible set of \eqref{real-analysis:equation-nlp} is convex when $U$ is convex, the $g_i$ are convex and the $h_j$ are affine.
+
+\begin{lemma}\label{real-analysis:lemma-convex-gradient}
+Let $U \subseteq \RR^n$ be open and convex, and $f \colon U \to \RR$ convex and $C^1$. Then $f(y) \geq f(x) + \langle\nabla f(x), y - x\rangle$ for all $x, y \in U$. If $f$ is $C^2$ with positive
+semidefinite Hessian everywhere, then $f$ is convex.
+\end{lemma}
+
+\begin{proof}
+We may assume $x \neq y$. As $U$ is open, the points $x - \varepsilon(y - x)$ and $y + \varepsilon(y - x)$ lie in $U$ for small $\varepsilon > 0$, and as $U$ is convex so does the segment joining them.
+Hence $\varphi(t) = f(x + t(y - x))$ is defined on the open interval $J = (-\varepsilon, 1 + \varepsilon)$, it is convex there (being the restriction of $f$ to a segment), and it is differentiable with
+$\varphi'(0) = \langle\nabla f(x), y - x\rangle$ by the chain rule. By Proposition~\ref{real-analysis:proposition-convex}(2), $\varphi(1) \geq \varphi(0) + \varphi'(0)$, which is the inequality. For the
+second statement, $\varphi''(t) = D^2f(x + t(y - x))(y - x, y - x) \geq 0$ on $J$ by \eqref{real-analysis:equation-line-derivatives}, so $\varphi$ is convex by
+Proposition~\ref{real-analysis:proposition-convex}(3); this is convexity of $f$ on the segment $[x, y]$.
+\end{proof}
+
+\begin{theorem}\label{real-analysis:theorem-kkt-convex}
+In \eqref{real-analysis:equation-nlp}, let $U$ be convex, $f$ and $g_1, \ldots, g_p$ convex and $h_1, \ldots, h_q$ affine. If $a \in F$ and numbers $\mu_i$, $\lambda_j$ satisfy
+\eqref{real-analysis:equation-kkt}, then $a$ is a global minimum of $f$ on $F$. If $f$ is strictly convex, it is the only one.
+\end{theorem}
+
+\begin{proof}
+Let $x \in F$. By Lemma~\ref{real-analysis:lemma-convex-gradient} and \eqref{real-analysis:equation-kkt},
+\[
+f(x) - f(a) \geq \langle\nabla f(a), x - a\rangle = -\sum_i\mu_i\langle\nabla g_i(a), x - a\rangle - \sum_j\lambda_j\langle\nabla h_j(a), x - a\rangle.
+\]
+Since $h_j$ is affine, $\langle\nabla h_j(a), x - a\rangle = h_j(x) - h_j(a) = 0$. By the lemma again and complementary slackness,
+$\mu_i\langle\nabla g_i(a), x - a\rangle \leq \mu_i(g_i(x) - g_i(a)) = \mu_ig_i(x) \leq 0$. Hence $f(x) \geq f(a)$. If $f$ is strictly convex and $f(x) = f(a)$ with $x \neq a$, then the midpoint
+$m = \frac12(x + a)$ is feasible ($F$ is convex) and $f(m) < \frac12f(x) + \frac12f(a) = f(a)$, a contradiction.
+\end{proof}
+
+\begin{example}[Water-filling]\label{real-analysis:example-water-filling}
+Given $\alpha_1, \ldots, \alpha_n > 0$ and $P > 0$, maximise $\sum_i\log(\alpha_i + x_i)$ subject to $x_i \geq 0$ and $\sum_ix_i = P$. (In information theory, $x_i$ is the power sent through the $i$-th of
+$n$ parallel channels with noise level $\alpha_i$, and $\frac12\log(1 + x_i/\alpha_i)$ is its capacity, so this maximises the total capacity for a total power $P$.) Minimise the strictly convex function
+$f(x) = -\sum_i\log(\alpha_i + x_i)$ on $U = \{x_i > -\alpha_i\}$, with $g_i = -x_i$ and $h = \sum_ix_i - P$. The conditions \eqref{real-analysis:equation-kkt} read
+\[
+-\frac{1}{\alpha_i + x_i} - \mu_i + \lambda = 0, \qquad \mu_i \geq 0, \qquad \mu_ix_i = 0.
+\]
+So $\lambda \geq 1/(\alpha_i + x_i) > 0$; put $\nu = 1/\lambda$. If $x_i > 0$, then $\mu_i = 0$ and $x_i = \nu - \alpha_i$; if $x_i = 0$, then $\lambda \geq 1/\alpha_i$, that is, $\alpha_i \geq \nu$. In both cases
+\[
+x_i = \max(0, \nu - \alpha_i),
+\]
+and $\nu$ is fixed by $\sum_i\max(0, \nu - \alpha_i) = P$; the left side is continuous and strictly increasing in $\nu \geq \min_i\alpha_i$, from $0$ to $\infty$, so there is exactly one such $\nu$
+(Theorem~\ref{real-analysis:theorem-bolzano-zeros}). Conversely this $x$, with $\lambda = 1/\nu$ and $\mu_i = \lambda - 1/(\alpha_i + x_i) \geq 0$, satisfies the conditions, so by
+Theorem~\ref{real-analysis:theorem-kkt-convex} it is the unique optimum. The picture: a vessel whose floor has height $\alpha_i$ over the $i$-th cell is filled with a volume $P$ of water; the water
+settles at level $\nu$, and $x_i$ is the depth over the $i$-th cell. The noisiest channels get nothing.
+\end{example}
+
+\begin{example}[Maximum entropy and the Boltzmann distribution]\label{real-analysis:example-gibbs}
+Let $E_1, \ldots, E_N$ be real numbers (the energies of the states of a physical system), not all equal, and $\min_iE_i < E < \max_iE_i$. Among probability vectors $p$ with $p_i > 0$, $\sum_ip_i = 1$ and
+mean energy $\sum_ip_iE_i = E$, which one has the largest \emph{entropy} $H(p) = -\sum_ip_i\log p_i$? The function $-H(p) = \sum_i\phi(p_i)$, $\phi(t) = t\log t$, is strictly convex on
+$U = \{p_i > 0\}$: $\phi''(t) = 1/t > 0$, so $\phi$ is strictly convex (Proposition~\ref{real-analysis:proposition-convex}(3)), and for $p \neq p^{\prime}$ the convexity inequality is strict in a coordinate where
+they differ. The two constraints are affine. The conditions
+\eqref{real-analysis:equation-kkt} for minimising $-H$ read $\log p_i + 1 + \lambda_1 + \lambda_2E_i = 0$, so
+\[
+p_i = \frac{e^{-\beta E_i}}{Z(\beta)}, \qquad Z(\beta) = \sum_ke^{-\beta E_k},
+\]
+with $\beta = \lambda_2$, after normalising. This is the \emph{Boltzmann (Gibbs) distribution} of statistical mechanics, $\beta$ being the inverse temperature and $Z$ the \emph{partition function}.
+It remains to choose $\beta$ with mean energy $E$. The mean $m(\beta) = \sum_kE_ke^{-\beta E_k}/Z(\beta)$ is continuous, has derivative $m'(\beta) = -(\sum_kE_k^2p_k - m(\beta)^2) < 0$, minus the
+variance of the energy, which is positive since the $E_k$ are not all equal, and tends to $\min E_k$ as $\beta \to +\infty$ and to $\max E_k$ as $\beta \to -\infty$. So exactly one $\beta$ gives $m(\beta) = E$,
+and by Theorem~\ref{real-analysis:theorem-kkt-convex} the corresponding $p$ is the unique entropy maximiser. Without the energy constraint ($\lambda_2 = 0$) the maximiser is the uniform
+distribution, with $H = \log N$.
+\end{example}
+
+\begin{remark}[Duality]\label{real-analysis:remark-lagrange-duality}
+For \eqref{real-analysis:equation-nlp} define the Lagrangian $L(x, \mu, \lambda) = f(x) + \sum_i\mu_ig_i(x) + \sum_j\lambda_jh_j(x)$ and the \emph{dual function} $\theta(\mu, \lambda) = \inf_{x \in U}L(x, \mu, \lambda)$.
+For $\mu \geq 0$ and $x \in F$, $L(x, \mu, \lambda) \leq f(x)$, so
+\[
+\theta(\mu, \lambda) \leq \inf_Ff \qquad (\mu \geq 0) \qquad \text{(\emph{weak duality})}:
+\]
+every choice of multipliers gives a lower bound for the minimum. In the convex situation of Theorem~\ref{real-analysis:theorem-kkt-convex}, if $(a, \mu, \lambda)$ satisfies the conditions
+\eqref{real-analysis:equation-kkt}, then $x \mapsto L(x, \mu, \lambda)$ is convex with vanishing gradient at $a$, so by Lemma~\ref{real-analysis:lemma-convex-gradient} it is minimal at $a$, and
+$\theta(\mu, \lambda) = L(a, \mu, \lambda) = f(a)$ by complementary slackness and $h(a) = 0$: the bound is attained, and the multipliers solve the \emph{dual problem} of maximising $\theta$ over $\mu \geq 0$. For convex problems
+with a strictly feasible point (\emph{Slater's condition}) the maximum of the dual equals the minimum of the primal even without assuming that the minimum is attained \cite[Chapter 5]{boyd-vandenberghe};
+for linear programmes this is the duality theorem of linear programming, a consequence of Farkas' lemma. The point $(a, (\mu, \lambda))$ is then a saddle point of $L$: a minimum in $x$ and a
+maximum in $(\mu, \lambda)$ with $\mu \geq 0$.
+\end{remark}
+
 \section{Ordinary differential equations}\label{real-analysis:section-ode}
 
 \begin{definition}\label{real-analysis:definition-ode}
@@ -1649,4 +2039,56 @@ $\sum_{n \geq 2}\frac{(-1)^n}{\sqrt n + (-1)^n}$.
 (1) The ratio is $\frac13(1 + \frac1n)^n \to \frac e3 < 1$: converges. (2) $(\log n)^{\log n} = n^{\log\log n} \geq n^2$ once $\log\log n \geq 2$, so it converges by comparison with $\sum n^{-2}$.
 (3) The $n$-th root is $(1 - \frac1n)^n \to e^{-1} < 1$: converges. (4) $\frac{(-1)^n}{\sqrt n + (-1)^n} = \frac{(-1)^n}{\sqrt n} - \frac{1}{\sqrt n(\sqrt n + (-1)^n)}$; the first series converges
 (alternating), the second diverges by limit comparison with $\sum\frac1n$; so the series diverges, although its terms are alternating and tend to $0$ (they are not monotone in absolute value).
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-box-ellipsoid}
+Find the largest volume of a box with edges parallel to the coordinate axes inscribed in the ellipsoid $x^2/a^2 + y^2/b^2 + z^2/c^2 = 1$ ($a, b, c > 0$).
+\end{exercise}
+
+\begin{solution}
+A vertex $(x, y, z)$ with $x, y, z > 0$ on the ellipsoid determines the box, of volume $V = 8xyz$. The volume is a continuous function on the compact part of the ellipsoid with $x, y, z \geq 0$, positive
+somewhere and zero when a coordinate vanishes, so its maximum is attained with $x, y, z > 0$, where $\nabla h = (2x/a^2, 2y/b^2, 2z/c^2) \neq 0$. Theorem~\ref{real-analysis:theorem-lagrange} gives
+$8yz = 2\lambda x/a^2$, $8xz = 2\lambda y/b^2$, $8xy = 2\lambda z/c^2$. Multiplying by $x$, $y$, $z$ respectively, $x^2/a^2 = y^2/b^2 = z^2/c^2 = 4xyz/\lambda$, and the constraint makes each equal to
+$\frac13$. So $(x, y, z) = (a, b, c)/\sqrt3$ and the maximal volume is $8abc/(3\sqrt3)$, a fraction $2/(\sqrt3\pi) \approx 0.37$ of the volume $\frac43\pi abc$ of the ellipsoid.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-hyperbola-distance}
+Find the points of the hyperbola $xy = 1$ nearest to the origin, and confirm with Example~\ref{real-analysis:example-bordered-hessian} that they are strict local minima of the distance.
+\end{exercise}
+
+\begin{solution}
+Minimise $f = x^2 + y^2$ on $M = \{h = 0\}$, $h = xy - 1$; $M$ is closed and $f \to \infty$ along $M$, so a minimum exists, and $\nabla h = (y, x) \neq 0$ on $M$. The equations $2x = \lambda y$, $2y = \lambda x$ give
+$2x^2 = \lambda xy = 2y^2$, so $y = \pm x$, and $xy = 1$ forces $y = x = \pm1$, with $\lambda = 2$: the nearest points are $\pm(1, 1)$, at distance $\sqrt2$. With $L = x^2 + y^2 - 2(xy - 1)$,
+$L_{xx} = L_{yy} = 2$, $L_{xy} = -2$, and at $(1, 1)$, $(h_x, h_y) = (1, 1)$; the bordered determinant is $-(L_{xx} - 2L_{xy} + L_{yy}) = -8 < 0$, a strict local minimum. Note that $D^2f = 2I$ alone would also
+suggest a minimum here, but $D^2L$ is only semidefinite on $\RR^2$; its restriction to the tangent line $\RR(-1, 1)$ is what counts.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-hadamard}
+Prove \emph{Hadamard's inequality}: for a real $n \times n$ matrix $A$ with columns $a_1, \ldots, a_n$, $|\det A| \leq \|a_1\|\cdots\|a_n\|$, with equality for nonzero columns exactly when the columns are
+pairwise orthogonal. (Geometrically: among parallelepipeds with given edge lengths, the rectangular box has the largest volume.) Hint: maximise $\det$ on the set of matrices with unit columns.
+\end{exercise}
+
+\begin{solution}
+If a column vanishes both sides are $0$; otherwise divide each column by its length, which divides both sides by $\prod_j\|a_j\|$. So we must show $\det A \leq 1$ when all $\|a_j\| = 1$. The set $S$ of
+such matrices is compact in $\RR^{n^2}$, so $\det$ has a maximum on $S$ at some $A$, and the maximum is $\geq \det I = 1 > 0$. The constraints $h_j(A) = \|a_j\|^2 - 1$ have gradients $2a_j$ placed in the
+$j$-th block of coordinates, which are nonzero and lie in different blocks, hence are independent. Expanding along the $j$-th column, $\partial\det/\partial a_{ij} = C_{ij}$, the $(i, j)$ cofactor
+(Proposition~\ref{linear-algebra:proposition-determinant-properties}). Theorem~\ref{real-analysis:theorem-lagrange} gives $C_{ij} = 2\lambda_ja_{ij}$, that is, $C = 2A\Lambda$ with
+$\Lambda = \operatorname{diag}(\lambda_j)$ and $C = (C_{ij})$. Since $\det A \neq 0$, the adjugate formula $A\,C^T = \det(A)\,I$ gives $C = \det(A)(A^{-1})^T$, so $\det(A)\,I = A^TC = 2A^TA\Lambda$. Hence $\Lambda$ is invertible and
+$A^TA = \det(A)(2\Lambda)^{-1}$ is diagonal: the columns of $A$ are orthogonal unit vectors, $A$ is orthogonal, and $\det A = 1$ at the maximum. For the equality case, if the columns are orthogonal,
+$|\det A|^2 = \det(A^TA) = \prod_j\|a_j\|^2$; conversely, equality means that the normalised matrix (with columns $a_j/\|a_j\|$, possibly after changing the sign of one column) is a maximum point, hence
+has orthogonal columns by the argument above.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-projection-simplex}
+Let $y \in \RR^n$. Show that the point of the simplex $\Delta = \{x \in \RR^n : x_i \geq 0, \sum_ix_i = 1\}$ nearest to $y$ is $x_i = \max(0, y_i - \tau)$, where $\tau$ is the unique number with
+$\sum_i\max(0, y_i - \tau) = 1$. Compute it for $y = (0.8, 0.6, -0.5)$.
+\end{exercise}
+
+\begin{solution}
+Minimise the strictly convex function $f(x) = \frac12\|x - y\|^2$ subject to $g_i = -x_i \leq 0$ and $h = \sum_ix_i - 1 = 0$. The conditions \eqref{real-analysis:equation-kkt} read
+$x_i - y_i - \mu_i + \lambda = 0$, $\mu_i \geq 0$, $\mu_ix_i = 0$. If $x_i > 0$ then $x_i = y_i - \lambda$; if $x_i = 0$ then $y_i - \lambda = -\mu_i \leq 0$. In both cases $x_i = \max(0, y_i - \lambda)$, and
+$\sum_ix_i = 1$ determines $\lambda = \tau$: the function $t \mapsto \sum_i\max(0, y_i - t)$ is continuous, decreasing, strictly so where positive, equal to $0$ for $t \geq \max_iy_i$ and tending to $\infty$ as
+$t \to -\infty$. Conversely, this $x$ with $\mu_i = \max(0, \tau - y_i)$ satisfies the conditions, so it is the unique minimum by Theorem~\ref{real-analysis:theorem-kkt-convex} (like the water-filling of
+Example~\ref{real-analysis:example-water-filling}, with the vessel upside down). For $y = (0.8, 0.6, -0.5)$, trying $x_3 = 0$: $(0.8 - \tau) + (0.6 - \tau) = 1$ gives $\tau = 0.2$, and indeed
+$-0.5 - 0.2 < 0$; so $x = (0.6, 0.4, 0)$.
 \end{solution}
