@@ -274,6 +274,38 @@ the classical phenomenon of \emph{resonance}: forcing a string at one of its own
 alternative, ``either unique solvability or a finite number of conditions'', holds for every elliptic operator on every compact manifold.
 \end{example}
 
+\begin{example}\label{elliptic-operators:example-fredholm-torus}
+\emph{The Laplacian on the torus.} On $T^n = \RR^n/\ZZ^n$ with the flat metric, $\Delta = -\sum_j\partial_j^2$ acts on Fourier coefficients by $\widehat{\Delta u}(k) = 4\pi^2|k|^2\hat u(k)$, $k \in \ZZ^n$. Every statement of
+Theorem~\ref{elliptic-operators:theorem-fredholm} can be seen directly.
+\begin{enumerate}
+\item The kernel consists of the $u$ with $\hat u(k) = 0$ for $k \neq 0$: the constants. As $\Delta$ is formally self-adjoint, $\ker\Delta^* = \ker\Delta$ is also the constants.
+\item The equation $\Delta u = f$ forces $\hat f(0) = 0$, that is, $\int_{T^n}f = 0$, which is orthogonality to $\ker\Delta^*$. Conversely, if $\hat f(0) = 0$, then $\hat u(k) = \hat f(k)/(4\pi^2|k|^2)$ for $k \neq 0$ (and
+$\hat u(0)$ arbitrary) defines a solution, unique up to the kernel.
+\item The solution gains two derivatives: for $k \neq 0$ we have $|k| \geq 1$, so $2|k|^2 \geq 1 + |k|^2 = \langle k\rangle^2$ and $4\pi^2|k|^2 \geq 2\pi^2\langle k\rangle^2$; hence
+$\langle k\rangle^{2(s+2)}|\hat u(k)|^2 \leq \frac{1}{4\pi^4}\langle k\rangle^{2s}|\hat f(k)|^2$, and $f \in H^s$ gives
+$u \in H^{s+2}$, and $f$ smooth gives $u$ smooth. This is elliptic regularity in its simplest form.
+\item The image of $\Delta \colon H^{s+2} \to H^s$ is the closed hyperplane $\{\hat f(0) = 0\}$, of codimension $1$, and the index is $1 - 1 = 0$.
+\end{enumerate}
+By contrast, the non-elliptic operator $\partial_1$ on $T^2$ multiplies $\hat u(k)$ by $2\pi ik_1$, which vanishes for all $k = (0, k_2)$: its kernel, the functions of $x_2$ alone, is infinite-dimensional, and a solution of
+$\partial_1u = f$ gains a derivative only in the $x_1$-direction.
+\end{example}
+
+The operator $P^*P$ is always formally self-adjoint and nonnegative, and it is elliptic when $P$ is, since its symbol is $\sigma_m(P)^*\sigma_m(P)$ (Proposition~\ref{elliptic-operators:proposition-symbol}). It is the
+mechanism by which the Hodge Laplacian is built from $d$ and its adjoint, and the following corollary is the abstract form of the statement that harmonic forms are closed and coclosed.
+
+\begin{corollary}\label{elliptic-operators:corollary-p-star-p}
+Let $P$ be elliptic. Then $\ker(P^*P) = \ker P$, and the smooth sections decompose orthogonally as
+\[
+\Gamma(M, F) = P\bigl(\Gamma(M, E)\bigr) \oplus \ker P^*, \qquad \Gamma(M, E) = P^*\bigl(\Gamma(M, F)\bigr) \oplus \ker P.
+\]
+\end{corollary}
+
+\begin{proof}
+If $P^*Pu = 0$, then $0 = \int\langle P^*Pu, u\rangle = \int|Pu|^2$, so $Pu = 0$; the converse is clear. For the first decomposition, $P(\Gamma(M, E)) \perp \ker P^*$ by the definition of the formal adjoint, and a
+smooth $f$ is the sum of its orthogonal projection $h$ to the finite-dimensional space $\ker P^*$, which is smooth, and $f - h$, which is smooth and orthogonal to $\ker P^*$, hence of the form $Pu$ with $u$ smooth
+by Theorem~\ref{elliptic-operators:theorem-fredholm}(3). The second decomposition is the first one for the elliptic operator $P^*$, whose adjoint is $P$.
+\end{proof}
+
 \begin{theorem}\label{elliptic-operators:theorem-spectral}
 Let $P$ be a formally self-adjoint elliptic operator of order $m > 0$ on a compact manifold, with $P \geq 0$ in the sense that $\int\langle Pu, u\rangle \geq 0$. Then $L^2(E)$ has a complete orthonormal
 system of smooth eigensections of $P$, the eigenvalues $0 \leq \lambda_1 \leq \lambda_2 \leq \cdots$ are real, have finite multiplicity, and tend to $+\infty$. Every $u \in L^2(E)$ is the $L^2$-limit of its
@@ -296,10 +328,108 @@ Fourier basis $e^{ik\theta}$ of $-d^2/d\theta^2$, with eigenvalues $k^2$; for th
 first nonzero eigenvalue of the Laplacian on functions is the best constant in the Poincar\'e inequality (Chapter~\ref{hodge-theorem}), and the eigenvalue expansion solves the heat equation
 (Exercise~\ref{elliptic-operators:exercise-heat-equation}).
 
+The positivity assumption is a convenience: it makes $P + I$ injective, so that its inverse exists. Without it the conclusion survives in a slightly weaker form, with eigenvalues that may go to $-\infty$ as well.
+
+\begin{corollary}\label{elliptic-operators:corollary-spectral-general}
+Let $P$ be a formally self-adjoint elliptic operator of order $m > 0$ on a compact manifold, not necessarily nonnegative. Then $L^2(E)$ has a complete orthonormal system of smooth eigensections of $P$; the
+eigenvalues are real, have finite multiplicity, and $|\lambda| \to \infty$: for every $c$ only finitely many of them satisfy $|\lambda| \leq c$. If moreover $P$ is \emph{bounded below},
+$\int\langle Pu, u\rangle \geq -c_0\|u\|_{L^2}^2$ for some $c_0$ and all smooth $u$, then only finitely many eigenvalues are negative, and they can be ordered as $\lambda_1 \leq \lambda_2 \leq \cdots \to +\infty$.
+\end{corollary}
+
+\begin{proof}
+The operator $P^2 = P^*P$ is elliptic of order $2m$, with principal symbol $\sigma_m(P)^2$ (Proposition~\ref{elliptic-operators:proposition-symbol}), formally self-adjoint, and nonnegative:
+$\int\langle P^2u, u\rangle = \int|Pu|^2 \geq 0$. By Theorem~\ref{elliptic-operators:theorem-spectral}, $L^2(E)$ is the Hilbert space direct sum of the eigenspaces $E_\nu = \ker(P^2 - \nu)$, which are finite-dimensional,
+consist of smooth sections, and are nonzero only for a sequence of values $\nu \geq 0$ tending to $\infty$. Since $P$ commutes with $P^2$, it maps each $E_\nu$ into itself, and on the finite-dimensional space $E_\nu$
+it is symmetric for the $L^2$ inner product, by the definition of the formal adjoint. So $E_\nu$ has an orthonormal basis of eigenvectors of $P$ (Theorem~\ref{linear-algebra:theorem-spectral}), with real
+eigenvalues $\lambda$ satisfying $\lambda^2 = \nu$, that is, $\lambda = \pm\sqrt\nu$. Together these bases form a complete orthonormal system of smooth eigensections of $P$. The $\lambda$-eigenspace of $P$ lies in
+$E_{\lambda^2}$, hence is finite-dimensional, and $|\lambda| = \sqrt\nu \to \infty$. If $P$ is bounded below, apply Theorem~\ref{elliptic-operators:theorem-spectral} to the nonnegative operator $P + c_0$, which has the
+same eigensections and eigenvalues shifted by $c_0$; its eigenvalues tend to $+\infty$, so those of $P$ do too, and only finitely many are negative.
+\end{proof}
+
+\begin{example}\label{elliptic-operators:example-spectral-not-positive}
+\begin{enumerate}
+\item On $S^1 = \RR/2\pi\ZZ$, the operator $P = -i\,d/d\theta$ is elliptic of order $1$ and formally self-adjoint, since $(d/d\theta)^* = -d/d\theta$. Its eigenfunctions are $e^{ik\theta}$ with eigenvalues $k \in \ZZ$, which go
+to both $+\infty$ and $-\infty$: $P$ is not bounded below, and its square is $-d^2/d\theta^2$. The same happens for every first-order operator of Dirac type, such as $d + \delta$ on forms
+(Chapter~\ref{hodge-theorem}), whose square is the Hodge Laplacian: the eigenvalues of $d + \delta$ are $\pm\sqrt\nu$ for the eigenvalues $\nu$ of $\Delta$.
+\item The operator $-d^2/d\theta^2 - c$ with $c > 0$ is bounded below but not nonnegative. Its eigenvalues are $k^2 - c$, of which finitely many, those with $k^2 < c$, are negative. More generally, adding a smooth
+potential $V$ to a nonnegative operator, $P = \Delta + V$, gives an operator bounded below by $-\sup|V|$.
+\item The order must be positive: for $m = 0$, an operator of order $0$ is multiplication by a section of $\operatorname{End}(E)$, and multiplication by the function $x$ on $L^2([0, 1])$ has no eigenvectors at all
+(Example~\ref{functional-analysis:example-spectra}(2)). On a compact manifold the function $\cos\theta$ on $S^1$ gives the same phenomenon.
+\end{enumerate}
+\end{example}
+
 \begin{remark}\label{elliptic-operators:remark-index}
 The index $\operatorname{ind}P = \dim\ker P - \dim\ker P^*$ depends only on the homotopy class of the principal symbol, and the Atiyah--Singer index theorem computes it as a characteristic number of the
 symbol; for $d + \delta$ this gives the Gauss--Bonnet theorem, and for the Dolbeault operator the Riemann--Roch--Hirzebruch theorem (Chapter~\ref{kodaira}). See \cite{lawson-michelsohn}.
 \end{remark}
+
+\subsection{Variational description of the eigenvalues}\label{elliptic-operators:subsection-min-max}
+
+For a symmetric matrix the smallest eigenvalue is the minimum of $\langle Ax, x\rangle$ on the unit sphere. The same is true for elliptic operators, and it gives a way to estimate eigenvalues without
+computing them. Let $P$ be as in Theorem~\ref{elliptic-operators:theorem-spectral}, with orthonormal eigensections $u_1, u_2, \ldots$ and eigenvalues $0 \leq \lambda_1 \leq \lambda_2 \leq \cdots$, listed with multiplicity.
+The \emph{Rayleigh quotient} of a smooth section $u \neq 0$ is
+\[
+\mathcal{R}(u) = \frac{\int_M\langle Pu, u\rangle}{\int_M|u|^2}.
+\]
+
+\begin{proposition}[Min-max principle]\label{elliptic-operators:proposition-min-max}
+\begin{enumerate}
+\item For smooth $u$ with coefficients $c_j = \langle u, u_j\rangle$, $\int\langle Pu, u\rangle = \sum_j\lambda_j|c_j|^2$.
+\item $\lambda_1 = \min_{u \neq 0}\mathcal{R}(u)$, and more generally $\lambda_k = \min\{\mathcal{R}(u) : u \neq 0, \ u \perp u_1, \ldots, u_{k-1}\}$; the minima are attained exactly at the eigensections for $\lambda_1$, resp.\ at
+the combinations of eigensections with eigenvalue $\lambda_k$ orthogonal to $u_1, \ldots, u_{k-1}$.
+\item (\emph{Courant--Fischer}) $\lambda_k = \min_V\max_{0 \neq u \in V}\mathcal{R}(u)$, the minimum over all $k$-dimensional subspaces $V$ of $\Gamma(M, E)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The coefficients of the smooth section $Pu$ are $\langle Pu, u_j\rangle = \langle u, Pu_j\rangle = \lambda_jc_j$, as $P$ is formally self-adjoint and $\lambda_j$ is real. By Parseval's identity
+(Theorem~\ref{functional-analysis:theorem-orthonormal-basis}), $\langle Pu, u\rangle_{L^2} = \sum_j\lambda_jc_j\bar c_j$.
+
+(2) If $u \perp u_1, \ldots, u_{k-1}$, then $c_j = 0$ for $j < k$, and $\int\langle Pu, u\rangle = \sum_{j \geq k}\lambda_j|c_j|^2 \geq \lambda_k\sum_j|c_j|^2 = \lambda_k\|u\|^2$, with equality if and only if $c_j = 0$ whenever
+$\lambda_j > \lambda_k$. For $u = u_k$ equality holds.
+
+(3) A $k$-dimensional $V$ contains a nonzero $u$ orthogonal to the $k - 1$ vectors $u_1, \ldots, u_{k-1}$ (the map $V \to \CC^{k-1}$, $u \mapsto (\langle u, u_j\rangle)_j$, has a nonzero kernel), and
+$\mathcal{R}(u) \geq \lambda_k$ by (2); so $\max_V\mathcal{R} \geq \lambda_k$. For $V = \operatorname{span}(u_1, \ldots, u_k)$, (1) gives $\mathcal{R}(u) = \sum_{j \leq k}\lambda_j|c_j|^2/\sum_{j \leq k}|c_j|^2 \leq \lambda_k$.
+\end{proof}
+
+The min-max principle compares spectra. If $P^{\prime} = P + V$ with $V$ a smooth self-adjoint endomorphism with $V \geq c$, then $\mathcal{R}^{\prime} \geq \mathcal{R} + c$ for every $u$, so $\lambda_k(P^{\prime}) \geq \lambda_k(P) + c$ for every $k$: raising
+the potential raises every eigenvalue. Characterisation (3) does not involve the eigensections, which is what makes such comparisons possible.
+
+\begin{example}\label{elliptic-operators:example-wirtinger}
+\emph{Wirtinger's inequality.} On $S^1 = \RR/2\pi\ZZ$, $P = -d^2/d\theta^2$ has eigenvalues $0, 1, 1, 4, 4, 9, 9, \ldots$, with eigenfunctions $1$, $e^{\pm i\theta}$, $e^{\pm2i\theta}$, \ldots, and
+$\int\langle Pu, u\rangle = \int_0^{2\pi}|u^{\prime}|^2$ by integration by parts. Proposition~\ref{elliptic-operators:proposition-min-max}(2) with $k = 2$ says: for a smooth $2\pi$-periodic $u$ with $\int_0^{2\pi}u = 0$,
+\[
+\int_0^{2\pi}|u^{\prime}|^2\,d\theta \geq \int_0^{2\pi}|u|^2\,d\theta,
+\]
+with equality exactly for $u = ae^{i\theta} + be^{-i\theta}$. This sharp \emph{Poincar\'e inequality} on the circle gives Hurwitz's proof of the isoperimetric inequality
+(Exercise~\ref{elliptic-operators:exercise-isoperimetric}).
+\end{example}
+
+\subsection{Counting eigenvalues}\label{elliptic-operators:subsection-weyl}
+
+How fast do the eigenvalues tend to infinity? Let $N(\lambda)$ be the number of eigenvalues $\leq \lambda$, counted with multiplicity. For the torus everything is explicit.
+
+\begin{proposition}[Weyl's law on the torus]\label{elliptic-operators:proposition-weyl-torus}
+Let $\Delta$ be the Laplacian on functions on the flat torus $T^n = \RR^n/\ZZ^n$, and $\omega_n$ the volume of the unit ball of $\RR^n$. Then
+\[
+N(\lambda) = \#\{k \in \ZZ^n : 4\pi^2|k|^2 \leq \lambda\}, \qquad \lim_{\lambda \to \infty}\frac{N(\lambda)}{\lambda^{n/2}} = \frac{\omega_n}{(2\pi)^n}.
+\]
+\end{proposition}
+
+\begin{proof}
+The functions $e^{2\pi i\langle k, x\rangle}$, $k \in \ZZ^n$, form an orthonormal basis of $L^2(T^n)$ (the $n$-dimensional version of Example~\ref{functional-analysis:example-fourier}) of eigenfunctions with eigenvalues
+$4\pi^2|k|^2$, which gives the formula for $N(\lambda)$. Let $L(R) = \#\{k \in \ZZ^n : |k| \leq R\}$, so $N(\lambda) = L(\sqrt\lambda/2\pi)$. The unit cubes $k + [0, 1)^n$ are disjoint, have volume $1$ and diameter $\sqrt n$. Those with
+$|k| \leq R$ lie in the ball of radius $R + \sqrt n$; and every point $y$ of the ball of radius $R - \sqrt n$ lies in the cube of $k = \lfloor y\rfloor$ (componentwise), with $|k| \leq |y| + \sqrt n \leq R$. Comparing volumes,
+\[
+\omega_n(R - \sqrt n)^n \leq L(R) \leq \omega_n(R + \sqrt n)^n \qquad (R \geq \sqrt n),
+\]
+so $L(R)/(\omega_nR^n) \to 1$, and $N(\lambda)/\lambda^{n/2} \to \omega_n/(2\pi)^n$.
+\end{proof}
+
+Equivalently, the $k$-th eigenvalue grows like $\lambda_k \sim 4\pi^2(k/\omega_n)^{2/n}$. The same law holds on every compact Riemannian manifold of dimension $n$, with the volume entering:
+$N(\lambda) \sim \omega_n\operatorname{vol}(M)\lambda^{n/2}/(2\pi)^n$ (\emph{Weyl's law}, see \cite{kac-1966}). So the spectrum ``hears'' the dimension and the volume of $M$. Whether it determines $M$ itself is Kac's
+question ``can one hear the shape of a drum?'' \cite{kac-1966}; for manifolds the answer is negative, as Milnor found two flat tori of dimension $16$ with the same spectrum that are not isometric
+\cite{milnor-1964}.
 
 \section{Exercises}\label{elliptic-operators:section-exercises}
 
@@ -396,4 +526,27 @@ Write $c_k = \langle u_0, \varphi_k\rangle$; these decay faster than any power o
 Sobolev norm, uniformly for $t \geq 0$, and $u$ is smooth, with $\partial_tu = -\sum_k\lambda_ke^{-\lambda_kt}c_k\varphi_k = -\Delta u$. At $t = 0$ the series is the expansion of $u_0$. The kernel of $\Delta$ on functions
 consists of the constants ($\|du\|^2 = (\Delta u, u) = 0$ forces $du = 0$, and $M$ is connected), so $\lambda_0 = 0$ with $\varphi_0 = \operatorname{vol}(M)^{-1/2}$ and $\lambda_k \geq \lambda_1 > 0$ for $k \geq 1$. Then
 $\|u(t) - c_0\varphi_0\|^2 = \sum_{k \geq 1}e^{-2\lambda_kt}|c_k|^2 \leq e^{-2\lambda_1t}\|u_0\|^2 \to 0$, and $c_0\varphi_0 = \operatorname{vol}(M)^{-1}\int_Mu_0\,\mathrm{vol}$ is the average.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-isoperimetric}
+(\emph{Hurwitz's proof of the isoperimetric inequality.}) Let $\gamma \colon \RR/2\pi\ZZ \to \CC$ be a smooth closed curve with $|\gamma^{\prime}| = 1$, so of length $2\pi$, bounding the area
+$A = \frac12\int_0^{2\pi}\operatorname{Im}\bigl(\overline{\gamma}\gamma^{\prime}\bigr)\,d\theta$ (the integral of $\frac12(x\,dy - y\,dx)$, Green's formula). Show that $A \leq \pi$, with equality only for circles of radius
+$1$. Deduce that a closed curve of length $L$ bounds area at most $L^2/4\pi$.
+\end{exercise}
+
+\begin{solution}
+Expand $\gamma = \sum_kc_ke^{ik\theta}$ (converging with all derivatives, as $\gamma$ is smooth). By Parseval's identity, with $\frac{1}{2\pi}\int_0^{2\pi}$ as normalised measure, $1 = \frac{1}{2\pi}\int|\gamma^{\prime}|^2 = \sum_kk^2|c_k|^2$, and
+$\frac{1}{2\pi}\int\bar\gamma\gamma^{\prime} = \sum_k\bar c_k\,ikc_k = i\sum_kk|c_k|^2$, so $A = \pi\sum_kk|c_k|^2$. Since $k \leq k^2$ for all integers $k$, $A \leq \pi\sum_kk^2|c_k|^2 = \pi$, with equality exactly when
+$c_k = 0$ for $k \neq 0, 1$, that is, $\gamma(\theta) = c_0 + c_1e^{i\theta}$ with $|c_1| = 1$, a unit circle. (This is Wirtinger's inequality, Example~\ref{elliptic-operators:example-wirtinger}, applied to
+$\gamma - c_0$.) For a curve of length $L$, rescaling by $2\pi/L$ gives one of length $2\pi$, and areas scale by $(2\pi/L)^2$, so $A(2\pi/L)^2 \leq \pi$.
+\end{solution}
+
+\begin{exercise}\label{elliptic-operators:exercise-first-eigenvalue-sphere}
+Using Exercise~\ref{elliptic-operators:exercise-spherical-harmonics} and Proposition~\ref{elliptic-operators:proposition-min-max}, show that every smooth function $u$ on the round sphere $S^2$ with
+$\int_{S^2}u = 0$ satisfies $\int_{S^2}|\nabla u|^2 \geq 2\int_{S^2}u^2$, assuming that the eigenvalues of $\Delta$ on $S^2$ are $\ell(\ell + 1)$, $\ell \geq 0$.
+\end{exercise}
+
+\begin{solution}
+The constants are the eigenfunctions for $\lambda_1 = 0$, and the next eigenvalue is $\ell(\ell + 1) = 2$ for $\ell = 1$. Since $\int\langle\Delta u, u\rangle = \int|\nabla u|^2$ for functions, and $u \perp 1$, the min-max
+principle with $k = 2$ gives $\int|\nabla u|^2 \geq 2\int u^2$; equality holds for the restrictions of linear functions, the eigenfunctions with $\ell = 1$.
 \end{solution}
