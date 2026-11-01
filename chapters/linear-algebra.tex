@@ -4,8 +4,10 @@
 \section{Introduction}\label{linear-algebra:section-introduction}
 
 This chapter develops linear algebra over a field: linear maps and matrices, duality,
-determinants, eigenvalues and canonical forms, bilinear forms, inner product spaces
-and the spectral theorem, and complex structures on real vector spaces. The last topic
+determinants, linear systems (Gaussian elimination, the Rouch\'e--Capelli theorem, Cramer's rule, and the computation
+of the rank by minors with Kronecker's bordered minors theorem), eigenvalues and canonical forms, bilinear forms, inner product spaces
+and the spectral theorem, and complex structures on real vector spaces, with the ``two out of three''
+property of compatible inner products, symplectic forms and complex structures. The last topic
 is the linear algebra underlying Hodge theory: the decomposition
 $V_\CC = V^{1,0} \oplus V^{0,1}$ of a real vector space with a complex structure is the
 pointwise version of the decomposition of forms on a complex manifold
@@ -307,6 +309,225 @@ generated free module over $R$) is the determinant of its matrix in any basis; i
 since $\det(P^{-1}AP) = \det A$. The group $\GL(V)$ of invertible endomorphisms contains
 $\SL(V) = \{f : \det f = 1\}$, and $\GL_n(R) = M_n(R)^\times$.
 \end{definition}
+
+\section{Linear systems, Gaussian elimination and the rank}\label{linear-algebra:section-linear-systems}
+
+A system of $m$ linear equations in $n$ unknowns $x_1, \ldots, x_n$,
+\[
+a_{i1}x_1 + \cdots + a_{in}x_n = b_i \qquad (1 \leq i \leq m),
+\]
+is the single equation $Ax = b$ for the matrix $A = (a_{ij}) \in M_{m \times n}(k)$, the column $b \in k^m$ and the unknown column $x \in k^n$. Its theory is the theory of the linear map
+$x \mapsto Ax$: the system is solvable if and only if $b$ lies in the image, and the solutions, when they exist, form a translate of the kernel. In practice one needs a procedure that decides
+solvability, finds the solutions and computes ranks; this is \emph{Gaussian elimination}. For matrices depending on parameters it is often more convenient to compute the rank with determinants of
+square submatrices, the \emph{minors}, and Kronecker's \emph{bordered minors theorem} reduces the number of minors to be examined. In this section $k$ is a field.
+
+\begin{definition}\label{linear-algebra:definition-elementary-operations}
+The \emph{elementary row operations} on a matrix are: (i) exchanging two rows; (ii) multiplying a row by a nonzero scalar $c$; (iii) adding $c$ times one row to another row, for $c \in k$. The
+\emph{elementary matrices} are the matrices obtained from the identity matrix $I_m$ by one elementary row operation.
+\end{definition}
+
+Performing an elementary row operation on $A \in M_{m \times n}(k)$ is the same as multiplying $A$ on the left by the corresponding elementary matrix $E$: row $i$ of $EA$ is (row $i$ of $E$) times $A$,
+that is, the combination of the rows of $A$ with the coefficients in row $i$ of $E$. Every elementary matrix is invertible, its inverse being the elementary matrix of the inverse operation (exchange
+the same rows again; multiply by $c^{-1}$; add $-c$ times the row). Column operations are defined in the same way and correspond to multiplication on the right.
+
+\begin{lemma}\label{linear-algebra:lemma-row-operations}
+Let $B = PA$ with $P \in \GL_m(k)$, for instance a product of elementary matrices. Then $A$ and $B$ have the same kernel, the same row space and the same rank, and the columns of $A$ and of $B$ satisfy
+the same linear relations: $\sum_jx_ja_j = 0$ if and only if $\sum_jx_jb_j = 0$, where $a_j$ and $b_j$ are the $j$-th columns. In particular, a set of columns of $A$ is linearly independent, or is a basis
+of the column space, if and only if the columns of $B$ with the same indices are.
+\end{lemma}
+
+\begin{proof}
+$Ax = 0$ if and only if $PAx = 0$, since $P$ is invertible; and $\sum_jx_ja_j = Ax$. The rows of $B$ are combinations of the rows of $A$ and, since $A = P^{-1}B$, conversely; so the row spaces agree. The
+rank is the dimension of the column space, which by rank--nullity (Theorem~\ref{linear-algebra:theorem-rank-nullity}) is $n - \dim\ker A$. A set $S$ of columns is independent if and only if no
+nontrivial relation with coefficients supported in $S$ holds, and it is a basis of the column space if moreover every column is a combination of the columns in $S$, which again is a statement about
+relations.
+\end{proof}
+
+\begin{definition}\label{linear-algebra:definition-echelon}
+A matrix is in \emph{row echelon form} if its nonzero rows come before its zero rows and the first nonzero entry of each nonzero row, its \emph{pivot}, lies strictly to the right of the pivot of the row
+above. It is in \emph{reduced} row echelon form if moreover every pivot is $1$ and is the only nonzero entry of its column. The columns containing pivots are the \emph{pivot columns}.
+\end{definition}
+
+For instance
+\[
+\begin{pmatrix}1 & 2 & 0 & 1\\ 0 & 0 & 1 & -1\\ 0 & 0 & 0 & 0\end{pmatrix}
+\]
+is in reduced row echelon form, with pivots in columns $1$ and $3$.
+
+\begin{theorem}[Gaussian elimination]\label{linear-algebra:theorem-gaussian-elimination}
+Every $A \in M_{m \times n}(k)$ can be transformed by elementary row operations into a matrix $R$ in reduced row echelon form; so $R = PA$ with $P$ a product of elementary matrices. If $R$ has $r$
+nonzero rows, then
+\begin{enumerate}
+\item $\operatorname{rank}A = r$;
+\item the nonzero rows of $R$ form a basis of the row space of $A$;
+\item the columns of $A$ with the indices of the pivot columns of $R$ form a basis of the column space of $A$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\emph{Existence}, by induction on the number $m$ of rows. If $A = 0$ there is nothing to do. Otherwise let $j$ be the first column with a nonzero entry. Exchange rows to bring a nonzero entry of
+column $j$ to row $1$, multiply row $1$ by the inverse of this entry, and subtract suitable multiples of row $1$ from the other rows; now column $j$ is $e_1$, and the columns before it are zero. Apply
+the induction hypothesis to the matrix formed by rows $2, \ldots, m$; operations on these rows do not change row $1$, and keep the first $j$ columns zero in these rows, so the result is in row echelon
+form with pivots equal to $1$. Finally, for each pivot, from the last one to the first, subtract multiples of its row from the rows above to make the other entries of its column zero; this does not
+change the entries to the left of the pivot in those rows, since the row of the pivot is zero there.
+
+\emph{Properties.} Let the pivots of $R$ be in columns $j_1 < \cdots < j_r$. Column $j_s$ of $R$ is the standard vector $e_s$, and every column of $R$ has zeros below row $r$; so the pivot columns of $R$
+are independent and span the column space of $R$, which therefore has dimension $r$. By Lemma~\ref{linear-algebra:lemma-row-operations}, (3) holds and $\operatorname{rank}A = \operatorname{rank}R = r$. The
+nonzero rows of $R$ are independent, since a combination $\sum_sc_s(\text{row }s)$ has entry $c_s$ in column $j_s$; they span the row space of $R$, which is that of $A$.
+\end{proof}
+
+Since the row rank of $A$ is the dimension of its row space, (1) and (2) give another proof that row rank equals column rank (Proposition~\ref{linear-algebra:proposition-duality}(5)). The proof is an
+algorithm, and the reduced row echelon form is unique (Exercise~\ref{linear-algebra:exercise-rref-unique}). To compute only the rank, a row echelon form, not necessarily reduced, suffices: its
+number of nonzero rows is the rank, by the same argument.
+
+\begin{theorem}[Rouch\'e--Capelli]\label{linear-algebra:theorem-rouche-capelli}
+Let $A \in M_{m \times n}(k)$ and $b \in k^m$. The system $Ax = b$ has a solution if and only if $\operatorname{rank}A = \operatorname{rank}(A \mid b)$, where $(A \mid b)$ is the \emph{augmented} matrix
+obtained by adding the column $b$. In that case, if $x_0$ is one solution, the set of all solutions is
+\[
+x_0 + \ker A = \{x_0 + y : Ay = 0\},
+\]
+an affine subspace of dimension $n - \operatorname{rank}A$.
+\end{theorem}
+
+\begin{proof}
+$Ax = \sum_jx_ja_j$, so the system is solvable if and only if $b$ lies in the span of the columns of $A$, that is, if and only if adding $b$ does not enlarge the column space; as the column space of
+$(A \mid b)$ contains that of $A$, this happens exactly when the dimensions agree. If $Ax_0 = b$, then $Ax = b$ if and only if $A(x - x_0) = 0$. Finally $\dim\ker A = n - \operatorname{rank}A$ by
+Theorem~\ref{linear-algebra:theorem-rank-nullity}.
+\end{proof}
+
+To solve a system in practice, bring $(A \mid b)$ to reduced row echelon form $(R \mid c)$; the systems $Ax = b$ and $Rx = c$ have the same solutions, as $(R \mid c) = P(A \mid b)$ with $P$ invertible. If the
+last column is a pivot column, some row reads $0 = 1$ and there is no solution; this is the case $\operatorname{rank}(A \mid b) > \operatorname{rank}A$. Otherwise the unknowns of the non-pivot columns, the
+\emph{free variables}, can be chosen arbitrarily, and each equation of $Rx = c$ expresses one pivot unknown in terms of them.
+
+\begin{example}\label{linear-algebra:example-gaussian-elimination}
+Consider the system
+\[
+\begin{aligned}
+x_1 + 2x_2 + x_3 \phantom{{}+ 2x_4} &= 1,\\
+2x_1 + 4x_2 \phantom{{}+ x_3} + 2x_4 &= 2,\\
+3x_1 + 6x_2 + x_3 + 2x_4 &= 3.
+\end{aligned}
+\]
+Subtracting $2$ times the first row from the second and $3$ times the first row from the third, then the new second row from the third, gives
+\[
+\left(\begin{array}{cccc|c}1 & 2 & 1 & 0 & 1\\ 2 & 4 & 0 & 2 & 2\\ 3 & 6 & 1 & 2 & 3\end{array}\right) \to
+\left(\begin{array}{cccc|c}1 & 2 & 1 & 0 & 1\\ 0 & 0 & -2 & 2 & 0\\ 0 & 0 & -2 & 2 & 0\end{array}\right) \to
+\left(\begin{array}{cccc|c}1 & 2 & 0 & 1 & 1\\ 0 & 0 & 1 & -1 & 0\\ 0 & 0 & 0 & 0 & 0\end{array}\right),
+\]
+where the last step multiplies the second row by $-\frac12$ and subtracts it from the first. The rank of $A$ and of $(A \mid b)$ is $2$, the pivot columns are the first and the third, and the free
+variables are $x_2 = s$ and $x_4 = t$. The equations $x_1 + 2x_2 + x_4 = 1$ and $x_3 - x_4 = 0$ give the solutions
+\[
+x = (1, 0, 0, 0) + s(-2, 1, 0, 0) + t(-1, 0, 1, 1), \qquad s, t \in k,
+\]
+a plane in $k^4$, of dimension $4 - 2$. By Theorem~\ref{linear-algebra:theorem-gaussian-elimination}(3), the first and third columns of $A$ form a basis of its column space: indeed the second column is
+twice the first, and the fourth is the first minus the third, as the coefficients in the reduced form show. With right-hand side $(1, 2, 4)$ instead, the same operations produce the row
+$(0\ 0\ 0\ 0 \mid 1)$, and there is no solution: the third equation contradicts the sum of the first two.
+\end{example}
+
+For square systems with invertible matrix the solution has a closed formula in terms of determinants.
+
+\begin{proposition}[Cramer's rule]\label{linear-algebra:proposition-cramer}
+Let $A \in M_n(k)$ with $\det A \neq 0$ and $b \in k^n$. The unique solution of $Ax = b$ is given by
+\[
+x_i = \frac{\det A_i}{\det A} \qquad (1 \leq i \leq n),
+\]
+where $A_i$ is obtained from $A$ by replacing its $i$-th column with $b$.
+\end{proposition}
+
+\begin{proof}
+$A$ is invertible with $A^{-1} = (\det A)^{-1}\operatorname{adj}A$ (Proposition~\ref{linear-algebra:proposition-determinant-properties}(4)), so $x = A^{-1}b$ is the unique solution and
+$x_i = (\det A)^{-1}\sum_j(-1)^{i+j}\det(A_{ji})\,b_j$. Since $A_i$ and $A$ agree outside column $i$, deleting row $j$ and column $i$ from $A_i$ gives $A_{ji}$, so the sum is the Laplace expansion of
+$\det A_i$ along its $i$-th column (Proposition~\ref{linear-algebra:proposition-determinant-properties}(3)).
+\end{proof}
+
+For example, $2x + y = 3$, $x - y = 0$ has $\det A = -3$, $x = \det\bigl(\begin{smallmatrix}3 & 1\\ 0 & -1\end{smallmatrix}\bigr)/(-3) = 1$ and
+$y = \det\bigl(\begin{smallmatrix}2 & 3\\ 1 & 0\end{smallmatrix}\bigr)/(-3) = 1$. Cramer's rule is useful in theory, for instance to see that the solution depends rationally on the entries of $A$ and $b$; for
+computations with large $n$, Gaussian elimination, with about $n^3$ operations, is far cheaper than evaluating $n + 1$ determinants of size $n$.
+
+\subsection{Rank and minors}\label{linear-algebra:subsection-minors}
+
+\begin{definition}\label{linear-algebra:definition-minor}
+Let $A \in M_{m \times n}(k)$. For sets $I \subseteq \{1, \ldots, m\}$ and $J \subseteq \{1, \ldots, n\}$ with $|I| = |J| = p$, the $p \times p$ matrix $A_{I,J} = (a_{ij})_{i \in I, j \in J}$, rows and columns in
+increasing order, is a \emph{submatrix} of $A$, and $\det A_{I,J}$ is a \emph{minor of order $p$}. If $M = \det A_{I,J}$, the minors $\det A_{I \cup \{i\}, J \cup \{j\}}$ with $i \notin I$ and
+$j \notin J$ are the minors of order $p + 1$ \emph{bordering} $M$.
+\end{definition}
+
+\begin{proposition}\label{linear-algebra:proposition-rank-minors}
+The rank of $A \in M_{m \times n}(k)$ is the largest $p$ such that $A$ has a nonzero minor of order $p$ (and $0$ if $A = 0$).
+\end{proposition}
+
+\begin{proof}
+If $\det A_{I,J} \neq 0$, the columns of $A_{I,J}$ are independent, and then so are the columns of $A$ with indices in $J$: a relation among them would restrict, in the rows $I$, to a relation among the
+columns of $A_{I,J}$. So $\operatorname{rank}A \geq p$. Conversely, let $r = \operatorname{rank}A$ and choose $r$ independent columns, with index set $J$. The $m \times r$ matrix they form has column rank
+$r$, hence row rank $r$ (Proposition~\ref{linear-algebra:proposition-duality}(5)): some $r$ of its rows, with index set $I$, are independent. Then $A_{I,J}$ is an $r \times r$ matrix of rank $r$, hence
+invertible, and $\det A_{I,J} \neq 0$ (Proposition~\ref{linear-algebra:proposition-determinant-properties}(5)).
+\end{proof}
+
+Read literally, the proposition requires checking all minors of order $p + 1$ to show that the rank is at most $p$; a $4 \times 5$ matrix has $\binom43\binom53 = 40$ minors of order $3$. The next theorem
+shows that it suffices to check the minors bordering one nonzero minor of order $p$: there are $(m - p)(n - p)$ of them, $6$ in this example if $p = 2$.
+
+\begin{theorem}[Kronecker's bordered minors theorem]\label{linear-algebra:theorem-bordered-minors}
+Let $A \in M_{m \times n}(k)$ and let $M = \det A_{I,J}$ be a nonzero minor of order $p$. If all the minors of order $p + 1$ bordering $M$ vanish, then $\operatorname{rank}A = p$, and the columns of $A$
+with indices in $J$ form a basis of its column space (and the rows with indices in $I$ a basis of its row space).
+\end{theorem}
+
+\begin{proof}
+As in the proof of Proposition~\ref{linear-algebra:proposition-rank-minors}, the columns $a_l$, $l \in J$, are independent. We show that every other column $a_j$, $j \notin J$, is a combination of them;
+then they form a basis of the column space, and $\operatorname{rank}A = p$. Fix $j \notin J$, and for each row index $i$ consider the $(p + 1) \times (p + 1)$ matrix
+\[
+N_i = \begin{pmatrix}A_{I,J} & (a_{i^{\prime}j})_{i^{\prime} \in I}\\ (a_{il})_{l \in J} & a_{ij}\end{pmatrix},
+\]
+formed by the rows $I$ followed by row $i$, and the columns $J$ followed by column $j$; this ordering changes $\det N_i$ at most by a sign compared with the minor $\det A_{I \cup \{i\}, J \cup \{j\}}$. We
+claim $\det N_i = 0$ for every $i$. If $i \notin I$, it is a bordering minor up to sign, and vanishes by hypothesis. If $i \in I$, the last row of $N_i$ repeats one of the first $p$ rows, and the
+determinant of a matrix with two equal rows is $0$ (Proposition~\ref{linear-algebra:proposition-determinant-properties}(2)).
+
+Expand $\det N_i$ along its last row (the Laplace expansion along a row, which follows from Proposition~\ref{linear-algebra:proposition-determinant-properties}(2) and (3)):
+\[
+0 = \det N_i = \sum_{l \in J}c_la_{il} + Ma_{ij},
+\]
+where $M = \det A_{I,J}$ is the cofactor of the corner entry $a_{ij}$ and $c_l$ is, up to sign, the determinant of the $p \times p$ matrix obtained by deleting the last row and the column of $l$. These
+cofactors only involve the rows $I$ of $A$, so they \emph{do not depend on} $i$. Since $M \neq 0$, $a_{ij} = -\sum_{l \in J}(c_l/M)a_{il}$ for every $i$, that is,
+\[
+a_j = -\sum_{l \in J}\frac{c_l}{M}\,a_l .
+\]
+The statement about rows follows by applying this to the transpose, whose minors are those of $A$ (Proposition~\ref{linear-algebra:proposition-determinant-properties}(2)): the transposes of the bordering
+minors are the bordering minors of $M$ in $A^T$.
+\end{proof}
+
+This gives a procedure for computing the rank: find a nonzero entry (a nonzero minor of order $1$); compute the minors bordering it; if all vanish the rank is $1$, otherwise a nonzero one is a minor of
+order $2$, whose bordering minors are computed next, and so on. The procedure stops at the rank, and at each step only the bordering minors of the current minor are needed.
+
+\begin{example}\label{linear-algebra:example-bordered-minors}
+\begin{enumerate}
+\item The matrix of Example~\ref{linear-algebra:example-gaussian-elimination},
+\[
+A = \begin{pmatrix}1 & 2 & 1 & 0\\ 2 & 4 & 0 & 2\\ 3 & 6 & 1 & 2\end{pmatrix},
+\]
+has the nonzero minor $M = \det\bigl(\begin{smallmatrix}1 & 1\\ 2 & 0\end{smallmatrix}\bigr) = -2$ in rows $1, 2$ and columns $1, 3$. The bordering minors use row $3$ and column $2$ or $4$:
+\[
+\det\begin{pmatrix}1 & 2 & 1\\ 2 & 4 & 0\\ 3 & 6 & 1\end{pmatrix} = 0, \qquad \det\begin{pmatrix}1 & 1 & 0\\ 2 & 0 & 2\\ 3 & 1 & 2\end{pmatrix} = 1 \cdot (0 - 2) - 1 \cdot (4 - 6) + 0 = 0,
+\]
+the first because its second column is twice the first. So $\operatorname{rank}A = 2$ after computing two determinants of order $3$, instead of all four.
+\item \emph{A rank depending on a parameter.} Let $t \in \RR$ and
+\[
+A_t = \begin{pmatrix}1 & t & 1\\ t & 1 & 1\\ 1 & 1 & t\end{pmatrix}.
+\]
+Expanding along the first row, $\det A_t = (t - 1) - t(t^2 - 1) + (t - 1) = (t - 1)(2 - t - t^2) = -(t - 1)^2(t + 2)$. So $\operatorname{rank}A_t = 3$ for $t \neq 1, -2$. For $t = 1$ all
+entries equal $1$, all minors of order $2$ vanish, and the rank is $1$. For $t = -2$ the minor $\det\bigl(\begin{smallmatrix}1 & -2\\ -2 & 1\end{smallmatrix}\bigr) = -3$ is nonzero and the only bordering
+minor is $\det A_{-2} = 0$, so the rank is $2$. Gaussian elimination would require dividing by expressions in $t$ and keeping track of when they vanish; the minors give the answer directly.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{linear-algebra:remark-rank-minors}
+Proposition~\ref{linear-algebra:proposition-rank-minors} has consequences that are not obvious from the definition of the rank.
+\begin{enumerate}
+\item \emph{The rank does not depend on the field.} If $k \subseteq L$ is a field extension and $A$ has entries in $k$, its minors are the same whether computed in $k$ or in $L$; so the rank of $A$ over $L$
+equals its rank over $k$. For instance a real matrix has the same rank over $\CC$, and a system with rational coefficients that has a real solution has a rational one (Theorem~\ref{linear-algebra:theorem-rouche-capelli}).
+\item \emph{The rank is lower semicontinuous.} For $k = \RR$ or $\CC$ the minors are polynomial, hence continuous, functions of the entries. So the set of matrices of rank at least $r$, where some minor
+of order $r$ is nonzero, is open in $M_{m \times n}(k)$, and a small perturbation can only increase the rank; the set of matrices of rank at most $r$ is closed, the common zero set of the minors of
+order $r + 1$. These zero sets are the \emph{determinantal varieties}, a basic family of examples in algebraic geometry.
+\end{enumerate}
+\end{remark}
 
 \section{Eigenvalues}\label{linear-algebra:section-eigenvalues}
 
@@ -900,6 +1121,82 @@ $\partial_{z_j} = \frac12(\partial_{x_j} - i\partial_{y_j})$ span $V^{1,0}$. The
 manifolds (Chapter~\ref{kahler}).
 \end{example}
 
+Proposition~\ref{linear-algebra:proposition-compatible-metric} relates three structures on $V$: an inner product $g$, a nondegenerate alternating form $\omega$ and a complex structure $J$. We call a triple
+$(g, \omega, J)$ of such structures \emph{compatible} if $g(Jv, Jw) = g(v, w)$ and $\omega(v, w) = g(Jv, w)$ for all $v, w$. The next proposition says that any two members of a compatible triple
+determine the third, and says exactly which pairs occur. This ``two out of three'' property is the linear algebra behind Hermitian and K\"ahler manifolds (Chapter~\ref{kahler}) and behind the
+compatible complex structures of symplectic geometry (Chapter~\ref{symplectic-geometry}).
+
+\begin{proposition}[Two out of three]\label{linear-algebra:proposition-two-of-three}
+Let $V$ be a finite-dimensional real vector space.
+\begin{enumerate}
+\item In a compatible triple $(g, \omega, J)$ each member is determined by the other two:
+\[
+\omega(v, w) = g(Jv, w), \qquad g(v, w) = \omega(v, Jw), \qquad J \text{ is the unique endomorphism with } \omega(v, w) = g(Jv, w).
+\]
+\item A pair extends to a compatible triple exactly in the following cases.
+\begin{enumerate}
+\item An inner product $g$ and a complex structure $J$: if and only if $g(Jv, Jw) = g(v, w)$.
+\item A nondegenerate alternating form $\omega$ and a complex structure $J$: if and only if $\omega(Jv, Jw) = \omega(v, w)$ and $\omega(v, Jv) > 0$ for all $v \neq 0$.
+\item An inner product $g$ and a nondegenerate alternating form $\omega$: let $A$ be the endomorphism with $\omega(v, w) = g(Av, w)$; the pair extends if and only if $A^2 = -1$, equivalently, if and only if
+$A$ is orthogonal for $g$; and then $J = A$.
+\end{enumerate}
+\item Let $(g, \omega, J)$ be compatible, and $h = g - i\omega$ the Hermitian inner product of Proposition~\ref{linear-algebra:proposition-compatible-metric}. An automorphism of $V$ preserving two of
+$g$, $\omega$, $J$ (preserving $J$ meaning $TJ = JT$) preserves the third. So the three groups $\mathrm{O}(V, g)$, $\mathrm{Sp}(V, \omega)$ and $\GL(V, J)$ of automorphisms preserving $g$, $\omega$ and $J$
+satisfy
+\[
+\mathrm{O}(V, g) \cap \mathrm{Sp}(V, \omega) = \mathrm{O}(V, g) \cap \GL(V, J) = \mathrm{Sp}(V, \omega) \cap \GL(V, J) = \mathrm{U}(V, h),
+\]
+the unitary group of $h$ on the complex vector space $(V, J)$. For $\RR^{2n} = \CC^n$ with its standard structures this reads $\mathrm{O}(2n) \cap \mathrm{Sp}_{2n}(\RR) = \mathrm{O}(2n) \cap \GL_n(\CC) =
+\mathrm{Sp}_{2n}(\RR) \cap \GL_n(\CC) = \mathrm{U}(n)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The first two formulas are in Proposition~\ref{linear-algebra:proposition-compatible-metric}. If $g(Jv, w) = g(J^{\prime}v, w)$ for all $w$, then $Jv = J^{\prime}v$, as $g$ is nondegenerate.
+
+(2)(a) is Proposition~\ref{linear-algebra:proposition-compatible-metric}. For (b), if the triple is compatible, $\omega$ is $J$-invariant by that proposition and $\omega(v, Jv) = g(Jv, Jv) > 0$ for
+$v \neq 0$. Conversely, define $g(v, w) = \omega(v, Jw)$. Using $J$-invariance of $\omega$ and $J^2 = -1$,
+\[
+g(w, v) = \omega(w, Jv) = \omega(Jw, J^2v) = -\omega(Jw, v) = \omega(v, Jw) = g(v, w),
+\]
+so $g$ is symmetric; it is positive definite by hypothesis; $g(Jv, Jw) = \omega(Jv, J^2w) = -\omega(Jv, w) = \omega(w, Jv) = g(w, v) = g(v, w)$; and $g(Jv, w) = \omega(Jv, Jw) = \omega(v, w)$. So
+$(g, \omega, J)$ is compatible. For (c), $v \mapsto \omega(v, \cdot)$ is a linear form, represented through $g$ by a unique vector $Av$ (Proposition~\ref{linear-algebra:proposition-duality}(1) and
+nondegeneracy of $g$), and $A$ is linear. It is skew-adjoint: $g(Av, w) = \omega(v, w) = -\omega(w, v) = -g(Aw, v) = -g(v, Aw)$. If the pair extends, $J = A$ by (1), so $A^2 = -1$. Conversely, if
+$A^2 = -1$, then $J = A$ is a complex structure, $g(Jv, Jw) = -g(v, J^2w) = g(v, w)$ by skew-adjointness, and $\omega(v, w) = g(Jv, w)$ by definition. Finally, the adjoint of $A$ is $-A$, so $A$ is
+orthogonal, $A^*A = 1$, if and only if $-A^2 = 1$.
+
+(3) Let $T$ be an automorphism. If $T$ preserves $g$ and commutes with $J$, then $\omega(Tv, Tw) = g(JTv, Tw) = g(TJv, Tw) = g(Jv, w) = \omega(v, w)$. If $T$ preserves $\omega$ and commutes with $J$, then
+$g(Tv, Tw) = \omega(Tv, JTw) = \omega(Tv, TJw) = \omega(v, Jw) = g(v, w)$. If $T$ preserves $g$ and $\omega$, then for all $v, w$
+\[
+g(JTv, Tw) = \omega(Tv, Tw) = \omega(v, w) = g(Jv, w) = g(TJv, Tw),
+\]
+and since $Tw$ runs through all of $V$, $JTv = TJv$. This proves the equality of the three intersections. An element of $\GL(V, J)$ is a complex linear automorphism of $(V, J)$; it preserves $g$ and
+$\omega$ if and only if it preserves $h = g - i\omega$, that is, if and only if it is unitary. For the standard structures on $\RR^{2n}$, $\GL(V, J) = \GL_n(\CC)$ and $\mathrm{U}(V, h) = \mathrm{U}(n)$
+(Example~\ref{linear-algebra:example-standard-structure}).
+\end{proof}
+
+\begin{example}\label{linear-algebra:example-two-of-three}
+\begin{enumerate}
+\item On $\RR^2$ with the standard inner product $g$ and $\omega = c\,dx \wedge dy$, $c > 0$, the endomorphism $A$ of (2)(c) is $c$ times the rotation by $\pi/2$: $\omega(e_1, e_2) = c = g(Ae_1, e_2)$.
+So $A^2 = -c^2$, and the pair $(g, \omega)$ is compatible only for $c = 1$. For $c \neq 1$, rescaling $g$ by $c$ makes it compatible with $\omega$ and $J = A/c$. Similarly $(\omega, J)$ with
+$\omega = dx \wedge dy$ and $J$ the rotation by $-\pi/2$ satisfies $\omega(Jv, Jw) = \omega(v, w)$ but $\omega(v, Jv) < 0$: the condition of positivity in (2)(b) singles out one of the two orientations.
+\item \emph{A pair that is not compatible.} On $\RR^4$ with the standard inner product, let $\omega = dx^1 \wedge dy^1 + 2\,dx^2 \wedge dy^2$. Then $A$ is the rotation by $\pi/2$ in the first plane and twice
+the rotation by $\pi/2$ in the second, $A^2 = \operatorname{diag}(-1, -1, -4, -4)$, and no complex structure is compatible with both $g$ and $\omega$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{linear-algebra:remark-polar-compatible}
+An incompatible pair $(g, \omega)$ can be repaired canonically. With $A$ as in (2)(c), $-A^2 = A^*A$ is self-adjoint and positive definite, so by the spectral theorem
+(Theorem~\ref{linear-algebra:theorem-spectral}) it has a unique positive definite square root $P$, which acts on each eigenspace of $-A^2$ as the positive square root of the eigenvalue; being a
+polynomial in $A^2$, $P$ commutes with $A$. Put $J = AP^{-1}$ (the polar decomposition of $A$). Then $J^2 = A^2P^{-2} = -1$; using that $P$ is self-adjoint, that $A$ is skew-adjoint and that $AP = PA$,
+\[
+\omega(Jv, Jw) = g(A^2P^{-1}v, AP^{-1}w) = -g(Pv, AP^{-1}w) = -g(v, Aw) = \omega(v, w), \qquad \omega(v, Jv) = g(Av, AP^{-1}v) = g(Pv, v) > 0.
+\]
+So $J$ is compatible with $\omega$ in the sense of (2)(b), with the new inner product $\omega(v, Jw) = g(Pv, w)$, and $J = A$ when $(g, \omega)$ was already compatible. Since $J$ depends only on $g$ and
+$\omega$, and continuously so, this produces compatible complex structures on every symplectic vector space, and indeed compatible almost complex structures on every symplectic manifold, from any
+Riemannian metric \cite{mcduff-salamon}. In Example~\ref{linear-algebra:example-two-of-three}(2), $P = \operatorname{diag}(1, 1, 2, 2)$ and $J$ is the standard complex structure.
+\end{remark}
+
 \section{Exercises}\label{linear-algebra:section-exercises}
 
 \begin{exercise}\label{linear-algebra:exercise-trace}
@@ -950,4 +1247,53 @@ $P^{-1}GP = \bigl(\begin{smallmatrix}5 & -6\\ 2 & -3\end{smallmatrix}\bigr)$.
 (2) The eigenvalues of $G$ are $3$ and $-1$, with unit eigenvectors $(1, 1)/\sqrt2$ and $(1, -1)/\sqrt2$; with these as columns, $Q$ is orthogonal and $Q^TGQ = Q^{-1}GQ = \operatorname{diag}(3, -1)$.
 (3) Both diagonal matrices have one positive and one negative entry, signature $(1, 1)$, so they are congruent, as Sylvester's law requires; they are not similar, since their eigenvalues
 $\{1, -3\}$ and $\{3, -1\}$ differ. The matrix $P^{-1}GP$ of (1), similar to $G$, has eigenvalues $3$ and $-1$, as it must.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-rref-unique}
+Show that the reduced row echelon form $R$ of a matrix $A$ in Theorem~\ref{linear-algebra:theorem-gaussian-elimination} is unique: it depends only on $A$, not on the row operations used.
+\end{exercise}
+
+\begin{solution}
+By Lemma~\ref{linear-algebra:lemma-row-operations} the columns of $R$ satisfy the same linear relations as the columns of $A$. Column $j$ of $R$ is a pivot column exactly when it is not a combination
+of the columns before it (a pivot column $e_s$ is not a combination of earlier columns, which vanish in row $s$; a non-pivot column has zeros below the row of the last pivot to its left, so it is a
+combination of the earlier pivot columns $e_1, \ldots, e_s$). So the pivot positions are determined by $A$. A non-pivot column $j$ of $R$ equals $\sum_sc_se_s$, the sum over the pivot columns
+$e_s$ before it, and the coefficients $c_s$ are the unique coefficients expressing column $j$ of $A$ as a combination of the pivot columns of $A$ before it. So every column of $R$ is determined by $A$.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-system-parameter}
+For which $a \in \RR$ does the system $x + y + z = 1$, $x + ay + z = 1$, $x + y + az = 2$ have solutions? Find them.
+\end{exercise}
+
+\begin{solution}
+The matrix of the system has determinant $(a - 1)^2$: subtracting the first row from the others gives rows $(0, a - 1, 0)$ and $(0, 0, a - 1)$. For $a \neq 1$ the solution is unique: the differences of
+the equations give $(a - 1)y = 0$ and $(a - 1)z = 1$, so $y = 0$, $z = 1/(a - 1)$ and $x = 1 - 1/(a - 1) = (a - 2)/(a - 1)$, as Cramer's rule also gives. For $a = 1$ the matrix has rank $1$ and the
+augmented matrix has rank $2$ (the minor $\det\bigl(\begin{smallmatrix}1 & 1\\ 1 & 2\end{smallmatrix}\bigr)$ from the first and third rows, first and last columns, is $1$), so by
+Theorem~\ref{linear-algebra:theorem-rouche-capelli} there is no solution: the equations $x + y + z = 1$ and $x + y + z = 2$ contradict each other.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-bordered-practice}
+Compute the rank of
+\[
+A = \begin{pmatrix}1 & 1 & 0 & 1\\ 1 & 0 & 1 & 1\\ 0 & 1 & -1 & 0\\ 2 & 1 & 1 & 2\end{pmatrix}
+\]
+with the bordered minors theorem, and find a basis of its column space.
+\end{exercise}
+
+\begin{solution}
+The minor $M = \det\bigl(\begin{smallmatrix}1 & 1\\ 1 & 0\end{smallmatrix}\bigr) = -1$ in rows $1, 2$ and columns $1, 2$ is nonzero. Its four bordering minors use row $3$ or $4$ and column $3$ or $4$; they
+all vanish, because row $3$ is row $1$ minus row $2$ and row $4$ is row $1$ plus row $2$, so each bordering $3 \times 3$ matrix has dependent rows. So $\operatorname{rank}A = 2$, and the first two columns
+form a basis of the column space (indeed column $3$ is column $1$ minus column $2$, and column $4$ equals column $1$).
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-rank-inequalities}
+Show that $\operatorname{rank}(AB) \leq \min(\operatorname{rank}A, \operatorname{rank}B)$ and $\operatorname{rank}(A + B) \leq \operatorname{rank}A + \operatorname{rank}B$ for matrices of compatible sizes,
+and that $\operatorname{rank}(PAQ) = \operatorname{rank}A$ for invertible $P$ and $Q$. Deduce that every matrix of rank $r$ can be written as $P\bigl(\begin{smallmatrix}I_r & 0\\ 0 & 0\end{smallmatrix}\bigr)Q$
+with $P$, $Q$ invertible.
+\end{exercise}
+
+\begin{solution}
+The image of $AB$ is contained in the image of $A$, and it is the image under $A$ of the image of $B$, whose dimension is at most $\operatorname{rank}B$. The image of $A + B$ is contained in
+$\im A + \im B$. If $P$ and $Q$ are invertible, $\operatorname{rank}(PAQ) \leq \operatorname{rank}A = \operatorname{rank}(P^{-1}(PAQ)Q^{-1}) \leq \operatorname{rank}(PAQ)$. For the normal form, bring $A$ to
+reduced row echelon form by row operations, then use column operations (multiplication on the right) to move the pivot columns to the front and to clear the remaining entries of the first $r$ rows,
+which are multiples of the pivot columns $e_1, \ldots, e_r$.
 \end{solution}

@@ -10,7 +10,9 @@ and~\ref{measure-theory:theorem-dominated-convergence}) and the completeness of 
 chapter constructs Lebesgue measure, proves the convergence theorems, Littlewood's three principles (approximation of sets by boxes, Lusin's
 theorem, Egorov's theorem), the Lebesgue differentiation theorem with its consequences (the density theorem and the fundamental theorem of calculus for
 Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
-change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It ends with an introduction to
+change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It then treats Radon measures as positive linear functionals
+(the Riesz--Markov theorem, Theorem~\ref{measure-theory:theorem-riesz-markov}), weak convergence of measures and its compactness theorem, and the differentiation of measures with respect to
+Lebesgue measure, with Lebesgue's theorem on the differentiability of monotone functions. It ends with an introduction to
 geometric measure theory: Hausdorff measures and Hausdorff dimension (with the Cantor set as example), Rademacher's theorem on the differentiability of Lipschitz maps, and the area formula,
 which computes the $k$-dimensional measure of parametrised sets (Sections~\ref{measure-theory:section-hausdorff}--\ref{measure-theory:section-area-formula}).
 References: \cite{rudin-rca} and \cite{folland-real}.
@@ -853,14 +855,6 @@ Cantor function (Lemma~\ref{measure-theory:lemma-stieltjes}) is singular, living
 point masses, and a \emph{singular continuous} part without atoms, like $\mu_F$: the atoms of a $\sigma$-finite measure form a countable set, and the discrete part is the restriction to it.
 \end{example}
 
-\begin{theorem}[Riesz--Markov]\label{measure-theory:theorem-riesz-markov}
-Let $X$ be a locally compact Hausdorff space and $\Lambda \colon C_c(X, \RR) \to \RR$ a linear map with $\Lambda(f) \geq 0$ for $f \geq 0$. There is a unique regular Borel measure $\mu$, finite on compact sets, with
-$\Lambda(f) = \int f\,d\mu$ for all $f \in C_c(X, \RR)$.
-\end{theorem}
-
-This is \cite[Theorem 2.14]{rudin-rca}. For $X = \RR^n$ and $\Lambda$ the Riemann integral of continuous functions with compact support, $\mu$ is Lebesgue measure restricted to Borel sets. On a smooth manifold,
-a volume form defines such a functional, and hence a measure (Chapter~\ref{differential-forms}).
-
 \section{Absolutely continuous functions}\label{measure-theory:section-absolutely-continuous}
 
 By Corollary~\ref{measure-theory:corollary-ftc-lebesgue}, an indefinite integral $F(x) = F(a) + \int_a^xf$ of an integrable function satisfies $F' = f$ almost everywhere.
@@ -935,6 +929,419 @@ $\mu_F(C) = F(1) - F(0) = 1$ for the Cantor function because $F$ is constant on 
 of bounded variation, hence not absolutely continuous.
 \end{example}
 
+
+\section{Radon measures and the Riesz representation theorem}\label{measure-theory:section-radon}
+
+A measure assigns numbers to sets; integration against it assigns numbers to functions, $f \mapsto \int f\,d\mu$, and this assignment is linear and positive. On $\RR^n$ the
+Riemann integral of continuous functions with compact support is such an assignment, and Lebesgue measure can be recovered from it: $\lambda([0, 1]^n)$ is the infimum of the integrals of the
+continuous functions that are at least $1$ on the cube. The Riesz representation theorem says that this always works: every positive linear functional on continuous functions with compact support
+is integration against exactly one measure of a reasonable kind. This point of view, \emph{measures as linear functionals}, is basic in geometric measure theory, in probability and in the theory
+of partial differential equations. It allows one to take limits of measures (Section~\ref{measure-theory:section-weak-convergence}), and it is the model for distributions, which are linear functionals on
+smooth functions (Chapter~\ref{distributions}).
+
+Throughout this section $X$ is a locally compact Hausdorff space with a countable basis; for instance $\RR^n$, an open or a closed subset of $\RR^n$, or a manifold. Such a space is metrisable: it is
+regular, because for a point $x$ outside a closed set $F$, Lemma~\ref{general-topology:lemma-lch-shrinking} applied to $\{x\} \subseteq X \setminus F$ gives an open $V \ni x$ with
+$\overline{V} \cap F = \emptyset$, and a regular space with a countable basis is metrisable (Theorem~\ref{general-topology:theorem-urysohn-metrisation}). It has an exhaustion by compact sets
+$K_1 \subseteq K_2 \subseteq \cdots$ with $K_m \subseteq \operatorname{int}K_{m+1}$ (Proposition~\ref{general-topology:proposition-exhaustion}); every compact $K \subseteq X$ lies in some $K_m$, since the
+increasing open sets $\operatorname{int}K_m$ cover $K$.
+
+We write $C_c(X)$ for the real vector space of continuous functions $f \colon X \to \RR$ with compact support, and, for an open $V \subseteq X$,
+\[
+f \prec V \quad \text{if} \quad f \in C_c(X), \quad 0 \leq f \leq 1 \quad \text{and} \quad \operatorname{supp}f \subseteq V.
+\]
+Continuous functions are Borel measurable. If $\mu$ is a Borel measure that is finite on compact sets, every $f \in C_c(X)$ is integrable, with $|\int f\,d\mu| \leq \|f\|_\infty\,\mu(\operatorname{supp}f)$.
+
+\begin{lemma}\label{measure-theory:lemma-closed-approximation}
+Let $\nu$ be a finite Borel measure on a metrisable space $X$. For every Borel set $E$ and every $\varepsilon > 0$ there are a closed set $F$ and an open set $U$ with $F \subseteq E \subseteq U$ and
+$\nu(U \setminus F) < \varepsilon$.
+\end{lemma}
+
+\begin{proof}
+Fix a metric $d$ inducing the topology, and let $\mathcal{G}$ be the family of Borel sets $E$ with the stated property. A closed set $E$ belongs to $\mathcal{G}$: take $F = E$ and
+$U_k = \{x : d(x, E) < 1/k\}$, which are open, decrease, and have intersection $E$ because $E$ is closed; as $\nu$ is finite, $\nu(U_k \setminus E) \to 0$
+(Proposition~\ref{measure-theory:proposition-measure-properties}). The family $\mathcal{G}$ is closed under complements, since $F \subseteq E \subseteq U$ gives
+$X \setminus U \subseteq X \setminus E \subseteq X \setminus F$ with the same difference $U \setminus F$. It is closed under countable unions: if $F_k \subseteq E_k \subseteq U_k$ with
+$\nu(U_k \setminus F_k) < \varepsilon 2^{-k-1}$, then $U = \bigcup_kU_k$ is open and $F^{\prime} = \bigcup_kF_k$ satisfies $\nu(U \setminus F^{\prime}) < \varepsilon/2$; the closed sets
+$F_1 \cup \cdots \cup F_N$ increase to $F^{\prime}$, so one of them, $F$, has $\nu(F^{\prime} \setminus F) < \varepsilon/2$, and then $F \subseteq \bigcup_kE_k \subseteq U$ and $\nu(U \setminus F) < \varepsilon$.
+So $\mathcal{G}$ is a $\sigma$-algebra containing the closed sets, hence all Borel sets.
+\end{proof}
+
+\begin{proposition}\label{measure-theory:proposition-radon-automatic}
+Let $X$ be a locally compact Hausdorff space with a countable basis and $\mu$ a Borel measure on $X$ that is finite on compact sets. Then $\mu$ is $\sigma$-finite and regular, hence a Radon measure
+(Definition~\ref{measure-theory:definition-regular}): for every Borel set $E$,
+\[
+\mu(E) = \inf\{\mu(U) : U \supseteq E \text{ open}\} = \sup\{\mu(K) : K \subseteq E \text{ compact}\}.
+\]
+\end{proposition}
+
+\begin{proof}
+$X$ is the union of the compact sets $K_m$ of an exhaustion, which have finite measure, so $\mu$ is $\sigma$-finite; and every point has a neighbourhood $\operatorname{int}K_{m+1} \subseteq K_{m+1}$ of finite
+measure. The measures $\nu_m(A) = \mu(A \cap \operatorname{int}K_m)$ are finite, and Lemma~\ref{measure-theory:lemma-closed-approximation} applies to them, $X$ being metrisable.
+
+\emph{Outer regularity.} Let $E$ be a Borel set with $\mu(E) < \infty$ (otherwise there is nothing to prove) and $\varepsilon > 0$. Choose open sets $U_m \supseteq E$ with
+$\nu_m(U_m \setminus E) < \varepsilon2^{-m}$, and let $U = \bigcup_m(U_m \cap \operatorname{int}K_m)$. It is open and contains $E = \bigcup_m(E \cap \operatorname{int}K_m)$, and
+$\mu(U \setminus E) \leq \sum_m\mu\bigl((U_m \cap \operatorname{int}K_m) \setminus E\bigr) = \sum_m\nu_m(U_m \setminus E) < \varepsilon$. So $\mu(U) < \mu(E) + \varepsilon$.
+
+\emph{Inner regularity.} Let $E$ be a Borel set and $t < \mu(E)$. By continuity from below, $\mu(E \cap \operatorname{int}K_m) > t$ for some $m$. Choose a closed $F \subseteq E$ with
+$\nu_m(E \setminus F) < \mu(E \cap \operatorname{int}K_m) - t$. Then $K = F \cap K_m$ is compact, contained in $E$, and
+$\mu(K) \geq \mu(F \cap \operatorname{int}K_m) = \nu_m(E) - \nu_m(E \setminus F) > t$.
+\end{proof}
+
+So on $\RR^n$ and on manifolds, \emph{Radon measure} simply means \emph{Borel measure finite on compact sets}. For general locally compact Hausdorff spaces this is false, and the theory below has to
+be set up with more care \cite[Chapter 2]{rudin-rca}; we shall not need that generality.
+
+\begin{lemma}\label{measure-theory:lemma-partition-compact}
+Let $X$ be a locally compact Hausdorff space, $K \subseteq X$ compact and $V_1, \ldots, V_n$ open sets covering $K$. There are $h_i \prec V_i$ with $\sum_ih_i \leq 1$ on $X$ and $\sum_ih_i = 1$ on $K$.
+\end{lemma}
+
+\begin{proof}
+Each $x \in K$ lies in some $V_i$, and Lemma~\ref{general-topology:lemma-lch-shrinking} gives an open $W_x \ni x$ with compact closure $\overline{W_x} \subseteq V_i$. Finitely many $W_x$ cover $K$; let $H_i$ be
+the union of the closures of those among them for which the chosen $i$ was $i$. Then $H_i \subseteq V_i$ is compact and $K \subseteq H_1 \cup \cdots \cup H_n$. Lemma~\ref{general-topology:lemma-lch-shrinking}
+gives $g_i \prec V_i$ with $g_i = 1$ on $H_i$. Put $h_1 = g_1$ and $h_k = (1 - g_1)\cdots(1 - g_{k-1})g_k$. Then $0 \leq h_k \leq g_k$, so $h_k \prec V_k$, and by induction on $m$,
+\[
+h_1 + \cdots + h_m = 1 - (1 - g_1)(1 - g_2)\cdots(1 - g_m),
+\]
+since $1 - \prod_{k \leq m}(1 - g_k) + h_{m+1} = 1 - \prod_{k \leq m+1}(1 - g_k)$. For $m = n$ the right side lies in $[0, 1]$, and it equals $1$ on each $H_i$, where the factor $1 - g_i$ vanishes.
+\end{proof}
+
+\begin{definition}\label{measure-theory:definition-positive-functional}
+A linear map $\Lambda \colon C_c(X) \to \RR$ is \emph{positive} if $\Lambda(f) \geq 0$ whenever $f \geq 0$.
+\end{definition}
+
+A positive functional is monotone: $f \leq g$ implies $\Lambda f \leq \Lambda g$. It is also automatically continuous in the following sense. If $K$ is compact and $\phi_K \in C_c(X)$ satisfies
+$0 \leq \phi_K \leq 1$ and $\phi_K = 1$ on $K$ (Lemma~\ref{general-topology:lemma-lch-shrinking}), then every $f$ with $\operatorname{supp}f \subseteq K$ satisfies
+$-\|f\|_\infty\phi_K \leq f \leq \|f\|_\infty\phi_K$, hence
+\[
+|\Lambda f| \leq \Lambda(\phi_K)\,\|f\|_\infty .
+\]
+So uniform convergence of functions supported in a fixed compact set implies convergence of the values of $\Lambda$.
+
+\begin{example}\label{measure-theory:example-positive-functionals}
+\begin{enumerate}
+\item \emph{Point masses.} $\Lambda f = f(x_0)$ is positive, and $\Lambda f = \int f\,d\delta_{x_0}$. More generally, for points $x_1, x_2, \ldots$ of $X$ with no accumulation point and numbers
+$c_k \geq 0$, the finite sum $\Lambda f = \sum_kc_kf(x_k)$ is integration against $\sum_kc_k\delta_{x_k}$.
+\item \emph{Densities.} For $g \in L^1_{\mathrm{loc}}(\RR^n)$ with $g \geq 0$, $\Lambda f = \int fg\,d\lambda$ is positive; it is integration against the measure $g\lambda$, $E \mapsto \int_Eg\,d\lambda$. For
+$g = 1$ this is the Riemann integral of $f$ (Proposition~\ref{measure-theory:proposition-riemann-lebesgue}, together with Fubini's theorem for the iterated integrals).
+\item \emph{Arc length on a circle.} On $X = \RR^2$, $\Lambda f = \int_0^{2\pi}f(\cos t, \sin t)\,dt$ is positive. The corresponding measure $\sigma$ (Theorem~\ref{measure-theory:theorem-riesz-markov}
+below) lives on the unit circle $S^1$: if $K$ is compact and disjoint from $S^1$, a function $f \prec \RR^2 \setminus S^1$ with $f = 1$ on $K$ gives $\sigma(K) \leq \int f\,d\sigma = \Lambda f = 0$, and
+by inner regularity $\sigma(\RR^2 \setminus S^1) = 0$. Since $\lambda^2(S^1) = 0$, the measures $\sigma$ and $\lambda^2$ are mutually singular. The measure of an arc is its length
+(Exercise~\ref{measure-theory:exercise-riesz-circle}), and $\sigma$ is the restriction to $S^1$ of the one-dimensional Hausdorff measure of Section~\ref{measure-theory:section-hausdorff}.
+\item \emph{Push-forward.} More generally, for a continuous map $\varphi \colon [a, b] \to X$, the functional $\Lambda f = \int_a^bf(\varphi(t))\,dt$ is integration against the push-forward
+$\varphi_*\lambda$, $E \mapsto \lambda(\{t \in [a, b] : \varphi(t) \in E\})$, which is a Borel measure, finite because $\lambda([a, b]) < \infty$.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[Riesz--Markov]\label{measure-theory:theorem-riesz-markov}
+Let $X$ be a locally compact Hausdorff space with a countable basis, and $\Lambda \colon C_c(X) \to \RR$ a positive linear functional. There is a unique Borel measure $\mu$ on $X$, finite on compact
+sets, with
+\[
+\Lambda f = \int_Xf\,d\mu \qquad \text{for all } f \in C_c(X).
+\]
+It is a Radon measure, and for open $V$ and compact $K$,
+\[
+\mu(V) = \sup\{\Lambda f : f \prec V\}, \qquad \mu(K) = \inf\{\Lambda f : f \in C_c(X),\ f \geq \mathbf{1}_K\}.
+\]
+\end{theorem}
+
+\begin{proof}
+The proof follows \cite[Theorem 2.14]{rudin-rca}. Motivated by the formulas to be proved, define $\mu(V) = \sup\{\Lambda f : f \prec V\}$ for open $V$, and for an arbitrary $E \subseteq X$
+\[
+\mu^*(E) = \inf\{\mu(V) : V \supseteq E \text{ open}\}.
+\]
+If $V \subseteq W$ are open, $f \prec V$ implies $f \prec W$, so $\mu(V) \leq \mu(W)$; hence $\mu^*(V) = \mu(V)$ for open $V$, and $\mu^*$ is monotone.
+
+\emph{Step 1: $\mu^*$ is an outer measure.} First let $V = \bigcup_iV_i$ be a countable union of open sets, and $f \prec V$. The compact set $\operatorname{supp}f$ is covered by finitely many
+$V_1, \ldots, V_n$, and Lemma~\ref{measure-theory:lemma-partition-compact} gives $h_i \prec V_i$ with $\sum_ih_i = 1$ on $\operatorname{supp}f$. Then $f = \sum_ih_if$ with $h_if \prec V_i$, so
+$\Lambda f = \sum_i\Lambda(h_if) \leq \sum_i\mu(V_i)$; taking the supremum over $f$, $\mu(V) \leq \sum_i\mu(V_i)$. Now let $E = \bigcup_iE_i$ be arbitrary, with $\sum_i\mu^*(E_i) < \infty$, and
+$\varepsilon > 0$. Choose open $V_i \supseteq E_i$ with $\mu(V_i) \leq \mu^*(E_i) + \varepsilon2^{-i}$; then
+$\mu^*(E) \leq \mu(\bigcup_iV_i) \leq \sum_i\mu^*(E_i) + \varepsilon$. Finally $\mu^*(\emptyset) = 0$, as $f \prec \emptyset$ forces $f = 0$.
+
+\emph{Step 2: compact sets.} Let $K$ be compact. If $f \in C_c(X)$ and $f \geq \mathbf{1}_K$, and $0 < \alpha < 1$, then $V_\alpha = \{f > \alpha\}$ is an open set containing $K$, and every $g \prec V_\alpha$
+satisfies $\alpha g \leq f$; so $\mu^*(K) \leq \mu(V_\alpha) \leq \Lambda f/\alpha$, and letting $\alpha \to 1$, $\mu^*(K) \leq \Lambda f$. Conversely, for an open $V \supseteq K$,
+Lemma~\ref{general-topology:lemma-lch-shrinking} gives $f \prec V$ with $f = 1$ on $K$, and $\Lambda f \leq \mu(V)$. So $\mu^*(K) = \inf\{\Lambda f : f \geq \mathbf{1}_K\}$, which is finite.
+
+\emph{Step 3: Borel sets are $\mu^*$-measurable.} By Carath\'eodory's theorem (Theorem~\ref{measure-theory:theorem-caratheodory}) the $\mu^*$-measurable sets form a $\sigma$-algebra on which $\mu^*$ is a
+measure, so it suffices to show that every open $U$ is $\mu^*$-measurable: $\mu^*(E \cap U) + \mu^*(E \setminus U) \leq \mu^*(E)$ for every $E$ with $\mu^*(E) < \infty$. Let $\varepsilon > 0$ and
+choose an open $V \supseteq E$ with $\mu(V) \leq \mu^*(E) + \varepsilon$. Choose $f \prec V \cap U$ with $\Lambda f > \mu(V \cap U) - \varepsilon$; its support $K$ is a compact subset of $U$, so
+$V \setminus K$ is open and we may choose $g \prec V \setminus K$ with $\Lambda g > \mu(V \setminus K) - \varepsilon$. The functions $f$ and $g$ have disjoint supports, so $f + g \prec V$, and
+\[
+\mu^*(E) + \varepsilon \geq \mu(V) \geq \Lambda f + \Lambda g > \mu(V \cap U) + \mu(V \setminus K) - 2\varepsilon \geq \mu^*(E \cap U) + \mu^*(E \setminus U) - 2\varepsilon,
+\]
+because $E \cap U \subseteq V \cap U$ and $E \setminus U \subseteq V \setminus K$. Let $\varepsilon \to 0$.
+
+So the restriction of $\mu^*$ to the Borel sets is a Borel measure $\mu$, finite on compact sets by Step 2, and by construction it satisfies the two formulas of the statement.
+
+\emph{Step 4: $\Lambda f = \int f\,d\mu$.} Both sides are linear in $f$, so it suffices to show $\Lambda f \leq \int f\,d\mu$ for every $f \in C_c(X)$: applied to $-f$ it gives the reverse inequality.
+Let $K = \operatorname{supp}f$, choose $a < b$ with $f(X) \subseteq [a, b]$, let $\varepsilon > 0$, and choose $y_0 < a < y_1 < \cdots < y_n = b$ with $y_i - y_{i-1} < \varepsilon$. The Borel sets
+$E_i = \{y_{i-1} < f \leq y_i\} \cap K$ are disjoint with union $K$. By the definition of $\mu^*$ there are open sets $V_i \supseteq E_i$ with $\mu(V_i) < \mu(E_i) + \varepsilon/n$; replacing $V_i$ by
+$V_i \cap \{f < y_i + \varepsilon\}$ we may assume $f < y_i + \varepsilon$ on $V_i$. Lemma~\ref{measure-theory:lemma-partition-compact} gives $h_i \prec V_i$ with $\sum_ih_i = 1$ on $K$. Then
+$f = \sum_ih_if$, and $h_if \leq (y_i + \varepsilon)h_i$. By Step 2, $\sum_i\Lambda h_i = \Lambda(\sum_ih_i) \geq \mu(K)$, and $\Lambda h_i \leq \mu(V_i)$. As $|a| + y_i + \varepsilon > 0$,
+\[
+\begin{aligned}
+\Lambda f = \sum_i\Lambda(h_if) &\leq \sum_i(y_i + \varepsilon)\Lambda h_i = \sum_i(|a| + y_i + \varepsilon)\Lambda h_i - |a|\sum_i\Lambda h_i\\
+&\leq \sum_i(|a| + y_i + \varepsilon)\Bigl(\mu(E_i) + \frac{\varepsilon}{n}\Bigr) - |a|\mu(K)\\
+&\leq \sum_i(y_i - \varepsilon)\mu(E_i) + 2\varepsilon\mu(K) + \varepsilon(|a| + b + \varepsilon),
+\end{aligned}
+\]
+using $\sum_i\mu(E_i) = \mu(K)$ and $y_i \leq b$. On $E_i$ we have $f > y_{i-1} > y_i - \varepsilon$, so $\sum_i(y_i - \varepsilon)\mu(E_i) \leq \int f\,d\mu$. Letting $\varepsilon \to 0$ gives
+$\Lambda f \leq \int f\,d\mu$.
+
+\emph{Step 5: regularity and uniqueness.} $\mu$ is a Radon measure by Proposition~\ref{measure-theory:proposition-radon-automatic}. Let $\mu^{\prime}$ be another Borel measure, finite on compact sets,
+representing $\Lambda$, and $K$ compact. If $f \geq \mathbf{1}_K$, then $\mu^{\prime}(K) \leq \int f\,d\mu^{\prime} = \Lambda f$, so $\mu^{\prime}(K) \leq \mu(K)$ by Step 2. If $V \supseteq K$ is open and
+$f \prec V$ with $f = 1$ on $K$, then $\mu(K) \leq \Lambda f = \int f\,d\mu^{\prime} \leq \mu^{\prime}(V)$, and by outer regularity of $\mu^{\prime}$
+(Proposition~\ref{measure-theory:proposition-radon-automatic}) $\mu(K) \leq \mu^{\prime}(K)$. So $\mu$ and $\mu^{\prime}$ agree on compact sets, hence, by inner regularity, on all Borel sets.
+\end{proof}
+
+\begin{remark}\label{measure-theory:remark-riesz-markov}
+\begin{enumerate}
+\item For $X = \RR^n$ and $\Lambda$ the Riemann integral, the theorem produces Lebesgue measure on the Borel sets; the uniqueness statement is a convenient way to identify measures, as in
+Exercise~\ref{measure-theory:exercise-riesz-circle}. On a smooth manifold, an orientation and a volume form, or more generally a density, define a positive functional by integration, and hence a
+Radon measure (Chapter~\ref{differential-forms}).
+\item The theorem holds for every locally compact Hausdorff space, but then the measure is only outer regular and inner regular on open sets and on sets of finite measure
+\cite[Theorem 2.14 and Theorem 2.18]{rudin-rca}.
+\item If $X$ is compact, $1 \in C_c(X)$, and $|\Lambda f| \leq \Lambda(1)\|f\|_\infty = \mu(X)\|f\|_\infty$: a positive functional on $C(X)$ is bounded with norm $\mu(X)$. Every bounded linear functional on
+$C(X)$ is integration against a \emph{signed} Radon measure, a difference of two finite Radon measures \cite[Theorem 6.19]{rudin-rca}; this identifies the dual space of $C(X)$, a theme of
+Chapter~\ref{functional-analysis}.
+\end{enumerate}
+\end{remark}
+
+\section{Weak convergence of measures}\label{measure-theory:section-weak-convergence}
+
+Sequences of measures appear whenever something discrete approximates something continuous, or something smooth approximates something singular. Riemann sums are integrals against finitely many
+point masses that approximate Lebesgue measure; in probability the distributions of normalised sums of random variables approximate the Gaussian distribution; smooth bumps of total mass $1$
+concentrating at a point approximate the Dirac measure; and in geometric measure theory one studies limits of the area measures of a sequence of surfaces, for instance of a minimising sequence for
+the area. Convergence $\mu_k(A) \to \mu(A)$ for all Borel sets $A$ is far too strong for these purposes (Example~\ref{measure-theory:example-weak-convergence}(1)). The useful notion tests the measures
+against continuous functions. As in Section~\ref{measure-theory:section-radon}, $X$ is a locally compact Hausdorff space with a countable basis.
+
+\begin{definition}\label{measure-theory:definition-weak-convergence}
+A sequence of Radon measures $\mu_k$ on $X$ \emph{converges weakly} to a Radon measure $\mu$, written $\mu_k \rightharpoonup \mu$, if
+\[
+\int_Xf\,d\mu_k \to \int_Xf\,d\mu \qquad \text{for every } f \in C_c(X).
+\]
+\end{definition}
+
+The limit is unique, by the uniqueness in Theorem~\ref{measure-theory:theorem-riesz-markov}. In probability theory this is called \emph{vague} convergence, and \emph{weak} convergence of probability
+measures means testing against all bounded continuous functions; the two agree when no mass is lost (Exercise~\ref{measure-theory:exercise-weak-mass}). In functional analysis it is the weak-$*$
+convergence of functionals on $C_c(X)$.
+
+\begin{example}\label{measure-theory:example-weak-convergence}
+\begin{enumerate}
+\item \emph{Moving point masses.} If $x_k \to x$ in $X$, then $\delta_{x_k} \rightharpoonup \delta_x$, since $f(x_k) \to f(x)$ for continuous $f$. On $\RR$, $\delta_{1/k} \rightharpoonup \delta_0$, but
+$\delta_{1/k}(\{0\}) = 0$ does not converge to $\delta_0(\{0\}) = 1$, and $\delta_{1/k}((0, 1)) = 1$ does not converge to $\delta_0((0, 1)) = 0$. So weak convergence does not imply convergence on
+compact sets, nor on open sets; Proposition~\ref{measure-theory:proposition-weak-convergence-sets} gives the inequalities that do hold.
+\item \emph{Riemann sums.} On $\RR$ let $\mu_k = \frac1k\sum_{j=1}^k\delta_{j/k}$. Then $\mu_k \rightharpoonup \mathbf{1}_{[0, 1]}\lambda$. Indeed $f \in C_c(\RR)$ is uniformly continuous, being
+continuous with compact support; with $\omega(\delta) = \sup\{|f(s) - f(t)| : |s - t| \leq \delta\}$, which tends to $0$ with $\delta$,
+\[
+\Bigl|\int f\,d\mu_k - \int_0^1f\,d\lambda\Bigr| = \Bigl|\sum_{j=1}^k\int_{(j-1)/k}^{j/k}\bigl(f(j/k) - f(t)\bigr)\,dt\Bigr| \leq \omega(1/k) \to 0.
+\]
+Each $\mu_k$ lives on a finite set, of Lebesgue measure $0$, while the limit is absolutely continuous with respect to $\lambda$.
+\item \emph{Approximate identities.} Let $\phi \geq 0$ be continuous on $\RR$ with support in $[-1, 1]$ and $\int\phi\,d\lambda = 1$, and $\phi_k(x) = k\phi(kx)$. Then $\int\phi_k\,d\lambda = 1$
+(Theorem~\ref{measure-theory:theorem-change-of-variables}), $\phi_k$ vanishes outside $[-1/k, 1/k]$, and for $f \in C_c(\RR)$
+\[
+\Bigl|\int f\phi_k\,d\lambda - f(0)\Bigr| = \Bigl|\int\bigl(f(x) - f(0)\bigr)\phi_k(x)\,dx\Bigr| \leq \omega(1/k),
+\]
+so $\phi_k\lambda \rightharpoonup \delta_0$: absolutely continuous measures converge to a singular one.
+\item \emph{Loss of mass.} On $\RR$, $\delta_k \rightharpoonup 0$, since every $f \in C_c(\RR)$ vanishes at $k$ for $k$ large; and $\frac1k\mathbf{1}_{[0, k]}\lambda \rightharpoonup 0$, since
+$|\int_0^kf\,d\lambda|/k \leq \|f\|_1/k$. All these measures have total mass $1$, the limit has mass $0$: mass can escape to infinity, by moving away or by spreading out.
+\item \emph{Oscillation.} Let $g \geq 0$ be continuous on $\RR$ and periodic of period $2\pi$, with mean value $\bar g = \frac1{2\pi}\int_0^{2\pi}g\,d\lambda$. Then $g(kx)\lambda \rightharpoonup \bar g\lambda$; for
+instance $(1 + \sin kx)\lambda \rightharpoonup \lambda$, although the densities $1 + \sin kx$ do not converge pointwise (at $x = \pi/2$ they run through $2, 1, 0, 1, 2, \ldots$). To see this, let
+$f \in C_c(\RR)$ with support in $[a, b]$ and $\varepsilon > 0$, and choose $a = a_0 < \cdots < a_N = b$ with $|f(s) - f(a_j)| \leq \varepsilon$ for $s \in [a_{j-1}, a_j]$. An interval
+$[k\alpha, k\beta]$ consists of $\lfloor k(\beta - \alpha)/2\pi\rfloor$ full periods and a remainder shorter than $2\pi$, so
+$\int_\alpha^\beta g(kx)\,dx = \frac1k\int_{k\alpha}^{k\beta}g(t)\,dt = (\beta - \alpha)\bar g + r$ with $|r| \leq 4\pi\|g\|_\infty/k$. Replacing $f$ by $f(a_j)$ on $[a_{j-1}, a_j]$ costs at most
+$\varepsilon(b - a)\|g\|_\infty$ in $\int fg(kx)\,dx$ and in $\bar g\int f\,dx$, so
+\[
+\Bigl|\int f(x)g(kx)\,dx - \bar g\int f(x)\,dx\Bigr| \leq 2\varepsilon(b - a)\|g\|_\infty + \frac{4\pi N\|f\|_\infty\|g\|_\infty}{k},
+\]
+whose $\limsup$ as $k \to \infty$ is at most $2\varepsilon(b - a)\|g\|_\infty$. Fast oscillations average out; this is the measure-theoretic content of the Riemann--Lebesgue lemma.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{measure-theory:proposition-weak-convergence-sets}
+Let $\mu_k \rightharpoonup \mu$ be Radon measures on $X$.
+\begin{enumerate}
+\item $\mu(U) \leq \liminf_k\mu_k(U)$ for every open $U$.
+\item $\mu(K) \geq \limsup_k\mu_k(K)$ for every compact $K$.
+\item $\mu_k(A) \to \mu(A)$ for every Borel set $A$ with compact closure and $\mu(\partial A) = 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By inner regularity, $\mu(U)$ is the supremum of $\mu(K)$ over compact $K \subseteq U$; for such $K$, Lemma~\ref{general-topology:lemma-lch-shrinking} gives $f \prec U$ with $f = 1$ on $K$, and
+$\mu(K) \leq \int f\,d\mu \leq \mu(U)$. So $\mu(U) = \sup\{\int f\,d\mu : f \prec U\}$. For $f \prec U$, $\int f\,d\mu = \lim_k\int f\,d\mu_k \leq \liminf_k\mu_k(U)$.
+
+(2) Let $V \supseteq K$ be open. By Lemma~\ref{general-topology:lemma-lch-shrinking} there is $f \prec V$ with $f = 1$ on $K$, and $\limsup_k\mu_k(K) \leq \lim_k\int f\,d\mu_k = \int f\,d\mu \leq \mu(V)$.
+By outer regularity, the infimum of $\mu(V)$ over such $V$ is $\mu(K)$.
+
+(3) The interior $\operatorname{int}A$ and the closure $\overline{A}$ differ by $\partial A$, so $\mu(\operatorname{int}A) = \mu(A) = \mu(\overline{A})$. By (1) and (2),
+$\mu(A) = \mu(\operatorname{int}A) \leq \liminf_k\mu_k(\operatorname{int}A) \leq \liminf_k\mu_k(A) \leq \limsup_k\mu_k(A) \leq \limsup_k\mu_k(\overline{A}) \leq \mu(\overline{A}) = \mu(A)$.
+\end{proof}
+
+In Example~\ref{measure-theory:example-weak-convergence}(1) the inequalities are strict: $\delta_0((0, 1)) = 0 < 1$ and $\delta_0(\{0\}) = 1 > 0$; the sets $(0, 1)$ and $\{0\}$ have the point $0$, of
+$\delta_0$-measure $1$, in their boundary. In (2) of the same example, (3) says that the proportion of the points $j/k$ lying in an interval $[\alpha, \beta] \subseteq [0, 1]$ tends to $\beta - \alpha$.
+
+The main theorem about weak convergence is a compactness theorem: bounded mass on compact sets suffices for a convergent subsequence. Its proof needs a countable supply of test functions.
+
+\begin{lemma}\label{measure-theory:lemma-cc-separable}
+Let $K_1 \subseteq K_2 \subseteq \cdots$ be an exhaustion of $X$ by compact sets with $K_m \subseteq \operatorname{int}K_{m+1}$. There is a countable set $\mathcal{D} \subseteq C_c(X)$ such that for every
+$m$, every $f \in C_c(X)$ with $\operatorname{supp}f \subseteq K_m$ and every $\varepsilon > 0$ there is $g \in \mathcal{D}$ with $\operatorname{supp}g \subseteq K_{m+1}$ and $\|f - g\|_\infty < \varepsilon$.
+\end{lemma}
+
+\begin{proof}
+First, $C(L, \RR)$ has a countable dense subset for every compact metric space $(L, d)$. Indeed $L$ has a countable dense subset $\{x_1, x_2, \ldots\}$ (for each $j$, finitely many balls of radius $1/j$
+cover $L$; take their centres). The functions $u_i(y) = d(x_i, y)$ separate points: if $y \neq z$ and $d(x_i, y) < d(y, z)/2$, then $d(x_i, z) > d(y, z)/2 > d(x_i, y)$. By the Stone--Weierstrass theorem
+(Theorem~\ref{real-analysis:theorem-stone-weierstrass}) the polynomials in finitely many of the $u_i$ are dense in $C(L, \RR)$, and so are those with rational coefficients, which form a countable set, since
+the $u_i$ are bounded and real coefficients can be approximated by rational ones.
+
+Each $K_{m+1}$ is a compact metric space, $X$ being metrisable; let $\mathcal{D}_m \subseteq C(K_{m+1}, \RR)$ be countable and dense. By Lemma~\ref{general-topology:lemma-lch-shrinking} choose
+$\chi_m \in C_c(X)$ with values in $[0, 1]$, $\chi_m = 1$ on $K_m$ and $\operatorname{supp}\chi_m \subseteq \operatorname{int}K_{m+1}$. For $u \in \mathcal{D}_m$ the function $\chi_mu$, extended by $0$
+outside $K_{m+1}$, is continuous on $X$: it is continuous on the open set $\operatorname{int}K_{m+1}$ and vanishes on the open set $X \setminus \operatorname{supp}\chi_m$, and these two open sets cover $X$.
+Let $\mathcal{D}$ be the set of all these functions, for all $m$. Given $f$ with support in $K_m$, choose $u \in \mathcal{D}_m$ with $|f - u| < \varepsilon$ on $K_{m+1}$; then $f = \chi_mf$, so
+$|f - \chi_mu| = \chi_m|f - u| < \varepsilon$ on $K_{m+1}$, and both functions vanish outside $K_{m+1}$.
+\end{proof}
+
+\begin{theorem}[Weak compactness of Radon measures]\label{measure-theory:theorem-weak-compactness}
+Let $(\mu_k)$ be a sequence of Radon measures on $X$ with $\sup_k\mu_k(K) < \infty$ for every compact $K \subseteq X$. Then a subsequence converges weakly to a Radon measure.
+\end{theorem}
+
+\begin{proof}
+Let $(K_m)$ be an exhaustion as in Lemma~\ref{measure-theory:lemma-cc-separable}, $C_m = \sup_k\mu_k(K_m)$, and $\mathcal{D} = \{g_1, g_2, \ldots\}$ the countable set of the lemma. For each $i$ the
+sequence $\int g_i\,d\mu_k$ is bounded, by $\|g_i\|_\infty\sup_k\mu_k(\operatorname{supp}g_i)$, so it has a convergent subsequence (Theorem~\ref{real-analysis:theorem-bolzano-weierstrass-real}).
+Choose a subsequence along which $\int g_1\,d\mu_k$ converges, a further subsequence along which $\int g_2\,d\mu_k$ converges, and so on; the diagonal sequence, the $k$-th term of the $k$-th
+subsequence, is a subsequence of each of them from its $i$-th term on. Renaming it $(\mu_k)$, $\int g\,d\mu_k$ converges for every $g \in \mathcal{D}$.
+
+Let $f \in C_c(X)$, with support in some $K_m$, and $\varepsilon > 0$. Choose $g \in \mathcal{D}$ with support in $K_{m+1}$ and $\|f - g\|_\infty < \varepsilon$. Then
+\[
+\Bigl|\int f\,d\mu_k - \int f\,d\mu_l\Bigr| \leq 2\varepsilon C_{m+1} + \Bigl|\int g\,d\mu_k - \int g\,d\mu_l\Bigr|,
+\]
+so $\int f\,d\mu_k$ is a Cauchy sequence. Its limit $\Lambda f$ is linear and positive in $f$, so by Theorem~\ref{measure-theory:theorem-riesz-markov} it is $\int f\,d\mu$ for a Radon measure $\mu$, and
+$\mu_k \rightharpoonup \mu$.
+\end{proof}
+
+\begin{corollary}\label{measure-theory:corollary-probability-compact}
+Let $X$ be a compact metric space. Every sequence of Borel probability measures on $X$ has a subsequence converging weakly to a Borel probability measure.
+\end{corollary}
+
+\begin{proof}
+A compact metric space is locally compact and Hausdorff, and it has a countable basis: the balls of radius $1/j$ centred at the points of finite sets of such balls covering $X$. Every Borel measure on
+$X$ that is finite is a Radon measure (Proposition~\ref{measure-theory:proposition-radon-automatic}), and $\mu_k(X) = 1$ bounds the masses. Theorem~\ref{measure-theory:theorem-weak-compactness} gives a
+weakly convergent subsequence, and its limit $\mu$ satisfies $\mu(X) = \int 1\,d\mu = \lim\int 1\,d\mu_k = 1$, as $1 \in C_c(X)$ for compact $X$.
+\end{proof}
+
+\begin{remark}\label{measure-theory:remark-weak-compactness}
+\begin{enumerate}
+\item The hypothesis cannot be dropped: $k\delta_0$ has no weakly convergent subsequence on $\RR$. On non-compact spaces the limit of probability measures may have smaller mass, by
+Example~\ref{measure-theory:example-weak-convergence}(4); by Proposition~\ref{measure-theory:proposition-weak-convergence-sets}(1) applied to $U = X$, mass can only be lost, never gained.
+\item Theorem~\ref{measure-theory:theorem-weak-compactness} is a case of the Banach--Alaoglu theorem: bounded sets of linear functionals are compact for the weak-$*$ topology
+(Chapter~\ref{functional-analysis}).
+\item In the calculus of variations and in geometric measure theory this is the basic source of limits. A minimising sequence of surfaces for the area, all contained in a fixed ball, has area
+measures with bounded mass, and a subsequence of these converges weakly to a Radon measure; the hard part, the \emph{regularity theory}, is to show that the limit is again the area measure of a
+surface, perhaps with singularities. For curves, Exercise~\ref{measure-theory:exercise-staircase} shows that length can jump in the limit.
+\end{enumerate}
+\end{remark}
+
+\section{Differentiation of measures}\label{measure-theory:section-differentiation-measures}
+
+The Lebesgue differentiation theorem (Theorem~\ref{measure-theory:theorem-lebesgue-differentiation}) says that for $h \in L^1_{\mathrm{loc}}(\RR^n)$ the averages $\frac1{\lambda(B(x, r))}\int_{B(x, r)}h$
+tend to $h(x)$ for almost every $x$. In terms of the measure $\nu = h\lambda$ it says that $\nu(B(x, r))/\lambda(B(x, r)) \to h(x)$: the density of $\nu$ can be computed by shrinking balls. We now do this
+for an arbitrary Radon measure $\nu$ on $\RR^n$. It has a Lebesgue decomposition $\nu = h\lambda + \nu_s$ with respect to $\lambda$ (Theorem~\ref{measure-theory:theorem-lebesgue-decomposition}, which
+applies since $\nu$ is $\sigma$-finite by Proposition~\ref{measure-theory:proposition-radon-automatic}), and the shrinking balls recover $h$ and do not see the singular part, except on a null set. In this
+section $\lambda$ denotes Lebesgue measure on the Borel sets of $\RR^n$.
+
+\begin{definition}\label{measure-theory:definition-derivative-measure}
+Let $\nu$ be a Radon measure on $\RR^n$. The \emph{upper} and \emph{lower derivatives} of $\nu$ with respect to $\lambda$ at $x$ are
+\[
+\overline{D}\nu(x) = \limsup_{r \to 0}\frac{\nu(B(x, r))}{\lambda(B(x, r))}, \qquad \underline{D}\nu(x) = \liminf_{r \to 0}\frac{\nu(B(x, r))}{\lambda(B(x, r))},
+\]
+in $[0, \infty]$. If they agree, their common value is the \emph{derivative} $D\nu(x)$.
+\end{definition}
+
+\begin{example}\label{measure-theory:example-derivative-measure}
+For $\nu = \delta_0$ on $\RR^n$, $\nu(B(x, r)) = 0$ for $r \leq \|x\|$, so $D\nu(x) = 0$ for $x \neq 0$, while $D\nu(0) = \lim_r1/\lambda(B(0, r)) = \infty$. For the measure $\sigma$ on the circle
+(Example~\ref{measure-theory:example-positive-functionals}(3)), $D\sigma = 0$ outside $S^1$, because the balls around a point at positive distance from $S^1$ eventually miss $S^1$; at a point of $S^1$ the ball
+$B(x, r)$ meets $S^1$ in an arc of length about $2r$, so $\sigma(B(x, r))/\pi r^2$ behaves like $2/(\pi r)$ and $D\sigma = \infty$. In both cases the derivative is $0$ almost everywhere, in accordance
+with the singularity of these measures.
+\end{example}
+
+\begin{theorem}[Differentiation of measures]\label{measure-theory:theorem-differentiation-measures}
+Let $\nu$ be a Radon measure on $\RR^n$, and $\nu = h\lambda + \nu_s$ its Lebesgue decomposition, with $h \geq 0$ Borel and $\nu_s \perp \lambda$. Then $h \in L^1_{\mathrm{loc}}(\RR^n)$, and for
+$\lambda$-almost every $x$
+\[
+\lim_{r \to 0}\frac1{\lambda(B(x, r))}\Bigl(\int_{B(x, r)}|h(y) - h(x)|\,d\lambda(y) + \nu_s(B(x, r))\Bigr) = 0 .
+\]
+In particular $D\nu = h$ almost everywhere, and $\nu \perp \lambda$ if and only if $D\nu = 0$ almost everywhere.
+\end{theorem}
+
+\begin{proof}
+For compact $K$, $\int_Kh\,d\lambda \leq \nu(K) < \infty$, so $h \in L^1_{\mathrm{loc}}$, and by the Lebesgue differentiation theorem
+(Theorem~\ref{measure-theory:theorem-lebesgue-differentiation}) the first term tends to $0$ almost everywhere. It remains to show that $\overline{D}\nu_s = 0$ almost everywhere. Let $S$ be a Borel set with
+$\lambda(S) = 0$ and $\nu_s(\RR^n \setminus S) = 0$. The measure $\nu_s$ is a Borel measure finite on compact sets ($\nu_s \leq \nu$), so it is a Radon measure
+(Proposition~\ref{measure-theory:proposition-radon-automatic}). Fix $t > 0$ and $R > 0$, and let
+\[
+A = \{x \in B(0, R) \setminus S : \overline{D}\nu_s(x) > t\}.
+\]
+We show $\lambda^*(A) = 0$. Let $\varepsilon > 0$. The Borel set $B(0, R) \setminus S$ has $\nu_s$-measure $0$, so by outer regularity it is contained in an open set $U$ with $\nu_s(U) < \varepsilon$. Let $G$ be
+the union of all open balls $B$ with $B \subseteq U$ and $\nu_s(B) > t\lambda(B)$. It is open and contains $A$: for $x \in A$ we have $x \in U$, so $B(x, r) \subseteq U$ for all small $r$, and
+$\nu_s(B(x, r)) > t\lambda(B(x, r))$ for some of these $r$. Let $K \subseteq G$ be compact. Finitely many of these balls cover $K$, and by the Vitali covering lemma
+(Lemma~\ref{measure-theory:lemma-vitali-covering}) they contain pairwise disjoint balls $B_1, \ldots, B_k$ with
+\[
+\lambda(K) \leq 3^n\sum_j\lambda(B_j) < \frac{3^n}{t}\sum_j\nu_s(B_j) \leq \frac{3^n}{t}\nu_s(U) < \frac{3^n\varepsilon}{t}.
+\]
+By inner regularity of $\lambda$, $\lambda^*(A) \leq \lambda(G) \leq 3^n\varepsilon/t$, and as $\varepsilon$ is arbitrary, $A$ is a null set. Taking the union over $t = 1/j$ and $R = j$, $j \geq 1$, and
+adding the null set $S$, we find that $\overline{D}\nu_s = 0$ outside a null set.
+
+Finally, $\nu(B(x, r))/\lambda(B(x, r))$ differs from the average of $h$ over $B(x, r)$ by $\nu_s(B(x, r))/\lambda(B(x, r))$, and the average differs from $h(x)$ by at most the average of $|h - h(x)|$; so
+$D\nu = h$ almost everywhere. If $\nu \perp \lambda$, then $h = 0$ almost everywhere by uniqueness of the decomposition, so $D\nu = 0$ almost everywhere; conversely, if $D\nu = 0$ almost everywhere,
+then $h = 0$ almost everywhere and $\nu = \nu_s$.
+\end{proof}
+
+So the Radon--Nikodym derivative of the absolutely continuous part, an object obtained in Theorem~\ref{measure-theory:theorem-radon-nikodym} by an abstract Hilbert space argument, can be computed as a
+limit of ratios. Balls are not essential: any sets that shrink to $x$ and occupy a fixed proportion of a ball around $x$ will do.
+
+\begin{corollary}\label{measure-theory:corollary-nicely-shrinking}
+Let $\nu = h\lambda + \nu_s$ be as in Theorem~\ref{measure-theory:theorem-differentiation-measures} and $c > 0$. For almost every $x$ the following holds: if $E_k$ are Borel sets with
+$E_k \subseteq B(x, r_k)$, $r_k \to 0$ and $\lambda(E_k) \geq c\lambda(B(x, r_k))$, then $\nu(E_k)/\lambda(E_k) \to h(x)$.
+\end{corollary}
+
+\begin{proof}
+Take $x$ as in the theorem. Then
+\[
+\Bigl|\frac{\nu(E_k)}{\lambda(E_k)} - h(x)\Bigr| \leq \frac1{\lambda(E_k)}\Bigl(\int_{E_k}|h - h(x)|\,d\lambda + \nu_s(E_k)\Bigr) \leq \frac1{c\lambda(B(x, r_k))}\Bigl(\int_{B(x, r_k)}|h - h(x)|\,d\lambda + \nu_s(B(x, r_k))\Bigr),
+\]
+which tends to $0$.
+\end{proof}
+
+\begin{corollary}[Lebesgue's theorem on monotone functions]\label{measure-theory:corollary-monotone-differentiable}
+Let $F \colon [a, b] \to \RR$ be continuous and nondecreasing. Then $F$ is differentiable almost everywhere, $F^{\prime} \geq 0$ is integrable, and
+\[
+\int_a^bF^{\prime}\,d\lambda \leq F(b) - F(a),
+\]
+with equality if and only if $F$ is absolutely continuous.
+\end{corollary}
+
+\begin{proof}
+Let $\mu_F$ be the measure of Lemma~\ref{measure-theory:lemma-stieltjes}, and $\nu(E) = \mu_F(E \cap [a, b])$ for Borel $E \subseteq \RR$; it is a finite Borel measure on $\RR$, hence a Radon measure. Let
+$\nu = h\lambda + \nu_s$ be its Lebesgue decomposition, and let $x \in (a, b)$ be a point where Corollary~\ref{measure-theory:corollary-nicely-shrinking} holds with $c = 1/4$. For
+$0 < r < \min(b - x, x - a)$, the intervals $(x, x + r]$ and $(x - r, x]$ have length $r = \frac14\lambda(B(x, 2r))$ and lie in $B(x, 2r)$, and
+$\nu((x, x + r]) = F(x + r) - F(x)$, $\nu((x - r, x]) = F(x) - F(x - r)$. So both one-sided difference quotients of $F$ at $x$ tend to $h(x)$, and $F^{\prime}(x) = h(x)$. Hence $F^{\prime} = h$ almost
+everywhere on $[a, b]$, and
+\[
+\int_a^bF^{\prime}\,d\lambda = \int_{[a, b]}h\,d\lambda \leq \nu([a, b]) = F(b) - F(a),
+\]
+with equality if and only if $\nu_s([a, b]) = 0$, that is, $\nu_s = 0$. In that case $F(x) - F(a) = \nu([a, x]) = \int_a^xh\,d\lambda$ for all $x$, so $F$ is absolutely continuous by
+Theorem~\ref{measure-theory:theorem-absolutely-continuous}. Conversely, if $F$ is absolutely continuous, the same theorem gives $F(b) - F(a) = \int_a^bF^{\prime}$.
+\end{proof}
+
+For the Cantor function (Counterexample~\ref{measure-theory:counterexample-cantor-function}) the inequality is strict: $\mu_F$ is singular, so $F^{\prime} = 0$ almost everywhere, as we saw directly,
+while $F(1) - F(0) = 1$. The corollary holds for all nondecreasing functions, continuous or not: a nondecreasing function has at most countably many jumps, and the jumps contribute a further singular
+part to its measure \cite[Chapter 7]{rudin-rca}. Since a function of bounded variation is a difference of two nondecreasing functions, it is differentiable almost everywhere as well.
+
+\begin{remark}\label{measure-theory:remark-besicovitch}
+The proof used Lebesgue measure through the Vitali covering lemma, that is, through the fact that $\lambda(3B) = 3^n\lambda(B)$. To differentiate a Radon measure $\nu$ with respect to an arbitrary Radon
+measure $\mu$ on $\RR^n$, which may give very different masses to $B$ and $3B$, one uses instead the \emph{Besicovitch covering theorem}: from every family of balls whose centres form a bounded set
+$A$ one can extract a subfamily covering $A$ that splits into a number of disjoint subfamilies depending only on $n$. With it one shows that $\nu(B(x, r))/\mu(B(x, r))$ converges $\mu$-almost
+everywhere to the density of the part of $\nu$ absolutely continuous with respect to $\mu$, and tends to $\infty$ almost everywhere for the singular part \cite[Chapter 1]{evans-gariepy}. This is the
+setting of geometric measure theory, where $\mu$ is often a Hausdorff measure restricted to a set.
+\end{remark}
 
 \section{Hausdorff measures}\label{measure-theory:section-hausdorff}
 
@@ -1364,4 +1771,65 @@ over open $U \supseteq B$ for $B \subseteq [0, 1]$ (enlarge the covering boxes, 
 then $\lambda(K) \leq \lambda^*(A) \leq \lambda(U)$, so $\lambda_* \leq \lambda^*$. If $A$ is measurable, equality is inner regularity. Conversely, if $\lambda_*(A) = \lambda^*(A)$, choose compact $K_n \subseteq A$
 and open $U_n \supseteq A$ with $\lambda(K_n) \to \lambda_*(A)$ and $\lambda(U_n) \to \lambda^*(A)$; then $F = \bigcup K_n \subseteq A \subseteq G = \bigcap U_n$ are Borel sets with
 $\lambda(G \setminus F) = \lambda(G) - \lambda(F) = 0$, so $A = F \cup (A \setminus F)$ with $A \setminus F \subseteq G \setminus F$ null, and $A$ is measurable by completeness.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-riesz-circle}
+Let $\sigma$ be the measure on $\RR^2$ of Example~\ref{measure-theory:example-positive-functionals}(3), and $\varphi(t) = (\cos t, \sin t)$. Show that $\sigma(E) = \lambda(\{t \in [0, 2\pi] : \varphi(t) \in E\})$
+for every Borel set $E$, and deduce that an arc $\{\varphi(t) : \alpha < t < \beta\}$ with $0 \leq \alpha < \beta \leq 2\pi$ has measure $\beta - \alpha$.
+\end{exercise}
+
+\begin{solution}
+The right side defines a finite Borel measure $\nu$, the push-forward of $\lambda$ restricted to $[0, 2\pi]$, since preimages under the continuous $\varphi$ of Borel sets are Borel. For $f = \mathbf{1}_E$,
+$\int f\,d\nu = \int_{[0, 2\pi]}f \circ \varphi\,d\lambda$ by definition; by linearity this holds for simple functions, by monotone convergence for measurable $f \geq 0$, and then for $f \in C_c(\RR^2)$. By
+Proposition~\ref{measure-theory:proposition-riemann-lebesgue}, $\int_{[0, 2\pi]}f \circ \varphi\,d\lambda = \Lambda f$. So $\nu$ represents $\Lambda$, and $\nu = \sigma$ by the uniqueness in
+Theorem~\ref{measure-theory:theorem-riesz-markov}. Since $\varphi$ is injective on $[0, 2\pi)$ and $\varphi(2\pi) = \varphi(0)$, the set of $t \in [0, 2\pi]$ with $\varphi(t)$ in the arc is $(\alpha, \beta)$, of
+measure $\beta - \alpha$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-weak-mass}
+Let $\mu_k \rightharpoonup \mu$ be Radon measures on $X$ (locally compact Hausdorff with a countable basis).
+\begin{enumerate}
+\item Show that $\mu(X) \leq \liminf_k\mu_k(X)$, and that $\mu_k(X) \to \mu(X)$ if $X$ is compact.
+\item Suppose that the $\mu_k$ and $\mu$ are probability measures. Show that $\int f\,d\mu_k \to \int f\,d\mu$ for every bounded continuous $f \colon X \to \RR$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) The first statement is Proposition~\ref{measure-theory:proposition-weak-convergence-sets}(1) with $U = X$; if $X$ is compact, $1 \in C_c(X)$. (2) Let $\varepsilon > 0$. By inner regularity choose a
+compact $K$ with $\mu(K) > 1 - \varepsilon$, and $\phi \in C_c(X)$ with $0 \leq \phi \leq 1$ and $\phi = 1$ on $K$. Then $\int\phi\,d\mu_k \to \int\phi\,d\mu > 1 - \varepsilon$, so
+$\int(1 - \phi)\,d\mu_k < 2\varepsilon$ for $k$ large, while $\int(1 - \phi)\,d\mu < \varepsilon$. As $f\phi \in C_c(X)$,
+\[
+\Bigl|\int f\,d\mu_k - \int f\,d\mu\Bigr| \leq \Bigl|\int f\phi\,d\mu_k - \int f\phi\,d\mu\Bigr| + \|f\|_\infty\Bigl(\int(1 - \phi)\,d\mu_k + \int(1 - \phi)\,d\mu\Bigr),
+\]
+whose $\limsup$ is at most $3\varepsilon\|f\|_\infty$. So when no mass is lost, testing against $C_c(X)$ and against bounded continuous functions give the same notion of convergence.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-staircase}
+\emph{Length is not continuous.} For $k \geq 1$ let $\gamma_k(x) = (x, \frac1k\sin kx)$ for $x \in [0, 2\pi]$, and let $\mu_k$ be the length measure of $\gamma_k$, the Radon measure on $\RR^2$ with
+\[
+\int f\,d\mu_k = \int_0^{2\pi}f(\gamma_k(x))\,|\gamma_k^{\prime}(x)|\,dx = \int_0^{2\pi}f\bigl(x, \tfrac1k\sin kx\bigr)\sqrt{1 + \cos^2kx}\,dx .
+\]
+Show that $\gamma_k \to \gamma_0$, $\gamma_0(x) = (x, 0)$, uniformly, that $\mu_k \rightharpoonup c\mu_0$ with $c = \frac1{2\pi}\int_0^{2\pi}\sqrt{1 + \cos^2t}\,dt$, where $\mu_0$ is the length measure of the
+segment, and that $c > 1$. So the curves $\gamma_k$ have length $2\pi c$, which does not converge to the length $2\pi$ of the limit curve.
+\end{exercise}
+
+\begin{solution}
+$|\gamma_k(x) - \gamma_0(x)| \leq 1/k$. Let $f \in C_c(\RR^2)$, with modulus of uniform continuity $\omega$. Then $|f(\gamma_k(x)) - f(x, 0)| \leq \omega(1/k)$, so $\int f\,d\mu_k$ differs from
+$\int_0^{2\pi}f(x, 0)g(kx)\,dx$, where $g(t) = \sqrt{1 + \cos^2t}$, by at most $2\pi\sqrt2\,\omega(1/k)$. The argument of Example~\ref{measure-theory:example-weak-convergence}(5), applied on $[0, 2\pi]$ to the
+continuous function $x \mapsto f(x, 0)$ (only its continuity on $[0, 2\pi]$ was used), shows that $\int_0^{2\pi}f(x, 0)g(kx)\,dx \to \bar g\int_0^{2\pi}f(x, 0)\,dx = c\int f\,d\mu_0$. Since $g \geq 1$, with
+equality only where $\cos t = 0$, and $g$ is continuous, $c > 1$. The length of $\gamma_k$ is $\int_0^{2\pi}g(kx)\,dx = \frac1k\int_0^{2\pi k}g = 2\pi c$, as the interval consists of $k$ periods. In
+general length is only \emph{lower semicontinuous} under uniform convergence of curves: the limit can be shorter, never longer.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-ball-semicontinuous}
+Let $\mu$ be a Radon measure on $\RR^n$ and $r > 0$. Show that $x \mapsto \mu(B(x, r))$ is lower semicontinuous and $x \mapsto \mu(\overline{B}(x, r))$ is upper semicontinuous, and that for fixed $x$ the
+sphere $\{y : \|y - x\| = r\}$ has $\mu$-measure $0$ for all but countably many $r$.
+\end{exercise}
+
+\begin{solution}
+Let $x_k \to x$. If $\|y - x\| < r$, then $\|y - x_k\| < r$ for $k$ large, so $\mathbf{1}_{B(x, r)} \leq \liminf_k\mathbf{1}_{B(x_k, r)}$, and Fatou's lemma
+(Corollary~\ref{measure-theory:corollary-integral-properties}) gives $\mu(B(x, r)) \leq \liminf_k\mu(B(x_k, r))$. If $\|y - x_k\| \leq r$ for infinitely many $k$, then $\|y - x\| \leq r$; so
+$\limsup_k\mathbf{1}_{\overline{B}(x_k, r)} \leq \mathbf{1}_{\overline{B}(x, r)}$, and Fatou's lemma applied to the non-negative functions $\mathbf{1}_{\overline{B}(x, r + 1)} - \mathbf{1}_{\overline{B}(x_k, r)}$
+($k$ large), whose integrals are finite, gives $\limsup_k\mu(\overline{B}(x_k, r)) \leq \mu(\overline{B}(x, r))$. The spheres of different radii are disjoint; those of radius less than $R$ with measure at
+least $1/m$ number at most $m\mu(B(x, R))$, so only countably many spheres have positive measure.
 \end{solution}
