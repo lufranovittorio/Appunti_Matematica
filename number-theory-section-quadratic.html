@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Quadratic residues and quadratic reciprocity - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="number-theory-section-primitive-roots.html" /><link rel="next" href="number-theory-section-squares.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2 active">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+  <ul><li class="level-3">
+  <a href="number-theory-section-introduction.html"><span class="toc_ref">10.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-congruences.html"><span class="toc_ref">10.2</span> <span class="toc_entry">Congruences</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-primitive-roots.html"><span class="toc_ref">10.3</span> <span class="toc_entry">Orders and primitive roots</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="number-theory-section-quadratic.html"><span class="toc_ref">10.4</span> <span class="toc_entry">Quadratic residues and quadratic reciprocity</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-squares.html"><span class="toc_ref">10.5</span> <span class="toc_entry">Sums of squares</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-arithmetic-functions.html"><span class="toc_ref">10.6</span> <span class="toc_entry">Arithmetic functions and Möbius inversion</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-exercises.html"><span class="toc_ref">10.7</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">51</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">52</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">53</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">54</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">55</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">56</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">57</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">59</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">60</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">61</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">62</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">63</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">64</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">65</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">66</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">67</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">68</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">69</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">70</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">71</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">72</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">73</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">74</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">75</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">76</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">77</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-algebra.html">II Algebra</a></li><li><a href="number-theory.html">10 Elementary Number Theory</a></li></ol>
+
+<article class="main-text">
+<h1 id="number-theory:section-quadratic">10.4 Quadratic residues and quadratic reciprocity<a class="tag" href="tag/02Y6.html" title="Permanent link: tag 02Y6">02Y6</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>Which numbers are squares modulo a prime \(p\)? Modulo \(p = 2\) every number is a square, so let \(p\) be odd. The squares of \(1, 2, \ldots , 10\) modulo \(11\) are \(1, 4, 9, 5, 3, 3, 5, 9, 4, 1\): exactly half of the nonzero residues, \(1, 3, 4, 5, 9\), are squares, each twice, as \(x^2 = (-x)^2\). The question has a surprisingly deep answer, the law of quadratic reciprocity, which Euler conjectured and Gauss first proved in 1796. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="number-theory:definition-legendre">
+  <div class="definition_thmheading"><a class="tag" href="tag/02Y7.html" title="Permanent link: tag 02Y7">02Y7</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10.4.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(p\) be an odd prime. An integer \(a\) with \(p \nmid a\) is a <em>quadratic residue</em> modulo \(p\) if \(x^2 \equiv a \pmod p\) has a solution, and a <em>quadratic nonresidue</em> otherwise. The <em>Legendre symbol</em> is </p>
+<div class="displaymath" id="a0000000299">
+  \[  \Bigl(\frac{a}{p}\Bigr) = \begin{cases}  1 &  \text{if } p \nmid a \text{ and } a \text{ is a quadratic residue modulo } p, \\ -1 &  \text{if } a \text{ is a quadratic nonresidue modulo } p, \\ 0 &  \text{if } p \mid a. \end{cases}  \]
+</div>
+
+  </div>
+</div>
+<p>By definition \((\frac{a}{p})\) depends only on \(a\) modulo \(p\). The following criterion of Euler reduces its computation to a power, and shows that it is multiplicative in \(a\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="number-theory:proposition-euler-criterion">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02Y8.html" title="Permanent link: tag 02Y8">02Y8</a><a class="graph-link" href="graph.html?tag=02Y8" title="Dependencies of tag 02Y8: what it uses and what uses it" aria-label="Dependency graph of tag 02Y8"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">10.4.2</span>
+    <span class="proposition_thmtitle">Euler’s criterion</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(p\) be an odd prime. </p>
+<ol class="enumerate">
+  <li><p>For every integer \(a\), \(\bigl(\frac{a}{p}\bigr) \equiv a^{(p-1)/2} \pmod p\). </p>
+</li>
+  <li><p>There are exactly \(\frac{p-1}{2}\) quadratic residues and \(\frac{p-1}{2}\) quadratic nonresidues among \(1, \ldots , p - 1\). </p>
+</li>
+  <li><p>\(\bigl(\frac{ab}{p}\bigr) = \bigl(\frac{a}{p}\bigr)\bigl(\frac{b}{p}\bigr)\) for all integers \(a, b\). So the product of two residues or of two nonresidues is a residue, and the product of a residue and a nonresidue is a nonresidue. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000300">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) If \(p \mid a\) both sides are \(\equiv 0\). Otherwise let \(y = a^{(p-1)/2}\). Then \(y^2 = a^{p-1} \equiv 1\) by Fermat’s theorem, so \(y \equiv \pm 1\), because \(y^2 - 1 = (y - 1)(y + 1)\) and \(\mathbb {F}_p\) is a field. By Proposition&#160;<a href="number-theory-section-primitive-roots.html#number-theory:proposition-power-residues">10.3.11</a> with \(k = 2\) and \(d = \gcd (2, p - 1) = 2\), \(a\) is a quadratic residue if and only if \(y \equiv 1\). So \(y \equiv 1\) when \((\frac{a}{p}) = 1\) and \(y \equiv -1\) when \((\frac{a}{p}) = -1\). </p>
+<p>(2) The squares form a subgroup of index \(d = 2\) of \(U_p\), by Proposition&#160;<a href="number-theory-section-primitive-roots.html#number-theory:proposition-power-residues">10.3.11</a>. </p>
+<p>(3) By (1), both sides are congruent to \((ab)^{(p-1)/2} = a^{(p-1)/2}b^{(p-1)/2}\) modulo \(p\). Both sides lie in \(\{ -1, 0, 1\} \), and distinct elements of this set are not congruent modulo \(p \geq 3\); so they are equal. </p>
+
+  </div>
+</div>
+<p>By (3), to compute \((\frac{a}{p})\) it suffices to factor \(a\) and know \((\frac{-1}{p})\), \((\frac{2}{p})\) and \((\frac{q}{p})\) for odd primes \(q\). The first is immediate. </p>
+<div class="corollary_thmwrapper theorem-style-plain" id="number-theory:corollary-minus-one">
+  <div class="corollary_thmheading"><a class="tag" href="tag/02Y9.html" title="Permanent link: tag 02Y9">02Y9</a><a class="graph-link" href="graph.html?tag=02Y9" title="Dependencies of tag 02Y9: what it uses and what uses it" aria-label="Dependency graph of tag 02Y9"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">10.4.3</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> For an odd prime \(p\), \(\bigl(\frac{-1}{p}\bigr) = (-1)^{(p-1)/2}\): the congruence \(x^2 \equiv -1 \pmod p\) is solvable if and only if \(p \equiv 1 \pmod4\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000301">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By Euler’s criterion \((\frac{-1}{p}) \equiv (-1)^{(p-1)/2} \pmod p\), and both sides are \(\pm 1\). The exponent \((p - 1)/2\) is even exactly when \(p \equiv 1 \pmod4\). </p>
+
+  </div>
+</div>
+<p>For \(p \equiv 1 \pmod4\) an explicit square root of \(-1\) is \(\bigl(\frac{p-1}{2}\bigr)!\) (Exercise&#160;<a href="number-theory-section-exercises.html#number-theory:exercise-wilson-square-root">10.7.3</a>); for instance modulo \(13\), \(6! = 720 \equiv 5\) and \(5^2 = 25 \equiv -1\). The corollary already has a pleasant consequence, an analogue of Euclid’s theorem for a single residue class. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="number-theory:proposition-primes-one-mod-four">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02YA.html" title="Permanent link: tag 02YA">02YA</a><a class="graph-link" href="graph.html?tag=02YA" title="Dependencies of tag 02YA: what it uses and what uses it" aria-label="Dependency graph of tag 02YA"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">10.4.4</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> There are infinitely many primes \(p \equiv 1 \pmod4\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000302">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(p_1, \ldots , p_k\) be primes and \(N = (2p_1 \cdots p_k)^2 + 1\). Let \(q\) be a prime dividing \(N\) (Theorem&#160;<a href="number-systems-section-divisibility.html#number-systems:theorem-fundamental-arithmetic">4.5.5</a>). Then \(q\) is odd, as \(N\) is odd, and \(x = 2p_1 \cdots p_k\) satisfies \(x^2 \equiv -1 \pmod q\); by Corollary&#160;<a href="number-theory-section-quadratic.html#number-theory:corollary-minus-one">10.4.3</a>, \(q \equiv 1 \pmod4\). And \(q \neq p_i\), since \(p_i \mid N - 1\). So no finite list contains all primes \(\equiv 1 \pmod4\). </p>
+
+  </div>
+</div>
+<p>More generally, Dirichlet’s theorem says that every residue class \(a \bmod n\) with \(\gcd (a, n) = 1\) contains infinitely many primes; its proof requires analysis <span class="cite">[<a href="Bibliography.html#serre-arithmetic" >Ser73</a>]</span>. For the class of \(3\) modulo \(4\) see Exercise&#160;<a href="number-theory-section-exercises.html#number-theory:exercise-three-mod-four">10.7.1</a>. </p>
+<p>To compute \((\frac{2}{p})\) and \((\frac{q}{p})\) we use a lemma of Gauss, which counts signs in the proof of Euler’s criterion. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="number-theory:lemma-gauss">
+  <div class="lemma_thmheading"><a class="tag" href="tag/02YB.html" title="Permanent link: tag 02YB">02YB</a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.4.5</span>
+    <span class="lemma_thmtitle">Gauss’s lemma</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(p\) be an odd prime, \(h = \frac{p-1}{2}\), and \(p \nmid a\). Let \(\mu \) be the number of \(k \in \{ 1, \ldots , h\} \) for which the least non-negative residue of \(ka\) modulo \(p\) is greater than \(\frac{p}{2}\). Then \(\bigl(\frac{a}{p}\bigr) = (-1)^\mu \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000303">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(1 \leq k \leq h\), let \(t_k\) be the least non-negative residue of \(ka\); it is not \(0\), as \(p \nmid ka\). Put \(r_k = t_k\) and \(\varepsilon _k = 1\) if \(t_k {\lt} p/2\), and \(r_k = p - t_k\) and \(\varepsilon _k = -1\) if \(t_k {\gt} p/2\). Then \(ka \equiv \varepsilon _kr_k \pmod p\) with \(r_k \in \{ 1, \ldots , h\} \), and exactly \(\mu \) of the signs \(\varepsilon _k\) are \(-1\). The \(r_k\) are distinct: if \(r_k = r_l\), then \(ka \equiv \pm la\), so \(k \equiv \pm l \pmod p\) (cancel the unit \(a\)); since \(1 \leq k, l \leq h\) we have \(0 {\lt} k + l {\lt} p\) and \(|k - l| {\lt} p\), so \(k \equiv -l\) is impossible and \(k = l\). Hence \(\{ r_1, \ldots , r_h\}  = \{ 1, \ldots , h\} \), and multiplying the congruences \(ka \equiv \varepsilon _kr_k\) for \(k = 1, \ldots , h\) gives </p>
+<div class="displaymath" id="a0000000304">
+  \[  a^h\, h! \equiv (-1)^\mu \, h! \pmod p .  \]
+</div>
+<p> Since \(h!\) is prime to \(p\), \(a^h \equiv (-1)^\mu \), and Euler’s criterion gives \((\frac{a}{p}) \equiv (-1)^\mu \); both sides are \(\pm 1\), so they are equal. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="number-theory:example-gauss-lemma">
+  <div class="example_thmheading"><a class="tag" href="tag/02YC.html" title="Permanent link: tag 02YC">02YC</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">10.4.6</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> For \(p = 11\), \(h = 5\) and \(a = 3\): the residues of \(3, 6, 9, 12, 15\) are \(3, 6, 9, 1, 4\), of which \(6\) and \(9\) exceed \(5.5\). So \(\mu = 2\) and \((\frac{3}{11}) = 1\); indeed \(5^2 = 25 \equiv 3\). For \(a = 2\): the residues \(2, 4, 6, 8, 10\) include \(6, 8, 10\) above \(5.5\), so \(\mu = 3\) and \((\frac{2}{11}) = -1\), in agreement with the list of squares modulo \(11\) above. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="number-theory:proposition-two">
+  <div class="proposition_thmheading"><a class="tag" href="tag/02YD.html" title="Permanent link: tag 02YD">02YD</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">10.4.7</span>
+    <span class="proposition_thmtitle">The second supplementary law</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> For an odd prime \(p\), \(\bigl(\frac{2}{p}\bigr) = (-1)^{(p^2-1)/8}\): the number \(2\) is a quadratic residue modulo \(p\) if and only if \(p \equiv \pm 1 \pmod8\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000305">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(a = 2\) the numbers \(2k\), \(1 \leq k \leq h\), already lie in \(\{ 1, \ldots , p - 1\} \), and \(2k {\gt} p/2\) exactly when \(k {\gt} p/4\). So \(\mu = h - \lfloor p/4\rfloor \). Writing \(p = 8m + r\) with \(r \in \{ 1, 3, 5, 7\} \): </p>
+<div class="displaymath" id="a0000000306">
+  \[  \begin{aligned}  r = 1 & : \quad h = 4m, \  \lfloor p/4\rfloor = 2m, \  \mu = 2m; \qquad &  r = 3 & : \quad h = 4m + 1, \  \lfloor p/4\rfloor = 2m, \  \mu = 2m + 1; \\ r = 5 & : \quad h = 4m + 2, \  \lfloor p/4\rfloor = 2m + 1, \  \mu = 2m + 1; \qquad &  r = 7 & : \quad h = 4m + 3, \  \lfloor p/4\rfloor = 2m + 1, \  \mu = 2m + 2. \end{aligned}  \]
+</div>
+<p> So \(\mu \) is even exactly for \(p \equiv \pm 1 \pmod8\), and Gauss’s lemma gives the first assertion in the form “\((\frac{2}{p}) = 1\) if and only if \(p \equiv \pm 1 \pmod8\)”. Finally \((p^2 - 1)/8\) is even for \(p = 8m \pm 1\), where it equals \(8m^2 \pm 2m\), and odd for \(p = 8m \pm 3\), where it equals \(8m^2 \pm 6m + 1\). </p>
+
+  </div>
+</div>
+<p>For odd \(a\) the count \(\mu \) in Gauss’s lemma can be expressed through integer parts, which is the key to the reciprocity law. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="number-theory:lemma-eisenstein">
+  <div class="lemma_thmheading"><a class="tag" href="tag/02YE.html" title="Permanent link: tag 02YE">02YE</a><a class="graph-link" href="graph.html?tag=02YE" title="Dependencies of tag 02YE: what it uses and what uses it" aria-label="Dependency graph of tag 02YE"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.4.8</span>
+    <span class="lemma_thmtitle">Eisenstein</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(p\) be an odd prime, \(h = \frac{p-1}{2}\), and \(a\) an odd integer with \(p \nmid a\). Then, with \(\mu \) as in Gauss’s lemma, </p>
+<div class="displaymath" id="a0000000307">
+  \[  \mu \equiv \sum _{k=1}^{h}\Bigl\lfloor \frac{ka}{p}\Bigr\rfloor \pmod2, \qquad \text{so}\qquad \Bigl(\frac{a}{p}\Bigr) = (-1)^{\sum _{k=1}^{h}\lfloor ka/p\rfloor } .  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000308">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Divide: \(ka = p\lfloor ka/p\rfloor + t_k\) with \(t_k\) the least non-negative residue. Let \(b_1, \ldots , b_\mu \) be the \(t_k\) greater than \(p/2\) and \(c_1, \ldots , c_\lambda \) the others (\(\lambda + \mu = h\)). In the proof of Gauss’s lemma we saw that the numbers \(c_1, \ldots , c_\lambda , p - b_1, \ldots , p - b_\mu \) are \(1, \ldots , h\) in some order. Summing the divisions and this rearrangement, </p>
+<div class="displaymath" id="a0000000309">
+  \[  a\sum _{k=1}^{h}k = p\sum _{k=1}^{h}\Bigl\lfloor \frac{ka}{p}\Bigr\rfloor + \sum _ib_i + \sum _ic_i, \qquad \sum _{k=1}^{h}k = \sum _ic_i + \mu p - \sum _ib_i .  \]
+</div>
+<p> Subtracting, \((a - 1)\sum _kk = p\sum _k\lfloor ka/p\rfloor - \mu p + 2\sum _ib_i\). Modulo \(2\), the left side is \(0\) because \(a\) is odd, and \(p \equiv 1\); so \(0 \equiv \sum _k\lfloor ka/p\rfloor - \mu \). The formula for the symbol is Gauss’s lemma. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="number-theory:theorem-quadratic-reciprocity">
+  <div class="theorem_thmheading"><a class="tag" href="tag/02YF.html" title="Permanent link: tag 02YF">02YF</a><a class="graph-link" href="graph.html?tag=02YF" title="Dependencies of tag 02YF: what it uses and what uses it" aria-label="Dependency graph of tag 02YF"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">10.4.9</span>
+    <span class="theorem_thmtitle">Law of quadratic reciprocity</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(p \neq q\) be odd primes. Then </p>
+<div class="displaymath" id="a0000000310">
+  \[  \Bigl(\frac{p}{q}\Bigr)\Bigl(\frac{q}{p}\Bigr) = (-1)^{\frac{p-1}{2}\cdot \frac{q-1}{2}} .  \]
+</div>
+<p> That is, \((\frac{p}{q}) = (\frac{q}{p})\) unless \(p \equiv q \equiv 3 \pmod4\), in which case \((\frac{p}{q}) = -(\frac{q}{p})\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000311">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(h = \frac{p-1}{2}\) and \(h^{\prime } = \frac{q-1}{2}\), and count the points with integer coordinates in the rectangle \(R = \{ (x, y) : 1 \leq x \leq h, \  1 \leq y \leq h^{\prime }\} \); there are \(hh^{\prime }\) of them. None lies on the line \(py = qx\): if \(py = qx\) with \(1 \leq x \leq h\), then \(p \mid qx\), so \(p \mid x\) by Euclid’s lemma, which is impossible for \(0 {\lt} x {\lt} p\). </p>
+<p>The points of \(R\) with \(py {\lt} qx\), that is, below the line: for fixed \(x \in \{ 1, \ldots , h\} \) these are the \(y\) with \(1 \leq y {\lt} qx/p\), and all such \(y\) satisfy \(y \leq h^{\prime }\), since \(qx/p {\lt} q/2\) and so \(y {\lt} q/2\), that is \(y \leq (q - 1)/2\). Their number is \(\lfloor qx/p\rfloor \) (as \(qx/p\) is not an integer). So there are \(\sum _{x=1}^{h}\lfloor qx/p\rfloor \) points below the line, and symmetrically \(\sum _{y=1}^{h^{\prime }}\lfloor py/q\rfloor \) points above it. Hence </p>
+<div class="displaymath" id="a0000000312">
+  \[  \sum _{x=1}^{h}\Bigl\lfloor \frac{qx}{p}\Bigr\rfloor + \sum _{y=1}^{h^{\prime }}\Bigl\lfloor \frac{py}{q}\Bigr\rfloor = hh^{\prime } .  \]
+</div>
+<p> By Eisenstein’s lemma (Lemma&#160;<a href="number-theory-section-quadratic.html#number-theory:lemma-eisenstein">10.4.8</a>), applied to the odd number \(q\) modulo \(p\) and to \(p\) modulo \(q\), the left side is the sum of the exponents in \((\frac{q}{p}) = (-1)^{\sum \lfloor qx/p\rfloor }\) and \((\frac{p}{q}) = (-1)^{\sum \lfloor py/q\rfloor }\). So \((\frac{p}{q})(\frac{q}{p}) = (-1)^{hh^{\prime }}\). Finally \(hh^{\prime }\) is odd if and only if both \(h\) and \(h^{\prime }\) are odd, that is, \(p \equiv q \equiv 3 \pmod4\). </p>
+
+  </div>
+</div>
+<p>To see the proof at work, take \(p = 11\) and \(q = 7\), so \(h = 5\) and \(h^{\prime } = 3\). The rectangle contains the \(15\) points \((x, y)\) with \(1 \leq x \leq 5\) and \(1 \leq y \leq 3\). Below the line \(11y = 7x\) lie, for \(x = 1, \ldots , 5\), respectively \(\lfloor 7/11\rfloor , \lfloor 14/11\rfloor , \ldots = 0, 1, 1, 2, 3\) points, \(7\) in all; to the left of it lie, for \(y = 1, 2, 3\), respectively \(\lfloor 11/7\rfloor , \lfloor 22/7\rfloor , \lfloor 33/7\rfloor = 1, 3, 4\) points, \(8\) in all. So \((\frac{7}{11}) = (-1)^7 = -1\) and \((\frac{11}{7}) = (-1)^8 = 1\), and their product is \(-1 = (-1)^{15}\). Directly: \((\frac{11}{7}) = (\frac{4}{7}) = 1\), and the squares modulo \(11\) are \(1, 3, 4, 5, 9\), which do not include \(7\). </p>
+<p>Together with Euler’s criterion and the two supplementary laws, Corollary&#160;<a href="number-theory-section-quadratic.html#number-theory:corollary-minus-one">10.4.3</a> and Proposition&#160;<a href="number-theory-section-quadratic.html#number-theory:proposition-two">10.4.7</a>, reciprocity computes every Legendre symbol quickly, by repeatedly reducing the top modulo the bottom, factoring, and flipping. </p>
+<div class="example_thmwrapper theorem-style-definition" id="number-theory:example-reciprocity">
+  <div class="example_thmheading"><a class="tag" href="tag/02YG.html" title="Permanent link: tag 02YG">02YG</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">10.4.10</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Is \(30\) a square modulo the prime \(103\)?</em> \((\frac{30}{103}) = (\frac{2}{103})(\frac{3}{103})(\frac{5}{103})\). As \(103 \equiv 7 \pmod8\), \((\frac{2}{103}) = 1\). As \(103 \equiv 3 \pmod4\) and \(3 \equiv 3 \pmod4\), \((\frac{3}{103}) = -(\frac{103}{3}) = -(\frac{1}{3}) = -1\). As \(5 \equiv 1 \pmod4\), \((\frac{5}{103}) = (\frac{103}{5}) = (\frac{3}{5}) = -1\), the squares modulo \(5\) being \(1\) and \(4\). So \((\frac{30}{103}) = 1 \cdot (-1) \cdot (-1) = 1\): \(30\) is a square modulo \(103\). Indeed \(37^2 = 1369 = 13 \cdot 103 + 30\). Note that reciprocity decides the question without finding the square root. </p>
+</li>
+  <li><p><em>For which primes is \(3\) a square?</em> For \(p {\gt} 3\), \((\frac{3}{p}) = (-1)^{(p-1)/2}(\frac{p}{3})\), and \((\frac{p}{3}) = 1\) if and only if \(p \equiv 1 \pmod3\). So \((\frac{3}{p}) = 1\) if and only if \(p \equiv 1 \pmod4\) and \(p \equiv 1 \pmod3\), or \(p \equiv 3 \pmod4\) and \(p \equiv 2 \pmod3\); that is, by the Chinese remainder theorem, if and only if \(p \equiv \pm 1 \pmod{12}\). </p>
+</li>
+  <li><p><em>For which primes is \(5\) a square?</em> For \(p \neq 2, 5\), \((\frac{5}{p}) = (\frac{p}{5})\), which is \(1\) if and only if \(p \equiv \pm 1 \pmod5\). This is the remarkable feature of the law: whether \(q\) is a square modulo \(p\) depends only on \(p\) modulo \(4q\), although the squares modulo \(p\) seem to have nothing to do with \(q\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="number-theory:remark-reciprocity">
+  <div class="remark_thmheading"><a class="tag" href="tag/02YH.html" title="Permanent link: tag 02YH">02YH</a><a class="graph-link" href="graph.html?tag=02YH" title="Dependencies of tag 02YH: what it uses and what uses it" aria-label="Dependency graph of tag 02YH"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">10.4.11</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Gauss called the law the <em>theorema aureum</em> and gave several proofs of it; the one above, by counting lattice points, is due to Eisenstein. Another proof uses Gauss sums: the sum \(g = \sum _{a=1}^{q-1}(\frac{a}{q})\zeta ^a\), with \(\zeta \) a primitive \(q\)-th root of unity, satisfies \(g^2 = (-1)^{(q-1)/2}q\), so the cyclotomic field \(\mathbb {Q}(\zeta )\) of Theorem&#160;<a href="fields-section-cyclotomic.html#fields:theorem-cyclotomic">9.8.2</a> contains a square root of \(\pm q\), and comparing \(g^p\) with \(g\) modulo \(p\) gives the law <span class="cite">[<a href="Bibliography.html#ireland-rosen" >IR90</a>]</span>. This is the beginning of a Galois theoretic explanation, in which \((\frac{p}{q})\) describes how the automorphism \(\zeta \mapsto \zeta ^p\) acts on that square root; its generalisation to all abelian extensions of number fields is class field theory. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="number-theory-section-primitive-roots.html"><span class="dir">Previous</span> Orders and primitive roots</a><a class="next" href="number-theory-section-squares.html"><span class="dir">Next</span> Sums of squares</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Exercises - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="number-theory-section-arithmetic-functions.html" /><link rel="next" href="linear-algebra.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2 active">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+  <ul><li class="level-3">
+  <a href="number-theory-section-introduction.html"><span class="toc_ref">10.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-congruences.html"><span class="toc_ref">10.2</span> <span class="toc_entry">Congruences</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-primitive-roots.html"><span class="toc_ref">10.3</span> <span class="toc_entry">Orders and primitive roots</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-quadratic.html"><span class="toc_ref">10.4</span> <span class="toc_entry">Quadratic residues and quadratic reciprocity</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-squares.html"><span class="toc_ref">10.5</span> <span class="toc_entry">Sums of squares</span></a>
+</li>
+<li class="level-3">
+  <a href="number-theory-section-arithmetic-functions.html"><span class="toc_ref">10.6</span> <span class="toc_entry">Arithmetic functions and Möbius inversion</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="number-theory-section-exercises.html"><span class="toc_ref">10.7</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">51</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">52</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">53</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">54</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">55</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">56</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">57</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">58</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">59</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">60</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">61</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">62</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">63</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">64</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">65</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">66</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">67</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">68</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">69</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">70</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">71</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">72</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">73</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">74</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">75</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">76</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">77</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-algebra.html">II Algebra</a></li><li><a href="number-theory.html">10 Elementary Number Theory</a></li></ol>
+
+<article class="main-text">
+<h1 id="number-theory:section-exercises">10.7 Exercises<a class="tag" href="tag/02YZ.html" title="Permanent link: tag 02YZ">02YZ</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-three-mod-four">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z0.html" title="Permanent link: tag 02Z0">02Z0</a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.1</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that there are infinitely many primes \(p \equiv 3 \pmod4\). (Consider \(N = 4p_1 \cdots p_k - 1\).) </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000331">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(p_1, \ldots , p_k\) be primes \(\equiv 3 \pmod4\) and \(N = 4p_1 \cdots p_k - 1 \equiv 3 \pmod4\). \(N\) is odd, so its prime factors are \(\equiv 1\) or \(3 \pmod4\); if all were \(\equiv 1\), their product \(N\) would be \(\equiv 1 \pmod4\). So some prime \(q \equiv 3 \pmod4\) divides \(N\), and \(q \neq p_i\), since \(p_i \mid N + 1\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-wilson-converse">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z1.html" title="Permanent link: tag 02Z1">02Z1</a><a class="graph-link" href="graph.html?tag=02Z1" title="Dependencies of tag 02Z1: what it uses and what uses it" aria-label="Dependency graph of tag 02Z1"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.2</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that an integer \(n \geq 2\) is prime if and only if \((n - 1)! \equiv -1 \pmod n\). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000332">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> If \(n\) is prime this is Wilson’s theorem (Corollary&#160;<a href="groups-section-cosets.html#groups:corollary-euler-fermat">7.3.5</a>). If \(n = ab\) with \(1 {\lt} a {\lt} n\), then \(a\) divides \((n - 1)!\), so if \(n \mid (n - 1)! + 1\), then \(a\) divides \((n - 1)! + 1\) and hence \(1\), which is absurd. </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-wilson-square-root">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z2.html" title="Permanent link: tag 02Z2">02Z2</a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.3</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Let \(p \equiv 1 \pmod4\) be prime. Show that \(x = \bigl(\frac{p-1}{2}\bigr)!\) satisfies \(x^2 \equiv -1 \pmod p\). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000333">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(h = \frac{p-1}{2}\). Pairing \(k\) with \(p - k \equiv -k\), Wilson’s theorem gives \(-1 \equiv (p - 1)! = \prod _{k=1}^{h}k(p - k) \equiv \prod _{k=1}^{h}(-k^2) = (-1)^h(h!)^2 \pmod p\). As \(h\) is even, \((h!)^2 \equiv -1\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-phi-even">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z3.html" title="Permanent link: tag 02Z3">02Z3</a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.4</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that \(\varphi (n)\) is even for \(n \geq 3\), and that \(\varphi (n) \geq \sqrt{n/2}\) for all \(n \geq 1\). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000334">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> For \(n \geq 3\) the map \(a \mapsto n - a\) is an involution of the set of \(1 \leq a {\lt} n\) prime to \(n\) without fixed points: \(a = n - a\) would mean \(n = 2a\), and then \(\gcd (a, n) = a = 1\) forces \(n = 2\). So the set has an even number of elements. For the inequality, by multiplicativity it suffices to note that \(\varphi (p^k) = p^{k-1}(p - 1) \geq \sqrt{p^k}\) for odd \(p\) (as \(p - 1 \geq \sqrt{p}\) for \(p \geq 3\) and \(p^{k-1} \geq p^{(k-1)/2}\)), and \(\varphi (2^k) = 2^{k-1} \geq \sqrt{2^k/2}\); multiplying over the prime powers in \(n\), with the factor \(1/\sqrt{2}\) appearing at most once, gives \(\varphi (n) \geq \sqrt{n/2}\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-cyclic-count">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z4.html" title="Permanent link: tag 02Z4">02Z4</a><a class="graph-link" href="graph.html?tag=02Z4" title="Dependencies of tag 02Z4: what it uses and what uses it" aria-label="Dependency graph of tag 02Z4"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.5</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Give a second proof of Theorem&#160;<a href="number-theory-section-primitive-roots.html#number-theory:theorem-primitive-root-prime">10.3.3</a>: for \(d \mid p - 1\) let \(\psi (d)\) be the number of elements of order \(d\) in \(U_p\). Show that \(\psi (d) \leq \varphi (d)\), using that \(x^d - 1\) has at most \(d\) roots in \(\mathbb {F}_p\), and deduce from Proposition&#160;<a href="number-theory-section-congruences.html#number-theory:proposition-euler-function">10.2.8</a>(4) that \(\psi (d) = \varphi (d)\), in particular \(\psi (p - 1) \geq 1\). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000335">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> If there is an element \(x\) of order \(d\), its powers \(1, x, \ldots , x^{d-1}\) are \(d\) distinct roots of \(x^d - 1\), hence all of its roots (Corollary&#160;<a href="rings-section-polynomials.html#rings:corollary-roots">8.6.6</a>); so every element of order \(d\) is a power of \(x\), and those of order \(d\) are the \(x^k\) with \(\gcd (k, d) = 1\) (Lemma&#160;<a href="number-theory-section-primitive-roots.html#number-theory:lemma-order">10.3.2</a>(2)), \(\varphi (d)\) in number. So \(\psi (d) \in \{ 0, \varphi (d)\} \). Every element has an order dividing \(p - 1\), so \(\sum _{d \mid p-1}\psi (d) = p - 1 = \sum _{d \mid p-1}\varphi (d)\). As \(\psi (d) \leq \varphi (d)\) termwise, equality holds termwise. </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-wieferich-type">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z5.html" title="Permanent link: tag 02Z5">02Z5</a><a class="graph-link" href="graph.html?tag=02Z5" title="Dependencies of tag 02Z5: what it uses and what uses it" aria-label="Dependency graph of tag 02Z5"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.6</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Check that \(14\) is a primitive root modulo \(29\) and that \(14^{28} \equiv 1 \pmod{29^2}\). Which of \(14\) and \(43\) is a primitive root modulo \(29^2\)? </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000336">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> \(29 - 1 = 28 = 2^2 \cdot 7\), so by Example&#160;<a href="number-theory-section-primitive-roots.html#number-theory:example-primitive-roots">10.3.4</a>(3) it suffices to check \(14^{14} \not\equiv 1\) and \(14^4 \not\equiv 1 \pmod{29}\). Modulo \(29\): \(14^2 = 196 \equiv 22 \equiv -7\), \(14^4 \equiv 49 \equiv 20\), \(14^7 = 14^4 \cdot 14^2 \cdot 14 \equiv 20 \cdot (-7) \cdot 14 = -1960 \equiv -1960 + 68 \cdot 29 = 12\), and \(14^{14} \equiv 144 \equiv -1\). So \(14\) is a primitive root. Modulo \(841 = 29^2\): \(14^2 = 196\), \(14^4 = 38416 = 45 \cdot 841 + 571\), so \(14^4 \equiv 571\); \(14^7 = 14^4 \cdot 14^2 \cdot 14 \equiv 571 \cdot 196 \cdot 14\), and \(571 \cdot 196 = 111916 = 133 \cdot 841 + 63\), so \(14^7 \equiv 63 \cdot 14 = 882 \equiv 41\); \(14^{14} \equiv 41^2 = 1681 = 2 \cdot 841 - 1 \equiv -1\), and \(14^{28} \equiv 1 \pmod{841}\). So \(14\) is not a primitive root modulo \(841\), and by Theorem&#160;<a href="number-theory-section-primitive-roots.html#number-theory:theorem-primitive-root-prime-power">10.3.7</a> \(43 = 14 + 29\) is. </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-square-roots-one">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z6.html" title="Permanent link: tag 02Z6">02Z6</a><a class="graph-link" href="graph.html?tag=02Z6" title="Dependencies of tag 02Z6: what it uses and what uses it" aria-label="Dependency graph of tag 02Z6"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.7</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that for \(k \geq 3\) the congruence \(x^2 \equiv 1 \pmod{2^k}\) has exactly four solutions modulo \(2^k\), namely \(\pm 1\) and \(\pm 1 + 2^{k-1}\), while for an odd prime \(p\) the congruence \(x^2 \equiv 1 \pmod{p^k}\) has only the solutions \(\pm 1\). How many solutions does \(x^2 \equiv 1 \pmod n\) have in general? </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000337">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> The solutions are the elements of order dividing \(2\) in \(U_{2^k}\). By Theorem&#160;<a href="number-theory-section-primitive-roots.html#number-theory:theorem-units-two-power">10.3.9</a> this group is \(\mathbb {Z}/2\mathbb {Z}\times \mathbb {Z}/2^{k-2}\mathbb {Z}\), which has four such elements; and \(\pm 1\), \(\pm 1 + 2^{k-1}\) are four distinct solutions, as \((\pm 1 + 2^{k-1})^2 = 1 \pm 2^k + 2^{2k-2} \equiv 1\) for \(k \geq 2\), so they are all. For odd \(p\), \(U_{p^k}\) is cyclic (Theorem&#160;<a href="number-theory-section-primitive-roots.html#number-theory:theorem-primitive-root-prime-power">10.3.7</a>) of even order, and has exactly two elements of order dividing \(2\) (Lemma&#160;<a href="number-theory-section-primitive-roots.html#number-theory:lemma-order">10.3.2</a>(3)), namely \(\pm 1\). By the Chinese remainder theorem, if \(n = 2^ap_1^{k_1} \cdots p_r^{k_r}\) with distinct odd primes \(p_i\), the number of solutions is \(2^r\) times \(1\), \(2\) or \(4\) according as \(a \leq 1\), \(a = 2\) or \(a \geq 3\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-minus-three">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z7.html" title="Permanent link: tag 02Z7">02Z7</a><a class="graph-link" href="graph.html?tag=02Z7" title="Dependencies of tag 02Z7: what it uses and what uses it" aria-label="Dependency graph of tag 02Z7"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.8</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that for a prime \(p {\gt} 3\), \(\bigl(\frac{-3}{p}\bigr) = 1\) if and only if \(p \equiv 1 \pmod3\). Deduce that there are infinitely many primes \(p \equiv 1 \pmod3\) (consider \(N = (2p_1 \cdots p_k)^2 + 3\)). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000338">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> By Euler’s criterion, Corollary&#160;<a href="number-theory-section-quadratic.html#number-theory:corollary-minus-one">10.4.3</a> and reciprocity, \((\frac{-3}{p}) = (\frac{-1}{p})(\frac{3}{p}) = (-1)^{\frac{p-1}{2}} \cdot (-1)^{\frac{p-1}{2}}(\frac{p}{3}) = (\frac{p}{3})\), which is \(1\) exactly when \(p \equiv 1 \pmod3\). Given primes \(p_1, \ldots , p_k \equiv 1 \pmod3\), let \(N = (2p_1 \cdots p_k)^2 + 3\), which is odd and not divisible by \(3\) (it is \(\equiv 1 \pmod3\), as \(p_i \neq 3\) and \(4 \equiv 1\)). A prime \(q \mid N\) satisfies \(q {\gt} 3\) and \(x^2 \equiv -3 \pmod q\) with \(x = 2p_1 \cdots p_k\), so \(q \equiv 1 \pmod3\); and \(q \neq p_i\), as otherwise \(q \mid 3\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-jacobi">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z8.html" title="Permanent link: tag 02Z8">02Z8</a><a class="graph-link" href="graph.html?tag=02Z8" title="Dependencies of tag 02Z8: what it uses and what uses it" aria-label="Dependency graph of tag 02Z8"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.9</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> For an odd \(n = p_1 \cdots p_r\) (primes not necessarily distinct) and any integer \(a\), the <em>Jacobi symbol</em> is \((\frac{a}{n}) = \prod _i(\frac{a}{p_i})\). Show that it is multiplicative in \(a\) and in \(n\), that \((\frac{-1}{n}) = (-1)^{(n-1)/2}\), \((\frac{2}{n}) = (-1)^{(n^2-1)/8}\), and \((\frac{m}{n})(\frac{n}{m}) = (-1)^{\frac{m-1}{2}\cdot \frac{n-1}{2}}\) for coprime odd positive \(m\), \(n\). Use it to compute \((\frac{1001}{9907})\) without factoring \(1001\), given that \(9907\) is prime. Show by an example that \((\frac{a}{n}) = 1\) does not imply that \(a\) is a square modulo \(n\). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000339">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> Multiplicativity in \(n\) is the definition, and in \(a\) follows from Proposition&#160;<a href="number-theory-section-quadratic.html#number-theory:proposition-euler-criterion">10.4.2</a>(3). The functions \(u \mapsto (-1)^{(u-1)/2}\) and \(u \mapsto (-1)^{(u^2-1)/8}\) are multiplicative on odd integers: for odd \(u, v\), \(\frac{uv - 1}{2} - \frac{u - 1}{2} - \frac{v - 1}{2} = \frac{(u - 1)(v - 1)}{2} \equiv 0 \pmod2\), and \(\frac{u^2v^2 - 1}{8} - \frac{u^2 - 1}{8} - \frac{v^2 - 1}{8} = \frac{(u^2 - 1)(v^2 - 1)}{8} \equiv 0 \pmod2\), as \(8 \mid u^2 - 1\) (Example&#160;<a href="number-theory-section-congruences.html#number-theory:example-congruences">10.2.2</a>(2)). So the two supplementary laws pass from primes to products. Likewise \((m, n) \mapsto (-1)^{\frac{m-1}{2}\frac{n-1}{2}}\) is multiplicative in each variable, so reciprocity for the Jacobi symbol follows from the prime case by writing both \(m\) and \(n\) as products of primes. Now \(1001 \equiv 1 \pmod4\), so \((\frac{1001}{9907}) = (\frac{9907}{1001}) = (\frac{898}{1001}) = (\frac{2}{1001})(\frac{449}{1001})\). As \(1001 \equiv 1 \pmod8\), \((\frac{2}{1001}) = 1\), and \(449 \equiv 1 \pmod4\) gives \((\frac{449}{1001}) = (\frac{1001}{449}) = (\frac{103}{449}) = (\frac{449}{103}) = (\frac{37}{103}) = (\frac{103}{37}) = (\frac{29}{37}) = (\frac{37}{29}) = (\frac{8}{29}) = (\frac{2}{29})^3 = -1\), as \(29 \equiv 5 \pmod8\). So \((\frac{1001}{9907}) = -1\), and \(1001\) is not a square modulo \(9907\). Finally \((\frac{2}{15}) = (\frac{2}{3})(\frac{2}{5}) = (-1)(-1) = 1\), but \(2\) is not a square modulo \(15\), since it is not a square modulo \(3\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-mersenne">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02Z9.html" title="Permanent link: tag 02Z9">02Z9</a><a class="graph-link" href="graph.html?tag=02Z9" title="Dependencies of tag 02Z9: what it uses and what uses it" aria-label="Dependency graph of tag 02Z9"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.10</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that if \(2^k - 1\) is prime, then \(k\) is prime. Show that every prime divisor \(q\) of \(2^p - 1\), for \(p\) an odd prime, satisfies \(q \equiv 1 \pmod{2p}\), and use this to show that \(2^{11} - 1\) is composite and \(2^{13} - 1 = 8191\) is prime. </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000340">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> If \(k = ab\) with \(1 {\lt} a {\lt} k\), then \(2^a - 1\) divides \(2^{ab} - 1 = (2^a - 1)(2^{a(b-1)} + \cdots + 2^a + 1)\), and \(1 {\lt} 2^a - 1 {\lt} 2^k - 1\). If \(q \mid 2^p - 1\), then \(2^p \equiv 1 \pmod q\), so \(\operatorname {ord}_q(2)\) divides the prime \(p\) and is not \(1\); so it is \(p\), and \(p \mid q - 1\) by Lemma&#160;<a href="number-theory-section-primitive-roots.html#number-theory:lemma-order">10.3.2</a>. As \(q\) is odd, \(q \equiv 1 \pmod{2p}\). For \(p = 11\) the candidates are \(23, 67, 89, \ldots \), and \(2047 = 23 \cdot 89\). For \(p = 13\) the candidates are the primes \(q \equiv 1 \pmod{26}\) with \(q \leq \sqrt{8191} {\lt} 91\), namely \(53\) and \(79\); neither divides \(8191\) (\(8191 = 154 \cdot 53 + 29 = 103 \cdot 79 + 54\)), so \(8191\) is prime. </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-rsa-factoring">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02ZA.html" title="Permanent link: tag 02ZA">02ZA</a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.11</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Let \(n = pq\) with \(p \neq q\) prime. Show that \(p\) and \(q\) can be computed from \(n\) and \(\varphi (n)\), as the roots of a quadratic equation. Find \(p\) and \(q\) for \(n = 2021\) and \(\varphi (n) = 1932\). </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000341">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> \(\varphi (n) = (p - 1)(q - 1) = n - (p + q) + 1\) gives \(p + q = n + 1 - \varphi (n)\), and \(pq = n\); so \(p\) and \(q\) are the roots of \(X^2 - (n + 1 - \varphi (n))X + n\). For \(n = 2021\): \(p + q = 90\) and \(pq = 2021\), so \(X^2 - 90X + 2021 = (X - 43)(X - 47)\), and \(2021 = 43 \cdot 47\). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="number-theory:exercise-mobius-sum">
+  <div class="exercise_thmheading"><a class="tag" href="tag/02ZB.html" title="Permanent link: tag 02ZB">02ZB</a><a class="graph-link" href="graph.html?tag=02ZB" title="Dependencies of tag 02ZB: what it uses and what uses it" aria-label="Dependency graph of tag 02ZB"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">10.7.12</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that \(\sum _{d \mid n}\mu (d)\tau (n/d) = 1\) and \(\sum _{d \mid n}\mu (d)\sigma (n/d) = n\) for all \(n\), and that \(\sum _{d \mid n}|\mu (d)| = 2^r\) if \(n\) has \(r\) distinct prime factors. </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000342">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> \(\mu * \tau = \mu * \mathbf{1} * \mathbf{1} = \varepsilon * \mathbf{1} = \mathbf{1}\) and \(\mu * \sigma = \mu * \mathbf{1} * \mathrm{N} = \mathrm{N}\), by Propositions&#160;<a href="number-theory-section-arithmetic-functions.html#number-theory:proposition-dirichlet-ring">10.6.2</a> and&#160;<a href="number-theory-section-arithmetic-functions.html#number-theory:proposition-mobius">10.6.3</a>. The function \(|\mu | * \mathbf{1}\) is multiplicative and takes the value \(1 + 1 = 2\) at every prime power \(p^k\), \(k \geq 1\); so its value at \(n\) is \(2^r\). </p>
+
+  </div>
+</div>  </p>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="number-theory-section-arithmetic-functions.html"><span class="dir">Previous</span> Arithmetic functions and Möbius inversion</a><a class="next" href="linear-algebra.html"><span class="dir">Next</span> Linear Algebra</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>
