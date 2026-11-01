@@ -9,7 +9,8 @@ and~\ref{measure-theory:theorem-dominated-convergence}) and the completeness of 
 (Theorem~\ref{measure-theory:theorem-riesz-fischer}) are the basis of the functional analysis used to prove the Hodge theorem. This
 chapter constructs Lebesgue measure, proves the convergence theorems, Littlewood's three principles (approximation of sets by boxes, Lusin's
 theorem, Egorov's theorem), the Lebesgue differentiation theorem with its consequences (the density theorem and the fundamental theorem of calculus for
-Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
+Lebesgue integrals, with the Cantor function as a counterexample), independence and the two Borel--Cantelli lemmas, with
+applications to the digits of random numbers and Borel's normal number theorem (Theorem~\ref{measure-theory:theorem-borel-normal}), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
 change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It then treats Radon measures as positive linear functionals
 (the Riesz--Markov theorem, Theorem~\ref{measure-theory:theorem-riesz-markov}), weak convergence of measures and its compactness theorem, and the differentiation of measures with respect to
 Lebesgue measure, with Lebesgue's theorem on the differentiability of monotone functions. It ends with an introduction to
@@ -455,6 +456,175 @@ intervals for each $k$ and outside most of them, so $f_n(x) = 1$ and $f_n(x) = 0
 Proposition~\ref{measure-theory:proposition-modes} is necessary.
 \end{enumerate}
 \end{counterexample}
+
+\section{Independence and the Borel--Cantelli lemmas}\label{measure-theory:section-borel-cantelli}
+
+Measure theory is also the language of probability. A \emph{probability space} is a measure space $(\Omega, \mathcal{F}, P)$ with $P(\Omega) = 1$; its measurable sets are called \emph{events}, measurable
+functions are \emph{random variables}, and ``almost everywhere'' becomes \emph{almost surely}. A typical question asks whether infinitely many of a sequence of events happen. For events $A_1, A_2, \ldots$
+the event ``$A_k$ happens for infinitely many $k$'' is
+\[
+\limsup_kA_k = \bigcap_{n \geq 1}\bigcup_{k \geq n}A_k = \{\omega : \omega \in A_k \text{ for infinitely many } k\},
+\]
+and its complement is $\liminf_kA_k^c = \bigcup_n\bigcap_{k \geq n}A_k^c$, ``from some index on, no $A_k$ happens''. The two Borel--Cantelli lemmas decide, in many cases, whether $\limsup_kA_k$ has probability
+$0$ or $1$. The first needs nothing; the second needs independence, which we now define.
+
+\begin{definition}\label{measure-theory:definition-independent}
+Events $A_1, A_2, \ldots$ (finitely or countably many) in a probability space are \emph{independent} if
+\[
+P(A_{k_1} \cap A_{k_2} \cap \cdots \cap A_{k_m}) = P(A_{k_1})P(A_{k_2}) \cdots P(A_{k_m})
+\]
+for all $m$ and all distinct indices $k_1, \ldots, k_m$.
+\end{definition}
+
+The condition must be imposed on all subfamilies, not only on pairs.
+
+\begin{example}\label{measure-theory:example-pairwise-independent}
+Toss two fair coins: $\Omega = \{HH, HT, TH, TT\}$, each point with probability $\frac14$. Let $A$ = ``the first coin shows heads'', $B$ = ``the second coin shows heads'', $C$ = ``the two coins agree''. Each
+event has probability $\frac12$, and each intersection of two of them has probability $\frac14$; so they are pairwise independent. But $A \cap B \cap C = \{HH\}$ has probability $\frac14 \neq \frac18$: if
+two of the events happen, so does the third.
+\end{example}
+
+\begin{lemma}\label{measure-theory:lemma-independent-complements}
+If $A_1, A_2, \ldots$ are independent, so are the events obtained by replacing any of the $A_k$ by their complements.
+\end{lemma}
+
+\begin{proof}
+It suffices to replace one event, say $A_1$, by $A_1^c$; replacing several is done one at a time. Let $k_2, \ldots, k_m$ be distinct indices different from $1$ and $B = A_{k_2} \cap \cdots \cap A_{k_m}$ (with
+$B = \Omega$ if $m = 1$). Then $P(A_1^c \cap B) = P(B) - P(A_1 \cap B) = P(B) - P(A_1)P(B) = P(A_1^c)P(B)$, and $P(B)$ is the product of the $P(A_{k_j})$. Intersections not involving $A_1^c$ are unchanged.
+\end{proof}
+
+The basic example of independence lives on $[0, 1)$ with Lebesgue measure: the binary digits of a number chosen at random behave like independent tosses of a fair coin. For $x \in [0, 1)$ and $k \geq 1$ let
+\[
+d_k(x) = \lfloor 2^kx\rfloor - 2\lfloor 2^{k-1}x\rfloor \in \{0, 1\},
+\]
+the $k$-th digit of the binary expansion $x = \sum_kd_k(x)2^{-k}$ that does not end with infinitely many $1$s. For $K \geq 1$ the integer $\lfloor 2^Kx\rfloor$ has binary digits $d_1(x), \ldots, d_K(x)$, so
+$d_1(x) = \delta_1, \ldots, d_K(x) = \delta_K$ holds exactly on the interval $[N2^{-K}, (N + 1)2^{-K})$ with $N = \sum_{k \leq K}\delta_k2^{K-k}$, of length $2^{-K}$. Call a set $E \subseteq [0, 1)$
+\emph{determined by} a finite set $S$ of positions if whether $x \in E$ depends only on the digits $d_k(x)$, $k \in S$.
+
+\begin{lemma}\label{measure-theory:lemma-binary-digits}
+\begin{enumerate}
+\item For a finite set $S$ of positions and prescribed digits $\delta_k \in \{0, 1\}$, $k \in S$, the set $\{x : d_k(x) = \delta_k \text{ for } k \in S\}$ has measure $2^{-|S|}$.
+\item If $E_1, \ldots, E_m$ are determined by pairwise disjoint finite sets of positions $S_1, \ldots, S_m$, then $\lambda(E_1 \cap \cdots \cap E_m) = \lambda(E_1) \cdots \lambda(E_m)$. Consequently, events
+$E_1, E_2, \ldots$ determined by pairwise disjoint finite sets of positions are independent; in particular the events $\{d_k = 1\}$, $k \geq 1$, are independent of probability $\frac12$.
+\item If $g_i = G_i\bigl((d_k)_{k \in S_i}\bigr)$ for functions $G_i$ of finitely many digits and pairwise disjoint $S_1, \ldots, S_m$, then $\int_0^1g_1 \cdots g_m\,d\lambda = \prod_i\int_0^1g_i\,d\lambda$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Let $K = \max S$ (the case $S = \emptyset$ is trivial). The set is the disjoint union, over the $2^{K - |S|}$ choices of the digits at the positions in $\{1, \ldots, K\} \setminus S$, of intervals of length
+$2^{-K}$, so its measure is $2^{K - |S|}2^{-K}$.
+
+(2) A set determined by $S_i$ is a disjoint union of $n_i$ sets as in (1), one for each admissible pattern of digits on $S_i$, so $\lambda(E_i) = n_i2^{-|S_i|}$. With $S = S_1 \cup \cdots \cup S_m$, the
+intersection $E_1 \cap \cdots \cap E_m$ is the disjoint union of the sets of (1) for the patterns on $S$ whose restriction to each $S_i$ is admissible for $E_i$; there are $n_1 \cdots n_m$ of them, so its
+measure is $n_1 \cdots n_m2^{-|S|} = \prod_in_i2^{-|S_i|}$. A subfamily of the $E_k$ is again determined by disjoint sets of positions, which gives independence.
+
+(3) Each $g_i$ is a finite linear combination of indicator functions of sets determined by $S_i$; expand the product and apply (2) to each term.
+\end{proof}
+
+\begin{theorem}[Borel--Cantelli lemmas]\label{measure-theory:theorem-borel-cantelli}
+Let $A_1, A_2, \ldots$ be events in a probability space.
+\begin{enumerate}
+\item If $\sum_kP(A_k) < \infty$, then $P(\limsup_kA_k) = 0$: almost surely only finitely many $A_k$ happen.
+\item If the $A_k$ are independent and $\sum_kP(A_k) = \infty$, then $P(\limsup_kA_k) = 1$: almost surely infinitely many $A_k$ happen.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) For every $n$, $\limsup_kA_k \subseteq \bigcup_{k \geq n}A_k$, so $P(\limsup_kA_k) \leq \sum_{k \geq n}P(A_k)$, the tail of a convergent series, which tends to $0$ as $n \to \infty$.
+
+(2) We show that the complement $\bigcup_n\bigcap_{k \geq n}A_k^c$ is null; it suffices to show $P(\bigcap_{k \geq n}A_k^c) = 0$ for each $n$. For $N \geq n$, the events $A_k^c$ are independent
+(Lemma~\ref{measure-theory:lemma-independent-complements}), and $1 - t \leq e^{-t}$ for real $t$ (the exponential lies above its tangent line at $0$), so
+\[
+P\Bigl(\bigcap_{k = n}^NA_k^c\Bigr) = \prod_{k = n}^N\bigl(1 - P(A_k)\bigr) \leq \exp\Bigl(-\sum_{k = n}^NP(A_k)\Bigr) \longrightarrow 0 \qquad (N \to \infty).
+\]
+These sets decrease in $N$ to $\bigcap_{k \geq n}A_k^c$, so by continuity of measures (Proposition~\ref{measure-theory:proposition-measure-properties}) its probability is $0$.
+\end{proof}
+
+For independent events $\limsup_kA_k$ therefore has probability $0$ or $1$, never anything in between: a first instance of a \emph{zero-one law}. The first lemma was already used, without the name, in the
+proof of Proposition~\ref{measure-theory:proposition-modes}(2).
+
+\begin{counterexample}\label{measure-theory:counterexample-borel-cantelli}
+Independence cannot be dropped in (2). On $[0, 1)$ let $A_k = [0, 1/k)$. Then $\sum_k\lambda(A_k) = \sum_k1/k = \infty$, but the sets decrease, so
+$\limsup_kA_k = \bigcap_kA_k = \{0\}$, a null set. The events are far from independent: $\lambda(A_j \cap A_k) = 1/\max(j, k)$, not $1/(jk)$. Even more simply, $A_k = A$ for all $k$ with $\lambda(A) = \frac12$ gives
+$\limsup_kA_k = A$, of probability $\frac12$.
+\end{counterexample}
+
+\begin{example}\label{measure-theory:example-infinite-monkey}
+\emph{Every pattern appears infinitely often.} Fix a block $\beta = (\beta_1, \ldots, \beta_m)$ of binary digits. For $j \geq 0$ let $B_j$ be the event that the digits at positions
+$jm + 1, \ldots, jm + m$ form the block $\beta$. These events are determined by the disjoint sets of positions $\{jm + 1, \ldots, jm + m\}$, so they are independent, each of probability $2^{-m}$
+(Lemma~\ref{measure-theory:lemma-binary-digits}). Since $\sum_j2^{-m} = \infty$, almost every $x \in [0, 1)$ lies in infinitely many $B_j$. There are countably many blocks, so for almost every $x$ every
+finite block of digits occurs infinitely often in the binary expansion of $x$. (Encoding letters by blocks of digits, this is the ``infinite monkey theorem'': a random infinite text contains every
+book infinitely often.)
+\end{example}
+
+The probability of a long block is small, and this limits how long the runs of $1$s in a random expansion can be. Let $R_n(x)$ be the length of the run of $1$s starting at position $n$: the largest $r \geq 0$ with
+$d_n(x) = \cdots = d_{n+r-1}(x) = 1$, which is finite because the expansion does not end with infinitely many $1$s.
+
+\begin{proposition}[Long runs]\label{measure-theory:proposition-long-runs}
+For almost every $x \in [0, 1)$, $\displaystyle\limsup_{n \to \infty}\frac{R_n(x)}{\log_2n} = 1$.
+\end{proposition}
+
+\begin{proof}
+\emph{Upper bound.} For $r > 0$, $R_n \geq r$ means that the $\lceil r\rceil$ digits from position $n$ on are $1$, so $\lambda(R_n \geq r) = 2^{-\lceil r\rceil} \leq 2^{-r}$ by
+Lemma~\ref{measure-theory:lemma-binary-digits}(1). For $\varepsilon > 0$ and $r = (1 + \varepsilon)\log_2n$ this is at most $n^{-1-\varepsilon}$, which is summable. By
+Theorem~\ref{measure-theory:theorem-borel-cantelli}(1), for almost every $x$ we have $R_n(x) < (1 + \varepsilon)\log_2n$ for all large $n$, so the $\limsup$ is at most $1 + \varepsilon$. Let
+$\varepsilon = 1/m$, $m = 1, 2, \ldots$, and discard countably many null sets.
+
+\emph{Lower bound.} We need independent events, so we use disjoint windows. For $j \geq 2$ let $L_j = \lfloor\log_2j\rfloor \geq 1$, $s_2 = 1$ and $s_{j+1} = s_j + L_j$, so that the windows
+$W_j = \{s_j, \ldots, s_j + L_j - 1\}$ are disjoint. Let $E_j$ be the event that all digits in $W_j$ are $1$; then $E_j \subseteq \{R_{s_j} \geq L_j\}$, and $\lambda(E_j) = 2^{-L_j} \geq 1/j$. The $E_j$ are
+independent (Lemma~\ref{measure-theory:lemma-binary-digits}(2)) and $\sum_j1/j = \infty$, so by Theorem~\ref{measure-theory:theorem-borel-cantelli}(2) almost every $x$ lies in infinitely many $E_j$. Now
+$s_j = 1 + \sum_{2 \leq i < j}L_i \leq j\log_2j$, so $\log_2s_j \leq \log_2j + \log_2\log_2j$, while $L_j \geq \log_2j - 1$. Hence for such $x$,
+\[
+\frac{R_{s_j}(x)}{\log_2s_j} \geq \frac{\log_2j - 1}{\log_2j + \log_2\log_2j}
+\]
+for infinitely many $j$, and the right side tends to $1$. So the $\limsup$ is at least $1$.
+\end{proof}
+
+So among the first $n$ tosses of a fair coin one should expect a run of heads of length about $\log_2n$, and no essentially longer one: about $10$ in a thousand tosses, $20$ in a million. This is a form
+of the \emph{Erd\H{o}s--R\'enyi law of long runs}; people asked to write down ``random'' sequences typically avoid such long runs, which is a simple way to detect fake randomness.
+
+The most famous application of the first lemma is Borel's theorem that almost every number is \emph{normal}: its digits appear with the frequencies one expects. We prove the simplest case.
+
+\begin{theorem}[Borel's normal number theorem]\label{measure-theory:theorem-borel-normal}
+For almost every $x \in [0, 1)$,
+\[
+\lim_{n \to \infty}\frac{d_1(x) + d_2(x) + \cdots + d_n(x)}{n} = \frac12 .
+\]
+\end{theorem}
+
+\begin{proof}
+Let $\rho_k = 2d_k - 1 \in \{-1, 1\}$ and $S_n = \rho_1 + \cdots + \rho_n$; the claim is $S_n/n \to 0$ almost everywhere.
+
+\emph{Step 1: the fourth moment.} Expanding,
+$\int_0^1S_n^4 = \sum_{i, j, k, l \leq n}\int_0^1\rho_i\rho_j\rho_k\rho_l$. Since $\rho^2 = 1$, a product $\rho_i\rho_j\rho_k\rho_l$ in which some index occurs an odd number of times reduces to a product
+$\rho_a$ or $\rho_a\rho_b$ ($a \neq b$), whose integral is $\int\rho_a \cdot \int\rho_b = 0$ by Lemma~\ref{measure-theory:lemma-binary-digits}(3), because $\int_0^1\rho_a = \frac12 - \frac12 = 0$. The
+remaining terms equal $1$: either all four indices are equal ($n$ terms), or they take two different values, each twice ($3n(n - 1)$ terms: choose which of the three pairings of the four places carry equal
+indices, then the two values in order). So $\int_0^1S_n^4 = n + 3n(n - 1) \leq 3n^2$.
+
+\emph{Step 2: Borel--Cantelli.} Let $\varepsilon > 0$. By Markov's inequality (Corollary~\ref{measure-theory:corollary-integral-properties}(4)) applied to $S_n^4$,
+\[
+\lambda\bigl(|S_n| \geq \varepsilon n\bigr) \leq \frac{1}{\varepsilon^4n^4}\int_0^1S_n^4 \leq \frac{3}{\varepsilon^4n^2},
+\]
+which is summable in $n$. By Theorem~\ref{measure-theory:theorem-borel-cantelli}(1), for almost every $x$ we have $|S_n(x)| < \varepsilon n$ for all large $n$. Taking $\varepsilon = 1/m$ for all $m$ and
+discarding countably many null sets, $S_n/n \to 0$ almost everywhere. Since $d_k = (1 + \rho_k)/2$, the average of the first $n$ digits is $\frac12 + S_n/(2n) \to \frac12$.
+\end{proof}
+
+\begin{remark}\label{measure-theory:remark-normal-numbers}
+The same argument, applied to the blocks of Example~\ref{measure-theory:example-infinite-monkey} and to expansions in any base $b \geq 2$, shows that almost every real number is \emph{normal in every base}:
+in base $b$, each block of $m$ digits occurs with limiting frequency $b^{-m}$ \cite{borel-1909}. The theorem is the strong law of large numbers for fair coin tosses. It is a striking example of an
+existence proof by measure: almost all numbers are normal, yet it is not known whether $\sqrt2$, $e$ or $\pi$ is normal in any base. Explicit normal numbers can be constructed, such as Champernowne's
+number $0.123456789101112\ldots$, obtained by writing the positive integers one after another, which is normal in base $10$ \cite{champernowne-1933}.
+\end{remark}
+
+\begin{example}\label{measure-theory:example-diophantine}
+\emph{Almost no number is very well approximable.} By Dirichlet's approximation theorem (Exercise~\ref{measure-theory:exercise-dirichlet-approximation}), every irrational $x$ has infinitely many
+approximations $p/q$ with $|x - p/q| < 1/q^2$. The exponent $2$ cannot be improved for almost all $x$. Fix $\varepsilon > 0$ and for $q \geq 1$ let $A_q$ be the set of $x \in [0, 1]$ for which some integer
+$p$ satisfies $|x - p/q| < q^{-2-\varepsilon}$. Only $p = -1, 0, \ldots, q + 1$ can occur, so $A_q$ is covered by $q + 3$ intervals of length $2q^{-2-\varepsilon}$, and
+$\lambda(A_q) \leq 2(q + 3)q^{-2-\varepsilon} \leq 8q^{-1-\varepsilon}$, which is summable. By Theorem~\ref{measure-theory:theorem-borel-cantelli}(1), almost every $x$ lies in only finitely many $A_q$, and
+hence has only finitely many approximations with $|x - p/q| < q^{-2-\varepsilon}$. In particular the \emph{Liouville numbers}, the irrational $x$ that for every $n$ have an approximation $p/q$ with $q \geq 2$ and
+$|x - p/q| < q^{-n}$, form a null set. An example is $\sum_{k \geq 1}10^{-k!}$: cutting the series after the term $k = m$ gives $p/q$ with $q = 10^{m!}$ and error less than
+$2 \cdot 10^{-(m+1)!} = 2q^{-(m+1)}$.
+\end{example}
 
 \section{Littlewood's principles and Lusin's theorem}\label{measure-theory:section-lusin}
 
@@ -2524,4 +2694,33 @@ $\Phi(R) = \int_0^R\eta(r)\,dr$ with $\eta(r) = r^{n-1}\int_{S^{n-1}}g(r\theta)\
 continuity of $g$ on a compact ball, and $\mathcal{H}^{n-1}(S^{n-1}) = n\omega_n < \infty$; so $\eta$ is continuous on $[0, \infty)$, and $\Phi^{\prime}(R) = \eta(R)$ by the fundamental theorem of calculus
 (Theorem~\ref{real-analysis:theorem-ftc}). By the scaling in the proof of Corollary~\ref{measure-theory:corollary-polar}, $\eta(R) = \int_{|x| = R}g\,d\mathcal{H}^{n-1}$. Finally
 $\eta(R)/(n\omega_nR^{n-1}) - g(0) = \frac{1}{n\omega_n}\int_{S^{n-1}}(g(R\theta) - g(0))\,d\mathcal{H}^{n-1}(\theta)$, which is at most $\sup_{|x| = R}|g(x) - g(0)| \to 0$ in absolute value.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-dirichlet-approximation}
+(\emph{Dirichlet's approximation theorem.}) Let $x \in \RR$ and $N \geq 1$. Using the pigeonhole principle for the $N + 1$ numbers $kx - \lfloor kx\rfloor \in [0, 1)$, $k = 0, \ldots, N$, show that there
+are integers $p, q$ with $1 \leq q \leq N$ and $|qx - p| < 1/N$. Deduce that an irrational $x$ has infinitely many approximations $p/q$ with $|x - p/q| < 1/q^2$.
+\end{exercise}
+
+\begin{solution}
+Divide $[0, 1)$ into the $N$ intervals $[\frac{i}{N}, \frac{i+1}{N})$. Two of the $N + 1$ numbers, for $k < l$ say, lie in the same interval, so $|(l - k)x - (\lfloor lx\rfloor - \lfloor kx\rfloor)| < 1/N$; take
+$q = l - k$ and $p = \lfloor lx\rfloor - \lfloor kx\rfloor$. Then $|x - p/q| < 1/(qN) \leq 1/q^2$, and also $|x - p/q| < 1/N$. Writing $p/q$ in lowest terms $p^{\prime}/q^{\prime}$ with $q^{\prime} \leq q$ keeps
+$|x - p^{\prime}/q^{\prime}| < 1/q^2 \leq 1/q^{\prime 2}$. If $x$ is irrational, no fraction equals $x$, so a finite set of fractions has positive minimal distance from $x$; since letting $N \to \infty$ produces
+fractions arbitrarily close to $x$, we obtain infinitely many distinct ones.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-decimal-blocks}
+For $x \in [0, 1)$ let $e_k(x) = \lfloor 10^kx\rfloor - 10\lfloor 10^{k-1}x\rfloor$ be its decimal digits. Show that for almost every $x$:
+\begin{enumerate}
+\item every finite block of decimal digits occurs infinitely often among the $e_k(x)$;
+\item the frequency $\frac1n\#\{k \leq n : e_k(x) = 7\}$ tends to $\frac1{10}$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+The analogue of Lemma~\ref{measure-theory:lemma-binary-digits} holds with the same proof: prescribing the digits at the positions of a finite set $S$ defines a set of measure $10^{-|S|}$, a union of
+decimal intervals of length $10^{-K}$, $K = \max S$, and events determined by disjoint sets of positions are independent, with the product formula for integrals. (1) is then proved as in
+Example~\ref{measure-theory:example-infinite-monkey}, with probability $10^{-m}$ for a block of length $m$. For (2) let $\rho_k = \mathbf{1}_{\{e_k = 7\}} - \frac1{10}$, so $\int\rho_k = 0$ and $|\rho_k| \leq 1$, and
+$S_n = \rho_1 + \cdots + \rho_n$. In $\int S_n^4 = \sum\int\rho_i\rho_j\rho_k\rho_l$, a term in which some index occurs exactly once vanishes by the product formula. The remaining terms have all indices equal
+($n$ terms) or two values each occurring twice ($3n(n - 1)$ terms), and each is at most $1$ in absolute value; so $\int S_n^4 \leq 3n^2$, and Step 2 of the proof of
+Theorem~\ref{measure-theory:theorem-borel-normal} applies verbatim.
 \end{solution}

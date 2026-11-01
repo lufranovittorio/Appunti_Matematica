@@ -25,6 +25,25 @@ Let $U \subseteq \CC$ be open. A function $f \colon U \to \CC$ is \emph{holomorp
 \emph{entire} function is one holomorphic on $\CC$.
 \end{definition}
 
+The definition looks exactly like the one for real functions, but $h$ now tends to $0$ through all complex numbers, from every direction at once, and the difference quotient must have the same limit
+along all of them. This single requirement turns out to be extraordinarily strong: it implies that $f$ has derivatives of all orders and is given by its Taylor series
+(Theorem~\ref{complex-analysis:theorem-analytic} and Corollary~\ref{complex-analysis:corollary-smooth-harmonic}). Before seeing why, let us compute a few derivatives directly from the definition.
+
+\begin{example}\label{complex-analysis:example-derivative-definition}
+Let $a \in \CC$ and $h \in \CC^\times$ small.
+\begin{enumerate}
+\item $f(z) = z^n$, $n \geq 1$. By the binomial theorem $(a + h)^n - a^n = na^{n-1}h + \sum_{k = 2}^n\binom nka^{n-k}h^k$, so the difference quotient is
+$na^{n-1} + \sum_{k = 2}^n\binom nka^{n-k}h^{k-1} \to na^{n-1}$. So $(z^n)^{\prime} = nz^{n-1}$, as over $\RR$.
+\item $f(z) = 1/z$ on $\CC^\times$. For $a \neq 0$ and $|h| < |a|$, $\frac1h\bigl(\frac1{a + h} - \frac1a\bigr) = \frac{-1}{a(a + h)} \to -\frac1{a^2}$.
+\item $f(z) = \bar z$. The difference quotient is $\bar h/h$, which equals $1$ for real $h$ and $-1$ for purely imaginary $h$. So the limit exists at no point: $\bar z$ is a perfectly smooth map of the
+plane, an isometry even, but it is nowhere complex differentiable. The same happens for $\operatorname{Re}z$, whose quotient $\operatorname{Re}h/h$ is $1$ on the real axis and $0$ on the imaginary
+axis.
+\item $f(z) = |z|^2 = z\bar z$. Here $|a + h|^2 - |a|^2 = \bar ah + a\bar h + |h|^2$, so the quotient is $\bar a + a\,\bar h/h + \bar h$. For $a = 0$ it is $\bar h \to 0$; for $a \neq 0$ the middle term
+$a\,\bar h/h$ has no limit, by (3). So $|z|^2$ is complex differentiable at $0$ and nowhere else. A function can be complex differentiable at a single point; ``holomorphic'' asks for it at every point
+of an open set, and all the theory below depends on this.
+\end{enumerate}
+\end{example}
+
 \begin{proposition}[Cauchy--Riemann]\label{complex-analysis:proposition-cauchy-riemann}
 Identify $\CC$ with $\RR^2$ and write $f = u + iv$. Then $f$ is holomorphic at $a$ if and only if $f$ is differentiable at $a$ as a map of real variables
 (Definition~\ref{real-analysis:definition-differentiable}) and its derivative is complex linear, which holds if and only if
@@ -44,6 +63,43 @@ Proposition~\ref{real-analysis:proposition-derivative-rules}, whose proofs are v
 \begin{example}\label{complex-analysis:example-holomorphic}
 Polynomials are entire; $1/z$ is holomorphic on $\CC^\times$; power series are holomorphic in their disc of convergence, with the termwise derivative
 (Theorem~\ref{real-analysis:theorem-power-series-derivative}); $\exp$ is entire with $\exp' = \exp$. The function $\bar z$ is nowhere holomorphic, since $\partial_xu = 1 \neq -1 = \partial_yv$.
+\end{example}
+
+The Cauchy--Riemann equations have a geometric meaning. A real linear map $\RR^2 \to \RR^2$ is complex linear exactly when its matrix is
+$\left(\begin{smallmatrix} \alpha & -\beta \\ \beta & \alpha \end{smallmatrix}\right)$, that is, when it is multiplication by $c = \alpha + i\beta = |c|e^{i\varphi}$: a rotation by $\varphi$ followed by
+a dilation by $|c|$. So near a point where $f^{\prime}(a) \neq 0$, a holomorphic map looks, to first order, like a rotation and a dilation, which preserve angles and orientation. Maps with this property are
+called \emph{conformal}, and the converse also holds.
+
+\begin{proposition}\label{complex-analysis:proposition-conformal}
+\begin{enumerate}
+\item Let $f$ be holomorphic near $a$ with $f^{\prime}(a) \neq 0$, and let $\gamma_1, \gamma_2$ be $C^1$ curves with $\gamma_1(0) = \gamma_2(0) = a$ and nonzero tangent vectors $\gamma_1^{\prime}(0), \gamma_2^{\prime}(0)$.
+Then $(f \circ \gamma_j)^{\prime}(0) = f^{\prime}(a)\gamma_j^{\prime}(0)$. Hence the image curves have tangent vectors rotated by the same angle $\arg f^{\prime}(a)$ and stretched by the same factor
+$|f^{\prime}(a)|$, and the oriented angle between them equals that between $\gamma_1$ and $\gamma_2$.
+\item Conversely, let $f$ be real differentiable at $a$ with $A = Df(a)$ invertible, and suppose that $A$ preserves oriented angles, that is, $Aw/Av$ and $w/v$ have the same argument for all nonzero
+$v, w \in \CC$. Then $f$ is complex differentiable at $a$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By the chain rule (Proposition~\ref{real-analysis:proposition-derivative-rules}) and Proposition~\ref{complex-analysis:proposition-cauchy-riemann},
+$(f \circ \gamma_j)^{\prime}(0) = Df(a)\gamma_j^{\prime}(0) = f^{\prime}(a)\gamma_j^{\prime}(0)$. The quotient of the two image tangent vectors is $\gamma_2^{\prime}(0)/\gamma_1^{\prime}(0)$, the same as for the original
+ones, and the oriented angle from one vector to another is the argument of this quotient.
+
+(2) Let $p = A(1) \neq 0$ and $q = A(i)$. The oriented angle from $1$ to $i$ is $\frac\pi2$, so $q/p$ has argument $\frac\pi2$: $q = itp$ for some $t > 0$. The oriented angle from $1$ to $1 + i$ is $\frac\pi4$, so
+$A(1 + i)/A(1) = (p + q)/p = 1 + it$ has argument $\frac\pi4$, which forces $t = 1$. Hence $A(x + iy) = xp + yip = (x + iy)p$: $A$ is multiplication by $p$, so it is complex linear, and $f$ is
+complex differentiable at $a$ with $f^{\prime}(a) = p$ by Proposition~\ref{complex-analysis:proposition-cauchy-riemann}.
+\end{proof}
+
+\begin{example}\label{complex-analysis:example-conformal}
+\begin{enumerate}
+\item \emph{Critical points.} For $f(z) = z^2$ and $a = 0$, where $f^{\prime}(0) = 0$, angles are not preserved but doubled: the ray $\{re^{i\theta} : r > 0\}$ is mapped to the ray $\{r^2e^{2i\theta}\}$. In
+general, near a zero of order $m$ of $f^{\prime}$ the map multiplies angles by $m + 1$; this follows from the local form of holomorphic maps (Theorem~\ref{complex-analysis:theorem-open-mapping}).
+\item \emph{The exponential.} $e^{x + iy} = e^xe^{iy}$ maps the vertical line $x = x_0$ onto the circle of radius $e^{x_0}$, and the horizontal line $y = y_0$ onto the ray of argument $y_0$. The lines of the
+grid meet at right angles, and so do their images, circles and rays from the origin, as Proposition~\ref{complex-analysis:proposition-conformal} predicts, since $\exp^{\prime} = \exp$ never vanishes.
+\item \emph{Reflection.} $z \mapsto \bar z$ preserves the size of angles but reverses their orientation, and it is not holomorphic
+(Example~\ref{complex-analysis:example-derivative-definition}(3)). The argument in (2) adapts: an invertible real linear map that preserves unoriented angles is either complex linear or of the form
+$z \mapsto p\bar z$, so the maps that preserve unoriented angles, at points where the derivative is invertible, are the holomorphic and the \emph{antiholomorphic} ones (those $f$ with $\bar f$ holomorphic).
+\end{enumerate}
 \end{example}
 
 \begin{definition}\label{complex-analysis:definition-path-integral}
@@ -66,7 +122,31 @@ Proposition~\ref{real-analysis:proposition-riemann}. If $f = F'$, then $(F \circ
 circle and $n \neq -1$, $(z - a)^n$ has the primitive $(z - a)^{n+1}/(n + 1)$; for $n = -1$ the integral is $\int_0^12\pi i\,dt$.
 \end{proof}
 
+\begin{example}\label{complex-analysis:example-path-integrals}
+\begin{enumerate}
+\item \emph{A function without primitive.} Let $\gamma(t) = e^{2\pi it}$, $t \in [0, 1]$, be the unit circle. On it $\bar z = e^{-2\pi it}$ and $\gamma^{\prime}(t) = 2\pi ie^{2\pi it}$, so
+$\int_\gamma\bar z\,dz = \int_0^12\pi i\,dt = 2\pi i \neq 0$. By Lemma~\ref{complex-analysis:lemma-path-integral}, $\bar z$ is not the derivative of a holomorphic function on any open set containing the
+circle.
+\item \emph{Dependence on the path.} Integrate $\bar z$ from $0$ to $1 + i$ in two ways. Along the segment $\gamma(t) = t(1 + i)$: $\int_0^1t(1 - i)(1 + i)\,dt = \int_0^12t\,dt = 1$. Along the segment from
+$0$ to $1$ followed by the segment from $1$ to $1 + i$, parametrised by $t$ and $1 + it$: $\int_0^1t\,dt + \int_0^1(1 - it)\,i\,dt = \frac12 + \bigl(i + \frac12\bigr) = 1 + i$. The results differ. For a
+function with a primitive, such as $z^2 = (z^3/3)^{\prime}$, every path from $0$ to $1 + i$ gives $(1 + i)^3/3$.
+\item \emph{A holomorphic function without primitive.} $1/z$ is holomorphic on $\CC^\times$, yet $\int_\gamma dz/z = 2\pi i$ over the unit circle (Lemma~\ref{complex-analysis:lemma-path-integral}); so $1/z$ has no
+primitive on $\CC^\times$, that is, there is no holomorphic logarithm on $\CC^\times$. What goes wrong is the hole at $0$: Cauchy's theorem below says that integrals of holomorphic functions over closed
+paths vanish when the path can be shrunk to a point inside the domain.
+\end{enumerate}
+\end{example}
+
 \section{Cauchy's theorem}\label{complex-analysis:section-cauchy}
+
+Example~\ref{complex-analysis:example-path-integrals} shows that integrals over closed paths need not vanish, either because the function is not holomorphic ($\bar z$) or because the domain has a hole
+($1/z$). Cauchy's theorem says that these are the only obstructions. For a function $f = u + iv$ of class $C^1$ on a neighbourhood of a triangle $T$ there is a quick argument, using Green's formula
+$\int_{\partial T}(P\,dx + Q\,dy) = \iint_T(\partial_xQ - \partial_yP)\,dx\,dy$ (proved in Chapter~\ref{differential-forms} in the language of forms) with $P = f$ and $Q = if$, since $dz = dx + i\,dy$:
+\[
+\int_{\partial T}f\,dz = \iint_T\bigl(i\,\partial_xf - \partial_yf\bigr)\,dx\,dy = 0,
+\]
+because the Cauchy--Riemann equations say exactly that $\partial_yf = i\,\partial_xf$ (Proposition~\ref{complex-analysis:proposition-cauchy-riemann}: $\partial_yf = \partial_yu + i\partial_yv = -\partial_xv + i\partial_xu$).
+Goursat's theorem proves the same conclusion assuming only that $f^{\prime}$ exists, without its continuity, by subdividing the triangle and using the linear approximation of $f$ at one point. This is
+what later allows us to prove, rather than assume, that holomorphic functions are smooth.
 
 \begin{theorem}[Goursat]\label{complex-analysis:theorem-goursat}
 Let $U$ be open, $p \in U$, and $f \colon U \to \CC$ continuous on $U$ and holomorphic on $U \setminus \{p\}$. Then $\int_{\partial T}f = 0$ for every closed triangle $T \subseteq U$, where $\partial T$ is its
@@ -945,4 +1025,35 @@ If $f^{\prime} = 0$ on $U$, then $f$ is constant on every disc in $U$ (Lemma~\re
 complement, and $f$ is constant since $U$ is connected. (1) If $u$ is constant, $\partial_xu = \partial_yu = 0$, so $\partial_xv = -\partial_yu = 0$ by the Cauchy--Riemann equations, and
 $f^{\prime} = \partial_xu + i\partial_xv = 0$. (2) Then $v = 0$, and $-if = v - iu$ has constant real part; apply (1). (3) If $|f|^2$ is constant, then $0 = \Delta|f|^2 = 4|f^{\prime}|^2$ by
 Example~\ref{complex-analysis:example-harmonic}(3). (4) Then $f + \bar f = 2u$ is holomorphic and real valued; by (2) $u$ is constant, and (1) applies.
+\end{solution}
+
+\begin{exercise}\label{complex-analysis:exercise-polar-cauchy-riemann}
+(\emph{Cauchy--Riemann equations in polar coordinates.}) Let $f = u + iv$ be real differentiable on an open set $U \subseteq \CC^\times$, and write $z = re^{i\theta}$. Show that $f$ is holomorphic if and
+only if
+\[
+\partial_ru = \frac1r\partial_\theta v, \qquad \partial_rv = -\frac1r\partial_\theta u,
+\]
+and that then $f^{\prime}(z) = e^{-i\theta}\partial_rf$. Deduce that the principal logarithm $\operatorname{Log}z = \log r + i\theta$, $-\pi < \theta < \pi$, is holomorphic on $\CC \setminus (-\infty, 0]$ with
+derivative $1/z$.
+\end{exercise}
+
+\begin{solution}
+By the chain rule, $\partial_r = \cos\theta\,\partial_x + \sin\theta\,\partial_y$ and $\partial_\theta = -r\sin\theta\,\partial_x + r\cos\theta\,\partial_y$ on functions of $(x, y) = (r\cos\theta, r\sin\theta)$. Hence
+\[
+\partial_\theta f - ir\,\partial_rf = r\bigl((-\sin\theta - i\cos\theta)\partial_xf + (\cos\theta - i\sin\theta)\partial_yf\bigr) = -ire^{-i\theta}\bigl(\partial_xf + i\,\partial_yf\bigr).
+\]
+The Cauchy--Riemann equations say $\partial_xf + i\,\partial_yf = 0$ (its real and imaginary parts are $\partial_xu - \partial_yv$ and $\partial_xv + \partial_yu$). So $f$ is holomorphic if and only if
+$\partial_\theta f = ir\,\partial_rf$, whose real and imaginary parts are the stated equations. Then $\partial_rf = \cos\theta\,f^{\prime} + \sin\theta\,if^{\prime} = e^{i\theta}f^{\prime}$. For
+$\operatorname{Log}$, which is real differentiable because $(r, \theta)$ are smooth functions of $(x, y)$ on the slit plane, $u = \log r$ and $v = \theta$ give $\partial_ru = \frac1r = \frac1r\partial_\theta v$ and
+$\partial_rv = 0 = -\frac1r\partial_\theta u$, and $\operatorname{Log}^{\prime}(z) = e^{-i\theta}/r = 1/z$.
+\end{solution}
+
+\begin{exercise}\label{complex-analysis:exercise-circle-monomials}
+For integers $m, n \geq 0$ compute $\int_\gamma z^n\bar z^m\,dz$ over the unit circle $\gamma(t) = e^{2\pi it}$. Deduce that a polynomial $p(z, \bar z) = \sum c_{nm}z^n\bar z^m$ satisfies
+$\int_\gamma p\,dz = 2\pi i\sum_nc_{n,n+1}$; in particular this integral can be nonzero only if $p$ really involves $\bar z$.
+\end{exercise}
+
+\begin{solution}
+On the circle $\bar z = 1/z$, so the integrand is $z^{n-m}$, and by Lemma~\ref{complex-analysis:lemma-path-integral} the integral is $2\pi i$ if $n - m = -1$ and $0$ otherwise. The formula for $p$ follows by
+linearity, and if $p$ does not involve $\bar z$ then $c_{n,n+1} = 0$ for all $n$.
 \end{solution}
