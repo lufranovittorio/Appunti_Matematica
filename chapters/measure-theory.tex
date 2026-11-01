@@ -13,8 +13,10 @@ Lebesgue integrals, with the Cantor function as a counterexample), Fubini's theo
 change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It then treats Radon measures as positive linear functionals
 (the Riesz--Markov theorem, Theorem~\ref{measure-theory:theorem-riesz-markov}), weak convergence of measures and its compactness theorem, and the differentiation of measures with respect to
 Lebesgue measure, with Lebesgue's theorem on the differentiability of monotone functions. It ends with an introduction to
-geometric measure theory: Hausdorff measures and Hausdorff dimension (with the Cantor set as example), Rademacher's theorem on the differentiability of Lipschitz maps, and the area formula,
-which computes the $k$-dimensional measure of parametrised sets (Sections~\ref{measure-theory:section-hausdorff}--\ref{measure-theory:section-area-formula}).
+geometric measure theory: Hausdorff measures and Hausdorff dimension (with the Cantor set as example), box-counting dimension and self-similar sets such as the Sierpi\'nski gasket and the
+Koch curve, whose dimension is computed by Moran's equation (Theorem~\ref{measure-theory:theorem-moran}), Rademacher's theorem on the differentiability of Lipschitz maps, the area formula,
+which computes the $k$-dimensional measure of parametrised sets, the coarea formula with integration in polar coordinates, and densities and rectifiable sets
+(Sections~\ref{measure-theory:section-hausdorff}--\ref{measure-theory:section-densities}).
 References: \cite{rudin-rca} and \cite{folland-real}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{real-analysis} (Real Analysis).
@@ -1348,8 +1350,8 @@ setting of geometric measure theory, where $\mu$ is often a Hausdorff measure re
 Lebesgue measure $\lambda^n$ measures $n$-dimensional volume in $\RR^n$, but it does not see lower-dimensional sets: a curve in the plane, or a surface in space, has measure $0$. How long is
 a curve, and what is the area of a surface, without choosing a parametrisation? And how big is the Cantor set, which has measure $0$ and is uncountable? Hausdorff measures answer these
 questions at once: for every $s \geq 0$ there is an $s$-dimensional measure $\mathcal{H}^s$ on any metric space, defined by covering a set with small sets $C$ and adding up
-$(\operatorname{diam}C)^s$. This and the next two sections are an introduction to \emph{geometric measure theory}: Hausdorff measure and dimension, differentiability of Lipschitz maps,
-and the area formula, which computes $\mathcal{H}^k$ of parametrised $k$-dimensional sets. We follow \cite[Chapters 2--3]{evans-gariepy}; the comprehensive reference is
+$(\operatorname{diam}C)^s$. This and the following sections are an introduction to \emph{geometric measure theory}: Hausdorff measure and dimension, self-similar sets, differentiability of
+Lipschitz maps, the area formula, which computes $\mathcal{H}^k$ of parametrised $k$-dimensional sets, the coarea formula, which slices sets by level sets, and densities and rectifiable sets. We follow \cite[Chapters 2--3]{evans-gariepy}; the comprehensive reference is
 \cite{federer-gmt}.
 
 Throughout, $X$ is a metric space, $\operatorname{diam}C = \sup\{d(x, y) : x, y \in C\}$ for $C \neq \emptyset$, and $\operatorname{diam}\emptyset = 0$. For $s \geq 0$ let
@@ -1476,6 +1478,302 @@ $1 = \mu(C) \leq \sum_i\mu(U_i \cap [0, 1]) \leq 2\sum_i(\operatorname{diam}U_i)
 The argument in (4), bounding the mass that a measure on $A$ gives to small sets, is the \emph{mass distribution principle}, the standard way to bound Hausdorff measures from below. So the Cantor
 set is too small to have positive length but too large to have zero $s$-dimensional measure for any $s < \log 2/\log 3 \approx 0.63$.
 \end{example}
+
+\section{Self-similar sets}\label{measure-theory:section-self-similar}
+
+The Cantor set $C$ is the union of two copies of itself, $C/3$ and $C/3 + 2/3$, each scaled by the factor $\frac13$. If we only knew that $0 < \mathcal{H}^s(C) < \infty$ for some $s$, the scaling property
+of Proposition~\ref{measure-theory:proposition-hausdorff}(3) would already give the value of $s$: the two copies are disjoint Borel sets, so
+$\mathcal{H}^s(C) = 2 \cdot 3^{-s}\mathcal{H}^s(C)$, and $3^s = 2$. Many sets that come up in analysis and dynamics, usually called \emph{fractals}, are built in the same way from finitely many
+scaled copies of themselves, and their dimension can be read off from the scaling factors. This section makes the heuristic rigorous: we construct such sets in general
+(Theorem~\ref{measure-theory:theorem-hutchinson}), and compute their dimension when the copies are disjoint (Theorem~\ref{measure-theory:theorem-moran}). Along the way we meet a second notion of
+dimension, which is cruder than the Hausdorff dimension but easier to compute. References: \cite{falconer-fractal}, \cite{hutchinson-1981}.
+
+\subsection{Box-counting dimension}\label{measure-theory:subsection-box-dimension}
+
+Hausdorff measure allows covers by sets of very different sizes, and this is what makes it a measure. If instead we cover a set by sets of one fixed size $\delta$ and only count them, we get a
+simpler quantity. A segment of length $1$ needs about $1/\delta$ sets of diameter $\delta$, a square about $\delta^{-2}$, a cube about $\delta^{-3}$: the exponent is the dimension.
+
+\begin{definition}\label{measure-theory:definition-box-dimension}
+For a nonempty bounded $A \subseteq \RR^n$ and $\delta > 0$, let $N_\delta(A)$ be the smallest number of sets of diameter at most $\delta$ that cover $A$. The \emph{lower} and \emph{upper box-counting
+dimensions} of $A$ are
+\[
+\underline{\dim}_BA = \liminf_{\delta \to 0}\frac{\log N_\delta(A)}{-\log\delta}, \qquad \overline{\dim}_BA = \limsup_{\delta \to 0}\frac{\log N_\delta(A)}{-\log\delta}.
+\]
+If they are equal, their common value is the \emph{box-counting dimension} $\dim_BA$.
+\end{definition}
+
+The number $N_\delta(A)$ is finite: $A$ lies in a cube, which is a finite union of small cubes. The definition says that $N_\delta(A)$ is roughly $\delta^{-\dim_BA}$; more precisely,
+$\overline{\dim}_BA < t$ if and only if $N_\delta(A) \leq \delta^{-t^{\prime}}$ for some $t^{\prime} < t$ and all small $\delta$.
+
+\begin{proposition}\label{measure-theory:proposition-dimension-properties}
+Let $A, A_1, A_2, \ldots$ be subsets of $\RR^n$.
+\begin{enumerate}
+\item (\emph{Countable stability}) $\dim_{\mathcal{H}}\bigcup_kA_k = \sup_k\dim_{\mathcal{H}}A_k$. In particular countable sets have Hausdorff dimension $0$.
+\item If $A$ is nonempty and bounded, $N_\delta(A) = N_\delta(\overline A)$, so $A$ and its closure have the same box-counting dimensions.
+\item If $A$ is nonempty and bounded, $\dim_{\mathcal{H}}A \leq \underline{\dim}_BA \leq \overline{\dim}_BA \leq n$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Since $\mathcal{H}^s$ is monotone, $\dim_{\mathcal{H}}A_k \leq \dim_{\mathcal{H}}\bigcup_kA_k$ for every $k$. Conversely, if $s > \sup_k\dim_{\mathcal{H}}A_k$, then $\mathcal{H}^s(A_k) = 0$ for every $k$, and
+$\mathcal{H}^s(\bigcup_kA_k) = 0$ by countable subadditivity; so $\dim_{\mathcal{H}}\bigcup_kA_k \leq s$. A point has $\mathcal{H}^s$-measure $0$ for every $s > 0$, since it is covered by one set of
+diameter $0$; so a point has dimension $0$, and so has a countable set.
+
+(2) A cover of $A$ by sets of diameter at most $\delta$ gives the cover of $\overline A$ by their closures, which have the same diameters, since a finite union of closed sets is closed. So
+$N_\delta(\overline A) \leq N_\delta(A)$, and the other inequality holds as $A \subseteq \overline A$.
+
+(3) The middle inequality is clear. For the last one, let $A$ lie in a cube of side $\ell$. Dividing it into $m^n$ cubes of side $\ell/m$, of diameter $\ell\sqrt n/m$, with $m$ the smallest integer
+$\geq \ell\sqrt n/\delta$, gives $N_\delta(A) \leq m^n \leq (\ell\sqrt n/\delta + 1)^n$, and $\log N_\delta(A)/(-\log\delta) \leq n\log(\ell\sqrt n + \delta)/(-\log\delta) + n$, whose $\limsup$ as
+$\delta \to 0$ is $n$. For the first inequality, let $s > t > \underline{\dim}_BA$. There are $\delta_j \to 0$ with $\log N_{\delta_j}(A) < t(-\log\delta_j)$, that is, $N_{\delta_j}(A) < \delta_j^{-t}$.
+Covering $A$ by $N_{\delta_j}(A)$ sets of diameter at most $\delta_j$ gives
+\[
+\mathcal{H}^s_{\delta_j}(A) \leq \alpha(s)N_{\delta_j}(A)\delta_j^s \leq \alpha(s)\delta_j^{s - t} \to 0 .
+\]
+As $\mathcal{H}^s_\delta(A)$ increases when $\delta$ decreases, $\mathcal{H}^s(A) = \lim_j\mathcal{H}^s_{\delta_j}(A) = 0$, so $\dim_{\mathcal{H}}A \leq s$. Since $s > \underline{\dim}_BA$ was arbitrary, the
+inequality follows.
+\end{proof}
+
+By (2), box-counting dimension cannot see the difference between a set and its closure: $\QQ \cap [0, 1]$ has box-counting dimension $1$, like $[0, 1]$, while its Hausdorff dimension is $0$ by (1).
+So box-counting dimension is not countably stable, and in general it is not attached to a measure. The inequality in (3) can be strict even for compact sets.
+
+\begin{example}\label{measure-theory:example-box-hausdorff}
+\emph{A compact countable set of box-counting dimension $\frac12$.} Let $E = \{0\} \cup \{1/m : m \geq 1\}$. It is countable, so $\dim_{\mathcal{H}}E = 0$. We show that $\dim_BE = \frac12$. Let
+$0 < \delta < 1$.
+\begin{enumerate}
+\item \emph{Lower bound.} Let $m = \lfloor\delta^{-1/2}\rfloor \geq 1$. For $2 \leq j \leq m$ the consecutive points $1/(j-1)$ and $1/j$ are at distance
+$\frac1{j(j-1)} > \frac1{m^2} \geq \delta$. So the points $1, \frac12, \ldots, \frac1m$ are pairwise more than $\delta$ apart, a set of diameter at most $\delta$ contains at most one of them, and
+$N_\delta(E) \geq m > \delta^{-1/2} - 1$.
+\item \emph{Upper bound.} Let $m = \lceil\delta^{-1/2}\rceil$. The interval $[0, \frac1m]$, which contains all points $1/j$ with $j \geq m$, is covered by $\lceil\frac1{m\delta}\rceil$ intervals of
+length $\delta$, and the remaining $m - 1$ points are covered by singletons. Since $m - 1 < \delta^{-1/2}$ and $\frac1{m\delta} \leq \delta^{-1/2}$, $N_\delta(E) \leq 2\delta^{-1/2} + 1 \leq 3\delta^{-1/2}$.
+\end{enumerate}
+Taking logarithms, $\log(\delta^{-1/2} - 1)/(-\log\delta)$ and $(\log 3 + \frac12(-\log\delta))/(-\log\delta)$ both tend to $\frac12$ as $\delta \to 0$. The reason is that the points $1/j$ are spread
+out for $j$ small and crowded for $j$ large: at scale $\delta$ one sees about $\delta^{-1/2}$ separate points, and the rest look like an interval of length about $\delta^{1/2}$.
+\end{example}
+
+\subsection{Iterated function systems}\label{measure-theory:subsection-iterated-function-systems}
+
+A map $f \colon \RR^n \to \RR^n$ is a \emph{similarity with ratio $r > 0$} if $|f(x) - f(y)| = r|x - y|$ for all $x, y$; for example $f(x) = rOx + b$ with $O$ orthogonal (every similarity has this
+form, but we do not need this). A similarity with ratio $r$ multiplies diameters by $r$, and by Proposition~\ref{measure-theory:proposition-hausdorff}(3), applied to $f$ and to its inverse,
+$\mathcal{H}^s(f(A)) = r^s\mathcal{H}^s(A)$ for every $A$ and $s$.
+
+\begin{definition}\label{measure-theory:definition-ifs}
+An \emph{iterated function system} (of similarities) is a finite family $f_1, \ldots, f_N$ of similarities of $\RR^n$ with ratios $r_1, \ldots, r_N \in (0, 1)$, where $N \geq 2$. For a set $A$ write
+$F(A) = f_1(A) \cup \cdots \cup f_N(A)$. A nonempty compact set $K$ with $F(K) = K$ is called the \emph{attractor} of the system, or a \emph{self-similar set}.
+\end{definition}
+
+It is convenient to use words in the alphabet $\{1, \ldots, N\}$. For a word $w = w_1 \cdots w_k$ of length $|w| = k$ let
+\[
+f_w = f_{w_1} \circ f_{w_2} \circ \cdots \circ f_{w_k}, \qquad r_w = r_{w_1}r_{w_2} \cdots r_{w_k},
+\]
+so that $f_w$ is a similarity with ratio $r_w$; for the empty word $\varnothing$, $f_\varnothing$ is the identity and $r_\varnothing = 1$. Write $wi$ for the word $w$ followed by the letter $i$, and
+$r = \max_ir_i < 1$, so that $r_w \leq r^{|w|}$. For an infinite sequence $\omega = \omega_1\omega_2\cdots$ of letters, $\omega|k = \omega_1 \cdots \omega_k$ is its beginning of length $k$. Since
+$F(A) = \bigcup_if_i(A)$, induction on $k$ gives $F^k(A) = \bigcup_{|w| = k}f_w(A)$.
+
+\begin{theorem}[Hutchinson]\label{measure-theory:theorem-hutchinson}
+Every iterated function system has a unique attractor $K$. Moreover:
+\begin{enumerate}
+\item If $B$ is a nonempty compact set with $F(B) \subseteq B$, then $K = \bigcap_kF^k(B)$; in particular $K \subseteq B$.
+\item Let $K_w = f_w(K)$. Then $K = \bigcup_{|w| = k}K_w$ for every $k$, and $K_w = \bigcup_iK_{wi}$, with $\operatorname{diam}K_w = r_w\operatorname{diam}K$.
+\item Every $x \in K$ has an \emph{address}: an infinite sequence $\omega$ with $x \in K_{\omega|k}$ for all $k$. For every infinite sequence $\omega$, $\bigcap_kK_{\omega|k}$ is a single point.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\emph{Existence, and (1).} First, a compact set $B$ with $F(B) \subseteq B$ exists: let $R = \max_i|f_i(0)|/(1 - r)$ and let $B$ be the closed ball of radius $R$ about $0$. For $|x| \leq R$,
+$|f_i(x)| \leq |f_i(x) - f_i(0)| + |f_i(0)| \leq rR + (1 - r)R = R$. Now let $B$ be any nonempty compact set with $F(B) \subseteq B$. Applying $F$, which preserves inclusions, gives
+$B \supseteq F(B) \supseteq F^2(B) \supseteq \cdots$, a decreasing sequence of nonempty compact sets (finite unions of continuous images of compact sets). Their intersection $K$ is nonempty and compact. To
+see $F(K) = K$, note that $f_i(K) = \bigcap_kf_i(F^k(B))$ since $f_i$ is injective, so
+\[
+F(K) = \bigcup_i\bigcap_kf_i(F^k(B)) \qquad\text{and}\qquad K = \bigcap_kF^{k+1}(B) = \bigcap_k\bigcup_if_i(F^k(B)).
+\]
+The first set is contained in the second. Conversely, if $x$ lies in $\bigcup_if_i(F^k(B))$ for every $k$, then there is one $i$ with $x \in f_i(F^k(B))$ for infinitely many $k$, and so for all $k$, as
+these sets decrease with $k$. So the two sets are equal.
+
+\emph{Uniqueness.} Let $A$ and $K$ be nonempty compact sets with $F(A) = A$ and $F(K) = K$, and $D = \max\{|a - y| : a \in A, y \in K\}$. Fix $k$. Since $A = F^k(A)$, every $a \in A$ is $f_w(a^{\prime})$
+for a word $w$ of length $k$ and some $a^{\prime} \in A$. For any $y \in K$, the point $f_w(y)$ lies in $F^k(K) = K$, and $|a - f_w(y)| = r_w|a^{\prime} - y| \leq r^kD$. So every point of $A$ is
+within $r^kD$ of $K$, for every $k$; as $K$ is closed, $A \subseteq K$. By symmetry $K \subseteq A$.
+
+(2) The first statement is $K = F^k(K)$, the second is $f_w(K) = f_w(F(K)) = \bigcup_if_w(f_i(K))$, and the third holds because $f_w$ multiplies distances by $r_w$.
+
+(3) Since $K = \bigcup_if_i(K)$, a point $x \in K$ can be written $x = f_{\omega_1}(x_1)$ with $x_1 \in K$; then $x_1 = f_{\omega_2}(x_2)$ with $x_2 \in K$, and so on. Then
+$x = f_{\omega|k}(x_k) \in K_{\omega|k}$ for all $k$. For any $\omega$, the sets $K_{\omega|k}$ are nonempty, compact, decreasing by (2), and of diameter at most $r^k\operatorname{diam}K \to 0$; so
+their intersection is one point.
+\end{proof}
+
+\begin{remark}\label{measure-theory:remark-hutchinson}
+Hutchinson's original proof \cite{hutchinson-1981} is an application of the Banach fixed point theorem. The nonempty compact subsets of $\RR^n$ form a complete metric space for the
+\emph{Hausdorff distance} $d_H(A, B) = \inf\{\varepsilon > 0 : A \subseteq B_\varepsilon, B \subseteq A_\varepsilon\}$, where $A_\varepsilon$ is the set of points at distance less than $\varepsilon$ from
+$A$, and $F$ is a contraction with constant $r$ for this distance; the attractor is its fixed point, and $F^k(B) \to K$ for every nonempty compact $B$. This also explains the name: starting from any
+picture $B$, repeatedly replacing it by $N$ smaller copies of itself converges to $K$. The uniqueness proof above is the contraction argument in disguise.
+\end{remark}
+
+\begin{example}\label{measure-theory:example-ifs}
+\begin{enumerate}
+\item \emph{The Cantor set.} $f_1(x) = x/3$, $f_2(x) = x/3 + 2/3$ on $\RR$. The Cantor set $C$, the set of $\sum_ka_k3^{-k}$ with all $a_k \in \{0, 2\}$, satisfies $f_1(C) = \{a_1 = 0\}$ and
+$f_2(C) = \{a_1 = 2\}$, so $F(C) = C$ and $C$ is the attractor. The sets $C_w$ are the parts of $C$ in the intervals $I_w$ of Example~\ref{measure-theory:example-cantor-dimension}, and the
+address of a point is its sequence of ternary digits, with $1$ and $2$ standing for the digits $0$ and $2$.
+\item \emph{An interval.} $f_1(x) = x/2$, $f_2(x) = x/2 + 1/2$. Here $F([0, 1]) = [0, 1]$, so the attractor is $[0, 1]$; addresses are binary expansions, and the dyadic rationals have two addresses.
+\item \emph{The Sierpi\'nski gasket.} Let $p_1, p_2, p_3$ be the vertices of a triangle $T$ in $\RR^2$ and $f_i(x) = (x + p_i)/2$. Then $f_i(T)$ is the triangle with vertex $p_i$ and the midpoints of the two
+sides through $p_i$, so $F(T) \subseteq T$ and the attractor is $S = \bigcap_kF^k(T)$ by (1): at each step every triangle is replaced by its three corner triangles, and the open middle one is
+removed.
+\item \emph{The Koch curve.} In $\RR^2 = \CC$ let $\zeta = e^{i\pi/3}$ and
+\[
+f_1(z) = \tfrac z3, \quad f_2(z) = \tfrac{\zeta z + 1}{3}, \quad f_3(z) = \tfrac{\bar{\zeta}z}{3} + \tfrac12 + \tfrac{i\sqrt3}{6}, \quad f_4(z) = \tfrac{z + 2}{3}.
+\]
+They map the segment $[0, 1]$ to the four sides of the polygon $0, \frac13, \frac12 + \frac{i\sqrt3}{6}, \frac23, 1$, whose middle part is the tip of an equilateral triangle erected on the middle third
+of $[0, 1]$: for instance $f_2(1) = \frac{1 + \zeta}{3} = \frac12 + \frac{i\sqrt3}{6} = f_3(0)$ and $f_3(1) = \frac{\bar{\zeta}}{3} + \frac12 + \frac{i\sqrt3}{6} = \frac23 = f_4(0)$. The attractor is the
+limit of the polygons $F^k([0, 1])$, in the sense of Remark~\ref{measure-theory:remark-hutchinson}.
+\item \emph{The four-corner Cantor set.} For $a \in \{0, \frac34\}^2$ let $f_a(x) = \frac x4 + a$ on $\RR^2$. The four squares $f_a([0, 1]^2)$ are the corner squares of side $\frac14$ of the unit
+square, so the attractor $K_4 \subseteq [0, 1]^2$ is obtained by repeatedly replacing every square by its four corner squares of a quarter of the size. It contains the fixed points $(0, 0)$ and
+$(1, 1)$ of $f_{(0, 0)}$ and $f_{(3/4, 3/4)}$, so $\operatorname{diam}K_4 = \sqrt2$.
+\end{enumerate}
+\end{example}
+
+\subsection{The similarity dimension}\label{measure-theory:subsection-similarity-dimension}
+
+The function $s \mapsto \sum_ir_i^s$ is continuous and strictly decreasing on $[0, \infty)$, equal to $N \geq 2$ at $s = 0$ and tending to $0$ as $s \to \infty$. So there is a unique $s > 0$ with
+\begin{equation}\label{measure-theory:equation-moran}
+r_1^s + r_2^s + \cdots + r_N^s = 1,
+\end{equation}
+the \emph{similarity dimension} of the system. If all ratios equal $\rho$, then $N\rho^s = 1$ and $s = \log N/\log(1/\rho)$: for the Cantor set $s = \log 2/\log 3$, for the interval of
+Example~\ref{measure-theory:example-ifs}(2) $s = 1$, for the Sierpi\'nski gasket $s = \log 3/\log 2 \approx 1.585$, for the Koch curve $s = \log 4/\log 3 \approx 1.262$, and for the
+four-corner set $s = \log 4/\log 4 = 1$. To cover $K$ efficiently by the pieces $K_w$ one should use pieces of comparable sizes, not of equal word length; the following lemma organises this.
+
+\begin{lemma}\label{measure-theory:lemma-cut-sets}
+For $0 < \rho < 1$ let $Q_\rho$ be the set of nonempty words $w$ with $r_w \leq \rho < r_{w^-}$, where $w^-$ is $w$ with its last letter removed. Then every infinite sequence $\omega$ has exactly one
+beginning $\omega|k$ in $Q_\rho$, the set $Q_\rho$ is finite, and
+\[
+\sum_{w \in Q_\rho}r_w^s = 1, \qquad \#Q_\rho \leq (\rho\,r_{\min})^{-s}, \qquad K = \bigcup_{w \in Q_\rho}K_w,
+\]
+where $s$ is the similarity dimension and $r_{\min} = \min_ir_i$.
+\end{lemma}
+
+\begin{proof}
+Along $\omega$ the numbers $r_{\omega|k}$ decrease strictly from $r_{\omega|0} = 1 > \rho$ to $0$, so there is exactly one $k \geq 1$ with $r_{\omega|k} \leq \rho < r_{\omega|(k - 1)}$. Let $k_0$ be such
+that $r^{k_0} \leq \rho$. Every word $w$ of length at least $k_0 + 1$ has $r_{w^-} \leq r^{k_0} \leq \rho$, so it is not in $Q_\rho$; hence $Q_\rho$ is finite. Every word $v$ of length $k_0$ has
+$r_v \leq \rho$, so, applying the first statement to any infinite sequence beginning with $v$, $v$ has exactly one beginning in $Q_\rho$. Grouping the words of length $k_0$ according to this beginning,
+and using that the words of length $k_0$ extending a given $w$ are the $wu$ with $|u| = k_0 - |w|$,
+\[
+1 = \Bigl(\sum_ir_i^s\Bigr)^{k_0} = \sum_{|v| = k_0}r_v^s = \sum_{w \in Q_\rho}\ \sum_{|u| = k_0 - |w|}r_w^sr_u^s = \sum_{w \in Q_\rho}r_w^s\Bigl(\sum_ir_i^s\Bigr)^{k_0 - |w|} = \sum_{w \in Q_\rho}r_w^s .
+\]
+Each $w \in Q_\rho$ has $r_w = r_{w^-}r_{w_{|w|}} > \rho\,r_{\min}$, so $1 \geq \#Q_\rho\,(\rho\,r_{\min})^s$. Finally, if $x \in K$ has address $\omega$ and $\omega|k \in Q_\rho$, then
+$x \in K_{\omega|k}$.
+\end{proof}
+
+\begin{proposition}\label{measure-theory:proposition-similarity-upper}
+Let $K$ be the attractor of an iterated function system with similarity dimension $s$. Then $\mathcal{H}^s(K) \leq \alpha(s)(\operatorname{diam}K)^s$, and $\dim_{\mathcal{H}}K \leq \overline{\dim}_BK \leq s$.
+\end{proposition}
+
+\begin{proof}
+We may assume $d = \operatorname{diam}K > 0$. For $0 < \rho < 1$ the sets $K_w$, $w \in Q_\rho$, cover $K$ by Lemma~\ref{measure-theory:lemma-cut-sets} and have diameter
+$r_wd \leq \rho d$, so
+\[
+\mathcal{H}^s_{\rho d}(K) \leq \sum_{w \in Q_\rho}\alpha(s)(r_wd)^s = \alpha(s)d^s,
+\]
+and $\rho \to 0$ gives the first claim. With $\delta = \rho d$ they also show $N_\delta(K) \leq \#Q_\rho \leq (r_{\min}\delta/d)^{-s}$ for $0 < \delta < d$, so
+$\log N_\delta(K)/(-\log\delta) \leq s + s\log(d/r_{\min})/(-\log\delta)$, whose $\limsup$ is $s$. The remaining inequality is
+Proposition~\ref{measure-theory:proposition-dimension-properties}(3).
+\end{proof}
+
+The upper bound can be far from the truth when the pieces overlap: for $f_1(x) = f_2(x) = x/2$ the attractor is the point $\{0\}$, while $s = 1$. The lower bound needs a condition which prevents such
+overlaps. The simplest one is that the pieces are disjoint.
+
+\begin{theorem}\label{measure-theory:theorem-moran}
+Let $K$ be the attractor of an iterated function system with similarity dimension $s$, and suppose that the sets $f_1(K), \ldots, f_N(K)$ are pairwise disjoint (the \emph{strong separation condition}).
+Then
+\[
+\alpha(s)(r_{\min}\eta)^s \leq \mathcal{H}^s(K) \leq \alpha(s)(\operatorname{diam}K)^s, \qquad \eta = \min_{i \neq j}d(f_i(K), f_j(K)) > 0,
+\]
+and $\dim_{\mathcal{H}}K = \dim_BK = s$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: separation at all scales.} $\eta > 0$ because the $f_i(K)$ are disjoint compact sets. For a word $w$ and $i \neq j$, $f_w$ multiplies distances by $r_w$, so
+$d(K_{wi}, K_{wj}) = r_wd(f_i(K), f_j(K)) \geq r_w\eta$. Let $x, y \in K$ with addresses $\omega$ and $\omega^{\prime}$, and suppose these first differ at position $j$; let $u = \omega|(j - 1)$. Then
+$x \in K_{u\omega_j}$ and $y \in K_{u\omega^{\prime}_j}$, so
+\begin{equation}\label{measure-theory:equation-separation}
+|x - y| \geq r_{\omega|(j - 1)}\,\eta .
+\end{equation}
+In particular, for each $k$ the $N^k$ sets $K_w$ with $|w| = k$ are pairwise disjoint, and each of them is open in $K$, its complement in $K$ being the finite union of the others, which is compact.
+
+\emph{Step 2: the natural measure.} Put $p_w = r_w^s$, so that $\sum_ip_{wi} = p_w\sum_ir_i^s = p_w$, and by induction $\sum_{|u| = l}p_{wu} = p_w$ for every $l$. Fix $x_0 \in K$, put
+$x_w = f_w(x_0) \in K_w$, and for $\varphi \in C(K)$ let
+\[
+S_k(\varphi) = \sum_{|w| = k}p_w\,\varphi(x_w) .
+\]
+Let $\omega_\varphi(t) = \sup\{|\varphi(x) - \varphi(y)| : |x - y| \leq t\}$, which tends to $0$ as $t \to 0$ since $\varphi$ is uniformly continuous on the compact set $K$. For $l > k$, regrouping the words of
+length $l$ by their beginnings of length $k$,
+\[
+|S_l(\varphi) - S_k(\varphi)| = \Bigl|\sum_{|w| = k}\sum_{|u| = l - k}p_{wu}\bigl(\varphi(x_{wu}) - \varphi(x_w)\bigr)\Bigr| \leq \omega_\varphi(r^k\operatorname{diam}K)\sum_{|w| = k}p_w = \omega_\varphi(r^k\operatorname{diam}K),
+\]
+since $x_{wu}$ and $x_w$ both lie in $K_w$. So $(S_k(\varphi))_k$ is a Cauchy sequence, and $\Lambda(\varphi) = \lim_kS_k(\varphi)$ is a positive linear functional on $C(K) = C_c(K)$ with $\Lambda(1) = 1$. By the
+Riesz--Markov theorem (Theorem~\ref{measure-theory:theorem-riesz-markov}) there is a Borel probability measure $\mu$ on $K$ with $\int\varphi\,d\mu = \Lambda(\varphi)$. By Step 1 the indicator
+function $\mathbf{1}_{K_w}$ is continuous on $K$, and for $l \geq k = |w|$ the points $x_v$ with $|v| = l$ lying in $K_w$ are those with $v$ beginning with $w$. Hence
+\[
+\mu(K_w) = \lim_lS_l(\mathbf{1}_{K_w}) = \sum_{|u| = l - k}p_{wu} = p_w = r_w^s .
+\]
+
+\emph{Step 3: the mass of small sets.} Let $U$ be a closed set with $d = \operatorname{diam}U < \eta$; we show $\mu(U \cap K) \leq (d/(r_{\min}\eta))^s$. This is clear if $U \cap K = \emptyset$. Let
+$x \in U \cap K$ have address $\omega$. If $d = 0$, then $\mu(U \cap K) = \mu(\{x\}) \leq \mu(K_{\omega|k}) = r_{\omega|k}^s \to 0$. If $d > 0$, the numbers $r_{\omega|k}\eta$ decrease from $\eta > d$ to $0$,
+so there is a least $k \geq 1$ with $r_{\omega|k}\eta \leq d$, and $r_{\omega|(k - 1)}\eta > d$. Every $y \in U \cap K$ lies in $K_{\omega|(k - 1)}$: otherwise an address of $y$ first differs from
+$\omega$ at a position $j \leq k - 1$, and \eqref{measure-theory:equation-separation} gives $|x - y| \geq r_{\omega|(j - 1)}\eta \geq r_{\omega|(k - 1)}\eta > d$, which is impossible. Therefore
+\[
+\mu(U \cap K) \leq \mu(K_{\omega|(k - 1)}) = r_{\omega|(k - 1)}^s \leq \Bigl(\frac{d}{r_{\min}\eta}\Bigr)^s,
+\]
+the last step because $d \geq r_{\omega|k}\eta = r_{\omega|(k - 1)}r_{\omega_k}\eta \geq r_{\omega|(k - 1)}r_{\min}\eta$.
+
+\emph{Step 4: conclusion.} Let $\delta < \eta$ and let $(U_i)$ be a cover of $K$ by closed sets of diameter at most $\delta$; closed covers suffice to compute $\mathcal{H}^s_\delta$. By Step 3,
+\[
+1 = \mu(K) \leq \sum_i\mu(U_i \cap K) \leq (r_{\min}\eta)^{-s}\sum_i(\operatorname{diam}U_i)^s,
+\]
+so $\mathcal{H}^s_\delta(K) \geq \alpha(s)(r_{\min}\eta)^s$, and the lower bound follows. With Proposition~\ref{measure-theory:proposition-similarity-upper}, $0 < \mathcal{H}^s(K) < \infty$, so
+$\dim_{\mathcal{H}}K = s$, and $s = \dim_{\mathcal{H}}K \leq \underline{\dim}_BK \leq \overline{\dim}_BK \leq s$ by Proposition~\ref{measure-theory:proposition-dimension-properties}(3).
+\end{proof}
+
+Step 3 is the mass distribution principle of Example~\ref{measure-theory:example-cantor-dimension} again; the new ingredient is that the measure is built for us by the Riesz--Markov theorem, once we
+know what it should give to the pieces $K_w$. The measure $\mu$ is in fact the normalised restriction of $\mathcal{H}^s$ to $K$ (Exercise~\ref{measure-theory:exercise-natural-measure}).
+
+\begin{example}\label{measure-theory:example-similarity-dimension}
+\begin{enumerate}
+\item \emph{The Cantor set.} $f_1(C) \subseteq [0, \frac13]$ and $f_2(C) \subseteq [\frac23, 1]$ are disjoint, at distance $\eta = \frac13$, the distance between the points $\frac13$ and $\frac23$ of $C$.
+The theorem gives $\dim_{\mathcal{H}}C = \dim_BC = \log 2/\log 3$ and $\alpha(s)/4 \leq \mathcal{H}^s(C) \leq \alpha(s)$, as $(r_{\min}\eta)^s = 9^{-s} = \frac14$; the direct argument of
+Example~\ref{measure-theory:example-cantor-dimension} gave the better lower bound $\alpha(s)/2$. In fact $\mathcal{H}^s(C) = \alpha(s)$ \cite{falconer-fractal}, but this requires a finer argument.
+\item \emph{A totally disconnected set of dimension $1$.} For the four-corner set $K_4$ of Example~\ref{measure-theory:example-ifs}(5) the four pieces lie in the four corner squares of side $\frac14$,
+which are pairwise at distance at least $\frac12$. So $\dim_{\mathcal{H}}K_4 = 1$ and $0 < \mathcal{H}^1(K_4) \leq \alpha(1)\sqrt2 = \sqrt2$ (note $\alpha(1) = 1$). Yet $K_4$ contains no segment, indeed no
+connected set with more than one point: the sets $(K_4)_w$ are open and closed in $K_4$ by Step 1, and every point has such neighbourhoods of arbitrarily small diameter. So $K_4$ has the dimension and
+the finite positive length of a curve, but none of its geometry; Example~\ref{measure-theory:example-four-corner-projections} and Section~\ref{measure-theory:section-densities} return to this.
+\item \emph{Products.} $C \times C \subseteq \RR^2$ is the attractor of the four maps $(x, y) \mapsto (x/3 + a, y/3 + b)$ with $a, b \in \{0, \frac23\}$ (by uniqueness, since $C \times C$ is compact and
+invariant), whose images lie in the four corner squares of side $\frac13$. So $\dim_{\mathcal{H}}(C \times C) = \log 4/\log 3 = 2\dim_{\mathcal{H}}C$.
+\item \emph{Middle-$\lambda$ Cantor sets.} Removing open middle intervals of relative length $\lambda \in (0, 1)$ instead of $\frac13$ gives the attractor of $x \mapsto \rho x$ and
+$x \mapsto \rho x + 1 - \rho$ with $\rho = (1 - \lambda)/2$, of dimension $\log 2/\log(2/(1 - \lambda))$. As $\lambda$ runs through $(0, 1)$ this takes every value in $(0, 1)$.
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{measure-theory:example-four-corner-projections}
+\emph{Shadows of the four-corner set.} Let $K_4$ be as in Example~\ref{measure-theory:example-ifs}(5). Its projection $\pi_1(x, y) = x$ to the first axis satisfies $\pi_1 \circ f_a = g_{a_1} \circ \pi_1$ with
+$g_0(t) = t/4$ and $g_{3/4}(t) = t/4 + \frac34$. So $\pi_1(K_4)$ is a nonempty compact set with $\pi_1(K_4) = g_0(\pi_1(K_4)) \cup g_{3/4}(\pi_1(K_4))$, the attractor of $\{g_0, g_{3/4}\}$, whose pieces lie in
+$[0, \frac14]$ and $[\frac34, 1]$. By Theorem~\ref{measure-theory:theorem-moran} it has dimension $\log 2/\log 4 = \frac12$, hence length $0$. Now project instead by $\pi(x, y) = x + y/2$. Then
+$\pi \circ f_a = h_a \circ \pi$ with $h_a(t) = t/4 + \pi(a)$, and $\pi(a)$ runs through $0, \frac38, \frac34, \frac98$ as $a$ runs through $(0, 0), (0, \frac34), (\frac34, 0), (\frac34, \frac34)$. The interval
+$[0, \frac32]$ satisfies
+\[
+\bigcup_ah_a\bigl([0, \tfrac32]\bigr) = [0, \tfrac38] \cup [\tfrac38, \tfrac34] \cup [\tfrac34, \tfrac98] \cup [\tfrac98, \tfrac32] = [0, \tfrac32],
+\]
+so by uniqueness of attractors $\pi(K_4) = [0, \frac32]$. The orthogonal projection onto the line spanned by $(2, 1)$ is $\frac{2}{\sqrt5}\pi$ up to an isometry of the line, so the shadow of $K_4$ in this
+direction has length $\frac{3}{\sqrt5}$, while in the direction of the first axis it has length $0$. As orthogonal projections are $1$-Lipschitz, this also gives
+\[
+\frac{3}{\sqrt5} \leq \mathcal{H}^1(K_4) \leq \sqrt2,
+\]
+that is, $1.341\ldots \leq \mathcal{H}^1(K_4) \leq 1.414\ldots$, a much better lower bound than Theorem~\ref{measure-theory:theorem-moran} gives.
+\end{example}
+
+\begin{remark}\label{measure-theory:remark-open-set-condition}
+\emph{Touching pieces.} For the Sierpi\'nski gasket and the Koch curve the pieces $f_i(K)$ touch, so Theorem~\ref{measure-theory:theorem-moran} does not apply, and
+Proposition~\ref{measure-theory:proposition-similarity-upper} only gives the upper bounds $\log 3/\log 2$ and $\log 4/\log 3$ for their dimensions. Equality holds under
+the weaker \emph{open set condition}: there is a nonempty bounded open set $V$ with $f_i(V) \subseteq V$ and the $f_i(V)$ pairwise disjoint (for the gasket, the open triangle; for the Koch curve, the
+open isosceles triangle with base $[0, 1]$ and apex $\frac12 + \frac{i\sqrt3}{6}$). Under this condition $0 < \mathcal{H}^s(K) < \infty$ and $\dim_{\mathcal{H}}K = \dim_BK = s$
+\cite{hutchinson-1981}, \cite[Chapter 9]{falconer-fractal}. The proof follows the same plan: the natural measure exists without any condition, and the open set condition replaces
+\eqref{measure-theory:equation-separation} by a volume argument showing that a ball of radius $\rho$ meets a bounded number of pieces $K_w$, $w \in Q_\rho$.
+\end{remark}
 
 \section{Lipschitz maps and Rademacher's theorem}\label{measure-theory:section-rademacher}
 
@@ -1651,6 +1949,282 @@ gives integration in spherical shells, $\int_{\RR^n}g\,d\lambda = \int_0^\infty\
 \int_\RR\mathcal{H}^{n-1}(\{u = s\})\,ds$, the starting point of the isoperimetric and Sobolev inequalities. A set is \emph{$k$-rectifiable} if it is covered, up to an $\mathcal{H}^k$-null set,
 by countably many Lipschitz images of subsets of $\RR^k$; these sets, which include all $k$-dimensional submanifolds, are the objects on which geometric measure theory does calculus, and
 the area formula is the bridge between them and Lebesgue measure.
+\end{remark}
+
+\section{The coarea formula}\label{measure-theory:section-coarea}
+
+The area formula measures a set by parametrising it. The coarea formula measures it by slicing. The model is Fubini's theorem: the volume of $A \subseteq \RR^n$ is the integral of the
+$(n-1)$-dimensional volumes of the slices $A \cap \{x_n = t\}$. If the slices are the level sets $f^{-1}(t)$ of a function $f$ which are not parallel hyperplanes, the slab between the levels $t$ and
+$t + dt$ has thickness about $dt/|\nabla f|$: where the levels are crowded, the slab is thin. So the volume of the slab is about $\mathcal{H}^{n-1}(\text{slice})\,dt/|\nabla f|$, and integrating
+$|\nabla f|$ instead of $1$ compensates exactly:
+\[
+\int_A|\nabla f|\,d\lambda^n = \int_\RR\mathcal{H}^{n-1}\bigl(A \cap f^{-1}(t)\bigr)\,dt .
+\]
+We prove this for $C^1$ functions without critical points; the general statement is in Remark~\ref{measure-theory:remark-area-coarea}. Throughout, $n \geq 2$.
+
+\begin{lemma}\label{measure-theory:lemma-normal-determinant}
+Let $v_1, \ldots, v_{n-1} \in \RR^n$ be linearly independent, $V$ the $n \times (n - 1)$ matrix with these columns, $\nu$ a unit vector orthogonal to all $v_i$, and $w \in \RR^n$. Then
+\[
+|\det(v_1, \ldots, v_{n-1}, w)| = JV \cdot |\langle w, \nu\rangle| .
+\]
+\end{lemma}
+
+In words: the volume of a parallelepiped is the $(n-1)$-dimensional volume of its base times its height. Recall that $JV = \sqrt{\det(V^TV)}$ is the $(n-1)$-dimensional volume of the
+base (Lemma~\ref{measure-theory:lemma-jacobian}).
+
+\begin{proof}
+Write $w = u + \langle w, \nu\rangle\nu$ with $u$ in the span of the $v_i$. The determinant is linear in the last column and vanishes when the columns are dependent, so
+$\det(V, w) = \langle w, \nu\rangle\det(V, \nu)$. For the matrix $M = (V, \nu)$, $M^TM$ is block diagonal with blocks $V^TV$ and $\langle\nu, \nu\rangle = 1$, because $V^T\nu = 0$. Hence
+$(\det M)^2 = \det(M^TM) = \det(V^TV) = (JV)^2$.
+\end{proof}
+
+\begin{theorem}[Coarea formula]\label{measure-theory:theorem-coarea}
+Let $U \subseteq \RR^n$ be open and $f \colon U \to \RR$ of class $C^1$ with $\nabla f(x) \neq 0$ for all $x \in U$. For every Borel set $A \subseteq U$ the function
+$t \mapsto \mathcal{H}^{n-1}(A \cap f^{-1}(t))$ is Lebesgue measurable, and
+\[
+\int_A|\nabla f|\,d\lambda^n = \int_\RR\mathcal{H}^{n-1}\bigl(A \cap f^{-1}(t)\bigr)\,dt .
+\]
+More generally, for every Borel function $g \colon U \to [0, \infty]$,
+\begin{equation}\label{measure-theory:equation-coarea}
+\int_Ug\,|\nabla f|\,d\lambda^n = \int_\RR\Bigl(\int_{f^{-1}(t)}g\,d\mathcal{H}^{n-1}\Bigr)dt .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: local coordinates adapted to $f$.} Let $x_0 \in U$. Some partial derivative $\partial_if(x_0)$ is nonzero. A permutation of the coordinates is an isometry of $\RR^n$, so it preserves
+$\lambda^n$ (Lemma~\ref{measure-theory:lemma-linear-change}), $\mathcal{H}^{n-1}$ and $|\nabla f|$; so we may assume $\partial_nf(x_0) \neq 0$. The map
+$\psi(x) = (x_1, \ldots, x_{n-1}, f(x))$ has $\det D\psi(x_0) = \partial_nf(x_0) \neq 0$. By the inverse function theorem (Theorem~\ref{real-analysis:theorem-inverse-function}) there are open sets
+$V \ni x_0$ and $W$ such that $\psi \colon V \to W$ is a $C^1$-diffeomorphism. Let $\phi = \psi^{-1} \colon W \to V$, and write points of $W \subseteq \RR^{n-1} \times \RR$ as $(y, t)$. Since
+$\psi(\phi(y, t)) = (y, t)$,
+\[
+f(\phi(y, t)) = t \qquad\text{for } (y, t) \in W .
+\]
+For fixed $t$ let $W_t = \{y : (y, t) \in W\}$, open in $\RR^{n-1}$, and $\phi_t = \phi(-, t) \colon W_t \to \RR^n$. It is injective and $C^1$, and $D\phi_t$ is injective, as its columns are the first
+$n - 1$ columns of the invertible matrix $D\phi$. Its image is $V \cap f^{-1}(t)$: a point $x \in V$ has $f(x) = t$ if and only if $\psi(x) = (y, t)$ for some $y$.
+
+\emph{Step 2: the Jacobian identity.} We claim $|\det D\phi(y, t)|\,|\nabla f(\phi(y, t))| = J\phi_t(y)$. Differentiating $f(\phi(y, t)) = t$ with the chain rule gives
+$\langle\nabla f, \partial_{y_i}\phi\rangle = 0$ for $i < n$ and $\langle\nabla f, \partial_t\phi\rangle = 1$, all evaluated at $\phi(y, t)$ resp.\ $(y, t)$. So $\nu = \nabla f/|\nabla f|$ is a unit vector
+orthogonal to the columns $\partial_{y_i}\phi$ of $D\phi_t$, and Lemma~\ref{measure-theory:lemma-normal-determinant} with $w = \partial_t\phi$ gives
+\[
+|\det D\phi| = J\phi_t\cdot|\langle\partial_t\phi, \nu\rangle| = \frac{J\phi_t}{|\nabla f|} .
+\]
+
+\emph{Step 3: the formula on $V$.} Let $A \subseteq V$ be Borel, and $h = \mathbf{1}_A \circ \phi$, a Borel function on $W$. By the change of variables formula
+(Theorem~\ref{measure-theory:theorem-change-of-variables}) for $\phi \colon W \to V$ and Step 2,
+\[
+\int_A|\nabla f|\,d\lambda^n = \int_Wh(y, t)\,|\nabla f(\phi(y, t))|\,|\det D\phi(y, t)|\,d\lambda^n(y, t) = \int_Wh(y, t)\,J\phi_t(y)\,d\lambda^n(y, t) .
+\]
+The integrand, extended by $0$ outside $W$, is a nonnegative Borel function on $\RR^{n-1} \times \RR$. By Tonelli's theorem (Theorem~\ref{measure-theory:theorem-fubini} and
+Remark~\ref{measure-theory:remark-lebesgue-product}) the function $t \mapsto \int_{W_t}h(y, t)J\phi_t(y)\,dy$ is measurable and the last integral equals
+$\int_\RR\bigl(\int_{W_t}h(y, t)J\phi_t(y)\,dy\bigr)dt$. By the area formula (Theorem~\ref{measure-theory:theorem-area-formula}) for $\phi_t$ and the Borel set
+$B_t = \{y \in W_t : \phi(y, t) \in A\}$, whose image is $A \cap f^{-1}(t)$ by Step 1,
+\[
+\int_{W_t}h(y, t)J\phi_t(y)\,dy = \int_{B_t}J\phi_t\,d\lambda^{n-1} = \mathcal{H}^{n-1}\bigl(A \cap f^{-1}(t)\bigr).
+\]
+This proves the theorem for Borel subsets of $V$.
+
+\emph{Step 4: globalisation.} $U$ is a countable union of compact sets, each covered by finitely many of the open sets $V$ of Step 1; so $U = \bigcup_jV_j$ for countably many such sets. Let
+$E_j = V_j \setminus \bigcup_{i < j}V_i$, disjoint Borel sets covering $U$. For a Borel set $A \subseteq U$, apply Step 3 to $A \cap E_j \subseteq V_j$ and sum over $j$. On the left,
+$\sum_j\int_{A \cap E_j}|\nabla f| = \int_A|\nabla f|$ by monotone convergence. On the right, for every $t$ the sets $A \cap E_j \cap f^{-1}(t)$ are disjoint Borel sets with union
+$A \cap f^{-1}(t)$, and $\mathcal{H}^{n-1}$ is a measure on Borel sets (Proposition~\ref{measure-theory:proposition-hausdorff}), so
+$\mathcal{H}^{n-1}(A \cap f^{-1}(t)) = \sum_j\mathcal{H}^{n-1}(A \cap E_j \cap f^{-1}(t))$, a sum of measurable functions of $t$; integrate with monotone convergence
+(Theorem~\ref{measure-theory:theorem-monotone-convergence}). Finally, \eqref{measure-theory:equation-coarea} is the first formula for $g = \mathbf{1}_A$; it follows for simple Borel functions by
+linearity and for all Borel $g \geq 0$ by monotone convergence, applied on both sides.
+\end{proof}
+
+For $f(x) = x_n$ the coarea formula is Fubini's theorem. Its most important special case is integration in polar coordinates.
+
+\begin{corollary}[Polar coordinates]\label{measure-theory:corollary-polar}
+Let $S^{n-1} = \{x \in \RR^n : |x| = 1\}$ and $\omega_n = \lambda^n(B(0, 1))$. Then $\mathcal{H}^{n-1}(S^{n-1}) = n\omega_n$, and for every Borel function $g \colon \RR^n \to [0, \infty]$,
+\[
+\int_{\RR^n}g\,d\lambda^n = \int_0^\infty\Bigl(\int_{|x| = r}g\,d\mathcal{H}^{n-1}\Bigr)dr = \int_0^\infty r^{n-1}\Bigl(\int_{S^{n-1}}g(r\theta)\,d\mathcal{H}^{n-1}(\theta)\Bigr)dr .
+\]
+In particular, if $g(x) = h(|x|)$ is radial, $\int_{\RR^n}g\,d\lambda^n = n\omega_n\int_0^\infty h(r)r^{n-1}\,dr$.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{measure-theory:theorem-coarea} to $f(x) = |x|$ on $U = \RR^n \setminus \{0\}$. Here $\nabla f(x) = x/|x|$, so $|\nabla f| = 1$, and the point $0$ is a null set. This gives the
+first equality. For the second, $\theta \mapsto r\theta$ is a similarity with ratio $r$ from $S^{n-1}$ onto the sphere of radius $r$, so
+$\mathcal{H}^{n-1}(\{|x| = r\} \cap G) = r^{n-1}\mathcal{H}^{n-1}(S^{n-1} \cap r^{-1}G)$ for Borel sets $G$ (Proposition~\ref{measure-theory:proposition-hausdorff}(3)), which is the second equality for
+$g = \mathbf{1}_G$; pass to simple functions and to limits by monotone convergence. For $g = \mathbf{1}_{B(0, 1)}$ we get $\omega_n = \mathcal{H}^{n-1}(S^{n-1})\int_0^1r^{n-1}\,dr = \mathcal{H}^{n-1}(S^{n-1})/n$.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-polar}
+\begin{enumerate}
+\item \emph{Spheres.} $\mathcal{H}^1(S^1) = 2\omega_2 = 2\pi$ and $\mathcal{H}^2(S^2) = 3\omega_3 = 3 \cdot \frac43\pi = 4\pi$, in agreement with Example~\ref{measure-theory:example-area-formula}. The
+formula $\mathcal{H}^{n-1}(S^{n-1}) = n\omega_n$ says that the volume of the ball, $\omega_nR^n$, has derivative $n\omega_nR^{n-1}$ in $R$ equal to the area of the sphere of radius $R$: adding a thin shell of
+thickness $dR$ adds volume (area)$\cdot dR$.
+\item \emph{Integrability of powers.} For $a \in \RR$, $\int_{|x| < 1}|x|^{-a}\,dx = n\omega_n\int_0^1r^{n-1-a}\,dr$ is finite if and only if $a < n$, and $\int_{|x| > 1}|x|^{-a}\,dx = n\omega_n\int_1^\infty r^{n-1-a}\,dr$
+is finite if and only if $a > n$. So $|x|^{-a}$ is never integrable on all of $\RR^n$, and the borderline exponent is the dimension, as for $\sum_{k \in \ZZ^n \setminus 0}|k|^{-a}$.
+\item \emph{The volume of balls.} By Fubini's theorem and Example~\ref{measure-theory:example-gaussian}, $\int_{\RR^n}e^{-|x|^2}dx = (\int_\RR e^{-t^2}dt)^n = \pi^{n/2}$. By the corollary and the
+substitution $u = r^2$ it also equals $n\omega_n\int_0^\infty e^{-r^2}r^{n-1}\,dr = \frac{n\omega_n}2\int_0^\infty e^{-u}u^{n/2 - 1}\,du = \frac{n\omega_n}2\Gamma(\frac n2)$. Hence
+$\omega_n = \pi^{n/2}/\Gamma(\frac n2 + 1)$, which solves Exercise~\ref{measure-theory:exercise-ball-volume}: $\omega_1 = 2$, $\omega_2 = \pi$, $\omega_3 = \frac43\pi$, $\omega_4 = \frac{\pi^2}{2}$, and
+$\omega_n \to 0$ very fast as $n \to \infty$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{measure-theory:remark-coarea}
+\begin{enumerate}
+\item \emph{Critical points.} For a Lipschitz $f$ the coarea formula holds without excluding critical points \cite[Section 3.4]{evans-gariepy}. On the critical set $Z = \{\nabla f = 0\}$ the left side
+vanishes, so the formula contains the statement that $\mathcal{H}^{n-1}(Z \cap f^{-1}(t)) = 0$ for almost every $t$. This is remarkable because the set of critical values $f(Z)$ can have positive
+measure: Sard's theorem, which says it is null, needs $f$ of class $C^n$, and Whitney constructed a $C^1$ function on $\RR^2$ that is not constant on a connected arc of critical points
+\cite{whitney-1935}; its critical values fill an interval, yet each level set meets $Z$ in an $\mathcal{H}^1$-null set.
+\item \emph{Isoperimetry and Sobolev inequalities.} For $u \in C^1_c(\RR^n)$ the coarea formula reads $\int|\nabla u| = \int_\RR\mathcal{H}^{n-1}(\{u = t\})\,dt$ (in the general version), and
+$\{u = t\}$ is, for almost every $t > 0$, the boundary of $\{u > t\}$. The \emph{isoperimetric inequality} $\mathcal{H}^{n-1}(\partial E) \geq n\omega_n^{1/n}\lambda^n(E)^{(n-1)/n}$, with equality for
+balls, then gives the \emph{Sobolev inequality} $\|u\|_{n/(n-1)} \leq (n\omega_n^{1/n})^{-1}\|\nabla u\|_1$ with its best constant; conversely, the Sobolev inequality applied to smoothed indicator functions
+gives back the isoperimetric inequality. This equivalence between a geometric and an analytic inequality is due to Federer and Fleming and to Maz'ya \cite{federer-fleming-1960}.
+\end{enumerate}
+\end{remark}
+
+\section{Densities and rectifiability}\label{measure-theory:section-densities}
+
+By the Lebesgue density theorem (Corollary~\ref{measure-theory:corollary-density}) a measurable set $A \subseteq \RR^n$ fills almost all of every small ball centred at almost every one of its
+points. For a set of dimension $s < n$ the analogous question is whether $\mathcal{H}^s(A \cap \overline{B}(x, r))$ is comparable to $\alpha(s)(2r)^s$, the $s$-dimensional ``volume'' of a ball of radius
+$r$. For smooth curves and surfaces the answer is yes, with ratio tending to $1$; for the Cantor set the ratio oscillates forever. This difference turns out to be the difference between the sets on which
+one can do calculus, the rectifiable ones, and the others. Throughout, $X$ is a metric space and $\overline{B}(x, r) = \{y : d(x, y) \leq r\}$.
+
+\begin{definition}\label{measure-theory:definition-density}
+For $A \subseteq X$, $s > 0$ and $x \in X$, the \emph{upper} and \emph{lower $s$-dimensional densities} of $A$ at $x$ are
+\[
+\Theta^{*s}(A, x) = \limsup_{r \to 0}\frac{\mathcal{H}^s(A \cap \overline{B}(x, r))}{\alpha(s)(2r)^s}, \qquad \Theta^s_*(A, x) = \liminf_{r \to 0}\frac{\mathcal{H}^s(A \cap \overline{B}(x, r))}{\alpha(s)(2r)^s}.
+\]
+If they are equal, the common value is the \emph{density} $\Theta^s(A, x)$.
+\end{definition}
+
+The normalisation is chosen so that flat pieces have density $1$. For $A \subseteq \RR^n$ Lebesgue measurable and $s = n$, $\mathcal{H}^n = \lambda^n$ and $\alpha(n)(2r)^n = \lambda^n(\overline{B}(x, r))$,
+so by the density theorem $\Theta^n(A, x) = 1$ for almost every $x \in A$ and $\Theta^n(A, x) = 0$ for almost every $x \notin A$ (spheres are null, so closed and open balls give the same ratios).
+
+\begin{example}\label{measure-theory:example-density-curve}
+\emph{Curves have density $1$.} Let $\gamma \colon (a, b) \to \RR^m$ be an injective $C^1$ map with $\gamma^{\prime} \neq 0$ which is a homeomorphism onto its image $\Gamma$. Then
+$\Theta^1(\Gamma, x) = 1$ for every $x \in \Gamma$. Let $x = \gamma(t_0)$, $c = |\gamma^{\prime}(t_0)| > 0$, and $0 < \varepsilon < 1$. Choose $\delta > 0$ with $[t_0 - \delta, t_0 + \delta] \subseteq (a, b)$
+and $|\gamma^{\prime}(t) - \gamma^{\prime}(t_0)| \leq \varepsilon c$ there. By the mean value inequality, applied to $\gamma(t) - \gamma^{\prime}(t_0)(t - t_0)$,
+\[
+(1 - \varepsilon)c|t - t_0| \leq |\gamma(t) - x| \leq (1 + \varepsilon)c|t - t_0| \qquad (|t - t_0| \leq \delta),
+\]
+and $(1 - \varepsilon)c \leq |\gamma^{\prime}(t)| \leq (1 + \varepsilon)c$ there. Since $\gamma^{-1}$ is continuous at $x$, there is $r_0 \in (0, (1 - \varepsilon)c\delta]$ such that
+$|\gamma(t) - x| \leq r_0$ implies $|t - t_0| \leq \delta$. For $r < r_0$ the set $I_r = \{t : |\gamma(t) - x| \leq r\}$ therefore satisfies
+\[
+\bigl[t_0 - \tfrac{r}{(1 + \varepsilon)c}, t_0 + \tfrac{r}{(1 + \varepsilon)c}\bigr] \subseteq I_r \subseteq \bigl[t_0 - \tfrac{r}{(1 - \varepsilon)c}, t_0 + \tfrac{r}{(1 - \varepsilon)c}\bigr].
+\]
+By the area formula (Theorem~\ref{measure-theory:theorem-area-formula}), $\mathcal{H}^1(\Gamma \cap \overline{B}(x, r)) = \int_{I_r}|\gamma^{\prime}|$ lies between $2r\frac{1 - \varepsilon}{1 + \varepsilon}$ and
+$2r\frac{1 + \varepsilon}{1 - \varepsilon}$. As $\alpha(1) = 1$ and $\varepsilon$ was arbitrary, the ratio tends to $1$. The homeomorphism condition matters: for a curve shaped like the digit $6$, whose end
+$\gamma(t)$, $t \to b$, runs into an interior point $x$ from one side, a small ball around $x$ contains the arc of the curve through $x$, of length about $2r$, and the end arc, of length about $r$, and $\Theta^1(\Gamma, x) = \frac32$.
+\end{example}
+
+\begin{example}\label{measure-theory:example-density-cantor}
+\emph{The Cantor set has no density at $0$.} Let $C$ be the Cantor set, $s = \log 2/\log 3$, and $c = \mathcal{H}^s(C)$, so that $\alpha(s)/2 \leq c \leq \alpha(s)$
+(Example~\ref{measure-theory:example-cantor-dimension}). For $k \geq 0$, $C \cap [0, 3^{-k}] = 3^{-k}C$ (the piece $C_w$ for $w = 1\cdots1$ of length $k$, in the notation of
+Example~\ref{measure-theory:example-ifs}), so $\mathcal{H}^s(C \cap [0, 3^{-k}]) = 3^{-ks}c = 2^{-k}c$. Moreover $C$ does not meet the gap $(3^{-k-1}, 2 \cdot 3^{-k-1})$, so
+$C \cap [0, 2 \cdot 3^{-k-1}]$ is $C \cap [0, 3^{-k-1}]$ plus the single point $2 \cdot 3^{-k-1}$. Hence, with $r = 3^{-k}$ and $r = 2 \cdot 3^{-k-1}$ respectively,
+\[
+\frac{\mathcal{H}^s(C \cap \overline{B}(0, 3^{-k}))}{\alpha(s)(2 \cdot 3^{-k})^s} = \frac{2^{-k}c}{\alpha(s)2^s2^{-k}} = \frac{c}{\alpha(s)2^s}, \qquad
+\frac{\mathcal{H}^s(C \cap \overline{B}(0, 2 \cdot 3^{-k-1}))}{\alpha(s)(4 \cdot 3^{-k-1})^s} = \frac{2^{-k-1}c}{\alpha(s)4^s2^{-k-1}} = \frac{c}{\alpha(s)4^s}.
+\]
+So $\Theta^{*s}(C, 0) \geq c/(\alpha(s)2^s)$ and $\Theta^s_*(C, 0) \leq c/(\alpha(s)4^s)$, which is smaller by the factor $2^s \approx 1.55$; as $c > 0$, the density does not exist. The same computation
+works at the left endpoint $f_w(0)$ of every interval $I_w$: for $r < 3^{-|w|}$ the ball $\overline{B}(f_w(0), r)$ meets $C$ in $f_w(C \cap [0, 3^{|w|}r])$, because $C$ has a gap of length at least
+$3^{-|w|}$ to the left of $I_w$ (Example~\ref{measure-theory:example-cantor-dimension}(2)), and $\mathcal{H}^s$ scales by $3^{-|w|s}$ under $f_w$. These endpoints are dense in $C$.
+\end{example}
+
+For a general set we cannot expect the density to exist, but the upper density is bounded below almost everywhere, by a short covering argument that uses nothing but the definition of $\mathcal{H}^s$.
+
+\begin{theorem}\label{measure-theory:theorem-upper-density}
+Let $A \subseteq X$ with $\mathcal{H}^s(A) < \infty$, $s > 0$. Then $\Theta^{*s}(A, x) \geq 2^{-s}$ for $\mathcal{H}^s$-almost every $x \in A$.
+\end{theorem}
+
+\begin{proof}
+For $0 < t < 2^{-s}$ and $k \geq 1$ let
+\[
+A_{t, k} = \bigl\{x \in A : \mathcal{H}^s(A \cap \overline{B}(x, r)) \leq t\,\alpha(s)(2r)^s \text{ for all } 0 < r < 1/k\bigr\}.
+\]
+A point $x \in A$ with $\Theta^{*s}(A, x) < 2^{-s}$ lies in some $A_{t, k}$ with $t$ rational; so it suffices to show $\mathcal{H}^s(A_{t, k}) = 0$ for all $t$ and $k$, by countable subadditivity.
+
+Fix $t, k$, let $0 < \delta < 1/k$ and $\varepsilon > 0$, and choose a cover $(C_i)$ of $A_{t, k}$ by sets of diameter at most $\delta$ with
+$\sum_i\alpha(s)(\operatorname{diam}C_i)^s \leq \mathcal{H}^s_\delta(A_{t, k}) + \varepsilon$. We may discard the $C_i$ that do not meet $A_{t, k}$. For the others pick $x_i \in C_i \cap A_{t, k}$ and let
+$d_i = \operatorname{diam}C_i$. If $d_i > 0$, then $C_i \subseteq \overline{B}(x_i, d_i)$ with $d_i < 1/k$, so by the definition of $A_{t, k}$
+\[
+\mathcal{H}^s(A_{t, k} \cap C_i) \leq \mathcal{H}^s(A \cap \overline{B}(x_i, d_i)) \leq t\,\alpha(s)(2d_i)^s = t2^s\,\alpha(s)d_i^s .
+\]
+If $d_i = 0$, then $C_i$ is a point and both sides are $0$. Summing, and using countable subadditivity of $\mathcal{H}^s$,
+\[
+\mathcal{H}^s(A_{t, k}) \leq \sum_i\mathcal{H}^s(A_{t, k} \cap C_i) \leq t2^s\bigl(\mathcal{H}^s_\delta(A_{t, k}) + \varepsilon\bigr) \leq t2^s\bigl(\mathcal{H}^s(A_{t, k}) + \varepsilon\bigr).
+\]
+Let $\varepsilon \to 0$. Since $\mathcal{H}^s(A_{t, k}) \leq \mathcal{H}^s(A) < \infty$ and $t2^s < 1$, this forces $\mathcal{H}^s(A_{t, k}) = 0$.
+\end{proof}
+
+The bound $2^{-s}$ comes from the comparison $C_i \subseteq \overline{B}(x_i, \operatorname{diam}C_i)$, which loses a factor $2$ in the radius; in $\RR^n$, finer covering theorems give the
+complementary inequalities, which we quote.
+
+\begin{theorem}\label{measure-theory:theorem-density-bounds}
+Let $A \subseteq \RR^n$ be $\mathcal{H}^s$-measurable with $\mathcal{H}^s(A) < \infty$. Then $2^{-s} \leq \Theta^{*s}(A, x) \leq 1$ for $\mathcal{H}^s$-almost every $x \in A$, and $\Theta^{*s}(A, x) = 0$ for
+$\mathcal{H}^s$-almost every $x \in \RR^n \setminus A$ \cite[Section 2.3]{evans-gariepy}, \cite{falconer-gofs}.
+\end{theorem}
+
+So every set of finite $s$-dimensional measure is, at almost all of its points, at least somewhat dense and at most as dense as a flat piece. Whether the density exists, that is, whether the lower
+density equals the upper one, is a deep geometric property, and it is related to the following class of sets.
+
+\begin{definition}\label{measure-theory:definition-rectifiable}
+Let $k \geq 1$ be an integer. A set $A \subseteq \RR^n$ is \emph{countably $k$-rectifiable} if there are Lipschitz maps $g_j \colon E_j \to \RR^n$, $E_j \subseteq \RR^k$, $j = 1, 2, \ldots$, such that
+\[
+\mathcal{H}^k\Bigl(A \setminus \bigcup_jg_j(E_j)\Bigr) = 0 .
+\]
+It is \emph{purely $k$-unrectifiable} if $\mathcal{H}^k(A \cap g(E)) = 0$ for every Lipschitz map $g \colon E \to \RR^n$ with $E \subseteq \RR^k$.
+\end{definition}
+
+So a rectifiable set is, up to a null set, a countable union of Lipschitz images of pieces of $\RR^k$, and on such pieces Rademacher's theorem and the area formula give tangent planes and a calculus. A
+purely unrectifiable set meets each Lipschitz image of a piece of $\RR^k$ only in a null set.
+
+\begin{proposition}\label{measure-theory:proposition-rectifiable}
+\begin{enumerate}
+\item Subsets and countable unions of countably $k$-rectifiable sets are countably $k$-rectifiable.
+\item A countably $k$-rectifiable set $A$ has $\dim_{\mathcal{H}}A \leq k$, and $A \cap \bigcup_jg_j(E_j)$ has $\sigma$-finite $\mathcal{H}^k$-measure.
+\item If $U \subseteq \RR^k$ is open and $g \colon U \to \RR^n$ is of class $C^1$, then $g(U)$ is countably $k$-rectifiable.
+\item If $A$ is countably $k$-rectifiable and $B$ is purely $k$-unrectifiable, then $\mathcal{H}^k(A \cap B) = 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is clear from the definition: a subset can use the same maps, and countably many countable families of maps form a countable family.
+
+(2) Let $L_j$ be a Lipschitz constant of $g_j$. For $m \geq 1$, Proposition~\ref{measure-theory:proposition-hausdorff}(3) and Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue} give
+$\mathcal{H}^k(g_j(E_j \cap [-m, m]^k)) \leq L_j^k\mathcal{H}^k([-m, m]^k) = L_j^k(2m)^k < \infty$. So $\bigcup_jg_j(E_j)$ is a countable union of sets of finite $\mathcal{H}^k$-measure, each of which has
+$\mathcal{H}^t$-measure $0$ for $t > k$ (Proposition~\ref{measure-theory:proposition-hausdorff}(4)); the remaining part of $A$ is $\mathcal{H}^k$-null, hence also $\mathcal{H}^t$-null for $t > k$.
+
+(3) $U$ is the union of the countably many closed balls $\overline{B} \subseteq U$ with rational centres and radii. On such a ball, which is compact and convex, $\|Dg\|$ is bounded, say by $L$, and the mean
+value inequality (Proposition~\ref{real-analysis:proposition-derivative-basic}(4)) shows that $g$ is $L$-Lipschitz on $\overline{B}$.
+
+(4) $A \cap B$ is contained in the union of the $\mathcal{H}^k$-null set $A \setminus \bigcup_jg_j(E_j)$ and the sets $B \cap g_j(E_j)$, which are $\mathcal{H}^k$-null by assumption.
+\end{proof}
+
+By (3), images of $C^1$ maps, such as the curves of Example~\ref{measure-theory:example-density-curve}, graphs of $C^1$ or Lipschitz functions, and $k$-dimensional submanifolds of $\RR^n$ (which are
+covered by countably many images of charts), are countably $k$-rectifiable. At the other extreme, the four-corner Cantor set $K_4$ of Example~\ref{measure-theory:example-similarity-dimension}(2), which has
+$0 < \mathcal{H}^1(K_4) < \infty$, is purely $1$-unrectifiable \cite{falconer-gofs}, \cite{mattila-1995}. The two classes are distinguished by densities and by projections, and these are among the
+deepest results of the subject.
+
+\begin{theorem}\label{measure-theory:theorem-rectifiability-criteria}
+Let $A \subseteq \RR^n$ be $\mathcal{H}^k$-measurable with $0 < \mathcal{H}^k(A) < \infty$, $k$ an integer with $1 \leq k < n$.
+\begin{enumerate}
+\item (\emph{Densities}) $A$ is countably $k$-rectifiable if and only if $\Theta^k(A, x) = 1$ for $\mathcal{H}^k$-almost every $x \in A$, and if and only if $\Theta^k(A, x)$ exists and is positive for
+$\mathcal{H}^k$-almost every $x \in A$.
+\item (\emph{Projections, Besicovitch--Federer}) If $A$ is countably $k$-rectifiable, then its orthogonal projections to almost all $k$-dimensional linear subspaces have positive $\mathcal{H}^k$-measure. If
+$A$ is purely $k$-unrectifiable, then its projections to almost all $k$-dimensional linear subspaces are $\mathcal{H}^k$-null.
+\end{enumerate}
+Here ``almost all'' refers to the rotation-invariant measure on the set of $k$-dimensional subspaces; for $k = 1$, $n = 2$ it means almost all angles. See \cite{mattila-1995}, \cite{federer-gmt}; the last
+statement of (1) is Preiss's theorem \cite{preiss-1987}.
+\end{theorem}
+
+\begin{remark}\label{measure-theory:remark-densities}
+\begin{enumerate}
+\item \emph{Non-integral dimensions.} If $0 < \mathcal{H}^s(A) < \infty$ and the density $\Theta^s(A, x)$ exists and is positive at almost every point of $A$, then $s$ is an integer (Marstrand, see
+\cite{mattila-1995}). So sets of non-integral dimension, such as the Cantor set (Example~\ref{measure-theory:example-density-cantor}) and the self-similar sets of
+Section~\ref{measure-theory:section-self-similar}, are always irregular: their densities oscillate.
+\item \emph{The four-corner set again.} Example~\ref{measure-theory:example-four-corner-projections} computed two projections of $K_4$: in the direction of the axes it has length $0$, as
+Theorem~\ref{measure-theory:theorem-rectifiability-criteria}(2) predicts for almost all directions, while in the direction of $(2, 1)$ it is an interval. So the exceptional set of directions in the
+Besicovitch--Federer theorem is not empty. For a segment the situation is reversed: its projection has positive length in every direction except the perpendicular one.
+\item \emph{Besicovitch and Kakeya sets.} A \emph{Besicovitch set} is a compact subset of $\RR^n$ that contains a segment of length $1$ in every direction. Besicovitch showed that such sets exist in
+$\RR^2$ with Lebesgue measure $0$; correspondingly, a needle of length $1$ can be turned around completely inside a region of arbitrarily small area (\emph{Kakeya's needle problem}). Every Besicovitch
+set in $\RR^2$ has Hausdorff dimension $2$ (Davies), see \cite{falconer-gofs}. Whether Besicovitch sets in $\RR^n$ must have Hausdorff dimension $n$ is the \emph{Kakeya conjecture}, a central problem
+linking geometric measure theory with harmonic analysis and analytic number theory.
+\end{enumerate}
 \end{remark}
 
 \section{Exercises}\label{measure-theory:section-exercises}
@@ -1832,4 +2406,122 @@ Let $x_k \to x$. If $\|y - x\| < r$, then $\|y - x_k\| < r$ for $k$ large, so $\
 $\limsup_k\mathbf{1}_{\overline{B}(x_k, r)} \leq \mathbf{1}_{\overline{B}(x, r)}$, and Fatou's lemma applied to the non-negative functions $\mathbf{1}_{\overline{B}(x, r + 1)} - \mathbf{1}_{\overline{B}(x_k, r)}$
 ($k$ large), whose integrals are finite, gives $\limsup_k\mu(\overline{B}(x_k, r)) \leq \mu(\overline{B}(x, r))$. The spheres of different radii are disjoint; those of radius less than $R$ with measure at
 least $1/m$ number at most $m\mu(B(x, R))$, so only countably many spheres have positive measure.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-box-cantor}
+Show directly from Example~\ref{measure-theory:example-cantor-dimension}(2), without Theorem~\ref{measure-theory:theorem-moran}, that the Cantor set has box-counting dimension $\log 2/\log 3$.
+\end{exercise}
+
+\begin{solution}
+Let $3^{-k-1} \leq \delta < 3^{-k}$. The $2^{k+1}$ intervals of generation $k + 1$ have length $3^{-k-1} \leq \delta$ and cover $C$, so $N_\delta(C) \leq 2^{k+1}$. A set of diameter at most $\delta < 3^{-k}$
+meets at most one of the $2^k$ intervals of generation $k$, and each of them contains points of $C$, so $N_\delta(C) \geq 2^k$. Since $k\log 3 < -\log\delta \leq (k + 1)\log 3$,
+\[
+\frac{k\log 2}{(k + 1)\log 3} \leq \frac{\log N_\delta(C)}{-\log\delta} \leq \frac{(k + 1)\log 2}{k\log 3} \qquad (k \geq 1),
+\]
+and both bounds tend to $\log 2/\log 3$ as $\delta \to 0$, that is, as $k \to \infty$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-cantor-sum}
+Let $C$ be the Cantor set. Show that $C + C = \{x + y : x, y \in C\}$ is the interval $[0, 2]$. (Hint: $C \times C$ is the attractor of
+Example~\ref{measure-theory:example-similarity-dimension}(3); project it as in Example~\ref{measure-theory:example-four-corner-projections}.) So the set $C \times C$, of dimension $\log 4/\log 3 < 2$, has a
+projection of positive length, while its projections to the axes are copies of $C$, of length $0$.
+\end{exercise}
+
+\begin{solution}
+Let $\pi(x, y) = x + y$ and $f_{a, b}(x, y) = (x/3 + a, y/3 + b)$ for $a, b \in \{0, \frac23\}$. Then $\pi \circ f_{a, b} = g_{a + b} \circ \pi$ with $g_c(t) = t/3 + c$, and $a + b$ takes the values
+$0, \frac23, \frac43$. Since $C \times C = \bigcup_{a, b}f_{a, b}(C \times C)$, its image $\pi(C \times C) = C + C$ is a nonempty compact set with $C + C = g_0(C + C) \cup g_{2/3}(C + C) \cup g_{4/3}(C + C)$,
+that is, the attractor of $\{g_0, g_{2/3}, g_{4/3}\}$. The interval $[0, 2]$ is also invariant: $g_0([0, 2]) \cup g_{2/3}([0, 2]) \cup g_{4/3}([0, 2]) = [0, \frac23] \cup [\frac23, \frac43] \cup [\frac43, 2]$. By
+the uniqueness in Theorem~\ref{measure-theory:theorem-hutchinson}, $C + C = [0, 2]$. (More generally, by Marstrand's projection theorem a Borel set $A \subseteq \RR^2$ with $\dim_{\mathcal{H}}A > 1$ has
+projections of positive length in almost every direction \cite{mattila-1995}.)
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-prescribed-dimension}
+Show that for every $s \in [0, 1]$ there is a compact set $K \subseteq [0, 1]$ with $\dim_{\mathcal{H}}K = s$ and $0 < \mathcal{H}^s(K) < \infty$.
+\end{exercise}
+
+\begin{solution}
+For $s = 0$ take a point, for $s = 1$ the interval $[0, 1]$ (Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue}). For $0 < s < 1$ let $\rho = 2^{-1/s}$, so $0 < \rho < \frac12$, and consider
+$f_1(x) = \rho x$, $f_2(x) = \rho x + 1 - \rho$. Since $f_1([0, 1]) \cup f_2([0, 1]) = [0, \rho] \cup [1 - \rho, 1] \subseteq [0, 1]$, the attractor $K$ lies in $[0, 1]$
+(Theorem~\ref{measure-theory:theorem-hutchinson}(1)), and the pieces $f_1(K) \subseteq [0, \rho]$ and $f_2(K) \subseteq [1 - \rho, 1]$ are disjoint because $\rho < 1 - \rho$. The similarity dimension solves
+$2\rho^t = 1$, so it is $s$, and Theorem~\ref{measure-theory:theorem-moran} applies.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-natural-measure}
+Let $K$ be the attractor of an iterated function system satisfying the strong separation condition, with similarity dimension $s$, and let $\mu$ be the measure constructed in the proof of
+Theorem~\ref{measure-theory:theorem-moran}.
+\begin{enumerate}
+\item Show that $\mathcal{H}^s(K_w) = r_w^s\mathcal{H}^s(K)$ for every word $w$, and explain why this, together with $0 < \mathcal{H}^s(K) < \infty$, forces \eqref{measure-theory:equation-moran}.
+\item Show that two Borel probability measures on $K$ which agree on all the sets $K_w$ are equal. Deduce that $\mu(B) = \mathcal{H}^s(B)/\mathcal{H}^s(K)$ for every Borel set $B \subseteq K$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $f_w$ is a similarity with ratio $r_w$, so $\mathcal{H}^s(f_w(K)) = r_w^s\mathcal{H}^s(K)$. The sets $K_1, \ldots, K_N$ are disjoint compact sets with union $K$, so
+$\mathcal{H}^s(K) = \sum_i\mathcal{H}^s(K_i) = \bigl(\sum_ir_i^s\bigr)\mathcal{H}^s(K)$, and dividing by $\mathcal{H}^s(K) \in (0, \infty)$ gives $\sum_ir_i^s = 1$. This is the heuristic of the introduction
+to Section~\ref{measure-theory:section-self-similar}.
+
+(2) Let $\mathcal{P}$ consist of $\emptyset$ and the sets $K_w$, including $K = K_\varnothing$. Two of the $K_w$ are either nested (if one word begins with the other, by
+Theorem~\ref{measure-theory:theorem-hutchinson}(2)) or disjoint (if the words first differ at some position, by Step 1 of the proof of Theorem~\ref{measure-theory:theorem-moran}), so $\mathcal{P}$ is
+closed under finite intersections. Every relatively open $G \subseteq K$ is a countable union of sets $K_w \subseteq G$: if $x \in G$ has address $\omega$, then $x \in K_{\omega|k}$ and
+$\operatorname{diam}K_{\omega|k} \leq r^k\operatorname{diam}K$, so $K_{\omega|k} \subseteq G$ for $k$ large; and there are only countably many words. So $\sigma(\mathcal{P})$ contains the open subsets of
+$K$, hence all Borel subsets, and Lemma~\ref{measure-theory:lemma-dynkin} shows that two probability measures agreeing on $\mathcal{P}$ agree on all Borel sets. Finally,
+$B \mapsto \mathcal{H}^s(B)/\mathcal{H}^s(K)$ is a Borel probability measure on $K$ (Proposition~\ref{measure-theory:proposition-hausdorff}(1) and Theorem~\ref{measure-theory:theorem-moran}) which by (1)
+gives the value $r_w^s = \mu(K_w)$ to every $K_w$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-sierpinski}
+Let $S$ be the Sierpi\'nski gasket of a triangle $T$ with perimeter $P$ (Example~\ref{measure-theory:example-ifs}(3)). Show:
+\begin{enumerate}
+\item $\lambda^2(S) = 0$;
+\item two distinct triangles $f_v(T)$, $f_w(T)$ with $|v| = |w|$ meet in at most one point;
+\item $S$ contains the boundary $\partial T$, and more generally the boundaries of all triangles $f_w(T)$;
+\item $\mathcal{H}^1(S) = \infty$, so that $1 \leq \dim_{\mathcal{H}}S \leq \log 3/\log 2$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $F^k(T)$ is the union of the $3^k$ triangles $f_w(T)$, $|w| = k$, which are images of $T$ under similarities of ratio $2^{-k}$, so of area $4^{-k}\lambda^2(T)$ (Proposition~\ref{measure-theory:proposition-hausdorff}(3)
+and Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue}). Hence $\lambda^2(S) \leq \lambda^2(F^k(T)) \leq (\frac34)^k\lambda^2(T) \to 0$.
+
+(2) For $i \neq j$ the corner triangles $f_i(T)$ and $f_j(T)$ meet only in the midpoint of the side $p_ip_j$. If $v \neq w$ first differ at position $j$ and $u$ is their common beginning of length
+$j - 1$, then $f_v(T) \subseteq f_u(f_{v_j}(T))$ and $f_w(T) \subseteq f_u(f_{w_j}(T))$, and these meet in the image under the injective map $f_u$ of a single point.
+
+(3) The side $[p_i, p_j]$ is the union of $[p_i, m]$ and $[m, p_j]$, $m$ its midpoint, which are sides of $f_i(T)$ and $f_j(T)$. So $\partial T \subseteq F(\partial T)$, and inductively
+$\partial T \subseteq F(\partial T) \subseteq F^2(\partial T) \subseteq \cdots$, since $F$ preserves inclusions. As $F^k(\partial T) \subseteq F^k(T)$, $\partial T \subseteq \bigcap_kF^k(T) = S$
+(Theorem~\ref{measure-theory:theorem-hutchinson}(1)). Then $f_w(\partial T) \subseteq f_w(S) \subseteq S$.
+
+(4) A segment of length $\ell$ is isometric to an interval, so it has $\mathcal{H}^1$-measure $\ell$ (Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue}). By (3), $S$ contains the boundaries of the $3^k$
+triangles of generation $k$, each the union of three segments of total length $2^{-k}P$. By (2) these $3^{k+1}$ segments meet each other only in finitely many points, which are $\mathcal{H}^1$-null; so,
+$\mathcal{H}^1$ being a measure on Borel sets, $\mathcal{H}^1(S) \geq 3^k2^{-k}P = (\frac32)^kP$ for every $k$. Hence $\mathcal{H}^1(S) = \infty$ and $\dim_{\mathcal{H}}S \geq 1$; the upper bound is
+Proposition~\ref{measure-theory:proposition-similarity-upper}, with $3 \cdot 2^{-s} = 1$. (By Remark~\ref{measure-theory:remark-open-set-condition}, $\dim_{\mathcal{H}}S = \log 3/\log 2$.)
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-holder-graph}
+Let $h \colon [0, 1] \to \RR$ satisfy $|h(x) - h(y)| \leq c|x - y|^\alpha$ for some $c > 0$ and $0 < \alpha \leq 1$ (a \emph{H\"older continuous} function), and let
+$G = \{(x, h(x)) : x \in [0, 1]\}$ be its graph. Show that $1 \leq \dim_{\mathcal{H}}G \leq \overline{\dim}_BG \leq 2 - \alpha$.
+\end{exercise}
+
+\begin{solution}
+Projection to the first coordinate is $1$-Lipschitz and maps $G$ onto $[0, 1]$, so $\mathcal{H}^1(G) \geq 1$ and $\dim_{\mathcal{H}}G \geq 1$. For $m \geq 1$ divide $[0, 1]$ into $m$ intervals $I_j$ of
+length $\frac1m$. On $I_j$ the values of $h$ lie in an interval of length at most $cm^{-\alpha}$, which is covered by at most $cm^{1-\alpha} + 1$ intervals of length $\frac1m$; so the part of $G$ over
+$I_j$ is covered by at most $cm^{1-\alpha} + 1$ squares of side $\frac1m$, and $G$ by at most $m(cm^{1-\alpha} + 1) \leq (c + 1)m^{2-\alpha}$ of them. The squares have diameter $\sqrt2/m$. Given
+$0 < \delta < \sqrt2$, choose $m$ with $\sqrt2/(m + 1) \leq \delta < \sqrt2/m$; then $N_\delta(G) \leq (c + 1)(m + 1)^{2-\alpha}$ and $-\log\delta > \log(m/\sqrt2)$, so
+\[
+\frac{\log N_\delta(G)}{-\log\delta} \leq \frac{\log(c + 1) + (2 - \alpha)\log(m + 1)}{\log m - \log\sqrt2} \to 2 - \alpha \qquad (\delta \to 0).
+\]
+The middle inequality is Proposition~\ref{measure-theory:proposition-dimension-properties}(3). For $\alpha = 1$, a Lipschitz function, the graph has dimension $1$, in accordance with
+Exercise~\ref{measure-theory:exercise-lipschitz-graph}; rough functions can have graphs of dimension close to $2$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-ball-derivative}
+Let $g \colon \RR^n \to \RR$ be continuous, $n \geq 2$, and $\Phi(R) = \int_{B(0, R)}g\,d\lambda^n$. Show that $\Phi$ is differentiable on $(0, \infty)$ with
+$\Phi^{\prime}(R) = \int_{|x| = R}g\,d\mathcal{H}^{n-1}$, and that the averages $\frac1{n\omega_nR^{n-1}}\int_{|x| = R}g\,d\mathcal{H}^{n-1}$ tend to $g(0)$ as $R \to 0$.
+\end{exercise}
+
+\begin{solution}
+Apply Corollary~\ref{measure-theory:corollary-polar} to the positive and negative parts of $g\mathbf{1}_{B(0, R)}$, which are bounded Borel functions vanishing outside a bounded set; subtracting,
+$\Phi(R) = \int_0^R\eta(r)\,dr$ with $\eta(r) = r^{n-1}\int_{S^{n-1}}g(r\theta)\,d\mathcal{H}^{n-1}(\theta)$. As $r \to r_0$, $g(r\theta) \to g(r_0\theta)$ uniformly in $\theta \in S^{n-1}$, by uniform
+continuity of $g$ on a compact ball, and $\mathcal{H}^{n-1}(S^{n-1}) = n\omega_n < \infty$; so $\eta$ is continuous on $[0, \infty)$, and $\Phi^{\prime}(R) = \eta(R)$ by the fundamental theorem of calculus
+(Theorem~\ref{real-analysis:theorem-ftc}). By the scaling in the proof of Corollary~\ref{measure-theory:corollary-polar}, $\eta(R) = \int_{|x| = R}g\,d\mathcal{H}^{n-1}$. Finally
+$\eta(R)/(n\omega_nR^{n-1}) - g(0) = \frac{1}{n\omega_n}\int_{S^{n-1}}(g(R\theta) - g(0))\,d\mathcal{H}^{n-1}(\theta)$, which is at most $\sup_{|x| = R}|g(x) - g(0)| \to 0$ in absolute value.
 \end{solution}
