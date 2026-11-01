@@ -11,7 +11,7 @@ consequences of Baire's theorem, compact operators, the spectral theorem for com
 (Theorem~\ref{functional-analysis:theorem-fredholm-alternative}). Around this core we develop the classical theory: the applications of Baire's theorem,
 among them a continuous function whose Fourier series diverges (Theorem~\ref{functional-analysis:theorem-divergent-fourier}); the spectrum of a bounded operator and the
 spectral radius formula (Theorem~\ref{functional-analysis:theorem-spectrum}); the separation of convex sets, weak closures and the direct method of the calculus of variations
-(Section~\ref{functional-analysis:section-separation}); and dual spaces and reflexivity (Section~\ref{functional-analysis:section-duality}). The guiding theme is what survives from finite-dimensional linear algebra and what does not: in infinite
+(Section~\ref{functional-analysis:section-separation}); and dual spaces and reflexivity, with Goldstine's and Kakutani's theorems on weak compactness and the Markov--Kakutani fixed point theorem (Section~\ref{functional-analysis:section-duality}). The guiding theme is what survives from finite-dimensional linear algebra and what does not: in infinite
 dimensions linear maps need not be continuous, norms need not be equivalent, closed bounded sets need not be compact, injective operators need not be surjective, and bases have to be replaced by
 orthonormal bases, whose expansions are convergent series. We also introduce Fr\'echet spaces, such as the space of smooth functions, whose topology is given by countably many seminorms; they are the
 natural home of distributions (Chapter~\ref{distributions}). References: \cite{brezis-functional}, \cite{rudin-fa}, \cite{reed-simon-1}.
@@ -768,8 +768,8 @@ $m > -\infty$.
 
 This is the abstract form of \emph{Dirichlet's principle}: to solve a boundary value problem, minimise an energy such as $\int|\nabla u|^2$ over a suitable Hilbert space. Weak compactness gives a weak
 limit of a minimising sequence, convexity makes the energy weakly lower semicontinuous, and it remains to show that the minimiser is a smooth solution, which is a regularity question. In Hodge
-theory the harmonic representative of a cohomology class is likewise the closed form of least energy in its class (Chapter~\ref{hodge-theorem}). The theorem holds more generally in reflexive Banach spaces, for instance in $L^p$ with $1 < p < \infty$, by the results quoted
-in Remark~\ref{functional-analysis:remark-reflexive}. Without convexity the conclusion fails: on $\ell^2$ the function $F(x) = (\|x\|^2 - 1)^2 + \sum_n2^{-n}|x_n|^2$ is continuous and coercive, and
+theory the harmonic representative of a cohomology class is likewise the closed form of least energy in its class (Chapter~\ref{hodge-theorem}). The theorem holds more generally in reflexive Banach spaces, for instance in $L^p$ with $1 < p < \infty$, by Kakutani's theorem
+(Corollary~\ref{functional-analysis:corollary-reflexive-minimisation} below). Without convexity the conclusion fails: on $\ell^2$ the function $F(x) = (\|x\|^2 - 1)^2 + \sum_n2^{-n}|x_n|^2$ is continuous and coercive, and
 $F(e_N) = 2^{-N} \to 0$, but $F > 0$ everywhere, since $F(x) = 0$ would require both $\|x\| = 1$ and $x = 0$.
 
 \section{Dual spaces and reflexivity}\label{functional-analysis:section-duality}
@@ -859,6 +859,119 @@ reflexive, then its bidual $(\ell^1)^{**} \cong (\ell^\infty)^*$ would be isomet
 which it is not. Finally $\ell^\infty \cong (\ell^1)^*$, so by (3) it is not reflexive either.
 \end{proof}
 
+\subsection{Weak compactness: the theorems of Goldstine and Kakutani}\label{functional-analysis:subsection-kakutani}
+
+The closed unit ball of an infinite-dimensional normed space is never norm compact. In a Hilbert space it is weakly sequentially compact (Theorem~\ref{functional-analysis:theorem-alaoglu}), and this is
+what makes minimisation arguments work (Proposition~\ref{functional-analysis:proposition-direct-method}). Kakutani's theorem says exactly which Banach spaces share this property: the reflexive ones.
+The bridge between $X$ and its bidual is the following density theorem. Recall that $X^{**}$ is the dual of the normed space $X^*$, so it carries a weak-$*$ topology, the initial topology for the
+maps $\xi \mapsto \xi(\Lambda)$, $\Lambda \in X^*$; its basic open neighbourhoods of $\xi$ are the sets $\{\eta : |\eta(\Lambda_i) - \xi(\Lambda_i)| < \varepsilon, \ i = 1, \ldots, k\}$. We write $B_X$ for the closed unit
+ball of a normed space $X$. For $\Lambda \in X^*$, $\sup_{x \in B_X}\operatorname{Re}\Lambda(x) = \|\Lambda\|$, since $x$ may be multiplied by a scalar of modulus $1$ to make $\Lambda(x)$ real and positive.
+
+\begin{theorem}[Goldstine]\label{functional-analysis:theorem-goldstine}
+For every normed space $X$, the image $J(B_X)$ of the closed unit ball under the canonical map is weak-$*$ dense in the closed unit ball $B_{X^{**}}$ of the bidual. In particular $J(X)$ is weak-$*$ dense
+in $X^{**}$.
+\end{theorem}
+
+\begin{proof}
+Let $\xi \in B_{X^{**}}$, $\Lambda_1, \ldots, \Lambda_k \in X^*$ and $\varepsilon > 0$. We must find $x \in B_X$ with $|\Lambda_i(x) - \xi(\Lambda_i)| < \varepsilon$ for all $i$. Consider the linear map
+$T \colon X \to \mathbb{K}^k$, $T(x) = (\Lambda_1(x), \ldots, \Lambda_k(x))$, the point $y = (\xi(\Lambda_1), \ldots, \xi(\Lambda_k))$, and the closure $C$ of $T(B_X)$ in $\mathbb{K}^k$, a closed convex set. It suffices to show
+$y \in C$. If not, Theorem~\ref{functional-analysis:theorem-separation}(2), applied in the finite-dimensional normed space $\mathbb{K}^k$ to the compact set $\{y\}$ and the closed set $C$, gives a linear functional,
+necessarily of the form $z \mapsto \sum_ic_iz_i$, and numbers $c_1^{\prime} < c_2^{\prime}$ with
+\[
+\operatorname{Re}\sum_ic_iy_i \leq c_1^{\prime} < c_2^{\prime} \leq \operatorname{Re}\sum_ic_iz_i \qquad (z \in C).
+\]
+Put $\Lambda = -\sum_ic_i\Lambda_i \in X^*$. Taking $z = T(x)$ with $x \in B_X$ gives $\operatorname{Re}\Lambda(x) \leq -c_2^{\prime}$, hence $\|\Lambda\| \leq -c_2^{\prime}$. On the other hand
+$\operatorname{Re}\xi(\Lambda) = -\operatorname{Re}\sum_ic_iy_i \geq -c_1^{\prime} > -c_2^{\prime} \geq \|\Lambda\|$, while $|\xi(\Lambda)| \leq \|\xi\|\,\|\Lambda\| \leq \|\Lambda\|$. This contradiction shows $y \in C$. The last statement
+follows by scaling.
+\end{proof}
+
+For $X = c_0$, whose bidual is $\ell^\infty$ by Proposition~\ref{functional-analysis:proposition-sequence-duals} (with $J$ the inclusion), the theorem says that every bounded sequence is a weak-$*$ limit,
+that is, a limit against every $y \in \ell^1$, of sequences in $c_0$ of no larger norm; for $\mathbf{1} = (1, 1, \ldots)$ one can take the truncations $(1, \ldots, 1, 0, 0, \ldots)$, since
+$\sum_{n \leq N}y_n \to \sum_ny_n$. In norm, $\mathbf{1}$ has distance $1$ from $c_0$.
+
+\begin{theorem}[Kakutani]\label{functional-analysis:theorem-kakutani}
+A Banach space $X$ is reflexive if and only if its closed unit ball $B_X$ is weakly compact.
+\end{theorem}
+
+\begin{proof}
+First, $J$ is a homeomorphism from $X$ with the weak topology onto $J(X)$ with the subspace topology of the weak-$*$ topology of $X^{**}$. Indeed, the weak topology of $X$ is the initial topology for
+the maps $\Lambda \in X^*$, the weak-$*$ topology of $X^{**}$ is the initial topology for the maps $\xi \mapsto \xi(\Lambda)$, and $(J x)(\Lambda) = \Lambda(x)$; so $J$ carries the subbasic open sets
+$\Lambda^{-1}(W)$ of the one to the traces on $J(X)$ of the subbasic open sets of the other.
+
+Suppose $X$ is reflexive. Then $J$ is a bijection $X \to X^{**}$, an isometry, so it maps $B_X$ onto $B_{X^{**}}$. The ball $B_{X^{**}}$ is weak-$*$ compact by the Banach--Alaoglu theorem
+(Theorem~\ref{functional-analysis:theorem-alaoglu}, applied to the normed space $X^*$), so $B_X = J^{-1}(B_{X^{**}})$ is weakly compact.
+
+Conversely, suppose $B_X$ is weakly compact. Then $J(B_X)$ is weak-$*$ compact (Proposition~\ref{general-topology:proposition-compact-basic}(3)). The weak-$*$ topology is Hausdorff, since two different
+elements of $X^{**}$ differ at some $\Lambda$, so $J(B_X)$ is weak-$*$ closed (Proposition~\ref{general-topology:proposition-compact-basic}(2)). By Goldstine's theorem it is also dense in $B_{X^{**}}$, so
+$J(B_X) = B_{X^{**}}$, and by scaling $J(X) = X^{**}$.
+\end{proof}
+
+\begin{corollary}\label{functional-analysis:corollary-reflexive-minimisation}
+Let $X$ be a reflexive Banach space.
+\begin{enumerate}
+\item Every bounded, closed, convex subset of $X$ is weakly compact.
+\item Every $\Lambda \in X^*$ attains its norm: there is $x \in B_X$ with $\Lambda(x) = \|\Lambda\|$.
+\item Let $C \subseteq X$ be nonempty, closed and convex, and $F \colon C \to \RR$ continuous and convex with $F(x) \to \infty$ as $\|x\| \to \infty$ in $C$ (no condition if $C$ is bounded). Then $F$ attains its
+minimum on $C$. In particular, for every $x_0 \in X$ there is a point of $C$ nearest to $x_0$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Let $C$ be such a set, contained in the ball $rB_X$. Multiplication by $r$ is a weak homeomorphism, so $rB_X$ is weakly compact by Theorem~\ref{functional-analysis:theorem-kakutani}, and $C$ is weakly
+closed by Mazur's theorem (Corollary~\ref{functional-analysis:corollary-mazur}(1)), hence weakly compact (Proposition~\ref{general-topology:proposition-compact-basic}(1)).
+
+(2) The function $x \mapsto \operatorname{Re}\Lambda(x)$ is weakly continuous, so it attains a maximum on the weakly compact set $B_X$ (Corollary~\ref{general-topology:corollary-extreme-value}) at some $x_1$, and
+$\operatorname{Re}\Lambda(x_1) = \|\Lambda\|$. Since $|\Lambda(x_1)| \leq \|\Lambda\|$, $\Lambda(x_1) = \|\Lambda\|$.
+
+(3) Let $m = \inf_CF \geq -\infty$ and fix $x_1 \in C$; if $F(x_1) = m$ we are done. For $m < t \leq F(x_1)$ the set $C_t = \{x \in C : F(x) \leq t\}$ is nonempty, convex (as $F$ is convex), closed (as $F$ is
+continuous and $C$ closed) and bounded (by the growth condition). By (1) the sets $C_t$ are weakly compact, hence weakly closed subsets of the weakly compact set $C_{F(x_1)}$, and they decrease as
+$t$ decreases. Any finitely many of them have nonempty intersection, the smallest one, so by compactness $\bigcap_tC_t \neq \emptyset$. A point $x$ of the intersection has $F(x) \leq t$ for all $t > m$, so
+$F(x) = m$, and in particular $m > -\infty$. For the nearest point take $F(x) = \|x - x_0\|$.
+\end{proof}
+
+This removes the separability and Hilbert space assumptions from the direct method, Proposition~\ref{functional-analysis:proposition-direct-method}; by
+Remark~\ref{functional-analysis:remark-reflexive}(1) it applies in $L^p$ for $1 < p < \infty$. The use of compactness through decreasing families of closed sets, instead of subsequences, is what lets the
+argument work although the weak topology is in general not metrisable.
+
+\begin{counterexample}\label{functional-analysis:counterexample-c0-nearest}
+In the non-reflexive space $c_0$ (real scalars) both (2) and (3) fail. Let $y = (2^{-n})_{n \geq 1} \in \ell^1$, so $\Lambda_y(x) = \sum_n2^{-n}x_n$ has norm $\|y\|_1 = 1$
+(Proposition~\ref{functional-analysis:proposition-sequence-duals}(2)). For $x \in c_0$ with $\|x\|_\infty \leq 1$, $|x_n| < 1$ for large $n$, so $|\Lambda_y(x)| < \sum_n2^{-n} = 1$: the norm is not attained. Consequently the
+closed convex set $C = \{x \in c_0 : \Lambda_y(x) = 1\}$ has no point nearest to $0$: every $x \in C$ has $\|x\|_\infty > 1$ (by the previous sentence applied to $x/\|x\|_\infty$), while
+$x^{(N)} = (1, \ldots, 1, 0, \ldots)/(1 - 2^{-N})$, with $N$ ones, lies in $C$ and has norm $1/(1 - 2^{-N}) \to 1$. By the corollary, this gives another proof that $c_0$ is not reflexive.
+\end{counterexample}
+
+Kakutani's name is attached to a second, quite different theorem of functional analysis, a fixed point theorem for commuting affine maps, which produces invariant functionals. We prove it for
+weak-$*$ compact sets of functionals, which is the case needed in practice. A map $T \colon K \to K$ on a convex set is \emph{affine} if $T((1 - t)a + tb) = (1 - t)T(a) + tT(b)$ for $a, b \in K$ and
+$t \in [0, 1]$; it then preserves all finite convex combinations.
+
+\begin{theorem}[Markov--Kakutani]\label{functional-analysis:theorem-markov-kakutani}
+Let $X$ be a normed space, $K \subseteq X^*$ a nonempty convex weak-$*$ compact set, and $\mathcal{T}$ a family of affine weak-$*$ continuous maps $K \to K$ that commute pairwise. Then there is $\Lambda \in K$ with
+$T(\Lambda) = \Lambda$ for all $T \in \mathcal{T}$.
+\end{theorem}
+
+\begin{proof}
+For $T \in \mathcal{T}$ and $n \geq 1$ let $A_{T,n} = \frac1n(\mathrm{id} + T + \cdots + T^{n-1})$. It maps $K$ into $K$, as $K$ is convex, and it is weak-$*$ continuous, since for each $x \in X$ the map
+$\Lambda \mapsto (A_{T,n}\Lambda)(x) = \frac1n\sum_{j<n}(T^j\Lambda)(x)$ is continuous. Since the maps of $\mathcal{T}$ are affine and commute, $S \circ A_{T,n} = A_{T,n} \circ S$ for $S \in \mathcal{T}$, and hence the
+maps $A_{T,n}$ commute with each other. Let $\mathcal{A}$ be the set of finite composites of maps $A_{T,n}$. For $A \in \mathcal{A}$, $A(K)$ is weak-$*$ compact, hence weak-$*$ closed in the Hausdorff space
+$X^*$. For $A_1, \ldots, A_m \in \mathcal{A}$, the composite $A_1 \circ \cdots \circ A_m$ can be written with any $A_i$ on the left, so $A_1 \cdots A_m(K) \subseteq A_i(K)$ for each $i$: the closed subsets $A(K)$
+of the compact set $K$ have the finite intersection property, and there is $\Lambda \in \bigcap_{A \in \mathcal{A}}A(K)$.
+
+Let $T \in \mathcal{T}$ and $n \geq 1$. Then $\Lambda = A_{T,n}(M)$ for some $M \in K$, and since $T$ is affine,
+\[
+T(\Lambda) - \Lambda = \frac1n\sum_{j=1}^{n}T^jM - \frac1n\sum_{j=0}^{n-1}T^jM = \frac1n(T^nM - M).
+\]
+For $x \in X$ the continuous function $N \mapsto |N(x)|$ is bounded on the compact set $K$, say by $c_x$, so $|(T\Lambda)(x) - \Lambda(x)| \leq 2c_x/n$. Letting $n \to \infty$, $T(\Lambda) = \Lambda$.
+\end{proof}
+
+\begin{example}\label{functional-analysis:example-banach-limit-fixed-point}
+\emph{Banach limits again.} Let $X = \ell^\infty$ (real) and $S$ the left shift, $(Sx)_n = x_{n+1}$. The set $K = \{L \in (\ell^\infty)^* : \|L\| \leq 1, \ L(\mathbf{1}) = 1\}$ is convex, nonempty (it contains
+$x \mapsto x_1$) and weak-$*$ closed in the weak-$*$ compact unit ball (Theorem~\ref{functional-analysis:theorem-alaoglu}), hence weak-$*$ compact. The map $T(L) = L \circ S$ is linear, weak-$*$ continuous (as
+$(TL)(x) = L(Sx)$ is evaluation at $Sx$) and maps $K$ into $K$, since $\|S\| \leq 1$ and $S\mathbf{1} = \mathbf{1}$. A fixed point $L$ is shift-invariant. It is positive: for $0 \leq x \leq \mathbf{1}$,
+$\|\mathbf{1} - x\|_\infty \leq 1$ gives $1 - L(x) = L(\mathbf{1} - x) \leq 1$. Hence $L(x) = L(S^nx) \geq \inf_{k > n}x_k$ for all $n$, so $L(x) \geq \liminf_nx_n$, and likewise $L(x) \leq \limsup_nx_n$: $L$ is a
+Banach limit, as in Exercise~\ref{functional-analysis:exercise-banach-limit}. The same argument, with the translations of an abelian group $G$ acting on the bounded functions on $G$, produces a
+translation-invariant mean on every abelian group (the translations commute because the group is abelian); groups with such a mean are called \emph{amenable}.
+\end{example}
+
 \begin{remark}\label{functional-analysis:remark-reflexive}
 \begin{enumerate}
 \item \emph{Duals of $L^p$.} For a $\sigma$-finite measure space and $1 \leq p < \infty$, every bounded linear functional on $L^p(\mu)$ is $f \mapsto \int fg\,d\mu$ for a unique $g \in L^q(\mu)$, and
@@ -867,7 +980,7 @@ Riesz representation theorem.
 \item \emph{The dual of $C(K)$.} For a compact metric space $K$, $C(K)^*$ is the space of signed (or complex) finite Borel measures with the total variation norm; for positive functionals this is the
 Riesz--Markov theorem (Theorem~\ref{measure-theory:theorem-riesz-markov}, Remark~\ref{measure-theory:remark-riesz-markov}). Weak-$*$ convergence in $C(K)^*$ is then weak convergence of measures, and
 Theorem~\ref{measure-theory:theorem-weak-compactness} is a case of the Banach--Alaoglu theorem.
-\item \emph{Weak compactness.} A Banach space is reflexive if and only if its closed unit ball is weakly compact (Kakutani), and then every bounded sequence has a weakly convergent subsequence
+\item \emph{Weak compactness.} A Banach space is reflexive if and only if its closed unit ball is weakly compact (Theorem~\ref{functional-analysis:theorem-kakutani}), and then every bounded sequence has a weakly convergent subsequence
 (Eberlein--\v{S}mulian). Every uniformly convex space, such as $L^p$ with $1 < p < \infty$, is reflexive (Milman--Pettis). See \cite[Chapter 3]{brezis-functional}. This is why the direct method
 (Proposition~\ref{functional-analysis:proposition-direct-method}) works in $L^p$ and in the Sobolev spaces built from it, and fails in $L^1$: there the integrable functions $n\mathbf{1}_{[0, 1/n]}$, of norm $1$,
 concentrate at a point and have no weakly convergent subsequence in $L^1$, their limit being the Dirac measure, which lies outside $L^1$.

@@ -414,6 +414,15 @@ $\varepsilon > 0$, choose compact $K \subseteq E \subseteq U$ open with $\lambda
 Lemma~\ref{general-topology:lemma-lch-shrinking}, a continuous $\phi \colon \RR^n \to [0, 1]$ with compact support in $U$ and $\phi = 1$ on $K$. Then $\|\mathbf{1}_E - \phi\|_p^p \leq \lambda(U \setminus K) < \varepsilon$.
 \end{proof}
 
+\begin{counterexample}\label{measure-theory:counterexample-density-infinity}
+The proposition fails for $p = \infty$. Let $g$ be continuous. If $|g| \leq c$ almost everywhere on an open set $W$, then $|g| \leq c$ everywhere on $W$, because $\{x \in W : |g(x)| > c\}$ is open and null,
+and a nonempty open set has positive measure. Hence $\|g\|_\infty = \sup|g|$, a sequence in $C_c(\RR^n)$ that is Cauchy in $L^\infty$ is uniformly Cauchy, and the closure of $C_c(\RR^n)$ in $L^\infty$
+consists of (classes of) continuous functions vanishing at infinity. For instance, let $H = \{x : x_1 \geq 0\}$ and suppose $\|g - \mathbf{1}_H\|_\infty = c < \frac12$ with $g$ continuous. Applying the
+first remark to $g - 1$ on the interior of $H$ and to $g$ on $\RR^n \setminus H$, we get $|g - 1| \leq c$ on $\operatorname{int}H$ and $|g| \leq c$ on $\RR^n \setminus H$; at the origin, which is a limit of points
+of both sets, continuity gives $g(0) \geq 1 - c > \frac12$ and $g(0) \leq c < \frac12$, a contradiction. So $\mathbf{1}_H$ has distance at least $\frac12$ from all continuous functions. In fact
+$L^\infty([0, 1])$ is not separable at all: the functions $\mathbf{1}_{[0, t]}$, $0 < t \leq 1$, are uncountably many and pairwise at distance $1$.
+\end{counterexample}
+
 \section{Modes of convergence}\label{measure-theory:section-modes}
 
 \begin{definition}\label{measure-theory:definition-modes}
@@ -1397,7 +1406,11 @@ $\mu^-$, concentrated on disjoint Borel sets $X^+$ and $X^-$, with
 \[
 L(\varphi) = \int\varphi\,d\mu^+ - \int\varphi\,d\mu^- \qquad (\varphi \in C_c(X)).
 \]
-If $X$ is compact, every bounded linear functional $L$ on $C(X)$ (with the norm $\|\ \|_\infty$) has this form with $\mu^\pm$ finite, and $\|L\| = \mu^+(X) + \mu^-(X)$.
+If $X$ is compact, every bounded linear functional $L$ on $C(X)$ (with the norm $\|\ \|_\infty$) has this form with $\mu^\pm$ finite, and
+\[
+\|L\| = \|\mu^+ - \mu^-\| = \mu^+(X) + \mu^-(X),
+\]
+the \emph{total variation norm} of the signed measure $\mu^+ - \mu^-$, $E \mapsto \mu^+(E) - \mu^-(E)$: the norm of the functional is the norm of the measure.
 \end{corollary}
 
 \begin{proof}
@@ -1406,9 +1419,50 @@ sets, hence Radon by Proposition~\ref{measure-theory:proposition-radon-automatic
 holds with the constant $\|L\|$, $\mu^\pm(X) \leq \mu(X) < \infty$, and \eqref{measure-theory:equation-total-variation} with $V = X$ gives $\mu(X) = \sup\{L(\varphi) : \|\varphi\|_\infty \leq 1\} = \|L\|$.
 \end{proof}
 
+For a signed measure $\mu = \mu^+ - \mu^-$ as in the corollary, with $\|\mu\| = \mu^+(X) + \mu^-(X)$, the total variation norm is intrinsic to the set function $\mu$:
+$\|\mu\| = \sup\sum_i|\mu(E_i)|$ over all finite partitions of $X$ into Borel sets $E_i$. Indeed $\sum_i|\mu(E_i)| \leq \sum_i(\mu^+(E_i) + \mu^-(E_i)) = \|\mu\|$, with equality for the partition
+$\{X^+, X \setminus X^+\}$. For example $\|\delta_0 - \delta_1\| = 2$, and $\|h\lambda\| = \int|h|\,d\lambda$ for the measure $E \mapsto \int_Eh\,d\lambda$ with $h \in L^1$.
 So the dual space of $C(X)$, for a compact metrisable $X$, is the space of signed Radon measures with the total variation norm; this proves the statement quoted in
 Remark~\ref{measure-theory:remark-riesz-markov}(3) for the spaces of this section. The decomposition $X = X^+ \cup X^-$ is the \emph{Hahn decomposition} and $\mu^\pm$ the \emph{Jordan decomposition} of the
 signed measure $\mu^+ - \mu^-$.
+
+For a noncompact $X$ the natural Banach space is $C_0(X)$, the space of continuous $f \colon X \to \RR$ \emph{vanishing at infinity}: for every $\varepsilon > 0$ the set $\{|f| \geq \varepsilon\}$ is compact.
+With the norm $\|f\|_\infty$ it is a closed subspace of the bounded continuous functions, hence complete (a uniform limit of functions vanishing at infinity vanishes at infinity), and it contains
+$C_c(X)$ as a dense subspace: for $f \in C_0(X)$ and $\varepsilon > 0$, Lemma~\ref{general-topology:lemma-lch-shrinking} gives $\psi \prec X$ with $\psi = 1$ on the compact set $\{|f| \geq \varepsilon\}$, and
+then $\psi f \in C_c(X)$ and $\|f - \psi f\|_\infty \leq \varepsilon$. For $X = \RR^n$, $e^{-|x|^2}$ and $1/(1 + |x|^2)$ lie in $C_0$, while the constant $1$ does not. As in Corollary~\ref{measure-theory:corollary-signed-riesz}, a
+\emph{finite signed Radon measure} is a difference $\mu = \mu^+ - \mu^-$ of finite Radon measures concentrated on disjoint Borel sets, with total variation norm $\|\mu\| = \mu^+(X) + \mu^-(X)$ and
+$\int f\,d\mu = \int f\,d\mu^+ - \int f\,d\mu^-$.
+
+\begin{corollary}[The dual of $C_0(X)$]\label{measure-theory:corollary-riesz-c0}
+For every bounded linear functional $L$ on $C_0(X)$ there is a unique finite signed Radon measure $\mu$ with
+\[
+L(f) = \int f\,d\mu \quad (f \in C_0(X)), \qquad \|L\| = \|\mu\|.
+\]
+Conversely every finite signed Radon measure defines in this way a bounded functional of norm $\|\mu\|$. So $C_0(X)^*$ is isometrically isomorphic to the space of finite signed Radon measures with the
+total variation norm. More generally, with $H$ as above, every bounded linear functional on $C_0(X, H)$ (with the norm $\sup_x|f(x)|$) is $f \mapsto \int\langle f, \nu\rangle\,d\mu$ with $\mu$ a finite Radon
+measure of mass $\mu(X) = \|L\|$ and $|\nu| = 1$ $\mu$-almost everywhere.
+\end{corollary}
+
+\begin{proof}
+We prove the vector-valued statement; the scalar one is the case $H = \RR$, with $\mu^\pm$ as in the proof of Corollary~\ref{measure-theory:corollary-signed-riesz}. The restriction of $L$ to $C_c(X, H)$
+satisfies the hypothesis of Theorem~\ref{measure-theory:theorem-riesz-vector} with $M_K \leq \|L\|$, which gives $\mu$ and $\nu$. By \eqref{measure-theory:equation-total-variation} with $V = X$,
+$\mu(X) = \sup\{L(f) : f \in C_c(X, H), |f| \leq 1\} \leq \|L\|$; in particular $\mu$ is finite. The functional $f \mapsto \int\langle f, \nu\rangle\,d\mu$ is defined on $C_0(X, H)$, with
+$|\int\langle f, \nu\rangle\,d\mu| \leq \|f\|_\infty\mu(X)$, and it agrees with $L$ on $C_c(X, H)$. The density argument above, applied componentwise (or with $\psi f$ for $f \in C_0(X, H)$), shows that
+$C_c(X, H)$ is dense in $C_0(X, H)$; two bounded functionals agreeing on a dense subspace are equal, so $L(f) = \int\langle f, \nu\rangle\,d\mu$ on $C_0(X, H)$. This also gives $\|L\| \leq \mu(X)$, so
+$\|L\| = \mu(X)$. Uniqueness follows from the uniqueness in Theorem~\ref{measure-theory:theorem-riesz-vector}, applied to the restriction to $C_c(X, H)$. For the converse, let $\mu = \mu^+ - \mu^-$ with $\mu^\pm$ concentrated on disjoint Borel sets
+$X^\pm$. The functional $L(f) = \int f\,d\mu$ satisfies $|L(f)| \leq \|f\|_\infty\|\mu\|$, and it is represented as in Theorem~\ref{measure-theory:theorem-riesz-vector} by the pair
+$(\mu^+ + \mu^-, \mathbf{1}_{X^+} - \mathbf{1}_{X^-})$ (a finite Borel measure, hence Radon by Proposition~\ref{measure-theory:proposition-radon-automatic}). By uniqueness and the first part,
+$\|L\| = (\mu^+ + \mu^-)(X) = \|\mu\|$.
+\end{proof}
+
+\begin{remark}\label{measure-theory:remark-dual-bounded-continuous}
+For a noncompact $X$ the corollary does not extend from $C_0(X)$ to the space $C_b(X)$ of all bounded continuous functions. For $X = \NN$ with the discrete topology, $C_0(\NN) = c_0$ is the space of
+sequences tending to $0$, its dual is the space of finite signed measures on $\NN$, that is, of summable sequences $\ell^1$, and $C_b(\NN) = \ell^\infty$. A bounded linear functional $L$ on $\ell^\infty$ that
+vanishes on $c_0$ and has $L(\mathbf{1}) = 1$ cannot be integration against a countably additive measure: such a measure would give mass $L(\mathbf{1}_{\{n\}}) = 0$ to each point, hence mass $0$ to $\NN$.
+Such functionals exist, by the Hahn--Banach theorem (Chapter~\ref{functional-analysis}); they correspond to finitely additive measures, or to measures on a large compactification of $X$. This is why the
+compactness of $X$ matters in Corollary~\ref{measure-theory:corollary-signed-riesz}, and why weak convergence of measures, in the next section, is defined by testing against $C_c(X)$; testing
+against $C_b(X)$ is a stronger condition, which also requires that no mass escapes to infinity.
+\end{remark}
 
 \begin{example}\label{measure-theory:example-riesz-vector}
 \begin{enumerate}
