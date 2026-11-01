@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Extrema in several variables, Lagrange multipliers and the Karush–Kuhn–Tucker conditions - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="real-analysis-section-inverse-function.html" /><link rel="next" href="real-analysis-section-ode.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2 active">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+  <ul><li class="level-3">
+  <a href="real-analysis-section-introduction.html"><span class="toc_ref">27.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-sequences.html"><span class="toc_ref">27.2</span> <span class="toc_entry">Limits of sequences</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-limits-functions.html"><span class="toc_ref">27.3</span> <span class="toc_entry">Limits of functions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-continuity-real.html"><span class="toc_ref">27.4</span> <span class="toc_entry">Continuous functions of a real variable</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-series.html"><span class="toc_ref">27.5</span> <span class="toc_entry">Upper and lower limits, and series</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-one-variable.html"><span class="toc_ref">27.6</span> <span class="toc_entry">Differentiation in one variable</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-exponential.html"><span class="toc_ref">27.7</span> <span class="toc_entry">The exponential and trigonometric functions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-riemann.html"><span class="toc_ref">27.8</span> <span class="toc_entry">The Riemann integral</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-function-sequences.html"><span class="toc_ref">27.9</span> <span class="toc_entry">Sequences of functions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-several-variables.html"><span class="toc_ref">27.10</span> <span class="toc_entry">Derivatives in several variables</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-inverse-function.html"><span class="toc_ref">27.11</span> <span class="toc_entry">The inverse and implicit function theorems</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="real-analysis-section-extrema.html"><span class="toc_ref">27.12</span> <span class="toc_entry">Extrema in several variables, Lagrange multipliers and the Karush–Kuhn–Tucker conditions</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-ode.html"><span class="toc_ref">27.13</span> <span class="toc_entry">Ordinary differential equations</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-approximation.html"><span class="toc_ref">27.14</span> <span class="toc_entry">Stone–Weierstrass and Arzelà–Ascoli</span></a>
+</li>
+<li class="level-3">
+  <a href="real-analysis-section-exercises.html"><span class="toc_ref">27.15</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-analysis.html">V Analysis</a></li><li><a href="real-analysis.html">27 Real Analysis</a></li></ol>
+
+<article class="main-text">
+<h1 id="real-analysis:section-extrema">27.12 Extrema in several variables, Lagrange multipliers and the Karush–Kuhn–Tucker conditions<a class="tag" href="tag/036X.html" title="Permanent link: tag 036X">036X</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>In one variable, Fermat’s lemma and the second derivative test (Lemma&#160;<a href="real-analysis-section-one-variable.html#real-analysis:lemma-fermat">27.6.4</a>, Corollary&#160;<a href="real-analysis-section-one-variable.html#real-analysis:corollary-second-derivative-test">27.6.14</a>) locate the extrema of a function. This section does the same in several variables, first for functions on open sets, then for functions restricted to a set defined by equations (Lagrange multipliers), and finally to a set defined by equations and inequalities (the Karush–Kuhn–Tucker conditions), which is the basic situation of optimisation theory. The tools are the chain rule, Taylor’s formula and the implicit function theorem of the previous sections, together with one piece of convex geometry, Farkas’ lemma. </p>
+<h2 id="real-analysis:subsection-gradient-hessian">27.12.1 Gradient and Hessian<a class="tag" href="tag/036Y.html" title="Permanent link: tag 036Y">036Y</a></h2>
+
+<p>Let \(U \subseteq \mathbb {R}^n\) be open and \(f \colon U \to \mathbb {R}\) differentiable at \(a\). The <em>gradient</em> of \(f\) at \(a\) is the vector \(\nabla f(a) = (\partial _1f(a), \ldots , \partial _nf(a)) \in \mathbb {R}^n\); by Proposition&#160;<a href="real-analysis-section-several-variables.html#real-analysis:proposition-derivative-basic">27.10.3</a>(1) it represents the derivative through the standard inner product, </p>
+<div class="displaymath" id="a0000000956">
+  \[  Df(a)h = \langle \nabla f(a), h\rangle \qquad (h \in \mathbb {R}^n).  \]
+</div>
+<p> If \(\nabla f(a) \neq 0\), the Cauchy–Schwarz inequality shows that among unit vectors \(h\) the <em>directional derivative</em> \(\langle \nabla f(a), h\rangle \) is largest for \(h = \nabla f(a)/\| \nabla f(a)\| \): the gradient points in the direction of steepest increase, and its length is the rate of increase in that direction. It is orthogonal to the level set through \(a\), in the sense that \(\langle \nabla f(a), \gamma '(0)\rangle = (f \circ \gamma )'(0) = 0\) for every differentiable curve \(\gamma \) with \(\gamma (0) = a\) on which \(f\) is constant. </p>
+<p>If \(f\) is \(C^2\), its <em>Hessian</em> at \(a\) is the matrix \(D^2f(a) = (\partial _i\partial _jf(a))_{i,j}\), which is symmetric by Schwarz’s theorem (Theorem&#160;<a href="real-analysis-section-several-variables.html#real-analysis:theorem-schwarz">27.10.5</a>). We write \(D^2f(a)(h, h) = h^TD^2f(a)h = \sum _{i,j}\partial _i\partial _jf(a)h_ih_j\) for the associated quadratic form. With this notation Taylor’s theorem (Theorem&#160;<a href="real-analysis-section-several-variables.html#real-analysis:theorem-taylor-several">27.10.7</a>) for \(k = 1\) reads </p>
+<div class="equation" id="real-analysis:equation-taylor-hessian">
+<p>
+  <div class="equation_content">
+    \begin{equation} f(a + h) = f(a) + \langle \nabla f(a), h\rangle + \tfrac 12D^2f(\xi )(h, h) \qquad \text{for some } \xi \in (a, a + h), \end{equation}
+  </div>
+  <span class="equation_label">27.2</span>
+</p>
+</div>
+<p> since \(\sum _{|\alpha | = 2}\frac{\partial ^\alpha f}{\alpha !}h^\alpha = \frac12\sum _{i,j}\partial _i\partial _jfh_ih_j\) (a diagonal term \(\alpha = 2e_i\) has \(\alpha ! = 2\) and occurs once, an off-diagonal pair \(\{ i, j\} \) has \(\alpha ! = 1\) and occurs twice in the double sum). Along a line, if \(g(t) = f(a + th)\), the chain rule gives </p>
+<div class="equation" id="real-analysis:equation-line-derivatives">
+<p>
+  <div class="equation_content">
+    \begin{equation} g'(t) = \langle \nabla f(a + th), h\rangle , \qquad g''(t) = D^2f(a + th)(h, h). \end{equation}
+  </div>
+  <span class="equation_label">27.3</span>
+</p>
+</div>
+<p>A real symmetric matrix \(H\), or its quadratic form, is <em>positive definite</em> if \(h^THh {\gt} 0\) for all \(h \neq 0\), <em>positive semidefinite</em> if \(h^THh \geq 0\) for all \(h\), <em>negative (semi)definite</em> if \(-H\) is positive (semi)definite, and <em>indefinite</em> if \(h^THh\) takes both signs. By the spectral theorem (Theorem&#160;<a href="linear-algebra-section-inner-product.html#linear-algebra:theorem-spectral">11.10.6</a>), \(H = QDQ^T\) with \(Q\) orthogonal, and \(h^THh = \sum _i\lambda _iy_i^2\) with \(y = Q^Th\): so \(H\) is positive definite if and only if all its eigenvalues are positive, positive semidefinite if and only if they are all \(\geq 0\), and indefinite if and only if it has eigenvalues of both signs. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="real-analysis:definition-local-extremum-several">
+  <div class="definition_thmheading"><a class="tag" href="tag/0371.html" title="Permanent link: tag 0371">0371</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">27.12.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(S \subseteq \mathbb {R}^n\) and \(f \colon S \to \mathbb {R}\). Then \(f\) has a <em>local minimum</em> at \(a \in S\) if there is \(\delta {\gt} 0\) with \(f(x) \geq f(a)\) for all \(x \in S\) with \(\| x - a\|  {\lt} \delta \), and a <em>strict local minimum</em> if moreover \(f(x) {\gt} f(a)\) for these \(x \neq a\); similarly for (strict) local maxima. A <em>global minimum</em> on \(S\) is a point \(a\) with \(f(x) \geq f(a)\) for all \(x \in S\). When \(S\) is given by equations or inequalities and \(f\) is the restriction of a function defined on a larger open set, one speaks of a <em>constrained</em> extremum. A point \(a\) of an open set \(U\) where \(f\) is differentiable is a <em>critical point</em> of \(f\) if \(\nabla f(a) = 0\). </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-hessian-test">
+  <div class="proposition_thmheading"><a class="tag" href="tag/0372.html" title="Permanent link: tag 0372">0372</a><a class="graph-link" href="graph.html?tag=0372" title="Dependencies of tag 0372: what it uses and what uses it" aria-label="Dependency graph of tag 0372"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">27.12.2</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(U \subseteq \mathbb {R}^n\) be open, \(f \colon U \to \mathbb {R}\) of class \(C^2\), and \(a \in U\). </p>
+<ol class="enumerate">
+  <li><p>If \(f\) has a local minimum at \(a\), then \(\nabla f(a) = 0\) and \(D^2f(a)\) is positive semidefinite. </p>
+</li>
+  <li><p>If \(\nabla f(a) = 0\) and \(D^2f(a)\) is positive definite, then \(f\) has a strict local minimum at \(a\). </p>
+</li>
+  <li><p>If \(\nabla f(a) = 0\) and \(D^2f(a)\) is indefinite, then \(f\) has no local extremum at \(a\) (a <em>saddle point</em>). </p>
+</li>
+</ol>
+<p> The same holds for maxima with “negative” in place of “positive”. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000957">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) Let \(h \in \mathbb {R}^n\) and \(g(t) = f(a + th)\), defined and \(C^2\) on an interval around \(0\), with a local minimum at \(0\). By Lemma&#160;<a href="real-analysis-section-one-variable.html#real-analysis:lemma-fermat">27.6.4</a> and <a href="real-analysis-section-extrema.html#real-analysis:equation-line-derivatives" class="eqref">27.3</a>, \(0 = g'(0) = \langle \nabla f(a), h\rangle \); as \(h\) is arbitrary, \(\nabla f(a) = 0\). If \(g''(0) = D^2f(a)(h, h)\) were negative, \(g\) would have a strict local maximum at \(0\) by Corollary&#160;<a href="real-analysis-section-one-variable.html#real-analysis:corollary-second-derivative-test">27.6.14</a>, so \(g(t) {\lt} g(0) \leq g(t)\) for small \(t \neq 0\), which is absurd. Hence \(D^2f(a)(h, h) \geq 0\). </p>
+<p>(2) The unit sphere \(\{ \| u\|  = 1\} \) is compact (Theorem&#160;<a href="general-topology-section-compactness.html#general-topology:theorem-heine-borel">18.6.5</a>) and \(u \mapsto D^2f(a)(u, u)\) is continuous and positive on it, so it has a minimum \(m {\gt} 0\) (Corollary&#160;<a href="general-topology-section-compactness.html#general-topology:corollary-extreme-value">18.6.6</a>). For \(\| u\|  = 1\), \(|D^2f(\xi )(u, u) - D^2f(a)(u, u)| \leq \sum _{i,j}|\partial _i\partial _jf(\xi ) - \partial _i\partial _jf(a)|\), which is \({\lt} m/2\) for \(\| \xi - a\|  {\lt} \delta \) with \(\delta \) small, by continuity of the second derivatives. Then for \(0 {\lt} \| h\|  {\lt} \delta \) (and \(\overline{B}(a, \delta ) \subseteq U\)), <a href="real-analysis-section-extrema.html#real-analysis:equation-taylor-hessian" class="eqref">27.2</a> with \(\nabla f(a) = 0\) gives </p>
+<div class="displaymath" id="a0000000958">
+  \[  f(a + h) - f(a) = \tfrac 12\| h\| ^2D^2f(\xi )\bigl(\tfrac {h}{\| h\| }, \tfrac {h}{\| h\| }\bigr) \geq \tfrac {m}{4}\| h\| ^2 {\gt} 0.  \]
+</div>
+<p>(3) By (1), applied to \(f\) and to \(-f\), a local minimum forces \(D^2f(a)\) positive semidefinite and a local maximum forces it negative semidefinite; an indefinite form is neither. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="real-analysis:example-hessian-two-variables">
+  <div class="example_thmheading"><a class="tag" href="tag/0373.html" title="Permanent link: tag 0373">0373</a><a class="graph-link" href="graph.html?tag=0373" title="Dependencies of tag 0373: what it uses and what uses it" aria-label="Dependency graph of tag 0373"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.12.3</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> For \(n = 2\) write \(D^2f(a) = \bigl(\begin{smallmatrix}  A 
+
+&  B
+
+\\ B 
+
+&  C
+
+\end{smallmatrix}\bigr)\). Completing the square, \(Ah_1^2 + 2Bh_1h_2 + Ch_2^2 = A(h_1 + \frac BAh_2)^2 + \frac{AC - B^2}{A}h_2^2\) when \(A \neq 0\). So the Hessian is positive definite if and only if \(A {\gt} 0\) and \(AC - B^2 {\gt} 0\), negative definite if and only if \(A {\lt} 0\) and \(AC - B^2 {\gt} 0\), and indefinite if \(AC - B^2 {\lt} 0\) (the determinant is the product of the two eigenvalues). For instance: </p>
+<ol class="enumerate">
+  <li><p>\(f(x, y) = x^2 + xy + y^2 - 3x\) has the single critical point \((2, -1)\), with \(A = C = 2\), \(B = 1\), \(AC - B^2 = 3\): a strict local minimum, in fact global, as \(f\) minus its value there is a positive definite quadratic form in \((x - 2, y + 1)\). </p>
+</li>
+  <li><p>\(f(x, y) = x^3 - 3x + y^2\) has critical points \((\pm 1, 0)\), with \(D^2f = \operatorname {diag}(6x, 2)\): a strict local minimum at \((1, 0)\) and a saddle point at \((-1, 0)\). The local minimum is not global, since \(f(x, 0) \to -\infty \) as \(x \to -\infty \). </p>
+</li>
+  <li><p>\(x^2 + y^4\), \(x^2 - y^4\) and \(x^2 + y^3\) all have the critical point \(0\) with the semidefinite Hessian \(\operatorname {diag}(2, 0)\), and they have a minimum, a saddle and a saddle there: when the Hessian is degenerate the test says nothing, as in Counterexample&#160;<a href="real-analysis-section-one-variable.html#real-analysis:counterexample-second-derivative">27.6.15</a>. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-lines">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/0374.html" title="Permanent link: tag 0374">0374</a><a class="graph-link" href="graph.html?tag=0374" title="Dependencies of tag 0374: what it uses and what uses it" aria-label="Dependency graph of tag 0374"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">27.12.4</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Checking all lines through \(a\) is not enough. Let \(f(x, y) = (y - x^2)(y - 3x^2)\). On every line through \(0\) the restriction of \(f\) has a strict local minimum at \(0\): on the \(x\)-axis \(f = 3x^4\), and on \(y = mx\) we get \(f = m^2x^2 - 4mx^3 + 3x^4\), whose second derivative at \(0\) is \(2m^2 {\gt} 0\) for \(m \neq 0\) (and on the \(y\)-axis \(f = y^2\)). But \(f {\lt} 0\) between the two parabolas, at \((x, 2x^2)\), arbitrarily close to \(0\); so \(0\) is not a local minimum. Here \(D^2f(0) = \operatorname {diag}(0, 2)\) is only semidefinite, as Proposition&#160;<a href="real-analysis-section-extrema.html#real-analysis:proposition-hessian-test">27.12.2</a>(2) requires. </p>
+
+  </div>
+</div>
+<h2 id="real-analysis:subsection-lagrange">27.12.2 Lagrange multipliers<a class="tag" href="tag/0375.html" title="Permanent link: tag 0375">0375</a></h2>
+
+<p>Suppose we want the extrema of \(f(x, y)\) on the curve \(M = \{ h(x, y) = 0\} \). Walking along \(M\), the value of \(f\) stops increasing at a point \(a\) where \(M\) does not cross the level curve of \(f\) through \(a\) but touches it. There the two curves have the same tangent line, so their normals \(\nabla f(a)\) and \(\nabla h(a)\) are parallel: \(\nabla f(a) = \lambda \nabla h(a)\) for some number \(\lambda \), the <em>Lagrange multiplier</em>. In this way a constrained problem in \(n\) unknowns becomes an unconstrained system of \(n + 1\) equations (\(\nabla f = \lambda \nabla h\) and \(h = 0\)) in \(n + 1\) unknowns. To prove this we need curves inside the constraint set with a prescribed velocity; they are provided by the submersion theorem. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="real-analysis:lemma-curves-level-set">
+  <div class="lemma_thmheading"><a class="tag" href="tag/0376.html" title="Permanent link: tag 0376">0376</a><a class="graph-link" href="graph.html?tag=0376" title="Dependencies of tag 0376: what it uses and what uses it" aria-label="Dependency graph of tag 0376"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">27.12.5</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(U \subseteq \mathbb {R}^n\) be open, \(h = (h_1, \ldots , h_q) \colon U \to \mathbb {R}^q\) of class \(C^k\) with \(k \geq 1\), and \(a \in U\) with \(h(a) = 0\) and \(Dh(a)\) surjective, that is, with \(\nabla h_1(a), \ldots , \nabla h_q(a)\) linearly independent. For every \(d \in \ker Dh(a)\) there are \(\varepsilon {\gt} 0\) and a \(C^k\) curve \(x \colon (-\varepsilon , \varepsilon ) \to U\) with \(x(0) = a\), \(x'(0) = d\) and \(h(x(t)) = 0\) for all \(t\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000959">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By Theorem&#160;<a href="real-analysis-section-inverse-function.html#real-analysis:theorem-submersion-immersion">27.11.4</a>(1) there is a \(C^k\)-diffeomorphism \(\psi \) from an open \(V \ni a\) onto an open \(W \subseteq \mathbb {R}^n\) with \(h \circ \psi ^{-1} = \pi \), where \(\pi (z) = (z_1, \ldots , z_q)\). (If \(q = 0\) there is nothing to prove: take \(x(t) = a + td\).) Thus \(h = \pi \circ \psi \) on \(V\), so \(\pi (\psi (a)) = h(a) = 0\) and, by the chain rule, \(\pi (D\psi (a)d) =Dh(a)d = 0\). Put \(v = D\psi (a)d\) and \(x(t) = \psi ^{-1}(\psi (a) + tv)\), defined for \(|t| {\lt} \varepsilon \) since \(W\) is open. Then \(h(x(t)) = \pi (\psi (a)) + t\pi (v) = 0\), and by the chain rule and Theorem&#160;<a href="real-analysis-section-inverse-function.html#real-analysis:theorem-inverse-function">27.11.2</a>, \(x'(0) = D\psi (a)^{-1}v = d\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="real-analysis:theorem-lagrange">
+  <div class="theorem_thmheading"><a class="tag" href="tag/0377.html" title="Permanent link: tag 0377">0377</a><a class="graph-link" href="graph.html?tag=0377" title="Dependencies of tag 0377: what it uses and what uses it" aria-label="Dependency graph of tag 0377"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.12.6</span>
+    <span class="theorem_thmtitle">Lagrange multipliers</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(U \subseteq \mathbb {R}^n\) be open, \(f \colon U \to \mathbb {R}\) and \(h = (h_1, \ldots , h_q) \colon U \to \mathbb {R}^q\) of class \(C^1\), and \(M = \{ x \in U : h(x) = 0\} \). Let \(a \in M\) be a point where \(\nabla h_1(a), \ldots , \nabla h_q(a)\) are linearly independent. If \(f|_M\) has a local extremum at \(a\), there are unique numbers \(\lambda _1, \ldots , \lambda _q\) with </p>
+<div class="equation" id="real-analysis:equation-lagrange">
+<p>
+  <div class="equation_content">
+    \begin{equation} \nabla f(a) = \lambda _1\nabla h_1(a) + \cdots + \lambda _q\nabla h_q(a). \end{equation}
+  </div>
+  <span class="equation_label">27.4</span>
+</p>
+</div>
+<p> Equivalently, \((a, \lambda )\) is a critical point of the <em>Lagrangian</em> \(L(x, \lambda ) = f(x) - \sum _j\lambda _jh_j(x)\) on \(U \times \mathbb {R}^q\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000960">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(d \in \ker Dh(a)\), and let \(x(t)\) be the curve of Lemma&#160;<a href="real-analysis-section-extrema.html#real-analysis:lemma-curves-level-set">27.12.5</a>. Since \(x(t) \in M\) and \(x(t) \to a\), the function \(f \circ x\) has a local extremum at \(t = 0\), so by Lemma&#160;<a href="real-analysis-section-one-variable.html#real-analysis:lemma-fermat">27.6.4</a> and the chain rule \(0 = (f \circ x)'(0) = \langle \nabla f(a), d\rangle \). Thus \(\nabla f(a)\) is orthogonal to \(\ker Dh(a)\). Now \(\ker Dh(a)\) is exactly the orthogonal complement of the span \(R\) of the rows \(\nabla h_j(a)\) of the Jacobian matrix, so \(\nabla f(a) \in (R^\perp )^\perp = R\) (in a finite-dimensional inner product space \((R^\perp )^\perp = R\), since \(R \subseteq (R^\perp )^\perp \) and both have dimension \(\dim R\)). Uniqueness of the \(\lambda _j\) is the linear independence of the \(\nabla h_j(a)\). Finally, \(\partial L/\partial x_i = 0\) for all \(i\) is <a href="real-analysis-section-extrema.html#real-analysis:equation-lagrange" class="eqref">27.4</a>, and \(\partial L/\partial \lambda _j = -h_j = 0\) is the constraint. </p>
+
+  </div>
+</div>
+<p>The space \(\ker Dh(a)\) is the <em>tangent space</em> of \(M\) at \(a\): by the lemma it is the set of velocities of curves in \(M\) through \(a\), and by the submersion theorem \(M\) is, near \(a\), a submanifold of dimension \(n - q\) in the sense of Chapter&#160;<a href="smooth-manifolds.html">33</a>. The theorem says that at a constrained extremum the gradient of \(f\) is normal to \(M\). The linear independence hypothesis cannot be dropped: </p>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-lagrange-cusp">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/0379.html" title="Permanent link: tag 0379">0379</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">27.12.7</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Minimise \(f(x, y) = x\) on the cusp \(M = \{ h = 0\} \), \(h(x, y) = y^2 - x^3\). On \(M\), \(x^3 = y^2 \geq 0\), so \(x \geq 0\) and the minimum is at \((0, 0)\). But \(\nabla f = (1, 0)\), while \(\nabla h = (-3x^2, 2y)\) vanishes at the origin, so no \(\lambda \) satisfies \(\nabla f(0) = \lambda \nabla h(0)\). Solving the Lagrange system \(1 = -3\lambda x^2\), \(0 = 2\lambda y\), \(y^2 = x^3\) gives no solution at all: the method finds nothing, and the minimum sits at the singular point of \(M\). In practice one must examine separately the points of \(M\) where the gradients of the constraints are dependent. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="real-analysis:example-lagrange">
+  <div class="example_thmheading"><a class="tag" href="tag/037A.html" title="Permanent link: tag 037A">037A</a><a class="graph-link" href="graph.html?tag=037A" title="Dependencies of tag 037A: what it uses and what uses it" aria-label="Dependency graph of tag 037A"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.12.8</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Extrema of \(x + y\) on the circle \(x^2 + y^2 = 1\).</em> The circle is compact, so both extrema exist (Corollary&#160;<a href="general-topology-section-compactness.html#general-topology:corollary-extreme-value">18.6.6</a>), and \(\nabla h = (2x, 2y) \neq 0\) on it. The system \((1, 1) = \lambda (2x, 2y)\) gives \(x = y = \frac1{2\lambda }\), and \(x^2 + y^2 = 1\) gives \((x, y) = \pm (\frac1{\sqrt2}, \frac1{\sqrt2})\): maximum \(\sqrt2\), minimum \(-\sqrt2\). </p>
+</li>
+  <li><p><em>The inequality of the means.</em> Maximise \(f(x) = x_1x_2\cdots x_k\) on the compact set \(\Delta = \{ x : x_i \geq 0, \sum _ix_i = k\} \). The maximum is positive (take all \(x_i = 1\)), so it is attained at a point with all \(x_i {\gt} 0\), which is a local maximum of \(f\) on \(M = \{ x \in U : \sum _ix_i = k\} \) with \(U = \{ x_i {\gt} 0\} \). With \(h = \sum _ix_i - k\), \(\nabla h = (1, \ldots , 1)\) and \(\partial _if = f(x)/x_i\), so \(f(x)/x_i = \lambda \) for all \(i\): all \(x_i\) are equal, hence equal to \(1\), and \(f \leq 1\) on \(\Delta \). By homogeneity, \(\sqrt[k]{x_1\cdots x_k} \leq \frac1k\sum _ix_i\) for \(x_i \geq 0\), which recovers Corollary&#160;<a href="real-analysis-section-exponential.html#real-analysis:corollary-am-gm">27.7.7</a> by a quite different route. </p>
+</li>
+  <li><p><em>Eigenvectors as critical points.</em> Let \(A\) be a real symmetric \(n \times n\) matrix and \(q(x) = x^TAx\), so that \(\nabla q(x) = 2Ax\). On the compact unit sphere, \(h(x) = \| x\| ^2 - 1\) with \(\nabla h(x) = 2x \neq 0\), the function \(q\) has a maximum at some \(u\), and <a href="real-analysis-section-extrema.html#real-analysis:equation-lagrange" class="eqref">27.4</a> reads \(Au = \lambda u\): <em>\(u\) is an eigenvector</em>, and \(\lambda = u^TAu\) is the maximum of \(q\) on the sphere, the largest eigenvalue. This proves, without the fundamental theorem of algebra, that a real symmetric matrix has a real eigenvector, which is the key step of Theorem&#160;<a href="linear-algebra-section-inner-product.html#linear-algebra:theorem-spectral">11.10.6</a>(2). More generally the critical points of the <em>Rayleigh quotient</em> \(x^TAx/x^Tx\) on \(\mathbb {R}^n \setminus \{ 0\} \) are exactly the eigenvectors. </p>
+</li>
+  <li><p><em>Nearest points.</em> Let \(h \colon \mathbb {R}^n \to \mathbb {R}\) be \(C^1\), \(M = \{ h = 0\} \) nonempty with \(\nabla h \neq 0\) on \(M\), and \(p \in \mathbb {R}^n\). Since \(M\) is closed, \(f(x) = \| x - p\| ^2\) attains a minimum on \(M\) (on the compact set \(M \cap \overline{B}(p, R)\) for \(R\) large). At the minimum \(a\), \(2(a - p) = \lambda \nabla h(a)\): <em>the segment from \(p\) to the nearest point is normal to \(M\)</em>. For the hyperplane \(\langle n, x\rangle = c\) this gives \(a = p + tn\) with \(t = (c - \langle n, p\rangle )/\| n\| ^2\), and the familiar distance \(|c - \langle n, p\rangle |/\| n\| \). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>The multiplier has a meaning of its own: it is the rate at which the optimal value changes when the constraint is relaxed. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="real-analysis:proposition-multiplier-sensitivity">
+  <div class="proposition_thmheading"><a class="tag" href="tag/037B.html" title="Permanent link: tag 037B">037B</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">27.12.9</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(f, h \colon U \to \mathbb {R}\) be \(C^1\) on an open \(U \subseteq \mathbb {R}^n\), \(J\) an open interval, and \(c \mapsto x(c)\) a differentiable map \(J \to U\) such that for every \(c \in J\), \(h(x(c)) = c\) and \(\nabla f(x(c)) = \lambda (c)\nabla h(x(c))\) for some number \(\lambda (c)\). Then \(V(c) = f(x(c))\) is differentiable on \(J\) and \(V'(c) = \lambda (c)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000961">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>By the chain rule, \(V'(c) = \langle \nabla f(x(c)), x'(c)\rangle = \lambda (c)\langle \nabla h(x(c)), x'(c)\rangle = \lambda (c)\frac{d}{dc}h(x(c)) = \lambda (c)\). </p>
+
+  </div>
+</div>
+<p>For example, the largest product \(xy\) with \(x + y = c\) is \(V(c) = c^2/4\), at \(x = y = c/2\), where \((y, x) = \frac c2(1, 1)\): indeed \(\lambda = c/2 = V'(c)\). In economics, where \(f\) is a profit and \(h \leq c\) a budget, \(\lambda \) is the <em>shadow price</em> of the resource: the extra profit that one more unit of it would bring. In mechanics, where Lagrange introduced the method in his <em>Mécanique analytique</em> (1788), \(\lambda \nabla h\) is the force by which the constraint keeps the system on \(M\). </p>
+<h2 id="real-analysis:subsection-second-order">27.12.3 Second-order conditions<a class="tag" href="tag/037C.html" title="Permanent link: tag 037C">037C</a></h2>
+
+<p>A critical point of the Lagrangian need not be an extremum, and as in Proposition&#160;<a href="real-analysis-section-extrema.html#real-analysis:proposition-hessian-test">27.12.2</a> one looks at second derivatives. The correct quadratic form is not the Hessian of \(f\) but that of the Lagrangian, and only in tangent directions: the curvature of \(M\) contributes through the multipliers. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="real-analysis:theorem-lagrange-second-order">
+  <div class="theorem_thmheading"><a class="tag" href="tag/037D.html" title="Permanent link: tag 037D">037D</a><a class="graph-link" href="graph.html?tag=037D" title="Dependencies of tag 037D: what it uses and what uses it" aria-label="Dependency graph of tag 037D"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.12.10</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(f\) and \(h = (h_1, \ldots , h_q)\) be \(C^2\) on the open set \(U \subseteq \mathbb {R}^n\), \(M = \{ h = 0\} \), and \(a \in M\) with \(\nabla f(a) = \sum _j\lambda _j\nabla h_j(a)\). Put \(L = f - \sum _j\lambda _jh_j\) (with these fixed \(\lambda _j\)) and \(T = \ker Dh(a)\). </p>
+<ol class="enumerate">
+  <li><p>If \(\nabla h_1(a), \ldots , \nabla h_q(a)\) are linearly independent and \(f|_M\) has a local minimum at \(a\), then \(D^2L(a)(d, d) \geq 0\) for all \(d \in T\). </p>
+</li>
+  <li><p>If \(D^2L(a)(d, d) {\gt} 0\) for all nonzero \(d \in T\), then \(f|_M\) has a strict local minimum at \(a\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000962">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Note that \(\nabla L(a) = 0\) and that \(L = f\) on \(M\). </p>
+<p>(1) Let \(d \in T\) and let \(x(t)\) be the \(C^2\) curve of Lemma&#160;<a href="real-analysis-section-extrema.html#real-analysis:lemma-curves-level-set">27.12.5</a>, and \(\varphi (t) = f(x(t)) = L(x(t))\). Differentiating \(\varphi ^{\prime }(t) = \sum _i\partial _iL(x(t))x_i^{\prime }(t)\) once more, </p>
+<div class="displaymath" id="a0000000963">
+  \[  \varphi ^{\prime \prime }(0) = \sum _{i,j}\partial _j\partial _iL(a)x_i^{\prime }(0)x_j^{\prime }(0) + \sum _i\partial _iL(a)x_i^{\prime \prime }(0) = D^2L(a)(d, d),  \]
+</div>
+<p> because \(\nabla L(a) = 0\); this is where the Lagrangian, rather than \(f\), is needed, since \(x''(0)\) is unknown. Now \(\varphi \) has a local minimum at \(0\), and as in the proof of Proposition&#160;<a href="real-analysis-section-extrema.html#real-analysis:proposition-hessian-test">27.12.2</a>(1), \(\varphi ''(0) \geq 0\). </p>
+<p>(2) Suppose not. Then there are \(x_k \in M\) with \(x_k \neq a\), \(x_k \to a\) and \(f(x_k) \leq f(a)\). Write \(x_k = a + t_kd_k\) with \(t_k = \| x_k - a\|  \to 0\) and \(\| d_k\|  = 1\); passing to a subsequence (the unit sphere is compact), \(d_k \to d\) with \(\| d\|  = 1\). From \(h(x_k) = h(a) = 0\) we get \(0 = (h(a + t_kd_k) - h(a))/t_k \to Dh(a)d\), so \(d \in T\). By <a href="real-analysis-section-extrema.html#real-analysis:equation-taylor-hessian" class="eqref">27.2</a> for \(L\), with \(\nabla L(a) = 0\), </p>
+<div class="displaymath" id="a0000000964">
+  \[  0 \geq f(x_k) - f(a) = L(x_k) - L(a) = \tfrac 12t_k^2D^2L(\xi _k)(d_k, d_k)  \]
+</div>
+<p> with \(\xi _k \to a\). Dividing by \(t_k^2/2\) and letting \(k \to \infty \), \(D^2L(a)(d, d) \leq 0\), contradicting the hypothesis. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="real-analysis:example-second-order">
+  <div class="example_thmheading"><a class="tag" href="tag/037E.html" title="Permanent link: tag 037E">037E</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.12.11</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(M\) be the parabola \(y = x^2\), \(h(x, y) = y - x^2\), and \(f(x, y) = y + cx^2\) with a constant \(c\). At \(a = 0\), \(\nabla f = (0, 1) = 1 \cdot \nabla h(0)\), so \(\lambda = 1\) and \(T = \mathbb {R}(1, 0)\). Then \(D^2L = D^2f - D^2h = \operatorname {diag}(2c + 2, 0)\), so \(D^2L(0)(e_1, e_1) = 2(1 + c)\): by the theorem, \(0\) is a strict local minimum of \(f|_M\) for \(c {\gt} -1\) and a strict local maximum for \(c {\lt} -1\). This is correct, since \(f = (1 + c)x^2\) on \(M\). The Hessian of \(f\) alone gives \(D^2f(0)(e_1, e_1) = 2c\), which has the wrong sign for \(-1 {\lt} c {\lt} 0\): the term \(-\lambda D^2h\) records the bending of \(M\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="real-analysis:example-bordered-hessian">
+  <div class="example_thmheading"><a class="tag" href="tag/037F.html" title="Permanent link: tag 037F">037F</a><a class="graph-link" href="graph.html?tag=037F" title="Dependencies of tag 037F: what it uses and what uses it" aria-label="Dependency graph of tag 037F"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.12.12</span>
+    <span class="example_thmtitle">The bordered Hessian in two variables</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(n = 2\), \(q = 1\), \(\nabla h(a) = (h_x, h_y) \neq 0\) and \(D^2L(a) = \bigl(\begin{smallmatrix}  L_{xx} 
+
+&  L_{xy}
+
+\\ L_{xy} 
+
+&  L_{yy}
+
+\end{smallmatrix}\bigr)\). Then \(T\) is spanned by \(d = (-h_y, h_x)\) and </p>
+<div class="displaymath" id="a0000000965">
+  \[  D^2L(a)(d, d) = L_{xx}h_y^2 - 2L_{xy}h_xh_y + L_{yy}h_x^2 = -\det \begin{pmatrix}  0 
+
+&  h_x 
+
+&  h_y
+
+\\ h_x 
+
+&  L_{xx} 
+
+&  L_{xy}
+
+\\ h_y 
+
+&  L_{xy} 
+
+&  L_{yy}
+
+\end{pmatrix},  \]
+</div>
+<p> as one sees by expanding the determinant along the first row. So if the <em>bordered Hessian</em> on the right has negative determinant, \(a\) is a strict local minimum of \(f|_M\), and if it has positive determinant, a strict local maximum. In Example&#160;<a href="real-analysis-section-extrema.html#real-analysis:example-lagrange">27.12.8</a>(1), at \(\pm (\frac1{\sqrt2}, \frac1{\sqrt2})\) we have \(\lambda = \pm \frac1{\sqrt2}\), \(D^2L = -2\lambda I\) and \((h_x, h_y) = \pm (\sqrt2, \sqrt2)\); the determinant is \(-(-2\lambda )(h_x^2 + h_y^2) = 8\lambda \), positive at the maximum and negative at the minimum. </p>
+
+  </div>
+</div>
+<h2 id="real-analysis:subsection-kkt">27.12.4 Inequality constraints and Farkas’ lemma<a class="tag" href="tag/037G.html" title="Permanent link: tag 037G">037G</a></h2>
+
+<p>Many problems constrain the unknowns by inequalities: quantities are nonnegative, budgets are bounded. Consider </p>
+<div class="equation" id="real-analysis:equation-nlp">
+<p>
+  <div class="equation_content">
+    \begin{equation} \text{minimise } f(x) \quad \text{subject to} \quad g_i(x) \leq 0 \  (1 \leq i \leq p), \qquad h_j(x) = 0 \  (1 \leq j \leq q), \end{equation}
+  </div>
+  <span class="equation_label">27.5</span>
+</p>
+</div>
+<p> where \(f, g_i, h_j \colon U \to \mathbb {R}\) are \(C^1\) on an open \(U \subseteq \mathbb {R}^n\); the <em>feasible set</em> is the set \(F\) of \(x \in U\) satisfying the constraints. At a feasible point \(a\), the inequality \(g_i \leq 0\) is <em>active</em> if \(g_i(a) = 0\); let \(I(a)\) be the set of active indices. An inactive constraint, \(g_i(a) {\lt} 0\), still holds near \(a\) and plays no role locally; an active one behaves like a wall. </p>
+<p>To see what to expect, take one inequality \(g \leq 0\) and no equations. If the minimum \(a\) is interior (\(g(a) {\lt} 0\)), then \(\nabla f(a) = 0\). If \(g(a) = 0\), the minimum lies on the wall \(\{ g = 0\} \), so \(\nabla f(a) = \lambda \nabla g(a)\) by Theorem&#160;<a href="real-analysis-section-extrema.html#real-analysis:theorem-lagrange">27.12.6</a>; and now the <em>sign</em> of \(\lambda \) is determined: moving into the feasible region, in the direction \(-\nabla g(a)\), must not decrease \(f\), so \(\nabla f(a)\) points into the feasible region and \(-\nabla f(a) = \mu \nabla g(a)\) with \(\mu \geq 0\). The general statement needs a lemma of linear algebra over the ordered field \(\mathbb {R}\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="real-analysis:lemma-farkas">
+  <div class="lemma_thmheading"><a class="tag" href="tag/037I.html" title="Permanent link: tag 037I">037I</a><a class="graph-link" href="graph.html?tag=037I" title="Dependencies of tag 037I: what it uses and what uses it" aria-label="Dependency graph of tag 037I"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">27.12.13</span>
+    <span class="lemma_thmtitle">Farkas</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(v_1, \ldots , v_r, b \in \mathbb {R}^n\). Exactly one of the following holds: </p>
+<ol class="enumerate">
+  <li><p>\(b = c_1v_1 + \cdots + c_rv_r\) with all \(c_i \geq 0\); </p>
+</li>
+  <li><p>there is \(w \in \mathbb {R}^n\) with \(\langle w, v_i\rangle \leq 0\) for all \(i\) and \(\langle w, b\rangle {\gt} 0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>Geometrically: either \(b\) lies in the convex cone \(C = \{ \sum _ic_iv_i : c_i \geq 0\} \), or a hyperplane through \(0\), with normal \(w\), separates \(b\) from \(C\). </p>
+<div class="proof_wrapper" id="a0000000966">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Both cannot hold, since then \(\langle w, b\rangle = \sum _ic_i\langle w, v_i\rangle \leq 0\). Assume (1) fails, that is, \(b \notin C\). </p>
+<p><em>Step 1: \(C\) is closed.</em> First, every \(y \in C\) is a nonnegative combination of a linearly independent subset of the \(v_i\) (<em>Carathéodory’s lemma</em>). Indeed, choose \(y = \sum _{i \in S}c_iv_i\) with all \(c_i {\gt} 0\) and \(S\) as small as possible. If the \(v_i\) with \(i \in S\) were dependent, there would be a relation \(\sum _{i \in S}\gamma _iv_i = 0\) with some \(\gamma _i {\gt} 0\) (change the sign of \(\gamma \) if necessary); with \(t = \min \{ c_i/\gamma _i : \gamma _i {\gt} 0\} \), \(y = \sum _{i \in S}(c_i - t\gamma _i)v_i\) has nonnegative coefficients, one of which vanishes, contradicting the minimality of \(S\). So \(C\) is the union of the finitely many cones \(C_S\) spanned by linearly independent subsets \(S\), and it suffices that each \(C_S\) is closed. The map \(\mathbb {R}^S \to \mathbb {R}^n\), \(c \mapsto \sum _{i \in S}c_iv_i\), is injective and linear, so on the compact unit sphere of \(\mathbb {R}^S\) its norm has a positive minimum \(m\), and \(\| \sum _ic_iv_i\|  \geq m\| c\| \). If \(\sum _ic_i^{(k)}v_i \to y\) with \(c^{(k)} \geq 0\), then \((c^{(k)})\) is a Cauchy sequence, with a limit \(c \geq 0\), and \(y = \sum _ic_iv_i \in C_S\). </p>
+<p><em>Step 2: a nearest point.</em> The continuous function \(x \mapsto \| b - x\| \) attains a minimum on the compact set \(C \cap \overline{B}(b, \| b\| )\), which contains \(0\); the minimum point \(p\) is then a nearest point to \(b\) in all of \(C\). </p>
+<p><em>Step 3: separation.</em> Let \(w = b - p\), nonzero since \(b \notin C\). For \(c \in C\) and \(0 {\lt} t \leq 1\), \((1 - t)p + tc \in C\), so \(\| w - t(c - p)\| ^2 \geq \| w\| ^2\), that is, \(-2t\langle w, c - p\rangle + t^2\| c - p\| ^2 \geq 0\); dividing by \(t\) and letting \(t \to 0\), \(\langle w, c - p\rangle \leq 0\). With \(c = 0\) and \(c = 2p\) this gives \(\langle w, p\rangle = 0\), hence \(\langle w, c\rangle \leq 0\) for all \(c \in C\), in particular \(\langle w, v_i\rangle \leq 0\). Finally \(\langle w, b\rangle = \langle w, w + p\rangle = \| w\| ^2 {\gt} 0\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="real-analysis:theorem-kkt">
+  <div class="theorem_thmheading"><a class="tag" href="tag/037J.html" title="Permanent link: tag 037J">037J</a><a class="graph-link" href="graph.html?tag=037J" title="Dependencies of tag 037J: what it uses and what uses it" aria-label="Dependency graph of tag 037J"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.12.14</span>
+    <span class="theorem_thmtitle">Karush–Kuhn–Tucker</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> In the situation <a href="real-analysis-section-extrema.html#real-analysis:equation-nlp" class="eqref">27.5</a>, let \(a \in F\) be a local minimum of \(f\) on \(F\), and assume the <em>linear independence constraint qualification</em>: the gradients \(\nabla g_i(a)\) for \(i \in I(a)\) and \(\nabla h_j(a)\) for \(1 \leq j \leq q\) are linearly independent. Then there are unique numbers \(\mu _1, \ldots , \mu _p\) and \(\lambda _1, \ldots , \lambda _q\) with </p>
+<div class="equation" id="real-analysis:equation-kkt">
+<p>
+  <div class="equation_content">
+    \begin{equation} \nabla f(a) + \sum _{i=1}^p\mu _i\nabla g_i(a) + \sum _{j=1}^q\lambda _j\nabla h_j(a) = 0, \qquad \mu _i \geq 0, \qquad \mu _ig_i(a) = 0 \quad (1 \leq i \leq p). \end{equation}
+  </div>
+  <span class="equation_label">27.6</span>
+</p>
+</div>
+
+  </div>
+</div>
+<p>The last condition, <em>complementary slackness</em>, says that \(\mu _i = 0\) unless the \(i\)-th constraint is active. The signs of the \(\lambda _j\) are not restricted, and for \(p = 0\) the theorem is Theorem&#160;<a href="real-analysis-section-extrema.html#real-analysis:theorem-lagrange">27.12.6</a> for minima (with \(-\lambda _j\) in place of \(\lambda _j\)). </p>
+<div class="proof_wrapper" id="a0000000967">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Write \(I = I(a)\). </p>
+<p><em>Step 1.</em> Let \(d \in \mathbb {R}^n\) with \(\langle \nabla g_i(a), d\rangle {\lt} 0\) for \(i \in I\) and \(Dh(a)d = 0\). We show \(\langle \nabla f(a), d\rangle \geq 0\). The \(\nabla h_j(a)\) are linearly independent, so Lemma&#160;<a href="real-analysis-section-extrema.html#real-analysis:lemma-curves-level-set">27.12.5</a> gives a \(C^1\) curve \(x(t)\) with \(x(0) = a\), \(x'(0) = d\) and \(h(x(t)) = 0\). For \(i \in I\), \(\varphi _i(t) = g_i(x(t))\) has \(\varphi _i(0) = 0\) and \(\varphi _i'(0) = \langle \nabla g_i(a), d\rangle {\lt} 0\), so \(\varphi _i(t) {\lt} 0\) for small \(t {\gt} 0\); for \(i \notin I\), \(g_i(x(t)) {\lt} 0\) for small \(t\) by continuity. So \(x(t) \in F\) for small \(t {\gt} 0\), and since \(x(t) \to a\), \(f(x(t)) \geq f(a)\) for small \(t {\gt} 0\). Hence \(\langle \nabla f(a), d\rangle = \lim _{t \to 0^+}(f(x(t)) - f(a))/t \geq 0\). </p>
+<p><em>Step 2.</em> The same holds if only \(\langle \nabla g_i(a), d\rangle \leq 0\) for \(i \in I\) and \(Dh(a)d = 0\). Indeed, the linear map \(d \mapsto ((\langle \nabla g_i(a), d\rangle )_{i \in I}, Dh(a)d)\) has linearly independent rows, hence is surjective, so there is \(d_0\) with \(\langle \nabla g_i(a), d_0\rangle = -1\) for \(i \in I\) and \(Dh(a)d_0 = 0\). For \(\varepsilon {\gt} 0\), \(d + \varepsilon d_0\) satisfies the hypothesis of Step&#160;1, so \(\langle \nabla f(a), d + \varepsilon d_0\rangle \geq 0\); let \(\varepsilon \to 0\). </p>
+<p><em>Step 3.</em> Apply Lemma&#160;<a href="real-analysis-section-extrema.html#real-analysis:lemma-farkas">27.12.13</a> to \(b = -\nabla f(a)\) and the vectors \(\nabla g_i(a)\) (\(i \in I\)), \(\nabla h_j(a)\) and \(-\nabla h_j(a)\) (\(1 \leq j \leq q\)). Alternative (2) would give \(w\) with \(\langle \nabla g_i(a), w\rangle \leq 0\) for \(i \in I\), \(\langle \pm \nabla h_j(a), w\rangle \leq 0\), that is, \(Dh(a)w = 0\), and \(\langle \nabla f(a), w\rangle {\lt} 0\), contradicting Step&#160;2. So alternative (1) holds: \(-\nabla f(a) = \sum _{i \in I}\mu _i\nabla g_i(a) + \sum _j(c_j^+ - c_j^-)\nabla h_j(a)\) with \(\mu _i, c_j^\pm \geq 0\). Put \(\lambda _j = c_j^+ - c_j^-\) and \(\mu _i = 0\) for \(i \notin I\); this gives <a href="real-analysis-section-extrema.html#real-analysis:equation-kkt" class="eqref">27.6</a>. Uniqueness follows from the linear independence, since \(\mu _i = 0\) is forced for \(i \notin I\). </p>
+
+  </div>
+</div>
+<p>The conditions were found by W.&#160;Karush in his 1939 master’s thesis and, independently, by H.&#160;W.&#160;Kuhn and A.&#160;W.&#160;Tucker in 1951, at the start of nonlinear programming. In the language of the introduction to this subsection: at a constrained minimum, \(-\nabla f(a)\), the direction of steepest descent, lies in the cone spanned by the outward normals \(\nabla g_i(a)\) of the active walls (and the normal space of the equations), so that every feasible direction is uphill to first order. </p>
+<div class="counterexample_thmwrapper theorem-style-definition" id="real-analysis:counterexample-kkt">
+  <div class="counterexample_thmheading"><a class="tag" href="tag/037L.html" title="Permanent link: tag 037L">037L</a>
+    <span class="counterexample_thmcaption">
+    Counterexample
+    </span>
+    <span class="counterexample_thmlabel">27.12.15</span>
+  </div>
+  <div class="counterexample_thmcontent">
+  <p> Without a constraint qualification the conclusion can fail. Minimise \(f(x, y) = x\) subject to \(g_1 = y - x^3 \leq 0\) and \(g_2 = -y \leq 0\). Feasibility means \(0 \leq y \leq x^3\), so \(x \geq 0\), and the minimum is at \((0, 0)\), where both constraints are active. There \(\nabla f = (1, 0)\), \(\nabla g_1 = (0, 1)\) and \(\nabla g_2 = (0, -1)\), and \((1, 0) + \mu _1(0, 1) + \mu _2(0, -1) = 0\) is impossible. The two active gradients are dependent: the feasible set has a cusp at the origin, and the linearised constraints \(\langle \nabla g_i, d\rangle \leq 0\), which allow every \(d = (d_1, 0)\), do not describe the feasible directions, which have \(d_1 \geq 0\). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="real-analysis:remark-constraint-qualifications">
+  <div class="remark_thmheading"><a class="tag" href="tag/037M.html" title="Permanent link: tag 037M">037M</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">27.12.16</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Reading the proof again shows that weaker hypotheses suffice for the existence of multipliers (not for their uniqueness, which used the full linear independence). </p>
+<ol class="enumerate">
+  <li><p><em>Mangasarian–Fromovitz condition:</em> the \(\nabla h_j(a)\) are linearly independent and there is \(d_0\) with \(Dh(a)d_0 = 0\) and \(\langle \nabla g_i(a), d_0\rangle {\lt} 0\) for \(i \in I(a)\). Step&#160;1 used only the independence of the \(\nabla h_j(a)\), Step&#160;2 only the existence of such a \(d_0\), and Step&#160;3 nothing else. </p>
+</li>
+  <li><p><em>Affine constraints:</em> if all \(g_i\) and \(h_j\) are affine, no qualification is needed. Indeed, for \(d\) with \(\langle \nabla g_i(a), d\rangle \leq 0\) (\(i \in I(a)\)) and \(Dh(a)d = 0\), the points \(a + td\) are feasible for small \(t {\gt} 0\) (for active \(i\), \(g_i(a + td) = t\langle \nabla g_i(a), d\rangle \leq 0\)), so \(\langle \nabla f(a), d\rangle \geq 0\) directly, and Step&#160;3 applies. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<h2 id="real-analysis:subsection-convex-problems">27.12.5 Convex problems<a class="tag" href="tag/037N.html" title="Permanent link: tag 037N">037N</a></h2>
+
+<p>The conditions of the Karush–Kuhn–Tucker theorem are necessary. For convex problems they are also sufficient, and give global minima. A function \(f\) on a convex set \(K \subseteq \mathbb {R}^n\) is <em>convex</em> if \(f((1 - t)x + ty) \leq (1 - t)f(x) + tf(y)\) for all \(x, y \in K\) and \(t \in [0, 1]\), that is, if its restriction to every segment is convex in the sense of Definition&#160;<a href="real-analysis-section-one-variable.html#real-analysis:definition-convex">27.6.16</a>, and <em>strictly convex</em> if the inequality is strict whenever \(x \neq y\) and \(0 {\lt} t {\lt} 1\). A sublevel set \(\{ x \in K : f(x) \leq c\} \) of a convex function is convex, and so is the zero set of an affine function; hence the feasible set of <a href="real-analysis-section-extrema.html#real-analysis:equation-nlp" class="eqref">27.5</a> is convex when \(U\) is convex, the \(g_i\) are convex and the \(h_j\) are affine. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="real-analysis:lemma-convex-gradient">
+  <div class="lemma_thmheading"><a class="tag" href="tag/037O.html" title="Permanent link: tag 037O">037O</a><a class="graph-link" href="graph.html?tag=037O" title="Dependencies of tag 037O: what it uses and what uses it" aria-label="Dependency graph of tag 037O"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">27.12.17</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(U \subseteq \mathbb {R}^n\) be open and convex, and \(f \colon U \to \mathbb {R}\) convex and \(C^1\). Then \(f(y) \geq f(x) + \langle \nabla f(x), y - x\rangle \) for all \(x, y \in U\). If \(f\) is \(C^2\) with positive semidefinite Hessian everywhere, then \(f\) is convex. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000968">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>We may assume \(x \neq y\). As \(U\) is open, the points \(x - \varepsilon (y - x)\) and \(y + \varepsilon (y - x)\) lie in \(U\) for small \(\varepsilon {\gt} 0\), and as \(U\) is convex so does the segment joining them. Hence \(\varphi (t) = f(x + t(y - x))\) is defined on the open interval \(J = (-\varepsilon , 1 + \varepsilon )\), it is convex there (being the restriction of \(f\) to a segment), and it is differentiable with \(\varphi '(0) = \langle \nabla f(x), y - x\rangle \) by the chain rule. By Proposition&#160;<a href="real-analysis-section-one-variable.html#real-analysis:proposition-convex">27.6.18</a>(2), \(\varphi (1) \geq \varphi (0) + \varphi '(0)\), which is the inequality. For the second statement, \(\varphi ''(t) = D^2f(x + t(y - x))(y - x, y - x) \geq 0\) on \(J\) by <a href="real-analysis-section-extrema.html#real-analysis:equation-line-derivatives" class="eqref">27.3</a>, so \(\varphi \) is convex by Proposition&#160;<a href="real-analysis-section-one-variable.html#real-analysis:proposition-convex">27.6.18</a>(3); this is convexity of \(f\) on the segment \([x, y]\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="real-analysis:theorem-kkt-convex">
+  <div class="theorem_thmheading"><a class="tag" href="tag/037P.html" title="Permanent link: tag 037P">037P</a><a class="graph-link" href="graph.html?tag=037P" title="Dependencies of tag 037P: what it uses and what uses it" aria-label="Dependency graph of tag 037P"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">27.12.18</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> In <a href="real-analysis-section-extrema.html#real-analysis:equation-nlp" class="eqref">27.5</a>, let \(U\) be convex, \(f\) and \(g_1, \ldots , g_p\) convex and \(h_1, \ldots , h_q\) affine. If \(a \in F\) and numbers \(\mu _i\), \(\lambda _j\) satisfy <a href="real-analysis-section-extrema.html#real-analysis:equation-kkt" class="eqref">27.6</a>, then \(a\) is a global minimum of \(f\) on \(F\). If \(f\) is strictly convex, it is the only one. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000969">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(x \in F\). By Lemma&#160;<a href="real-analysis-section-extrema.html#real-analysis:lemma-convex-gradient">27.12.17</a> and <a href="real-analysis-section-extrema.html#real-analysis:equation-kkt" class="eqref">27.6</a>, </p>
+<div class="displaymath" id="a0000000970">
+  \[  f(x) - f(a) \geq \langle \nabla f(a), x - a\rangle = -\sum _i\mu _i\langle \nabla g_i(a), x - a\rangle - \sum _j\lambda _j\langle \nabla h_j(a), x - a\rangle .  \]
+</div>
+<p> Since \(h_j\) is affine, \(\langle \nabla h_j(a), x - a\rangle = h_j(x) - h_j(a) = 0\). By the lemma again and complementary slackness, \(\mu _i\langle \nabla g_i(a), x - a\rangle \leq \mu _i(g_i(x) - g_i(a)) = \mu _ig_i(x) \leq 0\). Hence \(f(x) \geq f(a)\). If \(f\) is strictly convex and \(f(x) = f(a)\) with \(x \neq a\), then the midpoint \(m = \frac12(x + a)\) is feasible (\(F\) is convex) and \(f(m) {\lt} \frac12f(x) + \frac12f(a) = f(a)\), a contradiction. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="real-analysis:example-water-filling">
+  <div class="example_thmheading"><a class="tag" href="tag/037Q.html" title="Permanent link: tag 037Q">037Q</a><a class="graph-link" href="graph.html?tag=037Q" title="Dependencies of tag 037Q: what it uses and what uses it" aria-label="Dependency graph of tag 037Q"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.12.19</span>
+    <span class="example_thmtitle">Water-filling</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Given \(\alpha _1, \ldots , \alpha _n {\gt} 0\) and \(P {\gt} 0\), maximise \(\sum _i\log (\alpha _i + x_i)\) subject to \(x_i \geq 0\) and \(\sum _ix_i = P\). (In information theory, \(x_i\) is the power sent through the \(i\)-th of \(n\) parallel channels with noise level \(\alpha _i\), and \(\frac12\log (1 + x_i/\alpha _i)\) is its capacity, so this maximises the total capacity for a total power \(P\).) Minimise the strictly convex function \(f(x) = -\sum _i\log (\alpha _i + x_i)\) on \(U = \{ x_i {\gt} -\alpha _i\} \), with \(g_i = -x_i\) and \(h = \sum _ix_i - P\). The conditions <a href="real-analysis-section-extrema.html#real-analysis:equation-kkt" class="eqref">27.6</a> read </p>
+<div class="displaymath" id="a0000000971">
+  \[  -\frac{1}{\alpha _i + x_i} - \mu _i + \lambda = 0, \qquad \mu _i \geq 0, \qquad \mu _ix_i = 0.  \]
+</div>
+<p> So \(\lambda \geq 1/(\alpha _i + x_i) {\gt} 0\); put \(\nu = 1/\lambda \). If \(x_i {\gt} 0\), then \(\mu _i = 0\) and \(x_i = \nu - \alpha _i\); if \(x_i = 0\), then \(\lambda \geq 1/\alpha _i\), that is, \(\alpha _i \geq \nu \). In both cases </p>
+<div class="displaymath" id="a0000000972">
+  \[  x_i = \max (0, \nu - \alpha _i),  \]
+</div>
+<p> and \(\nu \) is fixed by \(\sum _i\max (0, \nu - \alpha _i) = P\); the left side is continuous and strictly increasing in \(\nu \geq \min _i\alpha _i\), from \(0\) to \(\infty \), so there is exactly one such \(\nu \) (Theorem&#160;<a href="real-analysis-section-continuity-real.html#real-analysis:theorem-bolzano-zeros">27.4.8</a>). Conversely this \(x\), with \(\lambda = 1/\nu \) and \(\mu _i = \lambda - 1/(\alpha _i + x_i) \geq 0\), satisfies the conditions, so by Theorem&#160;<a href="real-analysis-section-extrema.html#real-analysis:theorem-kkt-convex">27.12.18</a> it is the unique optimum. The picture: a vessel whose floor has height \(\alpha _i\) over the \(i\)-th cell is filled with a volume \(P\) of water; the water settles at level \(\nu \), and \(x_i\) is the depth over the \(i\)-th cell. The noisiest channels get nothing. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="real-analysis:example-gibbs">
+  <div class="example_thmheading"><a class="tag" href="tag/037R.html" title="Permanent link: tag 037R">037R</a><a class="graph-link" href="graph.html?tag=037R" title="Dependencies of tag 037R: what it uses and what uses it" aria-label="Dependency graph of tag 037R"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">27.12.20</span>
+    <span class="example_thmtitle">Maximum entropy and the Boltzmann distribution</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(E_1, \ldots , E_N\) be real numbers (the energies of the states of a physical system), not all equal, and \(\min _iE_i {\lt} E {\lt} \max _iE_i\). Among probability vectors \(p\) with \(p_i {\gt} 0\), \(\sum _ip_i = 1\) and mean energy \(\sum _ip_iE_i = E\), which one has the largest <em>entropy</em> \(H(p) = -\sum _ip_i\log p_i\)? The function \(-H(p) = \sum _i\phi (p_i)\), \(\phi (t) = t\log t\), is strictly convex on \(U = \{ p_i {\gt} 0\} \): \(\phi ''(t) = 1/t {\gt} 0\), so \(\phi \) is strictly convex (Proposition&#160;<a href="real-analysis-section-one-variable.html#real-analysis:proposition-convex">27.6.18</a>(3)), and for \(p \neq p^{\prime }\) the convexity inequality is strict in a coordinate where they differ. The two constraints are affine. The conditions <a href="real-analysis-section-extrema.html#real-analysis:equation-kkt" class="eqref">27.6</a> for minimising \(-H\) read \(\log p_i + 1 + \lambda _1 + \lambda _2E_i = 0\), so </p>
+<div class="displaymath" id="a0000000973">
+  \[  p_i = \frac{e^{-\beta E_i}}{Z(\beta )}, \qquad Z(\beta ) = \sum _ke^{-\beta E_k},  \]
+</div>
+<p> with \(\beta = \lambda _2\), after normalising. This is the <em>Boltzmann (Gibbs) distribution</em> of statistical mechanics, \(\beta \) being the inverse temperature and \(Z\) the <em>partition function</em>. It remains to choose \(\beta \) with mean energy \(E\). The mean \(m(\beta ) = \sum _kE_ke^{-\beta E_k}/Z(\beta )\) is continuous, has derivative \(m'(\beta ) = -(\sum _kE_k^2p_k - m(\beta )^2) {\lt} 0\), minus the variance of the energy, which is positive since the \(E_k\) are not all equal, and tends to \(\min E_k\) as \(\beta \to +\infty \) and to \(\max E_k\) as \(\beta \to -\infty \). So exactly one \(\beta \) gives \(m(\beta ) = E\), and by Theorem&#160;<a href="real-analysis-section-extrema.html#real-analysis:theorem-kkt-convex">27.12.18</a> the corresponding \(p\) is the unique entropy maximiser. Without the energy constraint (\(\lambda _2 = 0\)) the maximiser is the uniform distribution, with \(H = \log N\). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="real-analysis:remark-lagrange-duality">
+  <div class="remark_thmheading"><a class="tag" href="tag/037S.html" title="Permanent link: tag 037S">037S</a><a class="graph-link" href="graph.html?tag=037S" title="Dependencies of tag 037S: what it uses and what uses it" aria-label="Dependency graph of tag 037S"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">27.12.21</span>
+    <span class="remark_thmtitle">Duality</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> For <a href="real-analysis-section-extrema.html#real-analysis:equation-nlp" class="eqref">27.5</a> define the Lagrangian \(L(x, \mu , \lambda ) = f(x) + \sum _i\mu _ig_i(x) + \sum _j\lambda _jh_j(x)\) and the <em>dual function</em> \(\theta (\mu , \lambda ) = \inf _{x \in U}L(x, \mu , \lambda )\). For \(\mu \geq 0\) and \(x \in F\), \(L(x, \mu , \lambda ) \leq f(x)\), so </p>
+<div class="displaymath" id="a0000000974">
+  \[  \theta (\mu , \lambda ) \leq \inf _Ff \qquad (\mu \geq 0) \qquad \text{(\emph{weak duality})}:  \]
+</div>
+<p> every choice of multipliers gives a lower bound for the minimum. In the convex situation of Theorem&#160;<a href="real-analysis-section-extrema.html#real-analysis:theorem-kkt-convex">27.12.18</a>, if \((a, \mu , \lambda )\) satisfies the conditions <a href="real-analysis-section-extrema.html#real-analysis:equation-kkt" class="eqref">27.6</a>, then \(x \mapsto L(x, \mu , \lambda )\) is convex with vanishing gradient at \(a\), so by Lemma&#160;<a href="real-analysis-section-extrema.html#real-analysis:lemma-convex-gradient">27.12.17</a> it is minimal at \(a\), and \(\theta (\mu , \lambda ) = L(a, \mu , \lambda ) = f(a)\) by complementary slackness and \(h(a) = 0\): the bound is attained, and the multipliers solve the <em>dual problem</em> of maximising \(\theta \) over \(\mu \geq 0\). For convex problems with a strictly feasible point (<em>Slater’s condition</em>) the maximum of the dual equals the minimum of the primal even without assuming that the minimum is attained <span class="cite">[<a href="Bibliography.html#boyd-vandenberghe" >BV04</a>, Chapter 5]</span>; for linear programmes this is the duality theorem of linear programming, a consequence of Farkas’ lemma. The point \((a, (\mu , \lambda ))\) is then a saddle point of \(L\): a minimum in \(x\) and a maximum in \((\mu , \lambda )\) with \(\mu \geq 0\). </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="real-analysis-section-inverse-function.html"><span class="dir">Previous</span> The inverse and implicit function theorems</a><a class="next" href="real-analysis-section-ode.html"><span class="dir">Next</span> Ordinary differential equations</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>
