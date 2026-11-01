@@ -334,6 +334,74 @@ $\iint(u^2/h + v^2/h + h)\,du\,dv = \iint du\,dv/h = \int_0^{2\pi}\!\!\int_0^1\f
 as $\nu(x) = x$ on the sphere.
 \end{example}
 
+Proposition~\ref{riemannian-geometry:proposition-flux} has a version in every codimension, which is the starting point of the theory of currents in geometric measure theory. For a hypersurface the
+orientation is described by the unit normal $\nu$; for a $k$-dimensional submanifold of $\RR^N$ there is no preferred normal vector, but there is a preferred \emph{tangent $k$-vector}. Let
+$M \subseteq \RR^N$ be an oriented $k$-dimensional submanifold. For $x \in M$ let
+\[
+\xi(x) = \tau_1 \wedge \cdots \wedge \tau_k \in \Lambda^k\RR^N,
+\]
+where $(\tau_1, \ldots, \tau_k)$ is a positively oriented orthonormal basis of $T_xM$. By Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}, applied to the oriented inner
+product space $T_xM$, $\xi(x)$ does not depend on the choice of the basis (it is the volume element of $T_xM$, regarded in $\Lambda^k\RR^N$), and $|\xi(x)| = 1$. It is the \emph{orienting $k$-vector}
+of $M$: it determines both the tangent space, as the set of $v$ with $v \wedge \xi(x) = 0$, and its orientation. A $k$-form $\omega$ on an open set of $\RR^N$ can be paired with it pointwise, via the
+pairing $\langle\,,\rangle \colon \Lambda^k(\RR^N)^* \times \Lambda^k\RR^N \to \RR$ of Proposition~\ref{multilinear-algebra:proposition-dual-exterior}, for which
+$\langle\omega_x, v_1 \wedge \cdots \wedge v_k\rangle = \omega_x(v_1, \ldots, v_k)$.
+
+\begin{proposition}\label{riemannian-geometry:proposition-orienting-vector}
+Let $M \subseteq \RR^N$ be an oriented $k$-dimensional submanifold with orienting $k$-vector $\xi$, contained in an open set $U$, and let $\omega$ be a $k$-form on $U$. Then
+\[
+\omega|_M = \langle\omega, \xi\rangle\,\mathrm{vol}_M,
+\]
+where $\omega|_M$ is the pullback of $\omega$ by the inclusion and $\langle\omega, \xi\rangle$ is the function $x \mapsto \langle\omega_x, \xi(x)\rangle$ on $M$. Consequently, if $\omega|_M$ has compact support,
+\[
+\int_M\omega = \int_M\langle\omega, \xi\rangle\,d\mu_g = \int_M\langle\omega(x), \xi(x)\rangle\,d\mathcal{H}^k(x).
+\]
+\end{proposition}
+
+\begin{proof}
+Fix $x \in M$ and a positively oriented orthonormal basis $(\tau_1, \ldots, \tau_k)$ of $T_xM$. The space $\Lambda^kT^*_xM$ of alternating $k$-forms on the $k$-dimensional space $T_xM$ is one-dimensional,
+spanned by $(\mathrm{vol}_M)_x$, so $(\omega|_M)_x = c\,(\mathrm{vol}_M)_x$ for a number $c$. Evaluating both sides on $(\tau_1, \ldots, \tau_k)$, and using $\mathrm{vol}_M(\tau_1, \ldots, \tau_k) = 1$
+(Proposition~\ref{riemannian-geometry:proposition-volume-form}) and the definition of the pullback,
+\[
+c = (\omega|_M)_x(\tau_1, \ldots, \tau_k) = \omega_x(\tau_1, \ldots, \tau_k) = \langle\omega_x, \tau_1 \wedge \cdots \wedge \tau_k\rangle = \langle\omega_x, \xi(x)\rangle .
+\]
+This proves the identity of forms. Integrating, $\int_M\omega = \int_M\langle\omega, \xi\rangle\,\mathrm{vol}_M = \int_M\langle\omega, \xi\rangle\,d\mu_g$ by Proposition~\ref{riemannian-geometry:proposition-volume-form}
+(the function $\langle\omega, \xi\rangle$ is continuous with compact support on $M$, since $\xi$ is continuous, as it can be computed from a local positively oriented frame by the Gram--Schmidt process), and
+$\mu_g = \mathcal{H}^k$ on $M$ by Proposition~\ref{riemannian-geometry:proposition-hausdorff-measure}.
+\end{proof}
+
+The same computation in a chart makes each factor visible. Let $x \colon \Omega \to M$ be a positively oriented parametrisation with $x_i = \partial x/\partial u^i$. Then $x_1 \wedge \cdots \wedge x_k$ is a
+positive multiple of $\xi$ (Gram--Schmidt does not change the orientation), and its length is $\mathcal{J} = \sqrt{\det(\langle x_i, x_j\rangle)}$ by Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}; so
+$x_1 \wedge \cdots \wedge x_k = \mathcal{J}\,\xi \circ x$. On the other hand, by the definition of the integral of a form,
+\[
+\int_{x(\Omega)}\omega = \int_\Omega(x^*\omega)(\partial_1, \ldots, \partial_k)\,du = \int_\Omega\omega_{x(u)}(x_1, \ldots, x_k)\,du = \int_\Omega\langle\omega_{x(u)}, \xi(x(u))\rangle\,\mathcal{J}(u)\,du,
+\]
+and $\mathcal{J}\,du$ is the volume element (Proposition~\ref{riemannian-geometry:proposition-parametrised-volume}). So the form $\omega$ splits into two factors: the number $\langle\omega, \xi\rangle$, which measures how much of
+$\omega$ is ``seen'' by the oriented tangent plane, and the volume $\mathcal{J}\,du$, which only depends on the metric.
+
+\begin{example}\label{riemannian-geometry:example-orienting-vector}
+\begin{enumerate}
+\item For a hypersurface $M \subseteq \RR^{n+1}$ oriented by $\nu$ and $\omega = \iota_F\Omega$, $\langle\omega, \xi\rangle = \Omega(F, \tau_1, \ldots, \tau_n) = \det(F, \tau_1, \ldots, \tau_n) = \langle F, \nu\rangle$, because
+$(\nu, \tau_1, \ldots, \tau_n)$ is a positive orthonormal basis of $\RR^{n+1}$; this is Proposition~\ref{riemannian-geometry:proposition-flux} again.
+\item For an oriented curve with unit tangent $T$, $\xi = T$ and $\int_C\omega = \int_C\omega(T)\,ds$: the line integral of a $1$-form is the integral of its tangential component with respect to arc length.
+\item For a $2$-plane $M \subseteq \RR^4$ spanned by orthonormal $\tau_1, \tau_2$ and $\omega = dx^1 \wedge dx^2$, $\langle\omega, \xi\rangle = \det\bigl(\begin{smallmatrix} \tau_1^1 & \tau_2^1\\ \tau_1^2 & \tau_2^2\end{smallmatrix}\bigr)$ is the factor by
+which the orthogonal projection to the $(x^1, x^2)$-plane multiplies oriented areas on $M$. In general $\xi = \sum_I\xi^Ie_I$ and $|\langle dx^I, \xi\rangle| = |\xi^I| \leq 1$, with equality only for the
+coordinate planes; this is the inequality behind \emph{calibrations} (Section~\ref{riemannian-geometry:section-minimal}).
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{riemannian-geometry:remark-currents}
+\emph{Currents.} The proposition says that the functional $[\![M]\!] \colon \omega \mapsto \int_M\omega$ on compactly supported $k$-forms is
+\[
+[\![M]\!](\omega) = \int\langle\omega(x), \xi(x)\rangle\,d\mu(x), \qquad \mu = \mathcal{H}^k \text{ restricted to } M,
+\]
+an integral of the pairing of $\omega$ with a unit $k$-vector field against a measure. De Rham and Federer--Fleming call a continuous linear functional on compactly supported smooth $k$-forms a
+\emph{$k$-current} \cite{federer-fleming-1960}. If a current $T$ has locally finite mass, that is, $\sup\{T(\omega) : |\omega| \leq 1, \operatorname{supp}\omega \subseteq K\} < \infty$ for every compact $K$, then it
+extends to continuous forms, and the Riesz representation theorem for vector-valued functions (Theorem~\ref{measure-theory:theorem-riesz-vector}, with $H = \Lambda^k(\RR^N)^*$, identified with $\Lambda^k\RR^N$ by matching the orthonormal bases $dx^I$ and $e_I$)
+writes it in exactly this form: $T(\omega) = \int\langle\omega, \xi\rangle\,d\mu$ with a Radon measure $\mu = \|T\|$, the \emph{mass measure}, and a Borel field $\xi$ of unit $k$-vectors. For $T = [\![M]\!]$ one recovers
+$\mu = \mathcal{H}^k$ on $M$ and the orienting $k$-vector; for general currents $\xi$ need not be a simple wedge product and $\mu$ need not live on a manifold, and this is the generality in which geometric measure
+theory solves Plateau's problem.
+\end{remark}
+
 \begin{corollary}[Divergence theorem]\label{riemannian-geometry:corollary-divergence}
 Let $D \subseteq \RR^{n+1}$ be a compact subset that is a smooth $(n+1)$-manifold with boundary (Definition~\ref{differential-forms:definition-manifold-with-boundary}),
 with the charts given by charts of $\RR^{n+1}$, for instance a closed ball. Let $\nu$ be the outward unit normal along $\partial D$, and $F$ a smooth vector field on a

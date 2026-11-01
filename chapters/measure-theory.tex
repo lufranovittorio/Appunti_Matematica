@@ -12,7 +12,7 @@ theorem, Egorov's theorem), the Lebesgue differentiation theorem with its conseq
 Lebesgue integrals, with the Cantor function as a counterexample), independence and the two Borel--Cantelli lemmas, with
 applications to the digits of random numbers and Borel's normal number theorem (Theorem~\ref{measure-theory:theorem-borel-normal}), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
 change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It then treats Radon measures as positive linear functionals
-(the Riesz--Markov theorem, Theorem~\ref{measure-theory:theorem-riesz-markov}), weak convergence of measures and its compactness theorem, and the differentiation of measures with respect to
+(the Riesz--Markov theorem, Theorem~\ref{measure-theory:theorem-riesz-markov}, and its version for signed and vector-valued functionals, Theorem~\ref{measure-theory:theorem-riesz-vector}), weak convergence of measures and its compactness theorem, and the differentiation of measures with respect to
 Lebesgue measure, with Lebesgue's theorem on the differentiability of monotone functions. It ends with an introduction to
 geometric measure theory: Hausdorff measures and Hausdorff dimension (with the Cantor set as example), box-counting dimension and self-similar sets such as the Sierpi\'nski gasket and the
 Koch curve, whose dimension is computed by Moran's equation (Theorem~\ref{measure-theory:theorem-moran}), Rademacher's theorem on the differentiability of Lipschitz maps, the area formula,
@@ -1272,9 +1272,164 @@ Radon measure (Chapter~\ref{differential-forms}).
 \item The theorem holds for every locally compact Hausdorff space, but then the measure is only outer regular and inner regular on open sets and on sets of finite measure
 \cite[Theorem 2.14 and Theorem 2.18]{rudin-rca}.
 \item If $X$ is compact, $1 \in C_c(X)$, and $|\Lambda f| \leq \Lambda(1)\|f\|_\infty = \mu(X)\|f\|_\infty$: a positive functional on $C(X)$ is bounded with norm $\mu(X)$. Every bounded linear functional on
-$C(X)$ is integration against a \emph{signed} Radon measure, a difference of two finite Radon measures \cite[Theorem 6.19]{rudin-rca}; this identifies the dual space of $C(X)$, a theme of
+$C(X)$ is integration against a \emph{signed} Radon measure, a difference of two finite Radon measures \cite[Theorem 6.19]{rudin-rca} (for the spaces of this section, see Corollary~\ref{measure-theory:corollary-signed-riesz}
+below); this identifies the dual space of $C(X)$, a theme of
 Chapter~\ref{functional-analysis}.
 \end{enumerate}
+\end{remark}
+
+\subsection{Signed and vector-valued functionals}\label{measure-theory:subsection-riesz-vector}
+
+Many natural linear functionals are not positive. The functional $\varphi \mapsto \varphi(0) - \varphi(1)$ on $C_c(\RR)$ is the difference of two Dirac measures; $\varphi \mapsto \int\varphi h\,d\lambda$ with $h$
+changing sign is the difference of the measures $h^+\lambda$ and $h^-\lambda$. In geometric measure theory one also meets functionals on \emph{vector fields}: for the unit circle $S^1 \subseteq \RR^2$ with
+outward normal $n(x) = x$, the \emph{flux} $F \mapsto \int_0^{2\pi}\langle F(\cos t, \sin t), (\cos t, \sin t)\rangle\,dt$ through the circle is a linear functional on continuous vector fields $F \colon \RR^2 \to \RR^2$ with compact support. The
+Riesz representation theorem extends to all these cases: a functional that is merely bounded on functions of bounded size supported in a fixed compact set is integration against a measure, after pairing with
+a field of unit vectors.
+
+Let $H$ be a finite-dimensional real vector space with an inner product $\langle\,,\rangle$ and norm $|\ |$; for instance $H = \RR^m$ with the standard inner product. Let $C_c(X, H)$ be the vector space of
+continuous maps $f \colon X \to H$ with compact support. For $f \in C_c(X, H)$ the function $|f|$ belongs to $C_c(X)$. The map $r \colon H \to H$, $r(v) = v$ for $|v| \leq 1$ and $r(v) = v/|v|$ for $|v| > 1$, the
+nearest point projection onto the closed unit ball, is continuous, takes values in the ball, and moves no point farther from the ball: $|r(u) - w| \leq |u - w|$ whenever $|w| \leq 1$. To see this,
+we may assume $|u| > 1$; then
+$|u - w|^2 - |r(u) - w|^2 = |u|^2 - 1 - 2(|u| - 1)\langle u/|u|, w\rangle \geq |u|^2 - 1 - 2(|u| - 1) = (|u| - 1)^2 \geq 0$.
+
+\begin{lemma}\label{measure-theory:lemma-radon-approximation}
+Let $\mu$ be a Radon measure on $X$.
+\begin{enumerate}
+\item For $1 \leq p < \infty$, $C_c(X)$ is dense in $L^p(\mu)$.
+\item Let $w \colon X \to H$ be Borel with $|w| \leq 1$, $E$ a Borel set with $\mu(E) < \infty$, and $V \supseteq E$ open. For every $\varepsilon > 0$ there is $g \in C_c(X, H)$ with $|g| \leq 1$,
+$\operatorname{supp}g \subseteq V$ and $\int|g - \mathbf{1}_Ew|\,d\mu < \varepsilon$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) As in Proposition~\ref{measure-theory:proposition-density}, simple functions $\sum a_i\mathbf{1}_{E_i}$ with $\mu(E_i) < \infty$ are dense in $L^p(\mu)$, by
+Proposition~\ref{measure-theory:proposition-measurable-functions}(4) and dominated convergence. Given $E$ with $\mu(E) < \infty$ and $\varepsilon > 0$, regularity of $\mu$ gives a compact $K$ and an
+open $U$ with $K \subseteq E \subseteq U$ and $\mu(U \setminus K) < \varepsilon$, and Lemma~\ref{general-topology:lemma-lch-shrinking} gives $\phi \in C_c(X)$ with $0 \leq \phi \leq 1$, $\phi = 1$ on $K$ and
+$\operatorname{supp}\phi \subseteq U$. Then $\int|\mathbf{1}_E - \phi|^p\,d\mu \leq \mu(U \setminus K) < \varepsilon$.
+
+(2) Fix an orthonormal basis $e_1, \ldots, e_m$ of $H$ and write $w = \sum_jw_je_j$. By (1) choose $\phi_j \in C_c(X)$ with $\int|\phi_j - \mathbf{1}_Ew_j|\,d\mu < \varepsilon/(2m)$, and put
+$g_0 = \sum_j\phi_je_j$, so $\int|g_0 - \mathbf{1}_Ew|\,d\mu < \varepsilon/2$. Then $g_1 = r \circ g_0$ is continuous with compact support, $|g_1| \leq 1$, and $|g_1 - \mathbf{1}_Ew| \leq |g_0 - \mathbf{1}_Ew|$
+pointwise, as $|\mathbf{1}_Ew| \leq 1$. Choose a compact $K \subseteq E$ with $\mu(E \setminus K) < \varepsilon/4$ and $\psi \in C_c(X)$ with $0 \leq \psi \leq 1$, $\psi = 1$ on $K$ and
+$\operatorname{supp}\psi \subseteq V$, and let $g = \psi g_1$. On $K$, $g = g_1$; outside $E$, $|g - \mathbf{1}_Ew| = |g| \leq |g_1| = |g_1 - \mathbf{1}_Ew|$; on $E \setminus K$, $|g - w| \leq 2$. Hence
+$\int|g - \mathbf{1}_Ew|\,d\mu \leq \int|g_1 - \mathbf{1}_Ew|\,d\mu + 2\mu(E \setminus K) < \varepsilon$.
+\end{proof}
+
+\begin{theorem}[Riesz representation theorem for vector-valued functions]\label{measure-theory:theorem-riesz-vector}
+Let $L \colon C_c(X, H) \to \RR$ be linear and suppose that for every compact $K \subseteq X$
+\[
+M_K = \sup\bigl\{L(f) : f \in C_c(X, H),\ |f| \leq 1,\ \operatorname{supp}f \subseteq K\bigr\} < \infty .
+\]
+Then there are a Radon measure $\mu$ on $X$ and a Borel map $\nu \colon X \to H$ with $|\nu| = 1$ $\mu$-almost everywhere such that
+\[
+L(f) = \int_X\langle f, \nu\rangle\,d\mu \qquad\text{for all } f \in C_c(X, H).
+\]
+Moreover, for every open $V \subseteq X$,
+\begin{equation}\label{measure-theory:equation-total-variation}
+\mu(V) = \sup\bigl\{L(f) : f \in C_c(X, H),\ |f| \leq 1,\ \operatorname{supp}f \subseteq V\bigr\},
+\end{equation}
+and the pair $(\mu, \nu)$ is unique: $\mu$ is unique, and $\nu$ is unique up to $\mu$-null sets. The measure $\mu$ is the \emph{total variation measure} of $L$.
+\end{theorem}
+
+\begin{proof}
+The idea is to manufacture a positive functional out of $L$, namely the largest value of $L$ on fields dominated by a given function, and to apply the Riesz--Markov theorem to it.
+
+\emph{Step 1: a positive functional on nonnegative functions.} For $\varphi \in C_c(X)$ with $\varphi \geq 0$ let
+\[
+\lambda(\varphi) = \sup\bigl\{L(g) : g \in C_c(X, H),\ |g| \leq \varphi\bigr\}.
+\]
+Taking $g = 0$ shows $\lambda(\varphi) \geq 0$. If $|g| \leq \varphi$, then $\operatorname{supp}g \subseteq K = \operatorname{supp}\varphi$, and if $\varphi \neq 0$, $g/\|\varphi\|_\infty$ is admissible in the
+definition of $M_K$; so $L(g) \leq \|\varphi\|_\infty M_K$ and $\lambda(\varphi) < \infty$. Clearly $\lambda(c\varphi) = c\lambda(\varphi)$ for $c > 0$, as $g \mapsto cg$ matches the admissible fields. We
+show $\lambda(\varphi_1 + \varphi_2) = \lambda(\varphi_1) + \lambda(\varphi_2)$ for $\varphi_1, \varphi_2 \geq 0$. If $|g_i| \leq \varphi_i$, then $|g_1 + g_2| \leq \varphi_1 + \varphi_2$, so
+$L(g_1) + L(g_2) \leq \lambda(\varphi_1 + \varphi_2)$; taking suprema gives ``$\geq$''. Conversely let $|g| \leq \varphi_1 + \varphi_2$, and define $g_i = \varphi_ig/(\varphi_1 + \varphi_2)$ where
+$\varphi_1 + \varphi_2 > 0$ and $g_i = 0$ elsewhere. Then $|g_i| \leq \varphi_i$, and $g_i$ is continuous: this is clear where $\varphi_1 + \varphi_2 > 0$, and at a point $x_0$ where
+$\varphi_1 + \varphi_2 = 0$ we have $|g_i| \leq \varphi_i$ everywhere and $\varphi_i(x_0) = 0$, so $g_i(x) \to 0 = g_i(x_0)$ as $x \to x_0$. Since $g = 0$ where $\varphi_1 + \varphi_2 = 0$, $g = g_1 + g_2$, and
+$L(g) = L(g_1) + L(g_2) \leq \lambda(\varphi_1) + \lambda(\varphi_2)$.
+
+\emph{Step 2: extension and the measure $\mu$.} For $\varphi \in C_c(X)$ put $\lambda(\varphi) = \lambda(\varphi^+) - \lambda(\varphi^-)$, where $\varphi^\pm = \max(\pm\varphi, 0) \in C_c(X)$. If
+$\varphi = a - b$ with $a, b \geq 0$ in $C_c(X)$, then $\varphi^+ + b = \varphi^- + a$, and Step 1 gives $\lambda(\varphi) = \lambda(a) - \lambda(b)$. Writing
+$\varphi + \psi = (\varphi^+ + \psi^+) - (\varphi^- + \psi^-)$ shows that $\lambda$ is additive; it is homogeneous for $c \geq 0$ by Step 1, and $\lambda(-\varphi) = -\lambda(\varphi)$ since
+$(-\varphi)^\pm = \varphi^\mp$. So $\lambda$ is a positive linear functional on $C_c(X)$, and the Riesz--Markov theorem (Theorem~\ref{measure-theory:theorem-riesz-markov}) gives a Radon measure $\mu$ with
+$\lambda(\varphi) = \int\varphi\,d\mu$.
+
+\emph{Step 3: $|L(g)| \leq \int|g|\,d\mu$.} For $g \in C_c(X, H)$, $g$ is admissible for $\lambda(|g|)$, so $L(g) \leq \lambda(|g|) = \int|g|\,d\mu$; apply this also to $-g$.
+
+\emph{Step 4: construction of $\nu$.} Fix an orthonormal basis $e_1, \ldots, e_m$ of $H$ and let $L_j(\varphi) = L(\varphi e_j)$ for $\varphi \in C_c(X)$. By Step 3, $|L_j(\varphi)| \leq \int|\varphi|\,d\mu$,
+so $\Lambda_j(\varphi) = \int\varphi\,d\mu + L_j(\varphi)$ is a positive linear functional on $C_c(X)$. By the Riesz--Markov theorem there is a Radon measure $\sigma_j$ with $\Lambda_j(\varphi) = \int\varphi\,d\sigma_j$.
+For open $V$ and $\varphi \prec V$, $\Lambda_j(\varphi) \leq 2\int\varphi\,d\mu \leq 2\mu(V)$, so $\sigma_j(V) \leq 2\mu(V)$ by the formula for $\sigma_j(V)$ in Theorem~\ref{measure-theory:theorem-riesz-markov}; by
+outer regularity of $\mu$, $\sigma_j(E) \leq 2\mu(E)$ for all Borel $E$. Both measures are $\sigma$-finite (Proposition~\ref{measure-theory:proposition-radon-automatic}) and $\sigma_j \ll \mu$, so by the
+Radon--Nikodym theorem (Theorem~\ref{measure-theory:theorem-radon-nikodym}) $\sigma_j(E) = \int_Eh_j\,d\mu$ for a Borel function $h_j \geq 0$. Since $\int_Eh_j\,d\mu \leq 2\mu(E)$ for all $E$, applied to
+$E = \{h_j > 2\} \cap K_m$ for the compact exhaustion $(K_m)$, $h_j \leq 2$ almost everywhere, and we may change $h_j$ on a null set so that $0 \leq h_j \leq 2$ everywhere. By the usual extension from
+indicator functions to simple functions and limits, $\int\varphi\,d\sigma_j = \int\varphi h_j\,d\mu$ for $\varphi \in C_c(X)$. Put $\nu_j = h_j - 1 \in [-1, 1]$ and $\nu = \sum_j\nu_je_j$, a Borel map with
+$|\nu| \leq \sqrt m$. Then $L_j(\varphi) = \int\varphi\,\nu_j\,d\mu$, and for $f \in C_c(X, H)$, writing $f = \sum_j\langle f, e_j\rangle e_j$ with $\langle f, e_j\rangle \in C_c(X)$,
+\[
+L(f) = \sum_jL_j\bigl(\langle f, e_j\rangle\bigr) = \int\sum_j\langle f, e_j\rangle\nu_j\,d\mu = \int\langle f, \nu\rangle\,d\mu .
+\]
+
+\emph{Step 5: $|\nu| \leq 1$ almost everywhere.} Let $E = \{|\nu| > 1\} \cap K_m$ and $w = \nu/|\nu|$ on $E$, $w = 0$ elsewhere. For $\varepsilon > 0$, Lemma~\ref{measure-theory:lemma-radon-approximation}(2) gives
+$g \in C_c(X, H)$ with $|g| \leq 1$ and $\int|g - \mathbf{1}_Ew|\,d\mu < \varepsilon$. Then, by Step 3,
+\[
+\int_E|\nu|\,d\mu = \int\langle\mathbf{1}_Ew, \nu\rangle\,d\mu \leq L(g) + \sqrt m\,\varepsilon \leq \int|g|\,d\mu + \sqrt m\,\varepsilon \leq \mu(E) + (1 + \sqrt m)\varepsilon .
+\]
+So $\int_E(|\nu| - 1)\,d\mu \leq 0$, while $|\nu| - 1 > 0$ on $E$; hence $\mu(E) = 0$, for every $m$.
+
+\emph{Step 6: $|\nu| \geq 1$ almost everywhere.} For $\varphi \geq 0$ in $C_c(X)$ and $|g| \leq \varphi$, $L(g) = \int\langle g, \nu\rangle\,d\mu \leq \int\varphi|\nu|\,d\mu$; taking the supremum,
+$\int\varphi\,d\mu = \lambda(\varphi) \leq \int\varphi|\nu|\,d\mu$, that is, $\int\varphi(1 - |\nu|)\,d\mu \leq 0$. Given a compact $K$, choose such $\varphi$ with $\varphi = 1$ on $K$ and $0 \leq \varphi \leq 1$
+(Lemma~\ref{general-topology:lemma-lch-shrinking}); as $1 - |\nu| \geq 0$ almost everywhere by Step 5, $\int_K(1 - |\nu|)\,d\mu \leq \int\varphi(1 - |\nu|)\,d\mu \leq 0$, so $|\nu| = 1$ almost
+everywhere on $K$, and on $X = \bigcup_mK_m$.
+
+\emph{Step 7: the formula \eqref{measure-theory:equation-total-variation} and uniqueness.} Let $(\mu^{\prime}, \nu^{\prime})$ be any pair with the properties of the theorem; we show that $\mu^{\prime}(V)$ equals
+the right side $s(V)$ of \eqref{measure-theory:equation-total-variation}. If $|f| \leq 1$, then $L(f) = \int\langle f, \nu^{\prime}\rangle\,d\mu^{\prime} \leq \int_V|f|\,d\mu^{\prime} \leq \mu^{\prime}(V)$ for
+$\operatorname{supp}f \subseteq V$, so $s(V) \leq \mu^{\prime}(V)$. Conversely, let $K \subseteq V$ be compact and $\varepsilon > 0$. Lemma~\ref{measure-theory:lemma-radon-approximation}(2), applied to $\mu^{\prime}$,
+$w = \nu^{\prime}$ and $E = K$, gives $g$ with $|g| \leq 1$, $\operatorname{supp}g \subseteq V$ and $\int|g - \mathbf{1}_K\nu^{\prime}|\,d\mu^{\prime} < \varepsilon$, so
+$L(g) \geq \int_K|\nu^{\prime}|^2\,d\mu^{\prime} - \varepsilon = \mu^{\prime}(K) - \varepsilon$. By inner regularity $s(V) \geq \mu^{\prime}(V)$. Hence $\mu^{\prime}(V) = s(V)$ for all open $V$; this proves
+\eqref{measure-theory:equation-total-variation} for $\mu$, and shows that $\mu^{\prime}$ and $\mu$ agree on open sets, hence on all Borel sets by outer regularity. Finally
+$\int\langle f, \nu - \nu^{\prime}\rangle\,d\mu = 0$ for all $f \in C_c(X, H)$. Let $E = \{\nu \neq \nu^{\prime}\} \cap K_m$ and $w = (\nu - \nu^{\prime})/|\nu - \nu^{\prime}|$ on $E$, $0$ elsewhere; approximating
+$\mathbf{1}_Ew$ by $g$ as in Lemma~\ref{measure-theory:lemma-radon-approximation}(2) and using $|\nu - \nu^{\prime}| \leq 2$ almost everywhere gives $\int_E|\nu - \nu^{\prime}|\,d\mu \leq 2\varepsilon$ for every
+$\varepsilon$, so $\nu = \nu^{\prime}$ almost everywhere on $E$, and on $X$.
+\end{proof}
+
+For a positive functional on $C_c(X) = C_c(X, \RR)$ the theorem gives back the Riesz--Markov measure with $\nu = 1$. For general functionals on $C_c(X)$ it gives the decomposition into a positive and a negative
+part.
+
+\begin{corollary}\label{measure-theory:corollary-signed-riesz}
+Let $L \colon C_c(X) \to \RR$ be linear with $\sup\{|L(\varphi)| : |\varphi| \leq 1, \operatorname{supp}\varphi \subseteq K\} < \infty$ for every compact $K$. Then there are Radon measures $\mu^+$ and
+$\mu^-$, concentrated on disjoint Borel sets $X^+$ and $X^-$, with
+\[
+L(\varphi) = \int\varphi\,d\mu^+ - \int\varphi\,d\mu^- \qquad (\varphi \in C_c(X)).
+\]
+If $X$ is compact, every bounded linear functional $L$ on $C(X)$ (with the norm $\|\ \|_\infty$) has this form with $\mu^\pm$ finite, and $\|L\| = \mu^+(X) + \mu^-(X)$.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{measure-theory:theorem-riesz-vector} with $H = \RR$. Then $\nu = \pm1$ almost everywhere; let $X^\pm = \{\nu = \pm1\}$ and $\mu^\pm(E) = \mu(E \cap X^\pm)$, Borel measures finite on compact
+sets, hence Radon by Proposition~\ref{measure-theory:proposition-radon-automatic}. Then $\int\varphi\nu\,d\mu = \int\varphi\,d\mu^+ - \int\varphi\,d\mu^-$. If $X$ is compact and $L$ is bounded, the hypothesis
+holds with the constant $\|L\|$, $\mu^\pm(X) \leq \mu(X) < \infty$, and \eqref{measure-theory:equation-total-variation} with $V = X$ gives $\mu(X) = \sup\{L(\varphi) : \|\varphi\|_\infty \leq 1\} = \|L\|$.
+\end{proof}
+
+So the dual space of $C(X)$, for a compact metrisable $X$, is the space of signed Radon measures with the total variation norm; this proves the statement quoted in
+Remark~\ref{measure-theory:remark-riesz-markov}(3) for the spaces of this section. The decomposition $X = X^+ \cup X^-$ is the \emph{Hahn decomposition} and $\mu^\pm$ the \emph{Jordan decomposition} of the
+signed measure $\mu^+ - \mu^-$.
+
+\begin{example}\label{measure-theory:example-riesz-vector}
+\begin{enumerate}
+\item For $L(\varphi) = \varphi(0) - \varphi(1)$ on $C_c(\RR)$, $\mu = \delta_0 + \delta_1$, $\nu(0) = 1$ and $\nu(1) = -1$. Indeed, for open $V$, the supremum in
+\eqref{measure-theory:equation-total-variation} is the number of the points $0, 1$ lying in $V$, attained by functions equal to $1$ near $0$ and $-1$ near $1$.
+\item For $h \in L^1_{\mathrm{loc}}(\RR^n)$ and $L(\varphi) = \int\varphi h\,d\lambda$, $\mu = |h|\lambda$ and $\nu = h/|h|$ where $h \neq 0$ (and $\nu = 1$ elsewhere, a $\mu$-null set). The total variation of
+$L$ on $V$ is $\int_V|h|\,d\lambda$, the $L^1$ norm.
+\item For the flux $L(F) = \int_0^{2\pi}\langle F(\cos t, \sin t), (\cos t, \sin t)\rangle\,dt = \int\langle F, n\rangle\,d\sigma$, with $\sigma$ the arc length measure of
+Example~\ref{measure-theory:example-positive-functionals}(3), $\mu = \sigma$ and $\nu = n$ on $S^1$: the theorem recovers the curve and its unit normal from the functional.
+For a $C^1$ field $F$, the divergence theorem in the plane gives $L(F) = \int_{|x| < 1}\operatorname{div}F\,d\lambda^2$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{measure-theory:remark-perimeter}
+\emph{Sets of finite perimeter.} Example~\ref{measure-theory:example-riesz-vector}(3) suggests a definition of boundary measure for arbitrary sets. For a Lebesgue measurable $E \subseteq \RR^n$ consider
+$L_E(F) = \int_E\operatorname{div}F\,d\lambda^n$ for $C^1$ vector fields $F$ with compact support. If $\sup\{L_E(F) : |F| \leq 1, \operatorname{supp}F \subseteq K\} < \infty$ for every compact $K$, then $L_E$ extends
+by uniform approximation to $C_c(\RR^n, \RR^n)$, and Theorem~\ref{measure-theory:theorem-riesz-vector} gives a Radon measure $\mu_E$, the \emph{perimeter measure}, and a unit vector field $\nu_E$ with
+$\int_E\operatorname{div}F = \int\langle F, \nu_E\rangle\,d\mu_E$: a divergence theorem for $E$, valid with no regularity of $\partial E$ assumed. For a bounded open set with smooth boundary, $\mu_E$ is the
+$(n-1)$-dimensional Hausdorff measure $\mathcal{H}^{n-1}$ (Section~\ref{measure-theory:section-hausdorff}) on $\partial E$ and $\nu_E$ is the outer normal. Such sets $E$ are the sets of \emph{finite perimeter} of Caccioppoli and De Giorgi, and the same construction with $\int u\operatorname{div}F$
+defines functions of \emph{bounded variation}; De Giorgi's structure theorem shows that $\mu_E$ is $\mathcal{H}^{n-1}$ restricted to a countably $(n-1)$-rectifiable ``reduced boundary''
+\cite[Chapter 5]{evans-gariepy}. This is the setting in which the isoperimetric problem and minimal surfaces are solved in geometric measure theory.
 \end{remark}
 
 \section{Weak convergence of measures}\label{measure-theory:section-weak-convergence}
@@ -2723,4 +2878,15 @@ Example~\ref{measure-theory:example-infinite-monkey}, with probability $10^{-m}$
 $S_n = \rho_1 + \cdots + \rho_n$. In $\int S_n^4 = \sum\int\rho_i\rho_j\rho_k\rho_l$, a term in which some index occurs exactly once vanishes by the product formula. The remaining terms have all indices equal
 ($n$ terms) or two values each occurring twice ($3n(n - 1)$ terms), and each is at most $1$ in absolute value; so $\int S_n^4 \leq 3n^2$, and Step 2 of the proof of
 Theorem~\ref{measure-theory:theorem-borel-normal} applies verbatim.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-total-variation-point}
+Let $L(F) = F_1(0) + 2F_2(0)$ for $F = (F_1, F_2) \in C_c(\RR, \RR^2)$. Find the measure $\mu$ and the field $\nu$ of Theorem~\ref{measure-theory:theorem-riesz-vector}, and check
+\eqref{measure-theory:equation-total-variation} directly.
+\end{exercise}
+
+\begin{solution}
+$L(F) = \langle F(0), (1, 2)\rangle$, so $L(F) = \int\langle F, \nu\rangle\,d\mu$ with $\mu = \sqrt5\,\delta_0$ and $\nu(0) = (1, 2)/\sqrt5$, a unit vector. For an open $V \ni 0$ and $|F| \leq 1$ with
+support in $V$, the Cauchy--Schwarz inequality gives $L(F) \leq |(1, 2)| = \sqrt5$, with equality when $F(0) = (1, 2)/\sqrt5$, which is possible for $F = \psi\,(1, 2)/\sqrt5$ with $\psi \prec V$, $\psi(0) = 1$; for
+$0 \notin V$ the supremum is $0$. So the total variation is $\sqrt5\,\delta_0$, not $\delta_0 + 2\delta_0 = 3\delta_0$: the components cannot be estimated separately, as $|F| \leq 1$ couples them.
 \end{solution}
