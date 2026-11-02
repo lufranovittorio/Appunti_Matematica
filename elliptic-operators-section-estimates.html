@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>Elliptic estimates and regularity - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="elliptic-operators-section-sobolev-sections.html" /><link rel="next" href="elliptic-operators-section-fredholm.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="elliptic-operators-section-sobolev-sections.html" /><link rel="next" href="elliptic-operators-section-fredholm.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -348,7 +354,7 @@ MathJax.Hub.Config({
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
 <p>The heart of the theory is an inequality: an elliptic operator controls all derivatives of order \(m\), up to a lower-order error. On the torus with constant coefficients this is a computation with Fourier coefficients (Theorem&#160;<a href="distributions-section-elliptic.html#distributions:theorem-elliptic-estimate">32.5.3</a>). For example, for \(P = \Delta + 1 = 1 - \sum _j\partial _j^2\) on \(T^n = \mathbb {R}^n/\mathbb {Z}^n\), \(\widehat{Pu}(k) = (1 + 4\pi ^2|k|^2)\hat u(k)\), and \(1 + |k|^2 \leq 1 + 4\pi ^2|k|^2 \leq 4\pi ^2(1 + |k|^2)\), so </p>
-<div class="displaymath" id="a0000002092">
+<div class="displaymath" id="a0000002176">
   \[  \| u\| _{s+2} \leq \| Pu\| _s \leq 4\pi ^2\| u\| _{s+2}:  \]
 </div>
 <p> the operator \(\Delta + 1\) is an isomorphism \(H^{s+2} \to H^s\) for every \(s\), with inverse \(\hat f(k) \mapsto \hat f(k)/(1 + 4\pi ^2|k|^2)\). For \(P = \Delta \) the coefficient \(k = 0\) is lost, and the estimate needs the extra term \(\| u\| _s\); this term is what makes the kernel (here the constants) possible. </p>
@@ -361,14 +367,14 @@ MathJax.Hub.Config({
   </div>
   <div class="theorem_thmcontent">
   <p> Let \(P\) be an elliptic differential operator of order \(m\) from \(E\) to \(F\) over the compact manifold \(M\). For every \(s\) there is \(C_s\) with </p>
-<div class="displaymath" id="a0000002093">
+<div class="displaymath" id="a0000002177">
   \[  \| u\| _{s+m} \leq C_s\left(\| Pu\| _s + \| u\| _s\right) \qquad \text{for all } u \in H^{s+m}(E),  \]
 </div>
 <p> and (<em>elliptic regularity</em>) if \(u \in H^t(E)\) for some \(t\) and \(Pu \in H^s(F)\), then \(u \in H^{s+m}(E)\); in particular \(Pu\) smooth implies \(u\) smooth. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000002094">
+<div class="proof_wrapper" id="a0000002178">
   <div class="proof_heading">
     <span class="proof_caption">
     Sketch of proof
@@ -390,7 +396,7 @@ MathJax.Hub.Config({
   </div>
   <div class="counterexample_thmcontent">
   <p> Regularity fails for non-elliptic operators. On \(\mathbb {R}^2\) with coordinates \((t, x)\) let \(P = \partial _t^2 - \partial _x^2\), whose symbol \(-\tau ^2 + \xi ^2\) vanishes on the lines \(\tau = \pm \xi \). For every locally integrable \(g\) on \(\mathbb {R}\), the function \(u(t, x) = g(x - t)\) satisfies \(Pu = 0\) in \(\mathcal{D}'(\mathbb {R}^2)\). Indeed, in the coordinates \(s = x - t\), \(r = x + t\) one has \(\partial _t = \partial _r - \partial _s\), \(\partial _x = \partial _r + \partial _s\), so \(\partial _t^2 - \partial _x^2 = -4\partial _r\partial _s\) and \(dt\, dx = \frac12ds\, dr\). For a test function \(\varphi \), written \(\tilde\varphi (s, r)\) in the new coordinates, </p>
-<div class="displaymath" id="a0000002095">
+<div class="displaymath" id="a0000002179">
   \[  \langle Pu, \varphi \rangle = \int u\, (\partial _t^2 - \partial _x^2)\varphi \, dt\, dx = -2\int g(s)\Big(\int \partial _r(\partial _s\tilde\varphi )\, dr\Big)ds = 0,  \]
 </div>
 <p> since \(\partial _s\tilde\varphi \) has compact support in \(r\). Taking \(g\) the indicator function of \([0, \infty )\) gives a discontinuous solution of \(Pu = 0\), although \(0\) is smooth. For elliptic operators this cannot happen: a distribution \(u\) with \(\sum _j\partial _j^2u\) smooth is smooth, by the local form of Theorem&#160;<a href="elliptic-operators-section-estimates.html#elliptic-operators:theorem-elliptic-estimate">42.4.1</a>. </p>
@@ -408,6 +414,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

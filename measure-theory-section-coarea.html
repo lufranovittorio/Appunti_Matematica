@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>The coarea formula - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="measure-theory-section-area-formula.html" /><link rel="next" href="measure-theory-section-densities.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="measure-theory-section-area-formula.html" /><link rel="next" href="measure-theory-section-densities.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -399,7 +405,7 @@ MathJax.Hub.Config({
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
 <p>The area formula measures a set by parametrising it. The coarea formula measures it by slicing. The model is Fubini’s theorem: the volume of \(A \subseteq \mathbb {R}^n\) is the integral of the \((n-1)\)-dimensional volumes of the slices \(A \cap \{ x_n = t\} \). If the slices are the level sets \(f^{-1}(t)\) of a function \(f\) which are not parallel hyperplanes, the slab between the levels \(t\) and \(t + dt\) has thickness about \(dt/|\nabla f|\): where the levels are crowded, the slab is thin. So the volume of the slab is about \(\mathcal{H}^{n-1}(\text{slice})\, dt/|\nabla f|\), and integrating \(|\nabla f|\) instead of \(1\) compensates exactly: </p>
-<div class="displaymath" id="a0000001179">
+<div class="displaymath" id="a0000001217">
   \[  \int _A|\nabla f|\, d\lambda ^n = \int _\mathbb {R}\mathcal{H}^{n-1}\bigl(A \cap f^{-1}(t)\bigr)\, dt .  \]
 </div>
 <p> We prove this for \(C^1\) functions without critical points; the general statement is in Remark&#160;<a href="measure-theory-section-area-formula.html#measure-theory:remark-area-coarea">28.20.6</a>. Throughout, \(n \geq 2\). </p>
@@ -412,14 +418,14 @@ MathJax.Hub.Config({
   </div>
   <div class="lemma_thmcontent">
   <p> Let \(v_1, \ldots , v_{n-1} \in \mathbb {R}^n\) be linearly independent, \(V\) the \(n \times (n - 1)\) matrix with these columns, \(\nu \) a unit vector orthogonal to all \(v_i\), and \(w \in \mathbb {R}^n\). Then </p>
-<div class="displaymath" id="a0000001180">
+<div class="displaymath" id="a0000001218">
   \[  |\det (v_1, \ldots , v_{n-1}, w)| = JV \cdot |\langle w, \nu \rangle | .  \]
 </div>
 
   </div>
 </div>
 <p>In words: the volume of a parallelepiped is the \((n-1)\)-dimensional volume of its base times its height. Recall that \(JV = \sqrt{\det (V^TV)}\) is the \((n-1)\)-dimensional volume of the base (Lemma&#160;<a href="measure-theory-section-area-formula.html#measure-theory:lemma-jacobian">28.20.2</a>). </p>
-<div class="proof_wrapper" id="a0000001181">
+<div class="proof_wrapper" id="a0000001219">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -441,7 +447,7 @@ MathJax.Hub.Config({
   </div>
   <div class="theorem_thmcontent">
   <p> Let \(U \subseteq \mathbb {R}^n\) be open and \(f \colon U \to \mathbb {R}\) of class \(C^1\) with \(\nabla f(x) \neq 0\) for all \(x \in U\). For every Borel set \(A \subseteq U\) the function \(t \mapsto \mathcal{H}^{n-1}(A \cap f^{-1}(t))\) is Lebesgue measurable, and </p>
-<div class="displaymath" id="a0000001182">
+<div class="displaymath" id="a0000001220">
   \[  \int _A|\nabla f|\, d\lambda ^n = \int _\mathbb {R}\mathcal{H}^{n-1}\bigl(A \cap f^{-1}(t)\bigr)\, dt .  \]
 </div>
 <p> More generally, for every Borel function \(g \colon U \to [0, \infty ]\), </p>
@@ -456,7 +462,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001183">
+<div class="proof_wrapper" id="a0000001221">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -465,20 +471,20 @@ MathJax.Hub.Config({
   </div>
   <div class="proof_content">
   <p><em>Step 1: local coordinates adapted to \(f\).</em> Let \(x_0 \in U\). Some partial derivative \(\partial _if(x_0)\) is nonzero. A permutation of the coordinates is an isometry of \(\mathbb {R}^n\), so it preserves \(\lambda ^n\) (Lemma&#160;<a href="measure-theory-section-change-of-variables.html#measure-theory:lemma-linear-change">28.11.1</a>), \(\mathcal{H}^{n-1}\) and \(|\nabla f|\); so we may assume \(\partial _nf(x_0) \neq 0\). The map \(\psi (x) = (x_1, \ldots , x_{n-1}, f(x))\) has \(\det D\psi (x_0) = \partial _nf(x_0) \neq 0\). By the inverse function theorem (Theorem&#160;<a href="real-analysis-section-inverse-function.html#real-analysis:theorem-inverse-function">27.11.2</a>) there are open sets \(V \ni x_0\) and \(W\) such that \(\psi \colon V \to W\) is a \(C^1\)-diffeomorphism. Let \(\phi = \psi ^{-1} \colon W \to V\), and write points of \(W \subseteq \mathbb {R}^{n-1} \times \mathbb {R}\) as \((y, t)\). Since \(\psi (\phi (y, t)) = (y, t)\), </p>
-<div class="displaymath" id="a0000001184">
+<div class="displaymath" id="a0000001222">
   \[  f(\phi (y, t)) = t \qquad \text{for } (y, t) \in W .  \]
 </div>
 <p> For fixed \(t\) let \(W_t = \{ y : (y, t) \in W\} \), open in \(\mathbb {R}^{n-1}\), and \(\phi _t = \phi (-, t) \colon W_t \to \mathbb {R}^n\). It is injective and \(C^1\), and \(D\phi _t\) is injective, as its columns are the first \(n - 1\) columns of the invertible matrix \(D\phi \). Its image is \(V \cap f^{-1}(t)\): a point \(x \in V\) has \(f(x) = t\) if and only if \(\psi (x) = (y, t)\) for some \(y\). </p>
 <p><em>Step 2: the Jacobian identity.</em> We claim \(|\det D\phi (y, t)|\, |\nabla f(\phi (y, t))| = J\phi _t(y)\). Differentiating \(f(\phi (y, t)) = t\) with the chain rule gives \(\langle \nabla f, \partial _{y_i}\phi \rangle = 0\) for \(i {\lt} n\) and \(\langle \nabla f, \partial _t\phi \rangle = 1\), all evaluated at \(\phi (y, t)\) resp. \((y, t)\). So \(\nu = \nabla f/|\nabla f|\) is a unit vector orthogonal to the columns \(\partial _{y_i}\phi \) of \(D\phi _t\), and Lemma&#160;<a href="measure-theory-section-coarea.html#measure-theory:lemma-normal-determinant">28.21.1</a> with \(w = \partial _t\phi \) gives </p>
-<div class="displaymath" id="a0000001185">
+<div class="displaymath" id="a0000001223">
   \[  |\det D\phi | = J\phi _t\cdot |\langle \partial _t\phi , \nu \rangle | = \frac{J\phi _t}{|\nabla f|} .  \]
 </div>
 <p><em>Step 3: the formula on \(V\).</em> Let \(A \subseteq V\) be Borel, and \(h = \mathbf{1}_A \circ \phi \), a Borel function on \(W\). By the change of variables formula (Theorem&#160;<a href="measure-theory-section-change-of-variables.html#measure-theory:theorem-change-of-variables">28.11.2</a>) for \(\phi \colon W \to V\) and Step 2, </p>
-<div class="displaymath" id="a0000001186">
+<div class="displaymath" id="a0000001224">
   \[  \int _A|\nabla f|\, d\lambda ^n = \int _Wh(y, t)\, |\nabla f(\phi (y, t))|\, |\det D\phi (y, t)|\, d\lambda ^n(y, t) = \int _Wh(y, t)\, J\phi _t(y)\, d\lambda ^n(y, t) .  \]
 </div>
 <p> The integrand, extended by \(0\) outside \(W\), is a nonnegative Borel function on \(\mathbb {R}^{n-1} \times \mathbb {R}\). By Tonelli’s theorem (Theorem&#160;<a href="measure-theory-section-fubini.html#measure-theory:theorem-fubini">28.10.3</a> and Remark&#160;<a href="measure-theory-section-fubini.html#measure-theory:remark-lebesgue-product">28.10.5</a>) the function \(t \mapsto \int _{W_t}h(y, t)J\phi _t(y)\, dy\) is measurable and the last integral equals \(\int _\mathbb {R}\bigl(\int _{W_t}h(y, t)J\phi _t(y)\, dy\bigr)dt\). By the area formula (Theorem&#160;<a href="measure-theory-section-area-formula.html#measure-theory:theorem-area-formula">28.20.3</a>) for \(\phi _t\) and the Borel set \(B_t = \{ y \in W_t : \phi (y, t) \in A\} \), whose image is \(A \cap f^{-1}(t)\) by Step 1, </p>
-<div class="displaymath" id="a0000001187">
+<div class="displaymath" id="a0000001225">
   \[  \int _{W_t}h(y, t)J\phi _t(y)\, dy = \int _{B_t}J\phi _t\, d\lambda ^{n-1} = \mathcal{H}^{n-1}\bigl(A \cap f^{-1}(t)\bigr).  \]
 </div>
 <p> This proves the theorem for Borel subsets of \(V\). </p>
@@ -497,14 +503,14 @@ MathJax.Hub.Config({
   </div>
   <div class="corollary_thmcontent">
   <p> Let \(S^{n-1} = \{ x \in \mathbb {R}^n : |x| = 1\} \) and \(\omega _n = \lambda ^n(B(0, 1))\). Then \(\mathcal{H}^{n-1}(S^{n-1}) = n\omega _n\), and for every Borel function \(g \colon \mathbb {R}^n \to [0, \infty ]\), </p>
-<div class="displaymath" id="a0000001188">
+<div class="displaymath" id="a0000001226">
   \[  \int _{\mathbb {R}^n}g\, d\lambda ^n = \int _0^\infty \Bigl(\int _{|x| = r}g\, d\mathcal{H}^{n-1}\Bigr)dr = \int _0^\infty r^{n-1}\Bigl(\int _{S^{n-1}}g(r\theta )\, d\mathcal{H}^{n-1}(\theta )\Bigr)dr .  \]
 </div>
 <p> In particular, if \(g(x) = h(|x|)\) is radial, \(\int _{\mathbb {R}^n}g\, d\lambda ^n = n\omega _n\int _0^\infty h(r)r^{n-1}\, dr\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001189">
+<div class="proof_wrapper" id="a0000001227">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -564,6 +570,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

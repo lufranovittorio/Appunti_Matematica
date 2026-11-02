@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>Currents - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="de-rham-section-de-rham-theorem.html" /><link rel="next" href="de-rham-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="de-rham-section-de-rham-theorem.html" /><link rel="next" href="de-rham-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -344,6 +350,14 @@ MathJax.Hub.Config({
 <h1 id="de-rham:section-currents">37.4 Currents<a class="tag" href="tag/01AL.html" title="Permanent link: tag 01AL">01AL</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
+<p>A closed \(k\)-form \(\eta \) on a compact oriented \(n\)-manifold \(M\) and a compact oriented submanifold \(Z\) of dimension \(n - k\) both give linear functionals on the \((n-k)\)-forms: </p>
+<div class="displaymath" id="a0000001715">
+  \[  \varphi \longmapsto \int _M\eta \wedge \varphi \qquad \text{and} \qquad \varphi \longmapsto \int _Z\varphi .  \]
+</div>
+<p> Poincaré duality says that every functional of the second kind agrees, on closed forms, with one of the first kind. It is natural to look for a single space that contains both kinds of objects, with an exterior derivative extending \(d\) on forms. Distributions do this for functions (Chapter&#160;<a href="distributions.html">32</a>): they contain the locally integrable functions and also the Dirac distributions, which are “functions concentrated at a point”. <em>Currents</em> are the analogous objects for differential forms, introduced by de Rham <span class="cite">[<a href="Bibliography.html#de-rham-book" >dR84</a>]</span>. A current is a form whose coefficients are distributions; the current of a submanifold is a form concentrated on it. In this section \(M\) is an oriented \(n\)-manifold, and forms and currents are real. </p>
+<h2 id="de-rham:subsection-currents-definition">37.4.1 Definition and first examples<a class="tag" href="tag/03C9.html" title="Permanent link: tag 03C9">03C9</a></h2>
+
+<p>To define currents we need a notion of convergence of compactly supported forms. We say that \(\varphi _j \to \varphi \) in \(\Omega ^m_c(M)\) if all \(\varphi _j\) have support in one fixed compact set \(K \subseteq M\) and, in every chart, the coefficients of \(\varphi _j\) converge to those of \(\varphi \) uniformly on compact subsets of the chart domain, together with all their partial derivatives. For \(M\) an open subset of \(\mathbb {R}^n\) this is the convergence of test functions of Definition&#160;<a href="distributions-section-distributions.html#distributions:definition-distribution">32.2.1</a>, applied to each coefficient. If \(\varphi _j \to \varphi \), then \(d\varphi _j \to d\varphi \), because the coefficients of \(d\varphi \) are sums of partial derivatives of those of \(\varphi \). </p>
 <div class="definition_thmwrapper theorem-style-definition" id="de-rham:definition-current">
   <div class="definition_thmheading"><a class="tag" href="tag/01AM.html" title="Permanent link: tag 01AM">01AM</a>
     <span class="definition_thmcaption">
@@ -352,12 +366,17 @@ MathJax.Hub.Config({
     <span class="definition_thmlabel">37.4.1</span>
   </div>
   <div class="definition_thmcontent">
-  <p> Let \(M\) be an oriented \(n\)-manifold. A <em>\(k\)-current</em> is a linear functional \(T\) on \(\Omega ^{n-k}_c(M)\) that is continuous in the sense of distributions: \(T(\varphi _j) \to 0\) whenever the coefficients of \(\varphi _j\), in any chart, have supports in a fixed compact set and converge to \(0\) together with all derivatives. Currents form a space \(\mathcal{D}'_k(M)\), and \(dT\) is defined by \((dT)(\varphi ) = (-1)^{k+1}T(d\varphi )\), so that \(d \circ d = 0\). </p>
+  <p> A <em>current of degree \(k\)</em>, or <em>\(k\)-current</em>, on \(M\) is a linear map \(T \colon \Omega ^{n-k}_c(M) \to \mathbb {R}\) that is continuous in the sense that \(T(\varphi _j) \to T(\varphi )\) whenever \(\varphi _j \to \varphi \) in \(\Omega ^{n-k}_c(M)\). The \(k\)-currents form a vector space \(\mathcal{D}^{\prime k}(M)\). The <em>exterior derivative</em> of \(T \in \mathcal{D}^{\prime k}(M)\) is the \((k+1)\)-current </p>
+<div class="displaymath" id="a0000001716">
+  \[  (dT)(\varphi ) = (-1)^{k+1}T(d\varphi ), \qquad \varphi \in \Omega ^{n-k-1}_c(M).  \]
+</div>
+<p> A current \(T\) is <em>closed</em> if \(dT = 0\) and <em>exact</em> if \(T = dS\) for a current \(S\). </p>
 
   </div>
 </div>
+<p>The functional \(dT\) is continuous because \(d\) preserves convergence, and \(d(dT) = \pm T \circ d \circ d = 0\). So the currents form a complex \(\mathcal{D}^{\prime 0}(M) \to \mathcal{D}^{\prime 1}(M) \to \cdots \to \mathcal{D}^{\prime n}(M)\), just like the forms. A \(k\)-current is also said to have <em>dimension</em> \(n - k\), the degree of the forms it is evaluated on; geometric measure theory usually indexes currents by their dimension. The sign in the definition of \(dT\) is the one that makes \(d\) on currents extend \(d\) on forms, as the first example shows. </p>
 <div class="example_thmwrapper theorem-style-definition" id="de-rham:example-currents">
-  <div class="example_thmheading"><a class="tag" href="tag/01AN.html" title="Permanent link: tag 01AN">01AN</a>
+  <div class="example_thmheading"><a class="tag" href="tag/01AN.html" title="Permanent link: tag 01AN">01AN</a><a class="graph-link" href="graph.html?tag=01AN" title="Dependencies of tag 01AN: what it uses and what uses it" aria-label="Dependency graph of tag 01AN"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
     <span class="example_thmcaption">
     Example
     </span>
@@ -366,39 +385,315 @@ MathJax.Hub.Config({
   <div class="example_thmcontent">
   
 <ol class="enumerate">
-  <li><p>A locally integrable \(k\)-form \(\eta \) defines a current \(T_\eta (\varphi ) = \int _M\eta \wedge \varphi \), and \(dT_\eta = T_{d\eta }\) for smooth \(\eta \) by Stokes’ theorem; so currents generalise forms in the same way as distributions generalise functions (Chapter&#160;<a href="distributions.html">32</a>). </p>
+  <li><p>(<em>Forms.</em>) A \(k\)-form \(\eta \) with locally integrable coefficients defines the \(k\)-current \(T_\eta (\varphi ) = \int _M\eta \wedge \varphi \). If \(\eta \) is smooth, then \(dT_\eta = T_{d\eta }\): for \(\varphi \in \Omega ^{n-k-1}_c(M)\), Stokes’ theorem (Theorem&#160;<a href="differential-forms-section-integration.html#differential-forms:theorem-stokes">36.4.8</a>) applied to \(d(\eta \wedge \varphi ) = d\eta \wedge \varphi + (-1)^k\eta \wedge d\varphi \) gives \(\int _M\eta \wedge d\varphi = (-1)^{k+1}\int _Md\eta \wedge \varphi \), so \((dT_\eta )(\varphi ) = (-1)^{k+1}\int _M\eta \wedge d\varphi = \int _Md\eta \wedge \varphi \). By Example&#160;<a href="distributions-section-distributions.html#distributions:example-distributions">32.2.2</a>(1), applied to the coefficients in charts, \(T_\eta = 0\) only if \(\eta = 0\) almost everywhere; so we may regard forms as currents. </p>
 </li>
-  <li><p>A compact oriented \(k\)-dimensional submanifold \(Z \subseteq M\) defines the <em>current of integration</em> \([Z](\varphi ) = \int _Z\varphi \) for \(\varphi \in \Omega ^k_c(M)\). Stokes’ theorem gives \(d[Z] = 0\) when \(\partial Z = \emptyset \), so \([Z]\) has a cohomology class. </p>
+  <li><p>(<em>Submanifolds.</em>) Let \(Z \subseteq M\) be an oriented submanifold of dimension \(p\) which is a closed subset of \(M\), for instance a compact one, and \(i \colon Z \to M\) the inclusion. For \(\varphi \in \Omega ^p_c(M)\) the form \(i^*\varphi \) has compact support on \(Z\), and the <em>current of integration</em> </p>
+<div class="displaymath" id="a0000001717">
+  \[  [Z](\varphi ) = \int _Zi^*\varphi = \int _Z\varphi  \]
+</div>
+<p> is a current of degree \(n - p\). It is continuous because \(\int _Z\) of a form supported in a fixed compact set is bounded by a constant times the supremum of its coefficients. If \(\partial Z = \emptyset \), Stokes’ theorem on \(Z\) gives \([Z](d\varphi ) = 0\), so \([Z]\) is closed. </p>
+</li>
+  <li><p>(<em>Points.</em>) A point \(p \in M\), oriented by the sign \(+1\), is a compact submanifold of dimension \(0\), and \([p](f) = f(p)\) for \(f \in \Omega ^0_c(M)\). This \(n\)-current is the Dirac distribution \(\delta _p\) in the guise of a current; it is not of the form \(T_\eta \) (Exercise&#160;<a href="de-rham-section-exercises.html#de-rham:exercise-dirac-current">37.5.8</a>). </p>
+</li>
+  <li><p>(<em>Neither.</em>) On \(\mathbb {R}\) the \(0\)-current \(T(g\, dx) = g^{\prime }(0)\) involves a derivative of the form it is evaluated on, so it is neither a form nor the current of a submanifold. In terms of distributions it is \(-\delta _0^{\prime }\) (Example&#160;<a href="distributions-section-distributions.html#distributions:example-heaviside">32.2.5</a>). </p>
 </li>
 </ol>
 
   </div>
 </div>
+<p>The first example explains the slogan “currents are forms with distribution coefficients”. On an open subset of \(\mathbb {R}^n\) it can be made precise. For an increasing multi-index \(I = (i_1 {\lt} \cdots {\lt} i_k)\) let \(I^c\) be the increasing multi-index of the complementary indices, and define the sign \(\varepsilon _I = \pm 1\) by \(dx^I \wedge dx^{I^c} = \varepsilon _I\, dx^1 \wedge \cdots \wedge dx^n\). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="de-rham:proposition-currents-local">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03CA.html" title="Permanent link: tag 03CA">03CA</a><a class="graph-link" href="graph.html?tag=03CA" title="Dependencies of tag 03CA: what it uses and what uses it" aria-label="Dependency graph of tag 03CA"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">37.4.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(U \subseteq \mathbb {R}^n\) be open, with the standard orientation. For a \(k\)-current \(T\) on \(U\) and each increasing multi-index \(I\) of length \(k\), the map \(T_I(f) = \varepsilon _I\, T(f\, dx^{I^c})\) is a real-valued distribution on \(U\), and </p>
+<div class="displaymath" id="a0000001718">
+  \[  T(\varphi ) = \sum _{|I| = k}\varepsilon _I\, T_I(\varphi _{I^c}) \qquad \text{for } \varphi = \sum _{|J| = n-k}\varphi _J\, dx^J \in \Omega ^{n-k}_c(U).  \]
+</div>
+<p> Conversely, every family \((T_I)_{|I| = k}\) of real distributions on \(U\) arises in this way from exactly one \(k\)-current. If \(T = T_\eta \) with \(\eta = \sum _I\eta _I\, dx^I\), then \(T_I = T_{\eta _I}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001719">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>A sequence \(f_j \to f\) in \(\mathcal{D}(U)\) gives \(f_j\, dx^{I^c} \to f\, dx^{I^c}\) in \(\Omega ^{n-k}_c(U)\), so \(T_I\) is continuous. Every increasing \(J\) of length \(n - k\) is \(I^c\) for exactly one \(I\) of length \(k\), so by linearity \(T(\varphi ) = \sum _IT(\varphi _{I^c}\, dx^{I^c}) = \sum _I\varepsilon _IT_I(\varphi _{I^c})\), using \(\varepsilon _I^2 = 1\). Conversely, given distributions \(T_I\), the right hand side of the displayed formula defines a linear map on \(\Omega ^{n-k}_c(U)\); it is continuous, because \(\varphi _j \to \varphi \) in \(\Omega ^{n-k}_c(U)\) means exactly that every coefficient converges in \(\mathcal{D}(U)\), and its components are the given \(T_I\). Uniqueness is the displayed formula. Finally, \(\eta \wedge f\, dx^{I^c} = \eta _If\, dx^I \wedge dx^{I^c} = \varepsilon _I\eta _If\, dx^1 \wedge \cdots \wedge dx^n\), because \(dx^K \wedge dx^{I^c} = 0\) for \(K \neq I\); so \(T_I(f) = \varepsilon _I^2\int _U\eta _If = T_{\eta _I}(f)\). </p>
+
+  </div>
+</div>
+<p>So on \(U\) we may write a \(k\)-current as \(T = \sum _IT_I\, dx^I\) with distribution coefficients. For instance the \(n\)-current \([p]\) is \(\delta _p\, dx^1 \wedge \cdots \wedge dx^n\), and the current of the oriented line \(Z = \mathbb {R}\times \{ 0\}  \subseteq \mathbb {R}^2\), oriented by \(dx\), is \([Z](g\, dx + h\, dy) = \int _\mathbb {R}g(t, 0)\, dt\). Its component \(T_{(1)}(f) = [Z](f\, dy)\) vanishes, as \(dy\) restricts to zero on \(Z\), and \(T_{(2)}(f) = \varepsilon _{(2)}[Z](f\, dx) = -\int _\mathbb {R}f(t, 0)\, dt\), as \(dy \wedge dx = -dx \wedge dy\). So \([Z] = -\delta _{\{ y = 0\} }\, dy\), where \(\delta _{\{ y = 0\} }(f) = \int _\mathbb {R}f(t, 0)\, dt\) is the distribution “\(\delta _0(y)\)” concentrated on the line. </p>
+<h2 id="de-rham:subsection-currents-operations">37.4.2 Support and operations<a class="tag" href="tag/03CB.html" title="Permanent link: tag 03CB">03CB</a></h2>
+
+<p>If \(V \subseteq M\) is open, a form in \(\Omega _c(V)\) extended by zero is a form in \(\Omega _c(M)\), and convergence in \(\Omega _c(V)\) implies convergence in \(\Omega _c(M)\). So a current \(T\) on \(M\) restricts to a current \(T|_V\) on \(V\). We say that \(T\) <em>vanishes on</em> \(V\) if \(T|_V = 0\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="de-rham:lemma-currents-local">
+  <div class="lemma_thmheading"><a class="tag" href="tag/03CC.html" title="Permanent link: tag 03CC">03CC</a><a class="graph-link" href="graph.html?tag=03CC" title="Dependencies of tag 03CC: what it uses and what uses it" aria-label="Dependency graph of tag 03CC"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">37.4.4</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If a current \(T\) on \(M\) vanishes on each open set of a family \((V_i)_{i \in I}\), then it vanishes on \(V = \bigcup _iV_i\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001720">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\varphi \in \Omega _c(V)\). Choose a smooth partition of unity \((\psi _i)\) on \(V\) subordinate to the cover \((V_i)\) (Theorem&#160;<a href="smooth-manifolds-section-partitions.html#smooth-manifolds:theorem-partitions-of-unity">33.8.2</a>). Since the supports are locally finite and \(\operatorname {supp}\varphi \) is compact, only finitely many \(\psi _i\) are nonzero on \(\operatorname {supp}\varphi \), so \(\varphi = \sum _i\psi _i\varphi \) is a finite sum. The support of \(\psi _i\varphi \) is a closed subset of the compact set \(\operatorname {supp}\varphi \) contained in \(\operatorname {supp}\psi _i \subseteq V_i\), so \(\psi _i\varphi \in \Omega _c(V_i)\) and \(T(\psi _i\varphi ) = 0\). Hence \(T(\varphi ) = 0\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="de-rham:definition-current-support">
+  <div class="definition_thmheading"><a class="tag" href="tag/03CD.html" title="Permanent link: tag 03CD">03CD</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">37.4.5</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The <em>support</em> \(\operatorname {supp}T\) of a current \(T\) is the complement of the largest open set on which \(T\) vanishes, the union of all such open sets. </p>
+
+  </div>
+</div>
+<p>By the lemma, \(T(\varphi ) = 0\) whenever \(\operatorname {supp}\varphi \cap \operatorname {supp}T = \emptyset \). For a continuous form \(\eta \), \(\operatorname {supp}T_\eta \) is the closure of \(\{ \eta \neq 0\} \); \(\operatorname {supp}[Z] \subseteq Z\), since \([Z](\varphi ) = 0\) when \(\varphi \) vanishes near \(Z\); and \(\operatorname {supp}[p] = \{ p\} \). Currents can thus be supported on sets of measure zero, which forms cannot. </p>
+<p>Three operations on forms extend to currents. In each case the extension is forced by the requirement that it agree with the operation on forms, read through Example&#160;<a href="de-rham-section-currents.html#de-rham:example-currents">37.4.2</a>(1). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="de-rham:definition-current-operations">
+  <div class="definition_thmheading"><a class="tag" href="tag/03CE.html" title="Permanent link: tag 03CE">03CE</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">37.4.6</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(T \in \mathcal{D}^{\prime k}(M)\). </p>
+<ol class="enumerate">
+  <li><p>(<em>Product with smooth forms.</em>) For \(\alpha \in \Omega ^l(M)\), \(\alpha \wedge T \in \mathcal{D}^{\prime k+l}(M)\) is \((\alpha \wedge T)(\varphi ) = (-1)^{kl}T(\alpha \wedge \varphi )\). </p>
+</li>
+  <li><p>(<em>Restriction.</em>) For \(V \subseteq M\) open, \(T|_V\) as above. </p>
+</li>
+  <li><p>(<em>Push-forward.</em>) Let \(f \colon M \to N\) be a proper smooth map to an oriented \(n^{\prime }\)-manifold. Then \(f_*T \in \mathcal{D}^{\prime \,  k + n^{\prime } - n}(N)\) is \((f_*T)(\psi ) = T(f^*\psi )\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>In (3), \(f^*\psi \) has compact support because \(\operatorname {supp}f^*\psi \subseteq f^{-1}(\operatorname {supp}\psi )\) and \(f\) is proper, and \(\psi _j \to \psi \) implies \(f^*\psi _j \to f^*\psi \) by the chain rule; so \(f_*T\) is a current. The degree is right: \(T\) is evaluated on forms of degree \(n - k\), and so is \(f_*T\), which is therefore a current of degree \(n^{\prime } - (n - k)\) on \(N\). Forms can be pulled back, but in general not pushed forward; currents can be pushed forward, but in general not pulled back. This is the same duality as between cohomology and homology. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="de-rham:proposition-current-operations">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03CF.html" title="Permanent link: tag 03CF">03CF</a><a class="graph-link" href="graph.html?tag=03CF" title="Dependencies of tag 03CF: what it uses and what uses it" aria-label="Dependency graph of tag 03CF"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">37.4.7</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(T \in \mathcal{D}^{\prime k}(M)\) and \(\alpha \in \Omega ^l(M)\). </p>
+<ol class="enumerate">
+  <li><p>\(\alpha \wedge T_\eta = T_{\alpha \wedge \eta }\) for every locally integrable \(k\)-form \(\eta \), and \(d(\alpha \wedge T) = d\alpha \wedge T + (-1)^l\alpha \wedge dT\). </p>
+</li>
+  <li><p>\(\operatorname {supp}(\alpha \wedge T) \subseteq \operatorname {supp}\alpha \cap \operatorname {supp}T\). </p>
+</li>
+  <li><p>For \(f \colon M \to N\) proper, \(d(f_*T) = (-1)^{n^{\prime } - n}f_*(dT)\). </p>
+</li>
+  <li><p>If \(Z \subseteq M\) is a closed oriented submanifold with inclusion \(i\), then \([Z] = i_*T_1\), where \(T_1\) is the \(0\)-current on \(Z\) given by the constant function \(1\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001721">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) For \(\varphi \in \Omega ^{n-k-l}_c(M)\), \((\alpha \wedge T_\eta )(\varphi ) = (-1)^{kl}\int _M\eta \wedge \alpha \wedge \varphi = \int _M\alpha \wedge \eta \wedge \varphi \), since moving the \(l\)-form \(\alpha \) past the \(k\)-form \(\eta \) costs \((-1)^{kl}\). For the Leibniz rule, let \(\varphi \in \Omega ^{n-k-l-1}_c(M)\). From \(d(\alpha \wedge \varphi ) = d\alpha \wedge \varphi + (-1)^l\alpha \wedge d\varphi \), </p>
+<div class="displaymath" id="a0000001722">
+  \[  d(\alpha \wedge T)(\varphi ) = (-1)^{k+l+1}(-1)^{kl}\, T(\alpha \wedge d\varphi ) = (-1)^{k+1+kl}\bigl(T(d(\alpha \wedge \varphi )) - T(d\alpha \wedge \varphi )\bigr).  \]
+</div>
+<p> On the other hand \((d\alpha \wedge T)(\varphi ) = (-1)^{k(l+1)}T(d\alpha \wedge \varphi )\), which is the second term, and \((-1)^l(\alpha \wedge dT)(\varphi ) = (-1)^{l + (k+1)l}(dT)(\alpha \wedge \varphi ) = (-1)^{kl}(-1)^{k+1}T(d(\alpha \wedge \varphi ))\), which is the first. </p>
+<p>(2) If \(\varphi \) is supported in the open set \(M \setminus \operatorname {supp}\alpha \), then \(\alpha \wedge \varphi = 0\); if it is supported in \(M \setminus \operatorname {supp}T\), then so is \(\alpha \wedge \varphi \), and \(T(\alpha \wedge \varphi ) = 0\) by Lemma&#160;<a href="de-rham-section-currents.html#de-rham:lemma-currents-local">37.4.4</a>. So \(\alpha \wedge T\) vanishes on both open sets, hence on their union. </p>
+<p>(3) For \(\psi \) of degree \(n - k - 1\) on \(N\), using \(f^*d = df^*\) (Theorem&#160;<a href="differential-forms-section-forms.html#differential-forms:theorem-exterior-derivative">36.2.9</a>), \(d(f_*T)(\psi ) = (-1)^{k + n^{\prime } - n + 1}T(f^*d\psi ) = (-1)^{n^{\prime } - n}(-1)^{k+1}T(df^*\psi ) = (-1)^{n^{\prime } - n}(dT)(f^*\psi )\). </p>
+<p>(4) \((i_*T_1)(\varphi ) = T_1(i^*\varphi ) = \int _Z1 \wedge i^*\varphi = [Z](\varphi )\); the inclusion is proper because \(Z\) is closed. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="de-rham:remark-current-products">
+  <div class="remark_thmheading"><a class="tag" href="tag/03CG.html" title="Permanent link: tag 03CG">03CG</a><a class="graph-link" href="graph.html?tag=03CG" title="Dependencies of tag 03CG: what it uses and what uses it" aria-label="Dependency graph of tag 03CG"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">37.4.8</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Two currents cannot be multiplied in general, and this is not a defect of the definitions. Take \(\rho \geq 0\) smooth with compact support in the unit ball of \(\mathbb {R}^n\) and \(\int \rho = 1\), and \(\rho _\varepsilon (x) = \varepsilon ^{-n}\rho (x/\varepsilon )\). Then \(T_{\rho _\varepsilon } \to \delta _0\) (Proposition&#160;<a href="distributions-section-distributions.html#distributions:proposition-approximate-identity">32.2.7</a>), but for \(\varphi \geq 0\) with \(\varphi (0) {\gt} 0\), </p>
+<div class="displaymath" id="a0000001723">
+  \[  \int \rho _\varepsilon ^2\varphi = \varepsilon ^{-n}\int \rho (y)^2\varphi (\varepsilon y)\, dy \sim \varepsilon ^{-n}\varphi (0)\int \rho ^2 \to \infty ,  \]
+</div>
+<p> so the squares do not converge, and no reasonable product \(\delta _0 \cdot \delta _0\) exists. In geometric terms: the product of two currents of integration should be the current of the intersection, and this only makes sense when the submanifolds meet transversally. This is one reason why intersection theory of cycles needs moving lemmas or deformation to the normal cone (Chapter&#160;<a href="intersection-theory.html">62</a>). </p>
+
+  </div>
+</div>
+<h2 id="de-rham:subsection-currents-boundaries">37.4.3 Boundaries and the angle form<a class="tag" href="tag/03CH.html" title="Permanent link: tag 03CH">03CH</a></h2>
+
+<p>Stokes’ theorem becomes a statement about currents. Let \(Z\) be an oriented \(p\)-manifold with boundary and \(i \colon Z \to M\) a proper smooth map, for instance any smooth map if \(Z\) is compact; the formula \([Z](\varphi ) = \int _Zi^*\varphi \) still defines a current of degree \(n - p\), the current of the “singular chain” \(i\), and similarly for \(\partial Z\), with the induced orientation (Definition&#160;<a href="differential-forms-section-integration.html#differential-forms:definition-manifold-with-boundary">36.4.5</a>). </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="de-rham:proposition-boundary-current">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03CI.html" title="Permanent link: tag 03CI">03CI</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">37.4.9</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> In this situation \(d[Z] = (-1)^{n-p+1}[\partial Z]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001724">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(\varphi \in \Omega ^{p-1}_c(M)\), Stokes’ theorem on \(Z\) and \(i^*d = di^*\) give \(d[Z](\varphi ) = (-1)^{n-p+1}\int _Zi^*d\varphi = (-1)^{n-p+1}\int _Zd(i^*\varphi ) = (-1)^{n-p+1}\int _{\partial Z}i^*\varphi \). </p>
+
+  </div>
+</div>
+<p>Up to sign, the exterior derivative of currents is the boundary operator of chains. For example: </p>
+<ol class="enumerate">
+  <li><p>If \(\gamma \colon [0, 1] \to M\) is a smooth path from \(q\) to \(p\), then \(\partial [0, 1] = \{ 1\}  - \{ 0\} \) (Example&#160;<a href="differential-forms-section-integration.html#differential-forms:example-boundaries">36.4.7</a>(1)), so \(d[\gamma ] = (-1)^n([p] - [q])\): the difference of two points joined by a path is an exact current. </p>
+</li>
+  <li><p>On \(\mathbb {R}\), the current of \(Z = [0, \infty )\) is \(T_H\) for the Heaviside function \(H\), and \(\partial Z = -\{ 0\} \) (the outward direction at \(0\) is \(-\partial _t\)). The proposition gives \(dT_H = [0]\), the current version of \(H^{\prime } = \delta _0\) (Example&#160;<a href="distributions-section-distributions.html#distributions:example-heaviside">32.2.5</a>). </p>
+</li>
+</ol>
+<p> In this way currents contain both differential forms and (smooth) chains, with compatible differentials. This is why they are a natural place to compare de Rham cohomology with homology, which was de Rham’s motivation. </p>
+<p>The next example shows a closed form that stops being closed when it is regarded as a current on a larger manifold, and the defect is concentrated at a point. </p>
+<div class="example_thmwrapper theorem-style-definition" id="de-rham:example-angle-current">
+  <div class="example_thmheading"><a class="tag" href="tag/03CJ.html" title="Permanent link: tag 03CJ">03CJ</a><a class="graph-link" href="graph.html?tag=03CJ" title="Dependencies of tag 03CJ: what it uses and what uses it" aria-label="Dependency graph of tag 03CJ"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">37.4.10</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(\omega = (x\, dy - y\, dx)/(x^2 + y^2)\) be the angle form on \(\mathbb {R}^2 \setminus \{ 0\} \) (Example&#160;<a href="de-rham-section-de-rham-theorem.html#de-rham:example-angle-form">37.3.4</a>). Its coefficients are bounded by \(1/r\), which is integrable near \(0\) in the plane (\(\int _0^1r^{-1}\, r\, dr {\lt} \infty \)), so \(\omega \) defines a \(1\)-current \(T_\omega \) on all of \(\mathbb {R}^2\). We claim </p>
+<div class="displaymath" id="a0000001725">
+  \[  d\Bigl(\frac{1}{2\pi }T_\omega \Bigr) = [0].  \]
+</div>
+<p> Let \(f \in \Omega ^0_c(\mathbb {R}^2)\). Then \((dT_\omega )(f) = (-1)^2T_\omega (df) = \int _{\mathbb {R}^2}\omega \wedge df = \lim _{\varepsilon \to 0}\int _{r \geq \varepsilon }\omega \wedge df\) by dominated convergence. On \(\{ r \geq \varepsilon \} \) the form \(\omega \) is smooth and closed, so \(d(f\omega ) = df \wedge \omega = -\omega \wedge df\), and Stokes’ theorem on the manifold with boundary \(\{ r \geq \varepsilon \} \), where \(f\omega \) has compact support, gives </p>
+<div class="displaymath" id="a0000001726">
+  \[  \int _{r \geq \varepsilon }\omega \wedge df = -\int _{\partial \{ r \geq \varepsilon \} }f\omega = \int _{|x| = \varepsilon }f\omega = \int _0^{2\pi }f(\varepsilon \cos t, \varepsilon \sin t)\, dt \longrightarrow 2\pi f(0).  \]
+</div>
+<p> Here the circle in the third expression is oriented counterclockwise: the outward direction of \(\{ r \geq \varepsilon \} \) at a boundary point points towards \(0\), opposite to that of the disc, so the induced orientation is clockwise (compare Example&#160;<a href="differential-forms-section-integration.html#differential-forms:example-boundaries">36.4.7</a>(2)); and \(\omega \) restricts to \(dt\) on the counterclockwise circle. Hence \((dT_\omega )(f) = 2\pi f(0) = 2\pi [0](f)\). </p>
+
+  </div>
+</div>
+<p>So the obstruction to extending the closed form \(\omega \) across the puncture is \(2\pi \) times the point, and \(2\pi \) is the period of \(\omega \). More generally, if \(\eta \) is a closed \(1\)-form on \(\mathbb {R}^2 \setminus \{ p_1, \ldots , p_m\} \) that is a combination \(\sum _ic_i\alpha _i\) of angle forms centred at the \(p_i\), then \(d T_\eta = 2\pi \sum _ic_i[p_i]\): the current remembers the periods around the punctures. The same computation in \(\mathbb {R}^3\), with the solid angle form, gives \(d T_\sigma = 4\pi [0]\) (Exercise&#160;<a href="de-rham-section-exercises.html#de-rham:exercise-solid-angle-current">37.5.9</a>); in physics this is Gauss’s law, the electric field of a point charge has divergence concentrated at the charge. Its complex-analytic version, \(\frac{1}{2\pi i}d\bigl(\frac{dz}{z}\bigr) = [0]\) as currents on \(\mathbb {C}\), underlies the residue theorem and the argument principle. </p>
+<h2 id="de-rham:subsection-currents-cohomology">37.4.4 The cohomology of currents<a class="tag" href="tag/03CK.html" title="Permanent link: tag 03CK">03CK</a></h2>
+
+<p>Since currents form a complex containing the de Rham complex, one can compare their cohomology groups. The fundamental fact is that they agree. </p>
 <div class="theorem_thmwrapper theorem-style-plain" id="de-rham:theorem-currents">
   <div class="theorem_thmheading"><a class="tag" href="tag/01AO.html" title="Permanent link: tag 01AO">01AO</a><a class="graph-link" href="graph.html?tag=01AO" title="Dependencies of tag 01AO: what it uses and what uses it" aria-label="Dependency graph of tag 01AO"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">37.4.3</span>
+    <span class="theorem_thmlabel">37.4.11</span>
   </div>
   <div class="theorem_thmcontent">
   <p> On an oriented manifold the complex of currents computes de Rham cohomology: the inclusion of smooth forms into currents is a quasi-isomorphism. Under this identification and Poincaré duality, the class of \([Z]\) for a compact oriented \(k\)-dimensional submanifold \(Z\) of a compact oriented \(n\)-manifold \(M\) is the Poincaré dual of \(Z\): it is the unique class \(\eta _Z \in H^{n-k}_{\mathrm{dR}}(M)\) with </p>
-<div class="displaymath" id="a0000001649">
+<div class="displaymath" id="a0000001727">
   \[  \int _Z\varphi = \int _M\eta _Z \wedge \varphi \qquad \text{for all closed } \varphi \in \Omega ^k(M).  \]
 </div>
 
   </div>
 </div>
-<p>This is proved in <span class="cite">[<a href="Bibliography.html#de-rham-book" >dR84</a>, Chapter IV]</span> and <span class="cite">[<a href="Bibliography.html#griffiths-harris" >GH78</a>, Chapter 0, Section 4]</span>; the first statement is a sheaf-theoretic argument like the proof of Theorem&#160;<a href="de-rham-section-de-rham-theorem.html#de-rham:theorem-de-rham">37.3.1</a>, applied to the fine resolution of \(\mathbb {R}_M\) by sheaves of currents, and the second follows by comparing both sides with the topological Poincaré dual (Remark&#160;<a href="poincare-duality-section-borel-moore.html#poincare-duality:remark-fundamental-classes-subspaces">23.8.2</a>). </p>
+<p>This is proved in <span class="cite">[<a href="Bibliography.html#de-rham-book" >dR84</a>, Chapter IV]</span> and <span class="cite">[<a href="Bibliography.html#griffiths-harris" >GH78</a>, Chapter 0, Section 4]</span>; the first statement is a sheaf-theoretic argument like the proof of Theorem&#160;<a href="de-rham-section-de-rham-theorem.html#de-rham:theorem-de-rham">37.3.1</a>, applied to the fine resolution of \(\mathbb {R}_M\) by sheaves of currents, and the second follows by comparing both sides with the topological Poincaré dual (Remark&#160;<a href="poincare-duality-section-borel-moore.html#poincare-duality:remark-fundamental-classes-subspaces">23.8.2</a>). The sheaf of currents is fine, because currents can be multiplied by smooth functions, by Definition&#160;<a href="de-rham-section-currents.html#de-rham:definition-current-operations">37.4.6</a>(1); the real input is the Poincaré lemma for currents, that a closed current of positive degree on a ball is exact. </p>
+<p>Concretely, the theorem says two things. Every closed current \(T\) is cohomologous to a smooth closed form: \(T = T_\eta + dS\) with \(\eta \) smooth and \(S\) a current. And a smooth closed form that is the derivative of a current is already the derivative of a smooth form. So singular objects such as \([Z]\) can be used as representatives of cohomology classes, and nothing new is created. </p>
+<div class="example_thmwrapper theorem-style-definition" id="de-rham:example-point-class">
+  <div class="example_thmheading"><a class="tag" href="tag/03CL.html" title="Permanent link: tag 03CL">03CL</a><a class="graph-link" href="graph.html?tag=03CL" title="Dependencies of tag 03CL: what it uses and what uses it" aria-label="Dependency graph of tag 03CL"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">37.4.12</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(M\) be compact, connected and oriented. The class of \([p]\) in \(H^n_{\mathrm{dR}}(M)\) is represented by any \(n\)-form \(\eta \) with \(\int _M\eta = 1\). Indeed, by Theorem&#160;<a href="de-rham-section-currents.html#de-rham:theorem-currents">37.4.11</a> for \(Z = \{ p\} \) the class \(\eta _p\) satisfies \(f(p) = \int _M\eta _p f\) for all closed \(0\)-forms \(f\), which are the constants; so \(\int _M\eta _p = 1\), and this determines the class because \(H^n_{\mathrm{dR}}(M) \cong H^0_{\mathrm{dR}}(M)^* \cong \mathbb {R}\) by integration (Theorem&#160;<a href="de-rham-section-de-rham-theorem.html#de-rham:theorem-poincare-duality-de-rham">37.3.10</a>). The class does not depend on \(p\), as also follows from the exact current \(d[\gamma ] = \pm ([p] - [q])\) above. On the noncompact manifold \(\mathbb {R}^2\), by contrast, \([0] = d(\frac{1}{2\pi }T_\omega )\) is exact, in accordance with \(H^2_{\mathrm{dR}}(\mathbb {R}^2) = 0\). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="de-rham:remark-regularisation">
+  <div class="remark_thmheading"><a class="tag" href="tag/03CM.html" title="Permanent link: tag 03CM">03CM</a><a class="graph-link" href="graph.html?tag=03CM" title="Dependencies of tag 03CM: what it uses and what uses it" aria-label="Dependency graph of tag 03CM"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">37.4.13</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> De Rham proved a quantitative form of the first statement of the theorem <span class="cite">[<a href="Bibliography.html#de-rham-book" >dR84</a>]</span>: there are linear operators \(R_\varepsilon \) and \(A_\varepsilon \) on currents such that \(R_\varepsilon T\) is a smooth form for every \(T\), \(R_\varepsilon T \to T\) as \(\varepsilon \to 0\), the supports of \(R_\varepsilon T\) and \(A_\varepsilon T\) lie in any prescribed neighbourhood of \(\operatorname {supp}T\) for \(\varepsilon \) small, and </p>
+<div class="displaymath" id="a0000001728">
+  \[  R_\varepsilon T - T = dA_\varepsilon T + A_\varepsilon dT .  \]
+</div>
+<p> On \(\mathbb {R}^n\), \(R_\varepsilon \) is essentially convolution with \(\rho _\varepsilon \), as in Remark&#160;<a href="de-rham-section-currents.html#de-rham:remark-current-products">37.4.8</a>; on a manifold one patches such convolutions together with a partition of unity. For a closed current the formula exhibits \(R_\varepsilon T\) as a smooth form cohomologous to \(T\), a “smoothing” of \(T\). For \(T = [Z]\) with \(Z\) compact and without boundary, the smoothing is a closed form supported near \(Z\) that represents the Poincaré dual of \(Z\). </p>
+
+  </div>
+</div>
+<h2 id="de-rham:subsection-currents-further">37.4.5 Currents in complex geometry and in geometric measure theory<a class="tag" href="tag/03CN.html" title="Permanent link: tag 03CN">03CN</a></h2>
+
 <div class="remark_thmwrapper theorem-style-remark" id="de-rham:remark-cycle-classes">
   <div class="remark_thmheading"><a class="tag" href="tag/01AP.html" title="Permanent link: tag 01AP">01AP</a>
     <span class="remark_thmcaption">
     Remark
     </span>
-    <span class="remark_thmlabel">37.4.4</span>
+    <span class="remark_thmlabel">37.4.14</span>
   </div>
   <div class="remark_thmcontent">
   <p> Currents are the natural home for the cycle classes of Hodge theory: an analytic subvariety \(Z\) of a compact complex manifold, possibly singular, defines a current of integration because its singular locus has measure zero and \(\int _{Z_{\mathrm{reg}}}\varphi \) converges (Chapter&#160;<a href="cycle-class.html">63</a>); its class in \(H^{2n-2k}(X; \mathbb {Z})\) is the cycle class whose Hodge-theoretic characterisation the Hodge conjecture concerns. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="de-rham:remark-complex-currents">
+  <div class="remark_thmheading"><a class="tag" href="tag/03CO.html" title="Permanent link: tag 03CO">03CO</a><a class="graph-link" href="graph.html?tag=03CO" title="Dependencies of tag 03CO: what it uses and what uses it" aria-label="Dependency graph of tag 03CO"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">37.4.15</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> On a complex manifold of complex dimension \(n\), complex-valued currents split by type, as forms do (Chapter&#160;<a href="dolbeault.html">46</a>): a current of <em>bidegree</em> \((p, q)\) is evaluated on forms of type \((n - p, n - q)\), and \(d = \partial + \bar\partial \) on currents. The current of integration over a complex submanifold of complex codimension \(p\) has bidegree \((p, p)\), because a form of type \((a, b)\) with \(a \neq b\) restricts to zero on a complex manifold of dimension \(\frac{a+b}{2}\); it is moreover <em>positive</em>, a notion modelled on the positivity of the volume form of a complex submanifold. Lelong’s theorem says that integration over the regular part of a possibly singular subvariety is a closed positive current, and the <em>Poincaré–Lelong formula</em> </p>
+<div class="displaymath" id="a0000001729">
+  \[  \frac{i}{2\pi }\, \partial \bar\partial \log |f|^2 = [Z(f)]  \]
+</div>
+<p> for a holomorphic function \(f\), where the zeros are counted with multiplicities, expresses the current of a divisor through a function with a logarithmic singularity <span class="cite">[<a href="Bibliography.html#griffiths-harris" >GH78</a>, Chapter 3]</span>. In dimension one it is the computation of Example&#160;<a href="de-rham-section-currents.html#de-rham:example-angle-current">37.4.10</a> in another guise: it says that \(\frac{1}{2\pi }\log |z|\) is a fundamental solution of the Laplacian on \(\mathbb {R}^2\), the two-dimensional analogue of Exercise&#160;<a href="distributions-section-exercises.html#distributions:exercise-fundamental-solution">32.6.2</a>. Taking classes, it gives the equality between the cycle class of a divisor and the first Chern class of its line bundle, a key input of the Lefschetz \((1,1)\) theorem. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="de-rham:remark-gmt-currents">
+  <div class="remark_thmheading"><a class="tag" href="tag/03CP.html" title="Permanent link: tag 03CP">03CP</a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">37.4.16</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> In geometric measure theory one studies currents by their size rather than their cohomology. The <em>mass</em> of a current \(T\) of dimension \(p\) in \(\mathbb {R}^N\) is \(\sup \{ T(\varphi ) : |\varphi (x)| \leq 1 \text{ for all } x\} \); the mass of \([Z]\) is the \(p\)-dimensional volume of \(Z\). Federer and Fleming introduced <em>normal currents</em>, for which \(T\) and its boundary have finite mass, and <em>integral currents</em>, generalised oriented surfaces with integer multiplicities, and proved a compactness theorem for integral currents of bounded mass and boundary mass <span class="cite">[<a href="Bibliography.html#federer-fleming-1960" >FF60</a>]</span>. It gives the existence of an area-minimising surface with any prescribed boundary in every dimension and codimension, a solution of Plateau’s problem <span class="cite">[<a href="Bibliography.html#federer-gmt" >Fed69</a>]</span>. Integral currents also give a homology theory: on nice spaces, homology classes are represented by integral cycles, and area minimisers in a class play the role that harmonic forms play in de Rham cohomology (Chapter&#160;<a href="hodge-theorem.html">43</a>). </p>
 
   </div>
 </div>
@@ -412,6 +707,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

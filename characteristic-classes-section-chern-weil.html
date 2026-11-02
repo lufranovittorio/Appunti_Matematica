@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>Chern–Weil theory - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="characteristic-classes-section-introduction.html" /><link rel="next" href="characteristic-classes-section-axioms.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="characteristic-classes-section-introduction.html" /><link rel="next" href="characteristic-classes-section-axioms.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -362,7 +368,7 @@ MathJax.Hub.Config({
   </div>
   <div class="definition_thmcontent">
   <p> An <em>invariant polynomial</em> of degree \(k\) is a symmetric \(k\)-linear form \(\tilde{P}\) on \(\mathfrak {gl}_r(\mathbb {C}) = M_r(\mathbb {C})\) with \(\tilde{P}(gA_1g^{-1}, \ldots , gA_kg^{-1}) = \tilde{P}(A_1, \ldots , A_k)\) for \(g \in \mathrm{GL}_r(\mathbb {C})\); we write \(P(A) = \tilde{P}(A, \ldots , A)\). Differentiating the invariance along \(g = \exp (tB)\) gives </p>
-<div class="displaymath" id="a0000001737">
+<div class="displaymath" id="a0000001821">
   \[  \sum _{i=1}^k\tilde{P}(A_1, \ldots , [B, A_i], \ldots , A_k) = 0 .  \]
 </div>
 <p> Multilinear forms are extended to matrices of differential forms by multiplying the entries with the wedge product; then \(\tilde{P}(\alpha _1, \ldots , \alpha _k)\) is a form of degree \(\sum \deg \alpha _i\), and it is symmetric in the graded sense. </p>
@@ -383,7 +389,7 @@ MathJax.Hub.Config({
 </li>
   <li><p>The determinant, of degree \(r\), and more generally the coefficients \(\sigma _k(A)\) of the characteristic polynomial, \(\det (I + tA) = \sum _{k=0}^r\sigma _k(A)t^k\); they are invariant because \(\det (I + tgAg^{-1}) = \det (g(I + tA)g^{-1}) = \det (I + tA)\). In terms of the eigenvalues \(\lambda _j\) of \(A\), \(\sigma _k(A)\) is the \(k\)-th elementary symmetric function and \(\operatorname {tr}(A^k) = \sum _j\lambda _j^k\), the \(k\)-th power sum. So \(\sigma _1 = \operatorname {tr}\), \(\sigma _2(A) = \frac12((\operatorname {tr}A)^2 - \operatorname {tr}(A^2))\), and every invariant polynomial is a polynomial in the \(\sigma _k\) (a conjugation invariant function of a diagonalisable matrix is a symmetric function of its eigenvalues, and diagonalisable matrices are dense). </p>
 </li>
-  <li><p>On the Lie algebra \(\mathfrak {so}(2m)\) of skew-symmetric matrices there is one more invariant for \(\mathrm{SO}(2m)\) (not for \(\mathrm{GL}\), nor for \(\mathrm{O}(2m)\)), the <em>Pfaffian</em> (Definition&#160;<a href="multilinear-algebra-section-alternating-forms.html#multilinear-algebra:definition-pfaffian">12.4.8</a>), with \(\mathrm{Pf}(A)^2 = \det A\) and \(\mathrm{Pf}(g^TAg) = \det (g)\mathrm{Pf}(A)\); for \(m = 1\), \(\mathrm{Pf}\bigl(\begin{smallmatrix}  0 
+  <li><p>On the Lie algebra \(\mathfrak {so}(2m)\) of skew-symmetric matrices there is one more invariant for \(\mathrm{SO}(2m)\) (not for \(\mathrm{GL}\), nor for \(\mathrm{O}(2m)\)), the <em>Pfaffian</em> (Definition&#160;<a href="multilinear-algebra-section-alternating-forms.html#multilinear-algebra:definition-pfaffian">12.5.8</a>), with \(\mathrm{Pf}(A)^2 = \det A\) and \(\mathrm{Pf}(g^TAg) = \det (g)\mathrm{Pf}(A)\); for \(m = 1\), \(\mathrm{Pf}\bigl(\begin{smallmatrix}  0 
 
 &  a
 
@@ -407,13 +413,13 @@ MathJax.Hub.Config({
   </div>
   <div class="lemma_thmcontent">
   <p> Let \(\tilde P\) be an invariant symmetric \(k\)-linear form, \(\theta \) an \(r \times r\) matrix of \(1\)-forms on an open set, and \(\alpha _1, \ldots , \alpha _k\) matrices of forms of degrees \(d_1, \ldots , d_k\). Put \(D\alpha = d\alpha + \theta \wedge \alpha - (-1)^{\deg \alpha }\alpha \wedge \theta \). Then </p>
-<div class="displaymath" id="a0000001738">
+<div class="displaymath" id="a0000001822">
   \[  d\tilde P(\alpha _1, \ldots , \alpha _k) = \sum _{i=1}^k(-1)^{d_1 + \cdots + d_{i-1}}\tilde P(\alpha _1, \ldots , D\alpha _i, \ldots , \alpha _k).  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001739">
+<div class="proof_wrapper" id="a0000001823">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -446,7 +452,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001740">
+<div class="proof_wrapper" id="a0000001824">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -456,7 +462,7 @@ MathJax.Hub.Config({
   <div class="proof_content">
   <p>(1) Under a change of frame the curvature matrix transforms by conjugation, \(F^{\prime } = g^{-1}Fg\) (Proposition&#160;<a href="connections-section-curvature.html#connections:proposition-curvature">38.4.3</a>), and \(P\) is invariant under conjugation (for matrices of \(2\)-forms, whose entries commute, the invariance of \(P\) on matrices of numbers implies it pointwise); so \(P(F)\) is the same in all frames and defines a global form. By Lemma&#160;<a href="characteristic-classes-section-chern-weil.html#characteristic-classes:lemma-invariant-derivative">39.2.3</a> with all \(\alpha _i = F\), \(dP(F) = \sum _i\tilde P(F, \ldots , DF, \ldots , F)\), and \(DF = dF + \theta \wedge F - F \wedge \theta = 0\) by the Bianchi identity (Proposition&#160;<a href="connections-section-curvature.html#connections:proposition-curvature">38.4.3</a>). So \(P(F)\) is closed. </p>
 <p>(2) Let \(\nabla _0\), \(\nabla _1\) be connections and \(\alpha = \nabla _1 - \nabla _0 \in \Omega ^1(M, \operatorname {End}E)\). The family \(\nabla _t = \nabla _0 + t\alpha \) has curvature \(F_t = F_0 + t\, d_{\nabla _0}\alpha + t^2\alpha \wedge \alpha \), so \(\frac{d}{dt}F_t = d_{\nabla _t}\alpha \). Hence </p>
-<div class="displaymath" id="a0000001741">
+<div class="displaymath" id="a0000001825">
   \[  \frac{d}{dt}P(F_t) = k\, \tilde{P}(d_{\nabla _t}\alpha , F_t, \ldots , F_t) = k\, d\, \tilde{P}(\alpha , F_t, \ldots , F_t),  \]
 </div>
 <p> using the formula of (1) and \(d_{\nabla _t}F_t = 0\). Integrating in \(t\) from \(0\) to \(1\) gives \(P(F_1) - P(F_0) = d\left(k\int _0^1\tilde{P}(\alpha , F_t, \ldots , F_t)\, dt\right)\), an exact form. </p>
@@ -473,7 +479,7 @@ MathJax.Hub.Config({
   </div>
   <div class="definition_thmcontent">
   <p> The <em>Chern forms</em> of \((E, \nabla )\) are defined by </p>
-<div class="displaymath" id="a0000001742">
+<div class="displaymath" id="a0000001826">
   \[  \det \left(I + \frac{i}{2\pi }F\right) = 1 + c_1(E, \nabla ) + c_2(E, \nabla ) + \cdots , \qquad c_k(E, \nabla ) \in \Omega ^{2k}(M),  \]
 </div>
 <p> and the <em>Chern classes</em> in de Rham cohomology are \(c_k(E) = [c_k(E, \nabla )] \in H^{2k}_{\mathrm{dR}}(M)\), independent of \(\nabla \) by Theorem&#160;<a href="characteristic-classes-section-chern-weil.html#characteristic-classes:theorem-chern-weil">39.2.4</a>. The <em>total Chern class</em> is \(c(E) = \sum _kc_k(E)\). </p>
@@ -481,7 +487,7 @@ MathJax.Hub.Config({
   </div>
 </div>
 <p>Expanding the determinant with Example&#160;<a href="characteristic-classes-section-chern-weil.html#characteristic-classes:example-invariant-polynomials">39.2.2</a>(2), the first Chern forms are </p>
-<div class="displaymath" id="a0000001743">
+<div class="displaymath" id="a0000001827">
   \[  c_1(E, \nabla ) = \frac{i}{2\pi }\operatorname {tr}F, \qquad c_2(E, \nabla ) = \frac{1}{8\pi ^2}\bigl(\operatorname {tr}(F \wedge F) - \operatorname {tr}F \wedge \operatorname {tr}F\bigr), \qquad c_r(E, \nabla ) = \det \Bigl(\frac{i}{2\pi }F\Bigr),  \]
 </div>
 <p> using \(\sigma _2(A) = \frac12((\operatorname {tr}A)^2 - \operatorname {tr}A^2)\) with \(A = \frac{i}{2\pi }F\) and \((\frac{i}{2\pi })^2 = -\frac{1}{4\pi ^2}\). For a line bundle \(F\) is a single \(2\)-form, and \(c_1 = \frac{i}{2\pi }F\) is the only Chern form. The factor \(\frac{i}{2\pi }\) makes the classes real (for a Hermitian metric and a metric connection \(F\) is skew-Hermitian, so \(\frac{i}{2\pi }F\) is Hermitian) and integral (Proposition&#160;<a href="characteristic-classes-section-chern-weil.html#characteristic-classes:proposition-chern-properties">39.2.7</a>(3)). </p>
@@ -527,7 +533,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001744">
+<div class="proof_wrapper" id="a0000001828">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -548,7 +554,7 @@ MathJax.Hub.Config({
     <span class="example_thmlabel">39.2.8</span>
   </div>
   <div class="example_thmcontent">
-  <p> For the tautological bundle \(\mathcal{O}(-1)\) on \(\mathbb {C}\mathbb {P}^1 = S^2\) with the metric induced from \(\mathbb {C}^2\), the Chern connection has curvature \(F = -\frac{dz \wedge d\bar z}{(1 + |z|^2)^2}\) in the chart \(z\), and \(\int _{\mathbb {C}\mathbb {P}^1}\frac{i}{2\pi }F = -1\); so \(c_1(\mathcal{O}(-1))\) is \(-1\) times the positive generator of \(H^2(\mathbb {C}\mathbb {P}^1; \mathbb {Z}) \cong \mathbb {Z}\). Consequently \(c_1(\mathcal{O}(1)) = h\) is the positive generator, and \(c(T\mathbb {C}\mathbb {P}^n) = (1 + h)^{n+1}\) by the Euler sequence (Example&#160;<a href="vector-bundles-section-operations.html#vector-bundles:example-euler-sequence">35.3.10</a>) and the Whitney formula; for instance \(c_1(T\mathbb {C}\mathbb {P}^n) = (n+1)h\). </p>
+  <p> For the tautological bundle \(\mathcal{O}(-1)\) on \(\mathbb {C}\mathbb {P}^1 = S^2\) with the metric induced from \(\mathbb {C}^2\), the Chern connection has curvature \(F = -\frac{dz \wedge d\bar z}{(1 + |z|^2)^2}\) in the chart \(z\), and \(\int _{\mathbb {C}\mathbb {P}^1}\frac{i}{2\pi }F = -1\); so \(c_1(\mathcal{O}(-1))\) is \(-1\) times the positive generator of \(H^2(\mathbb {C}\mathbb {P}^1; \mathbb {Z}) \cong \mathbb {Z}\). Consequently \(c_1(\mathcal{O}(1)) = h\) is the positive generator, and \(c(T\mathbb {C}\mathbb {P}^n) = (1 + h)^{n+1}\) by the Euler sequence (Example&#160;<a href="vector-bundles-section-operations.html#vector-bundles:example-euler-sequence">35.3.14</a>) and the Whitney formula; for instance \(c_1(T\mathbb {C}\mathbb {P}^n) = (n+1)h\). </p>
 
   </div>
 </div>
@@ -562,6 +568,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Function spaces - The Hodge Project</title>
+<script>
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="general-topology-section-paracompactness.html" /><link rel="next" href="general-topology-section-nets.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2 active">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+  <ul><li class="level-3">
+  <a href="general-topology-section-introduction.html"><span class="toc_ref">18.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-spaces.html"><span class="toc_ref">18.2</span> <span class="toc_entry">Topological spaces and continuous maps</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-metric.html"><span class="toc_ref">18.3</span> <span class="toc_entry">Metric spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-constructions.html"><span class="toc_ref">18.4</span> <span class="toc_entry">Subspaces, products and quotients</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-connectedness.html"><span class="toc_ref">18.5</span> <span class="toc_entry">Connectedness</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-compactness.html"><span class="toc_ref">18.6</span> <span class="toc_entry">Compactness</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-complete.html"><span class="toc_ref">18.7</span> <span class="toc_entry">Complete and compact metric spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-separation.html"><span class="toc_ref">18.8</span> <span class="toc_entry">Separation axioms, Urysohn and Tietze</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-local-compactness.html"><span class="toc_ref">18.9</span> <span class="toc_entry">Local compactness and proper maps</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-paracompactness.html"><span class="toc_ref">18.10</span> <span class="toc_entry">Paracompactness and partitions of unity</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="general-topology-section-function-spaces.html"><span class="toc_ref">18.11</span> <span class="toc_entry">Function spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-nets.html"><span class="toc_ref">18.12</span> <span class="toc_entry">Nets and filters</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-stone-cech.html"><span class="toc_ref">18.13</span> <span class="toc_entry">The Stone–Čech compactification</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-cantor.html"><span class="toc_ref">18.14</span> <span class="toc_entry">The Cantor set and space-filling curves</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-exercises.html"><span class="toc_ref">18.15</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-topology.html">III Topology</a></li><li><a href="general-topology.html">18 General Topology</a></li></ol>
+
+<article class="main-text">
+<h1 id="general-topology:section-function-spaces">18.11 Function spaces<a class="tag" href="tag/03AZ.html" title="Permanent link: tag 03AZ">03AZ</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>For spaces \(X\) and \(Y\) let \(C(X, Y)\) be the set of continuous maps \(X \to Y\). Many constructions treat such maps as points of a space: a homotopy is a path of maps, the loops in a space form a space, a sequence of functions converges to a function. Which topology should \(C(X, Y)\) carry? Two requirements are natural. </p>
+<ul class="itemize">
+  <li><p><em>Evaluation should be continuous</em>: if \(f\) is close to \(g\) and \(x\) is close to \(y\), then \(f(x)\) should be close to \(g(y)\). </p>
+</li>
+  <li><p><em>Currying</em>: a continuous map \(F \colon Z \times X \to Y\) of two variables is the same as a family of maps \(F(z, -) \colon X \to Y\) depending on the parameter \(z\), and this family should be a continuous map \(Z \to C(X, Y)\), and conversely. </p>
+</li>
+</ul>
+<p> The product topology of \(Y^X\) (the topology of pointwise convergence) is too coarse for this, and the topology of uniform convergence needs a metric on \(Y\). The right topology is the compact-open topology. We show that it satisfies both requirements when \(X\) is locally compact Hausdorff, that for metric \(Y\) it is the topology of uniform convergence on compact sets, and we characterise its compact subsets for compact \(X\) (the Arzelà–Ascoli theorem). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-compact-open">
+  <div class="definition_thmheading"><a class="tag" href="tag/03B0.html" title="Permanent link: tag 03B0">03B0</a><a class="graph-link" href="graph.html?tag=03B0" title="Dependencies of tag 03B0: what it uses and what uses it" aria-label="Dependency graph of tag 03B0"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a><a class="lean-link" href="https://leanprover-community.github.io/mathlib4_docs/find/?pattern=ContinuousMap.compactOpen#doc" title="Formalised in Lean&#39;s Mathlib, possibly in a different generality: ContinuousMap.compactOpen">Lean</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">18.11.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For \(K \subseteq X\) compact and \(U \subseteq Y\) open let </p>
+<div class="displaymath" id="a0000000726">
+  \[  V(K, U) = \{ f \in C(X, Y) : f(K) \subseteq U\} .  \]
+</div>
+<p> The <em>compact-open topology</em> on \(C(X, Y)\) is the topology generated by the sets \(V(K, U)\), that is, the coarsest topology in which they are open (Definition&#160;<a href="general-topology-section-spaces.html#general-topology:definition-basis">18.2.9</a>). Unless stated otherwise, \(C(X, Y)\) carries this topology. </p>
+
+  </div>
+</div>
+<p>So a basic open set is a finite intersection \(V(K_1, U_1) \cap \cdots \cap V(K_m, U_m)\): it consists of the maps that send each of finitely many compact sets \(K_i\) into a prescribed open set \(U_i\). </p>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-compact-open">
+  <div class="example_thmheading"><a class="tag" href="tag/03B1.html" title="Permanent link: tag 03B1">03B1</a><a class="graph-link" href="graph.html?tag=03B1" title="Dependencies of tag 03B1: what it uses and what uses it" aria-label="Dependency graph of tag 03B1"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.2</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>If \(X\) is discrete, its compact subsets are its finite subsets, every map is continuous, and \(V(K, U) = \bigcap _{x \in K}V(\{ x\} , U)\). The sets \(V(\{ x\} , U)\) are the subbasic open sets of the product topology, so \(C(X, Y) = Y^X\) with the product topology. For \(X = \{ 1, \ldots , n\} \) this is \(Y^n\). </p>
+</li>
+  <li><p>For any \(X\), the sets \(V(\{ x\} , U)\) are among the subbasic open sets, so the compact-open topology is finer than the topology of pointwise convergence, the subspace topology of \(Y^X\). In general it is strictly finer: see Example&#160;<a href="general-topology-section-function-spaces.html#general-topology:example-uniform-not-pointwise">18.11.5</a>. </p>
+</li>
+  <li><p>If \(X\) is a point, \(C(X, Y) = Y\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>The first and most useful fact is that, for a metric target, the compact-open topology is a familiar topology of analysis. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="general-topology:proposition-compact-open-metric">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03B2.html" title="Permanent link: tag 03B2">03B2</a><a class="graph-link" href="graph.html?tag=03B2" title="Dependencies of tag 03B2: what it uses and what uses it" aria-label="Dependency graph of tag 03B2"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">18.11.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \((Y, d)\) be a metric space. For \(f \in C(X, Y)\), \(K \subseteq X\) compact and \(\varepsilon {\gt} 0\) let </p>
+<div class="displaymath" id="a0000000727">
+  \[  B_K(f, \varepsilon ) = \Bigl\{ g \in C(X, Y) : \sup _{x \in K}d(f(x), g(x)) {\lt} \varepsilon \Bigr\} .  \]
+</div>
+<p> These sets form a basis of the compact-open topology. In other words, the compact-open topology is the topology of <em>uniform convergence on compact sets</em>: a sequence \(f_n\) converges to \(f\) if and only if \(\sup _{x \in K}d(f_n(x), f(x)) \to 0\) for every compact \(K \subseteq X\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000728">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Note first that \(x \mapsto d(f(x), g(x))\) is continuous, so its supremum over a nonempty compact \(K\) is attained (Proposition&#160;<a href="general-topology-section-compactness.html#general-topology:proposition-compact-basic">18.6.3</a>(3)) and finite; for \(K = \emptyset \) the supremum is taken to be \(0\), and \(B_\emptyset (f, \varepsilon ) = C(X, Y)\). We prove two things: every set \(V(K, U)\) contains a set \(B_K(f, \varepsilon )\) around each of its points, and every set \(B_K(f, \varepsilon )\) contains a basic open set of the compact-open topology around each of its points. Together they show that both families generate the same topology and that the sets \(B_K(f, \varepsilon )\) form a basis (the intersection of \(B_K(f, \varepsilon )\) and \(B_L(f^{\prime }, \varepsilon ^{\prime })\) contains, around each of its points \(g\), the set \(B_{K \cup L}(g, \delta )\) for small \(\delta \), by the triangle inequality). </p>
+<p>(a) Let \(f \in V(K, U)\) with \(K \neq \emptyset \). If \(U = Y\), then \(V(K, U) = C(X, Y)\). Otherwise the function \(x \mapsto d(f(x), Y \setminus U) = \inf _{y \notin U}d(f(x), y)\) is continuous (it is \(1\)-Lipschitz in \(f(x)\)) and positive on \(K\), since \(f(x)\) lies in the open set \(U\) and so a ball around \(f(x)\) misses \(Y \setminus U\). Its minimum \(\varepsilon \) on \(K\) is positive. If \(g \in B_K(f, \varepsilon )\) and \(x \in K\), then \(d(g(x), f(x)) {\lt} \varepsilon \leq d(f(x), Y \setminus U)\), so \(g(x) \in U\). Hence \(B_K(f, \varepsilon ) \subseteq V(K, U)\). </p>
+<p>(b) Let \(g \in B_K(f, \varepsilon )\) and put \(\eta = \varepsilon - \sup _{x \in K}d(f(x), g(x)) {\gt} 0\); then \(B_K(g, \eta ) \subseteq B_K(f, \varepsilon )\) by the triangle inequality, so it suffices to find a basic open set \(W\) with \(g \in W \subseteq B_K(g, \eta )\). For \(x \in K\) let \(K_x = K \cap g^{-1}(\bar{B}(g(x), \eta /4))\), a closed subset of \(K\), hence compact (Proposition&#160;<a href="general-topology-section-compactness.html#general-topology:proposition-compact-basic">18.6.3</a>(1)). The sets \(K \cap g^{-1}(B(g(x), \eta /4))\) are open in \(K\) and cover it, so finitely many of them, for points \(x_1, \ldots , x_m\), cover \(K\); a fortiori \(K = K_{x_1} \cup \cdots \cup K_{x_m}\). Let </p>
+<div class="displaymath" id="a0000000729">
+  \[  W = V\bigl(K_{x_1}, B(g(x_1), \eta /2)\bigr) \cap \cdots \cap V\bigl(K_{x_m}, B(g(x_m), \eta /2)\bigr).  \]
+</div>
+<p> Then \(g \in W\), since \(g(K_{x_i}) \subseteq \bar{B}(g(x_i), \eta /4)\). If \(h \in W\) and \(y \in K\), choose \(i\) with \(y \in K_{x_i}\); then \(d(h(y), g(y)) \leq d(h(y), g(x_i)) + d(g(x_i), g(y)) {\lt} \eta /2 + \eta /4\). So \(\sup _{y \in K}d(h(y), g(y)) \leq 3\eta /4 {\lt} \eta \), and \(h \in B_K(g, \eta )\). </p>
+<p>The statement about sequences follows: \(f_n \to f\) if and only if every basic neighbourhood \(B_K(f, \varepsilon )\) eventually contains \(f_n\). </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="general-topology:corollary-compact-open-uniform">
+  <div class="corollary_thmheading"><a class="tag" href="tag/03B3.html" title="Permanent link: tag 03B3">03B3</a><a class="graph-link" href="graph.html?tag=03B3" title="Dependencies of tag 03B3: what it uses and what uses it" aria-label="Dependency graph of tag 03B3"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">18.11.4</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> If \(X\) is compact and \((Y, d)\) is a metric space, the compact-open topology on \(C(X, Y)\) is the topology of the <em>uniform metric</em> \(d_\infty (f, g) = \sup _{x \in X}d(f(x), g(x))\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000730">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>The supremum is finite, as in the proof of Proposition&#160;<a href="general-topology-section-function-spaces.html#general-topology:proposition-compact-open-metric">18.11.3</a>, and \(d_\infty \) is a metric. Its balls are the sets \(B_X(f, \varepsilon )\), and \(B_K(f, \varepsilon ) \supseteq B_X(f, \varepsilon )\) for every compact \(K \subseteq X\); so the sets \(B_X(f, \varepsilon )\) alone form a basis of the topology of Proposition&#160;<a href="general-topology-section-function-spaces.html#general-topology:proposition-compact-open-metric">18.11.3</a>. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-uniform-not-pointwise">
+  <div class="example_thmheading"><a class="tag" href="tag/03B4.html" title="Permanent link: tag 03B4">03B4</a><a class="graph-link" href="graph.html?tag=03B4" title="Dependencies of tag 03B4: what it uses and what uses it" aria-label="Dependency graph of tag 03B4"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.5</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(f_n \in C([0, 1], \mathbb {R})\) be the “moving tent”: \(f_n\) is \(0\) outside \([0, 2/n]\), \(f_n(1/n) = 1\), and \(f_n\) is linear on \([0, 1/n]\) and on \([1/n, 2/n]\). For every \(x\), \(f_n(x) = 0\) as soon as \(2/n {\lt} x\), and \(f_n(0) = 0\); so \(f_n \to 0\) pointwise. But \(d_\infty (f_n, 0) = 1\) for all \(n\), so \(f_n\) does not converge to \(0\) in the compact-open topology. On the non-compact space \(X = \mathbb {R}\), the functions \(g_n\) that are tents of height \(1\) over \([n, n + 2]\) converge to \(0\) uniformly on compact sets, hence in the compact-open topology, although \(\sup _{x \in \mathbb {R}}|g_n(x)| = 1\): for non-compact \(X\) the compact-open topology is coarser than the topology of uniform convergence on all of \(X\). </p>
+
+  </div>
+</div>
+<p>We now turn to the two requirements of the beginning. Both use local compactness. </p>
+<div class="proposition_thmwrapper theorem-style-plain" id="general-topology:proposition-evaluation">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03B5.html" title="Permanent link: tag 03B5">03B5</a><a class="graph-link" href="graph.html?tag=03B5" title="Dependencies of tag 03B5: what it uses and what uses it" aria-label="Dependency graph of tag 03B5"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a><a class="lean-link" href="https://leanprover-community.github.io/mathlib4_docs/find/?pattern=ContinuousMap.instContinuousEvalOfLocallyCompactPair#doc" title="Formalised in Lean&#39;s Mathlib, possibly in a different generality: ContinuousMap.instContinuousEvalOfLocallyCompactPair">Lean</a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">18.11.6</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(X\) be locally compact Hausdorff and \(Y\) any space. The <em>evaluation map</em> </p>
+<div class="displaymath" id="a0000000731">
+  \[  \mathrm{ev} \colon C(X, Y) \times X \to Y, \qquad (f, x) \mapsto f(x),  \]
+</div>
+<p> is continuous. For arbitrary \(X\), the evaluation \(\mathrm{ev}_x \colon C(X, Y) \to Y\) at a fixed point \(x\) is continuous. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000732">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \((f, x) \in C(X, Y) \times X\) and let \(U\) be an open neighbourhood of \(f(x)\). The set \(f^{-1}(U)\) is an open neighbourhood of \(x\), so by Lemma&#160;<a href="general-topology-section-local-compactness.html#general-topology:lemma-lch-shrinking">18.9.5</a> (with \(K = \{ x\} \)) there is an open \(W \ni x\) with compact closure \(\overline{W} \subseteq f^{-1}(U)\). Then \(V(\overline{W}, U) \times W\) is an open neighbourhood of \((f, x)\), and for \((g, y)\) in it, \(g(y) \in g(\overline{W}) \subseteq U\). So \(\mathrm{ev}\) is continuous at \((f, x)\). For the second statement, \(\mathrm{ev}_x^{-1}(U) = V(\{ x\} , U)\) is open. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="general-topology:theorem-exponential-law">
+  <div class="theorem_thmheading"><a class="tag" href="tag/03B6.html" title="Permanent link: tag 03B6">03B6</a><a class="graph-link" href="graph.html?tag=03B6" title="Dependencies of tag 03B6: what it uses and what uses it" aria-label="Dependency graph of tag 03B6"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a><a class="lean-link" href="https://leanprover-community.github.io/mathlib4_docs/find/?pattern=Homeomorph.curry#doc" title="Formalised in Lean&#39;s Mathlib, possibly in a different generality: Homeomorph.curry">Lean</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">18.11.7</span>
+    <span class="theorem_thmtitle">Exponential law</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(X\), \(Y\), \(Z\) be spaces. For a map \(F \colon Z \times X \to Y\) let \(\hat{F} \colon Z \to Y^X\) be \(\hat{F}(z) = F(z, -)\). </p>
+<ol class="enumerate">
+  <li><p>If \(F\) is continuous, then \(\hat{F}(z) \in C(X, Y)\) for every \(z\), and \(\hat{F} \colon Z \to C(X, Y)\) is continuous. </p>
+</li>
+  <li><p>If \(X\) is locally compact Hausdorff, then conversely, for every continuous \(G \colon Z \to C(X, Y)\) the map \(Z \times X \to Y\), \((z, x) \mapsto G(z)(x)\), is continuous. </p>
+</li>
+</ol>
+<p> Hence, for \(X\) locally compact Hausdorff, \(F \mapsto \hat{F}\) is a bijection \(C(Z \times X, Y) \to C(Z, C(X, Y))\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000733">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) \(\hat{F}(z)\) is the composite of the continuous maps \(x \mapsto (z, x)\) and \(F\). To show that \(\hat{F}\) is continuous it suffices to show that the preimages of the subbasic sets \(V(K, U)\) are open (Proposition&#160;<a href="general-topology-section-spaces.html#general-topology:proposition-continuity">18.2.13</a>). Let \(z \in \hat{F}^{-1}(V(K, U))\), that is, \(F(\{ z\}  \times K) \subseteq U\). The open set \(F^{-1}(U) \subseteq Z \times X\) contains \(\{ z\}  \times K\). For each \(x \in K\) choose a basic open set \(A_x \times B_x \subseteq F^{-1}(U)\) containing \((z, x)\); finitely many \(B_{x_1}, \ldots , B_{x_m}\) cover \(K\), and \(A = A_{x_1} \cap \cdots \cap A_{x_m}\) is an open neighbourhood of \(z\) with \(A \times K \subseteq F^{-1}(U)\) (this is the tube lemma of the proof of Proposition&#160;<a href="general-topology-section-compactness.html#general-topology:proposition-finite-products">18.6.4</a>). So \(\hat{F}(A) \subseteq V(K, U)\), and \(\hat{F}^{-1}(V(K, U))\) is open. </p>
+<p>(2) The map is the composite of \(G \times \mathrm{id}_X \colon Z \times X \to C(X, Y) \times X\) and the evaluation map, which is continuous by Proposition&#160;<a href="general-topology-section-function-spaces.html#general-topology:proposition-evaluation">18.11.6</a>. </p>
+<p>The last statement: \(F \mapsto \hat{F}\) is injective, since \(F(z, x) = \hat{F}(z)(x)\), and by (2) every continuous \(G\) is \(\hat{F}\) for the continuous map \(F(z, x) = G(z)(x)\). </p>
+
+  </div>
+</div>
+<p>The name comes from writing \(Y^X\) for \(C(X, Y)\): the theorem says \(Y^{Z \times X} = (Y^X)^Z\), as for exponentials of numbers or of sets (where \(Y^{Z \times X}\) and \((Y^X)^Z\) are in bijection for all sets). In the language of Chapter&#160;<a href="categories.html">6</a>, for \(X\) locally compact Hausdorff the functor \(- \times X\) on topological spaces is left adjoint to \(C(X, -)\). </p>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-exponential-law">
+  <div class="example_thmheading"><a class="tag" href="tag/03B7.html" title="Permanent link: tag 03B7">03B7</a><a class="graph-link" href="graph.html?tag=03B7" title="Dependencies of tag 03B7: what it uses and what uses it" aria-label="Dependency graph of tag 03B7"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.8</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Homotopies as paths.</em> A homotopy \(H \colon X \times [0, 1] \to Y\) is the same as a continuous map \(X \to C([0, 1], Y)\), for every space \(X\), since \([0, 1]\) is compact Hausdorff (apply the theorem with \(Z = X\) and the roles of the factors exchanged). And if \(X\) is locally compact Hausdorff, a homotopy is also the same as a path \([0, 1] \to C(X, Y)\), \(t \mapsto H(-, t)\); so homotopy classes of maps \(X \to Y\) are the path components of \(C(X, Y)\). This is the starting point of the homotopy theory of Chapter&#160;<a href="homotopy.html">19</a>, where the space \(C([0, 1], Y)\) of paths and its subspace of loops at a point play a central role. </p>
+</li>
+  <li><p><em>Continuity of composition.</em> For any space \(X\) and a locally compact Hausdorff space \(Y\), composition \(C(Y, W) \times C(X, Y) \to C(X, W)\) is continuous (Exercise&#160;<a href="general-topology-section-function-spaces.html#general-topology:exercise-composition">18.11.14</a>). Without local compactness this can fail, which is one reason why algebraic topology often restricts to locally compact spaces or modifies the topology of \(C(X, Y)\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>We come to the compact subsets of \(C(X, Y)\). Bounded sequences of real numbers have convergent subsequences, but bounded sequences of continuous functions need not: on \([0, 1]\) the functions \(x^n\) take values in \([0, 1]\), but converge pointwise to a function that is \(0\) on \([0, 1)\) and \(1\) at \(1\), which is not continuous, so no subsequence converges uniformly (Proposition&#160;<a href="general-topology-section-metric.html#general-topology:proposition-uniform-limit">18.3.10</a>). What goes wrong is that the graphs become steeper and steeper near \(1\). The following notion forbids this. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-equicontinuous">
+  <div class="definition_thmheading"><a class="tag" href="tag/03B8.html" title="Permanent link: tag 03B8">03B8</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">18.11.9</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(X\) be a space and \((Y, d)\) a metric space. A family \(\mathcal{F} \subseteq C(X, Y)\) is <em>equicontinuous at \(x \in X\)</em> if for every \(\varepsilon {\gt} 0\) there is a neighbourhood \(W\) of \(x\) such that \(d(f(x^{\prime }), f(x)) {\lt} \varepsilon \) for all \(x^{\prime } \in W\) and <em>all</em> \(f \in \mathcal{F}\). It is <em>equicontinuous</em> if it is equicontinuous at every point. </p>
+
+  </div>
+</div>
+<p>Continuity of each \(f\) gives a neighbourhood \(W\) depending on \(f\); equicontinuity asks for one neighbourhood that works for all members of the family. For example, a family of maps between metric spaces that are Lipschitz with a common constant \(L\) is equicontinuous (take \(W = B(x, \varepsilon /L)\)), while the family \(\{ x^n : n \in \mathbb {N}\} \) on \([0, 1]\) is not equicontinuous at \(1\): for every \(\delta {\gt} 0\), \(1 - (1 - \delta /2)^n {\gt} 1/2\) for large \(n\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="general-topology:lemma-equicontinuous">
+  <div class="lemma_thmheading"><a class="tag" href="tag/03B9.html" title="Permanent link: tag 03B9">03B9</a><a class="graph-link" href="graph.html?tag=03B9" title="Dependencies of tag 03B9: what it uses and what uses it" aria-label="Dependency graph of tag 03B9"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">18.11.10</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(X\) be a space, \((Y, d)\) a metric space and \(\mathcal{F} \subseteq C(X, Y)\) equicontinuous. </p>
+<ol class="enumerate">
+  <li><p>The closure \(\overline{\mathcal{F}}\) of \(\mathcal{F}\) in \(Y^X\), with the product topology, consists of continuous maps and is equicontinuous. </p>
+</li>
+  <li><p>If \(X\) is compact, the topology of pointwise convergence and the uniform topology coincide on \(\mathcal{F}\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000734">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) Let \(x \in X\) and \(\varepsilon {\gt} 0\), and let \(W\) be a neighbourhood of \(x\) with \(d(f(x^{\prime }), f(x)) {\lt} \varepsilon /3\) for \(x^{\prime } \in W\) and \(f \in \mathcal{F}\). Let \(g \in \overline{\mathcal{F}}\) and \(x^{\prime } \in W\). The set of \(h \in Y^X\) with \(d(h(x), g(x)) {\lt} \varepsilon /3\) and \(d(h(x^{\prime }), g(x^{\prime })) {\lt} \varepsilon /3\) is open in the product topology and contains \(g\), so it contains some \(f \in \mathcal{F}\). Then </p>
+<div class="displaymath" id="a0000000735">
+  \[  d(g(x^{\prime }), g(x)) \leq d(g(x^{\prime }), f(x^{\prime })) + d(f(x^{\prime }), f(x)) + d(f(x), g(x)) {\lt} \varepsilon .  \]
+</div>
+<p> So \(\overline{\mathcal{F}}\) is equicontinuous at \(x\) with the same \(W\); in particular each \(g \in \overline{\mathcal{F}}\) is continuous. </p>
+<p>(2) The uniform topology is the compact-open one (Corollary&#160;<a href="general-topology-section-function-spaces.html#general-topology:corollary-compact-open-uniform">18.11.4</a>), which is finer than the pointwise one (Example&#160;<a href="general-topology-section-function-spaces.html#general-topology:example-compact-open">18.11.2</a>(2)). Conversely, let \(g \in \mathcal{F}\) and \(\varepsilon {\gt} 0\). For each \(x \in X\) choose an open \(W_x \ni x\) with \(d(h(x^{\prime }), h(x)) {\lt} \varepsilon /4\) for all \(x^{\prime } \in W_x\) and \(h \in \mathcal{F}\). Finitely many \(W_{x_1}, \ldots , W_{x_m}\) cover \(X\). If \(h \in \mathcal{F}\) satisfies \(d(h(x_i), g(x_i)) {\lt} \varepsilon /4\) for \(i = 1, \ldots , m\), a condition defining a neighbourhood of \(g\) in the pointwise topology, then for \(x \in W_{x_i}\), </p>
+<div class="displaymath" id="a0000000736">
+  \[  d(h(x), g(x)) \leq d(h(x), h(x_i)) + d(h(x_i), g(x_i)) + d(g(x_i), g(x)) {\lt} 3\varepsilon /4,  \]
+</div>
+<p> so \(d_\infty (h, g) \leq 3\varepsilon /4 {\lt} \varepsilon \). Hence every uniform ball around \(g\) contains, within \(\mathcal{F}\), a pointwise neighbourhood of \(g\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="general-topology:theorem-arzela-ascoli">
+  <div class="theorem_thmheading"><a class="tag" href="tag/03BA.html" title="Permanent link: tag 03BA">03BA</a><a class="graph-link" href="graph.html?tag=03BA" title="Dependencies of tag 03BA: what it uses and what uses it" aria-label="Dependency graph of tag 03BA"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a><a class="lean-link" href="https://leanprover-community.github.io/mathlib4_docs/find/?pattern=BoundedContinuousFunction.arzela_ascoli#doc" title="Formalised in Lean&#39;s Mathlib, possibly in a different generality: BoundedContinuousFunction.arzela_ascoli">Lean</a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">18.11.11</span>
+    <span class="theorem_thmtitle">Arzelà–Ascoli</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(X\) be a compact space and \((Y, d)\) a metric space. A subset \(\mathcal{F} \subseteq C(X, Y)\) has compact closure in \(C(X, Y)\), with the uniform metric, if and only if </p>
+<ol class="enumerate">
+  <li><p>\(\mathcal{F}\) is equicontinuous, and </p>
+</li>
+  <li><p>for every \(x \in X\) the set \(\mathcal{F}(x) = \{ f(x) : f \in \mathcal{F}\} \) has compact closure in \(Y\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000737">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Suppose (1) and (2). Let \(\mathcal{G}\) be the closure of \(\mathcal{F}\) in \(Y^X\) with the product topology. It is contained in the closed set \(\prod _{x \in X}\overline{\mathcal{F}(x)}\), which is compact by (2) and Tychonoff’s theorem (Theorem&#160;<a href="general-topology-section-compactness.html#general-topology:theorem-tychonoff">18.6.8</a>); so \(\mathcal{G}\), a closed subset of a compact space, is compact in the pointwise topology. By Lemma&#160;<a href="general-topology-section-function-spaces.html#general-topology:lemma-equicontinuous">18.11.10</a>(1), \(\mathcal{G} \subseteq C(X, Y)\) and \(\mathcal{G}\) is equicontinuous, so by Lemma&#160;<a href="general-topology-section-function-spaces.html#general-topology:lemma-equicontinuous">18.11.10</a>(2), applied to \(\mathcal{G}\), it is compact also in the uniform topology. A compact subset of the metric space \((C(X, Y), d_\infty )\) is closed (Proposition&#160;<a href="general-topology-section-compactness.html#general-topology:proposition-compact-basic">18.6.3</a>(2)); so the closure of \(\mathcal{F}\) in the uniform topology is contained in \(\mathcal{G}\), and it is compact, being a closed subset of a compact space. </p>
+<p>Conversely, suppose that the closure \(\overline{\mathcal{F}}\) of \(\mathcal{F}\) in \((C(X, Y), d_\infty )\) is compact. The evaluation \(\mathrm{ev}_x\) is continuous (Proposition&#160;<a href="general-topology-section-function-spaces.html#general-topology:proposition-evaluation">18.11.6</a>), so \(\mathrm{ev}_x(\overline{\mathcal{F}})\) is a compact subset of \(Y\) containing \(\mathcal{F}(x)\); it is closed, so it contains \(\overline{\mathcal{F}(x)}\), which is therefore compact: this is (2). For (1), let \(x \in X\) and \(\varepsilon {\gt} 0\). The compact metric space \(\overline{\mathcal{F}}\) is totally bounded (Theorem&#160;<a href="general-topology-section-complete.html#general-topology:theorem-compact-metric">18.7.4</a>), so there are \(f_1, \ldots , f_m \in \overline{\mathcal{F}}\) such that every \(f \in \mathcal{F}\) has \(d_\infty (f, f_i) {\lt} \varepsilon /3\) for some \(i\). Let \(W\) be a neighbourhood of \(x\) with \(d(f_i(x^{\prime }), f_i(x)) {\lt} \varepsilon /3\) for \(x^{\prime } \in W\) and \(i = 1, \ldots , m\). For \(f \in \mathcal{F}\) and \(x^{\prime } \in W\), choosing \(i\) as above, \(d(f(x^{\prime }), f(x)) \leq d(f(x^{\prime }), f_i(x^{\prime })) + d(f_i(x^{\prime }), f_i(x)) + d(f_i(x), f(x)) {\lt} \varepsilon \). </p>
+
+  </div>
+</div>
+<p>For \(Y = \mathbb {R}^m\), condition (2) says that \(\mathcal{F}\) is pointwise bounded, by the Heine–Borel theorem (Theorem&#160;<a href="general-topology-section-compactness.html#general-topology:theorem-heine-borel">18.6.5</a>); this is the classical form of the theorem, proved again by a different method in Chapter&#160;<a href="real-analysis.html">27</a>, where it is used for differential equations and in complex analysis. Since \((C(X, Y), d_\infty )\) is a metric space, compact closure means that every sequence in \(\mathcal{F}\) has a uniformly convergent subsequence (Theorem&#160;<a href="general-topology-section-complete.html#general-topology:theorem-compact-metric">18.7.4</a>). </p>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-arzela-ascoli">
+  <div class="example_thmheading"><a class="tag" href="tag/03BB.html" title="Permanent link: tag 03BB">03BB</a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.12</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>Let \(X\) and \(Y\) be compact metric spaces and \(L {\gt} 0\). The set of maps \(X \to Y\) that are Lipschitz with constant \(L\) is compact in \(C(X, Y)\): it is equicontinuous, condition (2) holds because \(Y\) is compact, and it is closed, since a uniform (even pointwise) limit of \(L\)-Lipschitz maps is \(L\)-Lipschitz. </p>
+</li>
+  <li><p>The family \(\{ \sin (nx) : n \in \mathbb {N}\} \) in \(C([0, \pi ], \mathbb {R})\) is bounded but has no uniformly convergent subsequence. Indeed it is not equicontinuous at \(0\): \(\sin (n \cdot \pi /(2n)) = 1\) while \(\sin (0) = 0\), and \(\pi /(2n) \to 0\). Here the theorem is used in the direction “compact closure implies equicontinuous”. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="exercise_thmwrapper theorem-style-definition" id="general-topology:exercise-compact-open-hausdorff">
+  <div class="exercise_thmheading"><a class="tag" href="tag/03BC.html" title="Permanent link: tag 03BC">03BC</a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">18.11.13</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Show that if \(Y\) is Hausdorff, then so is \(C(X, Y)\) with the compact-open topology. </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000738">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(f \neq g\), and choose \(x\) with \(f(x) \neq g(x)\) and disjoint open sets \(U \ni f(x)\) and \(U^{\prime } \ni g(x)\). Then \(V(\{ x\} , U)\) and \(V(\{ x\} , U^{\prime })\) are disjoint open neighbourhoods of \(f\) and \(g\): a map in both would send \(x\) into \(U \cap U^{\prime } = \emptyset \). </p>
+
+  </div>
+</div> </p>
+<div class="exercise_thmwrapper theorem-style-definition" id="general-topology:exercise-composition">
+  <div class="exercise_thmheading"><a class="tag" href="tag/03BD.html" title="Permanent link: tag 03BD">03BD</a><a class="graph-link" href="graph.html?tag=03BD" title="Dependencies of tag 03BD: what it uses and what uses it" aria-label="Dependency graph of tag 03BD"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="exercise_thmcaption">
+    Exercise
+    </span>
+    <span class="exercise_thmlabel">18.11.14</span>
+  </div>
+  <div class="exercise_thmcontent">
+  <p> Let \(X\) be any space and \(Y\) a locally compact Hausdorff space. Show that composition \(C(Y, W) \times C(X, Y) \to C(X, W)\), \((g, f) \mapsto g \circ f\), is continuous. </p>
+
+  </div>
+</div>
+<p><div class="proof_wrapper" id="a0000000739">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Solution
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(g \circ f \in V(K, U)\), with \(K \subseteq X\) compact and \(U \subseteq W\) open. Then \(f(K)\) is compact and contained in the open set \(g^{-1}(U)\). By Lemma&#160;<a href="general-topology-section-local-compactness.html#general-topology:lemma-lch-shrinking">18.9.5</a> there is an open \(A\) with compact closure such that \(f(K) \subseteq A \subseteq \overline{A} \subseteq g^{-1}(U)\). Then \(V(\overline{A}, U) \times V(K, A)\) is an open neighbourhood of \((g, f)\), and for \((g^{\prime }, f^{\prime })\) in it, \(g^{\prime }(f^{\prime }(K)) \subseteq g^{\prime }(A) \subseteq U\). So composition maps this neighbourhood into \(V(K, U)\), and the preimages of subbasic open sets are open. </p>
+
+  </div>
+</div> </p>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="general-topology-section-paracompactness.html"><span class="dir">Previous</span> Paracompactness and partitions of unity</a><a class="next" href="general-topology-section-nets.html"><span class="dir">Next</span> Nets and filters</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=9473284ac4"></script>
+</body>
+</html>

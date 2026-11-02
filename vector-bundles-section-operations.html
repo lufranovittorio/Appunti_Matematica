@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>Operations on bundles - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="vector-bundles-section-definition.html" /><link rel="next" href="vector-bundles-section-line-bundles.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="vector-bundles-section-definition.html" /><link rel="next" href="vector-bundles-section-line-bundles.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -377,7 +383,7 @@ MathJax.Hub.Config({
 &  h_{ij}
 
 \end{smallmatrix}\bigr)\); for \(E \otimes F\) the Kronecker products \(g_{ij} \otimes h_{ij}\), which act on \(v \otimes w\) by \(g_{ij}v \otimes h_{ij}w\); for the dual \(E^\vee \), \((g_{ij}^T)^{-1}\), because a linear form with coordinates \(\xi \) (a row vector \(\xi ^T\)) must satisfy \(\xi _i^Tv_i = \xi _j^Tv_j\) when \(v_i = g_{ij}v_j\); for \(\operatorname {Hom}(E, F)\), the map \(A \mapsto h_{ij}Ag_{ij}^{-1}\) on matrices; for \(\Lambda ^kE\) the matrices of \(k \times k\) minors of \(g_{ij}\); and for \(\det E\) the determinants. </p>
-<div class="proof_wrapper" id="a0000001562">
+<div class="proof_wrapper" id="a0000001621">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -418,14 +424,14 @@ MathJax.Hub.Config({
   </div>
   <div class="proposition_thmcontent">
   <p> Let \(\pi \colon E \to M\) be a vector bundle and \(f \colon N \to M\) smooth. The fibre product </p>
-<div class="displaymath" id="a0000001563">
+<div class="displaymath" id="a0000001622">
   \[  N \times _ME = \{ (q, e) \in N \times E : f(q) = \pi (e)\}   \]
 </div>
 <p> is a submanifold of \(N \times E\) (Proposition&#160;<a href="smooth-manifolds-section-submanifolds.html#smooth-manifolds:proposition-fibre-product">33.6.12</a>), and the projection to \(N\), with the vector space structures of the fibres \(E_{f(q)}\), is a vector bundle isomorphic to the pullback \(f^*E\) of Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-operations">35.3.1</a>(2). It has the universal property of the fibre product: for a manifold \(L\), the smooth maps \(L \to f^*E\) correspond to pairs of smooth maps \(a \colon L \to N\) and \(b \colon L \to E\) with \(f \circ a = \pi \circ b\). In particular the sections of \(f^*E\) over \(N\) correspond to the smooth maps \(s \colon N \to E\) with \(\pi \circ s = f\), and a section \(t\) of \(E\) pulls back to the section \(f^*t = t \circ f\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001564">
+<div class="proof_wrapper" id="a0000001623">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -457,7 +463,7 @@ MathJax.Hub.Config({
   </div>
 </div>
 <p>Here a <em>subbundle</em> of \(E\) is a subset \(E^{\prime } \subseteq E\) such that every point has a neighbourhood with a frame \(s_1, \ldots , s_r\) of \(E\) for which \(s_1, \ldots , s_k\) is a frame of \(E^{\prime }\); then \(E^{\prime }\) is a vector bundle of rank \(k\), and the quotient \(E/E^{\prime }\), with fibres \(E_p/E^{\prime }_p\), is a vector bundle with the local frames given by the images of \(s_{k+1}, \ldots , s_r\). The <em>conjugate</em> \(\overline{E}\) of a complex bundle is the same real bundle with the conjugate complex structure. </p>
-<div class="proof_wrapper" id="a0000001565">
+<div class="proof_wrapper" id="a0000001624">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -489,7 +495,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001566">
+<div class="proof_wrapper" id="a0000001625">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -513,19 +519,115 @@ MathJax.Hub.Config({
 
   </div>
 </div>
+<p>The constructions of Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-operations">35.3.1</a>, applied to the tangent bundle, give the bundles whose sections are the tensor fields of differential geometry: the pointwise version of Section&#160;<a href="multilinear-algebra-section-tensors.html">12.4</a>. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="vector-bundles:definition-tensor-fields">
+  <div class="definition_thmheading"><a class="tag" href="tag/03BG.html" title="Permanent link: tag 03BG">03BG</a><a class="graph-link" href="graph.html?tag=03BG" title="Dependencies of tag 03BG: what it uses and what uses it" aria-label="Dependency graph of tag 03BG"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">35.3.7</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(M\) be a smooth manifold and \(r, s \in \mathbb {N}\). The <em>bundle of tensors of type \((r,s)\)</em> is the real vector bundle </p>
+<div class="displaymath" id="a0000001626">
+  \[  T^r_sM = TM^{\otimes r} \otimes (T^*M)^{\otimes s},  \]
+</div>
+<p> with fibre \(T^r_s(T_pM)\) over \(p\) (Definition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:definition-tensor-type">12.4.1</a>), and \(T^0_0M = M \times \mathbb {R}\). A <em>tensor field of type \((r,s)\)</em> on an open set \(U \subseteq M\) is a section of \(T^r_sM\) over \(U\); it assigns to every \(p \in U\) a tensor of type \((r,s)\) on \(T_pM\), depending smoothly on \(p\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="vector-bundles:example-tensor-fields">
+  <div class="example_thmheading"><a class="tag" href="tag/03BH.html" title="Permanent link: tag 03BH">03BH</a><a class="graph-link" href="graph.html?tag=03BH" title="Dependencies of tag 03BH: what it uses and what uses it" aria-label="Dependency graph of tag 03BH"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">35.3.8</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>Tensor fields of type \((0,0)\) are smooth functions, those of type \((1,0)\) are vector fields, and those of type \((0,1)\) are \(1\)-forms (Definition&#160;<a href="vector-bundles-section-definition.html#vector-bundles:definition-sections">35.2.8</a>). </p>
+</li>
+  <li><p>Tensor fields of type \((1,1)\) are sections of \(TM \otimes T^*M \cong \operatorname {End}(TM)\) (Proposition&#160;<a href="multilinear-algebra-section-tensor-products.html#multilinear-algebra:proposition-hom-tensor">12.2.2</a>, applied fibrewise), that is, smooth families of endomorphisms of the tangent spaces. The identity is one of them; an <em>almost complex structure</em> is one whose square is \(-\mathrm{id}\) (Chapter&#160;<a href="complex-manifolds.html">44</a>). </p>
+</li>
+  <li><p>Tensor fields of type \((0,2)\) are smooth families of bilinear forms on the tangent spaces. A <em>Riemannian metric</em> is one that is symmetric and positive definite at every point; it exists on every manifold (Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-metrics">35.3.4</a>, applied to \(TM\)), and it is the subject of Chapter&#160;<a href="riemannian-geometry.html">40</a>. </p>
+</li>
+  <li><p>Alternating tensor fields of type \((0,k)\) are the sections of \(\Lambda ^kT^*M\) (Proposition&#160;<a href="multilinear-algebra-section-alternating-forms.html#multilinear-algebra:proposition-dual-exterior">12.5.1</a>), the differential \(k\)-forms of Chapter&#160;<a href="differential-forms.html">36</a>. </p>
+</li>
+  <li><p>The Lie bracket of vector fields is <em>not</em> a tensor field of type \((1,2)\): for a function \(f\), \([X, fY] = f[X, Y] + (Xf)Y\), so the value of \([X, Y]\) at \(p\) is not determined by \(X(p)\) and \(Y(p)\). Tensors are exactly the objects whose value at a point depends only on the values of their arguments at that point; this is made precise by the tensoriality lemma of Chapter&#160;<a href="connections.html">38</a>. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="vector-bundles:proposition-tensor-fields-coordinates">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03BI.html" title="Permanent link: tag 03BI">03BI</a><a class="graph-link" href="graph.html?tag=03BI" title="Dependencies of tag 03BI: what it uses and what uses it" aria-label="Dependency graph of tag 03BI"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">35.3.9</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(\varphi = (x^1, \ldots , x^n)\) be a chart of \(M\) on \(U\). </p>
+<ol class="enumerate">
+  <li><p>The tensor fields \(\partial _{i_1} \otimes \cdots \otimes \partial _{i_r} \otimes dx^{j_1} \otimes \cdots \otimes dx^{j_s}\), where \(\partial _i = \partial /\partial x^i\), form a frame of \(T^r_sM\) over \(U\). So every tensor field of type \((r,s)\) on \(U\) is uniquely </p>
+<div class="displaymath" id="a0000001627">
+  \[  T = \sum T^{i_1 \ldots i_r}_{j_1 \ldots j_s}\, \partial _{i_1} \otimes \cdots \otimes \partial _{i_r} \otimes dx^{j_1} \otimes \cdots \otimes dx^{j_s},  \]
+</div>
+<p> with smooth <em>component functions</em> \(T^{i_1 \ldots i_r}_{j_1 \ldots j_s}\), and conversely every family of smooth functions on \(U\) defines a tensor field in this way. </p>
+</li>
+  <li><p>If \(\psi = (y^1, \ldots , y^n)\) is a second chart on \(U\), the components of \(T\) in the two charts are related at every point by the transformation law of Proposition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:proposition-tensor-transformation">12.4.4</a>, with \(P^i_j = \partial x^i/\partial y^j\) and \(Q^i_j = \partial y^i/\partial x^j\), the entries of the Jacobian matrices of \(\varphi \circ \psi ^{-1}\) and of \(\psi \circ \varphi ^{-1}\). </p>
+</li>
+  <li><p>Tensor product and contraction (Definitions&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:definition-tensor-type">12.4.1</a> and&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:definition-contraction">12.4.7</a>), applied pointwise, take tensor fields to tensor fields; so do raising and lowering of indices with a Riemannian metric (Definition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:definition-raising-lowering">12.4.10</a>). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000001628">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) The vector fields \(\partial _i\) form a frame of \(TM\) over \(U\) (Example&#160;<a href="vector-bundles-section-definition.html#vector-bundles:example-bundles">35.2.3</a>(2)), and the \(1\)-forms \(dx^j\), which are the dual frame, form a frame of \(T^*M\). In the trivialisations of \(T^r_sM\) given by Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-operations">35.3.1</a>, built from these frames, the displayed tensor fields are the constant basis vectors of Proposition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:proposition-tensors-multilinear">12.4.2</a>(3); so they form a frame (Proposition&#160;<a href="vector-bundles-section-definition.html#vector-bundles:proposition-sheaf-of-sections">35.2.10</a>), and a section is smooth if and only if its coefficients in this frame are smooth. </p>
+<p>(2) By the chain rule, \(\partial /\partial y^j = \sum _i(\partial x^i/\partial y^j)\, \partial /\partial x^i\) at every point of \(U\) (Example&#160;<a href="vector-bundles-section-definition.html#vector-bundles:example-cocycles">35.2.7</a>(1)). So at each point the basis \((\partial /\partial y^j)\) of \(T_pM\) is obtained from \((\partial /\partial x^i)\) by the matrix \(P\) with entries \(\partial x^i/\partial y^j\), whose inverse is the Jacobian matrix \(Q\) of the inverse transition map. Apply Proposition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:proposition-tensor-transformation">12.4.4</a>(2). </p>
+<p>(3) By (1), the components of the result are polynomials in the components of the arguments: for the tensor product, products of components; for a contraction, sums of components (Proposition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:proposition-contraction">12.4.8</a>(1)); for raising and lowering, sums of products with the smooth functions \(g_{ij}\) and \(g^{ij}\), the latter smooth because they are the entries of the inverse of an invertible matrix of smooth functions (Cramer’s rule). So the results are smooth. </p>
+
+  </div>
+</div>
+<p>In the older literature, and in physics, Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-tensor-fields-coordinates">35.3.9</a>(2) is the definition: a tensor field is a family of functions, one for each chart, that transforms with the Jacobian matrices as in the proposition. Proposition&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:proposition-tensor-transformation">12.4.4</a>(3), applied at every point, shows that this is the same notion. </p>
+<div class="example_thmwrapper theorem-style-definition" id="vector-bundles:example-metric-coordinates">
+  <div class="example_thmheading"><a class="tag" href="tag/03BJ.html" title="Permanent link: tag 03BJ">03BJ</a><a class="graph-link" href="graph.html?tag=03BJ" title="Dependencies of tag 03BJ: what it uses and what uses it" aria-label="Dependency graph of tag 03BJ"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">35.3.10</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> A Riemannian metric is written in a chart as \(g = \sum _{i,j}g_{ij}\, dx^i \otimes dx^j\), with \(g_{ij} = g(\partial _i, \partial _j)\) a symmetric positive definite matrix of smooth functions. The Euclidean metric of \(\mathbb {R}^2\) is \(dx \otimes dx + dy \otimes dy\). In polar coordinates \(x = \rho \cos \theta \), \(y = \rho \sin \theta \) on \(\{ \rho {\gt} 0, 0 {\lt} \theta {\lt} 2\pi \} \), the chain rule gives \(\partial _\rho = \cos \theta \, \partial _x + \sin \theta \, \partial _y\) and \(\partial _\theta = -\rho \sin \theta \, \partial _x + \rho \cos \theta \, \partial _y\), so \(g(\partial _\rho , \partial _\rho ) = 1\), \(g(\partial _\rho , \partial _\theta ) = 0\) and \(g(\partial _\theta , \partial _\theta ) = \rho ^2\): </p>
+<div class="displaymath" id="a0000001629">
+  \[  g = d\rho \otimes d\rho + \rho ^2\, d\theta \otimes d\theta .  \]
+</div>
+<p> This is the transformation law \(g^{\prime } = P^TgP\) of Example&#160;<a href="multilinear-algebra-section-tensors.html#multilinear-algebra:example-tensor-transformation">12.4.5</a>(2), with \(g\) the identity matrix and \(P\) the Jacobian matrix of \((\rho , \theta ) \mapsto (x, y)\). </p>
+
+  </div>
+</div>
 <div class="proposition_thmwrapper theorem-style-plain" id="vector-bundles:proposition-constant-rank">
   <div class="proposition_thmheading"><a class="tag" href="tag/029N.html" title="Permanent link: tag 029N">029N</a><a class="graph-link" href="graph.html?tag=029N" title="Dependencies of tag 029N: what it uses and what uses it" aria-label="Dependency graph of tag 029N"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
     <span class="proposition_thmcaption">
     Proposition
     </span>
-    <span class="proposition_thmlabel">35.3.7</span>
+    <span class="proposition_thmlabel">35.3.11</span>
   </div>
   <div class="proposition_thmcontent">
   <p> Let \(f \colon E \to F\) be a morphism of vector bundles over \(M\) whose rank on the fibres is constant. Then \(\ker f \subseteq E\) and \(\operatorname {im}f \subseteq F\) are subbundles, and \(\operatorname {coker}f = F/\operatorname {im}f\) is a vector bundle. For a submanifold \(S \subseteq M\) the normal bundle \(N_{S/M} = (TM|_S)/TS\) is a vector bundle, and if \(S = \phi ^{-1}(q)\) for a regular value \(q\) of a smooth \(\phi \colon M \to N\), then \(d\phi \) induces an isomorphism \(N_{S/M} \cong S \times T_qN\), so \(N_{S/M}\) is trivial. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000001567">
+<div class="proof_wrapper" id="a0000001630">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -554,7 +656,7 @@ MathJax.Hub.Config({
     <span class="counterexample_thmcaption">
     Counterexample
     </span>
-    <span class="counterexample_thmlabel">35.3.8</span>
+    <span class="counterexample_thmlabel">35.3.12</span>
   </div>
   <div class="counterexample_thmcontent">
   <p> The rank must be constant. The morphism \(f \colon \mathbb {R}\times \mathbb {R}\to \mathbb {R}\times \mathbb {R}\), \((x, t) \mapsto (x, xt)\), of trivial line bundles over \(\mathbb {R}\) has rank \(1\) for \(x \neq 0\) and \(0\) at \(x = 0\). Its kernel is the zero vector over each \(x \neq 0\) and the whole line over \(x = 0\), and its image is the whole line over each \(x \neq 0\) and the zero vector over \(x = 0\). In both cases the dimension of the fibres jumps, so neither is a subbundle. </p>
@@ -566,10 +668,10 @@ MathJax.Hub.Config({
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">35.3.9</span>
+    <span class="example_thmlabel">35.3.13</span>
   </div>
   <div class="example_thmcontent">
-  <p> \(TS^n\) is <em>stably trivial</em>: \(TS^n \oplus (S^n \times \mathbb {R}) \cong S^n \times \mathbb {R}^{n+1}\), because the normal bundle of \(S^n = f^{-1}(1)\), \(f(x) = |x|^2\), is trivial by Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-constant-rank">35.3.7</a>, and \(TS^n \oplus N_{S^n/\mathbb {R}^{n+1}} \cong T\mathbb {R}^{n+1}|_{S^n}\) by Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-metrics">35.3.4</a>(1). Concretely, \(TS^n\) is the kernel of the constant rank morphism \(S^n \times \mathbb {R}^{n+1} \to S^n \times \mathbb {R}\), \((x, v) \mapsto (x, \langle x, v\rangle )\), and the normal line is spanned by the section \(x \mapsto x\). Nevertheless \(TS^2\) is not trivial, since \(S^2\) has no nowhere vanishing vector field (the hairy ball theorem, Corollary&#160;<a href="singular-homology-section-spheres.html#singular-homology:corollary-sphere-applications">21.6.7</a>); so a bundle is not determined by its stable class. </p>
+  <p> \(TS^n\) is <em>stably trivial</em>: \(TS^n \oplus (S^n \times \mathbb {R}) \cong S^n \times \mathbb {R}^{n+1}\), because the normal bundle of \(S^n = f^{-1}(1)\), \(f(x) = |x|^2\), is trivial by Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-constant-rank">35.3.11</a>, and \(TS^n \oplus N_{S^n/\mathbb {R}^{n+1}} \cong T\mathbb {R}^{n+1}|_{S^n}\) by Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-metrics">35.3.4</a>(1). Concretely, \(TS^n\) is the kernel of the constant rank morphism \(S^n \times \mathbb {R}^{n+1} \to S^n \times \mathbb {R}\), \((x, v) \mapsto (x, \langle x, v\rangle )\), and the normal line is spanned by the section \(x \mapsto x\). Nevertheless \(TS^2\) is not trivial, since \(S^2\) has no nowhere vanishing vector field (the hairy ball theorem, Corollary&#160;<a href="singular-homology-section-spheres.html#singular-homology:corollary-sphere-applications">21.6.7</a>); so a bundle is not determined by its stable class. </p>
 
   </div>
 </div>
@@ -578,7 +680,7 @@ MathJax.Hub.Config({
     <span class="example_thmcaption">
     Example
     </span>
-    <span class="example_thmlabel">35.3.10</span>
+    <span class="example_thmlabel">35.3.14</span>
   </div>
   <div class="example_thmcontent">
   <p> On \(\mathbb {C}\mathbb {P}^n\) there is an exact sequence of holomorphic vector bundles \(0 \to \mathcal{O} \to \mathcal{O}(1)^{\oplus (n+1)} \to T\mathbb {C}\mathbb {P}^n \to 0\) (the <em>Euler sequence</em>), where \(\mathcal{O}(1) = \mathcal{O}(-1)^\vee \) (Chapter&#160;<a href="holomorphic-bundles.html">45</a>). Over the smooth category it splits by Proposition&#160;<a href="vector-bundles-section-operations.html#vector-bundles:proposition-metrics">35.3.4</a>, but it does not split holomorphically: holomorphic splittings are much rarer, which is why holomorphic bundles carry more information than smooth ones. </p>
@@ -595,6 +697,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

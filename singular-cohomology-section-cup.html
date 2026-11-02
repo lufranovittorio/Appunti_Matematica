@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>The cup product - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="singular-cohomology-section-cochains.html" /><link rel="next" href="singular-cohomology-section-kunneth.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="singular-cohomology-section-cochains.html" /><link rel="next" href="singular-cohomology-section-kunneth.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -362,7 +368,7 @@ MathJax.Hub.Config({
   </div>
   <div class="definition_thmcontent">
   <p> For \(\varphi \in C^k(X; R)\) and \(\psi \in C^l(X; R)\), the <em>cup product</em> \(\varphi \smile \psi \in C^{k+l}(X; R)\) is </p>
-<div class="displaymath" id="a0000000824">
+<div class="displaymath" id="a0000000862">
   \[  (\varphi \smile \psi )(\sigma ) = \varphi (\sigma \circ [e_0, \ldots , e_k]) \cdot \psi (\sigma \circ [e_k, \ldots , e_{k+l}]),  \]
 </div>
 <p> the product being taken in \(R\): the “front \(k\)-face” times the “back \(l\)-face”. We write \(\sigma |[e_0, \ldots , e_k]\) for \(\sigma \circ [e_0, \ldots , e_k]\). </p>
@@ -381,7 +387,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000825">
+<div class="proof_wrapper" id="a0000000863">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -390,10 +396,10 @@ MathJax.Hub.Config({
   </div>
   <div class="proof_content">
   <p>Let \(\sigma \colon \Delta ^{k+l+1} \to X\) and \(n = k + l + 1\). Then </p>
-<div class="displaymath" id="a0000000826">
+<div class="displaymath" id="a0000000864">
   \[  (\delta \varphi \smile \psi )(\sigma ) = \sum _{i=0}^{k+1}(-1)^i\varphi (\sigma |[e_0, \ldots , \widehat{e_i}, \ldots , e_{k+1}])\psi (\sigma |[e_{k+1}, \ldots , e_n]),  \]
 </div>
-<div class="displaymath" id="a0000000827">
+<div class="displaymath" id="a0000000865">
   \[  (-1)^k(\varphi \smile \delta \psi )(\sigma ) = \sum _{i=k}^{n}(-1)^i\varphi (\sigma |[e_0, \ldots , e_k])\psi (\sigma |[e_k, \ldots , \widehat{e_i}, \ldots , e_n]).  \]
 </div>
 <p> The term \(i = k + 1\) of the first sum cancels the term \(i = k\) of the second. The remaining terms are \(\sum _i (-1)^i(\varphi \smile \psi )(\sigma |[e_0, \ldots , \widehat{e_i}, \ldots , e_n])\), which is \((\varphi \smile \psi )(\partial \sigma ) = \delta (\varphi \smile \psi )(\sigma )\). The other statements are immediate from the definition. </p>
@@ -425,7 +431,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000828">
+<div class="proof_wrapper" id="a0000000866">
   <div class="proof_heading">
     <span class="proof_caption">
     Sketch of proof
@@ -459,6 +465,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

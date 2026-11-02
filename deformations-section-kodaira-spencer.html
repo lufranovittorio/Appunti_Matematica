@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>The Kodaira–Spencer map - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="deformations-section-elliptic.html" /><link rel="next" href="deformations-section-kuranishi.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="deformations-section-elliptic.html" /><link rel="next" href="deformations-section-kuranishi.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -349,11 +355,11 @@ MathJax.Hub.Config({
 
 <p>Let \(\pi \colon \mathcal{X} \to B\) be a family, \(0 \in B\) and \(X = X_0\). We want to measure, to first order, how the complex structure of \(X_t\) changes as \(t\) moves away from \(0\) in a direction \(v \in T_0B\). Locally over \(B\) nothing happens: the family looks like a product \(U \times \Delta \) near each point of \(X\). The information is in how these local products are glued. </p>
 <p>Choose holomorphic coordinates \(t = (t^1, \ldots , t^m)\) on \(B\) centred at \(0\). By compactness of \(X\) and the existence of adapted coordinates, after shrinking \(B\) to a small polydisc \(\Delta \) there are open sets \(\mathcal{W}_i\) covering \(\pi ^{-1}(\Delta )\), \(i = 1, \ldots , N\), with adapted coordinates \((z_i, t)\), \(z_i = (z_i^1, \ldots , z_i^n)\), identifying \(\mathcal{W}_i\) with \(U_i \times \Delta \) for open \(U_i \subseteq \mathbb {C}^n\); the sets \(X \cap \mathcal{W}_i\) cover \(X\). On overlaps the coordinates are related by holomorphic <em>transition maps</em> </p>
-<div class="displaymath" id="a0000002350">
+<div class="displaymath" id="a0000002434">
   \[  z_j = f_{ij}(z_i, t), \qquad f_{ik}(z_i, t) = f_{jk}(f_{ij}(z_i, t), t).  \]
 </div>
 <p> For a tangent vector \(v = \sum _lv^l\partial /\partial t^l \in T_0B\) define, on \(X \cap \mathcal{W}_i \cap \mathcal{W}_j\), the holomorphic vector field </p>
-<div class="displaymath" id="a0000002351">
+<div class="displaymath" id="a0000002435">
   \[  \theta _{ij}(v) = \sum _{k=1}^n\frac{\partial f_{ij}^k}{\partial v}(z_i, 0)\, \frac{\partial }{\partial z_j^k}, \qquad \frac{\partial }{\partial v} = \sum _lv^l\frac{\partial }{\partial t^l},  \]
 </div>
 <p> the velocity, at \(t = 0\), of the point with fixed coordinate \(z_i\), as seen in the coordinates \(z_j\). </p>
@@ -369,7 +375,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000002352">
+<div class="proof_wrapper" id="a0000002436">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -378,7 +384,7 @@ MathJax.Hub.Config({
   </div>
   <div class="proof_content">
   <p>Differentiate \(f_{ik}(z_i, t) = f_{jk}(f_{ij}(z_i, t), t)\) with respect to \(v\) at \(t = 0\), by the chain rule: </p>
-<div class="displaymath" id="a0000002353">
+<div class="displaymath" id="a0000002437">
   \[  \frac{\partial f_{ik}}{\partial v} = D_zf_{jk}\cdot \frac{\partial f_{ij}}{\partial v} + \frac{\partial f_{jk}}{\partial v}.  \]
 </div>
 <p> The first term is the vector \(\theta _{ij}\), written in the coordinates \(z_j\), transformed into the coordinates \(z_k\) by the Jacobian matrix \(D_zf_{jk}\) of the change of coordinates; that is, it is the same vector field \(\theta _{ij}\) expressed in the coordinates \(z_k\). So \(\theta _{ik} = \theta _{ij} + \theta _{jk}\). Taking \(i = j = k\) gives \(\theta _{ii} = 2\theta _{ii}\), and \(k = i\) gives \(\theta _{ji} = -\theta _{ij}\). For the change of coordinates, the new transition maps are \(f_{ij}^{\prime } = g_j \circ f_{ij} \circ g_i^{-1}\), where \(g_i^{-1}\) inverts \(z_i \mapsto g_i(z_i, t)\) for fixed \(t\); the same differentiation, applied to \(f_{ij}^{\prime }(g_i(z_i, t), t) = g_j(f_{ij}(z_i, t), t)\), gives \(\eta _i + \theta _{ij}^{\prime } = \theta _{ij} + \eta _j\) as vector fields. </p>
@@ -406,7 +412,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000002354">
+<div class="proof_wrapper" id="a0000002438">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -429,7 +435,7 @@ MathJax.Hub.Config({
   </div>
   <div class="definition_thmcontent">
   <p> The <em>Kodaira–Spencer map</em> of the family \(\pi \) at \(0\) is </p>
-<div class="displaymath" id="a0000002355">
+<div class="displaymath" id="a0000002439">
   \[  \kappa \colon T_0B \to H^1(X, T_X), \qquad \kappa (v) = [\delta (\theta (v))].  \]
 </div>
 <p> By Lemmas&#160;<a href="deformations-section-kodaira-spencer.html#deformations:lemma-kodaira-spencer-cocycle">51.4.1</a> and&#160;<a href="deformations-section-kodaira-spencer.html#deformations:lemma-cech-dolbeault">51.4.2</a> it does not depend on the choice of adapted coordinates (two systems of adapted coordinates can be compared on a common refinement), and it is clearly \(\mathbb {C}\)-linear in \(v\). The space \(H^1(X, T_X)\) is the space of <em>first-order deformations</em> of \(X\). </p>
@@ -454,7 +460,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000002356">
+<div class="proof_wrapper" id="a0000002440">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -476,11 +482,11 @@ MathJax.Hub.Config({
   </div>
   <div class="example_thmcontent">
   <p> <em>The family of elliptic curves.</em> Let \(\mathcal{E} \to \mathbb {H}\) be the family of Example&#160;<a href="deformations-section-families.html#deformations:example-families">51.2.2</a>(1), and \(\tau _0 \in \mathbb {H}\). Adapted coordinates are given by \((z, \tau )\) on small open sets of \(\mathbb {C}\times \mathbb {H}\) that map injectively to \(\mathcal{E}\). Two such charts differ by an element of \(\mathbb {Z}^2\), so the transition maps are \(z_j = z_i + m_{ij} + n_{ij}\tau \) with integers \(m_{ij}\), \(n_{ij}\), and </p>
-<div class="displaymath" id="a0000002357">
+<div class="displaymath" id="a0000002441">
   \[  \theta _{ij}\Bigl(\frac{\partial }{\partial \tau }\Bigr) = n_{ij}\frac{\partial }{\partial z}.  \]
 </div>
 <p> Here \(\partial /\partial z\) is a global holomorphic vector field on \(E = E_{\tau _0}\), invariant under translations. To find \(\sigma _i\) as in Lemma&#160;<a href="deformations-section-kodaira-spencer.html#deformations:lemma-cech-dolbeault">51.4.2</a>, write \(z = x + \tau _0y\) with \(x, y\) real; the function \(y = \operatorname {Im}z/\operatorname {Im}\tau _0\) satisfies \(y(z + m + n\tau _0) = y(z) + n\). So \(\sigma _i = y(z_i)\, \partial /\partial z\) satisfies \(\sigma _j - \sigma _i = n_{ij}\, \partial /\partial z = \theta _{ij}\), and </p>
-<div class="displaymath" id="a0000002358">
+<div class="displaymath" id="a0000002442">
   \[  \kappa \Bigl(\frac{\partial }{\partial \tau }\Bigr) = \Bigl[\frac{\partial y}{\partial \bar z}\, d\bar z \otimes \frac{\partial }{\partial z}\Bigr] = \frac{i}{2\operatorname {Im}\tau _0}\Bigl[d\bar z \otimes \frac{\partial }{\partial z}\Bigr],  \]
 </div>
 <p> since \(\operatorname {Im}z = (z - \bar z)/2i\) has \(\partial /\partial \bar z\) equal to \(-1/2i = i/2\). This class is nonzero. As \(T_E\) is trivialised by \(\partial /\partial z\), it suffices to see that \(d\bar z\) is not \(\bar\partial g\) for a smooth function \(g\) on \(E\). In the real coordinates \((x, y)\) of \(\mathbb {R}^2/\mathbb {Z}^2\), \(\partial /\partial \bar z = \alpha \, \partial /\partial x + \beta \, \partial /\partial y\) with constants \(\alpha \), \(\beta \) (as \(x\) and \(y\) are real linear functions of \(z\), \(\bar z\)), so if \(\partial g/\partial \bar z = 1\), integrating over \([0, 1]^2\) and using periodicity, \(1 = \int _{[0,1]^2}(\alpha g_x + \beta g_y)\, dx\, dy = 0\) by Fubini’s theorem and the fundamental theorem of calculus, a contradiction. So \(\kappa \) is injective at every point: the family of elliptic curves is nowhere locally trivial. Here \(H^1(E, T_E)\) is one-dimensional (Proposition&#160;<a href="deformations-section-kodaira-spencer.html#deformations:proposition-curves-deformations">51.4.6</a>), so \(\kappa \) is an isomorphism. </p>
@@ -488,7 +494,7 @@ MathJax.Hub.Config({
   </div>
 </div>
 <p>The dimension of \(H^1(X, T_X)\) can often be computed with Serre duality. For a compact Riemann surface \(X\), \(T_X^\vee = K_X\), and Serre duality (Theorem&#160;<a href="dolbeault-section-harmonic.html#dolbeault:theorem-serre-duality">46.3.4</a>) gives </p>
-<div class="displaymath" id="a0000002359">
+<div class="displaymath" id="a0000002443">
   \[  H^1(X, T_X) \cong H^0(X, K_X \otimes K_X)^\vee ,  \]
 </div>
 <p> the dual of the space of holomorphic <em>quadratic differentials</em> \(q = f(z)\, dz^2\). </p>
@@ -510,7 +516,7 @@ MathJax.Hub.Config({
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000002360">
+<div class="proof_wrapper" id="a0000002444">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -533,7 +539,7 @@ MathJax.Hub.Config({
   </div>
   <div class="remark_thmcontent">
   <p> <em>Deformations as a differential equation.</em> By Ehresmann’s theorem a deformation of \(X\) over a disc can be viewed as a family of complex structures on the fixed manifold \(X\). A complex structure \(J_t\) close to \(J_0\) is determined by its space of \((0,1)\)-vectors, which is the graph of a map \(T^{0,1} \to T^{1,0}\), that is, by a form \(\varphi (t) \in \mathcal{A}^{0,1}(X, T_X)\) with \(\varphi (0) = 0\). The new \(\bar\partial \)-operator is \(\bar\partial + \varphi \) acting through the contraction of \(\varphi \) with \(\partial f\), and the integrability of \(J_t\) (Theorem&#160;<a href="complex-manifolds-section-pq.html#complex-manifolds:theorem-newlander-nirenberg">44.5.4</a>) becomes the <em>Maurer–Cartan equation</em> </p>
-<div class="displaymath" id="a0000002361">
+<div class="displaymath" id="a0000002445">
   \[  \bar\partial \varphi + \tfrac 12[\varphi , \varphi ] = 0 .  \]
 </div>
 <p> Writing \(\varphi (t) = t\varphi _1 + t^2\varphi _2 + \cdots \), the first-order part satisfies \(\bar\partial \varphi _1 = 0\), and \([\varphi _1]\) is the Kodaira–Spencer class of \(\partial /\partial t\). The second-order part requires \(\bar\partial \varphi _2 = -\frac12[\varphi _1, \varphi _1]\): the class of \([\varphi _1, \varphi _1]\) in \(H^2(X, T_X)\) is the first <em>obstruction</em> to extending \(\varphi _1\) to an actual deformation <span class="cite">[<a href="Bibliography.html#huybrechts-complex" >Huy05</a>, Chapter 6]</span>. </p>
@@ -550,6 +556,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta name="generator" content="plasTeX" />
 <title>Introduction - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -17,8 +17,8 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="prev" href="representation-theory.html" /><link rel="next" href="representation-theory-section-group-representations.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
-<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+<link rel="prev" href="representation-theory.html" /><link rel="next" href="representation-theory-section-group-representations.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
 </head>
 
 <body>
@@ -35,8 +35,14 @@ MathJax.Hub.Config({
   </form>
   <a class="header-link" href="tags.html">Tags</a>
   <a class="header-link" href="book.pdf">PDF</a>
-  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
-    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
@@ -365,9 +371,10 @@ MathJax.Hub.Config({
 <h1 id="representation-theory:section-introduction">13.1 Introduction<a class="tag" href="tag/00KZ.html" title="Permanent link: tag 00KZ">00KZ</a></h1>
 <p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
 
-<p>A representation of a group or a Lie algebra is an action by linear maps. This chapter develops the basic theory: Schur’s lemma, Maschke’s theorem and character theory for finite groups, nilpotent and solvable Lie algebras with the theorems of Engel and Lie, and the complete classification of the finite-dimensional representations of the Lie algebra \(\mathfrak {sl}_2(\mathbb {C})\). It then develops the structure theory of semisimple Lie algebras: Cartan’s criteria and the Killing form, Weyl’s theorem on complete reducibility, the root space decomposition, root systems and their classification by Dynkin diagrams, and highest weights (Sections&#160;<a href="representation-theory-section-semisimple.html">13.7</a>–<a href="representation-theory-section-highest-weight.html">13.11</a>). The classification for \(\mathfrak {sl}_2\) is used repeatedly in Hodge theory: on the cohomology of a compact Kähler manifold the Lefschetz operator, its adjoint and the degree operator span a copy of \(\mathfrak {sl}_2\), and the hard Lefschetz theorem and the primitive decomposition are consequences of the structure of \(\mathfrak {sl}_2\)-representations (Chapters&#160;<a href="kahler.html">47</a> and&#160;<a href="lefschetz-theorems.html">49</a>). </p>
+<p>A representation of a group or a Lie algebra is an action by linear maps. This chapter develops the basic theory: Schur’s lemma, Maschke’s theorem, unitary representations and character theory for finite groups, nilpotent and solvable Lie algebras with the theorems of Engel and Lie, and the complete classification of the finite-dimensional representations of the Lie algebra \(\mathfrak {sl}_2(\mathbb {C})\). It then develops the structure theory of semisimple Lie algebras: Cartan’s criteria and the Killing form, Weyl’s theorem on complete reducibility, the root space decomposition, root systems and their classification by Dynkin diagrams, and highest weights (Sections&#160;<a href="representation-theory-section-semisimple.html">13.7</a>–<a href="representation-theory-section-highest-weight.html">13.11</a>). The classification for \(\mathfrak {sl}_2\) is used repeatedly in Hodge theory: on the cohomology of a compact Kähler manifold the Lefschetz operator, its adjoint and the degree operator span a copy of \(\mathfrak {sl}_2\), and the hard Lefschetz theorem and the primitive decomposition are consequences of the structure of \(\mathfrak {sl}_2\)-representations (Chapters&#160;<a href="kahler.html">47</a> and&#160;<a href="lefschetz-theorems.html">49</a>). </p>
 <p>References are <span class="cite">[<a href="Bibliography.html#serre-linear-representations" >Ser77</a>]</span>, <span class="cite">[<a href="Bibliography.html#fulton-harris" >FH91</a>]</span> and <span class="cite">[<a href="Bibliography.html#humphreys-lie" >Hum72</a>]</span>. </p>
 <p><b class="bfseries">Prerequisites.</b> Chapter&#160;<a href="groups.html">7</a> (Groups), Chapter&#160;<a href="fields.html">9</a> (Fields and Galois Theory), Chapter&#160;<a href="linear-algebra.html">11</a> (Linear Algebra) and Chapter&#160;<a href="multilinear-algebra.html">12</a> (Multilinear Algebra). </p>
+<p><b class="bfseries">On the way to the Hodge conjecture.</b> Only the basic definitions (Section&#160;<a href="representation-theory-section-group-representations.html">13.2</a>) and the representations of \(\mathfrak {sl}_2\) (Section&#160;<a href="representation-theory-section-sl2.html">13.6</a>), which give the hard Lefschetz theorem, are used on the direct route. Unitary representations (Subsection&#160;<a href="representation-theory-section-group-representations.html#representation-theory:subsection-unitary">13.2.1</a>) return for compact Lie groups, whose representations are unitary by averaging over Haar measure. Characters of finite groups and the structure theory of semisimple Lie algebras are used later only for algebraic groups and Mumford–Tate groups. </p>
 <p>Throughout, \(k\) is a field and representations are on \(k\)-vector spaces. </p>
 
 </article>
@@ -379,6 +386,6 @@ MathJax.Hub.Config({
 </main>
 </div>
 
-<script src="js/site.js?v=92a1b77967"></script>
+<script src="js/site.js?v=9473284ac4"></script>
 </body>
 </html>
