@@ -210,6 +210,124 @@ degree $2$ ($4 + 2^2 = 8$), and comparing with the regular character, $2\chi = \
 groups are not isomorphic: $D_4$ has five elements of order $2$ and $Q_8$ only one.
 \end{counterexample}
 
+\subsection{Computing character tables}\label{representation-theory:subsection-character-tables}
+
+The \emph{character table} of $G$ lists the values of the irreducible characters $\chi_1, \ldots, \chi_r$ on representatives $g_1, \ldots, g_r$ of the conjugacy classes;
+by Theorem~\ref{representation-theory:theorem-number-irreducibles} it is a square matrix. It is usually found without constructing all the representations, by
+combining a few known characters with the orthogonality relations. Besides the orthogonality of rows (Theorem~\ref{representation-theory:theorem-orthogonality}) there
+is an orthogonality of columns. We write $C_G(g) = \{x : xg = gx\}$ for the centraliser; the class of $g$ has $|G|/|C_G(g)|$ elements.
+
+\begin{proposition}[Column orthogonality]\label{representation-theory:proposition-column-orthogonality}
+For $g, h \in G$,
+\[
+\sum_{i=1}^r\chi_i(g)\overline{\chi_i(h)} = \begin{cases}|C_G(g)| & \text{if } g \text{ and } h \text{ are conjugate},\\ 0 & \text{otherwise.}\end{cases}
+\]
+In particular $\sum_i\chi_i(e)^2 = |G|$ and $\sum_i\chi_i(e)\chi_i(g) = 0$ for $g \neq e$.
+\end{proposition}
+
+\begin{proof}
+Let $c_j = |G|/|C_G(g_j)|$ be the size of the $j$-th class, and let $M$ be the $r \times r$ matrix with entries $M_{ij} = \chi_i(g_j)\sqrt{c_j/|G|}$. Since characters are
+class functions, row orthogonality says $\sum_jM_{ij}\overline{M_{kj}} = \frac{1}{|G|}\sum_jc_j\chi_i(g_j)\overline{\chi_k(g_j)} = \langle\chi_i, \chi_k\rangle = \delta_{ik}$, so $M$ is a unitary matrix.
+Then also $M^*M = I$, that is, $\sum_i\overline{M_{ij}}M_{il} = \delta_{jl}$, which is the formula for $g = g_l$ and $h = g_j$ after dividing by $\sqrt{c_jc_l}/|G|$. For $g = e$ the
+values $\chi_i(e)$ are the dimensions, which are real.
+\end{proof}
+
+Here are the other tools.
+\begin{enumerate}
+\item \emph{Lifting from quotients.} If $N$ is a normal subgroup, every irreducible representation of $G/N$ composed with $G \to G/N$ is an irreducible representation of $G$ (the
+images of $G$ and of $G/N$ in $\GL(V)$ are the same), with character constant on cosets of $N$. The one-dimensional characters are the lifts from $G^{\mathrm{ab}}$
+(Corollary~\ref{representation-theory:corollary-one-dimensional}).
+\item \emph{Twisting.} If $\chi$ is irreducible and $\lambda$ is one-dimensional, then $\lambda\chi$ is the character of an irreducible representation, since
+$|\lambda(g)| = 1$ gives $\langle\lambda\chi, \lambda\chi\rangle = \langle\chi, \chi\rangle = 1$.
+\item \emph{Permutation characters}, by the next proposition.
+\item \emph{Real values.} If $g$ is conjugate to $g^{-1}$, then $\chi(g) = \chi(g^{-1}) = \overline{\chi(g)}$ is real for every character
+(Proposition~\ref{representation-theory:proposition-character-properties}).
+\end{enumerate}
+
+\begin{proposition}\label{representation-theory:proposition-permutation-character}
+Let $G$ act on a finite set $X$ and let $\pi(g) = |\{x \in X : gx = x\}|$ be the character of the permutation representation $\CC[X]$ (which has basis $X$, permuted by
+$G$). Then $\langle\pi, 1\rangle$ is the number of orbits of $G$ on $X$, and $\langle\pi, \pi\rangle$ is the number of orbits of $G$ on $X \times X$. If the action is
+\emph{doubly transitive}, that is, $|X| \geq 2$ and $G$ acts transitively on the pairs $(x, y)$ with $x \neq y$, then $\pi = 1 + \chi$ with $\chi$ irreducible.
+\end{proposition}
+
+\begin{proof}
+The matrix of $g$ in the basis $X$ is a permutation matrix, whose trace is the number of fixed points. By Proposition~\ref{representation-theory:proposition-character-properties},
+$\langle\pi, 1\rangle = \dim\CC[X]^G$, and an element $\sum_xa_xx$ is invariant exactly when $x \mapsto a_x$ is constant on orbits; so the invariants have a basis indexed by the
+orbits. Since $\pi$ is real, $\langle\pi, \pi\rangle = \langle\pi^2, 1\rangle$, and $\pi(g)^2$ is the number of fixed points of $g$ on $X \times X$; so it is the number of orbits on
+$X \times X$. For a doubly transitive action there are two orbits on $X \times X$, the diagonal and its complement, and one on $X$. Then $\chi = \pi - 1$ satisfies
+$\langle\chi, \chi\rangle = \langle\pi, \pi\rangle - 2\langle\pi, 1\rangle + 1 = 2 - 2 + 1 = 1$, and $\chi(e) = |X| - 1 > 0$, so $\chi$ is an irreducible character by
+Theorem~\ref{representation-theory:theorem-orthogonality}.
+\end{proof}
+
+For $S_n$ acting on $\{1, \ldots, n\}$, which is doubly transitive for $n \geq 2$, this gives the \emph{standard representation} of dimension $n - 1$, with character
+(number of fixed points)${} - 1$; for $n = 3$ it is the representation $U$ of Example~\ref{representation-theory:example-s3}. The alternating group $A_n$ is doubly transitive
+on $\{1, \ldots, n\}$ for $n \geq 4$ (given $x \neq y$ and $x^{\prime} \neq y^{\prime}$, a permutation taking $x, y$ to $x^{\prime}, y^{\prime}$ can be composed with a transposition of two other points to make
+it even).
+
+\begin{example}[The alternating group $A_4$]\label{representation-theory:example-character-table-a4}
+$A_4$ has order $12$. Its classes are: $\{e\}$; the three double transpositions such as $(12)(34)$; and the eight $3$-cycles, which split into two classes of four.
+Indeed, the centraliser of $(123)$ in $S_4$ is the group $\langle(123)\rangle$ of order $3$ (an element commuting with $(123)$ preserves its set of fixed points $\{4\}$ and
+permutes $\{1, 2, 3\}$ by a power of the cycle), so its class in $A_4$ has $12/3 = 4$ elements; the classes of $(123)$ and $(132) = (123)^{-1}$ are different, as we shall see. The Klein group $V = \{e, (12)(34),
+(13)(24), (14)(23)\}$ is normal, and $A_4/V$ has order $3$, so it is cyclic, generated by the image of $(123)$. With $\omega = e^{2\pi i/3}$, the three characters of $A_4/V \cong \ZZ/3\ZZ$ lift to one-dimensional characters
+$1$, $\lambda$, $\lambda^2$ with $\lambda((123)) = \omega$ and $\lambda((132)) = \omega^2$. Since $\omega \neq \omega^2$, the elements $(123)$ and $(132)$ are not conjugate, so there are
+four classes and four irreducible characters, with $\sum\chi_i(e)^2 = 12$; the fourth has degree $3$. It is the restriction of the standard representation of $S_4$, irreducible
+because $A_4$ is doubly transitive on four points: fixed points minus one gives $(3, -1, 0, 0)$. The table is
+\[
+\begin{array}{c|cccc}
+ & e & (12)(34) & (123) & (132)\\
+\text{class size} & 1 & 3 & 4 & 4\\
+\hline
+1 & 1 & 1 & 1 & 1\\
+\lambda & 1 & 1 & \omega & \omega^2\\
+\lambda^2 & 1 & 1 & \omega^2 & \omega\\
+\chi_3 & 3 & -1 & 0 & 0
+\end{array}
+\]
+As a check, the column of $(12)(34)$ has $\sum_i|\chi_i|^2 = 1 + 1 + 1 + 1 = 4 = |C_{A_4}((12)(34))|$ (its centraliser is $V$), and the column of $(123)$ has $1 + 1 + 1 + 0 = 3$.
+The representation $\chi_3$ is the action of $A_4$ as the rotation group of a regular tetrahedron: a rotation by $\pi$ about an axis through midpoints of opposite edges has trace
+$1 + 2\cos\pi = -1$, a rotation by $2\pi/3$ about an axis through a vertex has trace $1 + 2\cos(2\pi/3) = 0$.
+\end{example}
+
+\begin{example}[The alternating group $A_5$ and the golden ratio]\label{representation-theory:example-character-table-a5}
+$A_5$ has order $60$ and five classes: $\{e\}$; the $15$ double transpositions; the $20$ three-cycles; and the $24$ five-cycles, which split into two classes of $12$, represented by
+$x = (12345)$ and $x^2 = (13524)$. (The centraliser of $x$ in $S_5$ is $\langle x\rangle$, of order $5$ and contained in $A_5$, so the class of $x$ in $A_5$ has $12$ elements. A
+permutation $\sigma$ with $\sigma x\sigma^{-1} = x^2$ is $\sigma = (2354)$, and all others differ from it by elements of $\langle x\rangle$; they are all odd, so $x$ and $x^2$ are not conjugate in
+$A_5$. On the other hand $x^{-1} = (15432) = \tau x\tau^{-1}$ with $\tau = (25)(34)$ even, so $x$ is conjugate to $x^{-1}$ in $A_5$, and all characters are real.) The centralisers have orders
+$60, 4, 3, 5, 5$.
+
+$A_5$ is perfect, so the only one-dimensional character is the trivial one. Doubly transitive action on $\{1, \ldots, 5\}$ gives $\chi_4 = (\text{fixed points}) - 1 = (4, 0, 1, -1, -1)$.
+The action on the ten two-element subsets of $\{1, \ldots, 5\}$ has permutation character $\pi = (10, 2, 1, 0, 0)$ (the double transposition $(12)(34)$ fixes $\{1, 2\}$ and $\{3, 4\}$,
+the $3$-cycle $(123)$ fixes $\{4, 5\}$). Then $\langle\pi, \pi\rangle = \frac{1}{60}(100 + 15 \cdot 4 + 20 \cdot 1) = 3$, $\langle\pi, 1\rangle = 1$ and $\langle\pi, \chi_4\rangle = \frac{1}{60}(40 + 20) = 1$, so
+$\chi_5 = \pi - 1 - \chi_4 = (5, 1, -1, 0, 0)$ has $\langle\chi_5, \chi_5\rangle = 3 - 1 - 1 = 1$ and is irreducible. The remaining two irreducible characters have
+$\chi(e)^2 + \chi^{\prime}(e)^2 = 60 - 1 - 16 - 25 = 18$, so both have degree $3$; write their values as $(3, a, b, c, d)$ and $(3, a^{\prime}, b^{\prime}, c^{\prime}, d^{\prime})$, real numbers.
+
+Column orthogonality with the column of $e$ gives $1 + 0 + 5 + 3(a + a^{\prime}) = 0$, $1 + 4 - 5 + 3(b + b^{\prime}) = 0$ and $1 - 4 + 0 + 3(c + c^{\prime}) = 0$, that is,
+$a + a^{\prime} = -2$, $b + b^{\prime} = 0$, $c + c^{\prime} = 1$, and likewise $d + d^{\prime} = 1$. The norms of the columns give $1 + 0 + 1 + a^2 + a^{\prime2} = 4$, $1 + 1 + 1 + b^2 + b^{\prime2} = 3$ and
+$1 + 1 + 0 + c^2 + c^{\prime2} = 5$. Hence $a^2 + a^{\prime2} = 2$ with $a + a^{\prime} = -2$, forcing $a = a^{\prime} = -1$; $b = b^{\prime} = 0$; and $c + c^{\prime} = 1$, $c^2 + c^{\prime2} = 3$, so $cc^{\prime} = -1$
+and $c$, $c^{\prime}$ are the roots of $t^2 - t - 1$, namely
+\[
+\varphi = \frac{1 + \sqrt5}{2} \quad\text{and}\quad 1 - \varphi = \frac{1 - \sqrt5}{2}.
+\]
+The same holds for $d, d^{\prime}$, and orthogonality of the columns of $x$ and $x^2$ gives $1 + 1 + 0 + cd + c^{\prime}d^{\prime} = 0$, which excludes $d = c$ (then $cd + c^{\prime}d^{\prime} = 3$); so $d = c^{\prime}$ and
+$d^{\prime} = c$. The table is
+\[
+\begin{array}{c|ccccc}
+ & e & (12)(34) & (123) & (12345) & (13524)\\
+\text{class size} & 1 & 15 & 20 & 12 & 12\\
+\hline
+1 & 1 & 1 & 1 & 1 & 1\\
+\chi_3 & 3 & -1 & 0 & \varphi & 1 - \varphi\\
+\chi_3^{\prime} & 3 & -1 & 0 & 1 - \varphi & \varphi\\
+\chi_4 & 4 & 0 & 1 & -1 & -1\\
+\chi_5 & 5 & 1 & -1 & 0 & 0
+\end{array}
+\]
+The golden ratio has a geometric meaning: $A_5$ is the rotation group of the regular icosahedron, and $\chi_3$ is this three-dimensional representation. The element $x$ acts
+as a rotation by $2\pi/5$ about an axis through two opposite vertices, with trace $1 + 2\cos(2\pi/5) = 1 + \frac{\sqrt5 - 1}{2} = \varphi$. The representation $\chi_3^{\prime}$ is obtained
+from $\chi_3$ by the field automorphism $\sqrt5 \mapsto -\sqrt5$, or equivalently by composing with conjugation by an odd permutation, which exchanges the two classes of
+$5$-cycles.
+\end{example}
+
 \section{Lie algebras}\label{representation-theory:section-lie-algebras}
 
 \begin{definition}\label{representation-theory:definition-lie-algebra}
@@ -1609,6 +1727,32 @@ $\dim V_l - \dim V_{l+2} = c(s) - c(s - 1)$ (with $c(-1) = 0$), which is $1$ for
 \begin{exercise}\label{representation-theory:exercise-character-table-s4}
 Determine the character table of $S_4$.
 \end{exercise}
+
+\begin{solution}
+The classes of $S_4$ are given by cycle types: $e$ ($1$ element), transpositions ($6$), double transpositions ($3$), $3$-cycles ($8$) and $4$-cycles ($6$). So there are five
+irreducible characters. Besides the trivial character and the sign $\varepsilon$, the standard representation (Proposition~\ref{representation-theory:proposition-permutation-character})
+has character $\chi_3 = (\text{fixed points}) - 1 = (3, 1, -1, 0, -1)$, and $\varepsilon\chi_3 = (3, -1, -1, 0, 1)$ is irreducible by twisting and different from $\chi_3$. The
+remaining degree is $\sqrt{24 - 1 - 1 - 9 - 9} = 2$. A two-dimensional irreducible representation is obtained by lifting: the Klein group $V$ of
+Example~\ref{representation-theory:example-character-table-a4} is normal in $S_4$, and $S_4/V \cong S_3$ (the action of $S_4$ by conjugation on the three nontrivial elements
+of $V$ has kernel exactly $V$, since $(12)$, $(123)$ and $(1234)$ move $(13)(24)$ or $(12)(34)$, and so its image has order $24/4 = 6$). Lifting the character $(2, 0, -1)$ of $S_3$ from Example~\ref{representation-theory:example-s3}: a
+transposition and a $4$-cycle map to elements of order $2$ in $S_3$ (the square of a $4$-cycle lies in $V$), a double transposition maps to $e$, and a $3$-cycle to an element
+of order $3$. So
+\[
+\begin{array}{c|ccccc}
+ & e & (12) & (12)(34) & (123) & (1234)\\
+\text{class size} & 1 & 6 & 3 & 8 & 6\\
+\hline
+1 & 1 & 1 & 1 & 1 & 1\\
+\varepsilon & 1 & -1 & 1 & 1 & -1\\
+\chi_2 & 2 & 0 & 2 & -1 & 0\\
+\chi_3 & 3 & 1 & -1 & 0 & -1\\
+\varepsilon\chi_3 & 3 & -1 & -1 & 0 & 1
+\end{array}
+\]
+As a check, the column of $(12)$ has $\sum|\chi_i|^2 = 1 + 1 + 0 + 1 + 1 = 4 = |C_{S_4}((12))|$, the centraliser being $\{e, (12), (34), (12)(34)\}$. Geometrically, $S_4$ is the rotation
+group of the cube, acting on the four long diagonals, and $\varepsilon\chi_3$ is its three-dimensional rotation representation: a $4$-cycle is a rotation by $\pi/2$ about an axis
+through the centres of opposite faces, with trace $1 + 2\cos(\pi/2) = 1$.
+\end{solution}
 
 \begin{exercise}\label{representation-theory:exercise-abelian-irreducible}
 Show that a finite group is abelian if and only if all its irreducible complex representations are one-dimensional. (One direction is
