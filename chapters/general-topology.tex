@@ -834,7 +834,7 @@ Let $\delta$ be a Lebesgue number of the cover by the sets $f^{-1}(B(y, \varepsi
 set, so $d(f(x), f(x')) < \varepsilon$.
 \end{proof}
 
-\begin{theorem}[Banach fixed point theorem]\label{general-topology:theorem-banach-fixed-point}
+\begin{theorem}[Banach fixed point theorem, Banach--Caccioppoli]\label{general-topology:theorem-banach-fixed-point}
 Let $X$ be a nonempty complete metric space and $T \colon X \to X$ a \emph{contraction}: $d(Tx, Ty) \leq c\,d(x, y)$ for some $0 \leq c < 1$. Then $T$ has a
 unique fixed point, and for every $x_0$ the sequence $x_{n+1} = Tx_n$ converges to it.
 \end{theorem}
@@ -845,6 +845,18 @@ $d(x_m, x_n) \leq \sum_{k=n}^{m-1} c^k d(x_1, x_0) = c^n\frac{1 - c^{m-n}}{1 - c
 $c > 0$, write $1/c = 1 + h$ with $h > 0$; then $c^{-n} \geq 1 + nh$), the sequence is Cauchy; let $x$ be its limit. A contraction is continuous, so
 $Tx = \lim Tx_n = \lim x_{n+1} = x$. If also $Ty = y$, then $d(x, y) \leq c\,d(x, y)$, so $x = y$.
 \end{proof}
+
+The theorem is also called the \emph{contraction mapping principle}, and, especially in Italy, the \emph{Banach--Caccioppoli theorem}: Banach proved it in his 1922 thesis, and Caccioppoli found it
+independently in 1930. Letting $m \to \infty$ in the proof gives the error estimate $d(x_n, x) \leq \frac{c^n}{1 - c}d(x_1, x_0)$, which says how many iterations are needed for a given accuracy
+before the fixed point is known. Each hypothesis is needed: a translation $x \mapsto x + 1$ of $\RR$ satisfies $d(Tx, Ty) = d(x, y)$ and has no fixed point; $x \mapsto x/2$ on the incomplete space
+$(0, 1]$ is a contraction without fixed point; and the following example shows that $d(Tx, Ty) < d(x, y)$ for $x \neq y$ is not enough.
+
+\begin{counterexample}\label{general-topology:counterexample-weak-contraction}
+Let $X = [1, \infty)$, complete as a closed subset of $\RR$, and $T(x) = x + 1/x$. Then $T(X) \subseteq X$, and for $1 \leq x < y$,
+$T(y) - T(x) = (y - x)\bigl(1 - \frac{1}{xy}\bigr)$, so $0 \leq T(y) - T(x) < y - x$. But $T(x) > x$ for all $x$, so $T$ has no fixed point. The ratio $1 - 1/(xy)$ tends to $1$ as $x, y \to \infty$, so
+no constant $c < 1$ works. On a \emph{compact} metric space, however, a map with $d(Tx, Ty) < d(x, y)$ for $x \neq y$ does have a unique fixed point: the continuous function $x \mapsto d(x, Tx)$ attains its
+minimum at some $x$, and if $Tx \neq x$, then $d(Tx, T^2x) < d(x, Tx)$ contradicts minimality; uniqueness is as in the theorem.
+\end{counterexample}
 
 \begin{theorem}[Baire category theorem]\label{general-topology:theorem-baire}
 In a complete metric space $X$, a countable intersection of dense open sets is dense. Equivalently, a countable union of closed sets with empty interior

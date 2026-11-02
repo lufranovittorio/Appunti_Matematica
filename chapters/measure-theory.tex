@@ -2530,13 +2530,87 @@ If $d_i = 0$, then $C_i$ is a point and both sides are $0$. Summing, and using c
 Let $\varepsilon \to 0$. Since $\mathcal{H}^s(A_{t, k}) \leq \mathcal{H}^s(A) < \infty$ and $t2^s < 1$, this forces $\mathcal{H}^s(A_{t, k}) = 0$.
 \end{proof}
 
-The bound $2^{-s}$ comes from the comparison $C_i \subseteq \overline{B}(x_i, \operatorname{diam}C_i)$, which loses a factor $2$ in the radius; in $\RR^n$, finer covering theorems give the
-complementary inequalities, which we quote.
+The bound $2^{-s}$ comes from the comparison $C_i \subseteq \overline{B}(x_i, \operatorname{diam}C_i)$, which loses a factor $2$ in the radius. Inequalities in the other direction, bounding the
+upper density from above, need a different idea: instead of starting from an arbitrary cover and enclosing its sets in balls, one starts from balls on which the measure is large and extracts disjoint
+ones. This is a covering lemma of Vitali type, and it works in every metric space. For a closed ball $B = \overline{B}(x, r)$, given together with its centre and radius, write $\widehat{B} = \overline{B}(x, 5r)$.
 
-\begin{theorem}\label{measure-theory:theorem-density-bounds}
-Let $A \subseteq \RR^n$ be $\mathcal{H}^s$-measurable with $\mathcal{H}^s(A) < \infty$. Then $2^{-s} \leq \Theta^{*s}(A, x) \leq 1$ for $\mathcal{H}^s$-almost every $x \in A$, and $\Theta^{*s}(A, x) = 0$ for
-$\mathcal{H}^s$-almost every $x \in \RR^n \setminus A$ \cite[Section 2.3]{evans-gariepy}, \cite{falconer-gofs}.
+\begin{lemma}[$5r$-covering lemma]\label{measure-theory:lemma-five-r-covering}
+Let $\mathcal{F}$ be a family of closed balls $\overline{B}(x, r)$, $r > 0$, in a metric space, with $\sup\{r\} = R < \infty$. There is a subfamily $\mathcal{G}$ of pairwise disjoint balls such that every
+$B \in \mathcal{F}$ meets some $B^{\prime} \in \mathcal{G}$ whose radius is at least half the radius of $B$; in particular $B \subseteq \widehat{B^{\prime}}$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F}_j$ be the set of balls in $\mathcal{F}$ with radius in $(2^{-j}R, 2^{1-j}R]$, $j \geq 1$. By Zorn's lemma choose a maximal pairwise disjoint subfamily $\mathcal{G}_1$ of $\mathcal{F}_1$ (the union of a chain of
+disjoint subfamilies is disjoint), and inductively a maximal pairwise disjoint subfamily $\mathcal{G}_j$ of the balls in $\mathcal{F}_j$ that are disjoint from all balls of
+$\mathcal{G}_1 \cup \cdots \cup \mathcal{G}_{j-1}$. Let $\mathcal{G} = \bigcup_j\mathcal{G}_j$; it is pairwise disjoint. Let $B = \overline{B}(x, r) \in \mathcal{F}_j$. Either $B$ meets a ball of some $\mathcal{G}_i$ with $i < j$,
+whose radius exceeds $2^{-i}R \geq 2^{1-j}R \geq r$; or it is disjoint from all of them, and then by maximality of $\mathcal{G}_j$ it meets a ball of $\mathcal{G}_j$, whose radius exceeds $2^{-j}R \geq r/2$. In both
+cases $B$ meets $B^{\prime} = \overline{B}(x^{\prime}, r^{\prime}) \in \mathcal{G}$ with $r^{\prime} \geq r/2$. If $z \in B \cap B^{\prime}$ and $y \in B$, then
+$d(y, x^{\prime}) \leq d(y, x) + d(x, z) + d(z, x^{\prime}) \leq 2r + r^{\prime} \leq 5r^{\prime}$.
+\end{proof}
+
+\begin{theorem}\label{measure-theory:theorem-density-lower-comparison}
+Let $\mu$ be an outer measure on a metric space $X$ for which all Borel sets are $\mu$-measurable (for instance $\mu = \mathcal{H}^s$, by Lemma~\ref{measure-theory:lemma-metric-outer-measure}). Let
+$A_1, A_2 \subseteq X$, $s > 0$ and $t \geq 0$, and suppose
+\[
+\Theta^{*s}(\mu, A_2, x) = \limsup_{r \to 0}\frac{\mu(A_2 \cap \overline{B}(x, r))}{\alpha(s)(2r)^s} \geq t \qquad \text{for all } x \in A_1 .
+\]
+Then $t\,\mathcal{H}^s(A_1) \leq \mu(A_2)$.
 \end{theorem}
+
+A Borel measure $\mu$ on $X$ defines such an outer measure, $\mu^*(E) = \inf\{\mu(B) : B \supseteq E \text{ Borel}\}$. The infimum is attained, by the intersection of Borel sets $B_j \supseteq E$ with
+$\mu(B_j) \to \mu^*(E)$; and for $B$ Borel, $E \subseteq X$ and a Borel $E^{\prime} \supseteq E$ with $\mu(E^{\prime}) = \mu^*(E)$,
+$\mu^*(E \cap B) + \mu^*(E \setminus B) \leq \mu(E^{\prime} \cap B) + \mu(E^{\prime} \setminus B) = \mu^*(E)$, so $B$ is $\mu^*$-measurable. So the theorem applies to Borel measures as well.
+This is the form of the theorem in \cite{simon-gmt}, where $A_1 \subseteq A_2$ is assumed; the proof below does not use this inclusion. The sets $A_1$ and $A_2$ need not be measurable. The
+important special case is $A_1 = A_2$; the freedom to choose $A_2$ is used to localise, with $A_2 = A \cap U$ for an open set $U \supseteq A_1$. Note the direction: Theorem~\ref{measure-theory:theorem-upper-density} and its generalisation Theorem~\ref{measure-theory:theorem-density-comparison} below bound $\mu$ from above where the density is small;
+this theorem bounds $\mu$ from below where the density is large, and loses no factor $2^s$.
+
+\begin{proof}
+We may assume $t > 0$ and $\mu(A_2) < \infty$. Let $0 < t^{\prime} < t$ and $\delta > 0$, and let $\mathcal{F}$ be the family of closed balls $\overline{B}(x, r)$ with $x \in A_1$, $0 < r < \delta$ and
+$\mu(A_2 \cap \overline{B}(x, r)) \geq t^{\prime}\alpha(s)(2r)^s$. By hypothesis every $x \in A_1$ is the centre of balls of $\mathcal{F}$ of arbitrarily small radius. Let $\mathcal{G}$ be as in
+Lemma~\ref{measure-theory:lemma-five-r-covering}.
+
+The balls of $\mathcal{G}$ are disjoint Borel sets, hence $\mu$-measurable, and by the definition of measurability $\mu(A_2) \geq \sum_{B \in \mathcal{G}^{\prime}}\mu(A_2 \cap B)$ for every finite
+$\mathcal{G}^{\prime} \subseteq \mathcal{G}$ (split $A_2$ successively along the balls). Each term is at least $t^{\prime}\alpha(s)(2r_B)^s > 0$, so only finitely many balls of $\mathcal{G}$ have $\mu(A_2 \cap B) > 1/m$, for each
+$m$; hence $\mathcal{G}$ is countable, say $\mathcal{G} = \{B_1, B_2, \ldots\}$ with radii $r_i$, and
+\[
+\sum_it^{\prime}\alpha(s)(2r_i)^s \leq \sum_i\mu(A_2 \cap B_i) \leq \mu(A_2) < \infty .
+\]
+
+We claim that $A_1 \subseteq \bigcup_{i \leq N}B_i \cup \bigcup_{i > N}\widehat{B_i}$ for every $N$. Let $x \in A_1$ lie outside the closed set $B_1 \cup \cdots \cup B_N$. Some closed ball around $x$ misses this set, so
+there is $B \in \mathcal{F}$ centred at $x$ and disjoint from $B_1, \ldots, B_N$. By the lemma $B$ meets some $B_i$ with $B \subseteq \widehat{B_i}$, and necessarily $i > N$; so $x \in \widehat{B_i}$.
+
+The sets $B_i$ and $\widehat{B_i}$ have diameters at most $2r_i < 2\delta$ and $10r_i < 10\delta$. Hence
+\[
+\mathcal{H}^s_{10\delta}(A_1) \leq \sum_{i \leq N}\alpha(s)(2r_i)^s + \sum_{i > N}\alpha(s)(10r_i)^s \leq \frac{\mu(A_2)}{t^{\prime}} + 5^s\sum_{i > N}\alpha(s)(2r_i)^s .
+\]
+The last sum is the tail of a convergent series, so letting $N \to \infty$ gives $\mathcal{H}^s_{10\delta}(A_1) \leq \mu(A_2)/t^{\prime}$. Letting $\delta \to 0$ and then $t^{\prime} \to t$ proves the theorem.
+\end{proof}
+
+Together with Theorem~\ref{measure-theory:theorem-upper-density} this gives the basic density estimates for sets of finite Hausdorff measure, in every metric space.
+
+\begin{theorem}[Upper density theorem]\label{measure-theory:theorem-density-bounds}
+Let $A \subseteq X$ be $\mathcal{H}^s$-measurable with $\mathcal{H}^s(A) < \infty$, $s > 0$. Then $2^{-s} \leq \Theta^{*s}(A, x) \leq 1$ for $\mathcal{H}^s$-almost every $x \in A$, and $\Theta^{*s}(A, x) = 0$ for
+$\mathcal{H}^s$-almost every $x \in X \setminus A$.
+\end{theorem}
+
+\begin{proof}
+The lower bound is Theorem~\ref{measure-theory:theorem-upper-density}. Let $\nu(E) = \mathcal{H}^s(A \cap E)$ for Borel $E$; since $A$ and $E$ are $\mathcal{H}^s$-measurable, $\nu$ is a finite Borel measure, so
+by Lemma~\ref{measure-theory:lemma-closed-approximation} every Borel set $E$ has open neighbourhoods $U$ with $\nu(U) < \nu(E) + \varepsilon$. For $x$ in an open set $U$, small balls around $x$ lie in $U$, so
+$\Theta^{*s}(\mathcal{H}^s, A \cap U, x) = \Theta^{*s}(A, x)$.
+
+\emph{Upper bound.} Let $t > 1$ and $B = \{x \in A : \Theta^{*s}(A, x) > t\}$. By Borel regularity (Remark~\ref{measure-theory:remark-hausdorff-conventions}(2)) there is a Borel set $E \supseteq B$ with
+$\mathcal{H}^s(E) = \mathcal{H}^s(B)$, so $\nu(E) = \mathcal{H}^s(B)$, as $B \subseteq A \cap E \subseteq E$. For an open $U \supseteq E$ with $\nu(U) < \nu(E) + \varepsilon$,
+Theorem~\ref{measure-theory:theorem-density-lower-comparison} with $\mu = \mathcal{H}^s$, $A_1 = B$, $A_2 = A \cap U$ gives $t\mathcal{H}^s(B) \leq \mathcal{H}^s(A \cap U) = \nu(U) < \mathcal{H}^s(B) + \varepsilon$. As
+$\varepsilon$ is arbitrary and $\mathcal{H}^s(B) < \infty$, $(t - 1)\mathcal{H}^s(B) \leq 0$, so $\mathcal{H}^s(B) = 0$. Taking $t = 1 + 1/j$, $j \geq 1$, gives the upper bound.
+
+\emph{Outside $A$.} Let $t > 0$ and $B = \{x \in X \setminus A : \Theta^{*s}(A, x) > t\}$. Choose a Borel set $A^{\prime} \supseteq A$ with $\mathcal{H}^s(A^{\prime}) = \mathcal{H}^s(A)$; since $A$ is measurable and of finite
+measure, $\mathcal{H}^s(A^{\prime} \setminus A) = 0$, so $B \cap A^{\prime}$ is null. The Borel set $X \setminus A^{\prime}$ has $\nu(X \setminus A^{\prime}) = 0$, so it has open neighbourhoods $U$ with $\nu(U) < \varepsilon$, and
+the theorem with $A_1 = B \setminus A^{\prime}$, $A_2 = A \cap U$ gives $t\mathcal{H}^s(B \setminus A^{\prime}) \leq \varepsilon$. Hence $B$ is null, and taking $t = 1/j$ gives the last statement.
+\end{proof}
+
+The name comes from \cite{simon-gmt}: the theorem is about upper densities only. In $\RR^n$ with $s = n$ it says less than the Lebesgue density theorem, which gives density exactly $1$ on $A$ and $0$
+outside; but for non-integral $s$ the density need not exist (Example~\ref{measure-theory:example-density-cantor}), and the upper density is then the right object. For $A$ the Cantor set the theorem
+says that $\Theta^{*s}(C, x) \in [2^{-s}, 1]$ at $\mathcal{H}^s$-almost every point of $C$.
 
 So every set of finite $s$-dimensional measure is, at almost all of its points, at least somewhat dense and at most as dense as a flat piece. Whether the density exists, that is, whether the lower
 density equals the upper one, is a deep geometric property, and it is related to the following class of sets.
@@ -2690,15 +2764,18 @@ upper $1$-density everywhere on $\RR^2$ gives no mass to the Cantor set $C \time
 
 \begin{remark}\label{measure-theory:remark-measure-densities}
 \begin{enumerate}
-\item \emph{The reverse inequality.} For a Radon measure $\mu$ on $\RR^n$ and a Borel set $A$, if $\Theta^{*s}(\mu, x) \geq t$ for all $x \in A$, then $\mu(A) \geq t\,\mathcal{H}^s(A)$
-\cite[Chapter 6]{mattila-1995}, \cite[Section 2.10]{federer-gmt}. The proof uses a Vitali-type covering theorem instead of the definition of $\mathcal{H}^s$, which is why no factor $2^s$ is lost. Applied to
-$\mu = \mathcal{H}^s\llcorner A$ it gives the rest of Theorem~\ref{measure-theory:theorem-density-bounds}: on the set where $\Theta^{*s}(A, \cdot) \geq t > 1$ we get $\mathcal{H}^s \geq t\mathcal{H}^s$, so
-that set is null; and on a Borel set $B$ disjoint from $A$ where $\Theta^{*s}(A, \cdot) \geq t > 0$ we get $0 = \mu(B) \geq t\mathcal{H}^s(B)$.
+\item \emph{The reverse inequality.} Theorem~\ref{measure-theory:theorem-density-lower-comparison} is the reverse of the theorem above: for $\mu$ as in the theorem, a Borel set $A$ and an open
+$U \supseteq A$ with $t_1 \leq \Theta^{*s}(\mu, x) \leq t_2$ on $A$, they give $t_1\mathcal{H}^s(A) \leq \mu(U)$ (as $\mu(U \cap \overline{B}(x, r)) = \mu(\overline{B}(x, r))$ for $x \in A$ and small $r$)
+and $\mu(A) \leq 2^st_2\mathcal{H}^s(A)$; taking the infimum over $U$, which is $\mu(A)$ by outer regularity (Lemma~\ref{measure-theory:lemma-closed-approximation}, applied on bounded pieces),
+$t_1\mathcal{H}^s(A) \leq \mu(A) \leq 2^st_2\mathcal{H}^s(A)$. The factor $2^s$ on the right is lost because the proof encloses arbitrary sets of a cover in balls; the left inequality is proved with
+the $5r$-covering lemma, which works with balls from the start. For $\mu = \mathcal{H}^s\llcorner A$ the two inequalities are the two halves of the upper density theorem
+(Theorem~\ref{measure-theory:theorem-density-bounds}).
 \item \emph{Differentiation of one measure by another.} For two Radon measures $\mu$, $\nu$ on $\RR^n$, the limit $\lim_{r \to 0}\nu(\overline{B}(x, r))/\mu(\overline{B}(x, r))$ exists for $\mu$-almost every $x$
 and is the Radon--Nikodym derivative of the absolutely continuous part of $\nu$ with respect to $\mu$ \cite[Chapter 1]{evans-gariepy}. For $\mu = \lambda$ this is
 Theorem~\ref{measure-theory:theorem-differentiation-measures}. For a general $\mu$ the Vitali covering lemma is useless, since $\mu(B(x, 3r))$ need not be comparable to $\mu(B(x, r))$, and it is
 replaced by the \emph{Besicovitch covering theorem}, which uses the geometry of $\RR^n$: if every point of a bounded set $A$ is the centre of some ball of a family of closed balls with bounded radii,
-one can extract a subfamily that still covers $A$ and in which no point lies in more than $N(n)$ balls, a number depending only on $n$.
+one can extract a subfamily that still covers $A$ and in which no point lies in more than $N(n)$ balls, a number depending only on $n$. In a general metric space the Vitali argument survives
+when $\mu$ is doubling, $\mu(\overline{B}(x, 2r)) \leq C\mu(\overline{B}(x, r))$; see Subsection~\ref{measure-theory:subsection-doubling}.
 \item \emph{Rectifiable measures.} The rectifiability criteria have their natural form for measures. A Radon measure $\mu$ on $\RR^n$ is \emph{$k$-rectifiable} if $\mu = \theta\mathcal{H}^k\llcorner E$
 with $E$ countably $k$-rectifiable and $\theta$ a positive Borel function. \emph{Preiss's theorem} says that $\mu$ is $k$-rectifiable if and only if $0 < \Theta^k(\mu, x) < \infty$ for $\mu$-almost every
 $x$ \cite{preiss-1987}, and \emph{Marstrand's theorem} says that if $0 < \Theta^s(\mu, x) < \infty$ on a set of positive $\mu$-measure, then $s$ is an integer \cite{mattila-1995}. Preiss's proof
@@ -2709,6 +2786,194 @@ compact subset of $A$ with $\mu(\overline{B}(x, r)) \leq r^s$ for all $x$ and $r
 $\mu(\overline{B}(x, r)) \leq r^s$: Hausdorff dimension can be computed with measures instead of covers.
 \end{enumerate}
 \end{remark}
+
+\subsection{Differentiation with respect to doubling measures}\label{measure-theory:subsection-doubling}
+
+Densities measure a measure $\mu$ against the function $r \mapsto \alpha(s)(2r)^s$. Measuring it against another measure $\nu$ instead, through the ratios $\mu(\overline{B}(x, r))/\nu(\overline{B}(x, r))$,
+leads to the general form of the Radon--Nikodym theorem in which the derivative $d\mu/d\nu$ is computed as a limit, as in Theorem~\ref{measure-theory:theorem-differentiation-measures} for
+$\nu = \lambda$. The proof there used $\lambda(3B) = 3^n\lambda(B)$, and the $5r$-covering lemma (Lemma~\ref{measure-theory:lemma-five-r-covering}) shows that a weak form of this property is all one
+needs, in any metric space. Throughout, $X$ is a nonempty metric space, and for a Borel measure $\nu$ on $X$ and any $A \subseteq X$ we write $\nu^*(A) = \inf\{\nu(E) : E \supseteq A \text{ Borel}\}$.
+This outer measure is countably subadditive (take a union of Borel supersets), and a set with $\nu^*(A) = 0$ lies in a Borel set of measure $0$.
+
+\begin{definition}\label{measure-theory:definition-doubling}
+A Borel measure $\nu$ on $X$ is \emph{doubling} if $0 < \nu(\overline{B}(x, r)) < \infty$ for all $x \in X$ and $r > 0$, and there is a constant $C$ with
+\[
+\nu(\overline{B}(x, 2r)) \leq C\,\nu(\overline{B}(x, r)) \qquad \text{for all } x \in X,\ r > 0 .
+\]
+\end{definition}
+
+Iterating, $\nu(\overline{B}(x, 2^kr)) \leq C^k\nu(\overline{B}(x, r))$; in particular, for the enlarged ball $\widehat{B} = \overline{B}(x, 5r)$ of $B = \overline{B}(x, r)$,
+\begin{equation}\label{measure-theory:equation-doubling-five}
+\nu(\widehat{B}) \leq \nu(\overline{B}(x, 8r)) \leq C^3\nu(B) .
+\end{equation}
+A doubling measure is finite on bounded sets, since every bounded set lies in a closed ball, and hence $\sigma$-finite: $X = \bigcup_k\overline{B}(x_0, k)$ for any $x_0 \in X$.
+
+\begin{example}\label{measure-theory:example-doubling}
+\begin{enumerate}
+\item Lebesgue measure on $\RR^n$ is doubling with $C = 2^n$, since $\lambda(\overline{B}(x, r)) = \alpha(n)(2r)^n$.
+\item If $w$ is a Borel function on $\RR^n$ with $0 < m \leq w \leq M$, then $\nu = w\lambda$ is doubling with $C = 2^nM/m$:
+$\nu(\overline{B}(x, 2r)) \leq M\lambda(\overline{B}(x, 2r)) = 2^nM\lambda(\overline{B}(x, r)) \leq 2^n(M/m)\nu(\overline{B}(x, r))$.
+\item The Gaussian measure $\gamma = e^{-y^2/2}\lambda$ on $\RR$ is not doubling. For $x > 2$ the density $e^{-y^2/2}$ is decreasing on $[x - 2, x + 2]$, so
+\[
+\frac{\gamma([x - 2, x + 2])}{\gamma([x - 1, x + 1])} \geq \frac{\frac12e^{-(x - 3/2)^2/2}}{2e^{-(x - 1)^2/2}} = \frac14e^{(x - 5/4)/2},
+\]
+estimating the numerator by the integral over $[x - 2, x - \frac32]$; the right side is unbounded as $x \to \infty$. Far out, the measure of a ball is concentrated near its left end.
+\item A point mass $\delta_a$ on $\RR$ is not doubling, since balls missing $a$ have measure $0$; but $\delta_a$ is doubling on the one-point metric space $\{a\}$. Doubling is a property of the measure
+together with the metric space it lives on.
+\end{enumerate}
+\end{example}
+
+We need one approximation lemma, which replaces the role of $C_c(\RR^n)$ in the Lebesgue differentiation theorem.
+
+\begin{lemma}\label{measure-theory:lemma-lipschitz-dense}
+Let $\nu$ be a finite Borel measure on a metric space $X$ and $1 \leq p < \infty$. The bounded Lipschitz functions are dense in $L^p(\nu)$.
+\end{lemma}
+
+\begin{proof}
+By Proposition~\ref{measure-theory:proposition-measurable-functions}(4) and dominated convergence, simple functions $\sum_ia_i\mathbf{1}_{E_i}$ with $E_i$ Borel are dense, so it suffices to approximate
+$\mathbf{1}_E$ for a Borel set $E$. Let $\varepsilon > 0$. By Lemma~\ref{measure-theory:lemma-closed-approximation} there is a closed set $F \subseteq E$ with $\nu(E \setminus F) < \varepsilon$, so
+$\|\mathbf{1}_E - \mathbf{1}_F\|_p^p < \varepsilon$. If $F = \emptyset$, then $\|\mathbf{1}_E\|_p^p < \varepsilon$ and $0$ approximates. Otherwise let $g_k(x) = \max(0, 1 - k\,d(x, F))$. It is Lipschitz with constant $k$, takes values in $[0, 1]$,
+equals $1$ on $F$, and $g_k(x) \to 0$ for $x \notin F$ because $d(x, F) > 0$ for such $x$, $F$ being closed. So $g_k \to \mathbf{1}_F$ pointwise with $|g_k - \mathbf{1}_F| \leq 1$, and as $\nu$ is finite,
+dominated convergence gives $\|g_k - \mathbf{1}_F\|_p \to 0$.
+\end{proof}
+
+From now on $\nu$ is a doubling measure on $X$ with constant $C$.
+
+\begin{theorem}[Maximal inequality for doubling measures]\label{measure-theory:theorem-doubling-maximal}
+Let $f \in L^1(\nu)$ and $t > 0$, and let $A$ be the set of $x \in X$ such that
+\[
+\frac{1}{\nu(\overline{B}(x, r))}\int_{\overline{B}(x, r)}|f|\,d\nu > t \qquad \text{for some } 0 < r \leq 1 .
+\]
+Then $\nu^*(A) \leq C^3\|f\|_1/t$.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{F}$ be the family of balls $B = \overline{B}(x, r)$ with $x \in A$, $0 < r \leq 1$ and $\int_B|f|\,d\nu > t\nu(B)$; every point of $A$ is the centre of a ball of $\mathcal{F}$. Let
+$\mathcal{G}$ be the disjoint subfamily of Lemma~\ref{measure-theory:lemma-five-r-covering}. For finitely many balls of $\mathcal{G}$ the integrals $\int_B|f|\,d\nu$ add up to at most $\|f\|_1$, and each of them is
+$> t\nu(B) > 0$; so for each $m$ only finitely many exceed $1/m$, and $\mathcal{G} = \{B_1, B_2, \ldots\}$ is countable. Every ball of $\mathcal{F}$ lies in some $\widehat{B_i}$, so
+$A \subseteq \bigcup_i\widehat{B_i}$, and by \eqref{measure-theory:equation-doubling-five}
+\[
+\nu^*(A) \leq \sum_i\nu(\widehat{B_i}) \leq C^3\sum_i\nu(B_i) < \frac{C^3}{t}\sum_i\int_{B_i}|f|\,d\nu \leq \frac{C^3}{t}\|f\|_1 .
+\]
+(If $A$ is empty there is nothing to prove.)
+\end{proof}
+
+\begin{theorem}[Lebesgue differentiation theorem for doubling measures]\label{measure-theory:theorem-doubling-lebesgue}
+Let $f \colon X \to \RR$ be a Borel function with $\int_B|f|\,d\nu < \infty$ for every closed ball $B$. For $\nu$-almost every $x \in X$,
+\[
+\lim_{r \to 0}\frac{1}{\nu(\overline{B}(x, r))}\int_{\overline{B}(x, r)}|f(y) - f(x)|\,d\nu(y) = 0,
+\]
+and in particular the averages of $f$ over $\overline{B}(x, r)$ tend to $f(x)$.
+\end{theorem}
+
+\begin{proof}
+Write $\langle g \rangle_{x, r}$ for the average of a function $g$ over $\overline{B}(x, r)$ with respect to $\nu$, and $\Omega(x) = \limsup_{r \to 0}\langle|f - f(x)|\rangle_{x, r}$. Fix $x_0 \in X$, an integer $k \geq 1$,
+$t > 0$ and $\varepsilon > 0$, and let $D = \overline{B}(x_0, k + 1)$. The measure $E \mapsto \nu(E \cap D)$ is finite, so by Lemma~\ref{measure-theory:lemma-lipschitz-dense} there is a bounded continuous $g$ with
+$\int_D|f - g|\,d\nu < \varepsilon$. Let $h = (f - g)\mathbf{1}_D$, so $\|h\|_1 < \varepsilon$.
+
+Let $x \in B(x_0, k)$ and $0 < r \leq 1$. Then $\overline{B}(x, r) \subseteq D$, and for $y \in \overline{B}(x, r)$
+\[
+|f(y) - f(x)| \leq |h(y)| + |h(x)| + |g(y) - g(x)| .
+\]
+Averaging over $y$ gives $\langle|f - f(x)|\rangle_{x, r} \leq \langle|h|\rangle_{x, r} + |h(x)| + \sup_{\overline{B}(x, r)}|g - g(x)|$, and the last term tends to $0$ as $r \to 0$ because $g$ is continuous. So, if
+$\Omega(x) > 2t$, then either $\langle|h|\rangle_{x, r} > t$ for some $r \leq 1$, or $|h(x)| > t$. By Theorem~\ref{measure-theory:theorem-doubling-maximal} and Markov's inequality
+(Corollary~\ref{measure-theory:corollary-integral-properties}(4)),
+\[
+\nu^*\bigl(\{x \in B(x_0, k) : \Omega(x) > 2t\}\bigr) \leq \frac{C^3\varepsilon}{t} + \frac{\varepsilon}{t} .
+\]
+As $\varepsilon$ is arbitrary, this set has outer measure $0$. The set where $\Omega > 0$ is the union of these sets over $k \geq 1$ and $t = 1/j$, $j \geq 1$, so it has outer measure $0$ and lies in a
+$\nu$-null Borel set. Finally $|\langle f \rangle_{x, r} - f(x)| \leq \langle|f - f(x)|\rangle_{x, r}$.
+\end{proof}
+
+\begin{theorem}[Differentiation of measures with respect to a doubling measure]\label{measure-theory:theorem-doubling-differentiation}
+Let $\mu$ be a Borel measure on $X$ that is finite on bounded Borel sets, and let $\mu = h\nu + \mu_s$ be its Lebesgue decomposition with respect to $\nu$
+(Theorem~\ref{measure-theory:theorem-lebesgue-decomposition}), with $h \geq 0$ Borel and $\mu_s \perp \nu$. Then for $\nu$-almost every $x$
+\[
+\lim_{r \to 0}\frac{\mu(\overline{B}(x, r))}{\nu(\overline{B}(x, r))} = h(x) .
+\]
+In particular, if $\mu \ll \nu$, the Radon--Nikodym derivative is $\frac{d\mu}{d\nu}(x) = \lim_{r \to 0}\mu(\overline{B}(x, r))/\nu(\overline{B}(x, r))$ for $\nu$-almost every $x$; and $\mu \perp \nu$ if and only
+if this limit is $0$ $\nu$-almost everywhere.
+\end{theorem}
+
+\begin{proof}
+Both measures are $\sigma$-finite, $X$ being the union of the balls $\overline{B}(x_0, k)$, so the decomposition exists. For every closed ball $B$, $\int_Bh\,d\nu \leq \mu(B) < \infty$, so by
+Theorem~\ref{measure-theory:theorem-doubling-lebesgue} the averages of $h$ over $\overline{B}(x, r)$ tend to $h(x)$ for almost every $x$. Since
+\[
+\frac{\mu(\overline{B}(x, r))}{\nu(\overline{B}(x, r))} = \frac{1}{\nu(\overline{B}(x, r))}\int_{\overline{B}(x, r)}h\,d\nu + \frac{\mu_s(\overline{B}(x, r))}{\nu(\overline{B}(x, r))},
+\]
+it remains to show that the last ratio tends to $0$ for almost every $x$.
+
+Let $S$ be a Borel set with $\nu(S) = 0$ and $\mu_s(X \setminus S) = 0$. Fix $x_0 \in X$, $k \geq 1$, $t > 0$ and $\varepsilon > 0$, and let $A$ be the set of $x \in B(x_0, k) \setminus S$ with
+$\limsup_{r \to 0}\mu_s(\overline{B}(x, r))/\nu(\overline{B}(x, r)) > t$. The measure $E \mapsto \mu_s(E \cap B(x_0, k + 1))$ is finite and vanishes on the Borel set $B(x_0, k) \setminus S$, so by
+Lemma~\ref{measure-theory:lemma-closed-approximation} there is an open $U^{\prime} \supseteq B(x_0, k) \setminus S$ with $\mu_s(U^{\prime} \cap B(x_0, k + 1)) < \varepsilon$. The set $U = U^{\prime} \cap B(x_0, k + 1)$ is
+open, contains $A$, and has $\mu_s(U) < \varepsilon$.
+
+Let $\mathcal{F}$ be the family of balls $B = \overline{B}(x, r)$ with $x \in A$, $r \leq 1$, $B \subseteq U$ and $\mu_s(B) > t\nu(B)$. Each $x \in A$ is the centre of such balls, because
+$\overline{B}(x, r) \subseteq U$ for small $r$. Let $\mathcal{G}$ be the disjoint subfamily of Lemma~\ref{measure-theory:lemma-five-r-covering}. Its balls lie in the bounded set $U$, which has finite
+$\nu$-measure, and have positive $\nu$-measure, so $\mathcal{G} = \{B_1, B_2, \ldots\}$ is countable, as in the proof of Theorem~\ref{measure-theory:theorem-doubling-maximal}. As there,
+$A \subseteq \bigcup_i\widehat{B_i}$ and
+\[
+\nu^*(A) \leq C^3\sum_i\nu(B_i) < \frac{C^3}{t}\sum_i\mu_s(B_i) \leq \frac{C^3}{t}\mu_s(U) < \frac{C^3\varepsilon}{t} .
+\]
+So $\nu^*(A) = 0$. Taking the union over $k$ and $t = 1/j$, and adding the null set $S$, the ratio $\mu_s(\overline{B}(x, r))/\nu(\overline{B}(x, r))$ tends to $0$ outside a $\nu$-null set.
+
+If $\mu \ll \nu$, then $\mu_s = 0$ by uniqueness of the decomposition, and $h = d\mu/d\nu$ is the Radon--Nikodym derivative (Theorem~\ref{measure-theory:theorem-radon-nikodym}). If $\mu \perp \nu$, then
+$h\nu = 0$ by uniqueness, so $h = 0$ almost everywhere; conversely, if the limit is $0$ almost everywhere, then $h = 0$ almost everywhere and $\mu = \mu_s$.
+\end{proof}
+
+So the Radon--Nikodym derivative, obtained abstractly in Theorem~\ref{measure-theory:theorem-radon-nikodym}, is a limit of ratios of measures of balls whenever the reference measure is doubling. For
+$f \in L^1_{\mathrm{loc}}$ and $\mu = f\nu$ the theorem is the Lebesgue differentiation theorem again; for $\mu = \nu\llcorner E$, $E$ Borel, it is a density theorem:
+$\nu(E \cap \overline{B}(x, r))/\nu(\overline{B}(x, r))$ tends to $1$ at almost every point of $E$ and to $0$ at almost every point outside $E$.
+
+\begin{remark}\label{measure-theory:remark-doubling}
+\begin{enumerate}
+\item \emph{Densities as derivatives.} The density $\Theta^s(\mu, x)$ is the derivative of $\mu$ with respect to the function $r \mapsto \alpha(s)(2r)^s$ in place of a measure $\nu$. Since this function
+is not the measure of the balls of a fixed measure, there is no Lebesgue decomposition to recover, and one only gets the inequalities of Theorems~\ref{measure-theory:theorem-density-lower-comparison}
+and~\ref{measure-theory:theorem-density-comparison}. The proofs are parallel: the singular part was handled above exactly as in Theorem~\ref{measure-theory:theorem-density-lower-comparison}, with
+$\nu(B)$ in place of $\alpha(s)(2r)^s$ for $B = \overline{B}(x, r)$, and with \eqref{measure-theory:equation-doubling-five} in place of $\alpha(s)(10r)^s = 5^s\alpha(s)(2r)^s$.
+\item \emph{Beyond doubling.} Doubling is sufficient, not necessary. On $\RR^n$ every Radon measure can serve as $\nu$, by the Besicovitch covering theorem
+(Remark~\ref{measure-theory:remark-besicovitch} and Remark~\ref{measure-theory:remark-measure-densities}(2)); so the non-doubling Gaussian measure of Example~\ref{measure-theory:example-doubling}(3)
+still differentiates. In general metric spaces some covering property is needed; spaces with a doubling measure, the \emph{spaces of homogeneous type}, are the standard setting for analysis on metric
+spaces \cite[Chapter 1]{heinonen-2001}.
+\item \emph{Ahlfors regularity.} A measure $\nu$ with $c^{-1}r^s \leq \nu(\overline{B}(x, r)) \leq cr^s$ for all $x \in X$ and $0 < r \leq \operatorname{diam}X$ (so $c \geq 1$) is doubling with
+$C = 2^sc^2$: if $2r \leq \operatorname{diam}X$, then $\nu(\overline{B}(x, 2r)) \leq c2^sr^s \leq 2^sc^2\nu(\overline{B}(x, r))$; if $r \leq \operatorname{diam}X < 2r$, then
+$\nu(\overline{B}(x, 2r)) = \nu(\overline{B}(x, \operatorname{diam}X)) \leq c(2r)^s \leq 2^sc^2\nu(\overline{B}(x, r))$; and if $r > \operatorname{diam}X$, both balls are $X$. For such a measure, $\nu$ and
+$\mathcal{H}^s$ are comparable on Borel sets $A$: $\nu(A) \leq (c/\alpha(s))\mathcal{H}^s(A)$ by Theorem~\ref{measure-theory:theorem-density-comparison}, and
+$\mathcal{H}^s(A) \leq 2^sc\,\alpha(s)\nu(U)$ for every open $U \supseteq A$ by Theorem~\ref{measure-theory:theorem-density-lower-comparison} with $A_1 = A$, $A_2 = U$, which gives
+$\mathcal{H}^s(A) \leq 2^sc\,\alpha(s)\nu(A)$ by outer regularity (Lemma~\ref{measure-theory:lemma-closed-approximation}, applied on bounded pieces). The Cantor measure on the Cantor set $C$ is of this
+kind with $s = \log 2/\log 3$: Example~\ref{measure-theory:example-measure-density}(4) gives the upper bound, and for $x \in C$ and $3^{-k} \leq r < 3^{1-k}$ the ball $\overline{B}(x, r)$ contains the
+interval of the $k$-th stage of the construction that contains $x$, of measure $2^{-k} = (3^{-k})^s \geq 3^{-s}r^s$.
+\end{enumerate}
+\end{remark}
+
+\begin{exercise}\label{measure-theory:exercise-doubling-totally-bounded}
+Let $\nu$ be a doubling measure on $X$ with constant $C$.
+\begin{enumerate}
+\item Let $0 < \varepsilon \leq R$ and let $m \geq 0$ be an integer with $2^m\varepsilon \geq 2R$. Show that a set of points of $\overline{B}(x, R)$ with pairwise distances $> 2\varepsilon$ has at most $C^{m+1}$
+elements.
+\item Deduce that closed balls in $X$ are totally bounded, that $X$ is separable, and that if $X$ is complete, closed balls are compact.
+\item Deduce that the Hilbert space $\ell^2$ of square-summable real sequences carries no doubling measure.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) Let $y_1, \ldots, y_N \in \overline{B}(x, R)$ with $d(y_i, y_j) > 2\varepsilon$ for $i \neq j$. The balls $\overline{B}(y_i, \varepsilon)$ are pairwise disjoint and lie in $\overline{B}(x, R + \varepsilon) \subseteq \overline{B}(x, 2R)$.
+Moreover $\overline{B}(x, R) \subseteq \overline{B}(y_i, 2R)$, so
+$\nu(\overline{B}(x, R)) \leq \nu(\overline{B}(y_i, 2R)) \leq C^m\nu(\overline{B}(y_i, 2^{-m}2R)) \leq C^m\nu(\overline{B}(y_i, \varepsilon))$. Summing over $i$,
+\[
+NC^{-m}\nu(\overline{B}(x, R)) \leq \sum_i\nu(\overline{B}(y_i, \varepsilon)) \leq \nu(\overline{B}(x, 2R)) \leq C\nu(\overline{B}(x, R)),
+\]
+and dividing by $\nu(\overline{B}(x, R)) > 0$ gives $N \leq C^{m+1}$.
+
+(2) Given $\varepsilon \leq R$, choose a set $\{y_1, \ldots, y_N\} \subseteq \overline{B}(x, R)$ with pairwise distances $> 2\varepsilon$ and with $N$ as large as possible, which is possible by (1). Every
+$y \in \overline{B}(x, R)$ has $d(y, y_i) \leq 2\varepsilon$ for some $i$, since otherwise $y$ could be added. So finitely many open balls of radius $3\varepsilon$ cover $\overline{B}(x, R)$; for
+$\varepsilon > R$ the single ball $B(x, 3\varepsilon)$ does. Hence $\overline{B}(x, R)$ is totally bounded. A totally bounded metric space is separable (the centres of finite $1/j$-nets, $j \geq 1$, form a
+dense countable set), and $X = \bigcup_k\overline{B}(x_0, k)$ is a countable union of such spaces, so $X$ is separable. A closed subset of a complete space is complete, so if $X$ is complete, closed balls
+are compact by Theorem~\ref{general-topology:theorem-compact-metric}.
+
+(3) The unit vectors $e_1, e_2, \ldots$ lie in the closed unit ball of $\ell^2$ and have pairwise distances $\|e_i - e_j\| = \sqrt2$. So the closed unit ball is not totally bounded: no finitely many balls of
+radius $\frac12$ cover it, since each such ball contains at most one $e_i$. By (2), there is no doubling measure on $\ell^2$. Doubling measures live on spaces that are ``finite-dimensional'' in a metric sense.
+\end{solution}
 
 \section{Exercises}\label{measure-theory:section-exercises}
 
