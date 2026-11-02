@@ -17,7 +17,7 @@ The chapter goes as follows.
 \item Definitions, examples, and the description of bundles by cocycles of transition functions (Section~\ref{vector-bundles:section-definition}), with the M\"obius bundle,
 the tangent bundle and the tautological bundles worked out.
 \item Sections and frames, and the dictionary between vector bundles and locally free sheaves.
-\item The linear algebra of bundles: direct sums, tensor products, duals, $\Hom$ bundles, exterior powers, pullbacks; metrics, subbundles, kernels and normal bundles
+\item The linear algebra of bundles: direct sums, tensor products, duals, $\Hom$ bundles, exterior powers, pullbacks; metrics; tensor fields and their components in coordinates; subbundles, kernels and normal bundles
 (Section~\ref{vector-bundles:section-operations}).
 \item Complex line bundles: their classification by $H^2(M; \ZZ)$, and an elementary classification on the sphere by the winding number of a transition function
 (Section~\ref{vector-bundles:section-line-bundles}).
@@ -28,6 +28,9 @@ References: \cite{lee-smooth-manifolds}, \cite{milnor-stasheff}, \cite[Chapter 0
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{smooth-manifolds} (Smooth Manifolds), Chapter~\ref{multilinear-algebra} (Multilinear Algebra) and Chapter~\ref{sheaves} (Sheaves on
 Topological Spaces).
+
+\noindent\textbf{On the way to the Hodge conjecture.} Needed: vector bundles and cocycles, operations on bundles, and line bundles with the first Chern class (Sections~\ref{vector-bundles:section-definition} to \ref{vector-bundles:section-line-bundles}).
+Section~\ref{vector-bundles:section-parallelizable} can be skipped.
 
 \noindent\textbf{Conventions.} $\mathbb{K} = \RR$ or $\CC$, and $M$ is a smooth manifold. Vectors of $\mathbb{K}^r$ are columns, and $e_1, \ldots, e_r$ is the standard basis.
 $\GL_r(\mathbb{K})$ is the group of invertible $r \times r$ matrices, an open subset of $M_r(\mathbb{K})$.
@@ -290,6 +293,82 @@ $[0, 1] \times \RR$ by $(0, t) \sim (1, (-1)^2t) = (1, t)$, which is the trivial
 connect it to the identity. Concretely, the sections $x \mapsto (\cos\pi x, \sin\pi x)$ and $x \mapsto (-\sin\pi x, \cos\pi x)$ of $E \oplus E$ (functions $\RR \to \RR^2$ with
 $f(x + 1) = -f(x)$) form a global frame. The same argument shows that a real bundle glued from $[0, 1] \times \RR^r$ by a matrix $A$ is trivial when $A$ can be joined to the identity by a path in $\GL_r(\RR)$: if $A_t$ is such a path, constant near its ends, with $A_0 = \id$ and $A_1 = A$,
 the sections $t \mapsto A_te_i$ satisfy the gluing condition and form a global frame.
+\end{example}
+
+The constructions of Proposition~\ref{vector-bundles:proposition-operations}, applied to the tangent bundle, give the bundles whose sections are the tensor fields of differential
+geometry: the pointwise version of Section~\ref{multilinear-algebra:section-tensors}.
+
+\begin{definition}\label{vector-bundles:definition-tensor-fields}
+Let $M$ be a smooth manifold and $r, s \in \NN$. The \emph{bundle of tensors of type $(r,s)$} is the real vector bundle
+\[
+T^r_sM = TM^{\otimes r} \otimes (T^*M)^{\otimes s},
+\]
+with fibre $T^r_s(T_pM)$ over $p$ (Definition~\ref{multilinear-algebra:definition-tensor-type}), and $T^0_0M = M \times \RR$. A \emph{tensor field of type $(r,s)$} on an open set $U \subseteq M$ is a
+section of $T^r_sM$ over $U$; it assigns to every $p \in U$ a tensor of type $(r,s)$ on $T_pM$, depending smoothly on $p$.
+\end{definition}
+
+\begin{example}\label{vector-bundles:example-tensor-fields}
+\begin{enumerate}
+\item Tensor fields of type $(0,0)$ are smooth functions, those of type $(1,0)$ are vector fields, and those of type $(0,1)$ are $1$-forms
+(Definition~\ref{vector-bundles:definition-sections}).
+\item Tensor fields of type $(1,1)$ are sections of $TM \otimes T^*M \cong \End(TM)$ (Proposition~\ref{multilinear-algebra:proposition-hom-tensor}, applied fibrewise), that is, smooth families of
+endomorphisms of the tangent spaces. The identity is one of them; an \emph{almost complex structure} is one whose square is $-\id$ (Chapter~\ref{complex-manifolds}).
+\item Tensor fields of type $(0,2)$ are smooth families of bilinear forms on the tangent spaces. A \emph{Riemannian metric} is one that is symmetric and positive definite at every point; it exists
+on every manifold (Proposition~\ref{vector-bundles:proposition-metrics}, applied to $TM$), and it is the subject of Chapter~\ref{riemannian-geometry}.
+\item Alternating tensor fields of type $(0,k)$ are the sections of $\Lambda^kT^*M$ (Proposition~\ref{multilinear-algebra:proposition-dual-exterior}), the differential $k$-forms of
+Chapter~\ref{differential-forms}.
+\item The Lie bracket of vector fields is \emph{not} a tensor field of type $(1,2)$: for a function $f$, $[X, fY] = f[X, Y] + (Xf)Y$, so the value of $[X, Y]$ at $p$ is not determined by
+$X(p)$ and $Y(p)$. Tensors are exactly the objects whose value at a point depends only on the values of their arguments at that point; this is made precise by the tensoriality lemma of
+Chapter~\ref{connections}.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{vector-bundles:proposition-tensor-fields-coordinates}
+Let $\varphi = (x^1, \ldots, x^n)$ be a chart of $M$ on $U$.
+\begin{enumerate}
+\item The tensor fields $\partial_{i_1} \otimes \cdots \otimes \partial_{i_r} \otimes dx^{j_1} \otimes \cdots \otimes dx^{j_s}$, where $\partial_i = \partial/\partial x^i$, form a frame of $T^r_sM$ over $U$. So
+every tensor field of type $(r,s)$ on $U$ is uniquely
+\[
+T = \sum T^{i_1 \ldots i_r}_{j_1 \ldots j_s}\,\partial_{i_1} \otimes \cdots \otimes \partial_{i_r} \otimes dx^{j_1} \otimes \cdots \otimes dx^{j_s},
+\]
+with smooth \emph{component functions} $T^{i_1 \ldots i_r}_{j_1 \ldots j_s}$, and conversely every family of smooth functions on $U$ defines a tensor field in this way.
+\item If $\psi = (y^1, \ldots, y^n)$ is a second chart on $U$, the components of $T$ in the two charts are related at every point by the transformation law of
+Proposition~\ref{multilinear-algebra:proposition-tensor-transformation}, with $P^i_j = \partial x^i/\partial y^j$ and $Q^i_j = \partial y^i/\partial x^j$, the entries of the
+Jacobian matrices of $\varphi \circ \psi^{-1}$ and of $\psi \circ \varphi^{-1}$.
+\item Tensor product and contraction (Definitions~\ref{multilinear-algebra:definition-tensor-type} and~\ref{multilinear-algebra:definition-contraction}), applied pointwise, take
+tensor fields to tensor fields; so do raising and lowering of indices with a Riemannian metric (Definition~\ref{multilinear-algebra:definition-raising-lowering}).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The vector fields $\partial_i$ form a frame of $TM$ over $U$ (Example~\ref{vector-bundles:example-bundles}(2)), and the $1$-forms $dx^j$, which are the dual frame, form a frame of
+$T^*M$. In the trivialisations of $T^r_sM$ given by Proposition~\ref{vector-bundles:proposition-operations}, built from these frames, the displayed tensor fields are the constant
+basis vectors of Proposition~\ref{multilinear-algebra:proposition-tensors-multilinear}(3); so they form a frame (Proposition~\ref{vector-bundles:proposition-sheaf-of-sections}), and a section is
+smooth if and only if its coefficients in this frame are smooth.
+
+(2) By the chain rule, $\partial/\partial y^j = \sum_i(\partial x^i/\partial y^j)\,\partial/\partial x^i$ at every point of $U$
+(Example~\ref{vector-bundles:example-cocycles}(1)). So at each point the basis $(\partial/\partial y^j)$ of $T_pM$ is obtained from $(\partial/\partial x^i)$ by the matrix $P$ with entries
+$\partial x^i/\partial y^j$, whose inverse is the Jacobian matrix $Q$ of the inverse transition map. Apply Proposition~\ref{multilinear-algebra:proposition-tensor-transformation}(2).
+
+(3) By (1), the components of the result are polynomials in the components of the arguments: for the tensor product, products of components; for a contraction, sums of components
+(Proposition~\ref{multilinear-algebra:proposition-contraction}(1)); for raising and lowering, sums of products with the smooth functions $g_{ij}$ and $g^{ij}$, the latter smooth because they are
+the entries of the inverse of an invertible matrix of smooth functions (Cramer's rule). So the results are smooth.
+\end{proof}
+
+In the older literature, and in physics, Proposition~\ref{vector-bundles:proposition-tensor-fields-coordinates}(2) is the definition: a tensor field is a family of functions, one for each
+chart, that transforms with the Jacobian matrices as in the proposition. Proposition~\ref{multilinear-algebra:proposition-tensor-transformation}(3), applied at every point, shows that this is the same
+notion.
+
+\begin{example}\label{vector-bundles:example-metric-coordinates}
+A Riemannian metric is written in a chart as $g = \sum_{i,j}g_{ij}\,dx^i \otimes dx^j$, with $g_{ij} = g(\partial_i, \partial_j)$ a symmetric positive definite matrix of smooth functions. The
+Euclidean metric of $\RR^2$ is $dx \otimes dx + dy \otimes dy$. In polar coordinates $x = \rho\cos\theta$, $y = \rho\sin\theta$ on $\{\rho > 0, 0 < \theta < 2\pi\}$, the chain rule gives
+$\partial_\rho = \cos\theta\,\partial_x + \sin\theta\,\partial_y$ and $\partial_\theta = -\rho\sin\theta\,\partial_x + \rho\cos\theta\,\partial_y$, so
+$g(\partial_\rho, \partial_\rho) = 1$, $g(\partial_\rho, \partial_\theta) = 0$ and $g(\partial_\theta, \partial_\theta) = \rho^2$:
+\[
+g = d\rho \otimes d\rho + \rho^2\,d\theta \otimes d\theta .
+\]
+This is the transformation law $g^{\prime} = P^TgP$ of Example~\ref{multilinear-algebra:example-tensor-transformation}(2), with $g$ the identity matrix and $P$ the Jacobian matrix of
+$(\rho, \theta) \mapsto (x, y)$.
 \end{example}
 
 \begin{proposition}\label{vector-bundles:proposition-constant-rank}

@@ -9,6 +9,7 @@
     python make.py all      tags, check, pdf and html
     python make.py serve    serve the website at http://localhost:8000
     python make.py pages    commit output/html to the gh-pages branch (GitHub Pages)
+    python make.py lean     check the Mathlib names in web/mathlib.txt online
 """
 
 import argparse
@@ -21,6 +22,7 @@ import shutil
 import subprocess
 import sys
 import unicodedata
+import urllib.parse
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -29,6 +31,8 @@ BOOK = ROOT / "book.tex"
 CHAPTER_DIR = ROOT / "chapters"
 BIBLIOGRAPHY = ROOT / "hodge-project.bib"
 TAGS_FILE = ROOT / "tags" / "tags"
+MATHLIB_FILE = ROOT / "web" / "mathlib.txt"
+MATHLIB_DOCS = "https://leanprover-community.github.io/mathlib4_docs/"
 OUTPUT = ROOT / "output"
 PDF_DIR = OUTPUT / "pdf"
 HTML_DIR = OUTPUT / "html"
@@ -384,6 +388,53 @@ def check_tags(project):
                 "(if the label was renamed, edit tags/tags; never reuse or delete a tag)")
 
 
+# ---------------------------------------------------------------------------
+# Links to Mathlib
+# ---------------------------------------------------------------------------
+
+LEAN_NAME_RE = re.compile(r"[^\s#]+")
+
+
+def read_mathlib(project=None):
+    """Return the dict label -> Mathlib declaration of web/mathlib.txt."""
+    links = {}
+    if not MATHLIB_FILE.exists():
+        return links
+    for lineno, raw in enumerate(MATHLIB_FILE.read_text(encoding="utf-8").splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = line.split()
+        where = f"web/mathlib.txt:{lineno}"
+        if len(parts) != 2 or not LEAN_NAME_RE.fullmatch(parts[1]):
+            if project:
+                project.errors.append(f"{where}: expected '<label> <Mathlib declaration>'")
+            continue
+        label, name = parts
+        if project:
+            if label in links:
+                project.errors.append(f"{where}: label '{label}' is listed twice")
+            elif label not in project.labels:
+                project.errors.append(f"{where}: unknown label '{label}'")
+        links[label] = name
+    return links
+
+
+def command_lean(args):
+    """Check that every declaration in web/mathlib.txt exists in the current Mathlib."""
+    import urllib.request
+    links = read_mathlib()
+    url = MATHLIB_DOCS + "declarations/declaration-data.bmp"
+    print(f"lean: downloading the list of Mathlib declarations ({url})")
+    with urllib.request.urlopen(url) as response:
+        declarations = json.loads(response.read().decode("utf-8"))["declarations"]
+    missing = [(label, name) for label, name in links.items() if name not in declarations]
+    for label, name in missing:
+        print(f"lean: {name} (for {label}) is not in Mathlib any more")
+    print(f"lean: {len(links) - len(missing)} of {len(links)} declarations found")
+    return not missing
+
+
 def tag_to_int(tag):
     return int(tag, 36)
 
@@ -434,6 +485,7 @@ def report(project):
 def command_check(args):
     project = scan_project()
     check_tags(project)
+    read_mathlib(project)
     return report(project)
 
 
@@ -467,6 +519,7 @@ def prepare(args):
     if not project.errors:
         assign_tags(project)
     check_tags(project)
+    read_mathlib(project)
     ok = report(project)
     if not ok and not args.force:
         print("build stopped because of errors (use --force to build anyway)")
@@ -608,8 +661,15 @@ def graph_badge(tag):
             f'8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>')
 
 
+def lean_badge(name):
+    url = MATHLIB_DOCS + "find/?pattern=" + urllib.parse.quote(name, safe="") + "#doc"
+    return (f'<a class="lean-link" href="{html.escape(url)}" title="Formalised in Lean&#39;s Mathlib, possibly in a '
+            f'different generality: {html.escape(name)}">Lean</a>')
+
+
 def postprocess_html(project):
     label_tag = {label: tag for tag, label in read_tags()}
+    mathlib = read_mathlib()
     chapters = {c.slug: c for c in project.chapters}
     locations = {}
     search_entries = []
@@ -624,7 +684,8 @@ def postprocess_html(project):
             tag = label_tag.get(m.group(2))
             if not tag:
                 return m.group(0)
-            return m.group(0) + tag_badge(tag) + (graph_badge(tag) if m.group(2) in in_graph else "")
+            return (m.group(0) + tag_badge(tag) + (graph_badge(tag) if m.group(2) in in_graph else "")
+                    + (lean_badge(mathlib[m.group(2)]) if m.group(2) in mathlib else ""))
 
         def heading(m):
             level, label, content = m.group(1), m.group(2), m.group(3)
@@ -679,6 +740,11 @@ def postprocess_html(project):
     print(f"html: search index with {count} entries")
     edges = write_dependency_data(project, search_entries, label_tag, uses)
     print(f"html: dependency graph with {edges} edges")
+    sections = sorted(p.name for p in HTML_DIR.glob("*-section-*.html")
+                      if not p.name.startswith("introduction-")
+                      and not p.name.endswith(("-section-introduction.html", "-section-exercises.html")))
+    (HTML_DIR / "sections.json").write_text(json.dumps(sections), encoding="utf-8")
+    print(f"html: {len(sections)} sections for the random section button")
     version_assets()
 
 
@@ -860,7 +926,7 @@ GRAPH_PAGE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dependencies - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -940,7 +1006,7 @@ SEARCH_PAGE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Search - The Hodge Project</title>
 <script>
-  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -1094,6 +1160,7 @@ def main():
         ("all", command_all, "build the PDF and the website"),
         ("serve", command_serve, "serve the website locally"),
         ("pages", command_pages, "commit the built website to the gh-pages branch"),
+        ("lean", command_lean, "check the Mathlib names in web/mathlib.txt online"),
     ]:
         p = sub.add_parser(name, help=help_text)
         p.set_defaults(func=func)

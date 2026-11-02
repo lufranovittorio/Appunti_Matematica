@@ -6,11 +6,15 @@
 To solve $\Delta u = f$ one first finds a weak solution in a space of distributions and then proves that it is smooth. This chapter
 sets up the two tools that make this work: the Fourier transform, which turns differentiation into multiplication, and the Sobolev
 spaces $H^s$, in which the elliptic estimate (Theorem~\ref{distributions:theorem-elliptic-estimate}) and Rellich's compactness
-theorem (Theorem~\ref{distributions:theorem-rellich}) hold. On a compact manifold these local statements are patched together with
+theorem (Theorem~\ref{distributions:theorem-rellich}) hold. The Poincar\'e inequalities, which bound a function by its gradient once the constants are
+excluded, give the simplest existence theorem, for the Dirichlet problem (Subsection~\ref{distributions:subsection-poincare}). On a compact manifold these local statements are patched together with
 partitions of unity to prove the Hodge theorem (Chapter~\ref{hodge-theorem}). References: \cite{hormander-pdo1},
 \cite[Chapters 6--7]{rudin-fa}, \cite{brezis-functional}, \cite[Chapter 6]{warner-foundations}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{functional-analysis} (Functional Analysis).
+
+\noindent\textbf{On the way to the Hodge conjecture.} The direct route needs Sobolev spaces (Section~\ref{distributions:section-sobolev}; its subsection on Poincar\'e inequalities is optional), and through them distributions and the Fourier transform; Section~\ref{distributions:section-elliptic} is the local
+model of the elliptic estimates of Chapter~\ref{elliptic-operators}.
 
 Multi-index notation is as in Theorem~\ref{real-analysis:theorem-taylor-several}; we write $D^\alpha = \partial^\alpha$ and $\langle \xi \rangle = (1 + |\xi|^2)^{1/2}$.
 
@@ -240,6 +244,163 @@ Rellich's theorem fails on $\RR^n$: translates $u_j(x) = u(x - j)$ of a fixed no
 in disjoint sets. Compactness holds for the inclusions $H^s_K \to H^t$ of the subspaces of distributions supported in a fixed compact $K$, which is the form used on manifolds.
 \end{counterexample}
 
+\subsection{Poincar\'e inequalities}\label{distributions:subsection-poincare}
+
+A function is not controlled by its derivative alone: adding a constant changes the function and not its derivative. The \emph{Poincar\'e inequalities} say that, once the constants are excluded,
+the $L^2$ norm of a function is bounded by the $L^2$ norm of its gradient. There are two ways to exclude the constants: by asking that the function vanish on the boundary, or by asking that its mean
+be zero. The inequalities are used constantly in analysis. They make $\int|\nabla u|^2$, the \emph{Dirichlet energy}, a norm, which is the starting point of the variational solution of
+the Dirichlet problem (Proposition~\ref{distributions:proposition-dirichlet-weak} below). The best constants are eigenvalues of the Laplacian, a spectral gap that reappears in Hodge theory. We start
+with one variable, where the best constants come from Fourier series.
+
+Below, a continuous function $f \colon [a, b] \to \CC$ is \emph{piecewise $C^1$} if there is a subdivision $a = t_0 < t_1 < \cdots < t_m = b$ such that $f$ is $C^1$ on each $[t_{i-1}, t_i]$, with one-sided
+derivatives at the ends; $f^{\prime}$ is then defined except at the $t_i$, which does not affect its integrals. A function on $\RR$ is piecewise $C^1$ if it is so on every bounded interval.
+
+\begin{proposition}[Wirtinger's inequality]\label{distributions:proposition-wirtinger}
+Let $L > 0$ and let $f \colon \RR \to \CC$ be continuous, piecewise $C^1$ and $L$-periodic, with $\int_0^Lf = 0$. Then
+\[
+\int_0^L|f|^2 \leq \Bigl(\frac{L}{2\pi}\Bigr)^2\int_0^L|f^{\prime}|^2,
+\]
+with equality if and only if $f(x) = ae^{2\pi ix/L} + be^{-2\pi ix/L}$ for constants $a, b \in \CC$.
+\end{proposition}
+
+\begin{proof}
+First let $L = 1$. Write $\hat f(n) = \int_0^1f(t)e^{-2\pi int}\,dt$. Integrating by parts on each interval of $C^1$-ness, the boundary terms cancel, because $fe^{-2\pi int}$ is continuous and
+$1$-periodic; so
+\[
+\widehat{f^{\prime}}(n) = \int_0^1f^{\prime}(t)e^{-2\pi int}\,dt = 2\pi in\int_0^1f(t)e^{-2\pi int}\,dt = 2\pi in\,\hat f(n).
+\]
+Also $\hat f(0) = \int_0^1f = 0$. By Parseval's identity (Example~\ref{functional-analysis:example-fourier}), applied to $f$ and to the bounded function $f^{\prime}$,
+\[
+\int_0^1|f^{\prime}|^2 = \sum_{n \in \ZZ}4\pi^2n^2|\hat f(n)|^2 \geq 4\pi^2\sum_{n \neq 0}|\hat f(n)|^2 = 4\pi^2\int_0^1|f|^2,
+\]
+with equality if and only if $\hat f(n) = 0$ for all $|n| \geq 2$, that is, $f = ae^{2\pi it} + be^{-2\pi it}$ (a function in $L^2$ is determined by its Fourier coefficients). For general $L$ apply
+this to $g(t) = f(Lt)$: then $\int_0^L|f|^2 = L\int_0^1|g|^2$, and $g^{\prime}(t) = Lf^{\prime}(Lt)$ gives $\int_0^L|f^{\prime}|^2 = L^{-1}\int_0^1|g^{\prime}|^2$. So
+$\int_0^L|f|^2 = L\int_0^1|g|^2 \leq \frac{L}{4\pi^2}\int_0^1|g^{\prime}|^2 = \frac{L^2}{4\pi^2}\int_0^L|f^{\prime}|^2$.
+\end{proof}
+
+The extremal functions are the trigonometric functions of the longest period allowed: the inequality says that among periodic functions with mean zero, the slowest oscillation is the cheapest one
+in terms of $\int|f^{\prime}|^2$. On an interval the two boundary conditions are handled by extending the function to a periodic one.
+
+\begin{corollary}\label{distributions:corollary-poincare-interval}
+Let $f \colon [0, L] \to \CC$ be continuous and piecewise $C^1$.
+\begin{enumerate}
+\item (\emph{Dirichlet condition.}) If $f(0) = f(L) = 0$, then $\int_0^L|f|^2 \leq (L/\pi)^2\int_0^L|f^{\prime}|^2$, with equality if and only if $f(x) = c\sin(\pi x/L)$.
+\item (\emph{Mean zero.}) With $\bar f = \frac1L\int_0^Lf$, $\int_0^L|f - \bar f|^2 \leq (L/\pi)^2\int_0^L|f^{\prime}|^2$, with equality if and only if $f(x) = a + b\cos(\pi x/L)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) Let $F$ be the odd extension of $f$ to $[-L, L]$, $F(-x) = -F(x)$, continued $2L$-periodically. Since $f(0) = f(L) = 0$, $F$ is continuous, and it is piecewise $C^1$. Its mean over a
+period is $0$ because $F$ is odd, and $\int_{-L}^L|F|^2 = 2\int_0^L|f|^2$, $\int_{-L}^L|F^{\prime}|^2 = 2\int_0^L|f^{\prime}|^2$. Proposition~\ref{distributions:proposition-wirtinger} with period $2L$ gives
+the inequality with constant $(2L/2\pi)^2 = (L/\pi)^2$. Equality holds if and only if $F(x) = ae^{\pi ix/L} + be^{-\pi ix/L}$; this is odd exactly when $b = -a$, that is, $F(x) = 2ia\sin(\pi x/L)$.
+
+(2) Let $F$ be the even extension, $F(x) = f(|x|)$ on $[-L, L]$, continued $2L$-periodically; it is continuous because $F(-L) = F(L)$, and piecewise $C^1$. Apply
+Proposition~\ref{distributions:proposition-wirtinger} to $F - \bar f$, whose mean over a period is $\frac{1}{2L}\cdot 2\int_0^Lf - \bar f = 0$. The integrals double as in (1), and the extremal functions
+$ae^{\pi ix/L} + be^{-\pi ix/L}$ are even exactly when $a = b$, giving $f - \bar f = 2a\cos(\pi x/L)$.
+\end{proof}
+
+The constant is the same in both cases, but the extremals differ: for the Dirichlet condition the best function is half a sine wave, which vanishes at both ends; for the mean zero condition it
+is half a cosine wave, which is free at the ends. In both cases the constant $(L/\pi)^2$ is the inverse of the smallest positive eigenvalue of $-d^2/dx^2$ on $[0, L]$ with the corresponding
+boundary condition: $-(\sin(\pi x/L))^{\prime\prime} = (\pi/L)^2\sin(\pi x/L)$, and similarly for the cosine. In higher dimensions the two versions are the following.
+
+\begin{theorem}[Poincar\'e inequality]\label{distributions:theorem-poincare-dirichlet}
+Let $\Omega \subseteq \RR^n$ be open and contained in a slab $\{x : a < x_1 < a + L\}$. Then for every $u \in C^1_c(\Omega)$,
+\[
+\int_\Omega|u|^2 \leq \Bigl(\frac{L}{\pi}\Bigr)^2\int_\Omega|\partial_1u|^2 \leq \Bigl(\frac{L}{\pi}\Bigr)^2\int_\Omega|\nabla u|^2,
+\]
+where $|\nabla u|^2 = \sum_j|\partial_ju|^2$.
+\end{theorem}
+
+\begin{proof}
+Extend $u$ by zero to $\RR^n$; it is $C^1$ with compact support in the open slab. For fixed $x^{\prime} = (x_2, \ldots, x_n)$ the function $f(t) = u(t, x^{\prime})$ is $C^1$ on $[a, a + L]$ and vanishes
+near both ends, so Corollary~\ref{distributions:corollary-poincare-interval}(1) (translated to $[a, a + L]$) gives $\int_a^{a+L}|u(t, x^{\prime})|^2\,dt \leq (L/\pi)^2\int_a^{a+L}|\partial_1u(t, x^{\prime})|^2\,dt$.
+Integrating over $x^{\prime} \in \RR^{n-1}$ and using Fubini's theorem (Theorem~\ref{measure-theory:theorem-fubini}) gives the first inequality; the second is $|\partial_1u|^2 \leq |\nabla u|^2$.
+\end{proof}
+
+Only the width of $\Omega$ in one direction matters: the inequality holds on an infinite strip. Some boundedness is needed, though.
+
+\begin{counterexample}\label{distributions:counterexample-poincare-unbounded}
+There is no Poincar\'e inequality $\int|u|^2 \leq C\int|\nabla u|^2$ for $u \in C^1_c(\RR^n)$. Fix $u \neq 0$ and put $u_R(x) = u(x/R)$. Substituting $x = Ry$,
+$\int|u_R|^2 = R^n\int|u|^2$ and $\int|\nabla u_R|^2 = R^{n-2}\int|\nabla u|^2$, so the ratio $\int|u_R|^2/\int|\nabla u_R|^2 = R^2\int|u|^2/\int|\nabla u|^2$ is unbounded as $R \to \infty$. Spreading a bump
+out over a large region makes it flat without making it small.
+\end{counterexample}
+
+\begin{theorem}[Poincar\'e--Wirtinger inequality on a cube]\label{distributions:theorem-poincare-cube}
+Let $Q = (0, L)^n$ and $u \in C^1(\bar Q)$, and let $u_Q = L^{-n}\int_Qu$ be its mean. Then
+\[
+\int_Q|u - u_Q|^2 \leq \Bigl(\frac{L}{\pi}\Bigr)^2\int_Q|\nabla u|^2,
+\]
+and equality holds for $u(x) = \cos(\pi x_1/L)$.
+\end{theorem}
+
+\begin{proof}
+We induct on $n$; the case $n = 1$ is Corollary~\ref{distributions:corollary-poincare-interval}(2). Let $n \geq 2$, write $x = (y, t)$ with $y \in Q^{\prime} = (0, L)^{n-1}$ and $t \in (0, L)$, and let
+\[
+m(t) = L^{1-n}\int_{Q^{\prime}}u(y, t)\,dy
+\]
+be the mean of $u$ on the slice at height $t$. For each $t$ the function $y \mapsto u(y, t) - m(t)$ has mean zero on $Q^{\prime}$, so it is orthogonal in $L^2(Q^{\prime})$ to the constant $m(t) - u_Q$, and
+\[
+\int_{Q^{\prime}}|u(y, t) - u_Q|^2\,dy = \int_{Q^{\prime}}|u(y, t) - m(t)|^2\,dy + L^{n-1}|m(t) - u_Q|^2 .
+\]
+Integrate over $t$. By the induction hypothesis on each slice, the first term contributes at most $(L/\pi)^2\int_Q\sum_{j < n}|\partial_ju|^2$. For the second, $m$ is $C^1$ on $[0, L]$ with
+$m^{\prime}(t) = L^{1-n}\int_{Q^{\prime}}\partial_tu(y, t)\,dy$, by differentiation under the integral sign (dominated convergence, Theorem~\ref{measure-theory:theorem-dominated-convergence}, applied to difference
+quotients, which are bounded by $\sup|\partial_tu|$ by the mean value theorem). Its mean over $(0, L)$ is $u_Q$, so by Corollary~\ref{distributions:corollary-poincare-interval}(2) and the
+Cauchy--Schwarz inequality $|m^{\prime}(t)|^2 \leq L^{1-n}\int_{Q^{\prime}}|\partial_tu(y, t)|^2\,dy$,
+\[
+L^{n-1}\int_0^L|m(t) - u_Q|^2\,dt \leq L^{n-1}\Bigl(\frac{L}{\pi}\Bigr)^2\int_0^L|m^{\prime}(t)|^2\,dt \leq \Bigl(\frac{L}{\pi}\Bigr)^2\int_Q|\partial_tu|^2 .
+\]
+Adding the two contributions gives the inequality. For $u = \cos(\pi x_1/L)$ the mean is $0$, $\int_Q|u|^2 = L^n/2$ and $\int_Q|\nabla u|^2 = (\pi/L)^2L^n/2$.
+\end{proof}
+
+The argument shows a general principle, the \emph{tensorisation} of Poincar\'e inequalities: on a product, the variance splits into the variance within the slices and the variance of the slice
+means, and each is controlled by derivatives in its own directions. So the constant for the cube equals the constant for the interval, independently of the dimension.
+
+\begin{counterexample}\label{distributions:counterexample-poincare-disconnected}
+The mean zero version fails on disconnected sets: on the union $\Omega$ of two disjoint open cubes of the same size, the function equal to $1$ on one and $-1$ on the other has mean zero and gradient
+zero. On a connected domain made of two cubes joined by a thin tube, the inequality holds, but the best constant becomes large as the tube gets thinner: a function close to $\pm1$ on the two
+cubes, changing sign along the tube, has small Dirichlet energy. The best constant of the Poincar\'e--Wirtinger inequality measures how well connected a domain is.
+\end{counterexample}
+
+\begin{remark}\label{distributions:remark-poincare-general}
+For a bounded connected open set $\Omega$ with Lipschitz boundary, $\int_\Omega|u - u_\Omega|^2 \leq C_\Omega\int_\Omega|\nabla u|^2$ for all $u$ in the Sobolev space of $L^2$ functions with $L^2$
+gradient; the proof is by contradiction, using a compactness theorem of Rellich type for such domains \cite[Chapter 9]{brezis-functional}, \cite{evans-gariepy}. The best constants are $1/\lambda$,
+where $\lambda$ is the smallest positive eigenvalue of $-\sum_j\partial_j^2$ with the corresponding boundary condition (zero boundary values, respectively zero normal derivative). For convex domains of
+diameter $D$, Payne and Weinberger proved the sharp bound $C_\Omega \leq (D/\pi)^2$ \cite{payne-weinberger-1960}, independent of the dimension, and the interval of length $D$ shows that it cannot be
+improved. On a compact connected Riemannian manifold the same inequality holds with $1/\lambda_1$, the inverse of the first nonzero eigenvalue of the Laplacian (Chapter~\ref{hodge-theorem}). The
+Poincar\'e inequality also has $L^p$ versions, $\|u - u_\Omega\|_p \leq C\|\nabla u\|_p$, and it is related to the Sobolev inequality (Theorem~\ref{distributions:theorem-gns}), which improves the
+exponent on the left at the price of a gradient on all of $\RR^n$.
+\end{remark}
+
+The Dirichlet version gives the simplest existence theorem for an elliptic equation. Let $\Omega \subseteq \RR^n$ be open. We identify functions on $\Omega$ extended by zero with functions on
+$\RR^n$, and let $H^1_0(\Omega)$ be the closure of $C^\infty_c(\Omega)$ in $H^1(\RR^n)$, with the norm $\|u\|_{H^1}^2 = \|u\|_2^2 + \|\nabla u\|_2^2$
+(Proposition~\ref{distributions:proposition-sobolev-basic}). Its elements are the $L^2$ functions with $L^2$ distributional derivatives that ``vanish on $\partial\Omega$'' in a weak sense.
+
+\begin{proposition}[Dirichlet principle]\label{distributions:proposition-dirichlet-weak}
+Let $\Omega$ be contained in a slab of width $L$, as in Theorem~\ref{distributions:theorem-poincare-dirichlet}. Then:
+\begin{enumerate}
+\item $\int_\Omega|u|^2 \leq (L/\pi)^2\int_\Omega|\nabla u|^2$ for every $u \in H^1_0(\Omega)$, and $\langle u, v\rangle_\nabla = \int_\Omega\nabla u \cdot \overline{\nabla v}$ is an inner product on $H^1_0(\Omega)$ whose norm
+is equivalent to the $H^1$ norm.
+\item For every $f \in L^2(\Omega)$ there is a unique $u \in H^1_0(\Omega)$ with $\int_\Omega\nabla u \cdot \overline{\nabla v} = \int_\Omega f\bar v$ for all $v \in H^1_0(\Omega)$. In particular
+$-\sum_j\partial_j^2u = f$ as distributions on $\Omega$: $u$ is a \emph{weak solution} of the Dirichlet problem $-\sum_j\partial_j^2u = f$ in $\Omega$, $u = 0$ on $\partial\Omega$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Both sides of the inequality are continuous for the $H^1$ norm, and it holds on the dense subspace $C^\infty_c(\Omega)$ by Theorem~\ref{distributions:theorem-poincare-dirichlet}; so it holds on
+$H^1_0(\Omega)$. Hence $\|\nabla u\|_2^2 \leq \|u\|_{H^1}^2 \leq (1 + (L/\pi)^2)\|\nabla u\|_2^2$, so $\langle -, - \rangle_\nabla$ is positive definite and its norm is equivalent to the $H^1$ norm. In
+particular $H^1_0(\Omega)$, a closed subspace of the Hilbert space $H^1(\RR^n)$, is a Hilbert space for $\langle -, - \rangle_\nabla$.
+
+(2) The functional $\Lambda(v) = \int_\Omega v\bar f$ is linear and bounded on $(H^1_0(\Omega), \langle -, - \rangle_\nabla)$: $|\Lambda(v)| \leq \|f\|_2\|v\|_2 \leq \|f\|_2(L/\pi)\|\nabla v\|_2$ by Cauchy--Schwarz
+and (1). By the Riesz representation theorem (Theorem~\ref{functional-analysis:theorem-riesz-representation}) there is a unique $u$ with $\Lambda(v) = \langle v, u\rangle_\nabla$ for all $v$; taking complex
+conjugates, this is the stated identity. For $v = \bar\varphi$ with $\varphi \in C^\infty_c(\Omega)$ it reads $\sum_j\int\partial_ju\,\partial_j\varphi = \int f\varphi$, and by the definition of distributional
+derivatives (Definition~\ref{distributions:definition-derivative}) the left hand side is $-\sum_j(\partial_j^2u)(\varphi)$.
+\end{proof}
+
+The solution is also the unique minimiser of the energy $E(v) = \frac12\int|\nabla v|^2 - \operatorname{Re}\int f\bar v$ on $H^1_0(\Omega)$ (Exercise~\ref{distributions:exercise-dirichlet-energy}). This is
+Dirichlet's principle, which Riemann used to construct harmonic and holomorphic functions; Weierstrass objected that a minimiser need not exist, and making the principle rigorous, which Hilbert
+began around 1900, was one of the origins of Sobolev spaces. Whether the weak solution is smooth, and takes its boundary values in the classical sense, is a question of regularity, for which the
+elliptic estimates of the next section are the basic tool.
+
 \section{Elliptic estimates}\label{distributions:section-elliptic}
 
 \begin{definition}\label{distributions:definition-elliptic-constant}
@@ -303,4 +464,36 @@ Using the Fourier transform, solve the heat equation $\partial_tu = -\Delta u$ o
 \begin{solution}
 $\hat u(k, t) = e^{-4\pi^2|k|^2t}\hat u_0(k)$ solves the equation coefficientwise, and for $t > 0$ the factors decay faster than any power of $\langle k\rangle$, so $u(t) \in H^r$ for all $r$ and
 Theorem~\ref{distributions:theorem-sobolev-embedding} applies.
+\end{solution}
+
+\begin{exercise}\label{distributions:exercise-poincare-elementary}
+Prove a Poincar\'e inequality without Fourier series: if $\Omega$ lies in the slab $\{a < x_1 < a + L\}$ and $u \in C^1_c(\Omega)$, then $\int_\Omega|u|^2 \leq \frac{L^2}{2}\int_\Omega|\partial_1u|^2$.
+Compare the constant with the optimal one, $(L/\pi)^2$.
+\end{exercise}
+
+\begin{solution}
+Extend $u$ by zero. For fixed $x^{\prime}$, $u(x_1, x^{\prime}) = \int_a^{x_1}\partial_1u(t, x^{\prime})\,dt$, so by Cauchy--Schwarz $|u(x_1, x^{\prime})|^2 \leq (x_1 - a)\int_a^{a+L}|\partial_1u(t, x^{\prime})|^2\,dt$.
+Integrating over $x_1 \in (a, a + L)$ gives the factor $\int_a^{a+L}(x_1 - a)\,dx_1 = L^2/2$, and then integrate over $x^{\prime}$. Since $\pi^2 \approx 9.87$, the elementary constant $L^2/2$ is about five times
+the optimal one.
+\end{solution}
+
+\begin{exercise}\label{distributions:exercise-dirichlet-energy}
+In the situation of Proposition~\ref{distributions:proposition-dirichlet-weak}(2), show that $E(v) = \frac12\int|\nabla v|^2 - \operatorname{Re}\int f\bar v$ satisfies
+$E(v) = \frac12\|v - u\|_\nabla^2 - \frac12\|u\|_\nabla^2$ for $v \in H^1_0(\Omega)$, so that $u$ is the unique minimiser of $E$.
+\end{exercise}
+
+\begin{solution}
+By the defining property of $u$, $\int f\bar v = \langle u, v\rangle_\nabla$. Hence $E(v) = \frac12\|v\|_\nabla^2 - \operatorname{Re}\langle u, v\rangle_\nabla$, while
+$\frac12\|v - u\|_\nabla^2 = \frac12\|v\|_\nabla^2 - \operatorname{Re}\langle u, v\rangle_\nabla + \frac12\|u\|_\nabla^2$. The minimum $-\frac12\|u\|_\nabla^2$ is attained exactly at $v = u$.
+\end{solution}
+
+\begin{exercise}\label{distributions:exercise-poincare-scaling}
+Let $\Omega \subseteq \RR^n$ be open, and suppose $\int_\Omega|u|^2 \leq C\int_\Omega|\nabla u|^2$ for all $u \in C^1_c(\Omega)$. Show that for $r > 0$ the same holds on $r\Omega$ with constant $r^2C$. Deduce
+that the Poincar\'e constant of a ball of radius $r$ is $c_nr^2$ for a constant $c_n$ depending only on $n$.
+\end{exercise}
+
+\begin{solution}
+For $u \in C^1_c(r\Omega)$ put $w(y) = u(ry)$, in $C^1_c(\Omega)$. Substituting $x = ry$, $\int_{r\Omega}|u|^2 = r^n\int_\Omega|w|^2$ and, since $\nabla w(y) = r(\nabla u)(ry)$,
+$\int_{r\Omega}|\nabla u|^2 = r^{n-2}\int_\Omega|\nabla w|^2$. So $\int_{r\Omega}|u|^2 \leq r^nC\int_\Omega|\nabla w|^2 = r^2C\int_{r\Omega}|\nabla u|^2$. Applying this to $r\Omega$ and $r^{-1}$ shows that the best constants
+satisfy $C(r\Omega) = r^2C(\Omega)$; take $\Omega$ the unit ball, whose best constant is finite by Theorem~\ref{distributions:theorem-poincare-dirichlet}, and the best constant is invariant under translations.
 \end{solution}

@@ -9,6 +9,10 @@ references in proofs).
 
 - Small results worth adding whenever they come up while reading: write them
   here with the chapter they belong to.
+- **Lean links** (started 2026-11-02, website only): `web/mathlib.txt` has
+  verified Mathlib names for `general-topology` and `measure-theory`. If the
+  user likes them, extend to the other chapters (only names checked in the
+  Mathlib documentation; run `python make.py lean`).
 - Badly rendered formula in 37.1: waiting for the user to say which one and on
   which device.
 - Thin chapters to expand: `sheaves`, `complex-analysis`,
@@ -86,9 +90,9 @@ measurable implies $g$ measurable). Name results after people correctly
   structures, $\omega^n$, area, Lagrangian submanifolds, zero section,
   Weinstein.
 - [x] `kahler`: Fubini--Study written out (Huybrechts 3.1.9).
-- To discuss: probability, number theory, numerical analysis, PDE; Lean
-  verification; bibliography options; automatic light/dark theme by hour;
-  random page; exercise game; general math site.
+- To discuss: probability, number theory, numerical analysis, PDE;
+  bibliography options; exercise game;
+  general math site.
 
 ## Done
 

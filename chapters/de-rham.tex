@@ -21,13 +21,18 @@ The chapter goes as follows.
 \item The Mayer--Vietoris sequence, with its connecting homomorphism made explicit, and the computation of the cohomology of spheres, punctured planes and projective spaces.
 \item The de Rham theorem, periods of $1$-forms, the K\"unneth formula, Poincar\'e duality, and the cohomology of compact Lie groups
 (Section~\ref{de-rham:section-de-rham-theorem}).
-\item Currents, the forms with distribution coefficients, which contain the submanifolds and are the natural home of cycle classes (Section~\ref{de-rham:section-currents}).
+\item Currents, the forms with distribution coefficients, which contain both forms and submanifolds: support, products with forms and push-forward, Stokes' theorem as $d[Z] = \pm[\partial Z]$, the
+angle form as a current with $d(\frac{1}{2\pi}T_\omega) = [0]$, the fact that currents compute de Rham cohomology, and a glimpse of positive currents and of geometric measure theory
+(Section~\ref{de-rham:section-currents}).
 \end{enumerate}
 References: \cite{bott-tu}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{differential-forms} (Differential Forms and Integration), Chapter~\ref{sheaf-cohomology}
 (Sheaf Cohomology), Chapter~\ref{poincare-duality} (Topological Manifolds and Poincar\'e Duality) and Chapter~\ref{distributions}
 (Distributions and Sobolev Spaces).
+
+\noindent\textbf{On the way to the Hodge conjecture.} The whole chapter is needed. Currents (Section~\ref{de-rham:section-currents}) give the integration currents of subvarieties, used for the cycle class map; the first two subsections and
+Theorem~\ref{de-rham:theorem-currents} are what is needed, and the remarks at the end preview the Poincar\'e--Lelong formula behind the Lefschetz $(1,1)$ theorem.
 
 \section{The de Rham complex}\label{de-rham:section-complex}
 
@@ -348,20 +353,214 @@ $\mathrm{SU}(2) \cong S^3$.
 
 \section{Currents}\label{de-rham:section-currents}
 
+A closed $k$-form $\eta$ on a compact oriented $n$-manifold $M$ and a compact oriented submanifold $Z$ of dimension $n - k$ both give linear functionals on the $(n-k)$-forms:
+\[
+\varphi \longmapsto \int_M\eta \wedge \varphi \qquad \text{and} \qquad \varphi \longmapsto \int_Z\varphi .
+\]
+Poincar\'e duality says that every functional of the second kind agrees, on closed forms, with one of the first kind. It is natural to look for a single space that contains both kinds of objects,
+with an exterior derivative extending $d$ on forms. Distributions do this for functions (Chapter~\ref{distributions}): they contain the locally integrable functions and also the Dirac
+distributions, which are ``functions concentrated at a point''. \emph{Currents} are the analogous objects for differential forms, introduced by de Rham \cite{de-rham-book}. A current is a
+form whose coefficients are distributions; the current of a submanifold is a form concentrated on it. In this section $M$ is an oriented $n$-manifold, and forms and currents are real.
+
+\subsection{Definition and first examples}\label{de-rham:subsection-currents-definition}
+
+To define currents we need a notion of convergence of compactly supported forms. We say that $\varphi_j \to \varphi$ in $\Omega^m_c(M)$ if all $\varphi_j$ have support in one fixed compact
+set $K \subseteq M$ and, in every chart, the coefficients of $\varphi_j$ converge to those of $\varphi$ uniformly on compact subsets of the chart domain, together with all their partial
+derivatives. For $M$ an open subset of $\RR^n$ this is the convergence of test functions of Definition~\ref{distributions:definition-distribution}, applied to each coefficient. If
+$\varphi_j \to \varphi$, then $d\varphi_j \to d\varphi$, because the coefficients of $d\varphi$ are sums of partial derivatives of those of $\varphi$.
+
 \begin{definition}\label{de-rham:definition-current}
-Let $M$ be an oriented $n$-manifold. A \emph{$k$-current} is a linear functional $T$ on $\Omega^{n-k}_c(M)$ that is continuous in the sense of distributions: $T(\varphi_j) \to 0$ whenever the coefficients of
-$\varphi_j$, in any chart, have supports in a fixed compact set and converge to $0$ together with all derivatives. Currents form a space $\mathcal{D}'_k(M)$, and $dT$ is defined by
-$(dT)(\varphi) = (-1)^{k+1}T(d\varphi)$, so that $d \circ d = 0$.
+A \emph{current of degree $k$}, or \emph{$k$-current}, on $M$ is a linear map $T \colon \Omega^{n-k}_c(M) \to \RR$ that is continuous in the sense that $T(\varphi_j) \to T(\varphi)$ whenever
+$\varphi_j \to \varphi$ in $\Omega^{n-k}_c(M)$. The $k$-currents form a vector space $\mathcal{D}^{\prime k}(M)$. The \emph{exterior derivative} of $T \in \mathcal{D}^{\prime k}(M)$ is the
+$(k+1)$-current
+\[
+(dT)(\varphi) = (-1)^{k+1}T(d\varphi), \qquad \varphi \in \Omega^{n-k-1}_c(M).
+\]
+A current $T$ is \emph{closed} if $dT = 0$ and \emph{exact} if $T = dS$ for a current $S$.
 \end{definition}
+
+The functional $dT$ is continuous because $d$ preserves convergence, and $d(dT) = \pm T \circ d \circ d = 0$. So the currents form a complex
+$\mathcal{D}^{\prime 0}(M) \to \mathcal{D}^{\prime 1}(M) \to \cdots \to \mathcal{D}^{\prime n}(M)$, just like the forms. A $k$-current is also said to have \emph{dimension} $n - k$, the degree of the forms
+it is evaluated on; geometric measure theory usually indexes currents by their dimension. The sign in the definition of $dT$ is the one that makes $d$ on currents extend $d$ on forms, as
+the first example shows.
 
 \begin{example}\label{de-rham:example-currents}
 \begin{enumerate}
-\item A locally integrable $k$-form $\eta$ defines a current $T_\eta(\varphi) = \int_M\eta \wedge \varphi$, and $dT_\eta = T_{d\eta}$ for smooth $\eta$ by Stokes' theorem; so currents generalise forms in the
-same way as distributions generalise functions (Chapter~\ref{distributions}).
-\item A compact oriented $k$-dimensional submanifold $Z \subseteq M$ defines the \emph{current of integration} $[Z](\varphi) = \int_Z\varphi$ for $\varphi \in \Omega^k_c(M)$. Stokes' theorem gives $d[Z] = 0$ when
-$\partial Z = \emptyset$, so $[Z]$ has a cohomology class.
+\item (\emph{Forms.}) A $k$-form $\eta$ with locally integrable coefficients defines the $k$-current $T_\eta(\varphi) = \int_M\eta \wedge \varphi$. If $\eta$ is smooth, then $dT_\eta = T_{d\eta}$:
+for $\varphi \in \Omega^{n-k-1}_c(M)$, Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}) applied to $d(\eta \wedge \varphi) = d\eta \wedge \varphi + (-1)^k\eta \wedge d\varphi$ gives
+$\int_M\eta \wedge d\varphi = (-1)^{k+1}\int_Md\eta \wedge \varphi$, so $(dT_\eta)(\varphi) = (-1)^{k+1}\int_M\eta \wedge d\varphi = \int_Md\eta \wedge \varphi$. By
+Example~\ref{distributions:example-distributions}(1), applied to the coefficients in charts, $T_\eta = 0$ only if $\eta = 0$ almost everywhere; so we may regard forms as currents.
+\item (\emph{Submanifolds.}) Let $Z \subseteq M$ be an oriented submanifold of dimension $p$ which is a closed subset of $M$, for instance a compact one, and $i \colon Z \to M$ the inclusion. For
+$\varphi \in \Omega^p_c(M)$ the form $i^*\varphi$ has compact support on $Z$, and the \emph{current of integration}
+\[
+[Z](\varphi) = \int_Zi^*\varphi = \int_Z\varphi
+\]
+is a current of degree $n - p$. It is continuous because $\int_Z$ of a form supported in a fixed compact set is bounded by a constant times the supremum of its coefficients. If
+$\partial Z = \emptyset$, Stokes' theorem on $Z$ gives $[Z](d\varphi) = 0$, so $[Z]$ is closed.
+\item (\emph{Points.}) A point $p \in M$, oriented by the sign $+1$, is a compact submanifold of dimension $0$, and $[p](f) = f(p)$ for $f \in \Omega^0_c(M)$. This $n$-current is the Dirac distribution
+$\delta_p$ in the guise of a current; it is not of the form $T_\eta$ (Exercise~\ref{de-rham:exercise-dirac-current}).
+\item (\emph{Neither.}) On $\RR$ the $0$-current $T(g\,dx) = g^{\prime}(0)$ involves a derivative of the form it is evaluated on, so it is neither a form nor the current of a submanifold. In
+terms of distributions it is $-\delta_0^{\prime}$ (Example~\ref{distributions:example-heaviside}).
 \end{enumerate}
 \end{example}
+
+The first example explains the slogan ``currents are forms with distribution coefficients''. On an open subset of $\RR^n$ it can be made precise. For an increasing multi-index
+$I = (i_1 < \cdots < i_k)$ let $I^c$ be the increasing multi-index of the complementary indices, and define the sign $\varepsilon_I = \pm1$ by
+$dx^I \wedge dx^{I^c} = \varepsilon_I\,dx^1 \wedge \cdots \wedge dx^n$.
+
+\begin{proposition}\label{de-rham:proposition-currents-local}
+Let $U \subseteq \RR^n$ be open, with the standard orientation. For a $k$-current $T$ on $U$ and each increasing multi-index $I$ of length $k$, the map
+$T_I(f) = \varepsilon_I\,T(f\,dx^{I^c})$ is a real-valued distribution on $U$, and
+\[
+T(\varphi) = \sum_{|I| = k}\varepsilon_I\,T_I(\varphi_{I^c}) \qquad \text{for } \varphi = \sum_{|J| = n-k}\varphi_J\,dx^J \in \Omega^{n-k}_c(U).
+\]
+Conversely, every family $(T_I)_{|I| = k}$ of real distributions on $U$ arises in this way from exactly one $k$-current. If $T = T_\eta$ with $\eta = \sum_I\eta_I\,dx^I$, then $T_I = T_{\eta_I}$.
+\end{proposition}
+
+\begin{proof}
+A sequence $f_j \to f$ in $\mathcal{D}(U)$ gives $f_j\,dx^{I^c} \to f\,dx^{I^c}$ in $\Omega^{n-k}_c(U)$, so $T_I$ is continuous. Every increasing $J$ of length $n - k$ is $I^c$ for exactly one $I$
+of length $k$, so by linearity $T(\varphi) = \sum_IT(\varphi_{I^c}\,dx^{I^c}) = \sum_I\varepsilon_IT_I(\varphi_{I^c})$, using $\varepsilon_I^2 = 1$. Conversely, given distributions $T_I$, the right hand side
+of the displayed formula defines a linear map on $\Omega^{n-k}_c(U)$; it is continuous, because $\varphi_j \to \varphi$ in $\Omega^{n-k}_c(U)$ means exactly that every coefficient converges in
+$\mathcal{D}(U)$, and its components are the given $T_I$. Uniqueness is the displayed formula. Finally, $\eta \wedge f\,dx^{I^c} = \eta_If\,dx^I \wedge dx^{I^c} = \varepsilon_I\eta_If\,dx^1 \wedge \cdots \wedge dx^n$,
+because $dx^K \wedge dx^{I^c} = 0$ for $K \neq I$; so $T_I(f) = \varepsilon_I^2\int_U\eta_If = T_{\eta_I}(f)$.
+\end{proof}
+
+So on $U$ we may write a $k$-current as $T = \sum_IT_I\,dx^I$ with distribution coefficients. For instance the $n$-current $[p]$ is $\delta_p\,dx^1 \wedge \cdots \wedge dx^n$, and the
+current of the oriented line $Z = \RR \times \{0\} \subseteq \RR^2$, oriented by $dx$, is $[Z](g\,dx + h\,dy) = \int_\RR g(t, 0)\,dt$. Its component $T_{(1)}(f) = [Z](f\,dy)$ vanishes, as $dy$ restricts to zero on $Z$, and
+$T_{(2)}(f) = \varepsilon_{(2)}[Z](f\,dx) = -\int_\RR f(t, 0)\,dt$, as $dy \wedge dx = -dx \wedge dy$. So $[Z] = -\delta_{\{y = 0\}}\,dy$, where $\delta_{\{y = 0\}}(f) = \int_\RR f(t, 0)\,dt$ is the
+distribution ``$\delta_0(y)$'' concentrated on the line.
+
+\subsection{Support and operations}\label{de-rham:subsection-currents-operations}
+
+If $V \subseteq M$ is open, a form in $\Omega_c(V)$ extended by zero is a form in $\Omega_c(M)$, and convergence in $\Omega_c(V)$ implies convergence in $\Omega_c(M)$. So a current $T$ on $M$
+restricts to a current $T|_V$ on $V$. We say that $T$ \emph{vanishes on} $V$ if $T|_V = 0$.
+
+\begin{lemma}\label{de-rham:lemma-currents-local}
+If a current $T$ on $M$ vanishes on each open set of a family $(V_i)_{i \in I}$, then it vanishes on $V = \bigcup_iV_i$.
+\end{lemma}
+
+\begin{proof}
+Let $\varphi \in \Omega_c(V)$. Choose a smooth partition of unity $(\psi_i)$ on $V$ subordinate to the cover $(V_i)$ (Theorem~\ref{smooth-manifolds:theorem-partitions-of-unity}). Since the supports are
+locally finite and $\operatorname{supp}\varphi$ is compact, only finitely many $\psi_i$ are nonzero on $\operatorname{supp}\varphi$, so $\varphi = \sum_i\psi_i\varphi$ is a finite sum. The support of
+$\psi_i\varphi$ is a closed subset of the compact set $\operatorname{supp}\varphi$ contained in $\operatorname{supp}\psi_i \subseteq V_i$, so $\psi_i\varphi \in \Omega_c(V_i)$ and $T(\psi_i\varphi) = 0$. Hence
+$T(\varphi) = 0$.
+\end{proof}
+
+\begin{definition}\label{de-rham:definition-current-support}
+The \emph{support} $\operatorname{supp}T$ of a current $T$ is the complement of the largest open set on which $T$ vanishes, the union of all such open sets.
+\end{definition}
+
+By the lemma, $T(\varphi) = 0$ whenever $\operatorname{supp}\varphi \cap \operatorname{supp}T = \emptyset$. For a continuous form $\eta$, $\operatorname{supp}T_\eta$ is the closure of
+$\{\eta \neq 0\}$; $\operatorname{supp}[Z] \subseteq Z$, since $[Z](\varphi) = 0$ when $\varphi$ vanishes near $Z$; and $\operatorname{supp}[p] = \{p\}$. Currents can thus be supported on
+sets of measure zero, which forms cannot.
+
+Three operations on forms extend to currents. In each case the extension is forced by the requirement that it agree with the operation on forms, read through
+Example~\ref{de-rham:example-currents}(1).
+
+\begin{definition}\label{de-rham:definition-current-operations}
+Let $T \in \mathcal{D}^{\prime k}(M)$.
+\begin{enumerate}
+\item (\emph{Product with smooth forms.}) For $\alpha \in \Omega^l(M)$, $\alpha \wedge T \in \mathcal{D}^{\prime k+l}(M)$ is $(\alpha \wedge T)(\varphi) = (-1)^{kl}T(\alpha \wedge \varphi)$.
+\item (\emph{Restriction.}) For $V \subseteq M$ open, $T|_V$ as above.
+\item (\emph{Push-forward.}) Let $f \colon M \to N$ be a proper smooth map to an oriented $n^{\prime}$-manifold. Then $f_*T \in \mathcal{D}^{\prime\, k + n^{\prime} - n}(N)$ is $(f_*T)(\psi) = T(f^*\psi)$.
+\end{enumerate}
+\end{definition}
+
+In (3), $f^*\psi$ has compact support because $\operatorname{supp}f^*\psi \subseteq f^{-1}(\operatorname{supp}\psi)$ and $f$ is proper, and $\psi_j \to \psi$ implies $f^*\psi_j \to f^*\psi$ by the chain
+rule; so $f_*T$ is a current. The degree is right: $T$ is evaluated on forms of degree $n - k$, and so is $f_*T$, which is therefore a current of degree $n^{\prime} - (n - k)$ on $N$. Forms can be pulled
+back, but in general not pushed forward; currents can be pushed forward, but in general not pulled back. This is the same duality as between cohomology and homology.
+
+\begin{proposition}\label{de-rham:proposition-current-operations}
+Let $T \in \mathcal{D}^{\prime k}(M)$ and $\alpha \in \Omega^l(M)$.
+\begin{enumerate}
+\item $\alpha \wedge T_\eta = T_{\alpha \wedge \eta}$ for every locally integrable $k$-form $\eta$, and $d(\alpha \wedge T) = d\alpha \wedge T + (-1)^l\alpha \wedge dT$.
+\item $\operatorname{supp}(\alpha \wedge T) \subseteq \operatorname{supp}\alpha \cap \operatorname{supp}T$.
+\item For $f \colon M \to N$ proper, $d(f_*T) = (-1)^{n^{\prime} - n}f_*(dT)$.
+\item If $Z \subseteq M$ is a closed oriented submanifold with inclusion $i$, then $[Z] = i_*T_1$, where $T_1$ is the $0$-current on $Z$ given by the constant function $1$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) For $\varphi \in \Omega^{n-k-l}_c(M)$, $(\alpha \wedge T_\eta)(\varphi) = (-1)^{kl}\int_M\eta \wedge \alpha \wedge \varphi = \int_M\alpha \wedge \eta \wedge \varphi$, since moving the $l$-form $\alpha$ past the
+$k$-form $\eta$ costs $(-1)^{kl}$. For the Leibniz rule, let $\varphi \in \Omega^{n-k-l-1}_c(M)$. From $d(\alpha \wedge \varphi) = d\alpha \wedge \varphi + (-1)^l\alpha \wedge d\varphi$,
+\[
+d(\alpha \wedge T)(\varphi) = (-1)^{k+l+1}(-1)^{kl}\,T(\alpha \wedge d\varphi) = (-1)^{k+1+kl}\bigl(T(d(\alpha \wedge \varphi)) - T(d\alpha \wedge \varphi)\bigr).
+\]
+On the other hand $(d\alpha \wedge T)(\varphi) = (-1)^{k(l+1)}T(d\alpha \wedge \varphi)$, which is the second term, and
+$(-1)^l(\alpha \wedge dT)(\varphi) = (-1)^{l + (k+1)l}(dT)(\alpha \wedge \varphi) = (-1)^{kl}(-1)^{k+1}T(d(\alpha \wedge \varphi))$, which is the first.
+
+(2) If $\varphi$ is supported in the open set $M \setminus \operatorname{supp}\alpha$, then $\alpha \wedge \varphi = 0$; if it is supported in $M \setminus \operatorname{supp}T$, then so is $\alpha \wedge \varphi$, and
+$T(\alpha \wedge \varphi) = 0$ by Lemma~\ref{de-rham:lemma-currents-local}. So $\alpha \wedge T$ vanishes on both open sets, hence on their union.
+
+(3) For $\psi$ of degree $n - k - 1$ on $N$, using $f^*d = df^*$ (Theorem~\ref{differential-forms:theorem-exterior-derivative}),
+$d(f_*T)(\psi) = (-1)^{k + n^{\prime} - n + 1}T(f^*d\psi) = (-1)^{n^{\prime} - n}(-1)^{k+1}T(df^*\psi) = (-1)^{n^{\prime} - n}(dT)(f^*\psi)$.
+
+(4) $(i_*T_1)(\varphi) = T_1(i^*\varphi) = \int_Z1 \wedge i^*\varphi = [Z](\varphi)$; the inclusion is proper because $Z$ is closed.
+\end{proof}
+
+\begin{remark}\label{de-rham:remark-current-products}
+Two currents cannot be multiplied in general, and this is not a defect of the definitions. Take $\rho \geq 0$ smooth with compact support in the unit ball of $\RR^n$ and $\int\rho = 1$, and
+$\rho_\varepsilon(x) = \varepsilon^{-n}\rho(x/\varepsilon)$. Then $T_{\rho_\varepsilon} \to \delta_0$ (Proposition~\ref{distributions:proposition-approximate-identity}), but for $\varphi \geq 0$ with $\varphi(0) > 0$,
+\[
+\int\rho_\varepsilon^2\varphi = \varepsilon^{-n}\int\rho(y)^2\varphi(\varepsilon y)\,dy \sim \varepsilon^{-n}\varphi(0)\int\rho^2 \to \infty,
+\]
+so the squares do not converge, and no reasonable product $\delta_0 \cdot \delta_0$ exists. In geometric terms: the product of two currents of integration should be the current of the
+intersection, and this only makes sense when the submanifolds meet transversally. This is one reason why intersection theory of cycles needs moving lemmas or deformation to the normal cone
+(Chapter~\ref{intersection-theory}).
+\end{remark}
+
+\subsection{Boundaries and the angle form}\label{de-rham:subsection-currents-boundaries}
+
+Stokes' theorem becomes a statement about currents. Let $Z$ be an oriented $p$-manifold with boundary and $i \colon Z \to M$ a proper smooth map, for instance any smooth map if $Z$ is compact; the formula $[Z](\varphi) = \int_Zi^*\varphi$
+still defines a current of degree $n - p$, the current of the ``singular chain'' $i$, and similarly for $\partial Z$, with the induced orientation (Definition~\ref{differential-forms:definition-manifold-with-boundary}).
+
+\begin{proposition}\label{de-rham:proposition-boundary-current}
+In this situation $d[Z] = (-1)^{n-p+1}[\partial Z]$.
+\end{proposition}
+
+\begin{proof}
+For $\varphi \in \Omega^{p-1}_c(M)$, Stokes' theorem on $Z$ and $i^*d = di^*$ give
+$d[Z](\varphi) = (-1)^{n-p+1}\int_Zi^*d\varphi = (-1)^{n-p+1}\int_Zd(i^*\varphi) = (-1)^{n-p+1}\int_{\partial Z}i^*\varphi$.
+\end{proof}
+
+Up to sign, the exterior derivative of currents is the boundary operator of chains. For example:
+\begin{enumerate}
+\item If $\gamma \colon [0, 1] \to M$ is a smooth path from $q$ to $p$, then $\partial[0, 1] = \{1\} - \{0\}$ (Example~\ref{differential-forms:example-boundaries}(1)), so
+$d[\gamma] = (-1)^n([p] - [q])$: the difference of two points joined by a path is an exact current.
+\item On $\RR$, the current of $Z = [0, \infty)$ is $T_H$ for the Heaviside function $H$, and $\partial Z = -\{0\}$ (the outward direction at $0$ is $-\partial_t$). The proposition gives
+$dT_H = [0]$, the current version of $H^{\prime} = \delta_0$ (Example~\ref{distributions:example-heaviside}).
+\end{enumerate}
+In this way currents contain both differential forms and (smooth) chains, with compatible differentials. This is why they are a natural place to compare de Rham cohomology with homology, which
+was de Rham's motivation.
+
+The next example shows a closed form that stops being closed when it is regarded as a current on a larger manifold, and the defect is concentrated at a point.
+
+\begin{example}\label{de-rham:example-angle-current}
+Let $\omega = (x\,dy - y\,dx)/(x^2 + y^2)$ be the angle form on $\RR^2 \setminus \{0\}$ (Example~\ref{de-rham:example-angle-form}). Its coefficients are bounded by $1/r$, which is integrable near $0$
+in the plane ($\int_0^1r^{-1}\,r\,dr < \infty$), so $\omega$ defines a $1$-current $T_\omega$ on all of $\RR^2$. We claim
+\[
+d\Bigl(\frac{1}{2\pi}T_\omega\Bigr) = [0].
+\]
+Let $f \in \Omega^0_c(\RR^2)$. Then $(dT_\omega)(f) = (-1)^2T_\omega(df) = \int_{\RR^2}\omega \wedge df = \lim_{\varepsilon \to 0}\int_{r \geq \varepsilon}\omega \wedge df$ by dominated convergence. On
+$\{r \geq \varepsilon\}$ the form $\omega$ is smooth and closed, so $d(f\omega) = df \wedge \omega = -\omega \wedge df$, and Stokes' theorem on the manifold with boundary $\{r \geq \varepsilon\}$, where $f\omega$ has
+compact support, gives
+\[
+\int_{r \geq \varepsilon}\omega \wedge df = -\int_{\partial\{r \geq \varepsilon\}}f\omega = \int_{|x| = \varepsilon}f\omega = \int_0^{2\pi}f(\varepsilon\cos t, \varepsilon\sin t)\,dt \longrightarrow 2\pi f(0).
+\]
+Here the circle in the third expression is oriented counterclockwise: the outward direction of $\{r \geq \varepsilon\}$ at a boundary point points towards $0$, opposite to that of the disc, so
+the induced orientation is clockwise (compare Example~\ref{differential-forms:example-boundaries}(2)); and $\omega$ restricts to $dt$ on the counterclockwise circle. Hence
+$(dT_\omega)(f) = 2\pi f(0) = 2\pi[0](f)$.
+\end{example}
+
+So the obstruction to extending the closed form $\omega$ across the puncture is $2\pi$ times the point, and $2\pi$ is the period of $\omega$. More generally, if $\eta$ is a closed $1$-form on
+$\RR^2 \setminus \{p_1, \ldots, p_m\}$ that is a combination $\sum_ic_i\alpha_i$ of angle forms centred at the $p_i$, then $d T_\eta = 2\pi\sum_ic_i[p_i]$: the current remembers the periods around the
+punctures. The same computation in $\RR^3$, with the solid angle form, gives $d T_\sigma = 4\pi[0]$ (Exercise~\ref{de-rham:exercise-solid-angle-current}); in physics this is Gauss's law, the electric
+field of a point charge has divergence concentrated at the charge. Its complex-analytic version, $\frac{1}{2\pi i}d\bigl(\frac{dz}{z}\bigr) = [0]$ as currents on $\CC$, underlies the residue theorem and the
+argument principle.
+
+\subsection{The cohomology of currents}\label{de-rham:subsection-currents-cohomology}
+
+Since currents form a complex containing the de Rham complex, one can compare their cohomology groups. The fundamental fact is that they agree.
 
 \begin{theorem}\label{de-rham:theorem-currents}
 On an oriented manifold the complex of currents computes de Rham cohomology: the inclusion of smooth forms into currents is a quasi-isomorphism. Under this identification and Poincar\'e duality, the class
@@ -373,12 +572,60 @@ of $[Z]$ for a compact oriented $k$-dimensional submanifold $Z$ of a compact ori
 
 This is proved in \cite[Chapter IV]{de-rham-book} and \cite[Chapter 0, Section 4]{griffiths-harris}; the first statement is a sheaf-theoretic argument like the proof of
 Theorem~\ref{de-rham:theorem-de-rham}, applied to the fine resolution of $\RR_M$ by sheaves of currents, and the second follows by comparing both sides with the topological Poincar\'e dual
-(Remark~\ref{poincare-duality:remark-fundamental-classes-subspaces}).
+(Remark~\ref{poincare-duality:remark-fundamental-classes-subspaces}). The sheaf of currents is fine, because currents can be multiplied by smooth functions, by
+Definition~\ref{de-rham:definition-current-operations}(1); the real input is the Poincar\'e lemma for currents, that a closed current of positive degree on a ball is exact.
+
+Concretely, the theorem says two things. Every closed current $T$ is cohomologous to a smooth closed form: $T = T_\eta + dS$ with $\eta$ smooth and $S$ a current. And a smooth closed form that is
+the derivative of a current is already the derivative of a smooth form. So singular objects such as $[Z]$ can be used as representatives of cohomology classes, and nothing new is created.
+
+\begin{example}\label{de-rham:example-point-class}
+Let $M$ be compact, connected and oriented. The class of $[p]$ in $H^n_{\mathrm{dR}}(M)$ is represented by any $n$-form $\eta$ with $\int_M\eta = 1$. Indeed, by Theorem~\ref{de-rham:theorem-currents} for
+$Z = \{p\}$ the class $\eta_p$ satisfies $f(p) = \int_M\eta_p f$ for all closed $0$-forms $f$, which are the constants; so $\int_M\eta_p = 1$, and this determines the class because
+$H^n_{\mathrm{dR}}(M) \cong H^0_{\mathrm{dR}}(M)^* \cong \RR$ by integration (Theorem~\ref{de-rham:theorem-poincare-duality-de-rham}). The class does not depend on $p$, as also follows from the exact
+current $d[\gamma] = \pm([p] - [q])$ above. On the noncompact manifold $\RR^2$, by contrast, $[0] = d(\frac{1}{2\pi}T_\omega)$ is exact, in accordance with $H^2_{\mathrm{dR}}(\RR^2) = 0$.
+\end{example}
+
+\begin{remark}\label{de-rham:remark-regularisation}
+De Rham proved a quantitative form of the first statement of the theorem \cite{de-rham-book}: there are linear operators $R_\varepsilon$ and $A_\varepsilon$ on currents such that $R_\varepsilon T$ is a
+smooth form for every $T$, $R_\varepsilon T \to T$ as $\varepsilon \to 0$, the supports of $R_\varepsilon T$ and $A_\varepsilon T$ lie in any prescribed neighbourhood of $\operatorname{supp}T$ for $\varepsilon$
+small, and
+\[
+R_\varepsilon T - T = dA_\varepsilon T + A_\varepsilon dT .
+\]
+On $\RR^n$, $R_\varepsilon$ is essentially convolution with $\rho_\varepsilon$, as in Remark~\ref{de-rham:remark-current-products}; on a manifold one patches such convolutions together with a partition of unity. For a closed
+current the formula exhibits $R_\varepsilon T$ as a smooth form cohomologous to $T$, a ``smoothing'' of $T$. For $T = [Z]$ with $Z$ compact and without boundary, the smoothing is a closed form supported near $Z$ that
+represents the Poincar\'e dual of $Z$.
+\end{remark}
+
+\subsection{Currents in complex geometry and in geometric measure theory}\label{de-rham:subsection-currents-further}
 
 \begin{remark}\label{de-rham:remark-cycle-classes}
 Currents are the natural home for the cycle classes of Hodge theory: an analytic subvariety $Z$ of a compact complex manifold, possibly singular, defines a current of integration because its singular locus
 has measure zero and $\int_{Z_{\mathrm{reg}}}\varphi$ converges (Chapter~\ref{cycle-class}); its class in $H^{2n-2k}(X; \ZZ)$ is the cycle class whose Hodge-theoretic characterisation the Hodge conjecture
 concerns.
+\end{remark}
+
+\begin{remark}\label{de-rham:remark-complex-currents}
+On a complex manifold of complex dimension $n$, complex-valued currents split by type, as forms do (Chapter~\ref{dolbeault}): a current of \emph{bidegree} $(p, q)$ is evaluated on forms of type
+$(n - p, n - q)$, and $d = \partial + \bar\partial$ on currents. The current of integration over a complex submanifold of complex codimension $p$ has bidegree $(p, p)$, because a form of type
+$(a, b)$ with $a \neq b$ restricts to zero on a complex manifold of dimension $\frac{a+b}{2}$; it is moreover \emph{positive}, a notion modelled on the positivity of the volume form of a complex
+submanifold. Lelong's theorem says that integration over the regular part of a possibly singular subvariety is a closed positive current, and the \emph{Poincar\'e--Lelong formula}
+\[
+\frac{i}{2\pi}\,\partial\bar\partial\log|f|^2 = [Z(f)]
+\]
+for a holomorphic function $f$, where the zeros are counted with multiplicities, expresses the current of a divisor through a function with a logarithmic singularity
+\cite[Chapter 3]{griffiths-harris}. In dimension one it is the computation of Example~\ref{de-rham:example-angle-current} in another guise: it says that $\frac{1}{2\pi}\log|z|$ is a fundamental solution of the Laplacian
+on $\RR^2$, the two-dimensional analogue of Exercise~\ref{distributions:exercise-fundamental-solution}. Taking classes, it gives the equality between the cycle class of a divisor and the first Chern class of its line bundle, a key
+input of the Lefschetz $(1,1)$ theorem.
+\end{remark}
+
+\begin{remark}\label{de-rham:remark-gmt-currents}
+In geometric measure theory one studies currents by their size rather than their cohomology. The \emph{mass} of a current $T$ of dimension $p$ in $\RR^N$ is
+$\sup\{T(\varphi) : |\varphi(x)| \leq 1 \text{ for all } x\}$; the mass of $[Z]$ is the $p$-dimensional volume of $Z$. Federer and Fleming introduced \emph{normal currents}, for which $T$ and its
+boundary have finite mass, and \emph{integral currents}, generalised oriented surfaces with integer multiplicities, and proved a compactness theorem for integral currents of bounded mass and
+boundary mass \cite{federer-fleming-1960}. It gives the existence of an area-minimising surface with any prescribed boundary in every dimension and codimension, a solution of Plateau's problem
+\cite{federer-gmt}. Integral currents also give a homology theory: on nice spaces, homology classes are represented by integral cycles, and area minimisers in a class play the role that harmonic
+forms play in de Rham cohomology (Chapter~\ref{hodge-theorem}).
 \end{remark}
 
 \section{Exercises}\label{de-rham:section-exercises}
@@ -445,4 +692,55 @@ $\omega^{\prime} = dx \wedge dy + dy \wedge dz$ using Corollary~\ref{de-rham:cor
 $d\omega = \partial_zz\,dz \wedge dx \wedge dy + \partial_xx\,dx \wedge dy \wedge dz + \partial_yy\,dy \wedge dz \wedge dx = 3\,dx \wedge dy \wedge dz \neq 0$, so $\omega$ is not closed and has no primitive.
 For $\omega^{\prime}$, which has constant coefficients and is closed, $\iota_X\omega^{\prime} = x\,dy - y\,dx + y\,dz - z\,dy$ and $\eta = \frac12(x\,dy - y\,dx + y\,dz - z\,dy)$; then
 $d\eta = \frac12(2\,dx \wedge dy + 2\,dy \wedge dz) = \omega^{\prime}$.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-dirac-current}
+Show that for $p \in M$ the current $[p]$ is not of the form $T_\eta$ for a locally integrable $n$-form $\eta$.
+\end{exercise}
+
+\begin{solution}
+Suppose $[p] = T_\eta$, and restrict both sides to a positively oriented chart $V \cong U \subseteq \RR^n$ around $p$; the restriction of $T_\eta$ is $T_{\eta|_V}$. Write $\eta = h\,dx^1 \wedge \cdots \wedge dx^n$
+on $U$. For $I = (1, \ldots, n)$ we have $I^c = \emptyset$ and $\varepsilon_I = 1$, so by Proposition~\ref{de-rham:proposition-currents-local} the only component of $[p]$ is $f \mapsto [p](f) = f(p)$, the Dirac
+distribution $\delta_p$, and the only component of $T_\eta$ is $T_h$. So $\delta_p = T_h$ with $h$ locally integrable, which is impossible by
+Example~\ref{distributions:example-distributions}(2) (translated from $0$ to $p$).
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-solid-angle-current}
+Let $\sigma$ be the solid angle form on $\RR^3 \setminus \{0\}$ (Exercise~\ref{de-rham:exercise-solid-angle}). Show that $\sigma$ has locally integrable coefficients on $\RR^3$ and that
+$dT_\sigma = 4\pi[0]$ as currents on $\RR^3$.
+\end{exercise}
+
+\begin{solution}
+The coefficients of $\sigma$ are bounded by $1/r^2$, and $\int_0^1r^{-2}\,r^2\,dr < \infty$, so they are locally integrable. For $f \in \Omega^0_c(\RR^3)$, $(dT_\sigma)(f) = (-1)^3T_\sigma(df) = -\lim_{\varepsilon \to 0}\int_{r \geq \varepsilon}\sigma \wedge df$.
+On $\{r \geq \varepsilon\}$ the form $\sigma$ is closed, so $d(f\sigma) = df \wedge \sigma = \sigma \wedge df$ ($df$ has degree $1$ and $\sigma$ degree $2$). By Stokes' theorem,
+$-\int_{r \geq \varepsilon}\sigma \wedge df = -\int_{\partial\{r \geq \varepsilon\}}f\sigma = \int_{|x| = \varepsilon}f\sigma$, where the sphere $\{|x| = \varepsilon\}$ now carries the orientation of the boundary of the ball,
+since the outward directions of the ball and of its complement are opposite. The form $\sigma$ is invariant under the scaling $x \mapsto \varepsilon x$ (numerator and denominator are homogeneous of degree $3$),
+so $\int_{|x| = \varepsilon}f\sigma = \int_{S^2}f(\varepsilon u)\,\sigma(u)$, and $\sigma$ restricts to the area form on $S^2$. As $\varepsilon \to 0$ this tends to $4\pi f(0)$ by uniform continuity of $f$.
+Hence $dT_\sigma = 4\pi[0]$.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-current-products-functions}
+\begin{enumerate}
+\item Show that $g \wedge [p] = g(p)[p]$ for a smooth function $g$, and that $\alpha \wedge [Z] = 0$ for a closed oriented submanifold $Z$ and a form $\alpha$ with $i^*\alpha = 0$.
+\item Let $T$ be the $0$-current $T(g\,dx) = g^{\prime}(0)$ on $\RR$ of Example~\ref{de-rham:example-currents}(4). Show that $\operatorname{supp}T = \{0\}$ and that $x \wedge T$ is the current
+$g\,dx \mapsto g(0)$, which is not zero although $x$ vanishes on $\operatorname{supp}T$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $(g \wedge [p])(f) = [p](gf) = g(p)f(p)$. For $\alpha$ of degree $l$ and $Z$ of dimension $q$, $(\alpha \wedge [Z])(\varphi) = \pm\int_Zi^*\alpha \wedge i^*\varphi = 0$.
+(2) If $\operatorname{supp}g \not\ni 0$, then $g^{\prime}(0) = 0$, so $T$ vanishes on $\RR \setminus \{0\}$; and $T \neq 0$. Further $(x \wedge T)(g\,dx) = T(xg\,dx) = (xg)^{\prime}(0) = g(0)$. So the inclusion
+of Proposition~\ref{de-rham:proposition-current-operations}(2) cannot be improved to: $\alpha \wedge T = 0$ if $\alpha$ vanishes on $\operatorname{supp}T$. For currents involving derivatives one needs
+$\alpha$ to vanish to higher order.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-pushforward-diffeomorphism}
+Let $f \colon M \to N$ be an orientation-preserving diffeomorphism of oriented $n$-manifolds. Show that $f_*T_\eta = T_{(f^{-1})^*\eta}$ for every locally integrable form $\eta$ on $M$, and
+$f_*[Z] = [f(Z)]$ for every closed oriented submanifold $Z \subseteq M$, with $f(Z)$ oriented so that $f|_Z \colon Z \to f(Z)$ preserves orientation.
+\end{exercise}
+
+\begin{solution}
+Integration of compactly supported top-degree forms is invariant under orientation-preserving diffeomorphisms (Proposition~\ref{differential-forms:proposition-integral-well-defined}), so for $\psi$ on $N$,
+$(f_*T_\eta)(\psi) = \int_M\eta \wedge f^*\psi = \int_Mf^*\bigl((f^{-1})^*\eta \wedge \psi\bigr) = \int_N(f^{-1})^*\eta \wedge \psi$. Similarly
+$(f_*[Z])(\psi) = \int_Zi^*f^*\psi = \int_Z(f|_Z)^*\bigl(\psi|_{f(Z)}\bigr) = \int_{f(Z)}\psi$.
 \end{solution}

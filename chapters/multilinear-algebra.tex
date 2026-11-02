@@ -3,8 +3,9 @@
 
 \section{Introduction}\label{multilinear-algebra:section-introduction}
 
-This chapter constructs the tensor, symmetric and exterior algebras of a vector space and studies
-the structures on them that underlie differential forms: alternating forms and interior products,
+This chapter constructs the tensor, symmetric and exterior algebras of a vector space, introduces the
+tensors of type $(r,s)$ of geometry and physics with their components, contractions and the raising and
+lowering of indices, and studies the structures that underlie differential forms: alternating forms and interior products,
 the Pfaffian of a skew-symmetric matrix, orientations, the Hodge star operator of an inner product space, and the decomposition of the
 exterior algebra of a real vector space with a complex structure into forms of type $(p,q)$. These are
 the pointwise versions of the constructions of Chapters~\ref{differential-forms},
@@ -14,6 +15,9 @@ References are \cite[Chapters XVI and XIX]{lang-algebra} and \cite{greub-multili
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{rings} (Rings and Modules) and
 Chapter~\ref{linear-algebra} (Linear Algebra).
+
+\noindent\textbf{On the way to the Hodge conjecture.} The whole chapter is needed: tensor products, tensors of type $(r,s)$ and contraction, the exterior algebra, alternating forms, the Hodge star and forms of type $(p,q)$ are the
+algebra underlying differential forms and the Hodge decomposition.
 
 Throughout, $k$ is a field, vector spaces are over $k$ and $\otimes = \otimes_k$. Tensor products were
 defined in Section~\ref{rings:section-tensor}.
@@ -163,6 +167,268 @@ antisymmetric, but it is not alternating, since $B(1, 1) = 1$; so it does not fa
 of $S^2V$ to $2\,e \otimes e = 0$, so it is not injective. Factorials cause the same phenomena elsewhere: in Proposition~\ref{multilinear-algebra:proposition-symplectic-determinant} the characteristic enters through the factor $m!$ in
 $\omega^m = m!\,e_1^* \wedge f_1^* \wedge \cdots \wedge e_m^* \wedge f_m^*$, which vanishes in characteristic $p \leq m$.
 \end{counterexample}
+
+\section{Tensors of type $(r,s)$}\label{multilinear-algebra:section-tensors}
+
+The word \emph{tensor} is used in two related ways. In algebra a tensor is any element of a tensor product. In geometry and physics a tensor is a multilinear
+quantity attached to a single vector space $V$ (in geometry, the tangent space at a point), with a certain number of slots for vectors and a certain number of
+slots for linear forms: an inner product eats two vectors and returns a number, an endomorphism eats a vector and returns a vector, the curvature of a Riemannian
+manifold eats three vectors and returns a vector. Older texts, and most physics texts, take yet another point of view: a tensor is an array of numbers, one for each
+choice of basis, which changes in a prescribed way when the basis is changed. This section explains why the three points of view agree, and introduces the operations
+on tensors (tensor product, contraction, raising and lowering of indices) that are used constantly in differential geometry.
+
+In this section $V$ has finite dimension $n$, and $(e_1, \ldots, e_n)$ is a basis of $V$. Following the custom of differential geometry, we write
+$e^i = e_i^*$ for the dual basis of $V^*$ (Definition~\ref{linear-algebra:definition-dual}), so that $e^i(e_j) = \delta^i_j$, where $\delta^i_j$ is $1$ if $i = j$
+and $0$ otherwise. Indices of basis vectors of $V$ are written below and indices of basis vectors of $V^*$ above; the reason for this convention will appear
+in Proposition~\ref{multilinear-algebra:proposition-tensor-transformation}.
+
+\begin{definition}\label{multilinear-algebra:definition-tensor-type}
+Let $r, s \in \NN$. A \emph{tensor of type $(r,s)$} on $V$ is an element of
+\[
+T^r_s(V) = \underbrace{V \otimes \cdots \otimes V}_{r} \otimes \underbrace{V^* \otimes \cdots \otimes V^*}_{s} = V^{\otimes r} \otimes (V^*)^{\otimes s},
+\]
+with the convention $T^0_0(V) = k$. One says that such a tensor is \emph{$r$ times contravariant} and \emph{$s$ times covariant}. The \emph{tensor product} of
+$S = v_1 \otimes \cdots \otimes v_r \otimes \varphi^1 \otimes \cdots \otimes \varphi^s \in T^r_s(V)$ and $S^{\prime} = v^{\prime}_1 \otimes \cdots \otimes v^{\prime}_{r^{\prime}}
+\otimes \psi^1 \otimes \cdots \otimes \psi^{s^{\prime}} \in T^{r^{\prime}}_{s^{\prime}}(V)$ is
+\[
+S \otimes S^{\prime} = v_1 \otimes \cdots \otimes v_r \otimes v^{\prime}_1 \otimes \cdots \otimes v^{\prime}_{r^{\prime}} \otimes \varphi^1 \otimes \cdots \otimes \varphi^s \otimes \psi^1 \otimes \cdots
+\otimes \psi^{s^{\prime}} \in T^{r + r^{\prime}}_{s + s^{\prime}}(V),
+\]
+extended bilinearly; that is, it is the tensor product of Section~\ref{multilinear-algebra:section-tensor-products} followed by the isomorphism that moves the
+factors $V$ in front of the factors $V^*$.
+\end{definition}
+
+The tensor product of tensors is well defined: the expression on the right is multilinear in the $r + s + r^{\prime} + s^{\prime}$ vectors and forms, so it induces a
+bilinear map $T^r_s(V) \times T^{r^{\prime}}_{s^{\prime}}(V) \to T^{r + r^{\prime}}_{s + s^{\prime}}(V)$ by Proposition~\ref{multilinear-algebra:proposition-tensor-basis}. It is associative,
+and it is not commutative: for $v, w \in V$ independent, $v \otimes w \neq w \otimes v$ in $T^2_0(V)$ (Proposition~\ref{multilinear-algebra:proposition-tensor-basis}).
+The small cases are familiar: $T^0_0(V) = k$ consists of scalars, $T^1_0(V) = V$ of vectors and $T^0_1(V) = V^*$ of linear forms, also called \emph{covectors}.
+The next proposition identifies the others with multilinear maps.
+
+\begin{proposition}\label{multilinear-algebra:proposition-tensors-multilinear}
+\begin{enumerate}
+\item There is a unique isomorphism from $T^r_s(V)$ to the space of multilinear maps $(V^*)^r \times V^s \to k$ sending
+$v_1 \otimes \cdots \otimes v_r \otimes \varphi^1 \otimes \cdots \otimes \varphi^s$ to the map
+\[
+(\psi^1, \ldots, \psi^r, w_1, \ldots, w_s) \longmapsto \psi^1(v_1) \cdots \psi^r(v_r)\,\varphi^1(w_1) \cdots \varphi^s(w_s).
+\]
+\item There is a unique isomorphism from $T^1_s(V)$ to the space of multilinear maps $V^s \to V$ sending $v \otimes \varphi^1 \otimes \cdots \otimes \varphi^s$ to the map
+$(w_1, \ldots, w_s) \mapsto \varphi^1(w_1) \cdots \varphi^s(w_s)\,v$. For $s = 1$ this is the isomorphism $T^1_1(V) \cong \End(V)$ of
+Proposition~\ref{multilinear-algebra:proposition-hom-tensor}.
+\item The tensors $e_{i_1} \otimes \cdots \otimes e_{i_r} \otimes e^{j_1} \otimes \cdots \otimes e^{j_s}$, for all $i_1, \ldots, i_r, j_1, \ldots, j_s \in \{1, \ldots, n\}$, form a basis of
+$T^r_s(V)$. In particular $\dim T^r_s(V) = n^{r+s}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(3) The $e^j$ form a basis of $V^*$ (Proposition~\ref{linear-algebra:proposition-duality}), and Proposition~\ref{multilinear-algebra:proposition-tensor-basis}, applied
+$r + s - 1$ times, says that the tensor products of basis vectors of the factors form a basis of the tensor product.
+
+(1) By Proposition~\ref{multilinear-algebra:proposition-tensor-basis}, multilinear maps $(V^*)^r \times V^s \to k$ are the same as linear maps
+$(V^*)^{\otimes r} \otimes V^{\otimes s} \to k$, that is, elements of $U^*$ with $U = (V^*)^{\otimes r} \otimes V^{\otimes s}$. Both $T^r_s(V)$ and $U^*$ have dimension $n^{r+s}$,
+by (3) and Proposition~\ref{linear-algebra:proposition-duality}. The prescribed map exists, because the displayed expression is multilinear in
+$(v_1, \ldots, v_r, \varphi^1, \ldots, \varphi^s)$, and it is unique, because the decomposable tensors span $T^r_s(V)$. It sends the basis vector
+$e_{i_1} \otimes \cdots \otimes e_{i_r} \otimes e^{j_1} \otimes \cdots \otimes e^{j_s}$ to the linear form on $U$ that takes the value $1$ on
+$e^{i_1} \otimes \cdots \otimes e^{i_r} \otimes e_{j_1} \otimes \cdots \otimes e_{j_s}$ and $0$ on the other basis vectors of $U$ of the same kind. These linear forms are the dual basis of the
+basis of $U$ given by (3) (with the roles of $V$ and $V^*$ exchanged), so the map sends a basis to a basis and is an isomorphism.
+
+(2) The same argument applies: multilinear maps $V^s \to V$ are linear maps $V^{\otimes s} \to V$, a space of dimension $n^s \cdot n = \dim T^1_s(V)$; the prescribed map
+exists and is unique as in (1), and it sends $e_i \otimes e^{j_1} \otimes \cdots \otimes e^{j_s}$ to the linear map $V^{\otimes s} \to V$ that sends
+$e_{j_1} \otimes \cdots \otimes e_{j_s}$ to $e_i$ and the other basis vectors $e_{l_1} \otimes \cdots \otimes e_{l_s}$ to $0$. These maps form a basis of $\Hom(V^{\otimes s}, V)$ (they are the
+matrix units in the bases given by (3)), so the map is an isomorphism. For $s = 1$ it sends $v \otimes \varphi$ to $w \mapsto \varphi(w)v$, which is the map of
+Proposition~\ref{multilinear-algebra:proposition-hom-tensor} composed with the exchange of factors $V \otimes V^* \cong V^* \otimes V$.
+\end{proof}
+
+From now on we identify a tensor of type $(r,s)$ with the corresponding multilinear map of (1), and a tensor of type $(1,s)$ also with the multilinear map
+$V^s \to V$ of (2); the two are related by $T(\psi, w_1, \ldots, w_s) = \psi(T(w_1, \ldots, w_s))$, as one checks on decomposable tensors. So a bilinear form on $V$ is
+the same as a tensor of type $(0,2)$, and an endomorphism the same as a tensor of type $(1,1)$.
+
+\begin{definition}\label{multilinear-algebra:definition-tensor-components}
+The \emph{components} of $T \in T^r_s(V)$ in the basis $(e_i)$ are the numbers
+\[
+T^{i_1 \ldots i_r}_{j_1 \ldots j_s} = T(e^{i_1}, \ldots, e^{i_r}, e_{j_1}, \ldots, e_{j_s}),
+\]
+so that, by Proposition~\ref{multilinear-algebra:proposition-tensors-multilinear},
+\[
+T = \sum_{i_1, \ldots, i_r, j_1, \ldots, j_s} T^{i_1 \ldots i_r}_{j_1 \ldots j_s}\; e_{i_1} \otimes \cdots \otimes e_{i_r} \otimes e^{j_1} \otimes \cdots \otimes e^{j_s}.
+\]
+\end{definition}
+
+The second formula holds because both sides take the same value on every tuple $(e^{i_1}, \ldots, e^{i_r}, e_{j_1}, \ldots, e_{j_s})$ of basis vectors, and a multilinear map is
+determined by these values. The components of a vector $v = \sum_iv^ie_i$ are its coordinates $v^i = e^i(v)$, with the index up; those of a linear form
+$\varphi = \sum_j\varphi_je^j$ are $\varphi_j = \varphi(e_j)$, with the index down. The components of an endomorphism $A$, viewed as a tensor of type $(1,1)$, are
+$A^i_j = e^i(Ae_j)$, the entries of its matrix (row $i$, column $j$); the components of a bilinear form $B$ are $B_{ij} = B(e_i, e_j)$, the entries of its Gram matrix
+(Definition~\ref{linear-algebra:definition-bilinear-form}).
+
+\begin{proposition}[Transformation law]\label{multilinear-algebra:proposition-tensor-transformation}
+Let $(e^{\prime}_1, \ldots, e^{\prime}_n)$ be a second basis of $V$, with $e^{\prime}_j = \sum_iP^i_je_i$ for an invertible matrix $P = (P^i_j)$ (row $i$, column $j$), and let
+$Q = (Q^i_j) = P^{-1}$.
+\begin{enumerate}
+\item The dual bases are related by $e^{\prime j} = \sum_iQ^j_ie^i$, and the coordinates of a vector by $v^{\prime i} = \sum_jQ^i_jv^j$.
+\item The components of $T \in T^r_s(V)$ in the two bases are related by
+\[
+T^{\prime\, i_1 \ldots i_r}_{j_1 \ldots j_s} = \sum_{k_1, \ldots, k_r, l_1, \ldots, l_s} Q^{i_1}_{k_1} \cdots Q^{i_r}_{k_r}\, P^{l_1}_{j_1} \cdots P^{l_s}_{j_s}\; T^{k_1 \ldots k_r}_{l_1 \ldots l_s}.
+\]
+\item Conversely, suppose that to every basis $\mathbf{e}$ of $V$ there is assigned a family of numbers $T(\mathbf{e})^{i_1 \ldots i_r}_{j_1 \ldots j_s}$, such that the families
+assigned to any two bases are related by the formula of (2). Then there is a unique $T \in T^r_s(V)$ whose components in every basis $\mathbf{e}$ are the numbers
+$T(\mathbf{e})^{i_1 \ldots i_r}_{j_1 \ldots j_s}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The linear form $\sum_iQ^j_ie^i$ takes on $e^{\prime}_m$ the value $\sum_iQ^j_ie^i\bigl(\sum_lP^l_me_l\bigr) = \sum_iQ^j_iP^i_m = (QP)^j_m = \delta^j_m$, so it is the $j$-th vector of the
+dual basis of $(e^{\prime}_m)$. Hence $v^{\prime i} = e^{\prime i}(v) = \sum_jQ^i_je^j(v) = \sum_jQ^i_jv^j$.
+
+(2) By definition and (1),
+\[
+T^{\prime\, i_1 \ldots i_r}_{j_1 \ldots j_s} = T\Bigl(\sum_{k_1}Q^{i_1}_{k_1}e^{k_1}, \ldots, \sum_{k_r}Q^{i_r}_{k_r}e^{k_r}, \sum_{l_1}P^{l_1}_{j_1}e_{l_1}, \ldots, \sum_{l_s}P^{l_s}_{j_s}e_{l_s}\Bigr),
+\]
+and expanding by multilinearity gives the formula.
+
+(3) Uniqueness holds because a tensor is determined by its components in one basis (Definition~\ref{multilinear-algebra:definition-tensor-components}). For existence, fix a
+basis $\mathbf{e}$ and let $T$ be the tensor with components $T(\mathbf{e})^{i_1 \ldots i_r}_{j_1 \ldots j_s}$ in $\mathbf{e}$. For another basis $\mathbf{e}^{\prime}$, the components of $T$ in
+$\mathbf{e}^{\prime}$ are obtained from those in $\mathbf{e}$ by the formula of (2), and so are the numbers $T(\mathbf{e}^{\prime})$ by hypothesis; so they agree.
+\end{proof}
+
+Part (3) is the justification of the physicists' definition, ``a tensor is something that transforms like a tensor''. Part (1) explains the names. The basis vectors
+change by $P$; the coordinates of a vector change by the inverse matrix $Q$, against the basis, and are called \emph{contravariant}; the components of a linear form,
+$\varphi^{\prime}_j = \varphi(e^{\prime}_j) = \sum_lP^l_j\varphi_l$, change by $P$, together with the basis, and are called \emph{covariant}. A tensor of type $(r,s)$ has $r$ indices
+of the first kind, written above, and $s$ of the second kind, written below. (These traditional names clash with the language of categories: $V \mapsto V$ is a covariant functor and
+$V \mapsto V^*$ a contravariant one, Example~\ref{categories:example-double-dual}, while vectors are called contravariant. The physicists' names refer to the components, not to the
+spaces.)
+
+\begin{example}\label{multilinear-algebra:example-tensor-transformation}
+Let us compare the transformation laws of an endomorphism and of a bilinear form; in both cases the components form an $n \times n$ matrix.
+\begin{enumerate}
+\item For an endomorphism $A$, a tensor of type $(1,1)$, the formula of
+Proposition~\ref{multilinear-algebra:proposition-tensor-transformation} reads $A^{\prime\,i}_j = \sum_{k,l}Q^i_kA^k_lP^l_j$, that is, $A^{\prime} = P^{-1}AP$: the matrix changes by
+\emph{similarity}, as in Chapter~\ref{linear-algebra}. Similar matrices have the same eigenvalues, trace and determinant, so these are invariants of the endomorphism.
+\item For a bilinear form $B$, a tensor of type $(0,2)$, the formula reads $B^{\prime}_{ij} = \sum_{k,l}P^k_iP^l_jB_{kl}$, that is, $B^{\prime} = P^TBP$: the Gram matrix changes by
+\emph{congruence}, as in Definition~\ref{linear-algebra:definition-bilinear-form}. Congruent matrices need not have the same eigenvalues: for $B = I$ and $P = 2I$, $P^TBP = 4I$.
+So ``the eigenvalues of a bilinear form'' make no sense; what survives for real symmetric forms is the signature (Theorem~\ref{linear-algebra:theorem-sylvester}).
+\end{enumerate}
+The same matrix can therefore mean two different things, and only the position of the indices tells which. With an inner product the two can be converted into each other
+(Definition~\ref{multilinear-algebra:definition-raising-lowering} below), and if both bases are orthonormal for an inner product on a real vector space, then $P$ is orthogonal,
+$P^{-1} = P^T$, and the two transformation laws coincide.
+\end{example}
+
+\begin{example}\label{multilinear-algebra:example-tensors}
+\begin{enumerate}
+\item The identity of $V$ is the tensor $\sum_ie_i \otimes e^i$ of type $(1,1)$; its components are $\delta^i_j$ in every basis, as the transformation law confirms:
+$\sum_{k,l}Q^i_k\delta^k_lP^l_j = (QP)^i_j = \delta^i_j$. Hence $\sum_ie_i \otimes e^i$ does not depend on the basis, which is not obvious from the formula.
+\item A bilinear map $\mu \colon V \times V \to V$, for instance the multiplication of a finite-dimensional algebra or the bracket of a Lie algebra, is a tensor of type $(1,2)$.
+Its components $c^k_{ij} = e^k(\mu(e_i, e_j))$, defined by $\mu(e_i, e_j) = \sum_kc^k_{ij}e_k$, are the \emph{structure constants} of the algebra.
+\item The determinant in the basis $(e_i)$, the alternating form $(w_1, \ldots, w_n) \mapsto \det(e^i(w_j))$, is a tensor of type $(0,n)$. More generally, alternating forms of degree $p$
+are the tensors of type $(0,p)$ that change sign when two arguments are exchanged; Section~\ref{multilinear-algebra:section-alternating-forms} studies them.
+\item In Riemannian geometry, the curvature of a Riemannian manifold assigns to each tangent space a tensor of type $(1,3)$, $(X, Y, Z) \mapsto R(X, Y)Z$, and its \emph{Ricci tensor}, of type $(0,2)$,
+is obtained from it by a contraction (Chapter~\ref{riemannian-geometry}).
+\end{enumerate}
+\end{example}
+
+The most important operation on tensors, after the tensor product, generalises the trace of an endomorphism: a vector slot and a covector slot are paired with each other.
+
+\begin{definition}\label{multilinear-algebra:definition-contraction}
+Let $r, s \geq 1$, $1 \leq a \leq r$ and $1 \leq b \leq s$. The \emph{contraction} of the $a$-th upper index with the $b$-th lower index is the linear map
+$C^a_b \colon T^r_s(V) \to T^{r-1}_{s-1}(V)$ given by
+\[
+C^a_b(v_1 \otimes \cdots \otimes v_r \otimes \varphi^1 \otimes \cdots \otimes \varphi^s) = \varphi^b(v_a)\; v_1 \otimes \cdots \widehat{v_a} \cdots \otimes v_r \otimes \varphi^1 \otimes \cdots
+\widehat{\varphi^b} \cdots \otimes \varphi^s,
+\]
+where the hat means that the factor is omitted.
+\end{definition}
+
+The map exists and is unique by Proposition~\ref{multilinear-algebra:proposition-tensor-basis}, since the right-hand side is multilinear in $(v_1, \ldots, v_r, \varphi^1, \ldots, \varphi^s)$.
+Note that no basis is used in the definition.
+
+\begin{proposition}\label{multilinear-algebra:proposition-contraction}
+\begin{enumerate}
+\item In components, contraction is summation over a repeated index:
+\[
+(C^a_bT)^{i_1 \ldots \widehat{i_a} \ldots i_r}_{j_1 \ldots \widehat{j_b} \ldots j_s} = \sum_{m=1}^nT^{i_1 \ldots m \ldots i_r}_{j_1 \ldots m \ldots j_s},
+\]
+with $m$ in the $a$-th upper and the $b$-th lower position.
+\item For $r = s = 1$, $C^1_1 \colon \End(V) = T^1_1(V) \to k$ is the trace.
+\item For $T \in T^1_2(V)$, viewed as a bilinear map $V \times V \to V$, the contraction $C^1_1T \in T^0_1(V) = V^*$ is the linear form $w \mapsto \operatorname{tr}\bigl(v \mapsto T(v, w)\bigr)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Both sides are linear in $T$, so it suffices to check the formula for a basis vector $T = e_{k_1} \otimes \cdots \otimes e_{k_r} \otimes e^{l_1} \otimes \cdots \otimes e^{l_s}$, whose components are
+$T^{i_1 \ldots i_r}_{j_1 \ldots j_s} = \delta^{i_1}_{k_1} \cdots \delta^{i_r}_{k_r}\delta^{l_1}_{j_1} \cdots \delta^{l_s}_{j_s}$. By definition $C^a_bT = e^{l_b}(e_{k_a})$ times the tensor with the
+$a$-th and $b$-th factors removed, and $e^{l_b}(e_{k_a}) = \delta^{l_b}_{k_a} = \sum_m\delta^m_{k_a}\delta^{l_b}_m$. Comparing components gives the formula.
+
+(2) By (1), $C^1_1A = \sum_mA^m_m$, the sum of the diagonal entries of the matrix of $A$ (Definition~\ref{multilinear-algebra:definition-tensor-components}), which is the trace. Alternatively,
+this is the last statement of Proposition~\ref{multilinear-algebra:proposition-hom-tensor}.
+
+(3) By (1), $(C^1_1T)_j = \sum_mT^m_{mj}$. For fixed $w = e_j$ the endomorphism $v \mapsto T(v, e_j)$ has matrix entries $e^i(T(e_l, e_j)) = T^i_{lj}$, so its trace is $\sum_mT^m_{mj}$.
+\end{proof}
+
+\begin{remark}\label{multilinear-algebra:remark-einstein-convention}
+Formulas with components contain many sums over indices that occur once above and once below, as in Propositions~\ref{multilinear-algebra:proposition-tensor-transformation}
+and~\ref{multilinear-algebra:proposition-contraction}. Physicists and many geometers use the \emph{Einstein summation convention}: an index that appears once as an upper and once as a lower index is
+summed over, and the summation sign is omitted. Thus $v = v^ie_i$, $A^{\prime\,i}_j = Q^i_kA^k_lP^l_j$, and the trace of $A$ is $A^i_i$. The convention has a built-in check: in a correct formula
+every index that is not summed over appears in the same position on both sides, and each summed index appears exactly once up and once down. A formula such as $\sum_iv^iv^i$, which is not of this
+form, is not invariant under change of basis; it becomes invariant only once a bilinear form is used to lower one of the indices, as in $\sum_{i,j}g_{ij}v^iv^j$. We do not use the convention in this book.
+\end{remark}
+
+Let $g$ be a nondegenerate symmetric bilinear form on $V$ (Definition~\ref{linear-algebra:definition-bilinear-form}), for instance an inner product when $k = \RR$. Its components
+$g_{ij} = g(e_i, e_j)$ form an invertible symmetric matrix, and we write $g^{ij}$ for the entries of the inverse matrix, so that $\sum_jg^{ij}g_{jl} = \delta^i_l$.
+
+\begin{definition}\label{multilinear-algebra:definition-raising-lowering}
+The isomorphism $\flat \colon V \to V^*$, $v \mapsto v^\flat = g(v, -)$, and its inverse $\sharp \colon V^* \to V$, $\varphi \mapsto \varphi^\sharp$, are called \emph{lowering} and \emph{raising}
+of indices. Applying $\flat$ to the $a$-th factor $V$ of $T^r_s(V)$, and moving the result to the last position, gives an isomorphism $T^r_s(V) \to T^{r-1}_{s+1}(V)$; applying $\sharp$ to a factor
+$V^*$ gives an isomorphism $T^r_s(V) \to T^{r+1}_{s-1}(V)$. The \emph{trace with respect to $g$} of a tensor $B$ of type $(0,2)$ is
+$\operatorname{tr}_gB = C^1_1(B^\sharp)$, the trace of the endomorphism obtained by raising the first index of $B$.
+\end{definition}
+
+\begin{proposition}\label{multilinear-algebra:proposition-raising-lowering}
+\begin{enumerate}
+\item In components, $(v^\flat)_i = \sum_jg_{ij}v^j$ and $(\varphi^\sharp)^i = \sum_jg^{ij}\varphi_j$.
+\item For $B$ of type $(0,2)$, the endomorphism $B^\sharp$ is characterised by $g(B^\sharp w, v) = B(v, w)$ for all $v, w$, and $\operatorname{tr}_gB = \sum_{i,j}g^{ij}B_{ij}$.
+\item If $k = \RR$, $g$ is an inner product and $(e_i)$ is orthonormal, then $g_{ij} = g^{ij} = \delta_{ij}$, raising and lowering do not change components, and
+$\operatorname{tr}_gB = \sum_iB(e_i, e_i)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $(v^\flat)_i = v^\flat(e_i) = g(v, e_i) = \sum_jv^jg_{ji}$, and $g_{ji} = g_{ij}$. So $\flat$ has matrix $(g_{ij})$ in the bases $(e_i)$ and $(e^i)$, and its inverse $\sharp$ has matrix $(g^{ij})$.
+
+(2) Write $B = \sum_{i,j}B_{ij}e^i \otimes e^j$. Raising the first index replaces $e^i$ by $(e^i)^\sharp = \sum_lg^{li}e_l$, so $B^\sharp = \sum_{i,j,l}g^{li}B_{ij}\,e_l \otimes e^j$, the endomorphism
+$w \mapsto \sum_{i,j,l}g^{li}B_{ij}e^j(w)\,e_l = \sum_iB(e_i, w)(e^i)^\sharp$. Hence $g(B^\sharp w, v) = \sum_iB(e_i, w)e^i(v) = B(v, w)$; this characterises $B^\sharp w$ because $g$ is nondegenerate. By
+Proposition~\ref{multilinear-algebra:proposition-contraction}(1) the trace is $\sum_m(B^\sharp)^m_m = \sum_{m,i}g^{mi}B_{im}$, which is $\sum_{i,j}g^{ij}B_{ij}$ since $g^{mi} = g^{im}$.
+
+(3) The Gram matrix of an orthonormal basis is the identity, which is its own inverse; now apply (1) and (2).
+\end{proof}
+
+In particular $\operatorname{tr}_gB$ does not depend on the basis, being a contraction, although the formula $\sum_iB(e_i, e_i)$ is only valid for orthonormal bases. For $B = g$ one finds
+$\operatorname{tr}_gg = \sum_{i,j}g^{ij}g_{ij} = n$. This is how the Ricci tensor and the scalar curvature of a Riemannian manifold are obtained from its curvature tensor
+(Chapter~\ref{riemannian-geometry}), and how the Laplacian $\Delta f = \operatorname{tr}_g\operatorname{Hess}f$ is obtained from the Hessian.
+
+\begin{exercise}\label{multilinear-algebra:exercise-tensor-symmetric}
+Assume $\operatorname{char}k \neq 2$. Show that every tensor of type $(0,2)$ is uniquely the sum of a symmetric and an alternating one, and that the symmetric ones form a subspace of dimension
+$n(n+1)/2$ and the alternating ones a subspace of dimension $n(n-1)/2$. Show that the symmetric ones are preserved by the transformation law, that is, the notion of symmetry does not depend on
+the basis.
+\end{exercise}
+
+\begin{solution}
+Write $B = \frac12(B + B^t) + \frac12(B - B^t)$, where $B^t(v, w) = B(w, v)$; the first summand is symmetric and the second alternating, because $(B - B^t)(v, v) = 0$. If $B$ is both symmetric and
+alternating, then $0 = B(v + w, v + w) = B(v, w) + B(w, v) = 2B(v, w)$, so $B = 0$; this gives uniqueness. In components, symmetric means $B_{ij} = B_{ji}$, so a symmetric tensor is determined by
+its components $B_{ij}$ with $i \leq j$, which are arbitrary: dimension $n + \binom n2 = n(n+1)/2$. Alternating means $B_{ij} = -B_{ji}$ and $B_{ii} = 0$, so the components with $i < j$
+are free: dimension $\binom n2 = n(n-1)/2$; the two dimensions add up to $n^2$. Symmetry is defined by the condition $B(v, w) = B(w, v)$ for all $v, w$, which does not mention a basis; equivalently,
+if $B^T = B$ then $(P^TBP)^T = P^TB^TP = P^TBP$.
+\end{solution}
+
+\begin{exercise}\label{multilinear-algebra:exercise-contraction-composition}
+Let $A, B \in \End(V) = T^1_1(V)$, so that $A \otimes B \in T^2_2(V)$. Show that $C^2_1(A \otimes B) = A \circ B$ and that $C^1_1C^2_1(A \otimes B) = \operatorname{tr}(AB)$, while
+$C^1_1C^1_1(A \otimes B) = \operatorname{tr}A\operatorname{tr}B$. Deduce that $\operatorname{tr}(AB) = \operatorname{tr}(BA)$.
+\end{exercise}
+
+\begin{solution}
+By linearity we may take $A = v \otimes \varphi$ and $B = w \otimes \psi$, so $A \otimes B = v \otimes w \otimes \varphi \otimes \psi$, $A(x) = \varphi(x)v$ and $B(x) = \psi(x)w$. Then
+$C^2_1(A \otimes B) = \varphi(w)\,v \otimes \psi$, the endomorphism $x \mapsto \varphi(w)\psi(x)v$; and $(A \circ B)(x) = A(\psi(x)w) = \psi(x)\varphi(w)v$, the same. Applying $C^1_1$, the trace
+(Proposition~\ref{multilinear-algebra:proposition-contraction}(2)), gives $\operatorname{tr}(AB)$, which equals $\varphi(w)\psi(v)$. On the other hand $C^1_1(A \otimes B) = \varphi(v)\,w \otimes \psi$
+and then $C^1_1$ gives $\varphi(v)\psi(w) = \operatorname{tr}A\operatorname{tr}B$. Finally $\operatorname{tr}(BA)$ is computed by the same formula with the roles exchanged, $\psi(v)\varphi(w)$,
+which is the same number as $\operatorname{tr}(AB) = \varphi(w)\psi(v)$; both sides being bilinear in $(A, B)$, the identity holds for all $A$, $B$.
+\end{solution}
 
 \section{Alternating forms}\label{multilinear-algebra:section-alternating-forms}
 

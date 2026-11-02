@@ -30,6 +30,8 @@ References: \cite{lee-smooth-manifolds}, \cite{warner-foundations}, \cite{spivak
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{vector-bundles} (Vector Bundles) and Chapter~\ref{measure-theory} (Measure and Integration).
 
+\noindent\textbf{On the way to the Hodge conjecture.} The whole chapter is needed: differential forms, orientations, integration and Stokes' theorem.
+
 \section{Differential forms}\label{differential-forms:section-forms}
 
 \begin{definition}\label{differential-forms:definition-forms}
@@ -63,7 +65,8 @@ evaluate $\omega$ there. Since $d_pf$ is linear, $(f^*\omega)_p$ is again altern
 both sides are computed pointwise from the same multilinear algebra) and functorial: $(g \circ f)^* = f^*g^*$ by the chain rule $d(g \circ f) = dg \circ df$, and $\id^* = \id$. A smooth map
 $f \colon N \to M$ induces maps in two directions:
 \begin{enumerate}
-\item \emph{forward} (covariantly): tangent vectors, $d_pf \colon T_pN \to T_{f(p)}M$, and curves, $\gamma \mapsto f \circ \gamma$;
+\item \emph{forward} (covariantly): tangent vectors, $d_pf \colon T_pN \to T_{f(p)}M$, and with them $k$-vectors
+(Proposition~\ref{differential-forms:proposition-induced-maps}); and curves, $\gamma \mapsto f \circ \gamma$;
 \item \emph{backward} (contravariantly): functions, $f^*g = g \circ f$; covectors and forms, $f^*\omega$; covariant tensors such as metrics, $(f^*g)(v, w) = g(df\,v, df\,w)$, which is again a metric if and only if
 $f$ is an immersion (Remark~\ref{differential-forms:remark-induced-maps-metric}); vector bundles and their sections, $f^*E$ (Chapter~\ref{vector-bundles}); and de Rham cohomology (Chapter~\ref{de-rham}).
 \end{enumerate}
@@ -77,6 +80,57 @@ can be integrated over images of maps and that form a contravariant functor, coh
 For $f \colon N \to (M, g)$ with $g$ a Riemannian metric, $(f^*g)_p(v, v) = |d_pf\,v|^2$ vanishes for $v \neq 0$ exactly when $v \in \ker d_pf$; so $f^*g$ is positive definite, a metric, if and only if every $d_pf$ is
 injective. For the inclusion of a submanifold this is the induced metric (Chapter~\ref{riemannian-geometry}).
 \end{remark}
+
+The maps of Remark~\ref{differential-forms:remark-induced-maps} are all obtained from the single linear map $d_pf \colon T_pN \to T_{f(p)}M$ by the functorial constructions of multilinear
+algebra (Chapter~\ref{multilinear-algebra}): constructions built from the tangent space go forward, those built from its dual go backward. For the exterior algebra this gives two families of maps,
+one in each direction, and the pullback of forms is one of them.
+
+\begin{proposition}\label{differential-forms:proposition-induced-maps}
+Let $f \colon N \to M$ be smooth, $p \in N$, and $k \geq 0$.
+\begin{enumerate}
+\item The differential induces linear maps $\Lambda^kd_pf \colon \Lambda^kT_pN \to \Lambda^kT_{f(p)}M$, $v_1 \wedge \cdots \wedge v_k \mapsto d_pf\,v_1 \wedge \cdots \wedge d_pf\,v_k$, on
+\emph{$k$-vectors}, and its transpose $(d_pf)^* \colon T^*_{f(p)}M \to T^*_pN$, $\varphi \mapsto \varphi \circ d_pf$, induces $\Lambda^k(d_pf)^* \colon \Lambda^kT^*_{f(p)}M \to \Lambda^kT^*_pN$.
+\item $\Lambda^k(d_pf)^*$ is the pullback, $(f^*\omega)_p = \Lambda^k(d_pf)^*(\omega_{f(p)})$, and under the pairings of Proposition~\ref{multilinear-algebra:proposition-dual-exterior} it is the
+transpose of $\Lambda^kd_pf$:
+\[
+\langle (f^*\omega)_p, v_1 \wedge \cdots \wedge v_k\rangle = \langle\omega_{f(p)}, \Lambda^kd_pf(v_1 \wedge \cdots \wedge v_k)\rangle .
+\]
+\item Let $(x^1, \ldots, x^n)$ be a chart near $p$ and $(y^1, \ldots, y^m)$ a chart near $f(p)$, and write $y^i$ also for the components of $f$ in these charts. In the bases
+$\partial_{x^J} = \partial/\partial x^{j_1} \wedge \cdots \wedge \partial/\partial x^{j_k}$ and $\partial_{y^I}$, for increasing multi-indices, the matrix of $\Lambda^kd_pf$ consists of the
+$k \times k$ minors $\partial(y^{i_1}, \ldots, y^{i_k})/\partial(x^{j_1}, \ldots, x^{j_k})$ of the Jacobian matrix at $p$, and
+\[
+f^*(dy^{i_1} \wedge \cdots \wedge dy^{i_k}) = \sum_{j_1 < \cdots < j_k}\frac{\partial(y^{i_1}, \ldots, y^{i_k})}{\partial(x^{j_1}, \ldots, x^{j_k})}\,dx^{j_1} \wedge \cdots \wedge dx^{j_k} .
+\]
+In particular, if $n = m$, then $f^*(dy^1 \wedge \cdots \wedge dy^n) = \det\bigl(\partial y^i/\partial x^j\bigr)\,dx^1 \wedge \cdots \wedge dx^n$.
+\item The rank of $d_pf$ is the largest $r$ with $\Lambda^rd_pf \neq 0$, equivalently with $\Lambda^r(d_pf)^* \neq 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\Lambda^k$ is a functor on linear maps (Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(5)), and the transpose of a linear map is linear
+(Definition~\ref{linear-algebra:definition-dual}).
+
+(2) Identify $\Lambda^kT^*_qM$ with the alternating $k$-linear forms on $T_qM$ (Notation~\ref{multilinear-algebra:notation-forms}); then a decomposable element $\varphi_1 \wedge \cdots \wedge \varphi_k$
+is the form $(w_1, \ldots, w_k) \mapsto \det(\varphi_a(w_b))$, by Proposition~\ref{multilinear-algebra:proposition-dual-exterior}. Its image under $\Lambda^k(d_pf)^*$ is
+$(\varphi_1 \circ d_pf) \wedge \cdots \wedge (\varphi_k \circ d_pf)$, the form $(v_1, \ldots, v_k) \mapsto \det(\varphi_a(d_pf\,v_b))$, that is,
+$(v_1, \ldots, v_k) \mapsto (\varphi_1 \wedge \cdots \wedge \varphi_k)(d_pf\,v_1, \ldots, d_pf\,v_k)$. By linearity, $\Lambda^k(d_pf)^*$ sends every $\omega_{f(p)}$ to
+$(v_1, \ldots, v_k) \mapsto \omega_{f(p)}(d_pf\,v_1, \ldots, d_pf\,v_k)$, which is $(f^*\omega)_p$ by Definition~\ref{differential-forms:definition-forms}. The displayed formula is the same
+statement written with the pairing, since $\langle\alpha, v_1 \wedge \cdots \wedge v_k\rangle = \alpha(v_1, \ldots, v_k)$.
+
+(3) The matrix of $d_pf$ in the bases $(\partial/\partial x^j)$ and $(\partial/\partial y^i)$ is the Jacobian matrix $(\partial y^i/\partial x^j)$, because
+$d_pf(\partial/\partial x^j)(y^i) = \partial(y^i \circ f)/\partial x^j$ (Definition~\ref{smooth-manifolds:definition-tangent-space}). By
+Proposition~\ref{multilinear-algebra:proposition-minors}(1) the matrix of $\Lambda^kd_pf$ consists of its $k \times k$ minors. By (2), the matrix of the pullback in the dual bases $(dy^I)$ and
+$(dx^J)$ is the transpose of this matrix, which is the formula. For $k = n = m$ there is a single minor, the determinant.
+
+(4) The first statement is Proposition~\ref{multilinear-algebra:proposition-minors}(3). A linear map and its transpose have the same rank (Proposition~\ref{linear-algebra:proposition-duality}(5)),
+and by (2) $\Lambda^r(d_pf)^*$ is the transpose of $\Lambda^rd_pf$.
+\end{proof}
+
+So the pullback of a form is ``$\Lambda^k$ of the transpose of the Jacobian matrix'', and the familiar factor $\det(\partial y^i/\partial x^j)$ in the pullback of a top degree form is the
+case $k = n$; up to its absolute value it is the factor of the change of variables formula (Theorem~\ref{measure-theory:theorem-change-of-variables}), which is why the integral of a top degree
+form does not depend on the chart, up to sign (Section~\ref{differential-forms:section-integration}). The $k$-vectors $v_1 \wedge \cdots \wedge v_k$ have a geometric meaning: up to scalars, a
+nonzero decomposable $k$-vector is the same as a $k$-dimensional subspace of the tangent space with a chosen orientation and volume, and $\Lambda^kd_pf$ says how $f$ transforms such
+infinitesimal $k$-dimensional parallelepipeds. A $k$-form is what measures them, and $f^*\omega$ measures a parallelepiped by measuring its image.
 
 \begin{proposition}\label{differential-forms:proposition-forms-descriptions}
 Let $M$ be a smooth $n$-manifold. For each $p$, the fibre $\Lambda^kT_p^*M$ is the space of alternating $k$-linear maps $(T_pM)^k \to \RR$

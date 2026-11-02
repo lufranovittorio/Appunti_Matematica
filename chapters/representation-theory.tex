@@ -4,7 +4,7 @@
 \section{Introduction}\label{representation-theory:section-introduction}
 
 A representation of a group or a Lie algebra is an action by linear maps. This chapter develops the
-basic theory: Schur's lemma, Maschke's theorem and character theory for finite groups, nilpotent and solvable Lie algebras with the
+basic theory: Schur's lemma, Maschke's theorem, unitary representations and character theory for finite groups, nilpotent and solvable Lie algebras with the
 theorems of Engel and Lie, and the complete
 classification of the finite-dimensional representations of the Lie algebra $\mathfrak{sl}_2(\CC)$. It then develops the structure theory of semisimple Lie
 algebras: Cartan's criteria and the Killing form, Weyl's theorem on complete reducibility, the root space decomposition, root systems and their classification by
@@ -19,6 +19,11 @@ References are \cite{serre-linear-representations}, \cite{fulton-harris} and \ci
 \noindent\textbf{Prerequisites.} Chapter~\ref{groups} (Groups), Chapter~\ref{fields} (Fields and Galois
 Theory), Chapter~\ref{linear-algebra} (Linear Algebra) and Chapter~\ref{multilinear-algebra}
 (Multilinear Algebra).
+
+\noindent\textbf{On the way to the Hodge conjecture.} Only the basic definitions (Section~\ref{representation-theory:section-group-representations}) and the representations of $\mathfrak{sl}_2$ (Section~\ref{representation-theory:section-sl2}), which give the hard
+Lefschetz theorem, are used on the direct route. Unitary representations (Subsection~\ref{representation-theory:subsection-unitary}) return for compact Lie groups, whose
+representations are unitary by averaging over Haar measure. Characters of finite groups and the structure theory of semisimple Lie algebras are used later only for algebraic groups and
+Mumford--Tate groups.
 
 Throughout, $k$ is a field and representations are on $k$-vector spaces.
 
@@ -72,6 +77,129 @@ stable line would be spanned by an eigenvector and $e_1$ spans the only eigenlin
 $\mathbb{F}_p^2$ by the same matrices (with $n$ read modulo $p$), and the representation is not completely
 reducible although $\ZZ/p\ZZ$ is finite; here $p$ divides the order of the group.
 \end{counterexample}
+
+\subsection{Unitary representations}\label{representation-theory:subsection-unitary}
+
+Many representations met in practice do more than act linearly: they preserve lengths and angles. Permutations of the coordinates of $\CC^n$, rotations of the plane, the symmetries
+of a molecule acting on its wave functions are all of this kind. In quantum mechanics this is a principle: the states of a system are the unit vectors of a complex Hilbert space, and a
+symmetry of the system acts by operators preserving the inner product, so that transition probabilities $|\langle v, w\rangle|^2$ are unchanged. Representations by such operators are
+called unitary. For them complete reducibility is automatic, and for finite groups every complex representation is of this kind. In this subsection $V$ is a finite-dimensional
+complex vector space.
+
+\begin{definition}\label{representation-theory:definition-unitary}
+A representation $\rho \colon G \to \GL(V)$ is \emph{unitary} with respect to a Hermitian inner product $\langle -, - \rangle$ on $V$ (Definition~\ref{linear-algebra:definition-inner-product}) if
+\[
+\langle gv, gw \rangle = \langle v, w \rangle \qquad \text{for all } g \in G \text{ and } v, w \in V,
+\]
+that is, if every $\rho(g)$ is a unitary operator (Definition~\ref{linear-algebra:definition-adjoint}), so that $\rho$ takes values in the unitary group $\mathrm{U}(V)$. A representation is
+\emph{unitarisable} if $V$ has a Hermitian inner product for which it is unitary.
+\end{definition}
+
+The two descriptions agree: a linear map $f$ satisfies $\langle fv, fw\rangle = \langle v, w\rangle$ for all $v, w$ if and only if $\langle f^\dagger fv, w\rangle = \langle v, w\rangle$ for all
+$v, w$, that is, $f^\dagger f = \id$. In an orthonormal basis of $V$ the matrices of a unitary representation lie in $\mathrm{U}(n)$, where $n = \dim V$
+(Lemma~\ref{linear-algebra:lemma-adjoint}).
+
+\begin{example}\label{representation-theory:example-unitary}
+\begin{enumerate}
+\item A permutation representation $\CC^X$ (Example~\ref{representation-theory:example-constructions}) is unitary for the inner product in which the $e_x$ are orthonormal, since $g$ permutes
+this orthonormal basis. In particular the regular representation of a finite group is unitary.
+\item A one-dimensional representation is a homomorphism $\chi \colon G \to \CC^\times$, and it is unitary for some (equivalently, every) inner product on $\CC$ if and only if $|\chi(g)| = 1$
+for all $g$, since $\langle \chi(g)v, \chi(g)v\rangle = |\chi(g)|^2\langle v, v\rangle$. So $\RR \to \CC^\times$, $t \mapsto e^{iat}$, is unitary, while $t \mapsto e^t$ is not unitarisable.
+For a finite group every $\chi(g)$ is a root of unity, so every one-dimensional representation is unitary.
+\item The group $\ZZ$ acting on $\CC^2$ by $n \mapsto \bigl(\begin{smallmatrix}1 & n\\ 0 & 1\end{smallmatrix}\bigr)$ (Counterexample~\ref{representation-theory:counterexample-not-semisimple}) is
+not unitarisable: by Proposition~\ref{representation-theory:proposition-unitary}(1) below a unitarisable representation is completely reducible, and this one is not.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{representation-theory:proposition-unitary}
+Let $V$ be a unitary representation of a group $G$.
+\begin{enumerate}
+\item The orthogonal complement $U^\perp$ of a subrepresentation $U$ is a subrepresentation. Hence $V$ is the orthogonal direct sum of irreducible subrepresentations.
+\item For every $g \in G$, $\rho(g)^\dagger = \rho(g^{-1})$, and $\rho(g)$ is diagonalisable in an orthonormal basis, with eigenvalues of absolute value $1$. Consequently
+$\operatorname{tr}\rho(g^{-1}) = \overline{\operatorname{tr}\rho(g)}$.
+\item The map $V \to V^*$, $v \mapsto \langle -, v\rangle$, is a conjugate-linear bijection compatible with the actions of $G$ (with the dual representation of
+Example~\ref{representation-theory:example-constructions} on $V^*$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $U$ is stable under $\rho(g)$, then $U^\perp$ is stable under $\rho(g)^\dagger$ (Lemma~\ref{linear-algebra:lemma-adjoint}), and $\rho(g)^\dagger = \rho(g)^{-1} = \rho(g^{-1})$ since $\rho(g)$ is
+unitary. As $g$ runs through $G$ so does $g^{-1}$, so $U^\perp$ is a subrepresentation. Now induct on $\dim V$: if $V$ is not irreducible (and $V \neq 0$), choose a subrepresentation
+$0 \neq U \neq V$; then $V = U \oplus U^\perp$ (Theorem~\ref{linear-algebra:theorem-gram-schmidt}), and $U$ and $U^\perp$ are unitary representations of smaller dimension.
+
+(2) The first statement was shown in (1). A unitary operator is normal, so by the spectral theorem (Theorem~\ref{linear-algebra:theorem-spectral}) it has an orthonormal basis of
+eigenvectors; if $\rho(g)v = \lambda v$ with $v \neq 0$, then $\langle v, v\rangle = \langle \rho(g)v, \rho(g)v\rangle = |\lambda|^2\langle v, v\rangle$, so $|\lambda| = 1$. In such a basis $\rho(g^{-1})$ is
+diagonal with entries $\lambda_i^{-1} = \bar\lambda_i$, so its trace is $\overline{\operatorname{tr}\rho(g)}$.
+
+(3) The map is conjugate-linear because the inner product is conjugate-linear in the second variable, and it is bijective because a nondegenerate form identifies $V$ with $V^*$ in this way
+(compute in an orthonormal basis $(u_i)$, where $u_i \mapsto u_i^*$). For compatibility with $G$, write $\varphi_v = \langle -, v\rangle$; then
+$(g\varphi_v)(w) = \varphi_v(g^{-1}w) = \langle g^{-1}w, v\rangle = \langle w, gv\rangle = \varphi_{gv}(w)$, using that $g$ preserves the inner product.
+\end{proof}
+
+\begin{theorem}[Unitary trick for finite groups]\label{representation-theory:theorem-unitary-trick}
+Every finite-dimensional complex representation $V$ of a finite group $G$ is unitarisable: if $\langle -, - \rangle$ is any Hermitian inner product on $V$, then
+\[
+\langle v, w\rangle_G = \frac{1}{|G|}\sum_{g \in G}\langle gv, gw\rangle
+\]
+is a Hermitian inner product for which $V$ is unitary. Consequently every finite subgroup of $\GL_n(\CC)$ is conjugate to a subgroup of $\mathrm{U}(n)$.
+\end{theorem}
+
+\begin{proof}
+Each summand is linear in $v$ and satisfies $\langle gw, gv\rangle = \overline{\langle gv, gw\rangle}$, so $\langle -, - \rangle_G$ is Hermitian. For $v \neq 0$ every summand
+$\langle gv, gv\rangle$ is positive, since $gv \neq 0$; so $\langle v, v\rangle_G > 0$. For $h \in G$,
+\[
+\langle hv, hw\rangle_G = \frac{1}{|G|}\sum_{g \in G}\langle ghv, ghw\rangle = \frac{1}{|G|}\sum_{g^{\prime} \in G}\langle g^{\prime}v, g^{\prime}w\rangle = \langle v, w\rangle_G,
+\]
+because $g \mapsto gh$ is a bijection of $G$. For the last statement, let $G \subseteq \GL_n(\CC)$ be finite, acting on $\CC^n$. Choose an orthonormal basis of $\CC^n$ for
+$\langle -, - \rangle_G$ by the Gram--Schmidt process (Theorem~\ref{linear-algebra:theorem-gram-schmidt}), and let $P$ be the matrix whose columns are its vectors. In this basis the elements of
+$G$ act by unitary matrices, that is, $P^{-1}GP \subseteq \mathrm{U}(n)$.
+\end{proof}
+
+Together with Proposition~\ref{representation-theory:proposition-unitary}(1) this gives a second proof of Maschke's theorem over $\CC$, with a canonical choice of complement: the orthogonal
+one. The averaging only uses that one can take the mean of a function over $G$ in a translation invariant way. It therefore works for compact groups, where the sum is replaced by the integral
+against Haar measure (Chapter~\ref{lie-groups}), and fails for $\ZZ$, as Example~\ref{representation-theory:example-unitary}(3) shows. The same argument with real inner products shows
+that every finite subgroup of $\GL_n(\RR)$ is conjugate to a subgroup of $\mathrm{O}(n)$: the finite groups of real matrices are, up to a change of basis, groups of symmetries of Euclidean space.
+
+For an irreducible representation the invariant inner product is essentially unique.
+
+\begin{proposition}\label{representation-theory:proposition-unitary-unique}
+Let $V$ be an irreducible finite-dimensional complex representation of a group $G$, unitary for two Hermitian inner products $\langle -, - \rangle_1$ and $\langle -, - \rangle_2$. Then
+$\langle -, - \rangle_2 = c\,\langle -, - \rangle_1$ for a real number $c > 0$.
+\end{proposition}
+
+\begin{proof}
+Let $(u_i)$ be an orthonormal basis for $\langle -, - \rangle_1$ and define a linear map $A$ by $Av = \sum_i\langle v, u_i\rangle_2\,u_i$. Writing $w = \sum_j\langle w, u_j\rangle_1u_j$,
+\[
+\langle v, w\rangle_2 = \sum_j\overline{\langle w, u_j\rangle_1}\,\langle v, u_j\rangle_2 = \sum_j\langle v, u_j\rangle_2\,\langle u_j, w\rangle_1 = \langle Av, w\rangle_1
+\]
+for all $v, w$. The map $A$ is $G$-equivariant: for $g \in G$,
+$\langle Agv, w\rangle_1 = \langle gv, w\rangle_2 = \langle v, g^{-1}w\rangle_2 = \langle Av, g^{-1}w\rangle_1 = \langle gAv, w\rangle_1$ for all $w$, so $Agv = gAv$. By Schur's lemma
+(Lemma~\ref{representation-theory:lemma-schur}) $A = c\,\id$ for some $c \in \CC$, and $c = \langle v, v\rangle_2/\langle v, v\rangle_1 > 0$ for any $v \neq 0$.
+\end{proof}
+
+Irreducibility is needed: on the trivial representation $\CC^2$ every inner product is invariant.
+
+\begin{remark}\label{representation-theory:remark-unitary-infinite}
+In analysis and physics the important unitary representations are infinite-dimensional. A \emph{unitary representation} of a topological group $G$ on a Hilbert space $H$ is a homomorphism
+from $G$ to the group of unitary operators of $H$ such that $g \mapsto gv$ is continuous for every $v \in H$ (Chapter~\ref{functional-analysis}). Examples are the translations
+$(T_af)(x) = f(x - a)$ of $\RR$ on $L^2(\RR)$, and the rotations of the circle on $L^2(S^1)$. The latter decomposes as the orthogonal Hilbert sum of the one-dimensional representations
+spanned by the functions $e^{in\theta}$, $n \in \ZZ$: this is the theory of Fourier series. For a compact group $G$ the Peter--Weyl theorem gives the analogous decomposition of $L^2(G)$, in
+which every irreducible representation $V$ occurs $\dim V$ times \cite[Chapter III]{brocker-tomdieck}. For $G = \RR$, Stone's theorem says that every unitary representation is of the form
+$t \mapsto e^{itA}$ for a self-adjoint, in general unbounded, operator $A$ \cite[Theorem VIII.8]{reed-simon-1}; in quantum mechanics, the time evolution of a system is such a representation and
+$A$ is its energy, the Hamiltonian.
+\end{remark}
+
+\begin{exercise}\label{representation-theory:exercise-unitary-s3}
+Let $S_3$ act on $\CC^3$ by permuting the coordinates, with the standard inner product. Show that the line spanned by $(1, 1, 1)$ and its orthogonal complement
+$W = \{x + y + z = 0\}$ are subrepresentations, and that $W$ is irreducible.
+\end{exercise}
+
+\begin{solution}
+Permutations fix $(1, 1, 1)$, so its span is a subrepresentation, and the representation is unitary (Example~\ref{representation-theory:example-unitary}(1)), so $W$ is a subrepresentation by
+Proposition~\ref{representation-theory:proposition-unitary}(1). If $W$ were reducible, it would contain a stable line spanned by some $v = (a, b, c) \neq 0$ with $a + b + c = 0$, and each
+transposition, having order $2$, would act on it by $\pm1$. If $(1\,2)v = v$ then $a = b$ and $v = (a, a, -2a)$, and $(2\,3)v = (a, -2a, a) = \pm v$ forces $a = 0$. If $(1\,2)v = -v$ then
+$b = -a$ and $c = 0$, so $v = (a, -a, 0)$, and $(2\,3)v = (a, 0, -a) = \pm v$ again forces $a = 0$. Both cases contradict $v \neq 0$.
+\end{solution}
 
 \section{Characters of finite groups}\label{representation-theory:section-characters}
 

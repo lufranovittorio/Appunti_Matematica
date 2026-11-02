@@ -19,6 +19,9 @@ natural home of distributions (Chapter~\ref{distributions}). References: \cite{b
 \noindent\textbf{Prerequisites.} Chapter~\ref{measure-theory} (Measure and Integration), Chapter~\ref{linear-algebra} (Linear Algebra) and Chapter~\ref{complex-analysis}
 (Complex Analysis).
 
+\noindent\textbf{On the way to the Hodge conjecture.} Needed: Banach and Hilbert spaces, the Hahn--Banach and Baire theorems, and compact operators with their spectral theory, which the elliptic
+theory uses. The later sections (Section~\ref{functional-analysis:section-baire-applications} and Sections~\ref{functional-analysis:section-spectrum} to \ref{functional-analysis:section-duality}) are not used on the direct route.
+
 All vector spaces are over $\mathbb{K} = \RR$ or $\CC$.
 
 \section{Banach spaces and bounded operators}\label{functional-analysis:section-banach}
@@ -225,7 +228,8 @@ In finite dimensions every linear functional is continuous (Lemma~\ref{real-anal
 \section{Applications of the Baire theorems}\label{functional-analysis:section-baire-applications}
 
 The three theorems of Theorem~\ref{functional-analysis:theorem-baire-consequences} turn qualitative information (a limit exists for every vector, a map is bijective, a graph is closed) into
-quantitative information (a uniform bound). We give some classical consequences, culminating in the existence of continuous functions whose Fourier series diverge.
+quantitative information (a uniform bound). We give some classical consequences, culminating in the existence of continuous functions whose Fourier series diverge and in the fact that the generic continuous function is nowhere
+differentiable.
 
 \begin{corollary}\label{functional-analysis:corollary-equivalent-norms}
 Let $X$ be a vector space that is complete for two norms $\|\cdot\|_1$ and $\|\cdot\|_2$, with $\|x\|_1 \leq C\|x\|_2$ for all $x$. Then the two norms are equivalent: $\|x\|_2 \leq C^{\prime}\|x\|_1$ for some
@@ -355,6 +359,57 @@ Lemma~\ref{functional-analysis:lemma-dirichlet-kernel}.
 
 In contrast, on $L^2$ the Fourier transform is an isometry onto $\ell^2(\ZZ)$ (Theorem~\ref{functional-analysis:theorem-orthonormal-basis}): on $L^2$ the coefficients are characterised by
 $\sum|c_n|^2 < \infty$, while no such description of the Fourier coefficients of integrable functions is known.
+
+The same method shows that pathological functions are, in a precise sense, the typical ones. A subset of a complete metric space is called \emph{residual} (or \emph{generic}) if it contains a
+countable intersection of dense open sets, and \emph{meagre} if its complement is residual, that is, if it is contained in a countable union of closed sets with empty interior. By Baire's theorem
+(Theorem~\ref{general-topology:theorem-baire}) a residual set is dense, a countable intersection of residual sets is residual, and a nonempty complete metric space is not meagre in itself. Residual sets
+play the role of ``almost all points'', in a topological rather than a measure-theoretic sense. In this language Theorem~\ref{functional-analysis:theorem-divergent-fourier} says that, for the generic
+continuous function, the Fourier series diverges at $0$.
+
+Explicit continuous nowhere differentiable functions, such as the Takagi function (Theorem~\ref{real-analysis:theorem-takagi}), look like curiosities: the functions one meets in practice are differentiable at most
+points. The next theorem, due independently to Banach and Mazurkiewicz (1931), shows that the opposite is true in $C([0, 1])$.
+
+\begin{theorem}[Banach--Mazurkiewicz]\label{functional-analysis:theorem-nowhere-differentiable}
+In the Banach space $C([0, 1])$ of real continuous functions with the supremum norm, the set of functions that have a finite right derivative at no point of $[0, 1)$ is residual. In particular
+continuous functions that are differentiable at no point of $(0, 1)$ form a dense subset of $C([0, 1])$.
+\end{theorem}
+
+\begin{proof}
+For $n \geq 2$ let $E_n$ be the set of $f \in C([0, 1])$ for which there is $x \in [0, 1 - 1/n]$ with
+\[
+|f(x + h) - f(x)| \leq nh \quad\text{for all } h \in (0, 1/n].
+\]
+We show that every function with a finite right derivative at some point of $[0, 1)$ lies in $\bigcup_nE_n$, and that each $E_n$ is closed with empty interior. Then $\bigcup_nE_n$ is meagre, and
+its complement, which is contained in the set of the theorem, is residual, hence dense since $C([0, 1])$ is complete.
+
+\emph{Step 1.} Suppose that $f$ has a finite right derivative $c$ at $x \in [0, 1)$. There is $\delta \in (0, 1 - x)$ with $|f(x + h) - f(x)| \leq (|c| + 1)h$ for $0 < h \leq \delta$, and for
+$\delta < h \leq 1 - x$ we have $|f(x + h) - f(x)| \leq 2\|f\|_\infty \leq (2\|f\|_\infty/\delta)h$. Choose an integer $n \geq 2$ with $n \geq |c| + 1$, $n \geq 2\|f\|_\infty/\delta$ and
+$1/n \leq 1 - x$. Then $x \leq 1 - 1/n$, and for $h \in (0, 1/n]$, which ensures $h \leq 1 - x$, one of the two estimates applies; so $f \in E_n$.
+
+\emph{Step 2: $E_n$ is closed.} Let $f_k \in E_n$ converge uniformly to $f$, with points $x_k \in [0, 1 - 1/n]$ as in the definition. Passing to a subsequence, $x_k \to x \in [0, 1 - 1/n]$
+(Theorem~\ref{general-topology:theorem-heine-borel} and Theorem~\ref{general-topology:theorem-compact-metric}). Fix $h \in (0, 1/n]$. Then $x_k + h \leq 1$ and
+\[
+|f_k(x_k + h) - f(x + h)| \leq \|f_k - f\|_\infty + |f(x_k + h) - f(x + h)| \to 0
+\]
+by continuity of $f$, and likewise $f_k(x_k) \to f(x)$. Passing to the limit in $|f_k(x_k + h) - f_k(x_k)| \leq nh$ gives $|f(x + h) - f(x)| \leq nh$. So $f \in E_n$.
+
+\emph{Step 3: $E_n$ has empty interior.} Let $f \in C([0, 1])$ and $\varepsilon > 0$; we find $g \notin E_n$ with $\|g - f\|_\infty < \varepsilon$. By the Weierstrass approximation theorem
+(Corollary~\ref{real-analysis:corollary-weierstrass}) there is a polynomial $p$ with $\|f - p\|_\infty < \varepsilon/2$; let $M = \sup_{[0, 1]}|p^{\prime}|$, so that $|p(y) - p(x)| \leq M|y - x|$ by the
+mean value theorem. Choose $L > M + n$ and put $\delta = \varepsilon/(2L)$, and let $\varphi(x) = L\operatorname{dist}(x, 2\delta\ZZ)$, a ``sawtooth'' with values in $[0, L\delta] = [0, \varepsilon/2]$
+that is linear with slope $\pm L$ on each interval $[m\delta, (m + 1)\delta]$, $m \in \ZZ$. Let $g = p + \varphi$; then $\|g - f\|_\infty \leq \|p - f\|_\infty + \|\varphi\|_\infty < \varepsilon$. For
+$x \in [0, 1 - 1/n]$, choose $m$ with $m\delta \leq x < (m + 1)\delta$ and $h \in (0, 1/n]$ with $x + h < (m + 1)\delta$. Then $|\varphi(x + h) - \varphi(x)| = Lh$, so
+\[
+|g(x + h) - g(x)| \geq |\varphi(x + h) - \varphi(x)| - |p(x + h) - p(x)| \geq (L - M)h > nh .
+\]
+So no point $x$ works for $g$, and $g \notin E_n$.
+
+Finally, a function differentiable at a point $x \in (0, 1)$ has a finite right derivative at $x$, so the functions differentiable at no point of $(0, 1)$ contain the residual set of the theorem.
+\end{proof}
+
+The proof shows more than density: the nowhere differentiable functions contain a countable intersection of dense open sets, so they are ``topologically almost all'' continuous functions, although
+no single one of them is produced by the proof. The same pattern, ``the bad set is a countable union of closed sets with empty interior'', recurs throughout analysis; compare the proof of
+Theorem~\ref{functional-analysis:theorem-divergent-fourier}. Note that residual sets can be small in the sense of measure: in $\RR$, the complement of a meagre set can have measure zero
+(Exercise~\ref{functional-analysis:exercise-meagre-null}), so ``generic'' and ``almost everywhere'' are genuinely different notions.
 
 \section{Compact operators}\label{functional-analysis:section-compact-operators}
 
@@ -1168,4 +1223,15 @@ use Lemma~\ref{functional-analysis:lemma-hahn-banach-distance} to show $x \in M$
 Restriction $X^* \to M^*$ has norm at most $1$, so $\eta$ is bounded, and $\eta = Jx$ for some $x \in X$. If $x \notin M$, the lemma gives $\Lambda \in X^*$ vanishing on $M$ with $\Lambda(x) \neq 0$; but
 $\Lambda(x) = \eta(\Lambda) = \xi(\Lambda|_M) = \xi(0) = 0$. So $x \in M$. For $\lambda \in M^*$, extend it to $\Lambda \in X^*$ by the Hahn--Banach theorem; then $\xi(\lambda) = \xi(\Lambda|_M) = \eta(\Lambda) = \Lambda(x) = \lambda(x)$.
 So $\xi = J_Mx$.
+\end{solution}
+
+\begin{exercise}\label{functional-analysis:exercise-meagre-null}
+Let $q_1, q_2, \ldots$ be an enumeration of $\QQ$. For $m \geq 1$ let $U_m = \bigcup_{k \geq 1}(q_k - 2^{-k}/m, q_k + 2^{-k}/m)$ and $G = \bigcap_mU_m$. Show that $G$ is residual in $\RR$ and has
+Lebesgue measure $0$. Deduce that $\RR$ is the disjoint union of a meagre set and a set of measure zero.
+\end{exercise}
+
+\begin{solution}
+Each $U_m$ is open and contains $\QQ$, so it is dense; hence $G$ is a countable intersection of dense open sets, that is, residual. By countable subadditivity, $\lambda(U_m) \leq \sum_k2 \cdot 2^{-k}/m = 2/m$,
+and $G \subseteq U_m$ for every $m$, so $\lambda(G) = 0$. The complement $\RR \setminus G = \bigcup_m(\RR \setminus U_m)$ is a countable union of closed sets with empty interior (a closed set whose complement
+is dense has empty interior), so it is meagre, and $\RR = G \sqcup (\RR \setminus G)$.
 \end{solution}

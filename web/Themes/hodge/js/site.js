@@ -3,18 +3,55 @@
 
   var root = document.documentElement;
 
-  // Light/dark theme. The choice is remembered in this browser when storage
-  // is available; otherwise the operating system preference is used.
+  // Theme: "light", "dark" or "auto" (dark from 20:00 to 7:00, local time);
+  // the button cycles through them. Without a stored choice the operating
+  // system preference is used. The inline script in the page head applies
+  // the stored choice before the page is drawn.
   var themeButton = document.getElementById("theme-toggle");
+  var themeTitles = {
+    light: "Light theme (click for dark)",
+    dark: "Dark theme (click for automatic)",
+    auto: "Automatic theme: dark from 20:00 to 7:00 (click for light)"
+  };
+  function hourTheme() {
+    var hour = new Date().getHours();
+    return hour >= 20 || hour < 7 ? "dark" : "light";
+  }
   if (themeButton) {
+    var storedMode = root.getAttribute("data-theme-mode");
+    themeButton.title = themeTitles[storedMode] || "System theme (click to choose)";
     themeButton.addEventListener("click", function () {
-      var explicit = root.getAttribute("data-theme");
-      var dark = explicit
-        ? explicit === "dark"
-        : window.matchMedia("(prefers-color-scheme: dark)").matches;
-      var next = dark ? "light" : "dark";
-      root.setAttribute("data-theme", next);
+      var mode = root.getAttribute("data-theme-mode");
+      var next = mode === "light" ? "dark"
+        : mode === "dark" ? "auto"
+        : mode === "auto" ? "light"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+      root.setAttribute("data-theme-mode", next);
+      root.setAttribute("data-theme", next === "auto" ? hourTheme() : next);
+      themeButton.title = themeTitles[next];
       try { localStorage.setItem("hodge-theme", next); } catch (e) {}
+    });
+  }
+  // In automatic mode, follow the clock while the page stays open.
+  setInterval(function () {
+    if (root.getAttribute("data-theme-mode") === "auto") {
+      root.setAttribute("data-theme", hourTheme());
+    }
+  }, 60000);
+
+  // Random section: sections.json (written by make.py html) lists the pages
+  // of all sections except introductions and exercises.
+  var randomButton = document.getElementById("random-section");
+  if (randomButton) {
+    randomButton.addEventListener("click", function () {
+      fetch("sections.json")
+        .then(function (response) { return response.json(); })
+        .then(function (pages) {
+          var here = location.pathname.split("/").pop();
+          var choices = pages.filter(function (page) { return page !== here; });
+          if (choices.length) location.href = choices[Math.floor(Math.random() * choices.length)];
+        })
+        .catch(function () {});
     });
   }
 

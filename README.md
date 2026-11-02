@@ -41,6 +41,14 @@ dependency graph: the statements its statement and proof refer to with
 `\ref`, and those that refer to it, drawn to a chosen depth. The data,
 `deps.js`, is also written by `python make.py html`.
 
+A "Lean" badge after the tag links a result to its formalisation in Lean's
+Mathlib. The links are listed in `web/mathlib.txt`, one `label declaration`
+per line, and only on the website; `python make.py check` checks the labels and
+`python make.py lean` downloads the list of Mathlib declarations and checks
+that every name still exists. The dice button in the header opens a random
+section (`sections.json`, written by `python make.py html`), and the theme
+button cycles between light, dark and automatic (dark from 20:00 to 7:00).
+
 ## Publishing
 
 The sources live on the `main` branch of

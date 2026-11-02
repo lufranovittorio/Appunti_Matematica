@@ -20,10 +20,9 @@ and Hopf classifying the spaces of constant curvature, and the statements of Che
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature).
 
-\noindent\textbf{On a first reading.} The chapters on Hodge theory use only the metric, the volume form, normal coordinates, the curvature tensor and the Hodge star and
-Laplacian (Sections~\ref{riemannian-geometry:section-levi-civita}, \ref{riemannian-geometry:section-volume}, \ref{riemannian-geometry:section-exponential},
-\ref{riemannian-geometry:section-curvature} and~\ref{riemannian-geometry:section-hodge-star}); holonomy is the background of Chapter~\ref{calabi-yau}. The sections on
-moving frames, variations of energy, submanifolds, surfaces, minimal surfaces, Killing fields and space forms develop Riemannian geometry for its own sake and can be skipped on a first
+\noindent\textbf{On the way to the Hodge conjecture.} The chapters on Hodge theory use only the metric, the volume form, normal coordinates, the curvature tensor and the Hodge star and
+Laplacian (Sections~\ref{riemannian-geometry:section-levi-civita}, \ref{riemannian-geometry:section-volume}, \ref{riemannian-geometry:section-exponential}, \ref{riemannian-geometry:section-curvature} and~\ref{riemannian-geometry:section-hodge-star}); holonomy is the background of Chapter~\ref{calabi-yau}. The sections on moving frames,
+variations of energy, submanifolds, surfaces, minimal surfaces, Killing fields and space forms develop Riemannian geometry for its own sake and can be skipped on a first
 reading.
 
 \noindent\textbf{Conventions.} $(M, g)$ is a Riemannian manifold of dimension $n$, and we write $\langle v, w\rangle = g(v, w)$ and $|v| = \langle v, v\rangle^{1/2}$. Curves are piecewise smooth unless stated otherwise. In local
@@ -32,7 +31,8 @@ coordinates we use the summation convention: an index repeated once up and once 
 \section{Metrics and the Levi-Civita connection}\label{riemannian-geometry:section-levi-civita}
 
 \begin{definition}\label{riemannian-geometry:definition-metric}
-A \emph{Riemannian metric} on a smooth manifold $M$ is a smooth section $g$ of $\mathrm{Sym}^2T^*M$ that is an inner product on each tangent space; $(M, g)$ is a \emph{Riemannian manifold}. The
+A \emph{Riemannian metric} on a smooth manifold $M$ is a smooth section $g$ of $\mathrm{Sym}^2T^*M$ that is an inner product on each tangent space, that is, a symmetric tensor field
+of type $(0,2)$ that is positive definite at every point (Definition~\ref{vector-bundles:definition-tensor-fields}); $(M, g)$ is a \emph{Riemannian manifold}. The
 \emph{length} of a piecewise smooth curve is $L(\gamma) = \int_a^b|\dot\gamma(t)|\,dt$ with $|v| = g(v, v)^{1/2}$, and $d(p, q)$ is the infimum of the lengths of curves from $p$ to $q$. An \emph{isometry} is a
 diffeomorphism preserving $g$.
 \end{definition}
@@ -580,8 +580,9 @@ connection $\nabla$, and $\langle\ ,\ \rangle = g$.
 Let $f$ be a smooth function on $M$.
 \begin{enumerate}
 \item The \emph{gradient} of $f$ is the vector field $\operatorname{grad}f$ with $\langle\operatorname{grad}f, X\rangle = df(X) = Xf$ for all vector fields $X$; it is the image of $df$ under the isomorphism
-$T^*M \cong TM$ given by the metric (Proposition~\ref{vector-bundles:proposition-metrics}).
-\item The \emph{Hessian} of $f$ is the covariant derivative of the $1$-form $df$, the tensor $\operatorname{Hess}f = \nabla df$:
+$T^*M \cong TM$ given by the metric (Proposition~\ref{vector-bundles:proposition-metrics}), that is, $\operatorname{grad}f = (df)^\sharp$ is obtained by raising the index of $df$
+(Definition~\ref{multilinear-algebra:definition-raising-lowering}).
+\item The \emph{Hessian} of $f$ is the covariant derivative of the $1$-form $df$, the tensor field $\operatorname{Hess}f = \nabla df$ of type $(0,2)$:
 \[
 \operatorname{Hess}f(X, Y) = (\nabla_Xdf)(Y) = X(Yf) - (\nabla_XY)f .
 \]
@@ -952,9 +953,12 @@ which for a simply connected K\"ahler manifold is equivalent to Ricci-flatness (
 
 \begin{definition}\label{riemannian-geometry:definition-curvature-tensor}
 The \emph{Riemann curvature tensor} is the curvature of the Levi-Civita connection (Proposition~\ref{connections:proposition-curvature}),
-$R(X, Y)Z = \nabla_X\nabla_YZ - \nabla_Y\nabla_XZ - \nabla_{[X,Y]}Z$, viewed as the $4$-tensor $R(X, Y, Z, W) = g(R(X, Y)Z, W)$. For a plane $\sigma \subseteq T_pM$ with orthonormal basis $u, v$, the
-\emph{sectional curvature} is $K(\sigma) = R(u, v, v, u)$; the \emph{Ricci tensor} is $\mathrm{Ric}(X, Y) = \sum_iR(e_i, X, Y, e_i)$ for an orthonormal frame, and the \emph{scalar curvature} is
-$s = \sum_i\mathrm{Ric}(e_i, e_i)$.
+$R(X, Y)Z = \nabla_X\nabla_YZ - \nabla_Y\nabla_XZ - \nabla_{[X,Y]}Z$, a tensor field of type $(1,3)$ (Definition~\ref{vector-bundles:definition-tensor-fields}). Lowering its index with the metric
+(Definition~\ref{multilinear-algebra:definition-raising-lowering}) gives the tensor field $R(X, Y, Z, W) = g(R(X, Y)Z, W)$ of type $(0,4)$, also denoted $R$. For a plane $\sigma \subseteq T_pM$ with
+orthonormal basis $u, v$, the \emph{sectional curvature} is $K(\sigma) = R(u, v, v, u)$. The \emph{Ricci tensor} is the contraction $\mathrm{Ric}(X, Y) = \operatorname{tr}(Z \mapsto R(Z, X)Y)$
+(Definition~\ref{multilinear-algebra:definition-contraction}), a symmetric tensor field of type $(0,2)$ (Proposition~\ref{riemannian-geometry:proposition-curvature-symmetries}); for an orthonormal frame
+$\mathrm{Ric}(X, Y) = \sum_iR(e_i, X, Y, e_i)$. The \emph{scalar curvature} is the trace $s = \operatorname{tr}_g\mathrm{Ric}$ (Definition~\ref{multilinear-algebra:definition-raising-lowering}), which
+is $\sum_i\mathrm{Ric}(e_i, e_i)$ for an orthonormal frame (Proposition~\ref{multilinear-algebra:proposition-raising-lowering}).
 \end{definition}
 
 \begin{proposition}\label{riemannian-geometry:proposition-curvature-symmetries}
