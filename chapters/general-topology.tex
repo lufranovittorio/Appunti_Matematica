@@ -10,7 +10,9 @@ theorems are Tychonoff's theorem (Theorem~\ref{general-topology:theorem-tychonof
 metric spaces (Theorem~\ref{general-topology:theorem-compact-metric}), the Baire category theorem
 (Theorem~\ref{general-topology:theorem-baire}), Urysohn's lemma and the Tietze extension theorem
 (Theorems~\ref{general-topology:theorem-urysohn} and~\ref{general-topology:theorem-tietze}), and the existence of
-partitions of unity (Theorem~\ref{general-topology:theorem-partitions-of-unity}). Standard references are
+partitions of unity (Theorem~\ref{general-topology:theorem-partitions-of-unity}). The last sections treat convergence in general spaces by nets and
+ultrafilters (Section~\ref{general-topology:section-nets}), the Stone--\v{C}ech compactification (Section~\ref{general-topology:section-stone-cech}), and the Cantor set
+and space-filling curves (Section~\ref{general-topology:section-cantor}). Standard references are
 \cite{munkres-topology} and \cite{engelking-general-topology}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{sets} (Set Theory), Chapter~\ref{number-systems} (Number Systems),
@@ -335,7 +337,7 @@ $B(x, r)$ is contained in the sphere $\{d(x, y) = r\}$, with equality in normed 
 In general spaces sequences do not detect closures. Give $\RR$ the cocountable topology. If $x_n \to x$, the set $C = \{x_n : x_n \neq x\}$ is
 countable, so $\RR \setminus C$ is an open set containing $x$, and hence $x_n = x$ for large $n$. Now $A = \RR \setminus \{0\}$ is uncountable
 (Proposition~\ref{number-systems:proposition-reals-cardinality}), so the only closed set containing it is $\RR$ and $0 \in \overline{A}$; but no
-sequence in $A$ converges to $0$. (Nets or filters replace sequences in general \cite[Chapter 1]{engelking-general-topology}.)
+sequence in $A$ converges to $0$. Nets or filters replace sequences in general (Section~\ref{general-topology:section-nets}).
 \end{counterexample}
 
 \begin{proposition}\label{general-topology:proposition-arithmetic-continuous}
@@ -998,6 +1000,156 @@ not regular, hence not metrisable, since metric spaces are normal
 (Proposition~\ref{general-topology:proposition-normal-examples}).
 \end{remark}
 
+\subsection{The hierarchy of separation axioms}\label{general-topology:subsection-separation-hierarchy}
+
+The axioms $T_1$, Hausdorff, regular and normal are part of a longer list, traditionally numbered $T_0$ to $T_6$, each asking for more ways to separate points and sets by open sets or by functions. One
+of them is what makes the Stone--\v{C}ech compactification work (Section~\ref{general-topology:section-stone-cech}), and two others strengthen normality in the direction of metric spaces.
+
+\begin{definition}\label{general-topology:definition-more-separation}
+A space $X$ is
+\begin{enumerate}
+\item \emph{$T_0$} if for any two distinct points some open set contains exactly one of them;
+\item \emph{completely regular}, or a \emph{Tychonoff space}, or $T_{3\frac12}$, if it is $T_1$ and for every closed $C \subseteq X$ and $x \notin C$ there is a continuous $f \colon X \to [0, 1]$ with
+$f(x) = 0$ and $f = 1$ on $C$;
+\item \emph{completely normal}, or $T_5$, if every subspace of $X$ is normal;
+\item \emph{perfectly normal}, or $T_6$, if it is normal and every closed set is a countable intersection of open sets.
+\end{enumerate}
+With $T_2$ = Hausdorff, $T_3$ = regular and $T_4$ = normal, as in Definition~\ref{general-topology:definition-separation}.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-separation-hierarchy}
+\begin{enumerate}
+\item $T_4 \Rightarrow T_{3\frac12} \Rightarrow T_3 \Rightarrow T_2 \Rightarrow T_1 \Rightarrow T_0$, and $T_5 \Rightarrow T_4$.
+\item Metric spaces are completely normal and perfectly normal.
+\item Subspaces of $T_0$, $T_1$, $T_2$, $T_3$ and $T_{3\frac12}$ spaces have the same property, and so do closed subspaces of normal spaces.
+\item Products of $T_1$ spaces are $T_1$, and products of completely regular spaces are completely regular.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A normal space is completely regular by Urysohn's lemma (Theorem~\ref{general-topology:theorem-urysohn}), applied to $\{x\}$ and $C$. If $f$ separates $x$ from $C$ as in the definition, the open sets
+$\{f < \frac12\}$ and $\{f > \frac12\}$ separate them; so completely regular spaces are regular. The remaining implications were noted in Definition~\ref{general-topology:definition-separation}, except
+$T_1 \Rightarrow T_0$, which is clear ($X \setminus \{y\}$ contains $x$ but not $y$), and $T_5 \Rightarrow T_4$, as $X$ is a subspace of itself.
+
+(2) Subspaces of metric spaces are metric spaces, hence normal (Proposition~\ref{general-topology:proposition-normal-examples}). A closed set $A \neq \emptyset$ is the intersection of the open sets
+$\{x : d(x, A) < 1/n\}$, as $d(x, A) = 0$ exactly for $x \in \overline{A} = A$; and $\emptyset = \bigcap_n\emptyset$.
+
+(3) Let $Y \subseteq X$. For $T_0$, $T_1$, $T_2$ intersect the separating open sets with $Y$. If $C \subseteq Y$ is closed in $Y$ and $x \in Y \setminus C$, then $x \notin \overline{C}$ (closure in $X$), because
+$\overline{C} \cap Y = C$; separating $x$ from $\overline{C}$ in $X$ by open sets or by a function and restricting to $Y$ gives the regular and completely regular cases. A closed subset of a closed subspace
+is closed in $X$, which gives the last statement.
+
+(4) In a product of $T_1$ spaces, $\{x\} = \bigcap_ip_i^{-1}(\{x_i\})$ is closed. Let $C \subseteq \prod_iX_i$ be closed and $x \notin C$. Choose a basic open set $\prod_iU_i \ni x$ disjoint from $C$, with $U_i = X_i$
+except for $i \in \{i_1, \ldots, i_k\}$, and continuous $f_j \colon X_{i_j} \to [0, 1]$ with $f_j(x_{i_j}) = 0$ and $f_j = 1$ outside $U_{i_j}$. Then $f = \max_jf_j \circ p_{i_j}$ is continuous, $f(x) = 0$, and if $y \in C$,
+then $y \notin \prod_iU_i$, so $y_{i_j} \notin U_{i_j}$ for some $j$ and $f(y) = 1$. (For $k = 0$, $C$ is empty and $f = 0$ works.)
+\end{proof}
+
+All implications in (1) are strict. The Sierpi\'nski space (Example~\ref{general-topology:example-topologies}) is $T_0$ but not $T_1$; an infinite set with the cofinite topology is $T_1$ but not
+Hausdorff (Counterexample~\ref{general-topology:counterexample-cofinite-not-hausdorff}); Counterexample~\ref{general-topology:counterexample-hausdorff-not-regular} is Hausdorff but not regular; and below
+we show that the Sorgenfrey plane is completely regular but not normal. There are also regular spaces that are not completely regular, normal spaces that are not completely normal (for instance a compact
+Hausdorff space, the \emph{Tychonoff plank}, has a non-normal open subspace), and completely normal spaces that are not perfectly normal \cite{engelking-general-topology}; these examples need ordinals or
+more elaborate constructions. By (3) and (4), normality is the one axiom in the list that is not inherited by subspaces and products; this is why completely regular spaces, and not normal ones, are the natural
+class for many purposes.
+
+The tool for proving non-normality is a counting argument.
+
+\begin{lemma}[Jones's lemma]\label{general-topology:lemma-jones}
+Let $X$ be a separable normal space and $D \subseteq X$ a closed subset whose subspace topology is discrete. Then $2^{|D|} \leq 2^{\aleph_0}$. In particular $|D| < 2^{\aleph_0}$.
+\end{lemma}
+
+\begin{proof}
+Let $Q$ be a countable dense subset. Every subset $A \subseteq D$ is closed in $D$, which is discrete, hence closed in $X$, and so is $D \setminus A$. By normality and
+Lemma~\ref{general-topology:lemma-normal-shrinking} choose an open $U_A \supseteq A$ with $\overline{U_A} \cap (D \setminus A) = \emptyset$. The map $A \mapsto U_A \cap Q$ from $\mathcal{P}(D)$ to $\mathcal{P}(Q)$ is
+injective: if $A \neq B$, say $a \in A \setminus B$, then $a \in U_A$ and $a \in D \setminus B$, so $a \notin \overline{U_B}$; the open set $U_A \setminus \overline{U_B}$ contains $a$, so it contains a point of $Q$, which lies in
+$U_A \cap Q$ but not in $U_B \cap Q$. So $2^{|D|} \leq 2^{|Q|} \leq 2^{\aleph_0}$. If $|D| \geq 2^{\aleph_0}$, Cantor's theorem (Theorem~\ref{sets:theorem-cantor}) would give $2^{|D|} > |D| \geq 2^{\aleph_0}$.
+\end{proof}
+
+\begin{example}\label{general-topology:example-sorgenfrey-plane}
+Let $S$ be the Sorgenfrey line (Counterexample~\ref{general-topology:counterexample-sorgenfrey}).
+\begin{enumerate}
+\item \emph{$S$ is normal.} Its topology is finer than the Euclidean one, so points are closed. Let $A$, $B$ be disjoint closed sets. For $a \in A$ choose $x_a > a$ with $[a, x_a) \cap B = \emptyset$, and for
+$b \in B$ choose $y_b > b$ with $[b, y_b) \cap A = \emptyset$. Then $U = \bigcup_a[a, x_a)$ and $V = \bigcup_b[b, y_b)$ are open neighbourhoods of $A$ and $B$, and they are disjoint: if $[a, x_a)$ meets
+$[b, y_b)$ and $a < b$, then $b \in [a, x_a)$, which misses $B$; if $b < a$, then $a \in [b, y_b)$, which misses $A$.
+\item \emph{The Sorgenfrey plane $S \times S$ is completely regular.} The sets $[a, b)$ are open and closed in $S$ (the complement $(-\infty, a) \cup [b, \infty)$ is a union of half-open intervals), so the
+basic open sets $W = [a, b) \times [c, d)$ of $S \times S$ are open and closed. It is $T_1$ by Proposition~\ref{general-topology:proposition-separation-hierarchy}(4). If $x \notin C$ with $C$ closed, choose
+such a $W$ with $x \in W \subseteq (S \times S) \setminus C$; the indicator function of the complement of $W$ is continuous, $0$ at $x$ and $1$ on $C$.
+\item \emph{$S \times S$ is not normal.} It is separable, as $\QQ \times \QQ$ meets every $[a, b) \times [c, d)$. The antidiagonal $L = \{(x, -x) : x \in \RR\}$ is closed, being closed in the coarser
+Euclidean topology, and discrete: $[x, x + 1) \times [-x, -x + 1)$ meets $L$ only in $(x, -x)$, since $(y, -y)$ in it has $y \geq x$ and $-y \geq -x$. As $|L| = |\RR| = 2^{\aleph_0}$
+(Proposition~\ref{number-systems:proposition-reals-cardinality}), Jones's lemma shows that $S \times S$ is not normal.
+\end{enumerate}
+So a product of two normal spaces need not be normal, and $S \times S$ is completely regular but not normal. The subspace $L$ is also an uncountable discrete subspace of a separable space; so subspaces of
+separable spaces need not be separable.
+\end{example}
+
+\subsection{Separability}\label{general-topology:subsection-separability}
+
+Separability, the existence of a countable dense set, is the countability condition that survives the most operations. For metric spaces it is equivalent to the others.
+
+\begin{proposition}\label{general-topology:proposition-separability}
+\begin{enumerate}
+\item A metric space is separable if and only if it is second countable, if and only if it is Lindel\"of.
+\item Continuous images and open subspaces of separable spaces are separable, and subspaces of separable metric spaces are separable.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Proposition~\ref{general-topology:proposition-countability}, separable metric spaces are second countable and second countable spaces are Lindel\"of. If $X$ is Lindel\"of, for each $n$ the cover by
+all balls $B(x, 1/n)$ has a countable subcover, with set of centres $D_n$; then $D = \bigcup_nD_n$ is countable and meets every ball $B(x, 2/n)$, as $x$ lies in some $B(y, 1/n)$ with $y \in D_n$. So $D$ is dense.
+
+(2) If $D$ is dense in $X$ and $f \colon X \to Y$ is continuous and surjective, then $Y = f(\overline{D}) \subseteq \overline{f(D)}$ (Proposition~\ref{general-topology:proposition-continuity}(3)). If $U$ is open, a nonempty
+open subset of $U$ is open in $X$ and meets $D$, so $D \cap U$ is dense in $U$. A subspace of a second countable space is second countable (intersect the basis with it), which with (1) gives the last statement.
+\end{proof}
+
+Products behave surprisingly well: a product of uncountably many separable spaces can still be separable, although it is then not even first countable (Example~\ref{general-topology:example-pointwise-closure}).
+
+\begin{theorem}[Hewitt--Marczewski--Pondiczery]\label{general-topology:theorem-hmp}
+A product of at most $2^{\aleph_0}$ separable spaces is separable.
+\end{theorem}
+
+\begin{proof}
+Let $X = \prod_{t \in T}X_t$ with each $X_t$ separable. If some $X_t$ is empty, so is $X$, and there is nothing to prove. Otherwise choose for each $t$ a sequence $(d_t(n))_{n \geq 1}$ whose set of values is dense in
+$X_t$, and, as $|T| \leq 2^{\aleph_0} = |\RR|$, regard $T$ as a subset of $\RR$. For pairwise disjoint intervals $I_1, \ldots, I_k$ with rational endpoints and integers $n_1, \ldots, n_k \geq 1$ let $x \in X$ be the point with
+\[
+x_t = d_t(n_j) \quad \text{for } t \in T \cap I_j, \qquad x_t = d_t(1) \quad \text{for } t \notin I_1 \cup \cdots \cup I_k .
+\]
+These points form a countable set $D$, by Corollary~\ref{sets:corollary-omega-squared}. Let $W = \prod_tU_t$ be a nonempty basic open set, with $U_t = X_t$ except for distinct $t_1, \ldots, t_k$. Choose
+pairwise disjoint intervals $I_j \ni t_j$ with rational endpoints, and $n_j$ with $d_{t_j}(n_j) \in U_{t_j}$. The corresponding point of $D$ lies in $W$. So $D$ is dense.
+\end{proof}
+
+\begin{example}\label{general-topology:example-hmp}
+$\RR^\RR$, $[0, 1]^{[0, 1]}$ and $\{0, 1\}^\RR$ are separable. So, by Proposition~\ref{general-topology:proposition-separability}(2), is every continuous image of them; on the other hand the compact space
+$\{0, 1\}^\RR$ is not metrisable, since a compact metric space is second countable (by Theorem~\ref{general-topology:theorem-compact-metric} it is totally bounded, so finite $1/n$-nets give a countable dense set)
+while $\{0, 1\}^\RR$ is not even first countable, by the argument of Example~\ref{general-topology:example-pointwise-closure}.
+\end{example}
+
+The bound $2^{\aleph_0}$ is sharp.
+
+\begin{proposition}\label{general-topology:proposition-hmp-sharp}
+If $\{0, 1\}^T$, with $\{0, 1\}$ discrete, is separable, then $|T| \leq 2^{\aleph_0}$.
+\end{proposition}
+
+\begin{proof}
+Let $D$ be a countable dense subset and send $t \in T$ to $D_t = \{d \in D : d_t = 1\}$. For $s \neq t$ the open set $\{x : x_s = 1, x_t = 0\}$ is nonempty, so it contains some $d \in D$, which lies in $D_s$ and not in
+$D_t$. So $t \mapsto D_t$ is an injection $T \to \mathcal{P}(D)$, and $|T| \leq 2^{|D|} \leq 2^{\aleph_0}$.
+\end{proof}
+
+\begin{exercise}\label{general-topology:exercise-sorgenfrey-lindelof}
+Show that the Sorgenfrey line $S$ is Lindel\"of, but the Sorgenfrey plane $S \times S$ is not. (Together with Lemma~\ref{general-topology:lemma-regular-lindelof-normal} this gives a second proof that $S$ is
+normal, and shows again that $S \times S$ is not metrisable.)
+\end{exercise}
+
+\begin{solution}
+Let $\mathcal{U}$ be an open cover of $S$; replacing each member by the half-open intervals it contains, we may assume that it consists of half-open intervals $[a, b)$ (a countable subcover of
+the new cover gives one of the old). Let $W$ be the union of the open intervals $(a, b)$ with $[a, b) \in \mathcal{U}$. As a subspace of the
+Euclidean line, $W$ is second countable, hence Lindel\"of (Propositions~\ref{general-topology:proposition-countability} and~\ref{general-topology:proposition-separability}(2)), so countably many of the
+intervals $(a, b)$ cover $W$. Every point $x \in S \setminus W$ is the left endpoint of some $[x, b_x) \in \mathcal{U}$, and $(x, b_x) \subseteq W$. For $x < y$ in $S \setminus W$ the intervals $(x, b_x)$ and
+$(y, b_y)$ are disjoint, since otherwise $y \in (x, b_x) \subseteq W$. Disjoint nonempty open intervals contain distinct rationals, so $S \setminus W$ is countable, and countably many further members of
+$\mathcal{U}$ cover it.
+
+In $S \times S$, the open cover consisting of $(S \times S) \setminus L$ and the sets $[x, x + 1) \times [-x, -x + 1)$, $x \in \RR$, has no countable subcover, since each of these sets meets the uncountable antidiagonal
+$L$ of Example~\ref{general-topology:example-sorgenfrey-plane} in at most one point. A metrisable space is normal; for the non-metrisability of $S \times S$ one can also use that it is separable but not Lindel\"of,
+which contradicts Proposition~\ref{general-topology:proposition-separability}(1).
+\end{solution}
+
 \section{Local compactness and proper maps}\label{general-topology:section-local-compactness}
 
 \begin{definition}\label{general-topology:definition-locally-compact}
@@ -1191,6 +1343,366 @@ Chapter~\ref{smooth-manifolds}. Without second countability this fails: the long
 paracompact \cite{engelking-general-topology}. Paracompactness is also the natural hypothesis under which \v{C}ech cohomology computes sheaf
 cohomology (Chapter~\ref{sheaf-cohomology}).
 \end{remark}
+
+\section{Nets and filters}\label{general-topology:section-nets}
+
+In metric spaces sequences describe everything: closures, continuity and compactness. In general spaces they do not
+(Counterexample~\ref{general-topology:counterexample-sequences-insufficient}). The reason is that a point may have no countable neighbourhood basis, so that no sequence can ``approach'' it
+through all its neighbourhoods. The remedy is to index by sets larger than $\NN$, ordered only partially: what one needs of $\NN$ is only that any two indices have a common later one.
+
+\begin{definition}\label{general-topology:definition-net}
+A \emph{directed set} is a nonempty set $D$ with a relation $\leq$ that is reflexive and transitive and such that any two elements $d_1, d_2$ have an upper bound $d \geq d_1, d_2$. A \emph{net} in a
+space $X$ is a map $D \to X$, $d \mapsto x_d$, from a directed set. It \emph{converges} to $x$, written $x_d \to x$, if for every open $U \ni x$ there is $d_0$ with $x_d \in U$ for all $d \geq d_0$
+(the net is \emph{eventually} in $U$). A point $x$ is a \emph{cluster point} of the net if for every open $U \ni x$ and every $d_0$ there is $d \geq d_0$ with $x_d \in U$ (the net is \emph{frequently} in $U$).
+\end{definition}
+
+\begin{example}\label{general-topology:example-nets}
+\begin{enumerate}
+\item A sequence is a net indexed by $\NN$, and the definitions agree with the usual ones.
+\item \emph{The neighbourhood net.} For $x \in X$ the set $\mathcal{N}_x$ of open neighbourhoods of $x$, ordered by reverse inclusion ($U \leq V$ if $V \subseteq U$), is directed, an upper bound of
+$U$ and $V$ being $U \cap V$. If $x_U \in U$ is chosen for every $U$, then $x_U \to x$: for $U \ni x$ open and $V \geq U$, $x_V \in V \subseteq U$. This is the basic example; it approaches $x$
+through all neighbourhoods at once.
+\item \emph{Unordered sums.} Let $(a_i)_{i \in I}$ be real numbers indexed by any set. The finite subsets $F \subseteq I$, ordered by inclusion, form a directed set, and $s_F = \sum_{i \in F}a_i$ is a
+net. If all $a_i \geq 0$ and $s = \sup_Fs_F < \infty$, then $s_F \to s$: given $\varepsilon > 0$ choose $F_0$ with $s_{F_0} > s - \varepsilon$; for $F \supseteq F_0$, $s - \varepsilon < s_F \leq s$. This is how
+sums $\sum_{i \in I}$ over uncountable index sets, for example in Hilbert spaces with uncountable orthonormal bases, are defined.
+\item \emph{Riemann sums.} The tagged partitions of $[a, b]$, ordered by refinement of the partitions, form a directed set (a common refinement of two partitions is obtained by taking the union of their
+division points), and Riemann sums of a function $f$ form a net. The Riemann integral of Chapter~\ref{real-analysis} can be defined as the limit of this net.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{general-topology:proposition-nets}
+Let $X$ be a space.
+\begin{enumerate}
+\item A point $x$ lies in $\overline{A}$ if and only if some net in $A$ converges to $x$.
+\item A map $f \colon X \to Y$ is continuous at $x$ if and only if $f(x_d) \to f(x)$ for every net $x_d \to x$. So $f$ is continuous if and only if it preserves convergence of nets.
+\item $X$ is Hausdorff if and only if every net in $X$ has at most one limit.
+\item A net in a product $\prod_iX_i$ converges to $x$ if and only if $p_i(x_d) \to p_i(x)$ for every $i$.
+\item If $X$ is first countable, nets may be replaced by sequences in (1) and (2).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $x_d \to x$ with $x_d \in A$, every open $U \ni x$ contains some $x_d$, so meets $A$, and $x \in \overline{A}$ by Lemma~\ref{general-topology:lemma-closure}. Conversely, if $x \in \overline{A}$, every
+$U \in \mathcal{N}_x$ meets $A$; choosing $x_U \in U \cap A$ gives a net in $A$ converging to $x$ (Example~\ref{general-topology:example-nets}(2)).
+
+(2) Let $f$ be continuous at $x$ (Remark~\ref{general-topology:remark-limits-continuity}) and $x_d \to x$. For open $V \ni f(x)$ there is an open $U \ni x$ with $f(U) \subseteq V$, and $x_d$ is eventually in
+$U$, so $f(x_d)$ is eventually in $V$. Conversely, if $f$ is not continuous at $x$, there is an open $V \ni f(x)$ such that no $U \in \mathcal{N}_x$ has $f(U) \subseteq V$. Choose $x_U \in U$ with
+$f(x_U) \notin V$. Then $x_U \to x$, but $f(x_U)$ is never in $V$.
+
+(3) Let $X$ be Hausdorff and $x_d \to x$, $x_d \to y$ with $x \neq y$. For disjoint open $U \ni x$, $V \ni y$ there are $d_1$, $d_2$ with $x_d \in U$ for $d \geq d_1$ and $x_d \in V$ for $d \geq d_2$; an
+upper bound $d$ of $d_1, d_2$ gives $x_d \in U \cap V = \emptyset$, a contradiction. Conversely, suppose $x \neq y$ have no disjoint neighbourhoods. The pairs $(U, V) \in \mathcal{N}_x \times \mathcal{N}_y$,
+ordered by reverse inclusion in both components, form a directed set; choose $x_{(U, V)} \in U \cap V$. This net converges to $x$ and to $y$.
+
+(4) The projections are continuous, so (2) gives one direction. Conversely, let $p_i(x_d) \to p_i(x)$ for all $i$, and let $W = \prod_iU_i$ be a basic open set containing $x$, with $U_i = X_i$ except for
+$i \in \{i_1, \ldots, i_k\}$ (Proposition~\ref{general-topology:proposition-product}(1)). There are $d_1, \ldots, d_k$ with $p_{i_j}(x_d) \in U_{i_j}$ for $d \geq d_j$; for $d$ above an upper bound of
+$d_1, \ldots, d_k$, which exists by induction on $k$, $x_d \in W$. Every open set containing $x$ contains such a $W$.
+
+(5) Let $U_1, U_2, \ldots$ be open neighbourhoods of $x$ such that every open set containing $x$ contains one of them, and $V_n = U_1 \cap \cdots \cap U_n$. If $x_n \in V_n$ for all $n$, then
+$x_n \to x$, since $x_m \in V_m \subseteq V_n \subseteq U_n$ for $m \geq n$. In the proofs of (1) and (2), use the $V_n$ in place of $\mathcal{N}_x$.
+\end{proof}
+
+By (4), convergence in a product is coordinatewise convergence; this is why the product topology on a space of functions $\prod_{s \in S}\RR = \RR^S$ is called the topology of
+\emph{pointwise convergence}. The following example shows that sequences are not enough there.
+
+\begin{example}\label{general-topology:example-pointwise-closure}
+In $\RR^\RR$ with the product topology let $A$ be the set of functions $f \colon \RR \to \{0, 1\}$ with $f(s) = 1$ for all but finitely many $s$. The zero function lies in $\overline{A}$: a basic
+neighbourhood of $0$ restricts the values at finitely many points $s_1, \ldots, s_k$, and contains the function that vanishes at these points and equals $1$ elsewhere. A net in $A$ converging to $0$
+is given by $f_F = \mathbf{1}_{\RR \setminus F}$, indexed by the finite sets $F \subseteq \RR$. But no sequence $f_n \in A$ converges to $0$: the sets $\{f_n = 0\}$ are finite, so their union is
+countable, and at a point $s$ outside it $f_n(s) = 1$ for all $n$, so $f_n(s) \not\to 0$. So $\RR^\RR$ is not first countable at $0$, by Proposition~\ref{general-topology:proposition-nets}(5).
+\end{example}
+
+For compactness one needs the analogue of subsequences. A subnet may run through the original net in a more complicated way than a subsequence, possibly repeating indices; what matters is only that it goes
+arbitrarily far out.
+
+\begin{definition}\label{general-topology:definition-subnet}
+A \emph{subnet} of a net $(x_d)_{d \in D}$ is a net $(x_{\varphi(e)})_{e \in E}$, where $E$ is a directed set and $\varphi \colon E \to D$ is a map such that for every $d_0 \in D$ there is $e_0 \in E$ with
+$\varphi(e) \geq d_0$ for all $e \geq e_0$.
+\end{definition}
+
+A subsequence $(x_{n_k})$, with $n_1 < n_2 < \cdots$, is a subnet, as $n_k \geq k$. If $x_d \to x$, every subnet converges to $x$: if $x_d \in U$ for $d \geq d_0$, then $x_{\varphi(e)} \in U$ for $e \geq e_0$.
+
+\begin{lemma}\label{general-topology:lemma-cluster-subnet}
+A point $x$ is a cluster point of a net $(x_d)_{d \in D}$ if and only if some subnet converges to $x$.
+\end{lemma}
+
+\begin{proof}
+Let $(x_{\varphi(e)})$ converge to $x$, let $U \ni x$ be open and $d_0 \in D$. There are $e_0$ with $\varphi(e) \geq d_0$ for $e \geq e_0$ and $e_1$ with $x_{\varphi(e)} \in U$ for $e \geq e_1$; for an upper
+bound $e$ of $e_0, e_1$, $d = \varphi(e) \geq d_0$ and $x_d \in U$. So $x$ is a cluster point.
+
+Conversely, let $x$ be a cluster point, and let $E$ be the set of pairs $(d, U)$ with $d \in D$, $U \in \mathcal{N}_x$ and $x_d \in U$, ordered by $(d, U) \leq (d^{\prime}, U^{\prime})$ if $d \leq d^{\prime}$ and
+$U^{\prime} \subseteq U$. It is nonempty, as $(d, X) \in E$ for every $d$. It is directed: given $(d_1, U_1)$ and $(d_2, U_2)$, let $d_0$ be an upper bound of $d_1, d_2$; as $x$ is a cluster point, there is
+$d \geq d_0$ with $x_d \in U_1 \cap U_2$, and $(d, U_1 \cap U_2)$ is an upper bound. Let $\varphi(d, U) = d$. Given $d_0$, every $(d, U) \geq (d_0, X)$ has $d \geq d_0$, so this is a subnet. It converges to $x$:
+for $U \in \mathcal{N}_x$ choose $d$ with $x_d \in U$; then for $(d^{\prime}, U^{\prime}) \geq (d, U)$ we have $x_{d^{\prime}} \in U^{\prime} \subseteq U$.
+\end{proof}
+
+\begin{theorem}\label{general-topology:theorem-compact-nets}
+For a space $X$ the following are equivalent:
+\begin{enumerate}
+\item $X$ is compact;
+\item every net in $X$ has a cluster point;
+\item every net in $X$ has a convergent subnet.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(2) and (3) are equivalent by Lemma~\ref{general-topology:lemma-cluster-subnet}.
+
+(1)$\Rightarrow$(2): Suppose the net $(x_d)$ has no cluster point. Then every $x \in X$ has an open $U_x \ni x$ and an index $d_x$ with $x_d \notin U_x$ for all $d \geq d_x$. Finitely many
+$U_{x_1}, \ldots, U_{x_n}$ cover $X$. For an upper bound $d$ of $d_{x_1}, \ldots, d_{x_n}$, the point $x_d$ lies in none of the $U_{x_j}$, a contradiction.
+
+(2)$\Rightarrow$(1): Suppose the open cover $\mathcal{U}$ has no finite subcover. The finite subfamilies $\mathcal{F} \subseteq \mathcal{U}$, ordered by inclusion, form a directed set, and we may choose
+$x_{\mathcal{F}} \notin \bigcup\mathcal{F}$. Any $x \in X$ lies in some $U \in \mathcal{U}$, and $x_{\mathcal{F}} \notin U$ for all $\mathcal{F} \supseteq \{U\}$; so $x$ is not a cluster point.
+\end{proof}
+
+For metric spaces, compactness is equivalent to sequential compactness (Theorem~\ref{general-topology:theorem-compact-metric}); in general neither implies the other. Here is a compact space that is not
+sequentially compact.
+
+\begin{example}\label{general-topology:example-not-sequentially-compact}
+Let $S = \{0, 1\}^\NN$ be the set of $0$-$1$ sequences, and $X = \{0, 1\}^S$, a product of discrete two-point spaces, which is compact by Tychonoff's theorem
+(Theorem~\ref{general-topology:theorem-tychonoff}). Let $f_n \in X$ be the point $f_n(s) = s(n)$. Given $n_1 < n_2 < \cdots$, choose $s \in S$ with $s(n_k) = 0$ for even $k$ and $s(n_k) = 1$ for odd $k$.
+Then $f_{n_k}(s)$ alternates between $1$ and $0$, so by Proposition~\ref{general-topology:proposition-nets}(4) the subsequence $(f_{n_k})$ does not converge. So $(f_n)$ has no convergent subsequence, although it has
+convergent subnets by Theorem~\ref{general-topology:theorem-compact-nets}.
+\end{example}
+
+Filters are a second, equivalent language, often more convenient because they need no index set. We use the definitions of Chapter~\ref{model-theory}: a \emph{filter} on a set $X$ is a family $\mathcal{F}$ of
+subsets with $X \in \mathcal{F}$, $\emptyset \notin \mathcal{F}$, closed under finite intersections and supersets, and an \emph{ultrafilter} is a filter containing $A$ or $X \setminus A$ for every
+$A \subseteq X$ (Definition~\ref{model-theory:definition-ultrafilter}). Every family of subsets with the finite intersection property lies in an ultrafilter
+(Lemma~\ref{model-theory:lemma-ultrafilters}).
+
+\begin{definition}\label{general-topology:definition-filter-convergence}
+A filter $\mathcal{F}$ on a space $X$ \emph{converges} to $x$ if every open set containing $x$ belongs to $\mathcal{F}$. For a map $f \colon X \to Y$, the \emph{image filter} is
+$f_*\mathcal{F} = \{B \subseteq Y : f^{-1}(B) \in \mathcal{F}\}$.
+\end{definition}
+
+The \emph{neighbourhood filter} of $x$, the sets containing an open neighbourhood of $x$, converges to $x$, and a filter converges to $x$ if and only if it contains the neighbourhood filter. A net $(x_d)$
+defines the filter of sets $B$ that contain a \emph{tail} $\{x_d : d \geq d_0\}$, which converges to $x$ exactly when the net does; so filters and nets describe the same convergence. The image filter is a
+filter ($f^{-1}(\emptyset) = \emptyset$ and preimages preserve intersections and inclusions), and if $\mathcal{F}$ is an ultrafilter, so is $f_*\mathcal{F}$, since $f^{-1}(Y \setminus B) = X \setminus f^{-1}(B)$.
+If $f$ is continuous and $\mathcal{F} \to x$, then $f_*\mathcal{F} \to f(x)$: for open $V \ni f(x)$, $f^{-1}(V)$ is an open set containing $x$, so it lies in $\mathcal{F}$.
+
+\begin{theorem}\label{general-topology:theorem-compact-ultrafilters}
+A space $X$ is compact if and only if every ultrafilter on $X$ converges.
+\end{theorem}
+
+\begin{proof}
+Let $X$ be compact and $\mathcal{U}$ an ultrafilter without limit. Every $x$ has an open $U_x \ni x$ with $U_x \notin \mathcal{U}$, so $X \setminus U_x \in \mathcal{U}$. Finitely many $U_{x_1}, \ldots, U_{x_n}$
+cover $X$, and then $\emptyset = \bigcap_j(X \setminus U_{x_j}) \in \mathcal{U}$, a contradiction.
+
+Conversely, let $\mathcal{C}$ be an open cover without finite subcover. Then the complements $X \setminus U$, $U \in \mathcal{C}$, have the finite intersection property, so they lie in an ultrafilter
+$\mathcal{U}$. If $\mathcal{U} \to x$ and $x \in U \in \mathcal{C}$, then $U \in \mathcal{U}$ and $X \setminus U \in \mathcal{U}$, so $\emptyset \in \mathcal{U}$, a contradiction.
+\end{proof}
+
+With ultrafilters Tychonoff's theorem has a two-line proof, which shows clearly where the axiom of choice enters: in choosing the limits.
+
+\begin{corollary}\label{general-topology:corollary-tychonoff-ultrafilters}
+A product of compact spaces is compact.
+\end{corollary}
+
+\begin{proof}
+Let $\mathcal{U}$ be an ultrafilter on $X = \prod_iX_i$. Each $(p_i)_*\mathcal{U}$ is an ultrafilter on the compact space $X_i$, so by Theorem~\ref{general-topology:theorem-compact-ultrafilters} we may choose a limit
+$x_i$ of it, and let $x = (x_i)_i$. A basic open set containing $x$ is $W = p_{i_1}^{-1}(U_1) \cap \cdots \cap p_{i_k}^{-1}(U_k)$ with $U_j \ni x_{i_j}$ open; then $U_j \in (p_{i_j})_*\mathcal{U}$, that is,
+$p_{i_j}^{-1}(U_j) \in \mathcal{U}$, and so $W \in \mathcal{U}$. Hence every open set containing $x$ is in $\mathcal{U}$, $\mathcal{U} \to x$, and $X$ is compact by the theorem.
+\end{proof}
+
+\begin{example}\label{general-topology:example-ultrafilter-limits}
+\emph{Limits along an ultrafilter.} An ultrafilter on $\NN$ is \emph{free} if it is not principal; free ultrafilters exist, since the cofinite subsets of $\NN$ have the finite intersection property, and an
+ultrafilter containing them contains no finite set, so is not principal. Let $\mathcal{U}$ be a free ultrafilter and $(a_n)$ a bounded real sequence, $a \colon \NN \to [-M, M]$. The ultrafilter
+$a_*\mathcal{U}$ on the compact Hausdorff space $[-M, M]$ has a unique limit (uniqueness as in Proposition~\ref{general-topology:proposition-nets}(3)), written $\lim_{\mathcal{U}}a_n$: it is the number $L$ such that
+$\{n : |a_n - L| < \varepsilon\} \in \mathcal{U}$ for every $\varepsilon > 0$. Every bounded sequence has such a limit, for instance $\lim_{\mathcal{U}}(-1)^n$ is $1$ or $-1$ according as $\mathcal{U}$ contains the
+even or the odd numbers. The limit is linear and multiplicative, lies between $\liminf a_n$ and $\limsup a_n$, and equals $\lim a_n$ when this exists, since every set $\{n : |a_n - L| < \varepsilon\}$ is
+then cofinite. This is the device behind ultraproducts (Chapter~\ref{model-theory}). The limit is not shift invariant (for $(-1)^n$ and its shift it gives opposite values), but its value on the
+averages $\frac1n(a_1 + \cdots + a_n)$ is, since the averages of $(a_n)$ and of $(a_{n+1})$ differ by at most $2M/n$; this gives a \emph{Banach limit}, a shift-invariant positive linear functional on
+bounded sequences extending $\lim$.
+\end{example}
+
+\begin{remark}\label{general-topology:remark-nets-filters}
+Nets were introduced by Moore and Smith (1922) and filters by Cartan (1937); Bourbaki's \emph{General Topology} is written in the language of filters. Sequences still suffice in
+first countable spaces (Proposition~\ref{general-topology:proposition-nets}(5)), which include all metric spaces and manifolds, and they are what one uses there. The exotic compact spaces of
+Example~\ref{general-topology:example-not-sequentially-compact} and of the next section show why nets or filters are unavoidable in general.
+\end{remark}
+
+\section{The Stone--\v{C}ech compactification}\label{general-topology:section-stone-cech}
+
+The one-point compactification adds as little as possible to a locally compact space. At the other extreme one can ask for a compactification to which \emph{every} bounded continuous function
+extends: for $(0, 1]$, the function $\sin(1/x)$ has no continuous extension to $[0, 1]$, so $[0, 1]$ is not such a compactification, and one has to add many more points. The construction embeds the space in
+a large cube by all its functions to $[0, 1]$ and takes the closure. It works for exactly the spaces that have enough such functions.
+
+The spaces in question are the completely regular ones (Definition~\ref{general-topology:definition-more-separation}). Normal spaces are completely regular, and so are subspaces and products of completely
+regular spaces (Proposition~\ref{general-topology:proposition-separation-hierarchy}). Compact Hausdorff spaces are normal (Proposition~\ref{general-topology:proposition-normal-examples}), so every subspace of
+a compact Hausdorff space is completely regular, for instance every locally compact Hausdorff space $X \subseteq X^+$ (Theorem~\ref{general-topology:theorem-one-point-compactification}). The converse is the
+content of the next theorem.
+
+\begin{theorem}\label{general-topology:theorem-cube-embedding}
+Let $X$ be completely regular, $\mathcal{F} = C(X, [0, 1])$ the set of continuous maps $X \to [0, 1]$, and $e \colon X \to [0, 1]^{\mathcal{F}}$ the map $e(x) = (f(x))_{f \in \mathcal{F}}$. Then $e$ is an
+embedding, that is, a homeomorphism onto its image. So the completely regular spaces are exactly the subspaces of compact Hausdorff spaces.
+\end{theorem}
+
+\begin{proof}
+The components $p_f \circ e = f$ are continuous, so $e$ is continuous (Proposition~\ref{general-topology:proposition-product}(2)). It is injective: for $x \neq y$, the set $\{y\}$ is closed, and some $f$ has
+$f(x) = 0 \neq 1 = f(y)$. Let $U \subseteq X$ be open and $x \in U$. Choose $f \in \mathcal{F}$ with $f(x) = 0$ and $f = 1$ on $X \setminus U$, and let $W = p_f^{-1}([0, 1))$, open in the cube. Then $e(x) \in W$,
+and if $e(y) \in W$, then $f(y) < 1$, so $y \in U$. Hence $e(U)$ is the union of the sets $W \cap e(X)$ obtained in this way, so it is open in $e(X)$. The cube is compact by Tychonoff's theorem and Hausdorff
+by Proposition~\ref{general-topology:proposition-product}(3), and this proves the last statement.
+\end{proof}
+
+\begin{definition}\label{general-topology:definition-stone-cech}
+For $X$ completely regular, the \emph{Stone--\v{C}ech compactification} $\beta X$ is the closure of $e(X)$ in $[0, 1]^{\mathcal{F}}$. We identify $X$ with $e(X)$, a dense subspace of $\beta X$.
+\end{definition}
+
+As a closed subset of a compact Hausdorff space, $\beta X$ is compact Hausdorff (Proposition~\ref{general-topology:proposition-compact-basic}(1) and Proposition~\ref{general-topology:proposition-product}(3)).
+
+\begin{theorem}\label{general-topology:theorem-stone-cech}
+Let $X$ be completely regular. Every continuous map $g \colon X \to K$ to a compact Hausdorff space extends uniquely to a continuous map $\beta g \colon \beta X \to K$, $\beta g \circ e = g$.
+\end{theorem}
+
+\begin{proof}
+\emph{Uniqueness.} Let $h_1, h_2 \colon \beta X \to K$ be continuous and agree on $e(X)$. If $h_1(z) \neq h_2(z)$, choose disjoint open $V_1 \ni h_1(z)$ and $V_2 \ni h_2(z)$; the open set
+$h_1^{-1}(V_1) \cap h_2^{-1}(V_2)$ contains $z$, so it meets the dense set $e(X)$ in a point where $h_1 = h_2$ takes values in $V_1 \cap V_2 = \emptyset$, a contradiction.
+
+\emph{Existence for cubes.} If $K = [0, 1]$, then $g \in \mathcal{F}$, and $\beta g = p_g|_{\beta X}$ works. If $K = [0, 1]^J$ for a set $J$, extend each component $p_j \circ g$ and combine the extensions,
+which is continuous by Proposition~\ref{general-topology:proposition-product}(2).
+
+\emph{General $K$.} A compact Hausdorff space is completely regular, so by Theorem~\ref{general-topology:theorem-cube-embedding} there is an embedding $e_K \colon K \to Q = [0, 1]^{J}$, with
+$J = C(K, [0, 1])$; its image is compact, hence closed in $Q$. Let $h \colon \beta X \to Q$ extend $e_K \circ g$. By continuity
+$h(\beta X) = h(\overline{e(X)}) \subseteq \overline{h(e(X))} = \overline{e_K(g(X))} \subseteq e_K(K)$ (Proposition~\ref{general-topology:proposition-continuity}(3)). So $\beta g = e_K^{-1} \circ h$ is defined, and it is continuous,
+as $e_K$ is a homeomorphism onto its image.
+\end{proof}
+
+\begin{corollary}\label{general-topology:corollary-stone-cech-unique}
+Let $X$ be completely regular, $Y$ a compact Hausdorff space and $j \colon X \to Y$ an embedding with dense image such that every continuous map from $X$ to a compact Hausdorff space extends along $j$. Then there
+is a unique homeomorphism $\beta X \to Y$ that is the identity on $X$, that is, sends $e(x)$ to $j(x)$.
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{general-topology:theorem-stone-cech} gives $\beta j \colon \beta X \to Y$ with $\beta j \circ e = j$, and the hypothesis gives $k \colon Y \to \beta X$ with $k \circ j = e$. Then $k \circ \beta j$
+is the identity on the dense set $e(X)$, hence everywhere by the uniqueness argument in the proof of the theorem, and likewise $\beta j \circ k$ is the identity on $j(X)$, hence on $Y$. Uniqueness of the
+homeomorphism is the same argument.
+\end{proof}
+
+In categorical terms (Chapter~\ref{categories}), $\beta$ is left adjoint to the inclusion of compact Hausdorff spaces into completely regular spaces. Taking $K$ a compact interval, the theorem says that
+restriction is a bijection $C(\beta X, \RR) \to C_b(X, \RR)$, the bounded continuous functions on $X$: every bounded continuous function extends uniquely.
+
+\begin{example}\label{general-topology:example-stone-cech}
+\begin{enumerate}
+\item If $X$ is compact Hausdorff, $e(X)$ is compact, hence closed, and $\beta X = X$.
+\item The function $s(x) = \sin(1/x)$ on $(0, 1]$ extends to $\beta s \colon \beta(0, 1] \to [-1, 1]$ but not to $[0, 1]$; so $\beta(0, 1] \neq [0, 1]$, and in fact $\beta(0, 1] \setminus (0, 1]$ has more than one
+point. The sequence $a_n = 1/(\frac\pi2 + 2\pi n)$ has a cluster point $z$ in the compact space $\beta(0, 1]$ (Theorem~\ref{general-topology:theorem-compact-nets}), and $z \notin (0, 1]$: otherwise $z$ would be a cluster
+point of $(a_n)$ in the subspace $(0, 1]$, which has none, as $a_n \to 0$. Since $s(a_n) = 1$ for all $n$, every neighbourhood of $\beta s(z)$ contains $1$ by continuity, so $\beta s(z) = 1$. In the same way
+the points $b_n = 1/(\frac{3\pi}2 + 2\pi n)$ give a point $z^{\prime} \notin (0, 1]$ with $\beta s(z^{\prime}) = -1$.
+\item \emph{$\beta\NN$ is not sequentially compact.} Let $\NN$ be discrete, which is metric and so completely regular. Given $n_1 < n_2 < \cdots$, let $g \colon \NN \to [0, 1]$ be $1$ at $n_k$ for odd $k$
+and $0$ elsewhere. If $n_k \to z$ in $\beta\NN$, then $g(n_k) = \beta g(n_k) \to \beta g(z)$, which is impossible, as $g(n_k)$ alternates between $1$ and $0$. So the sequence $(n)$ in the compact
+space $\beta\NN$ has no convergent subsequence.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{general-topology:remark-beta-n}
+The space $\beta\NN$ is a basic object of set-theoretic topology. Its points correspond to the ultrafilters on $\NN$, the points of $\NN$ to the principal ones, and it has cardinality $2^{2^{\aleph_0}}$; no
+sequence of distinct points of $\beta\NN$ converges \cite{engelking-general-topology}. Under this correspondence the ultrafilter limits of Example~\ref{general-topology:example-ultrafilter-limits} are the
+values at the point $\mathcal{U} \in \beta\NN$ of the continuous extensions of bounded sequences. In functional analysis $\beta X$ appears as the space of characters of the Banach algebra
+$C_b(X, \CC) \cong C(\beta X, \CC)$, by Gelfand's theory of commutative Banach algebras.
+\end{remark}
+
+\section{The Cantor set and space-filling curves}\label{general-topology:section-cantor}
+
+The Cantor set is the basic example of a compact space that is as disconnected as possible, and, surprisingly, it maps onto every cube; from this one gets curves that fill a square. Throughout,
+$2^\NN = \{0, 1\}^{\NN}$, with $\NN = \{1, 2, \ldots\}$ here, is the product of countably many discrete two-point spaces, compact by Tychonoff's theorem. A basis of its
+topology is formed by the \emph{cylinders} $[w] = \{a : a_1 = w_1, \ldots, a_k = w_k\}$ for finite words $w = w_1 \cdots w_k$ in $0$ and $1$.
+
+\begin{definition}\label{general-topology:definition-cantor-set}
+The \emph{Cantor set} is $C = c(2^\NN) \subseteq [0, 1]$, where $c(a) = \sum_{n \geq 1}2a_n3^{-n}$: the numbers with a ternary expansion using only the digits $0$ and $2$.
+\end{definition}
+
+\begin{proposition}\label{general-topology:proposition-cantor-set}
+\begin{enumerate}
+\item The map $c \colon 2^\NN \to C$ is a homeomorphism, and $C$ is compact.
+\item For a word $w$ of length $k$, $c([w])$ lies in the closed interval $J_w$ of length $3^{-k}$ with left endpoint $\sum_{n \leq k}2w_n3^{-n}$; the intervals $J_{w0}$ and $J_{w1}$ are the left and
+right thirds of $J_w$, and $C = \bigcap_k\bigcup_{|w| = k}J_w$. The complement $[0, 1] \setminus C$ is the union of the open middle thirds $M_w$ of the intervals $J_w$, which are pairwise disjoint
+and have their endpoints $c(w0111\cdots)$ and $c(w1000\cdots)$ in $C$. So $C$ is the classical middle-thirds Cantor set: from $[0, 1]$ remove the open middle third, from each remaining interval its open
+middle third, and so on.
+\item $C$ is uncountable, has no isolated points and empty interior, and is \emph{totally disconnected}: its only connected subsets are points and $\emptyset$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $a, b$ agree in the first $N$ coordinates, $|c(a) - c(b)| \leq \sum_{n > N}2 \cdot 3^{-n} = 3^{-N}$; since the cylinders form a basis, $c$ is continuous. If $a \neq b$ and $n$ is the first index with
+$a_n \neq b_n$, say $a_n = 0$, $b_n = 1$, then $c(b) - c(a) \geq 2 \cdot 3^{-n} - \sum_{m > n}2 \cdot 3^{-m} = 3^{-n} > 0$. So $c$ is a continuous bijection from a compact space onto the Hausdorff space $C$, hence
+a homeomorphism (Proposition~\ref{general-topology:proposition-compact-basic}(4)), and $C$ is compact.
+
+(2) For $a \in [w]$, $c(a)$ is the left endpoint plus $\sum_{n > k}2a_n3^{-n} \in [0, 3^{-k}]$. The left endpoints of $J_{w0}$ and $J_{w1}$ are those of $J_w$ plus $0$ and $2 \cdot 3^{-k-1}$, and their lengths are
+$3^{-k-1}$, which gives the thirds. So $C \subseteq \bigcap_k\bigcup_{|w| = k}J_w$. Conversely, the $2^k$ intervals $J_w$ with $|w| = k$ are pairwise disjoint (by induction, as the two thirds are disjoint), so a
+point $x$ of the intersection lies, for each $k$, in exactly one $J_{w^{(k)}}$, and these words extend each other. Let $a$ be the infinite word they define; then $x$ and $c(a)$ both lie in $J_{w^{(k)}}$ for all $k$,
+so $|x - c(a)| \leq 3^{-k}$ for all $k$, and $x = c(a) \in C$. If $x \in [0, 1] \setminus C$, let $k$ be the largest integer such that $x$ lies in some $J_w$ with $|w| = k$ (level $0$ is
+$J_\emptyset = [0, 1]$); then $x \in J_w \setminus (J_{w0} \cup J_{w1}) = M_w$. The set $M_w$ lies in $J_w$ and misses $J_{w0} \cup J_{w1}$, which contain all the deeper intervals inside $J_w$, so it is
+disjoint from every $M_{w^{\prime}}$ with $w^{\prime} \neq w$. Finally the right endpoint of $J_{w0}$ is $\sum_{n \leq k}2w_n3^{-n} + 3^{-k-1} = c(w0111\cdots)$, and the left endpoint of $J_{w1}$ is $c(w1000\cdots)$.
+
+(3) $2^\NN$ is uncountable by Cantor's theorem (Theorem~\ref{sets:theorem-cantor}), as it is in bijection with the set of subsets of $\NN$. Changing the $n$-th coordinate of $a$ for large $n$ gives points
+$b \neq a$ arbitrarily close to $a$, so there are no isolated points. If $a \neq b$, say $a_n \neq b_n$, the cylinder $\{x : x_n = a_n\}$ (a union of finitely many basic cylinders) is open and closed, contains $a$
+and not $b$; so no connected subset contains both. Finally, a nonempty open subset of $[0, 1]$ contains an interval with more than one point, which is connected
+(Theorem~\ref{general-topology:theorem-intervals-connected}); so $C$ has empty interior.
+\end{proof}
+
+So $C$ is a nonempty compact metric space that is totally disconnected and has no isolated points. \emph{Brouwer's theorem} says that these properties characterise it: every such space is homeomorphic
+to $C$ \cite{kechris-1995}. For instance $C \times C$ and $C^\NN$ are homeomorphic to $C$; for these one can see it directly (Exercise~\ref{general-topology:exercise-cantor-products}).
+
+\begin{proposition}\label{general-topology:proposition-cantor-surjections}
+\begin{enumerate}
+\item The map $\varphi \colon C \to [0, 1]$, $\varphi(c(a)) = \sum_{n \geq 1}a_n2^{-n}$, is a continuous surjection.
+\item For every $m \geq 1$ there is a continuous surjection $C \to [0, 1]^m$, and there is a continuous surjection $C \to [0, 1]^\NN$ onto the \emph{Hilbert cube}.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\varphi \circ c$ is continuous, as in the proof of (1) above with $2^{-N}$ in place of $3^{-N}$, and $c$ is a homeomorphism. Every $t \in [0, 1]$ has a binary expansion: define $a_n = 1$ if
+$s_{n-1} + 2^{-n} \leq t$ and $a_n = 0$ otherwise, where $s_n = \sum_{m \leq n}a_m2^{-m}$, $s_0 = 0$. By induction $0 \leq t - s_n \leq 2^{-n}$ (if $a_n = 0$ then $t - s_{n-1} < 2^{-n}$, and if $a_n = 1$ then
+$0 \leq t - s_{n-1} - 2^{-n} \leq 2^{-n}$), so $s_n \to t$ and $\varphi(c(a)) = t$.
+
+(2) Choose a bijection $\NN \to \NN \times \NN$, $n \mapsto (i(n), j(n))$ (Corollary~\ref{sets:corollary-omega-squared}). The map $2^\NN \to (2^\NN)^\NN$ sending $a$ to the sequence of sequences
+$(b^{(i)})_i$ with $b^{(i)}_j = a_n$ for $(i, j) = (i(n), j(n))$ is a bijection, and it is continuous in both directions, because each coordinate of the image is a coordinate of $a$ and conversely. So
+$2^\NN \cong (2^\NN)^\NN$, and composing with $c$ and with the product of copies of $\varphi \circ c$, which is continuous by Proposition~\ref{general-topology:proposition-product}(2) and surjective,
+gives a continuous surjection $C \to [0, 1]^\NN$. For $[0, 1]^m$ use instead a bijection $\NN \to \{1, \ldots, m\} \times \NN$, such as $m(j - 1) + i \mapsto (i, j)$ for $1 \leq i \leq m$, $j \geq 1$.
+\end{proof}
+
+The map $\varphi$ is not injective: $c(0111\cdots)$ and $c(1000\cdots)$, the two endpoints $\frac13$ and $\frac23$ of the first removed interval, both map to $\frac12$. Extended to $[0, 1]$ by
+constancy on the removed intervals, $\varphi$ becomes the \emph{Cantor function}, continuous, nondecreasing and constant on each removed interval, which reappears in measure theory as a continuous function with
+derivative $0$ almost everywhere. The same idea of filling the gaps gives a curve through every point of a square.
+
+\begin{theorem}[Space-filling curves]\label{general-topology:theorem-peano-curve}
+For every $m \geq 1$ there is a continuous surjection $\gamma \colon [0, 1] \to [0, 1]^m$.
+\end{theorem}
+
+\begin{proof}
+Let $\psi \colon C \to [0, 1]^m$ be a continuous surjection (Proposition~\ref{general-topology:proposition-cantor-surjections}). By Proposition~\ref{general-topology:proposition-cantor-set}(2), $[0, 1] \setminus C$
+is the union of the removed open intervals $(u, v)$, which are pairwise disjoint and have endpoints $u, v \in C$. Define $\gamma = \psi$ on $C$ and
+\[
+\gamma((1 - \lambda)u + \lambda v) = (1 - \lambda)\psi(u) + \lambda\psi(v) \qquad (0 < \lambda < 1)
+\]
+on each removed interval $(u, v)$. The values lie in the convex set $[0, 1]^m$, and $\gamma$ is surjective since $\psi$ is. On the closure $[u, v]$ of each removed interval $\gamma$ is affine, hence continuous.
+
+Let $t \in C$; we show that $\gamma$ is continuous at $t$ from the right (if $t < 1$); the left side is symmetric. If $t$ is the left endpoint of a removed interval, $\gamma$ is affine on it, and continuity from
+the right is clear. Otherwise every interval $(t, t + \eta)$ with $0 < \eta \leq 1 - t$ meets $C$: if it did not, this connected set would lie in the union of the pairwise disjoint open removed intervals, hence in
+one of them, $(u, v)$ (Lemma~\ref{general-topology:lemma-connected-criteria}); then $u \leq t$, and $t \in C$ is not in $(u, v)$, so $t = u$, which we excluded. Let $\varepsilon > 0$. As $C$ is compact, $\psi$ is uniformly continuous (Corollary~\ref{general-topology:corollary-uniform-continuity}):
+there is $\delta > 0$ with $\|\psi(x) - \psi(y)\| < \varepsilon$ for $x, y \in C$, $|x - y| < \delta$. Choose $s \in C \cap (t, t + \min(\delta, 1 - t))$. Let $t < t^{\prime} < s$. If $t^{\prime} \in C$, then
+$\|\gamma(t^{\prime}) - \gamma(t)\| < \varepsilon$. Otherwise $t^{\prime}$ lies in a removed interval $(u, v)$, and since $t, s \in C$, $t \leq u < v \leq s$; so $\psi(u)$ and $\psi(v)$ lie in the open ball of radius
+$\varepsilon$ about $\psi(t)$, which is convex, and so does $\gamma(t^{\prime})$, a convex combination of them. Hence $\|\gamma(t^{\prime}) - \gamma(t)\| < \varepsilon$ for $t < t^{\prime} < s$.
+\end{proof}
+
+Peano found the first such curve in 1890, and Hilbert a simpler geometric one in 1891, as a limit of polygonal paths through a grid of $4^k$ squares; the construction above is Lebesgue's. The curve
+cannot be injective: a continuous bijection $[0, 1] \to [0, 1]^2$ would be a homeomorphism (Proposition~\ref{general-topology:proposition-compact-basic}(4)), but removing an interior point disconnects
+$[0, 1]$, while the square minus a point is still path-connected, hence connected (Proposition~\ref{general-topology:proposition-components}(2)): two points can be joined by a segment, or by two segments
+through a third point if the segment between them passes through the removed point. So dimension is not preserved by continuous surjections, but it is preserved by homeomorphisms: $[0, 1]^m \cong [0, 1]^n$
+only for $m = n$, by the invariance of dimension proved with homology (Chapter~\ref{singular-homology}). Every compact metric space is a continuous image of $C$ (the Alexandroff--Hausdorff theorem \cite{kechris-1995}),
+which is one reason for the importance of the Cantor set.
+
+\begin{exercise}\label{general-topology:exercise-cantor-products}
+Show that $2^\NN \times 2^\NN$ and $(2^\NN)^\NN$ are homeomorphic to $2^\NN$, so that $C \times C \cong C^\NN \cong C$. Show also that $C$ is homeomorphic to the set of $x \in [0, 1]$ whose decimal
+expansion uses only the digits $3$ and $7$ (with a suitable meaning of ``expansion'').
+\end{exercise}
+
+\begin{solution}
+The proof of Proposition~\ref{general-topology:proposition-cantor-surjections}(2) gives $2^\NN \cong (2^\NN)^\NN$, and with the bijection $\NN \to \{1, 2\} \times \NN$, $2n - 1 \mapsto (1, n)$, $2n \mapsto (2, n)$,
+it gives $2^\NN \cong 2^\NN \times 2^\NN$: a sequence is split into its odd and even terms. For the decimal set, let $d(a) = \sum_n(3 + 4a_n)10^{-n}$. As in the proof of
+Proposition~\ref{general-topology:proposition-cantor-set}(1), $d$ is continuous, and it is injective: if $n$ is the first index with $a_n = 0$, $b_n = 1$, then
+$d(b) - d(a) \geq 4 \cdot 10^{-n} - \sum_{m > n}4 \cdot 10^{-m} = 4 \cdot 10^{-n}(1 - \frac19) > 0$. So $d$ is a homeomorphism from $2^\NN$ onto its image, which is the set of numbers $\sum_nd_n10^{-n}$ with
+$d_n \in \{3, 7\}$, and $c \circ d^{-1}$ is a homeomorphism of it with $C$.
+\end{solution}
 
 \section{Exercises}\label{general-topology:section-exercises}
 

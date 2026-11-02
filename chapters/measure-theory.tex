@@ -1789,7 +1789,8 @@ $\mathcal{H}^s_\delta(A \cup B) \geq \mathcal{H}^s_\delta(A) + \mathcal{H}^s_\de
 (2) $\alpha(0) = 1$. A set of $N$ points needs at least $N$ nonempty sets of diameter less than the smallest distance between the points, and the $N$ singletons suffice; so
 $\mathcal{H}^0_\delta$ of it is $N$ for small $\delta$. An infinite set contains finite sets of every size.
 
-(3) If $(C_k)$ is a $\delta$-cover of $A$, then $(f(C_k \cap A))$ is an $L\delta$-cover of $f(A)$ with $\operatorname{diam}f(C_k \cap A) \leq L\operatorname{diam}C_k$; so
+(3) If $L = 0$, then $f$ is constant, $f(A)$ has at most one point, and the inequality is clear (with $0^0 = 1$ when $s = 0$). Let $L > 0$. If $(C_k)$ is a
+$\delta$-cover of $A$, then $(f(C_k \cap A))$ is an $L\delta$-cover of $f(A)$ with $\operatorname{diam}f(C_k \cap A) \leq L\operatorname{diam}C_k$; so
 $\mathcal{H}^s_{L\delta}(f(A)) \leq L^s\mathcal{H}^s_\delta(A)$. Translations are isometries, and $x \mapsto rx$ multiplies diameters by $r$, with inverse $x \mapsto x/r$.
 
 (4) For a $\delta$-cover, $\sum_k\alpha(t)(\operatorname{diam}C_k)^t \leq \frac{\alpha(t)}{\alpha(s)}\delta^{t-s}\sum_k\alpha(s)(\operatorname{diam}C_k)^s$, so
@@ -1856,6 +1857,53 @@ $1 = \mu(C) \leq \sum_i\mu(U_i \cap [0, 1]) \leq 2\sum_i(\operatorname{diam}U_i)
 \end{enumerate}
 The argument in (4), bounding the mass that a measure on $A$ gives to small sets, is the \emph{mass distribution principle}, the standard way to bound Hausdorff measures from below. So the Cantor
 set is too small to have positive length but too large to have zero $s$-dimensional measure for any $s < \log 2/\log 3 \approx 0.63$.
+\end{example}
+
+The estimate of Proposition~\ref{measure-theory:proposition-hausdorff}(3) for Lipschitz maps has a version for maps that are only H\"older continuous; it changes the dimension.
+
+\begin{proposition}\label{measure-theory:proposition-holder-images}
+Let $A \subseteq X$, and let $f \colon A \to Y$ be \emph{H\"older continuous} with exponent $0 < \gamma \leq 1$ and constant $L > 0$: $d(f(x), f(y)) \leq L\,d(x, y)^\gamma$ for $x, y \in A$. Then for every $s \geq 0$
+\[
+\mathcal{H}^{s/\gamma}(f(A)) \leq \frac{\alpha(s/\gamma)}{\alpha(s)}L^{s/\gamma}\,\mathcal{H}^s(A),
+\]
+and $\dim_{\mathcal{H}}f(A) \leq \dim_{\mathcal{H}}A/\gamma$.
+\end{proposition}
+
+\begin{proof}
+Let $(C_k)$ be a cover of $A$ by sets of diameter at most $\delta$. The sets $f(C_k \cap A)$ cover $f(A)$ and have diameter at most $L(\operatorname{diam}C_k)^\gamma \leq L\delta^\gamma$, so, with the conventions on
+empty sets and points made before Definition~\ref{measure-theory:definition-hausdorff},
+\[
+\sum_k\alpha(s/\gamma)(\operatorname{diam}f(C_k \cap A))^{s/\gamma} \leq \alpha(s/\gamma)L^{s/\gamma}\sum_k(\operatorname{diam}C_k)^s = \frac{\alpha(s/\gamma)}{\alpha(s)}L^{s/\gamma}\sum_k\alpha(s)(\operatorname{diam}C_k)^s .
+\]
+Hence $\mathcal{H}^{s/\gamma}_{L\delta^\gamma}(f(A)) \leq \frac{\alpha(s/\gamma)}{\alpha(s)}L^{s/\gamma}\mathcal{H}^s_\delta(A)$, and we let $\delta \to 0$. If $s > \dim_{\mathcal{H}}A$, then $\mathcal{H}^s(A) = 0$, so
+$\mathcal{H}^{s/\gamma}(f(A)) = 0$ and $\dim_{\mathcal{H}}f(A) \leq s/\gamma$.
+\end{proof}
+
+For $\gamma = 1$ this is the Lipschitz estimate. H\"older maps can raise the dimension by the factor $1/\gamma$, and no more.
+
+\begin{example}\label{measure-theory:example-holder-images}
+\begin{enumerate}
+\item \emph{Graphs and projections.} The orthogonal projection $\RR^n \to \RR^k$ onto the first coordinates is $1$-Lipschitz, so it does not increase $\mathcal{H}^s$. For a function
+$g \colon [0, 1] \to \RR$, the projection maps the graph $\Gamma_g$ onto $[0, 1]$, so $\mathcal{H}^1(\Gamma_g) \geq \mathcal{H}^1([0, 1]) = 1$ by Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue}: a graph is at least
+as long as its domain. Similarly a set $A \subseteq \RR^2$ with $\dim_{\mathcal{H}}A < 1$ projects onto a Lebesgue null subset of every line.
+\item \emph{Space-filling curves are not Lipschitz.} There are continuous surjections $g \colon [0, 1] \to [0, 1]^2$ (Theorem~\ref{general-topology:theorem-peano-curve}). If such a map were H\"older with
+exponent $\gamma_0$, the proposition would give $2 = \dim_{\mathcal{H}}[0, 1]^2 \leq \dim_{\mathcal{H}}[0, 1]/\gamma_0 = 1/\gamma_0$, using Theorem~\ref{measure-theory:theorem-hausdorff-lebesgue} for both dimensions. So a space-filling curve is
+never H\"older with an exponent larger than $\frac12$, in particular never Lipschitz.
+\item \emph{The Cantor function is H\"older.} Let $C$ be the Cantor set and $s = \log 2/\log 3$, and let $\varphi \colon C \to [0, 1]$ send $\sum_n2a_n3^{-n}$ to $\sum_na_n2^{-n}$ ($a_n \in \{0, 1\}$), a continuous
+surjection (Proposition~\ref{general-topology:proposition-cantor-surjections}). If $x \neq y$ in $C$ have digit sequences first differing at position $n$, then $|x - y| \geq 3^{-n}$
+(by the proof of Proposition~\ref{general-topology:proposition-cantor-set}(1)) and $|\varphi(x) - \varphi(y)| \leq \sum_{m \geq n}2^{-m} = 2 \cdot 2^{-n} = 2(3^{-n})^s \leq 2|x - y|^s$. So $\varphi$ is H\"older with exponent $s$
+and constant $2$, and the proposition with exponent $\gamma = s$, applied in dimension $s$, gives
+\[
+1 = \mathcal{H}^1([0, 1]) \leq \frac{\alpha(1)}{\alpha(s)}2^{1/s}\mathcal{H}^s(C) = \frac{3}{\alpha(s)}\mathcal{H}^s(C),
+\]
+as $\alpha(1) = 1$ and $2^{1/s} = 2^{\log 3/\log 2} = 3$. So $\mathcal{H}^s(C) \geq \alpha(s)/3 > 0$: a new proof that $\dim_{\mathcal{H}}C \geq s$, slightly weaker than the bound $\alpha(s)/2$ of
+Example~\ref{measure-theory:example-cantor-dimension}, which used the Cantor measure.
+\item \emph{Bi-Lipschitz invariance.} If $f$ is bi-Lipschitz, $L^{-1}d(x, y) \leq d(f(x), f(y)) \leq Ld(x, y)$, then $L^{-s}\mathcal{H}^s(A) \leq \mathcal{H}^s(f(A)) \leq L^s\mathcal{H}^s(A)$, so Hausdorff dimension, and
+finiteness and positivity of $\mathcal{H}^s$, are bi-Lipschitz invariants. They are not topological invariants. On $\RR$ the \emph{snowflake metric} $d(x, y) = |x - y|^{1/2}$ is a metric (as
+$\sqrt{a + b} \leq \sqrt a + \sqrt b$) with the same open sets as the usual one, since its balls are the usual balls with squared radii. A set $C$ has $d$-diameter $(\operatorname{diam}C)^{1/2}$, so the covers in the
+definition give $\mathcal{H}^s_d = \frac{\alpha(s)}{\alpha(s/2)}\mathcal{H}^{s/2}$, and $[0, 1]$ has dimension $2$ for $d$. The identity $(\RR, |\cdot|) \to (\RR, d)$ is a homeomorphism, H\"older with
+exponent $\frac12$, which doubles all dimensions.
+\end{enumerate}
 \end{example}
 
 \section{Self-similar sets}\label{measure-theory:section-self-similar}
