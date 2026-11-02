@@ -2606,6 +2606,110 @@ linking geometric measure theory with harmonic analysis and analytic number theo
 \end{enumerate}
 \end{remark}
 
+\subsection{Densities of measures}\label{measure-theory:subsection-measure-densities}
+
+Nothing in the definition of densities is special to the Hausdorff measure of a set: one can ask how much mass any measure puts in small balls. This point of view, in which the set $A$ is replaced
+by the measure $\mathcal{H}^s$ restricted to $A$, is the one used in modern geometric measure theory, and it simplifies the statements. Throughout, $\mu$ is a Borel measure on the metric space $X$ that is
+finite on bounded Borel sets.
+
+\begin{definition}\label{measure-theory:definition-measure-density}
+For $s > 0$ and $x \in X$, the \emph{upper} and \emph{lower $s$-dimensional densities} of $\mu$ at $x$ are
+\[
+\Theta^{*s}(\mu, x) = \limsup_{r \to 0}\frac{\mu(\overline{B}(x, r))}{\alpha(s)(2r)^s}, \qquad \Theta^s_*(\mu, x) = \liminf_{r \to 0}\frac{\mu(\overline{B}(x, r))}{\alpha(s)(2r)^s},
+\]
+and the \emph{density} $\Theta^s(\mu, x)$ is their common value when they agree.
+\end{definition}
+
+\begin{example}\label{measure-theory:example-measure-density}
+\begin{enumerate}
+\item If $A \subseteq X$ is a Borel set with $\mathcal{H}^s(A) < \infty$, then $\mu = \mathcal{H}^s\llcorner A$, $\mu(B) = \mathcal{H}^s(A \cap B)$, is such a measure (Borel sets are
+$\mathcal{H}^s$-measurable by Lemma~\ref{measure-theory:lemma-metric-outer-measure}), and $\Theta^{*s}(\mu, x) = \Theta^{*s}(A, x)$: the densities of Definition~\ref{measure-theory:definition-density} are those
+of this measure.
+\item For $f \in L^1_{\mathrm{loc}}(\RR^n)$ with $f \geq 0$ and $\mu = f\lambda$, $\Theta^n(\mu, x) = f(x)$ for almost every $x$, since $\alpha(n)(2r)^n = \lambda(\overline{B}(x, r))$ and the averages of $f$ over balls
+converge to $f(x)$ almost everywhere (Theorem~\ref{measure-theory:theorem-lebesgue-differentiation}; closed and open balls differ by a null sphere). For $s < n$, $\Theta^s(\mu, x) = 0$ wherever $f$ is
+bounded near $x$.
+\item For a point mass $\mu = \delta_a$, $\Theta^{*s}(\mu, a) = \infty$ for every $s > 0$, and $\Theta^s(\mu, x) = 0$ for $x \neq a$.
+\item For the Cantor measure $\mu$ of Example~\ref{measure-theory:example-cantor-dimension}(3) and $s = \log 2/\log 3$, part (4) of that example gives $\mu(\overline{B}(x, r)) \leq 2(2r)^s$ for $2r < 1$, so
+$\Theta^{*s}(\mu, x) \leq 2/\alpha(s)$ at every point. At $0$ the density does not exist: $\mu([0, 3^{-k}]) = 2^{-k}$, and $\mu([0, 2 \cdot 3^{-k-1}]) = 2^{-k-1}$ because $\mu$ gives no
+mass to the gap $(3^{-k-1}, 2 \cdot 3^{-k-1})$ and none to points (the Cantor function is continuous), so the computation of Example~\ref{measure-theory:example-density-cantor} applies with $c = 1$.
+\end{enumerate}
+\end{example}
+
+The basic theorem compares $\mu$ with $\mathcal{H}^s$ on the set where the density of $\mu$ is bounded.
+
+\begin{theorem}\label{measure-theory:theorem-density-comparison}
+Let $\mu$ be a Borel measure on $X$, finite on bounded Borel sets, let $A \subseteq X$ be a Borel set, $s > 0$ and $0 < t < \infty$. If $\Theta^{*s}(\mu, x) \leq t$ for every $x \in A$, then
+\[
+\mu(A) \leq 2^st\,\mathcal{H}^s(A).
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{Measurability.} For fixed $r > 0$ the function $x \mapsto \mu(\overline{B}(x, r))$ is upper semicontinuous: if $x_j \to x$, then $\overline{B}(x_j, r) \subseteq \overline{B}(x, r + \eta)$ for large $j$,
+so $\limsup_j\mu(\overline{B}(x_j, r)) \leq \mu(\overline{B}(x, r + \eta))$ for every $\eta > 0$, and $\mu(\overline{B}(x, r + \eta)) \to \mu(\overline{B}(x, r))$ as $\eta \to 0$ by continuity from above, since
+$\overline{B}(x, r) = \bigcap_{\eta > 0}\overline{B}(x, r + \eta)$ and these balls have finite measure. So the sets $\{x : \mu(\overline{B}(x, r)) < c\}$ are open and the sets
+$\{x : \mu(\overline{B}(x, r)) \leq c\}$ are Borel. The same continuity shows that $r \mapsto \mu(\overline{B}(x, r))$ is right continuous.
+
+\emph{Covering.} Let $t^{\prime} > t$ and, for $k \geq 1$,
+\[
+A_k = \bigl\{x \in A : \mu(\overline{B}(x, r)) \leq t^{\prime}\alpha(s)(2r)^s \text{ for all } 0 < r < 1/k\bigr\}.
+\]
+By right continuity it suffices to require the inequality for rational $r$, so $A_k$ is Borel. The sets $A_k$ increase, and their union is $A$, because $\Theta^{*s}(\mu, x) \leq t < t^{\prime}$. Fix $k$,
+$0 < \delta < 1/k$ and $\varepsilon > 0$, and assume $\mathcal{H}^s(A_k) < \infty$ (otherwise there is nothing to prove). Choose a cover of $A_k$ by closed sets $C_i$ of diameter $d_i \leq \delta$ with
+$\sum_i\alpha(s)d_i^s \leq \mathcal{H}^s_\delta(A_k) + \varepsilon$, discard those not meeting $A_k$, and pick $x_i \in C_i \cap A_k$. If $d_i > 0$, then $C_i \subseteq \overline{B}(x_i, d_i)$ with $d_i < 1/k$, so
+$\mu(C_i) \leq t^{\prime}\alpha(s)(2d_i)^s = 2^st^{\prime}\alpha(s)d_i^s$. If $d_i = 0$, then $C_i = \{x_i\}$ and $\mu(C_i) \leq \mu(\overline{B}(x_i, r)) \leq t^{\prime}\alpha(s)(2r)^s$ for all small $r$, so
+$\mu(C_i) = 0$. Summing,
+\[
+\mu(A_k) \leq \sum_i\mu(C_i) \leq 2^st^{\prime}\bigl(\mathcal{H}^s_\delta(A_k) + \varepsilon\bigr) \leq 2^st^{\prime}\bigl(\mathcal{H}^s(A) + \varepsilon\bigr).
+\]
+Letting $\varepsilon \to 0$, then $k \to \infty$ (continuity from below), then $t^{\prime} \to t$ gives the claim.
+\end{proof}
+
+For $\mu = \mathcal{H}^s\llcorner A$ the argument is the proof of Theorem~\ref{measure-theory:theorem-upper-density}: on the set where $\Theta^{*s}(A, \cdot) \leq t$ with $t < 2^{-s}$ the theorem
+gives $\mathcal{H}^s \leq 2^st\mathcal{H}^s$, which forces measure zero. The hypothesis $t > 0$ cannot be dropped: Lebesgue measure on $\RR$ has $\Theta^{1/2}(\lambda, x) = 0$ everywhere, while
+$\lambda(\RR) > 0$ and $\mathcal{H}^{1/2}(\RR) = \infty$.
+
+\begin{corollary}\label{measure-theory:corollary-density-consequences}
+Let $\mu$ be as in the theorem and $s > 0$.
+\begin{enumerate}
+\item (\emph{Absolute continuity}) If $\Theta^{*s}(\mu, x) < \infty$ for every $x$ in a Borel set $A$, then every Borel set $E \subseteq A$ with $\mathcal{H}^s(E) = 0$ has $\mu(E) = 0$.
+\item (\emph{Mass distribution principle}) If $A$ is a Borel set and there are $c, r_0 > 0$ with $\mu(\overline{B}(x, r)) \leq cr^s$ for all $x \in A$ and $0 < r < r_0$, then
+$\mathcal{H}^s(A) \geq \alpha(s)\mu(A)/c$. In particular, if $\mu(A) > 0$ then $\dim_{\mathcal{H}}A \geq s$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(1) For integers $m, k \geq 1$ let $E_{m,k}$ be the set of $x \in E$ with $\mu(\overline{B}(x, r)) \leq m\alpha(s)(2r)^s$ for $0 < r < 1/k$, a Borel set as in the proof above, on which
+$\Theta^{*s}(\mu, \cdot) \leq m$. By the theorem $\mu(E_{m,k}) \leq 2^sm\mathcal{H}^s(E_{m,k}) = 0$, and $E = \bigcup_{m,k}E_{m,k}$ because the upper density is finite on $E$.
+(2) On $A$, $\Theta^{*s}(\mu, x) \leq c/(2^s\alpha(s))$, so the theorem gives $\mu(A) \leq (c/\alpha(s))\mathcal{H}^s(A)$. If $\mu(A) > 0$, then $\mathcal{H}^s(A) > 0$, so $\dim_{\mathcal{H}}A \geq s$.
+\end{proof}
+
+For the Cantor measure, (2) with $c = 2^{1+s}$ gives $\mathcal{H}^s(C) \geq \alpha(s)2^{-1-s}$, a little weaker than the bound $\alpha(s)/2$ of Example~\ref{measure-theory:example-cantor-dimension}, which
+estimated $\mu$ on arbitrary small sets rather than on balls. Statement (1) says that a measure with finite upper $s$-density cannot charge $\mathcal{H}^s$-null sets; for instance a measure with finite
+upper $1$-density everywhere on $\RR^2$ gives no mass to the Cantor set $C \times \{0\}$, of dimension $\log 2/\log 3 < 1$.
+
+\begin{remark}\label{measure-theory:remark-measure-densities}
+\begin{enumerate}
+\item \emph{The reverse inequality.} For a Radon measure $\mu$ on $\RR^n$ and a Borel set $A$, if $\Theta^{*s}(\mu, x) \geq t$ for all $x \in A$, then $\mu(A) \geq t\,\mathcal{H}^s(A)$
+\cite[Chapter 6]{mattila-1995}, \cite[Section 2.10]{federer-gmt}. The proof uses a Vitali-type covering theorem instead of the definition of $\mathcal{H}^s$, which is why no factor $2^s$ is lost. Applied to
+$\mu = \mathcal{H}^s\llcorner A$ it gives the rest of Theorem~\ref{measure-theory:theorem-density-bounds}: on the set where $\Theta^{*s}(A, \cdot) \geq t > 1$ we get $\mathcal{H}^s \geq t\mathcal{H}^s$, so
+that set is null; and on a Borel set $B$ disjoint from $A$ where $\Theta^{*s}(A, \cdot) \geq t > 0$ we get $0 = \mu(B) \geq t\mathcal{H}^s(B)$.
+\item \emph{Differentiation of one measure by another.} For two Radon measures $\mu$, $\nu$ on $\RR^n$, the limit $\lim_{r \to 0}\nu(\overline{B}(x, r))/\mu(\overline{B}(x, r))$ exists for $\mu$-almost every $x$
+and is the Radon--Nikodym derivative of the absolutely continuous part of $\nu$ with respect to $\mu$ \cite[Chapter 1]{evans-gariepy}. For $\mu = \lambda$ this is
+Theorem~\ref{measure-theory:theorem-differentiation-measures}. For a general $\mu$ the Vitali covering lemma is useless, since $\mu(B(x, 3r))$ need not be comparable to $\mu(B(x, r))$, and it is
+replaced by the \emph{Besicovitch covering theorem}, which uses the geometry of $\RR^n$: if every point of a bounded set $A$ is the centre of some ball of a family of closed balls with bounded radii,
+one can extract a subfamily that still covers $A$ and in which no point lies in more than $N(n)$ balls, a number depending only on $n$.
+\item \emph{Rectifiable measures.} The rectifiability criteria have their natural form for measures. A Radon measure $\mu$ on $\RR^n$ is \emph{$k$-rectifiable} if $\mu = \theta\mathcal{H}^k\llcorner E$
+with $E$ countably $k$-rectifiable and $\theta$ a positive Borel function. \emph{Preiss's theorem} says that $\mu$ is $k$-rectifiable if and only if $0 < \Theta^k(\mu, x) < \infty$ for $\mu$-almost every
+$x$ \cite{preiss-1987}, and \emph{Marstrand's theorem} says that if $0 < \Theta^s(\mu, x) < \infty$ on a set of positive $\mu$-measure, then $s$ is an integer \cite{mattila-1995}. Preiss's proof
+studies the \emph{tangent measures} of $\mu$ at $x$, the weak limits (Section~\ref{measure-theory:section-weak-convergence}) of the rescaled measures $A \mapsto \mu(x + rA)/r^k$ as $r \to 0$; existence
+of the density forces them to be flat.
+\item \emph{Frostman's lemma.} The mass distribution principle has a converse: if $A \subseteq \RR^n$ is a Borel set with $\mathcal{H}^s(A) > 0$, there is a nonzero finite Borel measure $\mu$ supported on a
+compact subset of $A$ with $\mu(\overline{B}(x, r)) \leq r^s$ for all $x$ and $r$ \cite{mattila-1995}. So $\dim_{\mathcal{H}}A$ is the supremum of the $s$ for which $A$ carries a nonzero measure with
+$\mu(\overline{B}(x, r)) \leq r^s$: Hausdorff dimension can be computed with measures instead of covers.
+\end{enumerate}
+\end{remark}
+
 \section{Exercises}\label{measure-theory:section-exercises}
 
 \begin{exercise}\label{measure-theory:exercise-cantor}
