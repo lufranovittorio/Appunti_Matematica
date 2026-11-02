@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Nets and filters - The Hodge Project</title>
+<script>
+  try { var t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="general-topology-section-paracompactness.html" /><link rel="next" href="general-topology-section-stone-cech.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=92a1b77967" />
+<link rel="stylesheet" href="styles/amsthm.css?v=92a1b77967" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2 active">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+  <ul><li class="level-3">
+  <a href="general-topology-section-introduction.html"><span class="toc_ref">18.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-spaces.html"><span class="toc_ref">18.2</span> <span class="toc_entry">Topological spaces and continuous maps</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-metric.html"><span class="toc_ref">18.3</span> <span class="toc_entry">Metric spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-constructions.html"><span class="toc_ref">18.4</span> <span class="toc_entry">Subspaces, products and quotients</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-connectedness.html"><span class="toc_ref">18.5</span> <span class="toc_entry">Connectedness</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-compactness.html"><span class="toc_ref">18.6</span> <span class="toc_entry">Compactness</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-complete.html"><span class="toc_ref">18.7</span> <span class="toc_entry">Complete and compact metric spaces</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-separation.html"><span class="toc_ref">18.8</span> <span class="toc_entry">Separation axioms, Urysohn and Tietze</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-local-compactness.html"><span class="toc_ref">18.9</span> <span class="toc_entry">Local compactness and proper maps</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-paracompactness.html"><span class="toc_ref">18.10</span> <span class="toc_entry">Paracompactness and partitions of unity</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="general-topology-section-nets.html"><span class="toc_ref">18.11</span> <span class="toc_entry">Nets and filters</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-stone-cech.html"><span class="toc_ref">18.12</span> <span class="toc_entry">The Stone–Čech compactification</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-cantor.html"><span class="toc_ref">18.13</span> <span class="toc_entry">The Cantor set and space-filling curves</span></a>
+</li>
+<li class="level-3">
+  <a href="general-topology-section-exercises.html"><span class="toc_ref">18.14</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-topology.html">III Topology</a></li><li><a href="general-topology.html">18 General Topology</a></li></ol>
+
+<article class="main-text">
+<h1 id="general-topology:section-nets">18.11 Nets and filters<a class="tag" href="tag/039Q.html" title="Permanent link: tag 039Q">039Q</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>In metric spaces sequences describe everything: closures, continuity and compactness. In general spaces they do not (Counterexample&#160;<a href="general-topology-section-metric.html#general-topology:counterexample-sequences-insufficient">18.3.8</a>). The reason is that a point may have no countable neighbourhood basis, so that no sequence can “approach” it through all its neighbourhoods. The remedy is to index by sets larger than \(\mathbb {N}\), ordered only partially: what one needs of \(\mathbb {N}\) is only that any two indices have a common later one. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-net">
+  <div class="definition_thmheading"><a class="tag" href="tag/039R.html" title="Permanent link: tag 039R">039R</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">18.11.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>directed set</em> is a nonempty set \(D\) with a relation \(\leq \) that is reflexive and transitive and such that any two elements \(d_1, d_2\) have an upper bound \(d \geq d_1, d_2\). A <em>net</em> in a space \(X\) is a map \(D \to X\), \(d \mapsto x_d\), from a directed set. It <em>converges</em> to \(x\), written \(x_d \to x\), if for every open \(U \ni x\) there is \(d_0\) with \(x_d \in U\) for all \(d \geq d_0\) (the net is <em>eventually</em> in \(U\)). A point \(x\) is a <em>cluster point</em> of the net if for every open \(U \ni x\) and every \(d_0\) there is \(d \geq d_0\) with \(x_d \in U\) (the net is <em>frequently</em> in \(U\)). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-nets">
+  <div class="example_thmheading"><a class="tag" href="tag/039S.html" title="Permanent link: tag 039S">039S</a><a class="graph-link" href="graph.html?tag=039S" title="Dependencies of tag 039S: what it uses and what uses it" aria-label="Dependency graph of tag 039S"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.2</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>A sequence is a net indexed by \(\mathbb {N}\), and the definitions agree with the usual ones. </p>
+</li>
+  <li><p><em>The neighbourhood net.</em> For \(x \in X\) the set \(\mathcal{N}_x\) of open neighbourhoods of \(x\), ordered by reverse inclusion (\(U \leq V\) if \(V \subseteq U\)), is directed, an upper bound of \(U\) and \(V\) being \(U \cap V\). If \(x_U \in U\) is chosen for every \(U\), then \(x_U \to x\): for \(U \ni x\) open and \(V \geq U\), \(x_V \in V \subseteq U\). This is the basic example; it approaches \(x\) through all neighbourhoods at once. </p>
+</li>
+  <li><p><em>Unordered sums.</em> Let \((a_i)_{i \in I}\) be real numbers indexed by any set. The finite subsets \(F \subseteq I\), ordered by inclusion, form a directed set, and \(s_F = \sum _{i \in F}a_i\) is a net. If all \(a_i \geq 0\) and \(s = \sup _Fs_F {\lt} \infty \), then \(s_F \to s\): given \(\varepsilon {\gt} 0\) choose \(F_0\) with \(s_{F_0} {\gt} s - \varepsilon \); for \(F \supseteq F_0\), \(s - \varepsilon {\lt} s_F \leq s\). This is how sums \(\sum _{i \in I}\) over uncountable index sets, for example in Hilbert spaces with uncountable orthonormal bases, are defined. </p>
+</li>
+  <li><p><em>Riemann sums.</em> The tagged partitions of \([a, b]\), ordered by refinement of the partitions, form a directed set (a common refinement of two partitions is obtained by taking the union of their division points), and Riemann sums of a function \(f\) form a net. The Riemann integral of Chapter&#160;<a href="real-analysis.html">27</a> can be defined as the limit of this net. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="general-topology:proposition-nets">
+  <div class="proposition_thmheading"><a class="tag" href="tag/039T.html" title="Permanent link: tag 039T">039T</a><a class="graph-link" href="graph.html?tag=039T" title="Dependencies of tag 039T: what it uses and what uses it" aria-label="Dependency graph of tag 039T"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">18.11.3</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(X\) be a space. </p>
+<ol class="enumerate">
+  <li><p>A point \(x\) lies in \(\overline{A}\) if and only if some net in \(A\) converges to \(x\). </p>
+</li>
+  <li><p>A map \(f \colon X \to Y\) is continuous at \(x\) if and only if \(f(x_d) \to f(x)\) for every net \(x_d \to x\). So \(f\) is continuous if and only if it preserves convergence of nets. </p>
+</li>
+  <li><p>\(X\) is Hausdorff if and only if every net in \(X\) has at most one limit. </p>
+</li>
+  <li><p>A net in a product \(\prod _iX_i\) converges to \(x\) if and only if \(p_i(x_d) \to p_i(x)\) for every \(i\). </p>
+</li>
+  <li><p>If \(X\) is first countable, nets may be replaced by sequences in (1) and (2). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000703">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) If \(x_d \to x\) with \(x_d \in A\), every open \(U \ni x\) contains some \(x_d\), so meets \(A\), and \(x \in \overline{A}\) by Lemma&#160;<a href="general-topology-section-spaces.html#general-topology:lemma-closure">18.2.4</a>. Conversely, if \(x \in \overline{A}\), every \(U \in \mathcal{N}_x\) meets \(A\); choosing \(x_U \in U \cap A\) gives a net in \(A\) converging to \(x\) (Example&#160;<a href="general-topology-section-nets.html#general-topology:example-nets">18.11.2</a>(2)). </p>
+<p>(2) Let \(f\) be continuous at \(x\) (Remark&#160;<a href="general-topology-section-metric.html#general-topology:remark-limits-continuity">18.3.6</a>) and \(x_d \to x\). For open \(V \ni f(x)\) there is an open \(U \ni x\) with \(f(U) \subseteq V\), and \(x_d\) is eventually in \(U\), so \(f(x_d)\) is eventually in \(V\). Conversely, if \(f\) is not continuous at \(x\), there is an open \(V \ni f(x)\) such that no \(U \in \mathcal{N}_x\) has \(f(U) \subseteq V\). Choose \(x_U \in U\) with \(f(x_U) \notin V\). Then \(x_U \to x\), but \(f(x_U)\) is never in \(V\). </p>
+<p>(3) Let \(X\) be Hausdorff and \(x_d \to x\), \(x_d \to y\) with \(x \neq y\). For disjoint open \(U \ni x\), \(V \ni y\) there are \(d_1\), \(d_2\) with \(x_d \in U\) for \(d \geq d_1\) and \(x_d \in V\) for \(d \geq d_2\); an upper bound \(d\) of \(d_1, d_2\) gives \(x_d \in U \cap V = \emptyset \), a contradiction. Conversely, suppose \(x \neq y\) have no disjoint neighbourhoods. The pairs \((U, V) \in \mathcal{N}_x \times \mathcal{N}_y\), ordered by reverse inclusion in both components, form a directed set; choose \(x_{(U, V)} \in U \cap V\). This net converges to \(x\) and to \(y\). </p>
+<p>(4) The projections are continuous, so (2) gives one direction. Conversely, let \(p_i(x_d) \to p_i(x)\) for all \(i\), and let \(W = \prod _iU_i\) be a basic open set containing \(x\), with \(U_i = X_i\) except for \(i \in \{ i_1, \ldots , i_k\} \) (Proposition&#160;<a href="general-topology-section-constructions.html#general-topology:proposition-product">18.4.7</a>(1)). There are \(d_1, \ldots , d_k\) with \(p_{i_j}(x_d) \in U_{i_j}\) for \(d \geq d_j\); for \(d\) above an upper bound of \(d_1, \ldots , d_k\), which exists by induction on \(k\), \(x_d \in W\). Every open set containing \(x\) contains such a \(W\). </p>
+<p>(5) Let \(U_1, U_2, \ldots \) be open neighbourhoods of \(x\) such that every open set containing \(x\) contains one of them, and \(V_n = U_1 \cap \cdots \cap U_n\). If \(x_n \in V_n\) for all \(n\), then \(x_n \to x\), since \(x_m \in V_m \subseteq V_n \subseteq U_n\) for \(m \geq n\). In the proofs of (1) and (2), use the \(V_n\) in place of \(\mathcal{N}_x\). </p>
+
+  </div>
+</div>
+<p>By (4), convergence in a product is coordinatewise convergence; this is why the product topology on a space of functions \(\prod _{s \in S}\mathbb {R}= \mathbb {R}^S\) is called the topology of <em>pointwise convergence</em>. The following example shows that sequences are not enough there. </p>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-pointwise-closure">
+  <div class="example_thmheading"><a class="tag" href="tag/039U.html" title="Permanent link: tag 039U">039U</a><a class="graph-link" href="graph.html?tag=039U" title="Dependencies of tag 039U: what it uses and what uses it" aria-label="Dependency graph of tag 039U"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.4</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> In \(\mathbb {R}^\mathbb {R}\) with the product topology let \(A\) be the set of functions \(f \colon \mathbb {R}\to \{ 0, 1\} \) with \(f(s) = 1\) for all but finitely many \(s\). The zero function lies in \(\overline{A}\): a basic neighbourhood of \(0\) restricts the values at finitely many points \(s_1, \ldots , s_k\), and contains the function that vanishes at these points and equals \(1\) elsewhere. A net in \(A\) converging to \(0\) is given by \(f_F = \mathbf{1}_{\mathbb {R}\setminus F}\), indexed by the finite sets \(F \subseteq \mathbb {R}\). But no sequence \(f_n \in A\) converges to \(0\): the sets \(\{ f_n = 0\} \) are finite, so their union is countable, and at a point \(s\) outside it \(f_n(s) = 1\) for all \(n\), so \(f_n(s) \not\to 0\). So \(\mathbb {R}^\mathbb {R}\) is not first countable at \(0\), by Proposition&#160;<a href="general-topology-section-nets.html#general-topology:proposition-nets">18.11.3</a>(5). </p>
+
+  </div>
+</div>
+<p>For compactness one needs the analogue of subsequences. A subnet may run through the original net in a more complicated way than a subsequence, possibly repeating indices; what matters is only that it goes arbitrarily far out. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-subnet">
+  <div class="definition_thmheading"><a class="tag" href="tag/039V.html" title="Permanent link: tag 039V">039V</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">18.11.5</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>subnet</em> of a net \((x_d)_{d \in D}\) is a net \((x_{\varphi (e)})_{e \in E}\), where \(E\) is a directed set and \(\varphi \colon E \to D\) is a map such that for every \(d_0 \in D\) there is \(e_0 \in E\) with \(\varphi (e) \geq d_0\) for all \(e \geq e_0\). </p>
+
+  </div>
+</div>
+<p>A subsequence \((x_{n_k})\), with \(n_1 {\lt} n_2 {\lt} \cdots \), is a subnet, as \(n_k \geq k\). If \(x_d \to x\), every subnet converges to \(x\): if \(x_d \in U\) for \(d \geq d_0\), then \(x_{\varphi (e)} \in U\) for \(e \geq e_0\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="general-topology:lemma-cluster-subnet">
+  <div class="lemma_thmheading"><a class="tag" href="tag/039W.html" title="Permanent link: tag 039W">039W</a><a class="graph-link" href="graph.html?tag=039W" title="Dependencies of tag 039W: what it uses and what uses it" aria-label="Dependency graph of tag 039W"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">18.11.6</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> A point \(x\) is a cluster point of a net \((x_d)_{d \in D}\) if and only if some subnet converges to \(x\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000704">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \((x_{\varphi (e)})\) converge to \(x\), let \(U \ni x\) be open and \(d_0 \in D\). There are \(e_0\) with \(\varphi (e) \geq d_0\) for \(e \geq e_0\) and \(e_1\) with \(x_{\varphi (e)} \in U\) for \(e \geq e_1\); for an upper bound \(e\) of \(e_0, e_1\), \(d = \varphi (e) \geq d_0\) and \(x_d \in U\). So \(x\) is a cluster point. </p>
+<p>Conversely, let \(x\) be a cluster point, and let \(E\) be the set of pairs \((d, U)\) with \(d \in D\), \(U \in \mathcal{N}_x\) and \(x_d \in U\), ordered by \((d, U) \leq (d^{\prime }, U^{\prime })\) if \(d \leq d^{\prime }\) and \(U^{\prime } \subseteq U\). It is nonempty, as \((d, X) \in E\) for every \(d\). It is directed: given \((d_1, U_1)\) and \((d_2, U_2)\), let \(d_0\) be an upper bound of \(d_1, d_2\); as \(x\) is a cluster point, there is \(d \geq d_0\) with \(x_d \in U_1 \cap U_2\), and \((d, U_1 \cap U_2)\) is an upper bound. Let \(\varphi (d, U) = d\). Given \(d_0\), every \((d, U) \geq (d_0, X)\) has \(d \geq d_0\), so this is a subnet. It converges to \(x\): for \(U \in \mathcal{N}_x\) choose \(d\) with \(x_d \in U\); then for \((d^{\prime }, U^{\prime }) \geq (d, U)\) we have \(x_{d^{\prime }} \in U^{\prime } \subseteq U\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="general-topology:theorem-compact-nets">
+  <div class="theorem_thmheading"><a class="tag" href="tag/039X.html" title="Permanent link: tag 039X">039X</a><a class="graph-link" href="graph.html?tag=039X" title="Dependencies of tag 039X: what it uses and what uses it" aria-label="Dependency graph of tag 039X"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">18.11.7</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For a space \(X\) the following are equivalent: </p>
+<ol class="enumerate">
+  <li><p>\(X\) is compact; </p>
+</li>
+  <li><p>every net in \(X\) has a cluster point; </p>
+</li>
+  <li><p>every net in \(X\) has a convergent subnet. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000705">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(2) and (3) are equivalent by Lemma&#160;<a href="general-topology-section-nets.html#general-topology:lemma-cluster-subnet">18.11.6</a>. </p>
+<p>(1)\(\Rightarrow \)(2): Suppose the net \((x_d)\) has no cluster point. Then every \(x \in X\) has an open \(U_x \ni x\) and an index \(d_x\) with \(x_d \notin U_x\) for all \(d \geq d_x\). Finitely many \(U_{x_1}, \ldots , U_{x_n}\) cover \(X\). For an upper bound \(d\) of \(d_{x_1}, \ldots , d_{x_n}\), the point \(x_d\) lies in none of the \(U_{x_j}\), a contradiction. </p>
+<p>(2)\(\Rightarrow \)(1): Suppose the open cover \(\mathcal{U}\) has no finite subcover. The finite subfamilies \(\mathcal{F} \subseteq \mathcal{U}\), ordered by inclusion, form a directed set, and we may choose \(x_{\mathcal{F}} \notin \bigcup \mathcal{F}\). Any \(x \in X\) lies in some \(U \in \mathcal{U}\), and \(x_{\mathcal{F}} \notin U\) for all \(\mathcal{F} \supseteq \{ U\} \); so \(x\) is not a cluster point. </p>
+
+  </div>
+</div>
+<p>For metric spaces, compactness is equivalent to sequential compactness (Theorem&#160;<a href="general-topology-section-complete.html#general-topology:theorem-compact-metric">18.7.4</a>); in general neither implies the other. Here is a compact space that is not sequentially compact. </p>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-not-sequentially-compact">
+  <div class="example_thmheading"><a class="tag" href="tag/039Y.html" title="Permanent link: tag 039Y">039Y</a><a class="graph-link" href="graph.html?tag=039Y" title="Dependencies of tag 039Y: what it uses and what uses it" aria-label="Dependency graph of tag 039Y"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.8</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> Let \(S = \{ 0, 1\} ^\mathbb {N}\) be the set of \(0\)-\(1\) sequences, and \(X = \{ 0, 1\} ^S\), a product of discrete two-point spaces, which is compact by Tychonoff’s theorem (Theorem&#160;<a href="general-topology-section-compactness.html#general-topology:theorem-tychonoff">18.6.8</a>). Let \(f_n \in X\) be the point \(f_n(s) = s(n)\). Given \(n_1 {\lt} n_2 {\lt} \cdots \), choose \(s \in S\) with \(s(n_k) = 0\) for even \(k\) and \(s(n_k) = 1\) for odd \(k\). Then \(f_{n_k}(s)\) alternates between \(1\) and \(0\), so by Proposition&#160;<a href="general-topology-section-nets.html#general-topology:proposition-nets">18.11.3</a>(4) the subsequence \((f_{n_k})\) does not converge. So \((f_n)\) has no convergent subsequence, although it has convergent subnets by Theorem&#160;<a href="general-topology-section-nets.html#general-topology:theorem-compact-nets">18.11.7</a>. </p>
+
+  </div>
+</div>
+<p>Filters are a second, equivalent language, often more convenient because they need no index set. We use the definitions of Chapter&#160;<a href="model-theory.html">5</a>: a <em>filter</em> on a set \(X\) is a family \(\mathcal{F}\) of subsets with \(X \in \mathcal{F}\), \(\emptyset \notin \mathcal{F}\), closed under finite intersections and supersets, and an <em>ultrafilter</em> is a filter containing \(A\) or \(X \setminus A\) for every \(A \subseteq X\) (Definition&#160;<a href="model-theory-section-ultraproducts.html#model-theory:definition-ultrafilter">5.3.1</a>). Every family of subsets with the finite intersection property lies in an ultrafilter (Lemma&#160;<a href="model-theory-section-ultraproducts.html#model-theory:lemma-ultrafilters">5.3.2</a>). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="general-topology:definition-filter-convergence">
+  <div class="definition_thmheading"><a class="tag" href="tag/039Z.html" title="Permanent link: tag 039Z">039Z</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">18.11.9</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A filter \(\mathcal{F}\) on a space \(X\) <em>converges</em> to \(x\) if every open set containing \(x\) belongs to \(\mathcal{F}\). For a map \(f \colon X \to Y\), the <em>image filter</em> is \(f_*\mathcal{F} = \{ B \subseteq Y : f^{-1}(B) \in \mathcal{F}\} \). </p>
+
+  </div>
+</div>
+<p>The <em>neighbourhood filter</em> of \(x\), the sets containing an open neighbourhood of \(x\), converges to \(x\), and a filter converges to \(x\) if and only if it contains the neighbourhood filter. A net \((x_d)\) defines the filter of sets \(B\) that contain a <em>tail</em> \(\{ x_d : d \geq d_0\} \), which converges to \(x\) exactly when the net does; so filters and nets describe the same convergence. The image filter is a filter (\(f^{-1}(\emptyset ) = \emptyset \) and preimages preserve intersections and inclusions), and if \(\mathcal{F}\) is an ultrafilter, so is \(f_*\mathcal{F}\), since \(f^{-1}(Y \setminus B) = X \setminus f^{-1}(B)\). If \(f\) is continuous and \(\mathcal{F} \to x\), then \(f_*\mathcal{F} \to f(x)\): for open \(V \ni f(x)\), \(f^{-1}(V)\) is an open set containing \(x\), so it lies in \(\mathcal{F}\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="general-topology:theorem-compact-ultrafilters">
+  <div class="theorem_thmheading"><a class="tag" href="tag/03A0.html" title="Permanent link: tag 03A0">03A0</a><a class="graph-link" href="graph.html?tag=03A0" title="Dependencies of tag 03A0: what it uses and what uses it" aria-label="Dependency graph of tag 03A0"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">18.11.10</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> A space \(X\) is compact if and only if every ultrafilter on \(X\) converges. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000706">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(X\) be compact and \(\mathcal{U}\) an ultrafilter without limit. Every \(x\) has an open \(U_x \ni x\) with \(U_x \notin \mathcal{U}\), so \(X \setminus U_x \in \mathcal{U}\). Finitely many \(U_{x_1}, \ldots , U_{x_n}\) cover \(X\), and then \(\emptyset = \bigcap _j(X \setminus U_{x_j}) \in \mathcal{U}\), a contradiction. </p>
+<p>Conversely, let \(\mathcal{C}\) be an open cover without finite subcover. Then the complements \(X \setminus U\), \(U \in \mathcal{C}\), have the finite intersection property, so they lie in an ultrafilter \(\mathcal{U}\). If \(\mathcal{U} \to x\) and \(x \in U \in \mathcal{C}\), then \(U \in \mathcal{U}\) and \(X \setminus U \in \mathcal{U}\), so \(\emptyset \in \mathcal{U}\), a contradiction. </p>
+
+  </div>
+</div>
+<p>With ultrafilters Tychonoff’s theorem has a two-line proof, which shows clearly where the axiom of choice enters: in choosing the limits. </p>
+<div class="corollary_thmwrapper theorem-style-plain" id="general-topology:corollary-tychonoff-ultrafilters">
+  <div class="corollary_thmheading"><a class="tag" href="tag/03A1.html" title="Permanent link: tag 03A1">03A1</a><a class="graph-link" href="graph.html?tag=03A1" title="Dependencies of tag 03A1: what it uses and what uses it" aria-label="Dependency graph of tag 03A1"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">18.11.11</span>
+  </div>
+  <div class="corollary_thmcontent">
+  <p> A product of compact spaces is compact. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000707">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\mathcal{U}\) be an ultrafilter on \(X = \prod _iX_i\). Each \((p_i)_*\mathcal{U}\) is an ultrafilter on the compact space \(X_i\), so by Theorem&#160;<a href="general-topology-section-nets.html#general-topology:theorem-compact-ultrafilters">18.11.10</a> we may choose a limit \(x_i\) of it, and let \(x = (x_i)_i\). A basic open set containing \(x\) is \(W = p_{i_1}^{-1}(U_1) \cap \cdots \cap p_{i_k}^{-1}(U_k)\) with \(U_j \ni x_{i_j}\) open; then \(U_j \in (p_{i_j})_*\mathcal{U}\), that is, \(p_{i_j}^{-1}(U_j) \in \mathcal{U}\), and so \(W \in \mathcal{U}\). Hence every open set containing \(x\) is in \(\mathcal{U}\), \(\mathcal{U} \to x\), and \(X\) is compact by the theorem. </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="general-topology:example-ultrafilter-limits">
+  <div class="example_thmheading"><a class="tag" href="tag/03A2.html" title="Permanent link: tag 03A2">03A2</a><a class="graph-link" href="graph.html?tag=03A2" title="Dependencies of tag 03A2: what it uses and what uses it" aria-label="Dependency graph of tag 03A2"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">18.11.12</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> <em>Limits along an ultrafilter.</em> An ultrafilter on \(\mathbb {N}\) is <em>free</em> if it is not principal; free ultrafilters exist, since the cofinite subsets of \(\mathbb {N}\) have the finite intersection property, and an ultrafilter containing them contains no finite set, so is not principal. Let \(\mathcal{U}\) be a free ultrafilter and \((a_n)\) a bounded real sequence, \(a \colon \mathbb {N}\to [-M, M]\). The ultrafilter \(a_*\mathcal{U}\) on the compact Hausdorff space \([-M, M]\) has a unique limit (uniqueness as in Proposition&#160;<a href="general-topology-section-nets.html#general-topology:proposition-nets">18.11.3</a>(3)), written \(\lim _{\mathcal{U}}a_n\): it is the number \(L\) such that \(\{ n : |a_n - L| {\lt} \varepsilon \}  \in \mathcal{U}\) for every \(\varepsilon {\gt} 0\). Every bounded sequence has such a limit, for instance \(\lim _{\mathcal{U}}(-1)^n\) is \(1\) or \(-1\) according as \(\mathcal{U}\) contains the even or the odd numbers. The limit is linear and multiplicative, lies between \(\liminf a_n\) and \(\limsup a_n\), and equals \(\lim a_n\) when this exists, since every set \(\{ n : |a_n - L| {\lt} \varepsilon \} \) is then cofinite. This is the device behind ultraproducts (Chapter&#160;<a href="model-theory.html">5</a>). The limit is not shift invariant (for \((-1)^n\) and its shift it gives opposite values), but its value on the averages \(\frac1n(a_1 + \cdots + a_n)\) is, since the averages of \((a_n)\) and of \((a_{n+1})\) differ by at most \(2M/n\); this gives a <em>Banach limit</em>, a shift-invariant positive linear functional on bounded sequences extending \(\lim \). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="general-topology:remark-nets-filters">
+  <div class="remark_thmheading"><a class="tag" href="tag/03A3.html" title="Permanent link: tag 03A3">03A3</a><a class="graph-link" href="graph.html?tag=03A3" title="Dependencies of tag 03A3: what it uses and what uses it" aria-label="Dependency graph of tag 03A3"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">18.11.13</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Nets were introduced by Moore and Smith (1922) and filters by Cartan (1937); Bourbaki’s <em>General Topology</em> is written in the language of filters. Sequences still suffice in first countable spaces (Proposition&#160;<a href="general-topology-section-nets.html#general-topology:proposition-nets">18.11.3</a>(5)), which include all metric spaces and manifolds, and they are what one uses there. The exotic compact spaces of Example&#160;<a href="general-topology-section-nets.html#general-topology:example-not-sequentially-compact">18.11.8</a> and of the next section show why nets or filters are unavoidable in general. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="general-topology-section-paracompactness.html"><span class="dir">Previous</span> Paracompactness and partitions of unity</a><a class="next" href="general-topology-section-stone-cech.html"><span class="dir">Next</span> The Stone–Čech compactification</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=92a1b77967"></script>
+</body>
+</html>
