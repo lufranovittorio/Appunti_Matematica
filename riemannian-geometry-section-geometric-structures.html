@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content="plasTeX" />
+<title>Geometric structures - The Hodge Project</title>
+<script>
+  try { var r = document.documentElement, t = localStorage.getItem("hodge-theme"); if (t === "light" || t === "dark" || t === "auto") r.setAttribute("data-theme-mode", t); if (t === "auto") { var h = new Date().getHours(); t = h >= 20 || h < 7 ? "dark" : "light"; } if (t === "light" || t === "dark") r.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], processEscapes: true, processEnvironments: true },
+  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"], equationNumbers: { autoNumber: "none" } },
+  "HTML-CSS": { availableFonts: ["TeX"], imageFont: null },
+  messageStyle: "none"
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="prev" href="riemannian-geometry-section-killing.html" /><link rel="next" href="riemannian-geometry-section-exercises.html" /><link rel="stylesheet" href="styles/theme-hodge.css?v=9473284ac4" />
+<link rel="stylesheet" href="styles/amsthm.css?v=9473284ac4" />
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <button id="toc-toggle" class="icon-button toc-button" type="button" aria-label="Table of contents" aria-controls="site-toc" aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <a class="site-title" href="index.html">The Hodge Project</a>
+  <form class="site-search" id="site-search" action="search.html" method="get" role="search">
+    <label class="visually-hidden" for="search-input">Search the project, or go to a tag</label>
+    <input id="search-input" name="q" type="search" placeholder="Search or tag" autocomplete="off" spellcheck="false" />
+    <button type="submit">Search</button>
+  </form>
+  <a class="header-link" href="tags.html">Tags</a>
+  <a class="header-link" href="book.pdf">PDF</a>
+  <button id="random-section" class="icon-button" type="button" aria-label="Go to a random section" title="Random section">
+    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.2" cy="7.2" r="1.2" fill="currentColor"/><circle cx="10" cy="10" r="1.2" fill="currentColor"/><circle cx="12.8" cy="12.8" r="1.2" fill="currentColor"/></svg>
+  </button>
+  <button id="theme-toggle" class="icon-button" type="button" aria-label="Change theme: light, dark, or automatic by time of day" title="Theme">
+    <svg class="theme-icon theme-icon-system" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M15.8 12.3A6.6 6.6 0 0 1 7.7 4.2a6.6 6.6 0 1 0 8.1 8.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="theme-icon theme-icon-auto" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.2V10l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+<nav class="toc" id="site-toc" aria-label="Table of contents">
+<ul>
+<li class="level-1">
+  <a href="introduction.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-1">
+  <a href="part-foundations.html"><span class="toc_ref">I</span> <span class="toc_entry">Foundations</span></a>
+  <ul><li class="level-2">
+  <a href="logic.html"><span class="toc_ref">2</span> <span class="toc_entry">Mathematical Logic</span></a>
+</li>
+<li class="level-2">
+  <a href="sets.html"><span class="toc_ref">3</span> <span class="toc_entry">Set Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-systems.html"><span class="toc_ref">4</span> <span class="toc_entry">Number Systems</span></a>
+</li>
+<li class="level-2">
+  <a href="model-theory.html"><span class="toc_ref">5</span> <span class="toc_entry">Model Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="categories.html"><span class="toc_ref">6</span> <span class="toc_entry">Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebra.html"><span class="toc_ref">II</span> <span class="toc_entry">Algebra</span></a>
+  <ul><li class="level-2">
+  <a href="groups.html"><span class="toc_ref">7</span> <span class="toc_entry">Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="rings.html"><span class="toc_ref">8</span> <span class="toc_entry">Rings and Modules</span></a>
+</li>
+<li class="level-2">
+  <a href="fields.html"><span class="toc_ref">9</span> <span class="toc_entry">Fields and Galois Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="number-theory.html"><span class="toc_ref">10</span> <span class="toc_entry">Elementary Number Theory</span></a>
+</li>
+<li class="level-2">
+  <a href="linear-algebra.html"><span class="toc_ref">11</span> <span class="toc_entry">Linear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="multilinear-algebra.html"><span class="toc_ref">12</span> <span class="toc_entry">Multilinear Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="representation-theory.html"><span class="toc_ref">13</span> <span class="toc_entry">Representations of Groups and Lie Algebras</span></a>
+</li>
+<li class="level-2">
+  <a href="commutative-algebra.html"><span class="toc_ref">14</span> <span class="toc_entry">Commutative Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="homological-algebra.html"><span class="toc_ref">15</span> <span class="toc_entry">Homological Algebra</span></a>
+</li>
+<li class="level-2">
+  <a href="spectral-sequences.html"><span class="toc_ref">16</span> <span class="toc_entry">Spectral Sequences</span></a>
+</li>
+<li class="level-2">
+  <a href="derived-categories.html"><span class="toc_ref">17</span> <span class="toc_entry">Derived Categories</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-topology.html"><span class="toc_ref">III</span> <span class="toc_entry">Topology</span></a>
+  <ul><li class="level-2">
+  <a href="general-topology.html"><span class="toc_ref">18</span> <span class="toc_entry">General Topology</span></a>
+</li>
+<li class="level-2">
+  <a href="homotopy.html"><span class="toc_ref">19</span> <span class="toc_entry">Homotopy and Covering Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="topological-manifolds.html"><span class="toc_ref">20</span> <span class="toc_entry">Topological Manifolds and Group Actions</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-homology.html"><span class="toc_ref">21</span> <span class="toc_entry">Singular Homology</span></a>
+</li>
+<li class="level-2">
+  <a href="singular-cohomology.html"><span class="toc_ref">22</span> <span class="toc_entry">Singular Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="poincare-duality.html"><span class="toc_ref">23</span> <span class="toc_entry">Topological Manifolds and Poincaré Duality</span></a>
+</li>
+<li class="level-2">
+  <a href="cohomology-operations.html"><span class="toc_ref">24</span> <span class="toc_entry">Cohomology Operations</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-sheaves.html"><span class="toc_ref">IV</span> <span class="toc_entry">Sheaves</span></a>
+  <ul><li class="level-2">
+  <a href="sheaves.html"><span class="toc_ref">25</span> <span class="toc_entry">Sheaves on Topological Spaces</span></a>
+</li>
+<li class="level-2">
+  <a href="sheaf-cohomology.html"><span class="toc_ref">26</span> <span class="toc_entry">Sheaf Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-analysis.html"><span class="toc_ref">V</span> <span class="toc_entry">Analysis</span></a>
+  <ul><li class="level-2">
+  <a href="real-analysis.html"><span class="toc_ref">27</span> <span class="toc_entry">Real Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="measure-theory.html"><span class="toc_ref">28</span> <span class="toc_entry">Measure and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="complex-analysis.html"><span class="toc_ref">29</span> <span class="toc_entry">Complex Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="functional-analysis.html"><span class="toc_ref">30</span> <span class="toc_entry">Functional Analysis</span></a>
+</li>
+<li class="level-2">
+  <a href="several-complex-variables.html"><span class="toc_ref">31</span> <span class="toc_entry">Several Complex Variables</span></a>
+</li>
+<li class="level-2">
+  <a href="distributions.html"><span class="toc_ref">32</span> <span class="toc_entry">Distributions and Sobolev Spaces</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1 active">
+  <a href="part-differential-geometry.html"><span class="toc_ref">VI</span> <span class="toc_entry">Differential Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="smooth-manifolds.html"><span class="toc_ref">33</span> <span class="toc_entry">Smooth Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="lie-groups.html"><span class="toc_ref">34</span> <span class="toc_entry">Lie Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="vector-bundles.html"><span class="toc_ref">35</span> <span class="toc_entry">Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="differential-forms.html"><span class="toc_ref">36</span> <span class="toc_entry">Differential Forms and Integration</span></a>
+</li>
+<li class="level-2">
+  <a href="de-rham.html"><span class="toc_ref">37</span> <span class="toc_entry">de Rham Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="connections.html"><span class="toc_ref">38</span> <span class="toc_entry">Connections and Curvature</span></a>
+</li>
+<li class="level-2">
+  <a href="characteristic-classes.html"><span class="toc_ref">39</span> <span class="toc_entry">Characteristic Classes</span></a>
+</li>
+<li class="level-2 active">
+  <a href="riemannian-geometry.html"><span class="toc_ref">40</span> <span class="toc_entry">Riemannian Geometry</span></a>
+  <ul><li class="level-3">
+  <a href="riemannian-geometry-section-introduction.html"><span class="toc_ref">40.1</span> <span class="toc_entry">Introduction</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-levi-civita.html"><span class="toc_ref">40.2</span> <span class="toc_entry">Metrics and the Levi-Civita connection</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-volume.html"><span class="toc_ref">40.3</span> <span class="toc_entry">Volume and integration</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-along-curves.html"><span class="toc_ref">40.4</span> <span class="toc_entry">Covariant derivatives along curves</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-gradient.html"><span class="toc_ref">40.5</span> <span class="toc_entry">Gradient, Hessian, divergence and Laplacian</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exponential.html"><span class="toc_ref">40.6</span> <span class="toc_entry">The exponential map and minimising geodesics</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-holonomy.html"><span class="toc_ref">40.7</span> <span class="toc_entry">Parallel transport and holonomy</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-curvature.html"><span class="toc_ref">40.8</span> <span class="toc_entry">Curvature</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-moving-frames.html"><span class="toc_ref">40.9</span> <span class="toc_entry">Moving frames</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-variation.html"><span class="toc_ref">40.10</span> <span class="toc_entry">The first and second variation of energy</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-submanifolds.html"><span class="toc_ref">40.11</span> <span class="toc_entry">Submanifolds and the second fundamental form</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-surfaces-global.html"><span class="toc_ref">40.12</span> <span class="toc_entry">Global theorems on surfaces</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-minimal.html"><span class="toc_ref">40.13</span> <span class="toc_entry">Minimal surfaces</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-laplace-beltrami.html"><span class="toc_ref">40.14</span> <span class="toc_entry">The Laplace–Beltrami operator</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-hodge-star.html"><span class="toc_ref">40.15</span> <span class="toc_entry">The Hodge star and the Laplacian</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-killing.html"><span class="toc_ref">40.16</span> <span class="toc_entry">Isometries, Killing fields and space forms</span></a>
+</li>
+<li class="level-3 active current">
+  <a href="riemannian-geometry-section-geometric-structures.html"><span class="toc_ref">40.17</span> <span class="toc_entry">Geometric structures</span></a>
+</li>
+<li class="level-3">
+  <a href="riemannian-geometry-section-exercises.html"><span class="toc_ref">40.18</span> <span class="toc_entry">Exercises</span></a>
+</li>
+</ul>
+</li>
+<li class="level-2">
+  <a href="symplectic-geometry.html"><span class="toc_ref">41</span> <span class="toc_entry">Symplectic Geometry</span></a>
+</li>
+<li class="level-2">
+  <a href="elliptic-operators.html"><span class="toc_ref">42</span> <span class="toc_entry">Elliptic Operators on Compact Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-theorem.html"><span class="toc_ref">43</span> <span class="toc_entry">Harmonic Forms and the Hodge Theorem</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-complex-geometry.html"><span class="toc_ref">VII</span> <span class="toc_entry">Complex Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="complex-manifolds.html"><span class="toc_ref">44</span> <span class="toc_entry">Complex Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="holomorphic-bundles.html"><span class="toc_ref">45</span> <span class="toc_entry">Holomorphic Vector Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="dolbeault.html"><span class="toc_ref">46</span> <span class="toc_entry">Dolbeault Cohomology</span></a>
+</li>
+<li class="level-2">
+  <a href="kahler.html"><span class="toc_ref">47</span> <span class="toc_entry">Kähler Manifolds</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-decomposition.html"><span class="toc_ref">48</span> <span class="toc_entry">The Hodge Decomposition</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-theorems.html"><span class="toc_ref">49</span> <span class="toc_entry">Hard Lefschetz and the Hodge–Riemann Relations</span></a>
+</li>
+<li class="level-2">
+  <a href="kodaira.html"><span class="toc_ref">50</span> <span class="toc_entry">Vanishing and Embedding Theorems</span></a>
+</li>
+<li class="level-2">
+  <a href="deformations.html"><span class="toc_ref">51</span> <span class="toc_entry">Deformations and Moduli</span></a>
+</li>
+<li class="level-2">
+  <a href="calabi-yau.html"><span class="toc_ref">52</span> <span class="toc_entry">Calabi–Yau Manifolds</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-algebraic-geometry.html"><span class="toc_ref">VIII</span> <span class="toc_entry">Algebraic Geometry</span></a>
+  <ul><li class="level-2">
+  <a href="varieties.html"><span class="toc_ref">53</span> <span class="toc_entry">Algebraic Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="schemes.html"><span class="toc_ref">54</span> <span class="toc_entry">Schemes</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-sheaves.html"><span class="toc_ref">55</span> <span class="toc_entry">Quasi-coherent and Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="coherent-cohomology.html"><span class="toc_ref">56</span> <span class="toc_entry">Cohomology of Coherent Sheaves</span></a>
+</li>
+<li class="level-2">
+  <a href="divisors.html"><span class="toc_ref">57</span> <span class="toc_entry">Divisors and Line Bundles</span></a>
+</li>
+<li class="level-2">
+  <a href="gaga.html"><span class="toc_ref">58</span> <span class="toc_entry">Analytic Spaces and GAGA</span></a>
+</li>
+<li class="level-2">
+  <a href="curves.html"><span class="toc_ref">59</span> <span class="toc_entry">Algebraic Curves and Riemann Surfaces</span></a>
+</li>
+<li class="level-2">
+  <a href="algebraic-groups.html"><span class="toc_ref">60</span> <span class="toc_entry">Linear Algebraic Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="abelian-varieties.html"><span class="toc_ref">61</span> <span class="toc_entry">Abelian Varieties</span></a>
+</li>
+<li class="level-2">
+  <a href="intersection-theory.html"><span class="toc_ref">62</span> <span class="toc_entry">Algebraic Cycles and Chow Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="cycle-class.html"><span class="toc_ref">63</span> <span class="toc_entry">The Cycle Class Map</span></a>
+</li>
+<li class="level-2">
+  <a href="index-theorems.html"><span class="toc_ref">64</span> <span class="toc_entry">Index Theorems and Riemann–Roch</span></a>
+</li>
+<li class="level-2">
+  <a href="etale-cohomology.html"><span class="toc_ref">65</span> <span class="toc_entry">Étale Cohomology</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-hodge-theory.html"><span class="toc_ref">IX</span> <span class="toc_entry">Hodge Theory</span></a>
+  <ul><li class="level-2">
+  <a href="hodge-structures.html"><span class="toc_ref">66</span> <span class="toc_entry">Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="mumford-tate.html"><span class="toc_ref">67</span> <span class="toc_entry">Mumford–Tate Groups</span></a>
+</li>
+<li class="level-2">
+  <a href="hodge-conjecture.html"><span class="toc_ref">68</span> <span class="toc_entry">The Hodge Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="lefschetz-11.html"><span class="toc_ref">69</span> <span class="toc_entry">The Lefschetz (1,1) Theorem</span></a>
+</li>
+<li class="level-2">
+  <a href="vhs.html"><span class="toc_ref">70</span> <span class="toc_entry">Variations of Hodge Structure</span></a>
+</li>
+<li class="level-2">
+  <a href="intermediate-jacobians.html"><span class="toc_ref">71</span> <span class="toc_entry">Intermediate Jacobians and Normal Functions</span></a>
+</li>
+<li class="level-2">
+  <a href="known-cases.html"><span class="toc_ref">72</span> <span class="toc_entry">Known Cases and Evidence</span></a>
+</li>
+<li class="level-2">
+  <a href="failures.html"><span class="toc_ref">73</span> <span class="toc_entry">Variants That Fail</span></a>
+</li>
+<li class="level-2">
+  <a href="mixed-hodge-structures.html"><span class="toc_ref">74</span> <span class="toc_entry">Mixed Hodge Structures</span></a>
+</li>
+<li class="level-2">
+  <a href="absolute-hodge.html"><span class="toc_ref">75</span> <span class="toc_entry">Absolute Hodge Classes</span></a>
+</li>
+<li class="level-2">
+  <a href="tate-conjecture.html"><span class="toc_ref">76</span> <span class="toc_entry">The Tate Conjecture</span></a>
+</li>
+<li class="level-2">
+  <a href="standard-conjectures.html"><span class="toc_ref">77</span> <span class="toc_entry">The Standard Conjectures and Motives</span></a>
+</li>
+</ul>
+</li>
+<li class="level-1">
+  <a href="part-miscellany.html"><span class="toc_ref">X</span> <span class="toc_entry">Miscellany</span></a>
+  <ul><li class="level-2">
+  <a href="Bibliography.html"><span class="toc_ref">78</span> <span class="toc_entry">Bibliography</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+<main class="content" id="main">
+<ol class="breadcrumbs">
+<li><a href="index.html"> The Hodge Project</a></li><li><a href="part-differential-geometry.html">VI Differential Geometry</a></li><li><a href="riemannian-geometry.html">40 Riemannian Geometry</a></li></ol>
+
+<article class="main-text">
+<h1 id="riemannian-geometry:section-geometric-structures">40.17 Geometric structures<a class="tag" href="tag/03F1.html" title="Permanent link: tag 03F1">03F1</a></h1>
+<p class="status-banner status-complete"><strong>Complete.</strong> This chapter is written; its proofs await independent checking.</p>
+
+<p>In Klein’s Erlangen programme (1872) a geometry is a space \(X\) together with a group \(G\) of transformations of \(X\), and the geometry studies the properties of figures in \(X\) that are invariant under \(G\): Euclidean geometry is \(\mathbb {R}^n\) with its isometries, affine geometry is \(\mathbb {R}^n\) with the affine maps, projective geometry is \(\mathbb {R}\mathbb {P}^n\) with the projective transformations. A <em>\((G, X)\)-structure</em> on a manifold \(M\) (Ehresmann, Thurston) is a way of making \(M\) look locally like \(X\), with changes of coordinates in \(G\). Constant curvature metrics are the first example: by Killing–Hopf they are exactly the structures modelled on the model spaces with their isometry groups, and the space forms of Corollary&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:corollary-space-forms">40.16.12</a> are the complete ones. This section sets up the general language: the developing map and the holonomy, completeness, and an example of a compact manifold with an incomplete structure. References are <span class="cite">[<a href="Bibliography.html#thurston-1997" >Thu97</a>, Chapter 3]</span> and <span class="cite">[<a href="Bibliography.html#goldman-2022" >Gol22</a>]</span>. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="riemannian-geometry:definition-geometry">
+  <div class="definition_thmheading"><a class="tag" href="tag/03F2.html" title="Permanent link: tag 03F2">03F2</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">40.17.1</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A <em>geometry</em> \((G, X)\) is a connected smooth manifold \(X\) together with a group \(G\) of diffeomorphisms of \(X\) which is <em>rigid</em>: if \(g, h \in G\) agree on a nonempty open subset of \(X\), then \(g = h\). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-geometries">
+  <div class="example_thmheading"><a class="tag" href="tag/03F3.html" title="Permanent link: tag 03F3">03F3</a><a class="graph-link" href="graph.html?tag=03F3" title="Dependencies of tag 03F3: what it uses and what uses it" aria-label="Dependency graph of tag 03F3"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">40.17.2</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Constant curvature.</em> \((\mathrm{Isom}(M^n_\kappa ), M^n_\kappa )\) for the model spaces of Definition&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:definition-model-spaces">40.16.9</a>: Euclidean, spherical and hyperbolic geometry. Rigidity holds for the isometries of any connected Riemannian manifold: two isometries that agree on an open set agree at a point together with their differentials, hence everywhere (Lemma&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:lemma-local-isometries">40.16.1</a>(2)). </p>
+</li>
+  <li><p><em>Affine geometry.</em> \((\mathrm{Aff}(\mathbb {R}^n), \mathbb {R}^n)\), with \(\mathrm{Aff}(\mathbb {R}^n) = \{ x \mapsto Ax + b : A \in \mathrm{GL}_n(\mathbb {R}), b \in \mathbb {R}^n\} \). If \(Ax + b = A^{\prime }x + b^{\prime }\) on an open set \(U\), then \(A - A^{\prime }\) vanishes on all differences \(x - y\) with \(x, y \in U\), which span \(\mathbb {R}^n\); so \(A = A^{\prime }\) and \(b = b^{\prime }\). The subgroup of <em>similarities</em> \(x \mapsto \lambda Ax + b\), \(\lambda {\gt} 0\), \(A \in \mathrm{O}(n)\), gives <em>similarity geometry</em>, between Euclidean and affine geometry. </p>
+</li>
+  <li><p><em>Projective geometry.</em> \((\mathrm{PGL}_{n+1}(\mathbb {R}), \mathbb {R}\mathbb {P}^n)\), where \([A]\) acts by \([v] \mapsto [Av]\). If \([A]\) and \([B]\) agree on a nonempty open set, then \(C = A^{-1}B\) has every vector of a nonempty open cone \(V \subseteq \mathbb {R}^{n+1}\) as an eigenvector. Choose a basis \(v_0, \ldots , v_n\) of \(\mathbb {R}^{n+1}\) in \(V\) (an open set spans) with \(Cv_i = \lambda _iv_i\); for \(i \neq j\) and small \(\varepsilon \), \(v_i + \varepsilon v_j \in V\), and \(C(v_i + \varepsilon v_j) = \lambda _iv_i + \varepsilon \lambda _jv_j\) is a multiple of \(v_i + \varepsilon v_j\) only if \(\lambda _i = \lambda _j\). So \(C\) is a scalar and \([A] = [B]\). Affine geometry is contained in projective geometry: \(\mathbb {R}^n\) is the open set \(\{ [x : 1]\} \) of \(\mathbb {R}\mathbb {P}^n\), and the affine maps are the projective transformations preserving it, \([x : 1] \mapsto [Ax + b : 1]\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="riemannian-geometry:definition-gx-structure">
+  <div class="definition_thmheading"><a class="tag" href="tag/03F4.html" title="Permanent link: tag 03F4">03F4</a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">40.17.3</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \((G, X)\) be a geometry and \(M\) a manifold of the dimension of \(X\). A <em>\((G, X)\)-atlas</em> on \(M\) is a family of charts \(\varphi _i \colon U_i \to X\), homeomorphisms of open sets \(U_i\) covering \(M\) onto open subsets of \(X\), such that for every connected component \(C\) of every \(U_i \cap U_j\) there is a \(g \in G\) with \(\varphi _i = g \circ \varphi _j\) on \(C\). A <em>\((G, X)\)-structure</em> is a maximal \((G, X)\)-atlas, and a <em>\((G, X)\)-manifold</em> is a manifold with a \((G, X)\)-structure. A <em>\((G, X)\)-map</em> \(f \colon M \to N\) between \((G, X)\)-manifolds is a local homeomorphism that is, in charts, the restriction of elements of \(G\): for charts \(\varphi \) of \(M\) and \(\psi \) of \(N\), \(\psi \circ f \circ \varphi ^{-1}\) agrees with an element of \(G\) near each point where it is defined. In particular a \((G, X)\)-map \(M \to X\) is a local homeomorphism whose restrictions to small open sets are charts. </p>
+
+  </div>
+</div>
+<p>By rigidity the element \(g\) in the definition is unique. Every \((G, X)\)-atlas is contained in a unique maximal one, the charts compatible with all of its charts, by the argument for smooth atlases. Since \(G\) consists of diffeomorphisms, a \((G, X)\)-atlas is a smooth atlas, so a \((G, X)\)-manifold is a smooth manifold and \((G, X)\)-maps are local diffeomorphisms. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="riemannian-geometry:lemma-gx-constructions">
+  <div class="lemma_thmheading"><a class="tag" href="tag/03F5.html" title="Permanent link: tag 03F5">03F5</a><a class="graph-link" href="graph.html?tag=03F5" title="Dependencies of tag 03F5: what it uses and what uses it" aria-label="Dependency graph of tag 03F5"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">40.17.4</span>
+  </div>
+  <div class="lemma_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>If \(p \colon \widetilde{M} \to M\) is a covering map and \(M\) is a \((G, X)\)-manifold, there is a unique \((G, X)\)-structure on \(\widetilde{M}\) for which \(p\) is a \((G, X)\)-map. </p>
+</li>
+  <li><p>If \(\Omega \subseteq X\) is open and \(\Gamma \subseteq G\) is a subgroup preserving \(\Omega \) and acting on it by a covering space action (Definition&#160;<a href="topological-manifolds-section-quotients.html#topological-manifolds:definition-covering-action">20.4.1</a>) with \(\Omega /\Gamma \) Hausdorff, then \(\Omega /\Gamma \) has a unique \((G, X)\)-structure for which the projection \(\Omega \to \Omega /\Gamma \) is a \((G, X)\)-map. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000002181">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) The charts \(\varphi \circ p|_V\), for open sets \(V \subseteq \widetilde{M}\) mapped homeomorphically by \(p\) onto the domain of a chart \(\varphi \), cover \(\widetilde{M}\). On a connected component \(C\) of the overlap of two of them, \(\varphi \circ p|_V\) and \(\psi \circ p|_{V^{\prime }}\) are \(\varphi \) and \(\psi \) composed with the same map \(p|_C\), and \(\varphi = g \circ \psi \) on the connected set \(p(C)\). Any structure for which \(p\) is a \((G, X)\)-map contains these charts, which gives uniqueness. </p>
+<p>(2) By Theorem&#160;<a href="topological-manifolds-section-quotients.html#topological-manifolds:theorem-covering-action">20.4.2</a> the projection \(\pi \colon \Omega \to \Omega /\Gamma \) is a covering map; it is open, so \(\Omega /\Gamma \) is locally Euclidean, and it is Hausdorff by assumption and second countable as the image of a second countable space under an open map. Take as charts the inverses \(\sigma \colon \pi (U) \to U\) of the restrictions \(\pi |_U\) to the open sets \(U\) with \(\gamma U \cap U = \emptyset \) for \(\gamma \neq e\). For two of them, \(\sigma \) and \(\sigma ^{\prime }\), and \(y\) in the overlap, \(\sigma (y)\) and \(\sigma ^{\prime }(y)\) lie in the same orbit, so \(\sigma (y) = \gamma (y)\sigma ^{\prime }(y)\) for a unique \(\gamma (y) \in \Gamma \). Near \(y\), the map \(\gamma (y) \circ \sigma ^{\prime }\) is again a local inverse of \(\pi \) taking the value \(\sigma (y)\) at \(y\), so it coincides with \(\sigma \) near \(y\); hence \(y \mapsto \gamma (y)\) is locally constant, thus constant on each connected component of the overlap, and \(\sigma = \gamma \circ \sigma ^{\prime }\) there. Uniqueness is as in (1). </p>
+
+  </div>
+</div>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-gx-structures">
+  <div class="example_thmheading"><a class="tag" href="tag/03F6.html" title="Permanent link: tag 03F6">03F6</a><a class="graph-link" href="graph.html?tag=03F6" title="Dependencies of tag 03F6: what it uses and what uses it" aria-label="Dependency graph of tag 03F6"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">40.17.5</span>
+  </div>
+  <div class="example_thmcontent">
+  
+<ol class="enumerate">
+  <li><p><em>Flat tori and the flat Klein bottle</em> are \((\mathrm{Isom}(\mathbb {R}^n), \mathbb {R}^n)\)-manifolds by Lemma&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:lemma-gx-constructions">40.17.4</a>(2), as quotients of \(\mathbb {R}^n\) by groups of isometries acting by covering space actions (Example&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:example-space-forms">40.16.13</a>). The same holds for all space forms \(M^n_\kappa /\Gamma \). </p>
+</li>
+  <li><p><em>Hopf manifolds.</em> For \(n \geq 2\), the group \(\Gamma = \{ x \mapsto 2^kx : k \in \mathbb {Z}\} \) of similarities acts on \(\Omega = \mathbb {R}^n \setminus \{ 0\} \) freely and properly (a compact subset of \(\Omega \) lies in some \(\{ a \leq |x| \leq b\} \) with \(a {\gt} 0\), and only finitely many \(2^k\) map this annulus to a set meeting it), so by Theorem&#160;<a href="topological-manifolds-section-quotients.html#topological-manifolds:theorem-proper-free">20.4.3</a> and the lemma, the <em>Hopf manifold</em> \(H^n = (\mathbb {R}^n \setminus \{ 0\} )/\Gamma \) is a similarity manifold, hence an affine manifold. It is compact and diffeomorphic to \(S^{n-1} \times S^1\), by \(x \mapsto (x/|x|, \log _2|x| \bmod 1)\). </p>
+</li>
+  <li><p><em>Affine structures are projective structures</em>, because \(\mathbb {R}^n \subseteq \mathbb {R}\mathbb {P}^n\) and \(\mathrm{Aff}(\mathbb {R}^n) \subseteq \mathrm{PGL}_{n+1}(\mathbb {R})\) as in Example&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:example-geometries">40.17.2</a>(3), with the maps agreeing; so an affine atlas is a projective atlas. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-constant-curvature-gx">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03F7.html" title="Permanent link: tag 03F7">03F7</a><a class="graph-link" href="graph.html?tag=03F7" title="Dependencies of tag 03F7: what it uses and what uses it" aria-label="Dependency graph of tag 03F7"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">40.17.6</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(n \geq 2\) and \(\kappa \in \mathbb {R}\). A Riemannian metric of constant sectional curvature \(\kappa \) on an \(n\)-manifold \(M\) is the same as an \((\mathrm{Isom}(M^n_\kappa ), M^n_\kappa )\)-structure: for such a metric, the isometries of open subsets of \(M\) onto open subsets of \(M^n_\kappa \) form a \((G, X)\)-structure, and conversely the charts of such a structure pull the metric of \(M^n_\kappa \) back to a well-defined metric of curvature \(\kappa \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000002182">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(M\) have constant curvature \(\kappa \), \(p \in M\), \(q \in M^n_\kappa \) and \(I \colon T_pM \to T_qM^n_\kappa \) a linear isometry. Choose \(\varepsilon {\gt} 0\) such that \(\exp _p\) maps \(B(0, \varepsilon ) \subseteq T_pM\) diffeomorphically onto an open set \(U \ni p\) (Proposition&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:proposition-exponential">40.6.2</a>) and, if \(\kappa {\gt} 0\), \(\varepsilon {\lt} \pi /\sqrt\kappa \), so that \(\exp _q\) is injective on \(B(0, \varepsilon ) \subseteq T_qM^n_\kappa \) (for \(\kappa \leq 0\) it is injective everywhere, Theorem&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:theorem-cartan-hadamard">40.8.10</a>; for the sphere \(S^n(r)\) the geodesics from \(q\) first meet again at \(-q\), at distance \(\pi r\), as in the proof of Theorem&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:theorem-killing-hopf">40.16.10</a>). By the key observation in that proof, \(F = \exp _q \circ I \circ (\exp _p|_{B(0, \varepsilon )})^{-1} \colon U \to M^n_\kappa \) is a local isometry, and it is injective, so it is an isometry of \(U\) onto an open subset of \(M^n_\kappa \). These maps cover \(M\). If \(F_1\) and \(F_2\) are two of them and \(C\) is a connected component of the overlap of their domains, \(F_1 \circ F_2^{-1}\) is an isometry between connected open subsets of \(M^n_\kappa \); at a point \(y\) it agrees, together with its differential, with an isometry \(g\) of \(M^n_\kappa \) (Corollary&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:corollary-model-isometries">40.16.11</a>(1)), hence \(F_1 \circ F_2^{-1} = g\) on the connected set \(F_2(C)\) by Lemma&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:lemma-local-isometries">40.16.1</a>(2), and \(F_1 = g \circ F_2\) on \(C\). Conversely, given an \((\mathrm{Isom}(M^n_\kappa ), M^n_\kappa )\)-atlas, the metrics \(\varphi _i^*g_\kappa \) agree on overlaps because \(\varphi _i = g \circ \varphi _j\) with \(g^*g_\kappa = g_\kappa \); the resulting metric is locally isometric to \(M^n_\kappa \), so it has constant curvature \(\kappa \). The two constructions are inverse to each other: the charts of the structure obtained from the metric \(\varphi _i^*g_\kappa \) are the isometries onto open subsets of \(M^n_\kappa \), which include the \(\varphi _i\). </p>
+
+  </div>
+</div>
+<p>The central construction of the theory extends the charts along paths. On a simply connected manifold the extensions fit together into a single map to \(X\); in general they do so on the universal cover, and going around a loop changes the extension by an element of \(G\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="riemannian-geometry:theorem-developing-map">
+  <div class="theorem_thmheading"><a class="tag" href="tag/03F8.html" title="Permanent link: tag 03F8">03F8</a><a class="graph-link" href="graph.html?tag=03F8" title="Dependencies of tag 03F8: what it uses and what uses it" aria-label="Dependency graph of tag 03F8"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">40.17.7</span>
+    <span class="theorem_thmtitle">Developing map and holonomy</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(M\) be a connected \((G, X)\)-manifold, \(\pi \colon \widetilde{M} \to M\) a universal covering with the structure of Lemma&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:lemma-gx-constructions">40.17.4</a>(1), and \(\mathrm{Deck}(\pi ) \cong \pi _1(M)\) its group of deck transformations. </p>
+<ol class="enumerate">
+  <li><p>There is a \((G, X)\)-map \(\mathrm{dev} \colon \widetilde{M} \to X\), the <em>developing map</em>, and a homomorphism \(\mathrm{hol} \colon \mathrm{Deck}(\pi ) \to G\), the <em>holonomy</em>, such that </p>
+<div class="displaymath" id="a0000002183">
+  \[  \mathrm{dev} \circ \tau = \mathrm{hol}(\tau ) \circ \mathrm{dev} \qquad \text{for all } \tau \in \mathrm{Deck}(\pi ).  \]
+</div>
+</li>
+  <li><p>Every \((G, X)\)-map \(D \colon \widetilde{M} \to X\) is \(g \circ \mathrm{dev}\) for a unique \(g \in G\), and then its holonomy is \(\tau \mapsto g\, \mathrm{hol}(\tau )g^{-1}\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000002184">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p><em>The space of germs of charts.</em> Two charts \(\varphi \), \(\psi \) defined near \(x \in M\) have the same <em>germ</em> at \(x\) if they agree on a neighbourhood of \(x\); write \([\varphi ]_x\) for the germ. Let \(P\) be the set of all germs of charts at all points, \(q \colon P \to M\) the base point map, and give \(P\) the topology with basis the sets \(N(\varphi , V) = \{ [\varphi ]_y : y \in V\} \) for charts \(\varphi \) and open sets \(V\) in their domains (an intersection of two such sets is a union of such sets, as two charts with the same germ at \(y\) agree near \(y\)). The group \(G\) acts on \(P\) by \(g \cdot [\varphi ]_x = [g \circ \varphi ]_x\), mapping \(N(\varphi , V)\) to \(N(g \circ \varphi , V)\), so by homeomorphisms commuting with \(q\); and the <em>evaluation</em> \(E \colon P \to X\), \(E([\varphi ]_x) = \varphi (x)\), satisfies \(E(g \cdot \xi ) = gE(\xi )\). </p>
+<p><em>\(q\) is a covering map.</em> Let \(\varphi \colon U \to X\) be a chart with \(U\) connected. Every germ at a point \(y \in U\) is \([g \circ \varphi ]_y\) for some \(g\): for a chart \(\psi \) at \(y\), \(\psi = g \circ \varphi \) on the connected component of the overlap containing \(y\). And \([g \circ \varphi ]_y = [h \circ \varphi ]_y\) implies that \(g\) and \(h\) agree on an open subset of \(X\), so \(g = h\) by rigidity. Hence \(q^{-1}(U)\) is the disjoint union of the open sets \(N(g \circ \varphi , U)\), \(g \in G\), each mapped homeomorphically onto \(U\) by \(q\): the inverse \(y \mapsto [g \circ \varphi ]_y\) is continuous, since it maps open subsets \(V\) of \(U\) to basic open sets \(N(g \circ \varphi , V)\). On the sheet \(N(\varphi , U)\), \(E \circ (q|_{N(\varphi , U)})^{-1} = \varphi \). </p>
+<p><em>Construction.</em> Fix \(\tilde x_0 \in \widetilde{M}\), \(x_0 = \pi (\tilde x_0)\) and a chart \(\varphi _0\) at \(x_0\). Since \(\widetilde{M}\) is simply connected and locally path-connected, the lifting criterion (Proposition&#160;<a href="homotopy-section-classification.html#homotopy:proposition-lifting-criterion">19.6.1</a>) gives a unique continuous \(s \colon \widetilde{M} \to P\) with \(q \circ s = \pi \) and \(s(\tilde x_0) = [\varphi _0]_{x_0}\). Put \(\mathrm{dev} = E \circ s\). Near any point \(\tilde x\), \(s\) takes values in one sheet \(N(\varphi , U)\) with \(\varphi \colon U \to X\) a chart on a connected neighbourhood of \(\pi (\tilde x)\); then \(s = (q|_{N(\varphi , U)})^{-1} \circ \pi \) there, and \(\mathrm{dev} = \varphi \circ \pi \), which is a chart of \(\widetilde{M}\) when restricted to an open set mapped homeomorphically by \(\pi \). So \(\mathrm{dev}\) is a \((G, X)\)-map. </p>
+<p><em>Holonomy.</em> Let \(\tau \) be a deck transformation. Then \(s \circ \tau \) is a lift of \(\pi \circ \tau = \pi \), and \(s(\tau \tilde x_0)\) lies in the fibre of \(q\) over \(x_0\), which is \(\{ g \cdot s(\tilde x_0) : g \in G\} \) with \(g\) unique by the previous step. Define \(\mathrm{hol}(\tau )\) by \(s(\tau \tilde x_0) = \mathrm{hol}(\tau ) \cdot s(\tilde x_0)\). The map \(\tilde x \mapsto \mathrm{hol}(\tau ) \cdot s(\tilde x)\) is also a lift of \(\pi \), and it agrees with \(s \circ \tau \) at \(\tilde x_0\); by uniqueness of lifts, \(s \circ \tau = \mathrm{hol}(\tau ) \cdot s\). Applying \(E\) gives \(\mathrm{dev} \circ \tau = \mathrm{hol}(\tau ) \circ \mathrm{dev}\). For two deck transformations, \(s \circ \tau \sigma = \mathrm{hol}(\tau ) \cdot (s \circ \sigma ) = \mathrm{hol}(\tau )\mathrm{hol}(\sigma ) \cdot s\), and evaluating at \(\tilde x_0\) gives \(\mathrm{hol}(\tau \sigma ) = \mathrm{hol}(\tau )\mathrm{hol}(\sigma )\). </p>
+<p>(2) Every point has a connected neighbourhood \(V\) on which \(D\) and \(\mathrm{dev}\) are both charts of \(\widetilde{M}\), so \(D = g_V \circ \mathrm{dev}\) on \(V\) for some \(g_V \in G\). The element \(g_V\) is locally constant: if \(V \cap V^{\prime } \neq \emptyset \), then \(g_V\) and \(g_{V^{\prime }}\) agree on the nonempty open set \(\mathrm{dev}(V \cap V^{\prime })\), so they are equal. As \(\widetilde{M}\) is connected, \(D = g \circ \mathrm{dev}\) for a single \(g\), unique by rigidity. Then \(D \circ \tau = g\, \mathrm{hol}(\tau ) \circ \mathrm{dev} = g\, \mathrm{hol}(\tau )g^{-1} \circ D\). </p>
+
+  </div>
+</div>
+<p>For a Riemannian manifold of constant curvature, the developing map extends a local isometry with the model space along all paths: it is the map \(\Theta ^{-1}\) of the proof of Corollary&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:corollary-space-forms">40.16.12</a>, when \(M\) is complete. In general \(\mathrm{dev}\) need not be injective or surjective, and this is measured by completeness. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="riemannian-geometry:definition-complete-gx">
+  <div class="definition_thmheading"><a class="tag" href="tag/03F9.html" title="Permanent link: tag 03F9">03F9</a><a class="graph-link" href="graph.html?tag=03F9" title="Dependencies of tag 03F9: what it uses and what uses it" aria-label="Dependency graph of tag 03F9"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">40.17.8</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> A connected \((G, X)\)-manifold is <em>complete</em> if its developing map \(\mathrm{dev} \colon \widetilde{M} \to X\) is a covering map. By Theorem&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:theorem-developing-map">40.17.7</a>(2) this does not depend on the choices. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="riemannian-geometry:proposition-complete-gx">
+  <div class="proposition_thmheading"><a class="tag" href="tag/03FA.html" title="Permanent link: tag 03FA">03FA</a><a class="graph-link" href="graph.html?tag=03FA" title="Dependencies of tag 03FA: what it uses and what uses it" aria-label="Dependency graph of tag 03FA"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">40.17.9</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \((G, X)\) be a geometry with \(X\) simply connected, and \(M\) a connected \((G, X)\)-manifold. </p>
+<ol class="enumerate">
+  <li><p>If \(M\) is complete, then \(\mathrm{dev}\) is a homeomorphism, \(\mathrm{hol}\) is injective, \(\Gamma = \mathrm{hol}(\mathrm{Deck}(\pi )) \cong \pi _1(M)\) acts on \(X\) by a covering space action, and \(\mathrm{dev}\) induces an isomorphism of \((G, X)\)-manifolds \(M \cong X/\Gamma \). Conversely the quotients \(X/\Gamma \) of Lemma&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:lemma-gx-constructions">40.17.4</a>(2), with \(\Omega = X\), are complete. </p>
+</li>
+  <li><p>If \(G\) preserves a Riemannian metric on \(X\) and \(M\) is compact, then \(M\) is complete. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000002185">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">â–¼</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) A covering map from a connected space onto the simply connected, locally path-connected space \(X\) is a homeomorphism: the monodromy action on a fibre is transitive and \(\pi _1(X)\) is trivial (Corollary&#160;<a href="homotopy-section-coverings.html#homotopy:corollary-lifting-consequences">19.4.4</a>(3)), as in the proof of Theorem&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:theorem-killing-hopf">40.16.10</a>. If \(\mathrm{hol}(\tau ) = e\), then \(\mathrm{dev} \circ \tau = \mathrm{dev}\), so \(\tau = \mathrm{id}\), and \(\mathrm{hol}\) is injective. The homeomorphism \(\mathrm{dev}\) conjugates \(\mathrm{Deck}(\pi )\) to \(\Gamma \), and \(\mathrm{Deck}(\pi )\) acts by a covering space action (each point has a neighbourhood mapped injectively by \(\pi \)), so \(\Gamma \) does too, and \(\mathrm{dev}\) induces a homeomorphism \(M \cong \widetilde{M}/\mathrm{Deck}(\pi ) \to X/\Gamma \) (Proposition&#160;<a href="homotopy-section-classification.html#homotopy:proposition-deck">19.6.3</a>); in charts it is the identity, so it is an isomorphism of \((G, X)\)-manifolds. Conversely, for \(M = X/\Gamma \) the projection \(X \to M\) is a universal covering, \(X\) being simply connected, and the identity of \(X\) is a \((G, X)\)-map, hence a developing map, which is a covering. </p>
+<p>(2) The charts pull the \(G\)-invariant metric \(g_X\) back to a well-defined metric on \(M\), as in the proof of Proposition&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:proposition-constant-curvature-gx">40.17.6</a>, and \(\pi \) pulls this metric back to \(\widetilde{M}\); since \(\mathrm{dev}\) is locally a chart composed with \(\pi \), it is a local isometry \(\widetilde{M} \to X\). As \(M\) is compact it is complete (Theorem&#160;<a href="riemannian-geometry-section-exponential.html#riemannian-geometry:theorem-hopf-rinow">40.6.8</a>), so \(\widetilde{M}\) is complete, as in the proof of Corollary&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:corollary-space-forms">40.16.12</a>. A local isometry from a complete connected Riemannian manifold to a connected one is a covering map <span class="cite">[<a href="Bibliography.html#do-carmo-riemannian" >dC92</a>, Chapter 7]</span>, so \(\mathrm{dev}\) is a covering. </p>
+
+  </div>
+</div>
+<p>Applied to the model spaces, (2) and (1) give again the space forms of Corollary&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:corollary-space-forms">40.16.12</a>, for compact \(M\). Without an invariant metric, compactness does not imply completeness. </p>
+<div class="example_thmwrapper theorem-style-definition" id="riemannian-geometry:example-hopf-incomplete">
+  <div class="example_thmheading"><a class="tag" href="tag/03FB.html" title="Permanent link: tag 03FB">03FB</a><a class="graph-link" href="graph.html?tag=03FB" title="Dependencies of tag 03FB: what it uses and what uses it" aria-label="Dependency graph of tag 03FB"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="example_thmcaption">
+    Example
+    </span>
+    <span class="example_thmlabel">40.17.10</span>
+  </div>
+  <div class="example_thmcontent">
+  <p> The Hopf manifold \(H^n\), \(n \geq 3\), of Example&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:example-gx-structures">40.17.5</a>(2) is a compact affine manifold that is not complete. Here \(\Omega = \mathbb {R}^n \setminus \{ 0\} \) is simply connected (it deformation retracts onto \(S^{n-1}\)), so the projection \(\Omega \to H^n\) is a universal covering, and the inclusion \(\Omega \to \mathbb {R}^n\) is a \((G, X)\)-map, hence a developing map by Theorem&#160;<a href="riemannian-geometry-section-geometric-structures.html#riemannian-geometry:theorem-developing-map">40.17.7</a>(2). It is not surjective, so it is not a covering map. The holonomy is the group \(\Gamma \cong \mathbb {Z}\) generated by \(x \mapsto 2x\). Accordingly, the affine group preserves no Riemannian metric on \(\mathbb {R}^n\), and the straight lines of \(H^n\), the images of affine lines in \(\Omega \), run into the missing origin in finite affine time: the geodesics of the flat affine connection are not defined for all time. For \(n = 2\) see Exercise&#160;<a href="riemannian-geometry-section-exercises.html#riemannian-geometry:exercise-hopf-torus">40.18.28</a>. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="riemannian-geometry:remark-geometrisation">
+  <div class="remark_thmheading"><a class="tag" href="tag/03FC.html" title="Permanent link: tag 03FC">03FC</a><a class="graph-link" href="graph.html?tag=03FC" title="Dependencies of tag 03FC: what it uses and what uses it" aria-label="Dependency graph of tag 03FC"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><circle cx="13" cy="3.5" r="2" fill="currentColor"/><circle cx="13" cy="12.5" r="2" fill="currentColor"/><path d="M4.8 7.2 11.2 4.3M4.8 8.8l6.4 2.9" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">40.17.11</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> <em>Uniformisation and geometrisation.</em> Every closed surface carries a complete structure of constant curvature, spherical for \(S^2\) and \(\mathbb {R}\mathbb {P}^2\), Euclidean for the torus and the Klein bottle, and hyperbolic for the surfaces of negative Euler characteristic; by Gauss–Bonnet (Corollary&#160;<a href="riemannian-geometry-section-curvature.html#riemannian-geometry:corollary-gauss-bonnet">40.8.12</a>) the sign of the curvature is that of \(\chi \). Proposition&#160;<a href="riemannian-geometry-section-killing.html#riemannian-geometry:proposition-hyperbolic-surfaces">40.16.15</a> constructs the hyperbolic structures in the orientable case, and the general statement is a form of the uniformisation theorem for Riemann surfaces (Chapter&#160;<a href="complex-manifolds.html">44</a>). Deforming a hyperbolic structure deforms its holonomy \(\pi _1(\Sigma _g) \to \mathrm{Isom}^+(\mathbb {H}^2) = \mathrm{PSL}_2(\mathbb {R})\), and the hyperbolic structures on \(\Sigma _g\), up to isotopy, form the Teichmüller space, of dimension \(6g - 6\) <span class="cite">[<a href="Bibliography.html#goldman-2022" >Gol22</a>]</span>. In dimension \(3\), Thurston singled out eight geometries \((G, X)\), among them the three constant curvature ones, and conjectured that every closed \(3\)-manifold can be cut along spheres and tori into pieces carrying complete structures modelled on them <span class="cite">[<a href="Bibliography.html#thurston-1997" >Thu97</a>]</span>; Perelman proved this <em>geometrisation conjecture</em>, and with it the Poincaré conjecture. </p>
+
+  </div>
+</div>
+
+</article>
+
+
+
+<nav class="page-nav" aria-label="Previous and next">
+<a class="prev" href="riemannian-geometry-section-killing.html"><span class="dir">Previous</span> Isometries, Killing fields and space forms</a><a class="next" href="riemannian-geometry-section-exercises.html"><span class="dir">Next</span> Exercises</a></nav>
+</main>
+</div>
+
+<script src="js/site.js?v=9473284ac4"></script>
+</body>
+</html>
