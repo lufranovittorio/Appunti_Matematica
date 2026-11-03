@@ -1314,3 +1314,82 @@ $\im A + \im B$. If $P$ and $Q$ are invertible, $\operatorname{rank}(PAQ) \leq \
 reduced row echelon form by row operations, then use column operations (multiplication on the right) to move the pivot columns to the front and to clear the remaining entries of the first $r$ rows,
 which are multiples of the pivot columns $e_1, \ldots, e_r$.
 \end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-lagrange-compute}
+Find the polynomial $p \in \QQ[x]$ of degree at most $3$ with $p(-1) = 2$, $p(0) = 1$, $p(1) = 2$ and $p(2) = 11$, first with the Lagrange polynomials of Example~\ref{linear-algebra:example-vector-spaces}(2), then by solving the linear
+system for the coefficients. Why is there exactly one?
+\end{exercise}
+
+\begin{solution}
+With $a_0, a_1, a_2, a_3 = -1, 0, 1, 2$:
+\[
+L_0 = -\tfrac16x(x - 1)(x - 2), \quad L_1 = \tfrac12(x + 1)(x - 1)(x - 2), \quad L_2 = -\tfrac12(x + 1)x(x - 2), \quad L_3 = \tfrac16(x + 1)x(x - 1),
+\]
+and $p = 2L_0 + L_1 + 2L_2 + 11L_3$. Expanding, the coefficients of $x^3$ are $-\frac13 + \frac12 - 1 + \frac{11}6 = 1$, of $x^2$ are $1 - 1 + 1 + 0 = 1$, of $x$ are $-\frac23 - \frac12 + 2 - \frac{11}6 = -1$, and the constant
+term is $L_1(0) = 1$; so $p = x^3 + x^2 - x + 1$. Directly, $p = c_0 + c_1x + c_2x^2 + c_3x^3$ must satisfy $c_0 = 1$, $c_0 + c_1 + c_2 + c_3 = 2$, $c_0 - c_1 + c_2 - c_3 = 2$ and
+$c_0 + 2c_1 + 4c_2 + 8c_3 = 11$; the second and third equations give $c_2 = 1$ and $c_1 + c_3 = 0$, and the last then gives $2c_1 + 8c_3 = 6$, so $c_3 = 1$ and $c_1 = -1$. There is exactly one solution because
+the Lagrange polynomials form a basis of $\QQ[x]_{\leq 3}$, in which the coordinates of $p$ are its four prescribed values.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-lagrange-vandermonde}
+Let $a_0, \ldots, a_d \in k$ be distinct and $\mathrm{ev} \colon k[x]_{\leq d} \to k^{d+1}$, $p \mapsto (p(a_0), \ldots, p(a_d))$.
+\begin{enumerate}
+\item Show that $\mathrm{ev}$ is linear and that its matrix with respect to the bases $1, x, \ldots, x^d$ and $e_0, \ldots, e_d$ is the Vandermonde matrix $V = (a_i^j)_{0 \leq i, j \leq d}$.
+\item Deduce from the Vandermonde determinant (Example~\ref{linear-algebra:example-determinants}) that $\mathrm{ev}$ is an isomorphism, which gives a second proof that interpolation is always possible and unique.
+\item Show that $\mathrm{ev}^{-1}(e_i) = L_i$, so that the columns of $V^{-1}$ are the coefficient vectors of the Lagrange polynomials.
+\item What happens if two of the $a_i$ coincide?
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $(p + q)(a) = p(a) + q(a)$ and $(cp)(a) = cp(a)$. The $j$-th basis vector $x^j$ is sent to $(a_0^j, \ldots, a_d^j)$, which is the $j$-th column of $V$. (2) $\det V = \prod_{i < j}(a_j - a_i) \neq 0$ because
+the $a_i$ are distinct, so $V$ is invertible, and $\mathrm{ev}$ is a linear map between spaces of dimension $d + 1$ with invertible matrix. So for each $(b_0, \ldots, b_d)$ there is exactly one $p$ of degree at most $d$
+with $p(a_i) = b_i$. (3) $L_i(a_l) = 1$ for $l = i$ and $0$ otherwise, that is, $\mathrm{ev}(L_i) = e_i$. The $i$-th column of $V^{-1}$ is the coordinate vector of $\mathrm{ev}^{-1}(e_i) = L_i$ in the basis of monomials.
+(4) If $a_i = a_l$ with $i \neq l$, two rows of $V$ coincide and $\det V = 0$: the values at $a_i$ and $a_l$ must agree, so $\mathrm{ev}$ is not surjective, and since the dimensions agree it is not injective
+either: the nonzero polynomial $\prod_{j \neq l}(x - a_j)$, of degree $d$, vanishes at all the given points.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-lagrange-identities}
+With the notation of Example~\ref{linear-algebra:example-vector-spaces}(2), show that $\sum_{i=0}^dL_i = 1$, and more generally $\sum_{i=0}^da_i^mL_i = x^m$ for $0 \leq m \leq d$. By comparing coefficients of $x^d$, deduce that
+\[
+\sum_{i=0}^d\frac{a_i^m}{\prod_{j \neq i}(a_i - a_j)} = \begin{cases}0 & 0 \leq m < d,\\ 1 & m = d.\end{cases}
+\]
+Check the case $d = 1$ by hand.
+\end{exercise}
+
+\begin{solution}
+Apply $p = \sum_ip(a_i)L_i$ to $p = x^m$, which has degree $m \leq d$: this gives $x^m = \sum_ia_i^mL_i$, and $m = 0$ gives $\sum_iL_i = 1$. The coefficient of $x^d$ in $L_i$ is $1/\prod_{j \neq i}(a_i - a_j)$, since
+the numerator $\prod_{j \neq i}(x - a_j)$ is monic of degree $d$. The coefficient of $x^d$ in $x^m$ is $0$ for $m < d$ and $1$ for $m = d$. For $d = 1$: $\frac1{a_0 - a_1} + \frac1{a_1 - a_0} = 0$ and
+$\frac{a_0}{a_0 - a_1} + \frac{a_1}{a_1 - a_0} = \frac{a_0 - a_1}{a_0 - a_1} = 1$.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-lagrange-crt}
+Let $a_0, \ldots, a_d \in k$ be distinct and $f = \prod_i(x - a_i)$. Show that the map $k[x]/(f) \to k^{d+1}$, $p + (f) \mapsto (p(a_0), \ldots, p(a_d))$, is a well-defined isomorphism of rings (with the product
+taken componentwise on $k^{d+1}$), and that it is the Chinese remainder theorem (Theorem~\ref{rings:theorem-chinese-remainder}) for the ideals $(x - a_i)$. Show that the classes of the $L_i$ are the idempotents
+corresponding to the $e_i$, that is, $L_i^2 \equiv L_i$, $L_iL_l \equiv 0$ for $i \neq l$, and $\sum_iL_i \equiv 1$ modulo $f$.
+\end{exercise}
+
+\begin{solution}
+Evaluation at the $a_i$ is a ring homomorphism $k[x] \to k^{d+1}$ that kills $f$, so it factors through $k[x]/(f)$ (Theorem~\ref{rings:theorem-quotient-ring}). The ideals $(x - a_i)$ are pairwise comaximal, since
+$(x - a_i) - (x - a_l) = a_l - a_i$ is a unit; their product, which equals their intersection, is $(f)$; and $k[x]/(x - a_i) \cong k$ by $p \mapsto p(a_i)$ (Corollary~\ref{rings:corollary-roots}). So the
+Chinese remainder theorem gives exactly this isomorphism. Alternatively: by division with remainder every class has a unique representative of degree at most $d$, and on $k[x]_{\leq d}$ the map is the linear
+isomorphism of Exercise~\ref{linear-algebra:exercise-lagrange-vandermonde}. The $L_i$ map to $e_i$, and $e_i^2 = e_i$, $e_ie_l = 0$ for $i \neq l$, $\sum_ie_i = (1, \ldots, 1)$; since the map is injective, the same
+relations hold for the classes of the $L_i$.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-shamir}
+\emph{(Secret sharing.)} Let $p$ be a prime, $\mathbb{F}_p = \ZZ/p\ZZ$, and $1 \leq t \leq n < p$. To share a secret $s \in \mathbb{F}_p$ among $n$ people so that any $t$ of them together can recover it, choose
+$c_1, \ldots, c_{t-1} \in \mathbb{F}_p$ at random, let $q = s + c_1x + \cdots + c_{t-1}x^{t-1}$, and give person $i$ the value $q(i)$, for $i = 1, \ldots, n$. Show:
+\begin{enumerate}
+\item any $t$ people can compute $s$, by the formula $s = \sum_iq(a_i)L_i(0)$ over their indices $a_i$;
+\item any $t - 1$ people learn nothing: for every candidate $s^{\prime} \in \mathbb{F}_p$ there is exactly one polynomial of degree at most $t - 1$ with constant term $s^{\prime}$ taking the values they hold.
+\end{enumerate}
+This is Shamir's scheme, \cite{shamir-1979}.
+\end{exercise}
+
+\begin{solution}
+(1) The indices $1, \ldots, n$ are distinct in $\mathbb{F}_p$ because $n < p$. Given $t$ distinct indices $a_1, \ldots, a_t$ and the values $q(a_i)$, Lagrange interpolation in $\mathbb{F}_p[x]_{\leq t-1}$ gives $q = \sum_iq(a_i)L_i$,
+and $s = q(0)$. (2) Given $t - 1$ indices $a_1, \ldots, a_{t-1}$, all nonzero, and a candidate $s^{\prime}$, interpolate at the $t$ distinct points $0, a_1, \ldots, a_{t-1}$ with the values $s^{\prime}, q(a_1), \ldots, q(a_{t-1})$: there is exactly one
+polynomial of degree at most $t - 1$ doing this. So, given what the $t - 1$ people hold, each candidate secret is compatible with exactly one choice of $c_1, \ldots, c_{t-1}$; since these are chosen uniformly at
+random, the shares make no value of the secret more likely than any other.
+\end{solution}

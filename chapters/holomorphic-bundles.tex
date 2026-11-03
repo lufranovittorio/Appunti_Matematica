@@ -26,7 +26,8 @@ locally free sheaves, as in Proposition~\ref{vector-bundles:proposition-sheaf-of
 \end{definition}
 
 \begin{example}\label{holomorphic-bundles:example-bundles}
-The holomorphic tangent bundle $T^{1,0}X$, with transition functions the holomorphic Jacobians; the bundles $\Omega^p_X = \Lambda^p(T^{1,0}X)^\vee$ of holomorphic $p$-forms and the canonical bundle
+The holomorphic tangent bundle $T^{1,0}X$, with transition functions the holomorphic Jacobians, and its dual, the holomorphic cotangent bundle
+(Section~\ref{holomorphic-bundles:section-tangent}); the bundles $\Omega^p_X = \Lambda^p(T^{1,0}X)^\vee$ of holomorphic $p$-forms and the canonical bundle
 $K_X = \Omega^n_X$; the tautological bundle $\mathcal{O}(-1)$ on $\CC\PP^n$ (Exercise~\ref{vector-bundles:exercise-tautological}), its dual $\mathcal{O}(1)$ and the powers
 $\mathcal{O}(k) = \mathcal{O}(1)^{\otimes k}$. The holomorphic sections of $\mathcal{O}(k)$ on $\CC\PP^n$ are the homogeneous polynomials of degree $k$ for $k \geq 0$, and $0$ for $k < 0$
 (Exercise~\ref{holomorphic-bundles:exercise-sections-ok}).
@@ -132,6 +133,114 @@ isomorphism. So $a \mapsto (X \times \CC, D_a)$ defines a map from the $\bar\par
 bundles; compare the map $H^1(X, \mathcal{O}_X) \to \Pic(X)$ of Theorem~\ref{holomorphic-bundles:theorem-exponential}, and Chapter~\ref{dolbeault}, where the quotient above is the Dolbeault group
 $H^{0,1}_{\bar\partial}(X)$.
 \end{example}
+
+\section{The holomorphic tangent and cotangent bundles}\label{holomorphic-bundles:section-tangent}
+
+A complex manifold $X$ of dimension $n$ has three ``tangent bundles'': the real tangent bundle $TX$ of rank $2n$, and the two summands $T^{1,0}X$ and $T^{0,1}X$ of its complexification
+$TX \otimes \CC = T^{1,0}X \oplus T^{0,1}X$ (Definition~\ref{complex-manifolds:definition-almost-complex}). This section explains their special properties. Only $T^{1,0}X$ is a \emph{holomorphic} bundle, because changes of holomorphic
+coordinates act on it by holomorphic Jacobian matrices. At the same time it is nothing new: as a complex vector bundle it is $TX$, with $J$ as multiplication by $i$. Dually, the holomorphic cotangent bundle
+$\Lambda^{1,0}X$ has as holomorphic sections exactly the holomorphic $1$-forms.
+
+Recall that for a smooth complex-valued function $f$ in holomorphic coordinates $z^j = x^j + iy^j$,
+\[
+\frac{\partial}{\partial z^j} = \frac12\Bigl(\frac{\partial}{\partial x^j} - i\frac{\partial}{\partial y^j}\Bigr), \qquad \frac{\partial}{\partial\bar z^j} = \frac12\Bigl(\frac{\partial}{\partial x^j} + i\frac{\partial}{\partial y^j}\Bigr), \qquad
+df = \sum_j\frac{\partial f}{\partial z^j}\,dz^j + \sum_j\frac{\partial f}{\partial\bar z^j}\,d\bar z^j,
+\]
+the last because both sides equal $\sum_j(\partial_{x^j}f\,dx^j + \partial_{y^j}f\,dy^j)$ after substituting $dz^j = dx^j + i\,dy^j$ and $d\bar z^j = dx^j - i\,dy^j$. Moreover $dz^k(\partial/\partial z^j) = \delta_{jk}$ and
+$d\bar z^k(\partial/\partial z^j) = 0$; for instance $dz(\partial_z) = \frac12(dx + i\,dy)(\partial_x - i\partial_y) = \frac12(1 + 1) = 1$ and $d\bar z(\partial_z) = \frac12(1 - 1) = 0$. So $(dz^j, d\bar z^j)$ is the
+basis of $T^*_pX \otimes \CC$ dual to the basis $(\partial/\partial z^j, \partial/\partial\bar z^j)$ of $T_pX \otimes \CC$.
+
+\begin{proposition}\label{holomorphic-bundles:proposition-holomorphic-tangent}
+Let $X$ be a complex manifold of dimension $n$, with its almost complex structure $J$, and let $z = (z^1, \ldots, z^n)$ and $w = (w^1, \ldots, w^n)$ be holomorphic coordinates on two overlapping charts.
+\begin{enumerate}
+\item On the overlap,
+\[
+\frac{\partial}{\partial z^j} = \sum_{k=1}^n\frac{\partial w^k}{\partial z^j}\,\frac{\partial}{\partial w^k}, \qquad dw^k = \sum_{j=1}^n\frac{\partial w^k}{\partial z^j}\,dz^j .
+\]
+Hence $T^{1,0}X$, with the local frames $(\partial/\partial z^j)$, is a holomorphic vector bundle of rank $n$, whose transition functions are the holomorphic Jacobian matrices $(\partial w^k/\partial z^j)$.
+\item Likewise $\Lambda^{1,0}X$, with the local frames $(dz^j)$, is a holomorphic vector bundle, dual to $T^{1,0}X$, and its holomorphic sections are the holomorphic $1$-forms: as sheaves, $\Lambda^{1,0}X$ gives
+$\Omega^1_X$. For a holomorphic function $f$, $df = \partial f = \sum_j(\partial f/\partial z^j)\,dz^j$ is such a section.
+\item Regard $TX$ as a complex vector bundle by letting $i$ act as $J$. The map
+\[
+\phi \colon TX \to T^{1,0}X, \qquad \phi(v) = \tfrac12(v - iJv),
+\]
+is an isomorphism of complex vector bundles, with inverse $u \mapsto 2\operatorname{Re}u = u + \bar u$. In coordinates $\phi(\partial/\partial x^j) = \partial/\partial z^j$ and $\phi(\partial/\partial y^j) = i\,\partial/\partial z^j$.
+\item $T^{0,1}X = \overline{T^{1,0}X}$ has the conjugate Jacobian matrices $(\overline{\partial w^k/\partial z^j})$ as transition functions with respect to the frames $(\partial/\partial\bar z^j)$, and $v \mapsto \frac12(v + iJv)$ is an
+isomorphism of complex vector bundles from $(TX, -J)$ to $T^{0,1}X$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Since the $w^k$ are holomorphic functions of $z$, $\partial w^k/\partial\bar z^j = 0$ by the Cauchy--Riemann equations (Proposition~\ref{complex-manifolds:proposition-dbar}), so the formula for $df$ above gives
+$dw^k = \sum_j(\partial w^k/\partial z^j)\,dz^j$, and by conjugation $d\bar w^k = \sum_j\overline{(\partial w^k/\partial z^j)}\,d\bar z^j$. Expand the vector $\partial/\partial z^j$ in the basis
+$(\partial/\partial w^k, \partial/\partial\bar w^k)$; the coefficients are the values of the dual basis on it. Now $dw^k(\partial/\partial z^j) = \partial w^k/\partial z^j$, while $d\bar w^k(\partial/\partial z^j) = 0$, since
+$d\bar w^k$ is a combination of the $d\bar z^l$. This gives the formula for $\partial/\partial z^j$. The matrix $g = (\partial w^k/\partial z^j)$ has holomorphic entries, as derivatives of holomorphic functions are
+holomorphic, and it is invertible, with inverse the Jacobian of $z$ as a function of $w$, by the chain rule. Two frames of the same bundle related by such matrices define a holomorphic structure: the transition
+functions are holomorphic maps into $\GL_n(\CC)$, and the cocycle condition holds automatically, because they compare frames of one bundle (Definition~\ref{holomorphic-bundles:definition-holomorphic-bundle}).
+
+(2) The frames $(dz^j)$ transform by the transpose of the same holomorphic matrix, so $\Lambda^{1,0}X$ is holomorphic, and $dz^k(\partial/\partial z^j) = \delta_{jk}$ identifies it with the dual of $T^{1,0}X$. A
+section $\sum_jf_j\,dz^j$ is holomorphic exactly when the $f_j$ are holomorphic in every chart, which is the definition of a holomorphic $1$-form (Proposition~\ref{complex-manifolds:proposition-dbar}). For holomorphic
+$f$ the $d\bar z^j$-terms of $df$ vanish, and the coefficients $\partial f/\partial z^j$ are holomorphic.
+
+(3) $J$ acts on $TX \otimes \CC$ complex-linearly, and $J(v - iJv) = Jv + iv = i(v - iJv)$, so $\phi(v)$ lies in the $+i$-eigenspace $T^{1,0}X$. It is complex linear: $\phi(Jv) = \frac12(Jv + iv) = i\phi(v)$.
+It is injective, since the real part of $\frac12(v - iJv)$ in $TX \otimes \CC = TX \oplus i\,TX$ is $\frac12v$. Both bundles have real rank $2n$, so $\phi$ is an isomorphism on each fibre, and it is smooth. For
+$u = \phi(v)$, $u + \bar u = \frac12(v - iJv) + \frac12(v + iJv) = v$. In coordinates, $J\partial_{x^j} = \partial_{y^j}$ and $J\partial_{y^j} = -\partial_{x^j}$, so
+$\phi(\partial_{x^j}) = \frac12(\partial_{x^j} - i\partial_{y^j}) = \partial/\partial z^j$ and $\phi(\partial_{y^j}) = \frac12(\partial_{y^j} + i\partial_{x^j}) = i\,\partial/\partial z^j$.
+
+(4) Conjugate the formula of (1). For the last statement, $v + iJv$ lies in the $-i$-eigenspace, and $\frac12(-Jv + iv) = i \cdot \frac12(v + iJv)$, so the map is complex linear for the structure $-J$ on $TX$; it is
+injective for the same reason as in (3).
+\end{proof}
+
+\begin{remark}\label{holomorphic-bundles:remark-holomorphic-tangent}
+\begin{enumerate}
+\item \emph{Why $T^{1,0}$ and not $T^{0,1}$.} The transition functions of $T^{0,1}X$ in (4) are antiholomorphic, so the frames $(\partial/\partial\bar z^j)$ do not make it a holomorphic bundle. Both bundles are
+isomorphic to $TX$ as real bundles; the holomorphic structure is extra information that only $T^{1,0}X$ receives from the coordinates. This is why the holomorphic tangent bundle is written $T_X = T^{1,0}X$,
+and its holomorphic sections are the \emph{holomorphic vector fields} $\sum_jf_j\,\partial/\partial z^j$, $f_j$ holomorphic.
+\item \emph{Chern classes.} By (3), the Chern classes $c_k(X) = c_k(T^{1,0}X)$ are the Chern classes of $(TX, J)$, so they depend only on the almost complex structure. By (4) and Chapter~\ref{characteristic-classes},
+$c_k(T^{0,1}X) = (-1)^kc_k(X)$. In particular $c_1(K_X) = c_1(\Lambda^n\Lambda^{1,0}X) = -c_1(X)$, since $\Lambda^{1,0}X$ is the dual of $T^{1,0}X$.
+\item \emph{Real vector fields from holomorphic ones.} Under $\phi$, a holomorphic vector field $u = \sum_jf_j\,\partial/\partial z^j$ corresponds to the real vector field $V = 2\operatorname{Re}u$. Since $dz^j$ vanishes on
+$T^{0,1}X$, $dz^j(V) = dz^j(u + \bar u) = f_j$. So in coordinates the integral curves of $V$ are the solutions of the complex differential equation $dz^j/dt = f_j(z)$. In dimension one, $f\,\partial_z$ with $f = a + ib$
+corresponds to $a\,\partial_x + b\,\partial_y$.
+\end{enumerate}
+\end{remark}
+
+\begin{example}\label{holomorphic-bundles:example-tangent-p1}
+Let $X = \CC\PP^1 = \CC \cup \{\infty\}$, with the coordinate $z$ on $\CC$ and $w = 1/z$ near $\infty$. On the overlap $dw/dz = -1/z^2 = -w^2$, so by Proposition~\ref{holomorphic-bundles:proposition-holomorphic-tangent}(1)
+\[
+\frac{\partial}{\partial z} = -w^2\frac{\partial}{\partial w}, \qquad dz = -\frac{dw}{w^2}.
+\]
+\begin{enumerate}
+\item \emph{Holomorphic vector fields.} A holomorphic vector field is $f(z)\,\partial_z$ on $\CC$, with $f$ entire, such that $f(z)\,\partial_z = -w^2f(1/w)\,\partial_w$ extends holomorphically over $w = 0$. If
+$f = c_0 + c_1z + c_2z^2$, then $-w^2f(1/w) = -(c_0w^2 + c_1w + c_2)$, which extends. Conversely, if $g(w) = w^2f(1/w)$ extends holomorphically to $w = 0$, it is bounded near $0$, so $|f(z)| \leq C|z|^2$ for $|z|$
+large; as $f$ is also bounded on compact sets, $|f(z)| \leq C^{\prime}(1 + |z|)^2$, and $f$ is a polynomial of degree at most $2$ by Liouville's theorem (Corollary~\ref{complex-analysis:corollary-liouville}(1)). So the
+holomorphic vector fields form the $3$-dimensional space spanned by $\partial_z$, $z\,\partial_z$, $z^2\,\partial_z$. By Remark~\ref{holomorphic-bundles:remark-holomorphic-tangent}(3) their real flows solve
+$\dot z = 1$, $\dot z = z$ and $\dot z = z^2$, namely
+\[
+z \mapsto z + t, \qquad z \mapsto e^tz, \qquad z \mapsto \frac{z}{1 - tz},
+\]
+(check the last: $\frac{d}{dt}\frac{z}{1 - tz} = \frac{z^2}{(1 - tz)^2}$). All three are one-parameter groups of M\"obius transformations, defined on all of $\CC\PP^1$ for all $t$. Replacing $f$ by $if$ gives for instance the rotations
+$z \mapsto e^{it}z$, and composing these flows gives all the maps $z \mapsto z + b$, $z \mapsto az$ and $z \mapsto z/(1 - cz)$ with $b, c \in \CC$ and $a \in \CC^\times$. So the holomorphic vector fields are
+infinitesimal automorphisms of $\CC\PP^1$.
+\item \emph{No holomorphic $1$-forms.} A holomorphic $1$-form is $f(z)\,dz$ on $\CC$ such that $-f(1/w)w^{-2}\,dw$ extends over $w = 0$. Then $|f(z)| \leq C|z|^{-2}$ for $|z|$ large, so $f$ is bounded, hence constant
+by Liouville's theorem, and the constant is $\lim_{z \to \infty}f(z) = 0$. So $H^0(\CC\PP^1, \Omega^1) = 0$. On a complex torus $\CC/\Lambda$, by contrast, $dz$ and $\partial_z$ are invariant under translations, so they
+descend to nowhere vanishing sections: $T^{1,0}$ and $\Omega^1$ of a torus are trivial.
+\item \emph{$T^{1,0}\CC\PP^1 \cong \mathcal{O}(2)$ and $K_{\CC\PP^1} \cong \mathcal{O}(-2)$.} With homogeneous coordinates $[x_0 : x_1]$, $z = x_1/x_0$ on $U_0$ and $w = x_0/x_1$ on $U_1$, a vector field $s_0\,\partial_z = s_1\,\partial_w$
+has $s_1 = -(x_0/x_1)^2s_0$. The sections of $\mathcal{O}(2)$ satisfy $s_1 = (x_0/x_1)^2s_0$ (Exercise~\ref{holomorphic-bundles:exercise-sections-ok}). The two cocycles differ by the constant $-1$, which is
+removed by changing the frame on $U_1$ from $\partial_w$ to $-\partial_w$; so $T^{1,0}\CC\PP^1 \cong \mathcal{O}(2)$, in accordance with (1): the homogeneous quadrics $x_0^2$, $x_0x_1$, $x_1^2$ form a basis of
+the sections of $\mathcal{O}(2)$. Dually $K_{\CC\PP^1} = \Omega^1 \cong \mathcal{O}(-2)$, which has no sections, in accordance with (2); this is the case $n = 1$ of $K_{\CC\PP^n} \cong \mathcal{O}(-n-1)$
+(Proposition~\ref{holomorphic-bundles:proposition-adjunction}).
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{holomorphic-bundles:remark-holomorphic-symplectic}
+The holomorphic cotangent bundle has, like the real one (Chapter~\ref{symplectic-geometry}), a canonical symplectic form, now holomorphic. Its total space $T^*_{\mathrm{hol}}X$ (the total space of $\Lambda^{1,0}X$) is a complex
+manifold of dimension $2n$, with holomorphic coordinates $(z^1, \ldots, z^n, p_1, \ldots, p_n)$ for the covector $\sum_jp_j\,dz^j$ at the point $z$; in another chart the $p$'s change by the holomorphic matrix of
+Proposition~\ref{holomorphic-bundles:proposition-holomorphic-tangent}(2). The holomorphic $1$-form $\theta = \sum_jp_j\,dz^j$ is independent of the chart: at the covector $\xi = \sum_jp_j\,dz^j$ it is $\xi \circ d\pi$, with $\pi$ the
+projection to $X$, exactly as for the tautological form (Definition~\ref{symplectic-geometry:definition-tautological} and Proposition~\ref{symplectic-geometry:proposition-tautological}(1)), and $\omega = d\theta = \sum_jdp_j \wedge dz^j$ is a closed holomorphic $2$-form that is nondegenerate at every point. Complex manifolds with such a form are
+called \emph{holomorphic symplectic}. Another source of examples: on a complex surface ($n = 2$) with trivial canonical bundle, a nowhere vanishing section of $K_X = \Omega^2_X$ is a holomorphic $2$-form that is
+nondegenerate at every point, because a nonzero alternating form on a $2$-dimensional space is nondegenerate. So complex tori of dimension $2$ and K3 surfaces (Example~\ref{holomorphic-bundles:example-adjunction}) are
+holomorphic symplectic.
+\end{remark}
 
 \section{Divisors}\label{holomorphic-bundles:section-divisors}
 
@@ -264,3 +373,17 @@ Compute the Chern connection and its curvature for the trivial line bundle with 
 \begin{exercise}\label{holomorphic-bundles:exercise-picard-torus}
 For a complex torus $X = \CC/\Lambda$ of dimension one, show that $H^1(X, \mathcal{O}_X) \cong \CC$ and deduce that $\Pic^0(X)$ is a complex torus of dimension one.
 \end{exercise}
+
+\begin{exercise}\label{holomorphic-bundles:exercise-zeros-vector-field}
+Show that a nonzero holomorphic vector field on $\CC\PP^1$ has exactly two zeros, counted with multiplicity, where the multiplicity of a zero of $f\,\partial_z$ is the order of the zero of $f$. Compare with the Euler
+characteristic $\chi(S^2) = 2$ and with $T^{1,0}\CC\PP^1 \cong \mathcal{O}(2)$ (Example~\ref{holomorphic-bundles:example-tangent-p1}).
+\end{exercise}
+
+\begin{solution}
+By Example~\ref{holomorphic-bundles:example-tangent-p1}(1) the field is $f\,\partial_z$ with $f = c_0 + c_1z + c_2z^2 \neq 0$, and near $\infty$ it is $-(c_0w^2 + c_1w + c_2)\,\partial_w$. Let $m = \deg f$. On $\CC$ the zeros of $f$
+have total multiplicity $m$, by the fundamental theorem of algebra (Corollary~\ref{complex-analysis:corollary-liouville}(2)) and the factorisation of $f$ into linear factors. At $w = 0$ the coefficient
+$c_0w^2 + c_1w + c_2$ has a zero of order $2 - m$, since $c_m$ is its lowest nonzero coefficient, the coefficient of $w^{2-m}$. The total is $m + (2 - m) = 2$. For instance $\partial_z$ has a double zero at $\infty$, and
+$z\,\partial_z$ simple zeros at $0$ and $\infty$, the fixed points of the flows $z \mapsto z + t$ and $z \mapsto e^tz$. The number $2$ is the Euler characteristic of $S^2$, as predicted by the Poincar\'e--Hopf theorem
+for the real vector field $2\operatorname{Re}(f\,\partial_z)$, and also the degree of $\mathcal{O}(2)$: a nonzero section of $\mathcal{O}(2)$ is a nonzero homogeneous quadric in $x_0, x_1$, which has two zeros on
+$\CC\PP^1$ counted with multiplicity.
+\end{solution}

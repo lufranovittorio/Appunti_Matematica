@@ -36,10 +36,11 @@ References: \cite{lee-smooth-manifolds}, \cite{warner-foundations}, \cite{spivak
 
 \begin{definition}\label{differential-forms:definition-forms}
 A \emph{differential $k$-form} on a smooth manifold $M$ is a smooth section of $\Lambda^kT^*M$; the space of $k$-forms is $\Omega^k(M)$, and $\Omega^\bullet(M) = \bigoplus_k\Omega^k(M)$ with the wedge
-product (Proposition~\ref{multilinear-algebra:proposition-exterior-properties}) is a graded-commutative algebra over $C^\infty(M)$. By
+product, defined pointwise by $(\alpha \wedge \beta)_p = \alpha_p \wedge \beta_p$ in the exterior algebra of the vector space $T_p^*M$ (Definition~\ref{differential-forms:definition-wedge} below), is a
+graded-commutative algebra over $C^\infty(M)$ (Proposition~\ref{differential-forms:proposition-wedge}). By
 Proposition~\ref{differential-forms:proposition-forms-descriptions} below, a $k$-form is the same as a smoothly varying family of alternating $k$-linear maps
 $(T_pM)^k \to \RR$, or as a family of coefficient functions in charts transforming in a prescribed way. For $f \colon N \to M$ smooth, the \emph{pullback} $f^*\omega$ is defined by
-$(f^*\omega)_p(v_1, \ldots, v_k) = \omega_{f(p)}(d_pf\,v_1, \ldots, d_pf\,v_k)$; it is an algebra homomorphism and $(g \circ f)^* = f^*g^*$.
+$(f^*\omega)_p(v_1, \ldots, v_k) = \omega_{f(p)}(d_pf\,v_1, \ldots, d_pf\,v_k)$; it is an algebra homomorphism (Proposition~\ref{differential-forms:proposition-wedge}(4)) and $(g \circ f)^* = f^*g^*$.
 \end{definition}
 
 In a chart $(U, (x^1, \ldots, x^n))$, $dx^i$ is the differential of the coordinate function $x^i$, so $dx^i(\partial/\partial x^j) = \partial x^i/\partial x^j = \delta_{ij}$: the
@@ -169,6 +170,71 @@ $\omega = \sum_I\omega^{(x)}_I\,dx^I$ and comparing coefficients gives the rule 
 coefficients satisfying the rule are given on the charts of an atlas, define $\omega_p = \sum_I\omega^{(x)}_I(p)\,dx^I|_p$ using any chart at $p$; the rule says exactly
 that this does not depend on the chart, and $\omega$ is smooth by (3).
 \end{proof}
+
+The exterior algebra of Chapter~\ref{multilinear-algebra} is an algebra built from \emph{one} vector space $V$. A differential form is a family of elements of the exterior algebras $\Lambda(T_p^*M)$, one for each point $p$,
+so the wedge product of forms is defined one point at a time; the work is to check that the result is again smooth and that the algebraic rules survive.
+
+\begin{definition}\label{differential-forms:definition-wedge}
+Let $\alpha \in \Omega^k(M)$ and $\beta \in \Omega^l(M)$. Their \emph{wedge product} $\alpha \wedge \beta$ is the family
+\[
+(\alpha \wedge \beta)_p = \alpha_p \wedge \beta_p \in \Lambda^{k+l}T_p^*M, \qquad p \in M,
+\]
+where on the right $\wedge$ is the product of the exterior algebra $\Lambda(T_p^*M)$ of the single vector space $T_p^*M$ (Chapter~\ref{multilinear-algebra}). For $k = 0$, a $0$-form is a function $f$, and
+$f \wedge \beta = f\beta$ is the pointwise product $(f\beta)_p = f(p)\beta_p$. The wedge product is extended to $\Omega^\bullet(M) = \bigoplus_k\Omega^k(M)$ by bilinearity.
+\end{definition}
+
+\begin{proposition}\label{differential-forms:proposition-wedge}
+Let $\alpha \in \Omega^k(M)$, $\beta \in \Omega^l(M)$ and $\gamma \in \Omega^m(M)$.
+\begin{enumerate}
+\item $\alpha \wedge \beta$ is smooth, so it is a $(k + l)$-form. In a chart, if $\alpha = \sum_I\alpha_I\,dx^I$ and $\beta = \sum_J\beta_J\,dx^J$, then
+\[
+\alpha \wedge \beta = \sum_{I, J}\alpha_I\beta_J\,dx^I \wedge dx^J,
+\]
+where $dx^I \wedge dx^J$ is $0$ if $I$ and $J$ have a common index, and otherwise $\pm dx^K$ with $K$ the increasing rearrangement of $I \cup J$ and the sign of the permutation that sorts $(I, J)$.
+\item On tangent vectors, or on vector fields,
+\[
+(\alpha \wedge \beta)(X_1, \ldots, X_{k+l}) = \sum_\sigma\operatorname{sgn}(\sigma)\,\alpha(X_{\sigma(1)}, \ldots, X_{\sigma(k)})\,\beta(X_{\sigma(k+1)}, \ldots, X_{\sigma(k+l)}),
+\]
+the sum over the shuffles $\sigma$ of Proposition~\ref{multilinear-algebra:proposition-wedge-formula}. For $1$-forms, $(\alpha \wedge \beta)(X, Y) = \alpha(X)\beta(Y) - \alpha(Y)\beta(X)$.
+\item The product is $C^\infty(M)$-bilinear, $(f\alpha) \wedge \beta = f(\alpha \wedge \beta) = \alpha \wedge (f\beta)$, associative, $(\alpha \wedge \beta) \wedge \gamma = \alpha \wedge (\beta \wedge \gamma)$, and graded
+commutative, $\beta \wedge \alpha = (-1)^{kl}\alpha \wedge \beta$; in particular $\alpha \wedge \alpha = 0$ if $k$ is odd. So $\Omega^\bullet(M)$ is a graded-commutative algebra over $C^\infty(M)$, with unit the constant
+function $1$.
+\item For $f \colon N \to M$ smooth, $f^*(\alpha \wedge \beta) = f^*\alpha \wedge f^*\beta$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) At a point $p$ of the chart, $\alpha_p = \sum_I\alpha_I(p)\,dx^I|_p$ and $\beta_p = \sum_J\beta_J(p)\,dx^J|_p$, and the product of $\Lambda(T_p^*M)$ is bilinear, so
+$(\alpha \wedge \beta)_p = \sum_{I,J}\alpha_I(p)\beta_J(p)\,dx^I|_p \wedge dx^J|_p$. The rule for $dx^I \wedge dx^J$ is that for wedge products of the basis covectors $dx^i|_p$ (the paragraph after
+Definition~\ref{differential-forms:definition-forms}). So the coefficient of $dx^K$ in $\alpha \wedge \beta$ is a sum of terms $\pm\alpha_I\beta_J$, a smooth function, and $\alpha \wedge \beta$ is smooth by
+Proposition~\ref{differential-forms:proposition-forms-descriptions}(3).
+
+(2) Apply Proposition~\ref{multilinear-algebra:proposition-wedge-formula} with $V = T_pM$ at each point $p$, using the identification of $\Lambda^kT_p^*M$ with alternating maps
+(Notation~\ref{multilinear-algebra:notation-forms}). For $k = l = 1$ the shuffles are the identity and the transposition of $1$ and $2$.
+
+(3) Each identity holds at every point, because it holds in the exterior algebra $\Lambda(T_p^*M)$: this algebra is associative, as a quotient of the tensor algebra, it is graded commutative by
+Proposition~\ref{multilinear-algebra:proposition-exterior-properties}(1), and $(f\alpha)_p = f(p)\alpha_p$ with $f(p)$ a scalar, which can be moved out of a bilinear product. If $k$ is odd, graded commutativity gives
+$\alpha \wedge \alpha = -\alpha \wedge \alpha$, so $2\alpha \wedge \alpha = 0$ and $\alpha \wedge \alpha = 0$.
+
+(4) By Proposition~\ref{differential-forms:proposition-induced-maps}(2), $(f^*\omega)_p = \Lambda(d_pf)^*(\omega_{f(p)})$ in every degree, where $\Lambda(d_pf)^* \colon \Lambda(T^*_{f(p)}M) \to \Lambda(T^*_pN)$ is the map induced by
+the linear map $(d_pf)^*$. It is an algebra homomorphism: it is the extension of $T^*_{f(p)}M \to T^*_pN \subseteq \Lambda(T^*_pN)$ given by
+Proposition~\ref{multilinear-algebra:proposition-universal-algebras}(3), since it sends a product $\varphi_1 \wedge \cdots \wedge \varphi_k$ to $(d_pf)^*\varphi_1 \wedge \cdots \wedge (d_pf)^*\varphi_k$. So
+$(f^*(\alpha \wedge \beta))_p = \Lambda(d_pf)^*(\alpha_{f(p)} \wedge \beta_{f(p)}) = (f^*\alpha)_p \wedge (f^*\beta)_p$.
+\end{proof}
+
+\begin{example}\label{differential-forms:example-wedge}
+\begin{enumerate}
+\item On $\RR^3$, $(dx + dy) \wedge (dx - dy) = dx \wedge dx - dx \wedge dy + dy \wedge dx - dy \wedge dy = -2\,dx \wedge dy$. On the vectors $e_1, e_2$ the formula of (2) gives
+$(dx + dy)(e_1)(dx - dy)(e_2) - (dx + dy)(e_2)(dx - dy)(e_1) = (1)(-1) - (1)(1) = -2$, in accordance.
+\item The functions are part of the algebra: $(x^2\,dy) \wedge (e^x\,dz) = x^2e^x\,dy \wedge dz$, by $C^\infty$-bilinearity.
+\item For even degree, $\alpha \wedge \alpha$ need not vanish. On $\RR^4$ with $\omega = dx^1 \wedge dx^2 + dx^3 \wedge dx^4$,
+\[
+\omega \wedge \omega = dx^1 \wedge dx^2 \wedge dx^3 \wedge dx^4 + dx^3 \wedge dx^4 \wedge dx^1 \wedge dx^2 = 2\,dx^1 \wedge dx^2 \wedge dx^3 \wedge dx^4,
+\]
+since moving the $2$-form $dx^3 \wedge dx^4$ past $dx^1 \wedge dx^2$ costs the sign $(-1)^{2 \cdot 2} = 1$, and the squares $(dx^1 \wedge dx^2)^2$ and $(dx^3 \wedge dx^4)^2$ vanish. This is the standard symplectic form of
+$\RR^4$, and $\omega \wedge \omega \neq 0$ is its nondegeneracy (Chapter~\ref{symplectic-geometry}).
+\end{enumerate}
+\end{example}
 
 Two operations are used constantly: the wedge product of forms, computed pointwise with the rules of the exterior algebra
 ($dx^i \wedge dx^j = -dx^j \wedge dx^i$, so $dx^i \wedge dx^i = 0$), and the pullback, computed by substituting: for $f \colon N \to M$,
