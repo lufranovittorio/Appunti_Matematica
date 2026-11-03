@@ -15,14 +15,15 @@ geodesics stop minimising after a conjugate point, a complete proof of the Bonne
 first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi, and practical formulas for the second fundamental form (level sets, distance functions and the Riccati equation, parallel hypersurfaces, the Gauss map); the classical global theorems on surfaces: Gauss--Bonnet for
 regions with boundary, the curvature of conformal metrics, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
 area-minimising property of minimal graphs and Bernstein's theorem; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
-and Hopf classifying the spaces of constant curvature, and the statements of Cheng's maximal diameter theorem and of the sphere theorem. References:
+and Hopf classifying the spaces of constant curvature, and the statements of Cheng's maximal diameter theorem and of the sphere theorem; and geometric structures in the sense of Klein and Thurston, $(G, X)$-manifolds with their
+developing maps and holonomy, of which the constant curvature metrics are the first examples. References:
 \cite{do-carmo-riemannian}, \cite{lee-riemannian}, \cite{kobayashi-nomizu}, \cite{joyce-special-holonomy}, \cite{warner-foundations}, \cite[Chapter 0]{griffiths-harris}.
 
 \noindent\textbf{Prerequisites.} Chapter~\ref{connections} (Connections and Curvature).
 
 \noindent\textbf{On the way to the Hodge conjecture.} The chapters on Hodge theory use only the metric, the volume form, normal coordinates, the curvature tensor and the Hodge star and
 Laplacian (Sections~\ref{riemannian-geometry:section-levi-civita}, \ref{riemannian-geometry:section-volume}, \ref{riemannian-geometry:section-exponential}, \ref{riemannian-geometry:section-curvature} and~\ref{riemannian-geometry:section-hodge-star}); holonomy is the background of Chapter~\ref{calabi-yau}. The sections on moving frames,
-variations of energy, submanifolds, surfaces, minimal surfaces, Killing fields and space forms develop Riemannian geometry for its own sake and can be skipped on a first
+variations of energy, submanifolds, surfaces, minimal surfaces, Killing fields, space forms and geometric structures develop Riemannian geometry for its own sake and can be skipped on a first
 reading.
 
 \noindent\textbf{Conventions.} $(M, g)$ is a Riemannian manifold of dimension $n$, and we write $\langle v, w\rangle = g(v, w)$ and $|v| = \langle v, v\rangle^{1/2}$. Curves are piecewise smooth unless stated otherwise. In local
@@ -3527,6 +3528,179 @@ with the Fubini--Study metric (Chapter~\ref{kahler}) has sectional curvatures fi
 it is not homeomorphic to a sphere, since $H^2(\CC\PP^m; \ZZ) \cong \ZZ$. By Theorem~\ref{riemannian-geometry:theorem-bonnet-myers}, the hypothesis of the sphere theorem
 already forces $M$ to be compact.
 
+\section{Geometric structures}\label{riemannian-geometry:section-geometric-structures}
+
+In Klein's Erlangen programme (1872) a geometry is a space $X$ together with a group $G$ of transformations of $X$, and the geometry studies the properties of figures in $X$ that are invariant under $G$:
+Euclidean geometry is $\RR^n$ with its isometries, affine geometry is $\RR^n$ with the affine maps, projective geometry is $\RR\PP^n$ with the projective transformations. A \emph{$(G, X)$-structure} on a manifold
+$M$ (Ehresmann, Thurston) is a way of making $M$ look locally like $X$, with changes of coordinates in $G$. Constant curvature metrics are the first example: by Killing--Hopf they are exactly the structures modelled on
+the model spaces with their isometry groups, and the space forms of Corollary~\ref{riemannian-geometry:corollary-space-forms} are the complete ones. This section sets up the general language: the developing map and
+the holonomy, completeness, and an example of a compact manifold with an incomplete structure. References are \cite[Chapter 3]{thurston-1997} and \cite{goldman-2022}.
+
+\begin{definition}\label{riemannian-geometry:definition-geometry}
+A \emph{geometry} $(G, X)$ is a connected smooth manifold $X$ together with a group $G$ of diffeomorphisms of $X$ which is \emph{rigid}: if $g, h \in G$ agree on a nonempty open subset of $X$, then $g = h$.
+\end{definition}
+
+\begin{example}\label{riemannian-geometry:example-geometries}
+\begin{enumerate}
+\item \emph{Constant curvature.} $(\mathrm{Isom}(M^n_\kappa), M^n_\kappa)$ for the model spaces of Definition~\ref{riemannian-geometry:definition-model-spaces}: Euclidean, spherical and hyperbolic geometry. Rigidity holds for the
+isometries of any connected Riemannian manifold: two isometries that agree on an open set agree at a point together with their differentials, hence everywhere (Lemma~\ref{riemannian-geometry:lemma-local-isometries}(2)).
+\item \emph{Affine geometry.} $(\mathrm{Aff}(\RR^n), \RR^n)$, with $\mathrm{Aff}(\RR^n) = \{x \mapsto Ax + b : A \in \GL_n(\RR), b \in \RR^n\}$. If $Ax + b = A^{\prime}x + b^{\prime}$ on an open set $U$, then $A - A^{\prime}$ vanishes on all differences
+$x - y$ with $x, y \in U$, which span $\RR^n$; so $A = A^{\prime}$ and $b = b^{\prime}$. The subgroup of \emph{similarities} $x \mapsto \lambda Ax + b$, $\lambda > 0$, $A \in \mathrm{O}(n)$, gives \emph{similarity geometry}, between
+Euclidean and affine geometry.
+\item \emph{Projective geometry.} $(\mathrm{PGL}_{n+1}(\RR), \RR\PP^n)$, where $[A]$ acts by $[v] \mapsto [Av]$. If $[A]$ and $[B]$ agree on a nonempty open set, then $C = A^{-1}B$ has every vector of a nonempty open cone
+$V \subseteq \RR^{n+1}$ as an eigenvector. Choose a basis $v_0, \ldots, v_n$ of $\RR^{n+1}$ in $V$ (an open set spans) with $Cv_i = \lambda_iv_i$; for $i \neq j$ and small $\varepsilon$, $v_i + \varepsilon v_j \in V$, and
+$C(v_i + \varepsilon v_j) = \lambda_iv_i + \varepsilon\lambda_jv_j$ is a multiple of $v_i + \varepsilon v_j$ only if $\lambda_i = \lambda_j$. So $C$ is a scalar and $[A] = [B]$. Affine geometry is contained in projective geometry: $\RR^n$ is
+the open set $\{[x : 1]\}$ of $\RR\PP^n$, and the affine maps are the projective transformations preserving it, $[x : 1] \mapsto [Ax + b : 1]$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}\label{riemannian-geometry:definition-gx-structure}
+Let $(G, X)$ be a geometry and $M$ a manifold of the dimension of $X$. A \emph{$(G, X)$-atlas} on $M$ is a family of charts $\varphi_i \colon U_i \to X$, homeomorphisms of open sets $U_i$ covering $M$ onto open subsets
+of $X$, such that for every connected component $C$ of every $U_i \cap U_j$ there is a $g \in G$ with $\varphi_i = g \circ \varphi_j$ on $C$. A \emph{$(G, X)$-structure} is a maximal $(G, X)$-atlas, and a
+\emph{$(G, X)$-manifold} is a manifold with a $(G, X)$-structure. A \emph{$(G, X)$-map} $f \colon M \to N$ between $(G, X)$-manifolds is a local homeomorphism that is, in charts, the restriction of elements of $G$: for
+charts $\varphi$ of $M$ and $\psi$ of $N$, $\psi \circ f \circ \varphi^{-1}$ agrees with an element of $G$ near each point where it is defined. In particular a $(G, X)$-map $M \to X$ is a local homeomorphism whose restrictions
+to small open sets are charts.
+\end{definition}
+
+By rigidity the element $g$ in the definition is unique. Every $(G, X)$-atlas is contained in a unique maximal one, the charts compatible with all of its charts, by the argument for smooth atlases. Since $G$
+consists of diffeomorphisms, a $(G, X)$-atlas is a smooth atlas, so a $(G, X)$-manifold is a smooth manifold and $(G, X)$-maps are local diffeomorphisms.
+
+\begin{lemma}\label{riemannian-geometry:lemma-gx-constructions}
+\begin{enumerate}
+\item If $p \colon \widetilde{M} \to M$ is a covering map and $M$ is a $(G, X)$-manifold, there is a unique $(G, X)$-structure on $\widetilde{M}$ for which $p$ is a $(G, X)$-map.
+\item If $\Omega \subseteq X$ is open and $\Gamma \subseteq G$ is a subgroup preserving $\Omega$ and acting on it by a covering space action (Definition~\ref{topological-manifolds:definition-covering-action}) with $\Omega/\Gamma$ Hausdorff, then
+$\Omega/\Gamma$ has a unique $(G, X)$-structure for which the projection $\Omega \to \Omega/\Gamma$ is a $(G, X)$-map.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) The charts $\varphi \circ p|_V$, for open sets $V \subseteq \widetilde{M}$ mapped homeomorphically by $p$ onto the domain of a chart $\varphi$, cover $\widetilde{M}$. On a connected component $C$ of the overlap of two of them,
+$\varphi \circ p|_V$ and $\psi \circ p|_{V^{\prime}}$ are $\varphi$ and $\psi$ composed with the same map $p|_C$, and $\varphi = g \circ \psi$ on the connected set $p(C)$. Any structure for which $p$ is a $(G, X)$-map contains
+these charts, which gives uniqueness.
+
+(2) By Theorem~\ref{topological-manifolds:theorem-covering-action} the projection $\pi \colon \Omega \to \Omega/\Gamma$ is a covering map; it is open, so $\Omega/\Gamma$ is locally Euclidean, and it is Hausdorff by assumption and second
+countable as the image of a second countable space under an open map. Take as charts the inverses $\sigma \colon \pi(U) \to U$ of the restrictions $\pi|_U$ to the open sets $U$ with $\gamma U \cap U = \emptyset$ for $\gamma \neq e$.
+For two of them, $\sigma$ and $\sigma^{\prime}$, and $y$ in the overlap, $\sigma(y)$ and $\sigma^{\prime}(y)$ lie in the same orbit, so $\sigma(y) = \gamma(y)\sigma^{\prime}(y)$ for a unique $\gamma(y) \in \Gamma$. Near $y$, the map
+$\gamma(y) \circ \sigma^{\prime}$ is again a local inverse of $\pi$ taking the value $\sigma(y)$ at $y$, so it coincides with $\sigma$ near $y$; hence $y \mapsto \gamma(y)$ is locally constant, thus constant on each connected component
+of the overlap, and $\sigma = \gamma \circ \sigma^{\prime}$ there. Uniqueness is as in (1).
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-gx-structures}
+\begin{enumerate}
+\item \emph{Flat tori and the flat Klein bottle} are $(\mathrm{Isom}(\RR^n), \RR^n)$-manifolds by Lemma~\ref{riemannian-geometry:lemma-gx-constructions}(2), as quotients of $\RR^n$ by groups of isometries acting by covering space actions
+(Example~\ref{riemannian-geometry:example-space-forms}). The same holds for all space forms $M^n_\kappa/\Gamma$.
+\item \emph{Hopf manifolds.} For $n \geq 2$, the group $\Gamma = \{x \mapsto 2^kx : k \in \ZZ\}$ of similarities acts on $\Omega = \RR^n \setminus \{0\}$ freely and properly (a compact subset of $\Omega$ lies in some
+$\{a \leq |x| \leq b\}$ with $a > 0$, and only finitely many $2^k$ map this annulus to a set meeting it), so by Theorem~\ref{topological-manifolds:theorem-proper-free} and the lemma, the \emph{Hopf manifold}
+$H^n = (\RR^n \setminus \{0\})/\Gamma$ is a similarity manifold, hence an affine manifold. It is compact and diffeomorphic to $S^{n-1} \times S^1$, by $x \mapsto (x/|x|, \log_2|x| \bmod 1)$.
+\item \emph{Affine structures are projective structures}, because $\RR^n \subseteq \RR\PP^n$ and $\mathrm{Aff}(\RR^n) \subseteq \mathrm{PGL}_{n+1}(\RR)$ as in Example~\ref{riemannian-geometry:example-geometries}(3), with
+the maps agreeing; so an affine atlas is a projective atlas.
+\end{enumerate}
+\end{example}
+
+\begin{proposition}\label{riemannian-geometry:proposition-constant-curvature-gx}
+Let $n \geq 2$ and $\kappa \in \RR$. A Riemannian metric of constant sectional curvature $\kappa$ on an $n$-manifold $M$ is the same as an $(\mathrm{Isom}(M^n_\kappa), M^n_\kappa)$-structure: for such a metric, the
+isometries of open subsets of $M$ onto open subsets of $M^n_\kappa$ form a $(G, X)$-structure, and conversely the charts of such a structure pull the metric of $M^n_\kappa$ back to a well-defined metric of curvature $\kappa$.
+\end{proposition}
+
+\begin{proof}
+Let $M$ have constant curvature $\kappa$, $p \in M$, $q \in M^n_\kappa$ and $I \colon T_pM \to T_qM^n_\kappa$ a linear isometry. Choose $\varepsilon > 0$ such that $\exp_p$ maps $B(0, \varepsilon) \subseteq T_pM$ diffeomorphically onto an open set
+$U \ni p$ (Proposition~\ref{riemannian-geometry:proposition-exponential}) and, if $\kappa > 0$, $\varepsilon < \pi/\sqrt\kappa$, so that $\exp_q$ is injective on $B(0, \varepsilon) \subseteq T_qM^n_\kappa$ (for $\kappa \leq 0$ it is injective
+everywhere, Theorem~\ref{riemannian-geometry:theorem-cartan-hadamard}; for the sphere $S^n(r)$ the geodesics from $q$ first meet again at $-q$, at distance $\pi r$, as in the proof of
+Theorem~\ref{riemannian-geometry:theorem-killing-hopf}). By the key observation in that proof, $F = \exp_q \circ I \circ (\exp_p|_{B(0, \varepsilon)})^{-1} \colon U \to M^n_\kappa$ is a local isometry, and it is injective, so it is an isometry
+of $U$ onto an open subset of $M^n_\kappa$. These maps cover $M$. If $F_1$ and $F_2$ are two of them and $C$ is a connected component of the overlap of their domains, $F_1 \circ F_2^{-1}$ is an isometry between connected open
+subsets of $M^n_\kappa$; at a point $y$ it agrees, together with its differential, with an isometry $g$ of $M^n_\kappa$ (Corollary~\ref{riemannian-geometry:corollary-model-isometries}(1)), hence $F_1 \circ F_2^{-1} = g$ on the connected
+set $F_2(C)$ by Lemma~\ref{riemannian-geometry:lemma-local-isometries}(2), and $F_1 = g \circ F_2$ on $C$. Conversely, given an $(\mathrm{Isom}(M^n_\kappa), M^n_\kappa)$-atlas, the metrics $\varphi_i^*g_\kappa$ agree on overlaps because
+$\varphi_i = g \circ \varphi_j$ with $g^*g_\kappa = g_\kappa$; the resulting metric is locally isometric to $M^n_\kappa$, so it has constant curvature $\kappa$. The two constructions are inverse to each other: the charts of the
+structure obtained from the metric $\varphi_i^*g_\kappa$ are the isometries onto open subsets of $M^n_\kappa$, which include the $\varphi_i$.
+\end{proof}
+
+The central construction of the theory extends the charts along paths. On a simply connected manifold the extensions fit together into a single map to $X$; in general they do so on the universal cover,
+and going around a loop changes the extension by an element of $G$.
+
+\begin{theorem}[Developing map and holonomy]\label{riemannian-geometry:theorem-developing-map}
+Let $M$ be a connected $(G, X)$-manifold, $\pi \colon \widetilde{M} \to M$ a universal covering with the structure of Lemma~\ref{riemannian-geometry:lemma-gx-constructions}(1), and $\mathrm{Deck}(\pi) \cong \pi_1(M)$ its group of
+deck transformations.
+\begin{enumerate}
+\item There is a $(G, X)$-map $\mathrm{dev} \colon \widetilde{M} \to X$, the \emph{developing map}, and a homomorphism $\mathrm{hol} \colon \mathrm{Deck}(\pi) \to G$, the \emph{holonomy}, such that
+\[
+\mathrm{dev} \circ \tau = \mathrm{hol}(\tau) \circ \mathrm{dev} \qquad \text{for all } \tau \in \mathrm{Deck}(\pi).
+\]
+\item Every $(G, X)$-map $D \colon \widetilde{M} \to X$ is $g \circ \mathrm{dev}$ for a unique $g \in G$, and then its holonomy is $\tau \mapsto g\,\mathrm{hol}(\tau)g^{-1}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\emph{The space of germs of charts.} Two charts $\varphi$, $\psi$ defined near $x \in M$ have the same \emph{germ} at $x$ if they agree on a neighbourhood of $x$; write $[\varphi]_x$ for the germ. Let $P$ be the set of all germs of charts
+at all points, $q \colon P \to M$ the base point map, and give $P$ the topology with basis the sets $N(\varphi, V) = \{[\varphi]_y : y \in V\}$ for charts $\varphi$ and open sets $V$ in their domains (an intersection of two such sets
+is a union of such sets, as two charts with the same germ at $y$ agree near $y$). The group $G$ acts on $P$ by $g \cdot [\varphi]_x = [g \circ \varphi]_x$, mapping $N(\varphi, V)$ to $N(g \circ \varphi, V)$, so by homeomorphisms
+commuting with $q$; and the \emph{evaluation} $E \colon P \to X$, $E([\varphi]_x) = \varphi(x)$, satisfies $E(g \cdot \xi) = gE(\xi)$.
+
+\emph{$q$ is a covering map.} Let $\varphi \colon U \to X$ be a chart with $U$ connected. Every germ at a point $y \in U$ is $[g \circ \varphi]_y$ for some $g$: for a chart $\psi$ at $y$, $\psi = g \circ \varphi$ on the connected
+component of the overlap containing $y$. And $[g \circ \varphi]_y = [h \circ \varphi]_y$ implies that $g$ and $h$ agree on an open subset of $X$, so $g = h$ by rigidity. Hence $q^{-1}(U)$ is the disjoint union of the open sets
+$N(g \circ \varphi, U)$, $g \in G$, each mapped homeomorphically onto $U$ by $q$: the inverse $y \mapsto [g \circ \varphi]_y$ is continuous, since it maps open subsets $V$ of $U$ to basic open sets $N(g \circ \varphi, V)$. On the sheet
+$N(\varphi, U)$, $E \circ (q|_{N(\varphi, U)})^{-1} = \varphi$.
+
+\emph{Construction.} Fix $\tilde x_0 \in \widetilde{M}$, $x_0 = \pi(\tilde x_0)$ and a chart $\varphi_0$ at $x_0$. Since $\widetilde{M}$ is simply connected and locally path-connected, the lifting criterion
+(Proposition~\ref{homotopy:proposition-lifting-criterion}) gives a unique continuous $s \colon \widetilde{M} \to P$ with $q \circ s = \pi$ and $s(\tilde x_0) = [\varphi_0]_{x_0}$. Put $\mathrm{dev} = E \circ s$. Near any point $\tilde x$,
+$s$ takes values in one sheet $N(\varphi, U)$ with $\varphi \colon U \to X$ a chart on a connected neighbourhood of $\pi(\tilde x)$; then $s = (q|_{N(\varphi, U)})^{-1} \circ \pi$ there, and $\mathrm{dev} = \varphi \circ \pi$, which is a
+chart of $\widetilde{M}$ when restricted to an open set mapped homeomorphically by $\pi$. So $\mathrm{dev}$ is a $(G, X)$-map.
+
+\emph{Holonomy.} Let $\tau$ be a deck transformation. Then $s \circ \tau$ is a lift of $\pi \circ \tau = \pi$, and $s(\tau\tilde x_0)$ lies in the fibre of $q$ over $x_0$, which is $\{g \cdot s(\tilde x_0) : g \in G\}$ with $g$ unique by the
+previous step. Define $\mathrm{hol}(\tau)$ by $s(\tau\tilde x_0) = \mathrm{hol}(\tau) \cdot s(\tilde x_0)$. The map $\tilde x \mapsto \mathrm{hol}(\tau) \cdot s(\tilde x)$ is also a lift of $\pi$, and it agrees with $s \circ \tau$ at $\tilde x_0$;
+by uniqueness of lifts, $s \circ \tau = \mathrm{hol}(\tau) \cdot s$. Applying $E$ gives $\mathrm{dev} \circ \tau = \mathrm{hol}(\tau) \circ \mathrm{dev}$. For two deck transformations,
+$s \circ \tau\sigma = \mathrm{hol}(\tau) \cdot (s \circ \sigma) = \mathrm{hol}(\tau)\mathrm{hol}(\sigma) \cdot s$, and evaluating at $\tilde x_0$ gives $\mathrm{hol}(\tau\sigma) = \mathrm{hol}(\tau)\mathrm{hol}(\sigma)$.
+
+(2) Every point has a connected neighbourhood $V$ on which $D$ and $\mathrm{dev}$ are both charts of $\widetilde{M}$, so $D = g_V \circ \mathrm{dev}$ on $V$ for some $g_V \in G$. The element $g_V$ is locally constant: if $V \cap V^{\prime} \neq \emptyset$, then $g_V$ and $g_{V^{\prime}}$ agree on the
+nonempty open set $\mathrm{dev}(V \cap V^{\prime})$, so they are equal. As $\widetilde{M}$ is connected, $D = g \circ \mathrm{dev}$ for a single $g$, unique by rigidity. Then
+$D \circ \tau = g\,\mathrm{hol}(\tau) \circ \mathrm{dev} = g\,\mathrm{hol}(\tau)g^{-1} \circ D$.
+\end{proof}
+
+For a Riemannian manifold of constant curvature, the developing map extends a local isometry with the model space along all paths: it is the map $\Theta^{-1}$ of the proof of
+Corollary~\ref{riemannian-geometry:corollary-space-forms}, when $M$ is complete. In general $\mathrm{dev}$ need not be injective or surjective, and this is measured by completeness.
+
+\begin{definition}\label{riemannian-geometry:definition-complete-gx}
+A connected $(G, X)$-manifold is \emph{complete} if its developing map $\mathrm{dev} \colon \widetilde{M} \to X$ is a covering map. By Theorem~\ref{riemannian-geometry:theorem-developing-map}(2) this does not depend on the choices.
+\end{definition}
+
+\begin{proposition}\label{riemannian-geometry:proposition-complete-gx}
+Let $(G, X)$ be a geometry with $X$ simply connected, and $M$ a connected $(G, X)$-manifold.
+\begin{enumerate}
+\item If $M$ is complete, then $\mathrm{dev}$ is a homeomorphism, $\mathrm{hol}$ is injective, $\Gamma = \mathrm{hol}(\mathrm{Deck}(\pi)) \cong \pi_1(M)$ acts on $X$ by a covering space action, and $\mathrm{dev}$ induces an isomorphism of
+$(G, X)$-manifolds $M \cong X/\Gamma$. Conversely the quotients $X/\Gamma$ of Lemma~\ref{riemannian-geometry:lemma-gx-constructions}(2), with $\Omega = X$, are complete.
+\item If $G$ preserves a Riemannian metric on $X$ and $M$ is compact, then $M$ is complete.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A covering map from a connected space onto the simply connected, locally path-connected space $X$ is a homeomorphism: the monodromy action on a fibre is transitive and $\pi_1(X)$ is trivial
+(Corollary~\ref{homotopy:corollary-lifting-consequences}(3)), as in the proof of Theorem~\ref{riemannian-geometry:theorem-killing-hopf}. If $\mathrm{hol}(\tau) = e$, then $\mathrm{dev} \circ \tau = \mathrm{dev}$, so $\tau = \mathrm{id}$, and
+$\mathrm{hol}$ is injective. The homeomorphism $\mathrm{dev}$ conjugates $\mathrm{Deck}(\pi)$ to $\Gamma$, and $\mathrm{Deck}(\pi)$ acts by a covering space action (each point has a neighbourhood mapped injectively by $\pi$), so $\Gamma$ does too,
+and $\mathrm{dev}$ induces a homeomorphism $M \cong \widetilde{M}/\mathrm{Deck}(\pi) \to X/\Gamma$ (Proposition~\ref{homotopy:proposition-deck}); in charts it is the identity, so it is an isomorphism of $(G, X)$-manifolds. Conversely, for
+$M = X/\Gamma$ the projection $X \to M$ is a universal covering, $X$ being simply connected, and the identity of $X$ is a $(G, X)$-map, hence a developing map, which is a covering.
+
+(2) The charts pull the $G$-invariant metric $g_X$ back to a well-defined metric on $M$, as in the proof of Proposition~\ref{riemannian-geometry:proposition-constant-curvature-gx}, and $\pi$ pulls this metric back to $\widetilde{M}$; since
+$\mathrm{dev}$ is locally a chart composed with $\pi$, it is a local isometry $\widetilde{M} \to X$. As $M$ is compact it is complete (Theorem~\ref{riemannian-geometry:theorem-hopf-rinow}), so $\widetilde{M}$ is complete, as in the proof of
+Corollary~\ref{riemannian-geometry:corollary-space-forms}. A local isometry from a complete connected Riemannian manifold to a connected one is a covering map \cite[Chapter 7]{do-carmo-riemannian}, so $\mathrm{dev}$ is a covering.
+\end{proof}
+
+Applied to the model spaces, (2) and (1) give again the space forms of Corollary~\ref{riemannian-geometry:corollary-space-forms}, for compact $M$. Without an invariant metric, compactness does not imply completeness.
+
+\begin{example}\label{riemannian-geometry:example-hopf-incomplete}
+The Hopf manifold $H^n$, $n \geq 3$, of Example~\ref{riemannian-geometry:example-gx-structures}(2) is a compact affine manifold that is not complete. Here $\Omega = \RR^n \setminus \{0\}$ is simply connected (it deformation retracts onto
+$S^{n-1}$), so the projection $\Omega \to H^n$ is a universal covering, and the inclusion $\Omega \to \RR^n$ is a $(G, X)$-map, hence a developing map by Theorem~\ref{riemannian-geometry:theorem-developing-map}(2). It is not surjective,
+so it is not a covering map. The holonomy is the group $\Gamma \cong \ZZ$ generated by $x \mapsto 2x$. Accordingly, the affine group preserves no Riemannian metric on $\RR^n$, and the straight lines of $H^n$, the images of affine
+lines in $\Omega$, run into the missing origin in finite affine time: the geodesics of the flat affine connection are not defined for all time. For $n = 2$ see Exercise~\ref{riemannian-geometry:exercise-hopf-torus}.
+\end{example}
+
+\begin{remark}\label{riemannian-geometry:remark-geometrisation}
+\emph{Uniformisation and geometrisation.} Every closed surface carries a complete structure of constant curvature, spherical for $S^2$ and $\RR\PP^2$, Euclidean for the torus and the Klein bottle, and hyperbolic for the surfaces of
+negative Euler characteristic; by Gauss--Bonnet (Corollary~\ref{riemannian-geometry:corollary-gauss-bonnet}) the sign of the curvature is that of $\chi$. Proposition~\ref{riemannian-geometry:proposition-hyperbolic-surfaces}
+constructs the hyperbolic structures in the orientable case, and the general statement is a form of the uniformisation theorem for Riemann surfaces (Chapter~\ref{complex-manifolds}). Deforming a hyperbolic structure deforms its
+holonomy $\pi_1(\Sigma_g) \to \mathrm{Isom}^+(\mathbb{H}^2) = \mathrm{PSL}_2(\RR)$, and the hyperbolic structures on $\Sigma_g$, up to isotopy, form the Teichm\"uller space, of dimension $6g - 6$ \cite{goldman-2022}. In dimension $3$,
+Thurston singled out eight geometries $(G, X)$, among them the three constant curvature ones, and conjectured that every closed $3$-manifold can be cut along spheres and tori into pieces carrying complete
+structures modelled on them \cite{thurston-1997}; Perelman proved this \emph{geometrisation conjecture}, and with it the Poincar\'e conjecture.
+\end{remark}
+
 \section{Exercises}\label{riemannian-geometry:section-exercises}
 
 \begin{exercise}\label{riemannian-geometry:exercise-hodge-star-signs}
@@ -3905,4 +4079,21 @@ In a basis of principal directions $S_t$ is diagonal with entries $\kappa_i/(1 -
 $K_t = \kappa_1\kappa_2/(1 - 2tH + t^2K)$, and $2H_t = \frac{\kappa_1}{1 - t\kappa_1} + \frac{\kappa_2}{1 - t\kappa_2} = \frac{\kappa_1 + \kappa_2 - 2t\kappa_1\kappa_2}{1 - 2tH + t^2K}$. If $K$ is constant and $t = 1/\sqrt K$, then $t^2K = 1$, the
 denominator is $2(1 - tH)$, and $H_t = (H - \sqrt K)/(2(1 - H/\sqrt K)) = -\frac12\sqrt K$. If $H \neq 0$ is constant and $t = 1/(2H)$, the denominator is $t^2K$, and $K_t = K/(t^2K) = 4H^2$. In both cases
 the denominator is nonzero exactly where $x_t$ is an immersion, since it is $\det(I - tS)$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-hopf-torus}
+Let $H^2 = (\CC \setminus \{0\})/\langle z \mapsto 2z\rangle$, an affine (indeed similarity) torus, as in Example~\ref{riemannian-geometry:example-gx-structures}(2) with $n = 2$ and $\RR^2 = \CC$. Show that $\exp \colon \CC \to \CC \setminus \{0\}$
+composed with the projection is a universal covering $\CC \to H^2$, that $\mathrm{dev} = \exp \colon \CC \to \CC$ is a developing map, and compute the holonomy. Conclude that $\mathrm{dev}$ is neither injective nor surjective, that
+$\mathrm{hol}$ is not injective, and that $H^2$ is not complete.
+\end{exercise}
+
+\begin{solution}
+$\exp \colon \CC \to \CC \setminus \{0\}$ is a covering map with deck group $\{z \mapsto z + 2\pi ik\}$, and the projection $\CC \setminus \{0\} \to H^2$ is a covering (Example~\ref{riemannian-geometry:example-gx-structures}(2)). The
+composite $p$ is a covering: it is the quotient of $\CC$ by the group generated by $\tau_1(z) = z + \log 2$ and $\tau_2(z) = z + 2\pi i$, since $e^w$ and $e^z$ lie in the same $\langle 2\rangle$-orbit if and only if
+$w - z \in \ZZ\log 2 + 2\pi i\ZZ$; this group of translations acts by a covering space action, and $\CC$ is simply connected, so $p$ is a universal covering with deck group $\ZZ^2$
+(Theorem~\ref{topological-manifolds:theorem-covering-action}). With the structure pulled back from $H^2$, the map $\exp \colon \CC \to \CC$ is, near each point, a local inverse of the projection $\CC \setminus \{0\} \to H^2$ (a chart of $H^2$)
+composed with $p$, so it is a $(G, X)$-map, hence a developing map by Theorem~\ref{riemannian-geometry:theorem-developing-map}(2). From $\exp(z + \log 2) = 2\exp(z)$ and $\exp(z + 2\pi i) = \exp(z)$, $\mathrm{hol}(\tau_1)$ is
+$x \mapsto 2x$ and $\mathrm{hol}(\tau_2) = \mathrm{id}$. So $\mathrm{hol}$ is not injective, $\mathrm{dev}$ is not injective, and its image $\CC \setminus \{0\}$ is not all of $\CC$; a covering of the connected space $\CC$ by the
+nonempty space $\CC$ would be surjective, so $\mathrm{dev}$ is not a covering, and $H^2$ is not complete. This also shows that the invariant metric cannot be dropped from Proposition~\ref{riemannian-geometry:proposition-complete-gx}(2), even
+in dimension $2$.
 \end{solution}

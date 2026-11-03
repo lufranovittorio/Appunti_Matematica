@@ -544,6 +544,37 @@ $N^*S$ is invariant under the dilations $\xi \mapsto e^t\xi$, so $Z$ is tangent 
 submanifold of $N^*S$ of dimension $m - 1$, nonempty because $k < m$; it lies in $S^*M$, and $\lambda$ vanishes on it. Since $\dim S^*M = 2(m - 1) + 1$, it is Legendrian.
 \end{proof}
 
+So the two geometries sit inside each other: Lagrangian submanifolds live in the symplectic manifold $T^*M$, Legendrian ones in its hypersurface $S^*M$, which carries the contact form. The next proposition
+makes the dictionary precise. A subset $L \subseteq T^*M$ is \emph{conic} if it is invariant under the dilations $m_r(\xi) = r\xi$, $r > 0$; conormal bundles are conic.
+
+\begin{proposition}\label{symplectic-geometry:proposition-symplectization}
+Let $M$ be a Riemannian manifold of dimension $m$, $\alpha$ the contact form on $S^*M$ (Proposition~\ref{symplectic-geometry:proposition-contact-examples}(2)) and $0_M$ the zero section.
+\begin{enumerate}
+\item The map $\Psi \colon S^*M \times (0, \infty) \to T^*M \setminus 0_M$, $\Psi(\xi, r) = r\xi$, is a diffeomorphism with $\Psi^*\lambda = r\alpha$, so that $\Psi^*\omega = -d(r\alpha)$: the \emph{symplectisation} of $(S^*M, \alpha)$.
+\item If $\Lambda \subseteq S^*M$ is a Legendrian submanifold, its cone $\Psi(\Lambda \times (0, \infty))$ is a conic Lagrangian submanifold of $T^*M \setminus 0_M$ on which $\lambda$ vanishes.
+\item Conversely, if $L \subseteq T^*M \setminus 0_M$ is a conic Lagrangian submanifold, then $\lambda$ vanishes on $L$, and $L \cap S^*M$ is a Legendrian submanifold whose cone is $L$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\Psi$ is smooth, with smooth inverse $\eta \mapsto (\eta/|\eta|, |\eta|)$. In coordinates $m_r(q, p) = (q, rp)$, so $m_r^*\lambda = r\lambda$. A tangent vector of $S^*M \times (0, \infty)$ at $(\xi, r)$ is $(v, \rho\,\partial_r)$ with
+$v \in T_\xi S^*M$, and $d\Psi(v, \rho\,\partial_r) = dm_r(v) + \rho\,u$, where $u = \frac{d}{ds}(r + s)\xi|_{s = 0}$ is tangent to the fibre $T^*_qM$, so $d\pi(u) = 0$ and $\lambda(u) = 0$. Hence
+$(\Psi^*\lambda)(v, \rho\,\partial_r) = (m_r^*\lambda)(v) = r\lambda(v) = r\alpha(v)$, that is, $\Psi^*\lambda = r\alpha$, and $\Psi^*\omega = -d\Psi^*\lambda = -d(r\alpha)$.
+
+(2) $\Lambda \times (0, \infty)$ is a submanifold of dimension $(m - 1) + 1 = m$, and $\Psi$ is a diffeomorphism, so its image $L$ is a submanifold of dimension $m$, clearly conic. By (1), $\lambda$ restricted to $L$
+corresponds to $r\alpha$ restricted to $\Lambda \times (0, \infty)$, which is $0$ because $\alpha$ vanishes on $\Lambda$. Then $\omega = -d\lambda$ vanishes on $L$ as well, and $L$, of half the dimension of $T^*M$, is Lagrangian
+(Proposition~\ref{symplectic-geometry:proposition-linear}(3)).
+
+(3) Since $L$ is conic, the Euler vector field $Z$ is tangent to $L$. For $v \in T_\xi L$, $\lambda(v) = -\omega(Z_\xi, v) = 0$, because $Z_\xi$ and $v$ lie in the Lagrangian subspace $T_\xi L$; so $\lambda$ vanishes on $L$. The
+restriction $h$ of $|\xi|^2$ to $L$ satisfies $dh(Z) = 2h \neq 0$, so $\Lambda = L \cap S^*M = h^{-1}(1)$ is a submanifold of $L$ of dimension $m - 1$ (Theorem~\ref{smooth-manifolds:theorem-regular-value}), on which $\alpha$, the
+restriction of $\lambda$, vanishes: it is Legendrian, as $\dim S^*M = 2(m - 1) + 1$. Every $\eta \in L$ is $|\eta| \cdot (\eta/|\eta|)$ with $\eta/|\eta| \in L \cap S^*M$, since $L$ is conic; so $L$ is the cone over $\Lambda$.
+\end{proof}
+
+By (3) applied to $L = N^*S \setminus 0_M$, the proposition gives a second proof of Proposition~\ref{symplectic-geometry:proposition-contact-examples}(3). The dilations do not change the line through a covector, so one
+can also pass to the \emph{projectivised} cotangent bundle $\PP(T^*M)$, the space of lines in the fibres, which needs no metric. There $\lambda$ is defined only up to a nonzero factor, so $\PP(T^*M)$ carries a contact
+structure, the hyperplane field $\ker\lambda$, but in general no global contact form; conic Lagrangian submanifolds correspond to its Legendrian submanifolds in the same way. This is the version used for
+the characteristic cycles of Remark~\ref{symplectic-geometry:remark-normal-cycles}.
+
 \begin{example}\label{symplectic-geometry:example-contact}
 \begin{enumerate}
 \item For $S = \{q\}$ a point, $N^*_1S$ is the unit sphere $S^*_qM$ of the fibre: a Legendrian sphere of dimension $m - 1$. For a closed curve in $\RR^3$, the unit conormal bundle is a Legendrian torus in
@@ -583,6 +614,21 @@ $N(A \cup B) + N(A \cap B) = N(A) + N(B)$ when all four are defined, so the curv
 sheaves \cite[Chapter IX]{ks-sheaves-manifolds}, and MacPherson's Chern classes of singular varieties \cite{macpherson-1974} can be computed from them: the same mechanism, curvature read off from conormal
 directions, extends characteristic classes to singular spaces.
 \end{enumerate}
+\end{remark}
+
+\begin{remark}\label{symplectic-geometry:remark-sphere-cosphere}
+\emph{Sphere bundle or cosphere bundle?} The contact form lives naturally on covectors, because the tautological form $\lambda$ lives on $T^*M$: no metric is needed to define it, only to cut out the unit cosphere
+bundle $S^*M$. Even the metric can be avoided: the space $S(T^*M) = (T^*M \setminus 0_M)/(0, \infty)$ of rays of covectors carries the contact structure $\ker\lambda$, well defined because $m_r^*\lambda = r\lambda$ and
+independent of any choice, and every choice of metric identifies it with $S^*M$. The tangent bundle has no such structure of its own. With a Riemannian metric, however, the isomorphism
+$\flat \colon TM \to T^*M$, $v \mapsto g(v, \cdot)$, maps the unit sphere bundle $SM = \{v \in TM : |v| = 1\}$ diffeomorphically onto $S^*M$, and the pull-back of $\lambda$ is
+\[
+(\flat^*\lambda)_v(Y) = g\bigl(v, d\pi(Y)\bigr), \qquad Y \in T_v(TM),
+\]
+since $\pi \circ \flat = \pi$. So $SM$ is a contact manifold too, with the contact form $\alpha_v(Y) = g(v, d\pi(Y))$, and statements about unit covectors translate into statements about unit vectors. For the
+geodesic spray $G$ of Proposition~\ref{riemannian-geometry:proposition-geodesic-spray}, $d\pi(G_v) = v$, so $\alpha(G) = |v|^2 = 1$ on $SM$; in fact the geodesic flow is the Reeb flow of this contact form, the flow of
+the vector field $R$ with $\alpha(R) = 1$ and $\iota_Rd\alpha = 0$ \cite{mcduff-salamon}. In $\RR^{n+1}$ with the Euclidean metric the identification is the obvious one, which is why the normal cycles of
+Remark~\ref{symplectic-geometry:remark-normal-cycles} are usually said to live in the unit sphere bundle $\RR^{n+1} \times S^n$ rather than in the cosphere bundle: the normal vector $\nu(x)$ and the conormal covector
+$\langle\nu(x), \cdot\rangle$ carry the same information.
 \end{remark}
 
 \section{Exercises}\label{symplectic-geometry:section-exercises}

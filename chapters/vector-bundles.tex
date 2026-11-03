@@ -88,8 +88,11 @@ $\mathrm{SU}(2) = \{\begin{pmatrix}a & -\bar b\\ b & \bar a\end{pmatrix} : |a|^2
 \end{proof}
 
 \begin{counterexample}\label{vector-bundles:counterexample-mobius}
-The M\"obius bundle $E$ over $S^1$ (Example~\ref{vector-bundles:example-bundles}) is not trivial. A nowhere vanishing section would correspond to a continuous $s \colon [0, 1] \to \RR \setminus \{0\}$ with $s(1) = -s(0)$, and by the
-intermediate value theorem $s$ would vanish somewhere; and a real line bundle with a nowhere vanishing section $s$ is trivial, by $(p, t) \mapsto ts(p)$. The tautological line bundle of $\RR\PP^1$ is isomorphic to $E$: parametrising
+The M\"obius bundle $E$ over $S^1$ (Example~\ref{vector-bundles:example-bundles}) is not trivial. A trivial line bundle has a section that vanishes nowhere: $M \times \RR$ has $p \mapsto (p, 1)$, and an isomorphism $\Phi \colon M \times \RR \to E$ carries it to
+$p \mapsto \Phi(p, 1)$, which vanishes nowhere because $\Phi$ is injective on each fibre. But $E$ has no nowhere vanishing section: such a section would correspond to a continuous
+$s \colon [0, 1] \to \RR \setminus \{0\}$ with $s(1) = -s(0)$, and by the intermediate value theorem $s$ would vanish somewhere. (Sections that vanish somewhere but are not identically zero exist on every
+bundle, so ``nowhere vanishing'' cannot be weakened to ``nonzero''. Conversely, a real line bundle with a nowhere vanishing section $s$ is trivial, by $(p, t) \mapsto ts(p)$; see
+Remark~\ref{vector-bundles:remark-sections-triviality} for both points and for what changes in higher rank.) The tautological line bundle of $\RR\PP^1$ is isomorphic to $E$: parametrising
 $\RR\PP^1$ by $\theta \in [0, \pi]$, with $\theta$ corresponding to the line through $u(\theta) = (\cos\theta, \sin\theta)$, the section $u$ trivialises the bundle over $[0, \pi]$ and $u(\pi) = -u(0)$, which is the gluing of $E$. Hence the
 tautological line bundle of $\RR\PP^n$, which restricts to it on $\RR\PP^1 \subseteq \RR\PP^n$, is nontrivial as well.
 \end{counterexample}
@@ -294,6 +297,25 @@ connect it to the identity. Concretely, the sections $x \mapsto (\cos\pi x, \sin
 $f(x + 1) = -f(x)$) form a global frame. The same argument shows that a real bundle glued from $[0, 1] \times \RR^r$ by a matrix $A$ is trivial when $A$ can be joined to the identity by a path in $\GL_r(\RR)$: if $A_t$ is such a path, constant near its ends, with $A_0 = \id$ and $A_1 = A$,
 the sections $t \mapsto A_te_i$ satisfy the gluing condition and form a global frame.
 \end{example}
+
+\begin{remark}\label{vector-bundles:remark-sections-triviality}
+\emph{Sections and triviality.} Proposition~\ref{vector-bundles:proposition-frames}(1) is the precise relation between sections and triviality; three points deserve to be made explicit.
+\begin{enumerate}
+\item \emph{``Nonzero'' is not the right condition, ``nowhere vanishing'' is.} Every bundle of positive rank has sections that are not identically zero: if $s$ is a section over a trivialising open set $U$, nonzero at a point, and $\chi$ is
+a bump function with support in $U$ that is $1$ near that point (Corollary~\ref{smooth-manifolds:corollary-partition-applications}), then $\chi s$, extended by $0$, is a global section that is not identically zero. The M\"obius
+bundle has many such sections; what it lacks are sections that vanish \emph{nowhere} (Counterexample~\ref{vector-bundles:counterexample-mobius}).
+\item \emph{Line bundles.} A frame of a line bundle is a single nowhere vanishing section. So a line bundle is trivial if and only if it has a nowhere vanishing section: one direction is the case $r = 1$ of
+Proposition~\ref{vector-bundles:proposition-frames}(1), and conversely an isomorphism $\Phi \colon M \times \mathbb{K} \to L$ gives the nowhere vanishing section $p \mapsto \Phi(p, 1)$.
+\item \emph{Higher rank.} A trivial bundle of rank $r \geq 1$ has nowhere vanishing sections, for instance the first vector of a global frame, so a bundle without nowhere vanishing sections is not trivial. The converse fails for
+$r \geq 2$: one nowhere vanishing section is much less than a frame. For the M\"obius bundle $E$ and the trivial line bundle $\underline{\RR}$ over $S^1$, the bundle $E \oplus \underline{\RR}$ has the nowhere vanishing section
+$p \mapsto (0, 1)$, but it is not trivial. Indeed, if $(g_{ij})$ is a cocycle of $E$, then $E \oplus \underline{\RR}$ has the cocycle $\bigl(\begin{smallmatrix}g_{ij} & 0\\ 0 & 1\end{smallmatrix}\bigr)$, whose determinants are the
+$g_{ij}$, so $\det(E \oplus \underline{\RR}) \cong E$ by Proposition~\ref{vector-bundles:proposition-operations}(3), while the determinant of a trivial bundle is trivial; isomorphic bundles have isomorphic determinant bundles, and $E$ is
+not trivial.
+\end{enumerate}
+For tangent bundles, sections are vector fields: by the hairy ball theorem (Corollary~\ref{singular-homology:corollary-sphere-applications}(2)) the even-dimensional spheres have no nowhere vanishing vector field, so
+$TS^{2n}$ is not trivial for $n \geq 1$, while the odd-dimensional spheres do have nowhere vanishing vector fields, and the question whether they have a whole frame is much harder
+(Section~\ref{vector-bundles:section-parallelizable}).
+\end{remark}
 
 The constructions of Proposition~\ref{vector-bundles:proposition-operations}, applied to the tangent bundle, give the bundles whose sections are the tensor fields of differential
 geometry: the pointwise version of Section~\ref{multilinear-algebra:section-tensors}.
