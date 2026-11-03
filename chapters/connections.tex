@@ -33,7 +33,8 @@ $\Hom$ bundles (Section~\ref{connections:section-connections}).
 \item Metric connections (Section~\ref{connections:section-metric}).
 \item Vertical and horizontal subspaces: a connection as a choice of horizontal subspaces in the tangent spaces of the total space, parallel transport as horizontal
 lifting of curves, and curvature as the obstruction to integrating the horizontal distribution (Section~\ref{connections:section-horizontal}).
-\item Principal bundles, principal connections and connection forms, with the Hopf fibration as example (Section~\ref{connections:section-principal}).
+\item Principal bundles, principal connections and connection forms, with the Hopf fibration as example, and the curvature of a principal connection, which is horizontal and
+equivariant, unlike the connection form (Section~\ref{connections:section-principal}).
 \end{enumerate}
 References: \cite{kobayashi-nomizu}, \cite{milnor-stasheff}, \cite[Chapter 0]{griffiths-harris}.
 
@@ -1135,11 +1136,128 @@ Example~\ref{connections:example-curvature-computations}(3).
 \begin{remark}\label{connections:remark-principal-connections}
 By Proposition~\ref{connections:proposition-connection-one-form}, a principal connection is the same as a $G$-equivariant splitting of
 $0 \to V \to TP \to \pi^*TM \to 0$, or as a $\mathfrak{g}$-valued $1$-form $\omega$ on $P$ with $\omega(\xi^\#) = \xi$, which says that $\omega$ restricts to the Maurer--Cartan form on the fibres,
-and $R_g^*\omega = \Ad(g^{-1})\omega$. Its curvature is $\Omega = d\omega + \frac12[\omega, \omega]$, and connections on $P$ correspond to connections on all
+and $R_g^*\omega = \Ad(g^{-1})\omega$. Its curvature is $\Omega = d\omega + \frac12[\omega, \omega]$, a horizontal equivariant form (Subsection~\ref{connections:subsection-principal-curvature}), and connections on $P$ correspond to connections on all
 associated vector bundles, compatible with the structure group. This is the framework of gauge theory and of Chern--Weil theory, which we use in Chapter~\ref{characteristic-classes}; see
 \cite[Chapters I--II]{kobayashi-nomizu}. For a vector bundle, a local frame is a local section of the frame bundle, and pulling back $\omega$ by it gives the connection form
 $\theta$ of Proposition~\ref{connections:proposition-connections-exist}; the transformation rule $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ is the pullback of the equivariance of
 $\omega$.
+\end{remark}
+
+\subsection{The curvature of a principal connection}\label{connections:subsection-principal-curvature}
+
+The curvature of a connection on a vector bundle is a $2$-form on $M$. In a frame it is the matrix $F = d\theta + \theta \wedge \theta$, and the two matrices behave differently under a change of
+frame: $F^{\prime} = g^{-1}Fg$, while $\theta^{\prime} = g^{-1}\theta g + g^{-1}dg$ has an extra term (Propositions~\ref{connections:proposition-curvature}
+and~\ref{connections:proposition-connections-exist}). On a principal bundle there is a single connection form $\omega$ on $P$ instead of one matrix $\theta$ for each frame, and likewise a single
+curvature form, a $2$-form on $P$. We show that it is \emph{horizontal}: it vanishes as soon as one of its arguments is vertical. The connection form is not horizontal, since $\omega(\xi^\#) = \xi$, and
+this is the source of the extra term $g^{-1}dg$.
+
+First some algebra. A \emph{$\mathfrak{g}$-valued $k$-form} on a manifold is a $k$-form with values in the vector space $\mathfrak{g}$: in a basis $\xi_1, \ldots, \xi_m$ of $\mathfrak{g}$ it is
+$\alpha = \sum_a\alpha^a\xi_a$ with real $k$-forms $\alpha^a$ (complex ones if $\mathfrak{g}$ is a complex Lie algebra). The operations $d$, pull-back, $\iota_X$ and $L_X$ act on the components, as do constant linear maps
+$\mathfrak{g} \to \mathfrak{g}$ such as $\Ad(g)$, and Cartan's formulas (Proposition~\ref{differential-forms:proposition-cartan}) hold for $\mathfrak{g}$-valued forms, component by component. For
+$\mathfrak{g}$-valued $1$-forms $\alpha$ and $\beta$ the $\mathfrak{g}$-valued $2$-form $[\alpha, \beta]$ is
+\[
+[\alpha, \beta](X, Y) = [\alpha(X), \beta(Y)] - [\alpha(Y), \beta(X)] .
+\]
+It is symmetric, $[\beta, \alpha] = [\alpha, \beta]$, by the antisymmetry of the bracket of $\mathfrak{g}$, and $[\alpha, \alpha](X, Y) = 2[\alpha(X), \alpha(Y)]$. For a matrix group
+$G \subseteq \GL_r(\mathbb{K})$ the bracket is the commutator (Example~\ref{lie-groups:example-matrix-lie-algebras}), and with the matrix product of forms,
+$(\alpha \wedge \beta)(X, Y) = \alpha(X)\beta(Y) - \alpha(Y)\beta(X)$, one finds $[\alpha, \beta] = \alpha \wedge \beta + \beta \wedge \alpha$; in particular $\frac12[\alpha, \alpha] = \alpha \wedge \alpha$.
+Pull-backs commute with brackets, $\varphi^*[\alpha, \beta] = [\varphi^*\alpha, \varphi^*\beta]$, and so do Lie algebra automorphisms: $\Ad(g)[\alpha, \beta] = [\Ad(g)\alpha, \Ad(g)\beta]$
+(Proposition~\ref{lie-groups:proposition-adjoint}).
+
+\begin{definition}\label{connections:definition-principal-curvature}
+Let $\omega$ be the connection form of a principal connection $H$ on $\pi \colon P \to M$. Its \emph{curvature} is the $\mathfrak{g}$-valued $2$-form
+\[
+\Omega = d\omega + \tfrac12[\omega, \omega], \qquad \text{that is,} \qquad \Omega(X, Y) = d\omega(X, Y) + [\omega(X), \omega(Y)] .
+\]
+A $\mathfrak{g}$-valued $k$-form $\alpha$ on $P$ is \emph{horizontal} if $\alpha_p(Y_1, \ldots, Y_k) = 0$ whenever one of the $Y_i \in T_pP$ is vertical, and \emph{equivariant} (of type $\Ad$) if
+$R_g^*\alpha = \Ad(g^{-1})\alpha$ for all $g \in G$.
+\end{definition}
+
+The \emph{Maurer--Cartan form} of $G$ is the $\mathfrak{g}$-valued $1$-form $\theta_G$ with $\theta_G(u) = d(L_{h^{-1}})(u)$ for $u \in T_hG$: it translates every tangent vector back to $e$. For a matrix
+group $L_{h^{-1}}$ is the restriction of the linear map $B \mapsto h^{-1}B$, so $\theta_G(u) = h^{-1}u$, and for a smooth map $g \colon U \to G$ the pull-back is $g^*\theta_G = g^{-1}dg$.
+
+\begin{proposition}\label{connections:proposition-principal-curvature}
+Let $\omega$ be the connection form of a principal connection $H$ on $P$, with curvature $\Omega$.
+\begin{enumerate}
+\item $\Omega$ is horizontal and equivariant. Hence $\Omega(X, Y) = d\omega(X^H, Y^H)$ for $X, Y \in T_pP$, where $X^H$ is the horizontal part of $X$ (the \emph{structure equation}).
+\item For horizontal vector fields $A$, $B$ on an open subset of $P$, $\Omega(A, B) = -\omega([A, B])$. Hence $\Omega = 0$ if and only if $H$ is involutive.
+\item Let $\sigma \colon U \to P$ be a local section and $\theta_\sigma = \sigma^*\omega$. Then $\sigma^*\Omega = d\theta_\sigma + \frac12[\theta_\sigma, \theta_\sigma]$. If $g \colon U \to G$ is smooth and
+$\sigma^{\prime} = \sigma g$, then
+\[
+\theta_{\sigma^{\prime}} = \Ad(g^{-1})\theta_\sigma + g^*\theta_G, \qquad \sigma^{\prime*}\Omega = \Ad(g^{-1})\,\sigma^*\Omega .
+\]
+For a matrix group these read $\theta_{\sigma^{\prime}} = g^{-1}\theta_\sigma g + g^{-1}dg$ and $\sigma^{\prime*}\Omega = g^{-1}(\sigma^*\Omega)g$, with $\sigma^*\Omega = d\theta_\sigma + \theta_\sigma \wedge \theta_\sigma$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) \emph{Equivariance.} Since $R_g^*$ commutes with $d$ and with brackets, and $\Ad(g^{-1})$ is a constant linear map and an automorphism of $\mathfrak{g}$
+(Proposition~\ref{lie-groups:proposition-adjoint}), $R_g^*\omega = \Ad(g^{-1})\omega$ (Proposition~\ref{connections:proposition-connection-one-form}) gives
+\[
+R_g^*\Omega = d\bigl(\Ad(g^{-1})\omega\bigr) + \tfrac12\bigl[\Ad(g^{-1})\omega, \Ad(g^{-1})\omega\bigr] = \Ad(g^{-1})\bigl(d\omega + \tfrac12[\omega, \omega]\bigr) = \Ad(g^{-1})\Omega .
+\]
+
+\emph{Horizontality.} Let $\xi \in \mathfrak{g}$. The flow of $\xi^\#$ is $R_{\exp(t\xi)}$, so by the definition of the Lie derivative and the equivariance of $\omega$,
+\[
+L_{\xi^\#}\omega = \frac{d}{dt}\Big|_{t=0}R_{\exp(t\xi)}^*\omega = \frac{d}{dt}\Big|_{t=0}\Ad(\exp(-t\xi))\,\omega = -\ad(\xi)\,\omega,
+\]
+because $\Ad(\exp(-t\xi)) = e^{-t\ad\xi}$ (Proposition~\ref{lie-groups:proposition-adjoint}) has velocity $-\ad\xi$ at $t = 0$. So $(L_{\xi^\#}\omega)(Y) = -[\xi, \omega(Y)]$. On the other hand, by Cartan's formula,
+$L_{\xi^\#}\omega = \iota_{\xi^\#}d\omega + d(\iota_{\xi^\#}\omega) = \iota_{\xi^\#}d\omega$, because $\iota_{\xi^\#}\omega = \omega(\xi^\#) = \xi$ is constant. Hence, for every $Y \in T_pP$,
+\[
+\Omega(\xi^\#_p, Y) = d\omega(\xi^\#_p, Y) + [\omega(\xi^\#_p), \omega(Y)] = -[\xi, \omega(Y)] + [\xi, \omega(Y)] = 0 .
+\]
+Every vertical vector at $p$ is some $\xi^\#_p$ (Proposition~\ref{connections:proposition-connection-one-form}(1)), and $\Omega$ is alternating, so $\Omega$ is horizontal. Finally write
+$X = X^H + X^V$ and $Y = Y^H + Y^V$ with $X^V$, $Y^V$ vertical. By bilinearity and horizontality, $\Omega(X, Y) = \Omega(X^H, Y^H) = d\omega(X^H, Y^H) + [\omega(X^H), \omega(Y^H)]$, and the bracket
+vanishes since $\omega$ is zero on $H$.
+
+(2) By the invariant formula for $d$ of a $1$-form (Theorem~\ref{differential-forms:theorem-exterior-derivative}), applied componentwise,
+$d\omega(A, B) = A(\omega(B)) - B(\omega(A)) - \omega([A, B]) = -\omega([A, B])$, since $\omega(A) = \omega(B) = 0$; and $[\omega(A), \omega(B)] = 0$. If $\Omega = 0$, then $\omega([A, B]) = 0$, that is, $[A, B]$ is horizontal,
+for all horizontal fields $A$, $B$: $H$ is involutive. Conversely, if $H$ is involutive, then $\Omega(A, B) = 0$ for all horizontal fields. Every horizontal vector is the value of a horizontal vector field near its base
+point, since $H$ is a smooth subbundle and so has local frames, and the value of $\Omega(A, B)$ at $p$ depends only on $A_p$ and $B_p$; so $\Omega$ vanishes on pairs of horizontal vectors, and then everywhere by (1).
+
+(3) The first formula holds because $\sigma^*$ commutes with $d$ and with brackets. For the second, fix $x \in U$ and $v \in T_xU$, and put $h = g(x)$, $p = \sigma(x)$. Let $\mu \colon P \times G \to P$ be the action
+and $o_p \colon G \to P$, $o_p(k) = pk$. Since $\sigma^{\prime} = \mu \circ (\sigma, g)$, the chain rule and the splitting of the differential of $\mu$ along the two factors give
+\[
+d\sigma^{\prime}(v) = d\mu_{(p, h)}\bigl(d\sigma(v), 0\bigr) + d\mu_{(p, h)}\bigl(0, dg(v)\bigr) = dR_h\bigl(d\sigma(v)\bigr) + d(o_p)_h\bigl(dg(v)\bigr).
+\]
+Let $\zeta = \theta_G(dg(v)) \in \mathfrak{g}$, so that $dg(v) = d(L_h)(\zeta)$ is the velocity at $t = 0$ of the curve $h\exp(t\zeta)$. Its image $o_p(h\exp(t\zeta)) = ph\exp(t\zeta)$ has velocity
+$\zeta^\#_{ph}$, so
+\[
+d\sigma^{\prime}(v) = dR_h\bigl(d\sigma(v)\bigr) + \zeta^\#_{\sigma^{\prime}(x)} .
+\]
+Applying $\omega$, and using $\omega_{ph}(dR_hY) = \Ad(h^{-1})\omega_p(Y)$ and $\omega(\zeta^\#) = \zeta$, gives $\theta_{\sigma^{\prime}}(v) = \Ad(h^{-1})\theta_\sigma(v) + \theta_G(dg(v))$. Applying $\Omega$ to two such
+vectors, the vertical terms $\zeta^\#$ drop out by (1), and
+\[
+(\sigma^{\prime*}\Omega)(v, w) = \Omega\bigl(dR_h(d\sigma(v)), dR_h(d\sigma(w))\bigr) = (R_h^*\Omega)\bigl(d\sigma(v), d\sigma(w)\bigr) = \Ad(h^{-1})(\sigma^*\Omega)(v, w),
+\]
+by the equivariance in (1). For a matrix group $\Ad(h^{-1})X = h^{-1}Xh$, since conjugation is the restriction of the linear map $B \mapsto h^{-1}Bh$, and $g^*\theta_G = g^{-1}dg$; the formula for
+$\sigma^*\Omega$ follows from $\frac12[\theta, \theta] = \theta \wedge \theta$.
+\end{proof}
+
+So the answer to the question ``is the curvature horizontal?'' is yes for the curvature form on $P$, and this is exactly why the local curvature matrices change by conjugation alone: in the proof of (3), the
+change of section adds the vertical vector $\zeta^\#$ to $d\sigma(v)$. The connection form sees this vector and produces the term $g^*\theta_G$; the curvature does not see it.
+
+\begin{example}\label{connections:example-hopf-curvature}
+For the Hopf bundle (Example~\ref{connections:example-hopf-connection}) the group $U(1)$ is abelian, so $[\omega, \omega] = 0$, $\Ad$ is trivial, and $\Omega = d\omega$ is the restriction to $S^3$ of
+$d\bar z_0 \wedge dz_0 + d\bar z_1 \wedge dz_1$. Horizontality can be checked by hand. For $\xi = i$ the fundamental field is $\xi^\#_z = iz$, and for $w \in T_zS^3$,
+\[
+\Omega(iz, w) = \sum_k\bigl(\overline{iz_k}\,w_k - \bar w_k\,iz_k\bigr) = -i\sum_k(\bar z_kw_k + z_k\bar w_k) = -2i\operatorname{Re}\langle w, z\rangle = 0,
+\]
+since $T_zS^3 = \{w : \operatorname{Re}\langle w, z\rangle = 0\}$. By Proposition~\ref{connections:proposition-principal-curvature}(3) with $\Ad$ trivial, $\sigma^*\Omega = d(\sigma^*\omega)$ is the same $2$-form for every
+local section $\sigma$, so these local forms glue to a global $i\RR$-valued $2$-form on $\CC\PP^1$: the curvature of the tautological line bundle found in
+Example~\ref{connections:example-curvature-computations}(3). For abelian groups the curvature is always an ordinary $2$-form on the base.
+\end{example}
+
+\begin{remark}\label{connections:remark-curvature-horizontal}
+Horizontality is a property of forms on $P$; on $M$ there are no vertical vectors, and the condition is empty. Horizontal equivariant forms on $P$ are the same as forms on $M$ with values in the
+\emph{adjoint bundle} $\Ad P = P \times_G \mathfrak{g}$, the vector bundle associated with the adjoint representation: the local forms $\sigma^*\alpha$ change by $\Ad(g^{-1})$, as in the proof of
+Proposition~\ref{connections:proposition-principal-curvature}(3), which is the transition rule of $\Ad P$, and conversely such local forms determine $\alpha$, because $\alpha$ is determined by its values on
+horizontal vectors and by equivariance \cite[Chapter II, \S5]{kobayashi-nomizu}. For the frame bundle $P = \mathrm{Fr}(E)$ of a vector bundle with connection $\nabla$, the adjoint bundle is $\End E$, a local
+frame $\sigma = (e_1, \ldots, e_r)$ pulls $\omega$ back to the connection matrix $\theta$ (Remark~\ref{connections:remark-principal-connections}), and $\sigma^*\Omega = d\theta + \theta \wedge \theta$ is the
+curvature matrix $F$ of Proposition~\ref{connections:proposition-curvature}. So $\Omega$ is $F_\nabla \in \Omega^2(M, \End E)$, seen upstairs. In particular, the curvature forms $\Omega^i_j$ of an orthonormal
+frame used in Chapter~\ref{riemannian-geometry} are forms on an open subset of $M$, which depend on the frame; they are the entries of $\sigma^*\Omega$, for the single $\mathfrak{so}(n)$-valued horizontal form
+$\Omega$ on the bundle of orthonormal frames. The connection forms $\omega^i_j$ are, in the same way, the entries of $\sigma^*\omega$, and $\omega$ is not horizontal. Chern--Weil theory
+(Chapter~\ref{characteristic-classes}) applies an $\Ad$-invariant polynomial $f$ to $\Omega$: the form $f(\Omega)$ is horizontal and invariant, hence comes from a form on $M$.
 \end{remark}
 
 \section{Exercises}\label{connections:section-exercises}
@@ -1248,4 +1366,32 @@ Proposition~\ref{connections:proposition-connection-from-transport} directly.
 $t = 0$ is $a(x_0)s(x_0) + s^{\prime}(x_0)$, which is $\nabla_{\partial_x}s$ at $x_0$. (2) Let $s$, $s^{\prime}$ be sections, $v \in T_pM$ and $\gamma$ a curve with $\dot\gamma(0) = v$. If each $P_t$ is an isometry,
 $\langle s, s^{\prime}\rangle(\gamma(t)) = \langle P_t^{-1}s(\gamma(t)), P_t^{-1}s^{\prime}(\gamma(t))\rangle$ is the inner product of two curves in the fixed space $E_p$. Differentiating at $t = 0$ with the product rule
 and the proposition gives $v\langle s, s^{\prime}\rangle = \langle\nabla_vs, s^{\prime}\rangle + \langle s, \nabla_vs^{\prime}\rangle$, the metric condition.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-fundamental-bracket}
+Let $P \to M$ be a principal $G$-bundle. Show that $[\xi^\#, \eta^\#] = [\xi, \eta]^\#$ for $\xi, \eta \in \mathfrak{g}$, using that $\xi^\#$ is $o_p$-related to the left-invariant field $\widetilde{\xi}$, where
+$o_p(k) = pk$. Deduce directly from the invariant formula for $d\omega$ that the curvature of a principal connection satisfies $\Omega(\xi^\#, \eta^\#) = 0$.
+\end{exercise}
+
+\begin{solution}
+For $k \in G$, $\widetilde{\xi}_k = d(L_k)(\xi)$ is the velocity at $t = 0$ of $k\exp(t\xi)$, so $d(o_p)_k(\widetilde{\xi}_k)$ is the velocity of $pk\exp(t\xi)$, which is $\xi^\#_{pk} = \xi^\#_{o_p(k)}$. So
+$\widetilde{\xi}$ and $\xi^\#$ are $o_p$-related, and by Lemma~\ref{lie-groups:lemma-related-fields} so are $[\widetilde{\xi}, \widetilde{\eta}]$ and $[\xi^\#, \eta^\#]$. At $k = e$, using
+Definition~\ref{lie-groups:definition-lie-algebra-of-g}, $[\xi^\#, \eta^\#]_p = d(o_p)_e([\widetilde{\xi}, \widetilde{\eta}]_e) = d(o_p)_e([\xi, \eta]) = [\xi, \eta]^\#_p$, the last step being the case
+$k = e$ of the first computation. Now $\omega(\xi^\#) = \xi$ and $\omega(\eta^\#) = \eta$ are constant, so $d\omega(\xi^\#, \eta^\#) = -\omega([\xi^\#, \eta^\#]) = -[\xi, \eta]$, while
+$[\omega(\xi^\#), \omega(\eta^\#)] = [\xi, \eta]$; the sum $\Omega(\xi^\#, \eta^\#)$ is $0$.
+\end{solution}
+
+\begin{exercise}\label{connections:exercise-principal-bianchi}
+Let $G \subseteq \GL_r(\mathbb{K})$ be a matrix group and $\omega$ a principal connection form, so that $\Omega = d\omega + \omega \wedge \omega$. Show the Bianchi identity $d\Omega = \Omega \wedge \omega - \omega \wedge \Omega$,
+and deduce that $d\Omega(X, Y, Z) = 0$ whenever $X$, $Y$, $Z$ are horizontal. Compare with the Bianchi identity of Proposition~\ref{connections:proposition-curvature}.
+\end{exercise}
+
+\begin{solution}
+For matrices of $1$-forms the Leibniz rule reads $d(\omega \wedge \omega) = d\omega \wedge \omega - \omega \wedge d\omega$, entry by entry. Substituting $d\omega = \Omega - \omega \wedge \omega$,
+\[
+d\Omega = d(\omega \wedge \omega) = (\Omega - \omega \wedge \omega) \wedge \omega - \omega \wedge (\Omega - \omega \wedge \omega) = \Omega \wedge \omega - \omega \wedge \Omega,
+\]
+since the two triple products $\omega \wedge \omega \wedge \omega$ cancel by associativity. Each term of $(\Omega \wedge \omega)(X, Y, Z)$ and of $(\omega \wedge \Omega)(X, Y, Z)$ contains a factor $\omega$
+evaluated at one of $X$, $Y$, $Z$, which vanishes if they are horizontal. Pulling back by a local section $\sigma$, with $\theta = \sigma^*\omega$ and $F = \sigma^*\Omega$, gives
+$dF = F \wedge \theta - \theta \wedge F$, the identity of Proposition~\ref{connections:proposition-curvature}.
 \end{solution}
