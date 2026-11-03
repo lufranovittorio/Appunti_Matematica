@@ -143,6 +143,49 @@ for their own sake, Calabi--Yau manifolds, curves and abelian varieties. The par
 time after its prerequisites.
 \end{remark}
 
+\section{A map of the integrals}\label{introduction:section-integration}
+
+Many integrals appear in the book: the Riemann integral, the Lebesgue integral, volumes, lengths and areas, line integrals of two kinds, complex line integrals, integrals of differential forms,
+integrals on Riemannian manifolds and on Lie groups. They are defined where they are first needed, often by an explicit formula, but they are not independent notions. All of them are special cases
+of two constructions, and the second is built from the first.
+\begin{enumerate}
+\item \emph{The integral of a function against a measure}, $\int_Xf\,d\mu$ (Chapter~\ref{measure-theory}, Section~\ref{measure-theory:section-integral}). It needs a measure on $X$, that is, a way to assign a size to
+subsets, and no orientation: reversing a curve does not change its length. Integrals of this kind are written with $d\mu$, $dx$, $ds$, $dA$ or $d\mathcal{H}^k$.
+\item \emph{The integral of a differential $k$-form over an oriented $k$-dimensional manifold}, $\int_M\omega$ (Definition~\ref{differential-forms:definition-integral}). It needs an orientation, and no measure or metric:
+in a positively oriented chart, $\omega = f\,dx^1 \wedge \cdots \wedge dx^k$ and $\int_M\omega$ is the Lebesgue integral $\int f\,d\lambda^k$, patched together with a partition of unity. Reversing the orientation
+changes the sign.
+\end{enumerate}
+On an oriented Riemannian manifold the two meet: a $k$-form is a function times the volume form, and $\int_M\omega = \int_M\langle\omega, \xi\rangle\,d\mu_g$ with the orienting $k$-vector $\xi$
+(Proposition~\ref{riemannian-geometry:proposition-orienting-vector}). Here is how the individual integrals of the book fit into this picture.
+\begin{itemize}
+\item \emph{The Riemann integral} $\int_a^bf$ (Definition~\ref{real-analysis:definition-riemann}) comes first because it needs no measure theory, and it is enough for continuous functions on intervals. It is the
+Lebesgue integral $\int_{[a,b]}f\,d\lambda$ for every Riemann integrable $f$ (Propositions~\ref{measure-theory:proposition-riemann-lebesgue} and~\ref{measure-theory:proposition-riemann-integrable}), so nothing proved
+with it has to be redone. Vector- and complex-valued functions are integrated componentwise, $\int(u + iv) = \int u + i\int v$.
+\item \emph{Multiple integrals and volumes} $\int_{\RR^n}f\,d\lambda^n$: Lebesgue measure on $\RR^n$, computed by Fubini's theorem and the change of variables formula
+(Sections~\ref{measure-theory:section-fubini} and~\ref{measure-theory:section-change-of-variables}), with Cavalieri's principle and solids of revolution as special cases
+(Subsection~\ref{measure-theory:subsection-volumes}).
+\item \emph{Length and line integrals of the first kind} $\int_\gamma f\,ds$ (Section~\ref{real-analysis:section-curves}): defined by the formula $\int_a^bf(\gamma(t))|\gamma^{\prime}(t)|\,dt$. They are integrals of the first
+construction: for an injective regular curve, $\int_\gamma f\,ds = \int_{\gamma([a,b])}f\,d\mathcal{H}^1$, the integral against one-dimensional Hausdorff measure on the image (Theorem~\ref{measure-theory:theorem-area-formula} and
+Example~\ref{measure-theory:example-area-formula}(1)), which depends only on the set.
+\item \emph{Areas and surface integrals} $\int_\Sigma f\,dA$: the integral against $\mathcal{H}^2$, or $\mathcal{H}^k$ for $k$-dimensional submanifolds, computed from a parametrisation by the area formula
+(Section~\ref{measure-theory:section-area-formula}); equivalently, the Riemannian measure of the induced metric (Propositions~\ref{riemannian-geometry:proposition-riemannian-measure}
+and~\ref{riemannian-geometry:proposition-hausdorff-measure}). The theorems of Pappus--Guldin are examples.
+\item \emph{Line integrals of the second kind} $\int_\gamma F \cdot d\gamma$ (Definition~\ref{real-analysis:definition-second-kind}): the integral of the $1$-form $F_1\,dx_1 + \cdots + F_n\,dx_n$ over the oriented
+curve (Definition~\ref{differential-forms:definition-line-integral}), an integral of the second construction. For a regular curve it is $\int_\gamma\langle F, T\rangle\,ds$, a first-kind integral of the tangential component
+(Proposition~\ref{real-analysis:proposition-second-kind}(3)): choosing the unit tangent $T$ is choosing an orientation.
+\item \emph{Complex line integrals} $\int_\gamma f\,dz$ (Definition~\ref{complex-analysis:definition-path-integral}): the integral of the complex-valued $1$-form $f\,dz$, which splits into two real line integrals of the
+second kind, $\int_\gamma(u\,dx - v\,dy) + i\int_\gamma(v\,dx + u\,dy)$ (Proposition~\ref{complex-analysis:proposition-path-integral-real}).
+\item \emph{Flux integrals and integrals of $k$-forms} over oriented submanifolds, $\int_M\omega$, with Stokes' theorem (Theorem~\ref{differential-forms:theorem-stokes}) and its classical cases, the theorems of Green, Gauss and
+Kelvin--Stokes (Chapter~\ref{riemannian-geometry}): the second construction.
+\item \emph{Integrals on Riemannian manifolds} $\int_Mf\,d\mu_g$, and on Lie groups against Haar measure (Theorem~\ref{lie-groups:theorem-haar}): the first construction, for the Riemannian measure and the Haar measure. On an
+oriented manifold, $\int_Mf\,d\mu_g = \int_Mf\,\mathrm{vol}_g$.
+\item \emph{Integration in cohomology}: $\int_M \colon H^n_{\mathrm{dR}}(M) \to \RR$ on a compact oriented manifold, periods of closed forms over cycles, and the integrals of characteristic forms that compute Chern
+numbers: the second construction applied to closed forms, which depends only on cohomology classes by Stokes' theorem (Chapters~\ref{de-rham} and~\ref{characteristic-classes}).
+\item \emph{Distributions and currents} (Chapter~\ref{distributions} and Section~\ref{de-rham:section-currents}) are not integrals but generalise them: a function $f$ gives the functional $\varphi \mapsto \int f\varphi$
+and a submanifold $Z$ the functional $\varphi \mapsto \int_Z\varphi$, and the theory keeps only the functional.
+\end{itemize}
+In short: if an integral ignores orientation, look for the measure; if it changes sign when the orientation is reversed, it is the integral of a form. The Lebesgue integral underlies both.
+
 \section{Sources and status}\label{introduction:section-sources}
 
 The mathematics in this project is standard, and each chapter lists the

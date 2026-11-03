@@ -125,6 +125,36 @@ Proposition~\ref{real-analysis:proposition-riemann}. If $f = F'$, then $(F \circ
 circle and $n \neq -1$, $(z - a)^n$ has the primitive $(z - a)^{n+1}/(n + 1)$; for $n = -1$ the integral is $\int_0^12\pi i\,dt$.
 \end{proof}
 
+In the definition, $f(\gamma(t))\gamma^{\prime}(t)$ is a complex-valued function of the real variable $t$, and its integral is taken separately on the real and the imaginary part
+(Definition~\ref{real-analysis:definition-riemann}): $\int_a^b(g + ih) = \int_a^bg + i\int_a^bh$. So a complex line integral is a pair of real line integrals, and the formal rule
+$f\,dz = (u + iv)(dx + i\,dy)$ says which ones.
+
+\begin{proposition}\label{complex-analysis:proposition-path-integral-real}
+Let $\gamma = x + iy$ be a path and $f = u + iv$ continuous on $\gamma^*$, with $x, y, u, v$ real. Then
+\[
+\int_\gamma f(z)\,dz = \int_\gamma(u\,dx - v\,dy) + i\int_\gamma(v\,dx + u\,dy),
+\]
+where the two integrals on the right are real line integrals of the second kind (Definition~\ref{real-analysis:definition-second-kind}) of the vector fields $(u, -v)$ and $(v, u)$ in $\RR^2 = \CC$. Moreover
+$\bigl|\int_\gamma f(z)\,dz\bigr| \leq \int_\gamma|f|\,ds$, where $\int_\gamma|f|\,ds = \int_a^b|f(\gamma(t))|\,|\gamma^{\prime}(t)|\,dt$ is a line integral of the first kind
+(Definition~\ref{real-analysis:definition-first-kind}), also written $\int_\gamma|f|\,|dz|$.
+\end{proposition}
+
+\begin{proof}
+On each $C^1$ piece, $f(\gamma(t))\gamma^{\prime}(t) = (u + iv)(x^{\prime} + iy^{\prime}) = (ux^{\prime} - vy^{\prime}) + i(vx^{\prime} + uy^{\prime})$, with $u$ and $v$ evaluated at $\gamma(t)$. The real part is
+$\langle(u, -v), (x^{\prime}, y^{\prime})\rangle$ and the imaginary part $\langle(v, u), (x^{\prime}, y^{\prime})\rangle$, and integrating them gives the two line integrals. The estimate is the norm inequality
+$|\int g| \leq \int|g|$ of Proposition~\ref{real-analysis:proposition-riemann}(3), since $|f(\gamma(t))\gamma^{\prime}(t)| = |f(\gamma(t))|\,|\gamma^{\prime}(t)|$.
+\end{proof}
+
+For instance, for $f(z) = \bar z = x - iy$ the two real fields are $(x, y)$ and $(-y, x)$. The first is the gradient of $\frac12(x^2 + y^2)$, so its integral over a closed path vanishes; the second is the rotation field,
+whose integral over the unit circle is $2\pi$ (Example~\ref{real-analysis:example-second-kind}(1)). This gives $\int_\gamma\bar z\,dz = 0 + 2\pi i$, as in Example~\ref{complex-analysis:example-path-integrals}(1) below.
+
+\begin{remark}\label{complex-analysis:remark-cauchy-green}
+The two real forms are closed exactly when $f$ satisfies the Cauchy--Riemann equations: for $u, v$ of class $C^1$, $d(u\,dx - v\,dy) = -(u_y + v_x)\,dx \wedge dy$ and $d(v\,dx + u\,dy) = (u_x - v_y)\,dx \wedge dy$
+(Proposition~\ref{complex-analysis:proposition-cauchy-riemann}). So, if $f$ is holomorphic with continuous derivative and $\gamma$ bounds a region $D$ in its domain, Green's theorem (Chapter~\ref{riemannian-geometry})
+gives $\int_\gamma f\,dz = \iint_D0 = 0$: this is Cauchy's original proof of his theorem. The proof below, through Goursat's theorem, does not assume that $f^{\prime}$ is continuous, and does not need Green's
+theorem. In the language of Chapter~\ref{differential-forms}, $f\,dz$ is a complex-valued $1$-form, and $d(f\,dz) = \frac{\partial f}{\partial\bar z}\,d\bar z \wedge dz$, which vanishes for holomorphic $f$.
+\end{remark}
+
 \begin{example}\label{complex-analysis:example-path-integrals}
 \begin{enumerate}
 \item \emph{A function without primitive.} Let $\gamma(t) = e^{2\pi it}$, $t \in [0, 1]$, be the unit circle. On it $\bar z = e^{-2\pi it}$ and $\gamma^{\prime}(t) = 2\pi ie^{2\pi it}$, so
