@@ -6,7 +6,7 @@
 This chapter develops calculus in one and several real variables with complete proofs, starting slowly from limits of sequences and of functions: the sequential characterisation of limits,
 continuous functions and the theorems of Bolzano, Weierstrass and Heine--Cantor, the mean value theorems, de l'H\^opital's rule, Taylor's formula and convexity;
 then series and power series, the exponential
-and trigonometric functions (including a definition of $\pi$), the Riemann integral, uniform convergence of sequences of functions (with a continuous nowhere differentiable function), derivatives of maps between Euclidean spaces,
+and trigonometric functions (including a definition of $\pi$), the Riemann integral, uniform convergence of sequences of functions (with a continuous nowhere differentiable function), derivatives of maps between Euclidean spaces, curves, their length and the line integrals of the first and second kind,
 the inverse and implicit function theorems, extrema in several variables with Lagrange multipliers and the Karush--Kuhn--Tucker conditions of optimisation, ordinary differential equations, and the approximation and compactness theorems of
 Stone--Weierstrass and Arzel\`a--Ascoli. The topological background (metric spaces, compactness, completeness, uniform convergence,
 the Banach fixed point theorem) is in Chapter~\ref{general-topology}. References: \cite{rudin-principles}, \cite{dieudonne-foundations},
@@ -16,7 +16,7 @@ the Banach fixed point theorem) is in Chapter~\ref{general-topology}. References
 Chapter~\ref{linear-algebra} (Linear Algebra); Theorem~\ref{real-analysis:theorem-pi} also uses Chapter~\ref{homotopy} (Homotopy and Covering Spaces).
 
 \noindent\textbf{On the way to the Hodge conjecture.} Needed: limits, continuity, series, differentiation, the exponential function, the Riemann integral, sequences of functions, derivatives in
-several variables and the inverse and implicit function theorems; ordinary differential equations (Section~\ref{real-analysis:section-ode}) give the flows of vector fields. Extrema and Lagrange multipliers
+several variables and the inverse and implicit function theorems; the length of curves and line integrals (Section~\ref{real-analysis:section-curves}) are used for paths and periods; ordinary differential equations (Section~\ref{real-analysis:section-ode}) give the flows of vector fields. Extrema and Lagrange multipliers
 (Section~\ref{real-analysis:section-extrema}) and the Stone--Weierstrass and Arzel\`a--Ascoli theorems (Section~\ref{real-analysis:section-approximation}) can be postponed.
 
 Throughout, $\mathbb{K}$ is $\RR$ or $\CC$, and $\RR^n$ and $\CC^n$ carry the Euclidean norm unless otherwise stated.
@@ -1330,6 +1330,261 @@ For $0 < r < R$ there is a smooth function $\RR^n \to [0, 1]$ equal to $1$ on th
 Take $x \mapsto 1 - \gamma((\|x\|^2 - r^2)/(R^2 - r^2))$ with $\gamma$ as in Lemma~\ref{real-analysis:lemma-bump}; it is smooth by the chain rule, since $\|x\|^2$ is a polynomial.
 \end{proof}
 
+\section{Curves, arc length and line integrals}\label{real-analysis:section-curves}
+
+A curve in $\RR^n$ can be studied through a parametrisation, a map $t \mapsto \gamma(t)$, but many of the quantities we care about belong to the path traced out and not to the particular way of running
+along it: its length, the mass of a wire bent along it, the work done by a force field along it. This section defines these quantities, computes them by integrals, and checks that they do not
+depend on the parametrisation. Two kinds of integrals appear. The integral of a function with respect to arc length, $\int_\gamma f\,ds$, does not see the direction of travel; the integral of a vector
+field, $\int_\gamma F \cdot d\gamma$, does, and changes sign when the curve is run backwards. Traditionally they are called line integrals of the first and of the second kind. The first is the special case
+$f = 1$ of a mass, the second the special case of a $1$-form; both reappear on manifolds (Chapters~\ref{differential-forms} and~\ref{riemannian-geometry}). Throughout, $|x|$ is the Euclidean norm on $\RR^n$ and
+$\langle x, y\rangle = x \cdot y$ the standard inner product.
+
+\subsection{Curves and their length}\label{real-analysis:subsection-curve-length}
+
+\begin{definition}\label{real-analysis:definition-curve}
+A \emph{curve} in $\RR^n$ is a continuous map $\gamma \colon [a, b] \to \RR^n$, with $a < b$; $\gamma(a)$ and $\gamma(b)$ are its \emph{initial} and \emph{final points}, and it is \emph{closed} if they agree. It is of
+class $C^1$ if it is differentiable with continuous derivative $\gamma^{\prime} = (\gamma_1^{\prime}, \ldots, \gamma_n^{\prime})$, one-sided at the ends, and \emph{piecewise $C^1$} if there is a subdivision
+$a = c_0 < c_1 < \cdots < c_m = b$ such that each restriction $\gamma|_{[c_{k-1}, c_k]}$ is $C^1$. A $C^1$ curve is \emph{regular} if $\gamma^{\prime}(t) \neq 0$ for all $t$; then $\gamma^{\prime}(t)$ is its
+\emph{velocity} or tangent vector at $t$ and $|\gamma^{\prime}(t)|$ its \emph{speed}.
+\end{definition}
+
+A \emph{reparametrisation} of $\gamma$ is $\gamma \circ \varphi$, where $\varphi \colon [c, d] \to [a, b]$ is a continuous bijection. Such a $\varphi$ is strictly monotone; it \emph{preserves the orientation} if
+it is increasing, so that $\gamma \circ \varphi$ runs from $\gamma(a)$ to $\gamma(b)$, and \emph{reverses} it if it is decreasing. The \emph{reverse} of $\gamma$ is $\gamma^-(t) = \gamma(a + b - t)$. For
+$C^1$ curves we use $C^1$ reparametrisations with $\varphi^{\prime}$ nowhere zero; by the chain rule $(\gamma \circ \varphi)^{\prime}(s) = \varphi^{\prime}(s)\,\gamma^{\prime}(\varphi(s))$, so the velocity is
+rescaled but keeps its direction (up to sign). For instance $\gamma(t) = (\cos t, \sin t)$, $t \in [0, 2\pi]$, and $\tilde\gamma(s) = (\cos 2\pi s^2, \sin 2\pi s^2)$, $s \in [0, 1]$, run once around the unit circle at
+different speeds, and $\gamma^-$ runs around it clockwise.
+
+How long is a curve? The ancient answer, used by Archimedes for the circle, is to approximate it by inscribed polygons. A polygon through points of the curve is shorter than the curve, because the
+segment is the shortest path between two points, and refining the polygon can only make it longer, by the triangle inequality. So the length should be the supremum of the lengths of the inscribed
+polygons.
+
+\begin{definition}\label{real-analysis:definition-length}
+For a curve $\gamma \colon [a, b] \to \RR^n$ and a partition $P \colon a = t_0 < t_1 < \cdots < t_k = b$, let $\ell(\gamma, P) = \sum_{i=1}^k|\gamma(t_i) - \gamma(t_{i-1})|$ be the length of the inscribed polygon. The
+\emph{length} of $\gamma$ is
+\[
+L(\gamma) = \sup_P\ell(\gamma, P) \in [0, \infty],
+\]
+and $\gamma$ is \emph{rectifiable} if $L(\gamma) < \infty$.
+\end{definition}
+
+\begin{lemma}\label{real-analysis:lemma-length-basic}
+Let $\gamma \colon [a, b] \to \RR^n$ be a curve.
+\begin{enumerate}
+\item If $P^{\prime}$ refines $P$, then $\ell(\gamma, P) \leq \ell(\gamma, P^{\prime})$, and $|\gamma(b) - \gamma(a)| \leq L(\gamma)$.
+\item (\emph{Additivity}) For $a < c < b$, $L(\gamma) = L(\gamma|_{[a, c]}) + L(\gamma|_{[c, b]})$.
+\item (\emph{Invariance}) $L(\gamma \circ \varphi) = L(\gamma)$ for every reparametrisation, of either orientation; in particular $L(\gamma^-) = L(\gamma)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Adding a point $s$ between $t_{i-1}$ and $t_i$ replaces $|\gamma(t_i) - \gamma(t_{i-1})|$ by $|\gamma(s) - \gamma(t_{i-1})| + |\gamma(t_i) - \gamma(s)|$, which is at least as large by the triangle inequality;
+refining adds finitely many points. The trivial partition gives $|\gamma(b) - \gamma(a)| = \ell(\gamma, \{a, b\}) \leq L(\gamma)$.
+
+(2) A partition of $[a, c]$ and one of $[c, b]$ together form a partition of $[a, b]$, so $L(\gamma|_{[a, c]}) + L(\gamma|_{[c, b]}) \leq L(\gamma)$, taking suprema over the two partitions separately.
+Conversely, for a partition $P$ of $[a, b]$ let $P^{\prime} = P \cup \{c\}$; then by (1) $\ell(\gamma, P) \leq \ell(\gamma, P^{\prime})$, and $\ell(\gamma, P^{\prime})$ is the sum of the polygon lengths of the two restrictions,
+which is at most $L(\gamma|_{[a, c]}) + L(\gamma|_{[c, b]})$.
+
+(3) A strictly monotone bijection $\varphi \colon [c, d] \to [a, b]$ maps partitions of $[c, d]$ bijectively to partitions of $[a, b]$ (reversing their order if $\varphi$ decreases), and the inscribed polygons of
+$\gamma \circ \varphi$ and of $\gamma$ for corresponding partitions have the same vertices, hence the same length.
+\end{proof}
+
+For a $C^1$ curve the supremum is an integral: the length is the integral of the speed, as the distance travelled by a car is the integral of the reading of its speedometer.
+
+\begin{theorem}[Length of a $C^1$ curve]\label{real-analysis:theorem-length-integral}
+Every piecewise $C^1$ curve is rectifiable, and
+\[
+L(\gamma) = \int_a^b|\gamma^{\prime}(t)|\,dt,
+\]
+the integral being the sum of the integrals over the pieces where $\gamma$ is $C^1$.
+\end{theorem}
+
+\begin{proof}
+By the additivity of Lemma~\ref{real-analysis:lemma-length-basic}(2) and of the integral, it suffices to treat a $C^1$ curve. The function $|\gamma^{\prime}|$ is continuous, hence integrable. For any partition, the
+fundamental theorem of calculus (Theorem~\ref{real-analysis:theorem-ftc}) and the norm inequality of Proposition~\ref{real-analysis:proposition-riemann}(3) give
+\[
+|\gamma(t_i) - \gamma(t_{i-1})| = \Bigl|\int_{t_{i-1}}^{t_i}\gamma^{\prime}(t)\,dt\Bigr| \leq \int_{t_{i-1}}^{t_i}|\gamma^{\prime}(t)|\,dt,
+\]
+and summing, $\ell(\gamma, P) \leq \int_a^b|\gamma^{\prime}|$. So $L(\gamma) \leq \int_a^b|\gamma^{\prime}|$.
+
+For the converse inequality let $\varepsilon > 0$. Since $\gamma^{\prime}$ is uniformly continuous on $[a, b]$ (Corollary~\ref{general-topology:corollary-uniform-continuity}), there is $\delta > 0$ with
+$|\gamma^{\prime}(s) - \gamma^{\prime}(t)| < \varepsilon$ whenever $|s - t| < \delta$. Take a partition with $t_i - t_{i-1} < \delta$ for all $i$, and write $\Delta_i = t_i - t_{i-1}$. On $[t_{i-1}, t_i]$,
+\[
+\gamma(t_i) - \gamma(t_{i-1}) = \int_{t_{i-1}}^{t_i}\gamma^{\prime}(t)\,dt = \Delta_i\,\gamma^{\prime}(t_i) + \int_{t_{i-1}}^{t_i}\bigl(\gamma^{\prime}(t) - \gamma^{\prime}(t_i)\bigr)\,dt,
+\]
+and the last integral has norm at most $\varepsilon\Delta_i$. Hence $|\gamma(t_i) - \gamma(t_{i-1})| \geq \Delta_i|\gamma^{\prime}(t_i)| - \varepsilon\Delta_i$. On the other hand $|\gamma^{\prime}(t)| \leq |\gamma^{\prime}(t_i)| + \varepsilon$
+on the interval, so $\int_{t_{i-1}}^{t_i}|\gamma^{\prime}| \leq \Delta_i|\gamma^{\prime}(t_i)| + \varepsilon\Delta_i$. Combining and summing over $i$,
+\[
+L(\gamma) \geq \ell(\gamma, P) \geq \int_a^b|\gamma^{\prime}(t)|\,dt - 2\varepsilon(b - a).
+\]
+As $\varepsilon$ is arbitrary, $L(\gamma) \geq \int_a^b|\gamma^{\prime}|$.
+\end{proof}
+
+In coordinates, $L(\gamma) = \int_a^b\sqrt{\gamma_1^{\prime}(t)^2 + \cdots + \gamma_n^{\prime}(t)^2}\,dt$. That this integral does not depend on the parametrisation, which is clear for the definition by polygons, can
+also be seen by the substitution rule: for $\varphi$ increasing, $\int_c^d|\gamma^{\prime}(\varphi(s))|\,\varphi^{\prime}(s)\,ds = \int_a^b|\gamma^{\prime}(t)|\,dt$ (Corollary~\ref{real-analysis:corollary-integration-rules}), and for
+$\varphi$ decreasing the absolute value $|\varphi^{\prime}| = -\varphi^{\prime}$ compensates the reversal of the limits.
+
+\begin{example}\label{real-analysis:example-lengths}
+\begin{enumerate}
+\item \emph{Circles.} For $\gamma(t) = (r\cos t, r\sin t)$, $t \in [0, 2\pi]$, $\gamma^{\prime}(t) = (-r\sin t, r\cos t)$ has norm $r$, so $L(\gamma) = 2\pi r$. With the definition of $\pi$ in
+Theorem~\ref{real-analysis:theorem-pi}, this is the theorem that the circumference of a circle is $2\pi$ times its radius.
+\item \emph{Graphs.} The graph of a $C^1$ function $f \colon [a, b] \to \RR$, parametrised by $\gamma(x) = (x, f(x))$, has length $\int_a^b\sqrt{1 + f^{\prime}(x)^2}\,dx$. For a line $f(x) = mx$ this is
+$(b - a)\sqrt{1 + m^2}$, the length of the segment, by Pythagoras.
+\item \emph{The helix.} $\gamma(t) = (r\cos t, r\sin t, ct)$ has constant speed $\sqrt{r^2 + c^2}$, so one turn has length $2\pi\sqrt{r^2 + c^2}$: unrolling the cylinder of radius $r$ into a plane turns the helix
+into the diagonal of a rectangle with sides $2\pi r$ and $2\pi c$.
+\item \emph{The cycloid.} A point on a rolling wheel of radius $1$ traces $\gamma(t) = (t - \sin t, 1 - \cos t)$. Here $|\gamma^{\prime}(t)|^2 = (1 - \cos t)^2 + \sin^2t = 2 - 2\cos t = 4\sin^2(t/2)$, so one arch has length
+$\int_0^{2\pi}2\sin(t/2)\,dt = 8$, four times the diameter of the wheel (Wren, 1658). The curve is not regular: the speed vanishes at $t = 0$ and $t = 2\pi$, where the cycloid has cusps.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{real-analysis:remark-elliptic-integrals}
+The length of an ellipse $(a\cos t, b\sin t)$ with $0 < b < a$ is $\int_0^{2\pi}\sqrt{a^2\sin^2t + b^2\cos^2t}\,dt = 4a\int_0^{\pi/2}\sqrt{1 - e^2\cos^2t}\,dt$, with eccentricity $e = \sqrt{1 - b^2/a^2}$. Unlike
+the circle, this integral cannot be expressed by elementary functions. It is an \emph{elliptic integral}, and the attempt to understand such integrals, by Euler, Legendre, Abel and Jacobi, led to elliptic
+functions and to elliptic curves: inverting the integral gives doubly periodic functions, and the natural domain of the integrand is a curve of genus one (Chapter~\ref{curves}).
+\end{remark}
+
+Continuity alone does not give a finite length.
+
+\begin{counterexample}\label{real-analysis:counterexample-non-rectifiable}
+Let $f(x) = x\cos(\pi/x)$ for $0 < x \leq 1$ and $f(0) = 0$; it is continuous, since $|f(x)| \leq x$, and $C^1$ on $(0, 1]$. At $x_m = 1/m$, $f(x_m) = (-1)^m/m$. Take the partition of $[0, 1]$ by $0$ and
+the points $x_m$, $m \leq N$; consecutive values have opposite signs, so the inscribed polygon of the graph $\gamma(x) = (x, f(x))$ has length at least
+\[
+\sum_{m=1}^{N-1}|f(x_m) - f(x_{m+1})| = \sum_{m=1}^{N-1}\Bigl(\frac1m + \frac{1}{m+1}\Bigr) \geq \sum_{m=1}^{N-1}\frac1m,
+\]
+which tends to $\infty$ with $N$ (Proposition~\ref{real-analysis:proposition-series-tests}(1)). So $\gamma$ is a continuous curve of infinite length: it oscillates too much near $0$. Worse examples exist: the Koch snowflake
+curve has infinite length between any two of its points, and the space-filling curves of Chapter~\ref{general-topology} fill a square.
+\end{counterexample}
+
+For a regular curve the length can be used as a parameter. This removes the arbitrariness of the parametrisation and is the starting point of the differential geometry of curves.
+
+\begin{proposition}[Arc length parametrisation]\label{real-analysis:proposition-arc-length}
+Let $\gamma \colon [a, b] \to \RR^n$ be a regular $C^1$ curve of length $L$, and $\sigma(t) = \int_a^t|\gamma^{\prime}(u)|\,du$ the length of $\gamma|_{[a, t]}$. Then $\sigma \colon [a, b] \to [0, L]$ is a $C^1$ bijection with
+$\sigma^{\prime} = |\gamma^{\prime}| > 0$, its inverse is $C^1$, and $\tilde\gamma = \gamma \circ \sigma^{-1} \colon [0, L] \to \RR^n$ has $|\tilde\gamma^{\prime}(s)| = 1$ for all $s$. It is the unique orientation-preserving
+reparametrisation of $\gamma$ with unit speed.
+\end{proposition}
+
+\begin{proof}
+By the fundamental theorem of calculus $\sigma$ is $C^1$ with $\sigma^{\prime}(t) = |\gamma^{\prime}(t)| > 0$, so it is strictly increasing, with $\sigma(a) = 0$ and $\sigma(b) = L$ by Theorem~\ref{real-analysis:theorem-length-integral}.
+By Proposition~\ref{real-analysis:proposition-inverse-one} its inverse is differentiable with $(\sigma^{-1})^{\prime}(s) = 1/|\gamma^{\prime}(\sigma^{-1}(s))|$, which is continuous. By the chain rule
+$|\tilde\gamma^{\prime}(s)| = |\gamma^{\prime}(\sigma^{-1}(s))|\,(\sigma^{-1})^{\prime}(s) = 1$. If $\gamma \circ \varphi$ is another orientation-preserving $C^1$ reparametrisation with unit speed, defined on $[c, d]$, then
+$1 = |\gamma^{\prime}(\varphi(u))|\varphi^{\prime}(u) = (\sigma \circ \varphi)^{\prime}(u)$, so $\sigma(\varphi(u)) = u - c$, and $\gamma \circ \varphi$ is $\tilde\gamma$ up to the translation $u \mapsto u - c$ of the parameter.
+\end{proof}
+
+The parameter $s$ of $\tilde\gamma$ is the \emph{arc length}, and one writes $ds = |\gamma^{\prime}(t)|\,dt$ for the \emph{element of arc length}: it is the length of the piece of curve swept out between $t$ and
+$t + dt$, to first order.
+
+\subsection{Line integrals of the first kind}\label{real-analysis:subsection-first-kind}
+
+Imagine a wire bent along a curve, with a linear density of mass $f$, in grams per centimetre. Its mass is obtained by cutting it into short pieces, multiplying the density at a point of each piece by the
+length of the piece, and adding up; in the limit this is an integral with respect to arc length.
+
+\begin{definition}\label{real-analysis:definition-first-kind}
+Let $\gamma \colon [a, b] \to \RR^n$ be a piecewise $C^1$ curve and $f$ a continuous real function on its image $\gamma([a, b])$. The \emph{line integral of $f$ with respect to arc length}, or \emph{of the
+first kind}, is
+\[
+\int_\gamma f\,ds = \int_a^bf(\gamma(t))\,|\gamma^{\prime}(t)|\,dt,
+\]
+the sum of the integrals over the pieces where $\gamma$ is $C^1$.
+\end{definition}
+
+\begin{proposition}\label{real-analysis:proposition-first-kind}
+Let $\gamma$ and $f$ be as in the definition.
+\begin{enumerate}
+\item $\int_\gamma1\,ds = L(\gamma)$.
+\item The integral is linear in $f$, monotone ($f \leq g$ implies $\int_\gamma f\,ds \leq \int_\gamma g\,ds$), and $\bigl|\int_\gamma f\,ds\bigr| \leq \sup|f|\cdot L(\gamma)$.
+\item It is unchanged under every $C^1$ reparametrisation $\gamma \circ \varphi$ with $\varphi^{\prime}$ nowhere zero, of either orientation; in particular $\int_{\gamma^-}f\,ds = \int_\gamma f\,ds$.
+\item It is additive: if $\gamma$ is the concatenation of $\gamma|_{[a, c]}$ and $\gamma|_{[c, b]}$, the integral is the sum of the two integrals.
+\item (\emph{Riemann sums}) $\sum_if(\gamma(t_i))\,|\gamma(t_i) - \gamma(t_{i-1})| \to \int_\gamma f\,ds$ as the mesh $\max_i(t_i - t_{i-1})$ of the partition tends to $0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is Theorem~\ref{real-analysis:theorem-length-integral}, and (2) and (4) follow from the corresponding properties of the integral (Proposition~\ref{real-analysis:proposition-riemann}). (3) For each $C^1$ piece
+and $\varphi$ increasing, the substitution rule (Corollary~\ref{real-analysis:corollary-integration-rules}) gives
+$\int_c^df(\gamma(\varphi(u)))|\gamma^{\prime}(\varphi(u))|\varphi^{\prime}(u)\,du = \int_a^bf(\gamma(t))|\gamma^{\prime}(t)|\,dt$, and $|(\gamma \circ \varphi)^{\prime}| = |\gamma^{\prime} \circ \varphi|\,\varphi^{\prime}$. For $\varphi$ decreasing,
+$|(\gamma \circ \varphi)^{\prime}| = -|\gamma^{\prime} \circ \varphi|\,\varphi^{\prime}$, and the substitution reverses the limits, so the two signs cancel.
+
+(5) It suffices to treat a $C^1$ curve. The proof of Theorem~\ref{real-analysis:theorem-length-integral} shows that for partitions of mesh $< \delta$,
+$\bigl||\gamma(t_i) - \gamma(t_{i-1})| - \int_{t_{i-1}}^{t_i}|\gamma^{\prime}|\bigr| \leq 2\varepsilon\Delta_i$. Also $f \circ \gamma$ is uniformly continuous, so for small mesh it varies by less than $\varepsilon$
+on each interval. Hence the Riemann sum differs from $\sum_i\int_{t_{i-1}}^{t_i}f(\gamma(t))|\gamma^{\prime}(t)|\,dt = \int_\gamma f\,ds$ by at most $\sup|f| \cdot 2\varepsilon(b - a) + \varepsilon L(\gamma)$.
+\end{proof}
+
+By (3), the integral of the first kind depends only on the curve traced out, not on the direction or the speed of travel, as the mass of a wire should. The \emph{centre of mass} of a wire of density
+$f > 0$ is the point with coordinates $\bar x_j = \int_\gamma x_jf\,ds / \int_\gamma f\,ds$.
+
+\begin{example}\label{real-analysis:example-first-kind}
+\begin{enumerate}
+\item The upper half of the circle of radius $r$, $\gamma(t) = (r\cos t, r\sin t)$, $t \in [0, \pi]$, with constant density $1$, has mass $\pi r$ and
+$\int_\gamma y\,ds = \int_0^\pi r\sin t \cdot r\,dt = 2r^2$. So its centre of mass is $(0, 2r/\pi)$, inside the half disc and not on the wire.
+\item For the helix of Example~\ref{real-analysis:example-lengths}(3) over one turn, $\int_\gamma z\,ds = \int_0^{2\pi}ct\sqrt{r^2 + c^2}\,dt = 2\pi^2c\sqrt{r^2 + c^2}$, and the centre of mass is at height $\pi c$, half way up, as symmetry
+suggests.
+\end{enumerate}
+\end{example}
+
+\subsection{Line integrals of the second kind}\label{real-analysis:subsection-second-kind}
+
+Now let a force field $F$ act on a particle moving along a curve. The work done by the force on a short displacement $\Delta x$ is $F \cdot \Delta x$: only the component of the force along the
+displacement counts. Adding up along the curve gives an integral that depends on the direction of travel: going backwards, every displacement changes sign.
+
+\begin{definition}\label{real-analysis:definition-second-kind}
+Let $\gamma \colon [a, b] \to \RR^n$ be a piecewise $C^1$ curve and $F = (F_1, \ldots, F_n)$ a continuous vector field on its image. The \emph{line integral of $F$ along $\gamma$}, or \emph{of the second kind},
+is
+\[
+\int_\gamma F \cdot d\gamma = \int_a^b\bigl\langle F(\gamma(t)), \gamma^{\prime}(t)\bigr\rangle\,dt = \int_a^b\sum_{j=1}^nF_j(\gamma(t))\,\gamma_j^{\prime}(t)\,dt,
+\]
+also written $\int_\gamma F_1\,dx_1 + \cdots + F_n\,dx_n$; in the plane, $\int_\gamma P\,dx + Q\,dy$ for $F = (P, Q)$.
+\end{definition}
+
+The notation $F_1\,dx_1 + \cdots + F_n\,dx_n$ is a differential form (Chapter~\ref{differential-forms}): the rule is to substitute $x_j = \gamma_j(t)$ and $dx_j = \gamma_j^{\prime}(t)\,dt$.
+
+\begin{proposition}\label{real-analysis:proposition-second-kind}
+Let $\gamma$ and $F$ be as in the definition.
+\begin{enumerate}
+\item The integral is linear in $F$ and additive under concatenation.
+\item It is unchanged under orientation-preserving $C^1$ reparametrisations and changes sign under orientation-reversing ones: $\int_{\gamma^-}F \cdot d\gamma^- = -\int_\gamma F \cdot d\gamma$.
+\item If $\gamma$ is regular, with unit tangent $T = \gamma^{\prime}/|\gamma^{\prime}|$, then $\int_\gamma F \cdot d\gamma = \int_\gamma\langle F, T\rangle\,ds$: the integral of the second kind is the integral of the first kind of
+the tangential component of $F$.
+\item $\bigl|\int_\gamma F \cdot d\gamma\bigr| \leq \sup|F| \cdot L(\gamma)$.
+\item (\emph{Fundamental theorem for line integrals}) If $F = \nabla g$ is the gradient of a $C^1$ function $g$ on an open set containing the image of $\gamma$, then
+$\int_\gamma\nabla g \cdot d\gamma = g(\gamma(b)) - g(\gamma(a))$. In particular the integral over a closed curve is $0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) follows from the properties of the integral. (2) On a $C^1$ piece, with $(\gamma \circ \varphi)^{\prime}(u) = \varphi^{\prime}(u)\gamma^{\prime}(\varphi(u))$, the substitution rule gives
+$\int_c^d\langle F(\gamma(\varphi(u))), \gamma^{\prime}(\varphi(u))\rangle\varphi^{\prime}(u)\,du = \int_{\varphi(c)}^{\varphi(d)}\langle F(\gamma(t)), \gamma^{\prime}(t)\rangle\,dt$, which is the original integral if $\varphi$
+increases and its negative if $\varphi$ decreases. (3) $\langle F(\gamma(t)), \gamma^{\prime}(t)\rangle = \langle F(\gamma(t)), T(t)\rangle|\gamma^{\prime}(t)|$. (4) By Cauchy--Schwarz,
+$|\langle F(\gamma(t)), \gamma^{\prime}(t)\rangle| \leq \sup|F|\,|\gamma^{\prime}(t)|$; integrate and use Theorem~\ref{real-analysis:theorem-length-integral}. (5) On a $C^1$ piece, by the chain rule
+(Proposition~\ref{real-analysis:proposition-derivative-basic}), $(g \circ \gamma)^{\prime}(t) = \langle\nabla g(\gamma(t)), \gamma^{\prime}(t)\rangle$, so the integral is $\int(g \circ \gamma)^{\prime} = g(\gamma(c_k)) - g(\gamma(c_{k-1}))$ by
+Theorem~\ref{real-analysis:theorem-ftc}; the intermediate values cancel in the sum.
+\end{proof}
+
+A vector field that is a gradient, $F = \nabla g$, is called \emph{conservative}, and $-g$ (in physics) its \emph{potential}: the work done along a path depends only on its endpoints. Not every field
+is of this kind.
+
+\begin{example}\label{real-analysis:example-second-kind}
+\begin{enumerate}
+\item \emph{Rotation.} For $F(x, y) = (-y, x)$ and the circle $\gamma(t) = (r\cos t, r\sin t)$, $t \in [0, 2\pi]$, $\langle F(\gamma(t)), \gamma^{\prime}(t)\rangle = r^2\sin^2t + r^2\cos^2t = r^2$, so
+$\int_\gamma F \cdot d\gamma = 2\pi r^2$, twice the area enclosed; this is no accident (Green's theorem, Chapter~\ref{riemannian-geometry}). The integral over a closed curve is not $0$, so $F$ is not a gradient.
+\item \emph{Dependence on the path.} For $F(x, y) = (y, 0)$, that is $\int y\,dx$, from $(0, 0)$ to $(1, 1)$: along the segment $\gamma_1(t) = (t, t)$ the integral is $\int_0^1t\,dt = \frac12$; along the
+parabola $\gamma_2(t) = (t, t^2)$ it is $\int_0^1t^2\,dt = \frac13$; along the path that goes first to $(1, 0)$ and then up to $(1, 1)$ it is $0 + 0 = 0$, since $y = 0$ on the first piece and $dx = 0$ on
+the second.
+\item \emph{A gradient.} For $F = \nabla g$ with $g(x, y) = x^2y$, $F = (2xy, x^2)$, and every path from $(0, 0)$ to $(1, 1)$ gives $g(1, 1) - g(0, 0) = 1$. Along $\gamma_2$, for instance,
+$\int_0^1(2t \cdot t^2 + t^2 \cdot 2t)\,dt = \int_0^14t^3\,dt = 1$.
+\item \emph{The angle field.} $F(x, y) = (-y, x)/(x^2 + y^2)$ on $\RR^2 \setminus \{0\}$ has integral $2\pi$ around the unit circle, so it is not a gradient on $\RR^2 \setminus \{0\}$, although it is the gradient of
+the polar angle on every half-plane through the origin. This field, the $1$-form $(x\,dy - y\,dx)/(x^2 + y^2)$, is the simplest example of a closed form that is not exact, and the beginning of de Rham cohomology
+(Chapter~\ref{de-rham}).
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{real-analysis:remark-two-kinds}
+The two kinds of line integrals answer different questions and behave differently. The first kind integrates a \emph{density}, needs the Euclidean length to define $ds$, and ignores orientation; it
+generalises to integrals over curves in a Riemannian manifold (Chapter~\ref{riemannian-geometry}) and, in higher dimensions, to surface integrals $\int_\Sigma f\,dA$. The second kind integrates a
+\emph{$1$-form}, needs no metric at all, since $F_1\,dx_1 + \cdots + F_n\,dx_n$ is evaluated on velocity vectors, and depends on the orientation; it generalises to the integrals of $k$-forms over oriented
+$k$-dimensional submanifolds, and Stokes' theorem lives there (Chapter~\ref{differential-forms}). Complex line integrals $\int_\gamma f(z)\,dz = \int_a^bf(\gamma(t))\gamma^{\prime}(t)\,dt$ (Chapter~\ref{complex-analysis}) are of
+the second kind, with complex coefficients: $f\,dz = (u + iv)(dx + i\,dy)$. The relation $\int_\gamma F \cdot d\gamma = \int_\gamma\langle F, T\rangle\,ds$ shows that the second kind is a special case of the first, once a
+direction has been chosen; conversely $\int_\gamma f\,ds = \int_\gamma fT \cdot d\gamma$ for a regular curve. In Italian the two are the \emph{integrali curvilinei di prima e di seconda specie}.
+\end{remark}
+
 \section{The inverse and implicit function theorems}\label{real-analysis:section-inverse-function}
 
 \begin{lemma}\label{real-analysis:lemma-neumann}
@@ -2095,4 +2350,42 @@ $\sum_ix_i = 1$ determines $\lambda = \tau$: the function $t \mapsto \sum_i\max(
 $t \to -\infty$. Conversely, this $x$ with $\mu_i = \max(0, \tau - y_i)$ satisfies the conditions, so it is the unique minimum by Theorem~\ref{real-analysis:theorem-kkt-convex} (like the water-filling of
 Example~\ref{real-analysis:example-water-filling}, with the vessel upside down). For $y = (0.8, 0.6, -0.5)$, trying $x_3 = 0$: $(0.8 - \tau) + (0.6 - \tau) = 1$ gives $\tau = 0.2$, and indeed
 $-0.5 - 0.2 < 0$; so $x = (0.6, 0.4, 0)$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-astroid}
+Show that the astroid $\gamma(t) = (\cos^3t, \sin^3t)$, $t \in [0, 2\pi]$, has length $6$, and that it is not regular.
+\end{exercise}
+
+\begin{solution}
+$\gamma^{\prime}(t) = (-3\cos^2t\sin t, 3\sin^2t\cos t)$, so $|\gamma^{\prime}(t)| = 3|\sin t\cos t|\sqrt{\cos^2t + \sin^2t} = 3|\sin t\cos t|$, which vanishes at the multiples of $\pi/2$ (the four cusps). By symmetry
+$L(\gamma) = 4\int_0^{\pi/2}3\sin t\cos t\,dt = 4 \cdot \frac32\bigl[\sin^2t\bigr]_0^{\pi/2} = 6$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-catenary}
+Let $\cosh x = \frac12(e^x + e^{-x})$ and $\sinh x = \frac12(e^x - e^{-x})$. Show that the graph of $\cosh$ over $[0, a]$ has length $\sinh a$.
+\end{exercise}
+
+\begin{solution}
+$\cosh^{\prime} = \sinh$, $\sinh^{\prime} = \cosh$ and $\cosh^2 - \sinh^2 = 1$, so $\sqrt{1 + \sinh^2x} = \cosh x$ (which is positive), and $\int_0^a\cosh x\,dx = \sinh a$ by
+Example~\ref{real-analysis:example-lengths}(2) and the fundamental theorem of calculus.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-log-spiral}
+Let $\gamma(t) = e^{-t}(\cos t, \sin t)$ for $t \geq 0$. Show that $\gamma|_{[0, T]}$ has length $\sqrt2(1 - e^{-T})$. So the logarithmic spiral winds infinitely often around the origin but has finite total
+length $\sqrt2$.
+\end{exercise}
+
+\begin{solution}
+$\gamma^{\prime}(t) = e^{-t}(-\cos t - \sin t, \cos t - \sin t)$, and $|\gamma^{\prime}(t)|^2 = e^{-2t}\bigl((\cos t + \sin t)^2 + (\cos t - \sin t)^2\bigr) = 2e^{-2t}$. Hence
+$L = \int_0^T\sqrt2e^{-t}\,dt = \sqrt2(1 - e^{-T})$.
+\end{solution}
+
+\begin{exercise}\label{real-analysis:exercise-newton-work}
+Show that the Newtonian field $F(x) = -x/|x|^3$ on $\RR^3 \setminus \{0\}$ is the gradient of $g(x) = 1/|x|$, and compute the work $\int_\gamma F \cdot d\gamma$ along any piecewise $C^1$ curve in $\RR^3 \setminus \{0\}$
+from a point at distance $r_1$ from the origin to a point at distance $r_2$.
+\end{exercise}
+
+\begin{solution}
+$\partial_j|x|^{-1} = -\frac12(x_1^2 + x_2^2 + x_3^2)^{-3/2} \cdot 2x_j = -x_j/|x|^3$. By Proposition~\ref{real-analysis:proposition-second-kind}(5) the work is $g(\gamma(b)) - g(\gamma(a)) = 1/r_2 - 1/r_1$, whatever
+the path; it is positive when the particle falls towards the origin, $r_2 < r_1$.
 \end{solution}

@@ -12,7 +12,7 @@ the Gauss lemma, the fact that geodesics are locally the shortest curves, and th
 theorems of Ambrose--Singer, de Rham and Berger; Jacobi fields, conjugate points and the first comparison theorems; Cartan's method of moving frames, with which we compute the curvature of hyperbolic
 space, of conformally flat metrics and of hypersurfaces, and the Gauss--Bonnet--Chern theorem in Riemannian form; the first and second variation of energy, with Jacobi's theorem that
 geodesics stop minimising after a conjugate point, a complete proof of the Bonnet--Myers theorem, the theorems of Weinstein and Synge on manifolds of positive curvature, and the splitting theorem; the geometry of submanifolds, with the
-first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi; the classical global theorems on surfaces: Gauss--Bonnet for
+first and second fundamental forms, the Weingarten equations and the equations of Gauss and Codazzi, and practical formulas for the second fundamental form (level sets, distance functions and the Riccati equation, parallel hypersurfaces, the Gauss map); the classical global theorems on surfaces: Gauss--Bonnet for
 regions with boundary, the curvature of conformal metrics, and the theorems of Minding, Hadamard, Liebmann and Hilbert; minimal surfaces, with the first and second variation of area, the
 area-minimising property of minimal graphs and Bernstein's theorem; and isometries and Killing fields, with Bochner's theorem, the theorem of Killing
 and Hopf classifying the spaces of constant curvature, and the statements of Cheng's maximal diameter theorem and of the sphere theorem. References:
@@ -2096,6 +2096,169 @@ curvature means that the surface lies locally on one side of its tangent plane, 
 \end{enumerate}
 \end{example}
 
+\subsection{Computing the second fundamental form}\label{riemannian-geometry:subsection-computing-second-fundamental-form}
+
+Parametrisations, as in Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}, are only one way to compute the second fundamental form, and often not the most convenient. A hypersurface
+is frequently given as a level set $\{f = c\}$, or as a level set of a distance function, or one works with an orthonormal frame adapted to it. Each description comes with its own formula. Throughout,
+$\Sigma \subseteq \overline{M}$ is a hypersurface of a Riemannian manifold with unit normal $\nu$, and we keep the conventions of Remark~\ref{riemannian-geometry:remark-second-fundamental-form-notation}:
+\[
+h(v, w) = -\langle\overline{\nabla}_v\nu, w\rangle = \langle S v, w\rangle .
+\]
+Many papers instead write $\mathrm{II}(v, w) = \langle\overline{\nabla}_v\nu, w\rangle$, which is $-h$; with that convention all the formulas below change sign, and the Gauss--Kronecker curvature changes by
+$(-1)^n$, $n = \dim\Sigma$.
+
+\paragraph{Level sets.} Let $f$ be a smooth function on $\overline{M}$, $c$ a regular value, and $\Sigma = f^{-1}(c)$, a hypersurface by the regular value theorem
+(Theorem~\ref{smooth-manifolds:theorem-regular-value}), with tangent spaces $T_p\Sigma = \ker d_pf$. By Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(2), $\nu = \operatorname{grad}f/|\operatorname{grad}f|$ is a
+unit normal field along $\Sigma$, defined in fact on the open set where $df \neq 0$.
+
+\begin{proposition}[Second fundamental form of a level set]\label{riemannian-geometry:proposition-level-set-second-fundamental-form}
+With $\nu = \operatorname{grad}f/|\operatorname{grad}f|$, for $v, w \in T_p\Sigma$,
+\[
+h(v, w) = -\frac{\operatorname{Hess}f(v, w)}{|\operatorname{grad}f|} .
+\]
+Consequently $n H = -\bigl(\Delta_gf - \operatorname{Hess}f(\nu, \nu)\bigr)/|\operatorname{grad}f|$. If $\overline{M} = \RR^{n+1}$, the Gauss--Kronecker curvature is
+\[
+\det S = (-1)^n\frac{\det\bigl(\operatorname{Hess}f|_{T_p\Sigma}\bigr)}{|\nabla f|^n} = (-1)^{n+1}\frac{1}{|\nabla f|^{n+2}}\det\begin{pmatrix}\operatorname{Hess}f & \nabla f\\ (\nabla f)^T & 0\end{pmatrix},
+\]
+where $\operatorname{Hess}f = (\partial_i\partial_jf)$ is the $(n+1) \times (n+1)$ matrix of second derivatives and $\nabla f$ the column of first derivatives. For a surface in $\RR^3$, $K = -\det\begin{pmatrix}\operatorname{Hess}f & \nabla f\\ (\nabla f)^T & 0\end{pmatrix}/|\nabla f|^4$.
+\end{proposition}
+
+\begin{proof}
+Write $G = \operatorname{grad}f$. On the open set where $G \neq 0$, $\nu = |G|^{-1}G$, and the Leibniz rule gives $\overline{\nabla}_v\nu = |G|^{-1}\overline{\nabla}_vG + v(|G|^{-1})\,G$. The second term is a
+multiple of $G$, hence orthogonal to $w \in T_p\Sigma$. So, by Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(3),
+$h(v, w) = -\langle\overline{\nabla}_v\nu, w\rangle = -|G|^{-1}\langle\overline{\nabla}_vG, w\rangle = -|G|^{-1}\operatorname{Hess}f(v, w)$. Taking the trace over an orthonormal basis $e_1, \ldots, e_n$ of $T_p\Sigma$,
+completed by $e_{n+1} = \nu$ to an orthonormal basis of $T_p\overline{M}$, gives $nH = \operatorname{tr}S = -|G|^{-1}\sum_{i \leq n}\operatorname{Hess}f(e_i, e_i)$, and
+$\sum_{i \leq n}\operatorname{Hess}f(e_i, e_i) = \Delta_gf - \operatorname{Hess}f(\nu, \nu)$.
+
+Now let $\overline{M} = \RR^{n+1}$, where $\operatorname{Hess}f$ is the matrix of second derivatives and $G = \nabla f$. In the orthonormal basis $(e_i)$ of $T_p\Sigma$ the matrix of $S$ is that of $h$, which is
+$-|\nabla f|^{-1}$ times the matrix $A^{\prime}$ of $\operatorname{Hess}f|_{T_p\Sigma}$; so $\det S = (-1)^n\det A^{\prime}/|\nabla f|^n$. For the bordered determinant, let $Q$ be the orthogonal matrix with
+columns $e_1, \ldots, e_{n+1}$. Conjugating the bordered matrix $B$ by $\operatorname{diag}(Q, 1)$, which does not change its determinant, replaces $\operatorname{Hess}f$ by $A = Q^T(\operatorname{Hess}f)Q$, whose upper left
+$n \times n$ block is $A^{\prime}$, and $\nabla f$ by $Q^T\nabla f = |\nabla f|\,e_{n+1}$. In the resulting matrix the last row and the last column have a single nonzero entry $|\nabla f|$, in position
+$n + 1$. Expanding along the last row and then along the last column gives $\det B = -|\nabla f|^2\det A^{\prime}$. Hence $\det A^{\prime} = -\det B/|\nabla f|^2$, which gives the formula. For $n = 2$, $\det S$
+is the Gauss curvature $K$ (Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}).
+\end{proof}
+
+\begin{example}\label{riemannian-geometry:example-level-sets}
+\begin{enumerate}
+\item \emph{Spheres.} For $f(x) = |x|^2$ on $\RR^{n+1}$, $\nabla f = 2x$ and $\operatorname{Hess}f = 2I$, so on the sphere of radius $r$, with the outward normal, $h = -\frac{2}{2r}g = -\frac1rg$, as in
+Example~\ref{riemannian-geometry:example-surfaces}(1), and $nH = -(2(n+1) - 2)/2r$, that is, $H = -1/r$.
+\item \emph{Ellipsoids.} For $f = x^2/a^2 + y^2/b^2 + z^2/c^2$, $\operatorname{Hess}f = \operatorname{diag}(2/a^2, 2/b^2, 2/c^2)$ and $\nabla f = (2x/a^2, 2y/b^2, 2z/c^2)$. For a diagonal matrix
+$D = \operatorname{diag}(d_1, d_2, d_3)$ and a vector $u$, expanding the bordered determinant gives $\det\bigl(\begin{smallmatrix}D & u\\ u^T & 0\end{smallmatrix}\bigr) = -(u_1^2d_2d_3 + u_2^2d_1d_3 + u_3^2d_1d_2)$. Here this is
+$-\frac{16}{a^2b^2c^2}\bigl(\frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2}\bigr) = -\frac{16}{a^2b^2c^2}$ on the ellipsoid $f = 1$, and $|\nabla f|^4 = 16\bigl(\frac{x^2}{a^4} + \frac{y^2}{b^4} + \frac{z^2}{c^4}\bigr)^2$. So
+\[
+K = \frac{1}{a^2b^2c^2}\Bigl(\frac{x^2}{a^4} + \frac{y^2}{b^4} + \frac{z^2}{c^4}\Bigr)^{-2} .
+\]
+At the end $(a, 0, 0)$ of the first axis this is $a^2/(b^2c^2)$: for $a$ large and $b = c$ the ellipsoid is a long cigar, sharply curved at its tips.
+\end{enumerate}
+\end{example}
+
+\paragraph{Distance functions.} The formula simplifies when $|\operatorname{grad}f| = 1$. This happens for the distance $r(x) = |x|$ to the origin in $\RR^{n+1} \setminus \{0\}$, and more generally, on suitable open
+sets, for the distance to a point in a Riemannian manifold or the signed distance to a hypersurface; these are the functions one meets in comparison geometry.
+
+\begin{proposition}\label{riemannian-geometry:proposition-distance-function}
+Let $U \subseteq \overline{M}$ be open and $r \colon U \to \RR$ smooth with $|\operatorname{grad}r| = 1$, and put $N = \operatorname{grad}r$ and $A = \overline{\nabla}N$, the endomorphism $X \mapsto \overline{\nabla}_XN$ of each tangent space.
+\begin{enumerate}
+\item $\operatorname{Hess}r(N, X) = 0$ for all $X$, that is, $AN = 0$, and $A$ is self-adjoint. The integral curves of $N$ are geodesics.
+\item The level sets $\Sigma_t = r^{-1}(t)$ are hypersurfaces with unit normal $N$, second fundamental form $h_t = -\operatorname{Hess}r|_{T\Sigma_t}$ and shape operator $S_t = -A|_{T\Sigma_t}$. So the Gauss--Kronecker
+curvature of $\Sigma_t$ is $(-1)^n$ times the product of the eigenvalues of $\operatorname{Hess}r$ other than the eigenvalue $0$ in the direction $N$.
+\item (\emph{Riccati equation}) $(\overline{\nabla}_NA)X + A^2X + \overline{R}(X, N)N = 0$ for every vector field $X$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Differentiating $\langle N, N\rangle = 1$ gives $0 = 2\langle\overline{\nabla}_XN, N\rangle = 2\operatorname{Hess}r(X, N)$, and $\operatorname{Hess}r$ is symmetric (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(3)), so $A$ is
+self-adjoint and $\langle AN, X\rangle = \operatorname{Hess}r(N, X) = 0$. In particular $\overline{\nabla}_NN = AN = 0$.
+
+(2) Every $t$ in the image of $r$ is a regular value, as $dr \neq 0$; the rest is Proposition~\ref{riemannian-geometry:proposition-level-set-second-fundamental-form} with $|\operatorname{grad}r| = 1$, and
+$\langle S_tX, Y\rangle = h_t(X, Y) = -\langle AX, Y\rangle$ for $X, Y$ tangent to $\Sigma_t$, where $AX$ is tangent to $\Sigma_t$ by (1) and self-adjointness. On $T_p\overline{M} = T_p\Sigma_t \oplus \RR N$, $A$ is
+$-S_t \oplus 0$, so its eigenvalues are those of $-S_t$ and $0$.
+
+(3) By definition of the induced connection, $(\overline{\nabla}_NA)X = \overline{\nabla}_N(AX) - A(\overline{\nabla}_NX)$. Since $\overline{\nabla}$ is torsion free, $\overline{\nabla}_NX = \overline{\nabla}_XN + [N, X] = AX + [N, X]$, so
+\[
+(\overline{\nabla}_NA)X = \overline{\nabla}_N\overline{\nabla}_XN - A^2X - \overline{\nabla}_{[N, X]}N .
+\]
+On the other hand $\overline{R}(N, X)N = \overline{\nabla}_N\overline{\nabla}_XN - \overline{\nabla}_X\overline{\nabla}_NN - \overline{\nabla}_{[N, X]}N = \overline{\nabla}_N\overline{\nabla}_XN - \overline{\nabla}_{[N, X]}N$ by (1).
+Subtracting, $(\overline{\nabla}_NA)X = \overline{R}(N, X)N - A^2X = -\overline{R}(X, N)N - A^2X$.
+\end{proof}
+
+The Riccati equation says how the shape of the level sets evolves as one moves along the normal geodesics: the term $A^2$ focuses or defocuses, and the curvature of $\overline{M}$ acts as a force. It is
+the first-order form of the Jacobi equation (Definition~\ref{riemannian-geometry:definition-jacobi}), and the starting point of the comparison theorems of Rauch, Bishop and Gromov.
+
+\begin{example}\label{riemannian-geometry:example-distance-functions}
+\begin{enumerate}
+\item For $r(x) = |x|$ on $\RR^{n+1} \setminus \{0\}$, $\nabla r = x/r$ and $\partial_i\partial_jr = (\delta_{ij} - x_ix_j/r^2)/r$, so $A = \frac1r(I - NN^T)$: it is $\frac1r$ on $N^\perp$ and $0$ on $N$. The level spheres
+have $S_t = -\frac1t\,\id$, and the Riccati equation, with $\overline{R} = 0$, reads $\frac{d}{dt}\bigl(\frac1t\bigr) + \frac{1}{t^2} = 0$ on $N^\perp$.
+\item In $\RR^{n+1}$, where $\overline{R} = 0$, the Riccati equation along a normal line is $A^{\prime} + A^2 = 0$, solved by $A(t) = A(0)(I + tA(0))^{-1}$ wherever the inverse exists, as one checks by
+differentiating $A(t)(I + tA(0)) = A(0)$. In terms of $S_t = -A(t)$ on $N^\perp$, $S_t = S_0(I - tS_0)^{-1}$. This is the content of the next proposition, which does not need a distance function.
+\item On the unit sphere $S^{n+1}$, the distance $r$ from the north pole is smooth with $|\operatorname{grad}r| = 1$ for $0 < r < \pi$, and its level sets are the spheres of latitude. By rotational symmetry
+$A = a(r)\,\id$ on $N^\perp$, and with $\overline{R}(X, N)N = X$ for $X \perp N$ (constant curvature $1$), the Riccati equation is $a^{\prime} + a^2 + 1 = 0$, and $a = \cot r$ is the solution with $a \sim 1/r$ near the pole.
+So the sphere of latitude at distance $r$ has $S = -\cot r\,\id$: it is umbilic, curved like a Euclidean sphere of radius $\tan r$, and totally geodesic for $r = \pi/2$, the equator.
+\end{enumerate}
+\end{example}
+
+\paragraph{Parallel hypersurfaces.} In Euclidean space one can move a hypersurface along its normals and follow the second fundamental form explicitly.
+
+\begin{proposition}[Parallel hypersurfaces]\label{riemannian-geometry:proposition-parallel-hypersurfaces}
+Let $\Sigma \subseteq \RR^{n+1}$ be a hypersurface with unit normal $\nu$ and shape operator $S$, and $t \in \RR$ such that $I - tS$ is invertible at every point (for instance $\Sigma$ compact and $|t|\max_i|\kappa_i| < 1$).
+Then $x_t(p) = p + t\nu(p)$ is an immersion of $\Sigma$, $\nu$ is a unit normal of $x_t$, and in terms of $T_p\Sigma$:
+\begin{enumerate}
+\item $d_px_t = I - tS$, so the metric induced by $x_t$ is $g_t(v, w) = \langle(I - tS)v, (I - tS)w\rangle$ and, for $t$ in the interval around $0$ where $I - tS$ stays invertible, its volume form is
+$\det(I - tS)\,\mathrm{vol}_\Sigma = \prod_i(1 - t\kappa_i)\,\mathrm{vol}_\Sigma$;
+\item the shape operator of $x_t$ is $S_t = S(I - tS)^{-1}$, with principal curvatures $\kappa_i/(1 - t\kappa_i)$ and the same principal directions.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) As maps to $\RR^{n+1}$, $dx_t = dx + t\,d\nu$, and $d\nu = -S$ (Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}(1)), so $d_px_t(v) = v - tSv \in T_p\Sigma$. This is injective, so $x_t$ is an
+immersion with $d_px_t(T_p\Sigma) = T_p\Sigma$, and $\nu(p)$ is orthogonal to it. The formula for $g_t$ is the definition of the induced metric. For an orthonormal basis $(e_i)$ of $T_p\Sigma$ for $g$, positively oriented,
+$\mathrm{vol}_{g_t}(e_1, \ldots, e_n) = \sqrt{\det(g_t(e_i, e_j))} = |\det(I - tS)|$, and $\det(I - tS) > 0$ on the interval in question, since it is continuous in $t$, nonzero, and equal to $1$ at $t = 0$.
+In an orthonormal basis of principal directions $I - tS$ is diagonal with entries $1 - t\kappa_i$.
+
+(2) The Gauss map of $x_t$ is again $\nu$, viewed as a function on $\Sigma$, so by (1) of Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates} applied to $x_t$ (whose proof only uses that $\nu$ is a unit
+normal), $d\nu = -S_t \circ dx_t$, that is, $-S = -S_t(I - tS)$. Hence $S_t = S(I - tS)^{-1}$, which commutes with $S$ and has the same eigenvectors, with eigenvalues $\kappa_i/(1 - t\kappa_i)$.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-steiner}
+For a compact surface $\Sigma \subseteq \RR^3$ the area of the parallel surface is a polynomial in $t$, for small $|t|$:
+\[
+\operatorname{area}(x_t) = \int_\Sigma(1 - t\kappa_1)(1 - t\kappa_2)\,dA = \operatorname{area}(\Sigma) - 2t\int_\Sigma H\,dA + t^2\int_\Sigma K\,dA,
+\]
+and $\int_\Sigma K\,dA = 2\pi\chi(\Sigma)$ by the Gauss--Bonnet theorem of the next section. For the unit sphere with the outward normal, $H = -1$, $K = 1$, and the formula gives $4\pi(1 + t)^2$, the area of
+the sphere of radius $1 + t$. Integrating in $t$ gives the volume of a thin shell around $\Sigma$, and this is Steiner's formula for the volume of the $\varepsilon$-neighbourhood of a convex body; Weyl's tube formula
+is the analogue for submanifolds of any codimension. The coefficients, integrals of the elementary symmetric functions of the principal curvatures, are the \emph{quermassintegrals} or Lipschitz--Killing curvatures,
+and the theory of normal cycles extends them to convex bodies and other singular sets, where they become measures.
+\end{remark}
+
+\paragraph{Moving frames and the Gauss map.} Finally, in an adapted orthonormal frame the second fundamental form is part of the connection forms of $\RR^{n+1}$
+(Proposition~\ref{riemannian-geometry:proposition-hypersurface-frames}), and wedging these forms gives the Gauss--Kronecker curvature times the volume form. Geometrically this wedge product is the pullback of the volume
+form of the sphere by the Gauss map.
+
+\begin{proposition}\label{riemannian-geometry:proposition-gauss-map-volume}
+Let $\Sigma \subseteq \RR^{n+1}$ be a hypersurface with unit normal $\nu$, oriented so that $(\nu, v_1, \ldots, v_n)$ is a positive basis of $\RR^{n+1}$ whenever $(v_1, \ldots, v_n)$ is a positive basis of $T_p\Sigma$, and orient
+$S^n$ by its outward normal in the same way. Let $(e_1, \ldots, e_n)$ be a positive orthonormal frame on $U \subseteq \Sigma$, with $e_{n+1} = \nu$ and forms $\omega^i$, $\omega^A_B$ as in
+Proposition~\ref{riemannian-geometry:proposition-hypersurface-frames}. Then on $U$
+\[
+\nu^*\mathrm{vol}_{S^n} = \omega^1_{n+1} \wedge \cdots \wedge \omega^n_{n+1} = (-1)^n\,\omega^{n+1}_1 \wedge \cdots \wedge \omega^{n+1}_n = (-1)^n\det(h_{ij})\,\omega^1 \wedge \cdots \wedge \omega^n = (-1)^n(\det S)\,\mathrm{vol}_\Sigma .
+\]
+\end{proposition}
+
+\begin{proof}
+At $p \in U$, $T_{\nu(p)}S^n = \nu(p)^\perp = T_p\Sigma$, and the two orientations agree, since both are defined by putting the normal vector $\nu(p)$ first. The vectors $e_i(p)$ form a positive orthonormal basis of this
+space, so $\mathrm{vol}_{S^n}$ at $\nu(p)$ is $e^1 \wedge \cdots \wedge e^n$ with $e^i = \langle -, e_i(p)\rangle$, and
+$(\nu^*\mathrm{vol}_{S^n})_p = (e^1 \circ d\nu) \wedge \cdots \wedge (e^n \circ d\nu)$. By definition $d\nu = de_{n+1} = \sum_A\omega^A_{n+1}e_A$, and $\omega^{n+1}_{n+1} = 0$ by skew-symmetry, so
+$e^i \circ d\nu = \omega^i_{n+1}$. This is the first equality; the second is $\omega^i_{n+1} = -\omega^{n+1}_i$. By Proposition~\ref{riemannian-geometry:proposition-hypersurface-frames}(2),
+$\omega^{n+1}_i = \sum_jh_{ij}\omega^j$, and the wedge product of $n$ such forms is $\det(h_{ij})\,\omega^1 \wedge \cdots \wedge \omega^n$ (expand by multilinearity: the terms with a repeated $\omega^j$ vanish, and the others give the Leibniz formula for the determinant). Finally
+$\omega^1 \wedge \cdots \wedge \omega^n = \mathrm{vol}_\Sigma$ for a positive orthonormal coframe, and $\det(h_{ij}) = \det S$ in an orthonormal frame.
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-curvatura-integra}
+For a compact connected hypersurface $\Sigma \subseteq \RR^{n+1}$ the proposition gives $\int_\Sigma\det S\,\mathrm{vol}_\Sigma = (-1)^n\int_\Sigma\nu^*\mathrm{vol}_{S^n} = (-1)^n\deg(\nu)\operatorname{vol}(S^n)$, where $\deg(\nu)$ is the degree of
+the Gauss map (Exercise~\ref{de-rham:exercise-degree-de-rham}): the total Gauss--Kronecker curvature, Gauss's \emph{curvatura integra}, is a topological invariant. For a surface in $\RR^3$ Gauss--Bonnet then gives
+$\deg(\nu) = \frac{1}{4\pi}\int_\Sigma K\,dA = \frac12\chi(\Sigma)$. In general $\Sigma$ bounds a compact region $X$, and Hopf showed that $\deg(\nu) = \chi(X)$, which is $\frac12\chi(\Sigma)$ when $n$ is even;
+this is the heart of the proof of the Poincar\'e--Hopf theorem in \cite{milnor-differential-viewpoint}. For odd $n$, $\chi(\Sigma) = 0$ and the degree depends on the region $X$, not only on the topology of $\Sigma$. The same idea, a curvature form pulled back from the unit sphere bundle and integrated, is the core of Chern's intrinsic
+proof of the Gauss--Bonnet--Chern theorem (Chapter~\ref{characteristic-classes}), and the pullback along the unit normals of a set is the definition of curvature measures through normal cycles.
+\end{remark}
+
 \section{Global theorems on surfaces}\label{riemannian-geometry:section-surfaces-global}
 
 This section collects the classical global theorems on surfaces, in the form in which they appear in \cite[Chapters 4 and 5]{do-carmo-curves-surfaces}:
@@ -3711,4 +3874,33 @@ circle $\gamma(t) = \cos(t)x + \sin(t)v$, a geodesic (Exercise~\ref{riemannian-g
 $\operatorname{Hess}f(v, v) = (f \circ \gamma)^{\prime\prime}(0) = -f(x)$ for every unit $v \in T_xS^n$ (Proposition~\ref{riemannian-geometry:proposition-gradient-hessian}(4)). A symmetric bilinear form is determined by its
 quadratic form, so $\operatorname{Hess}f = -f\,g$, and its trace is $-nf$. The gradient vanishes where $a$ is a multiple of $x$, that is at $x = \pm a/|a|$ (for $a \neq 0$), where $f = \pm|a|$ and
 $\operatorname{Hess}f = \mp|a|g$: the maximum and the minimum of $f$. So the restrictions of linear functions are eigenfunctions of the Laplacian, with eigenvalue $n$ for the Hodge Laplacian $-\Delta_g$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-hyperboloid-curvature}
+Use Proposition~\ref{riemannian-geometry:proposition-level-set-second-fundamental-form} to show that the one-sheeted hyperboloid $x^2 + y^2 - z^2 = 1$ has Gauss curvature $K = -1/(x^2 + y^2 + z^2)^2$. Where is $|K|$
+largest?
+\end{exercise}
+
+\begin{solution}
+For $f = x^2 + y^2 - z^2$, $\operatorname{Hess}f = \operatorname{diag}(2, 2, -2)$ and $\nabla f = (2x, 2y, -2z)$. With the expansion of Example~\ref{riemannian-geometry:example-level-sets}(2), the bordered determinant is
+$-\bigl(4x^2 \cdot 2 \cdot (-2) + 4y^2 \cdot 2 \cdot (-2) + 4z^2 \cdot 2 \cdot 2\bigr) = 16(x^2 + y^2 - z^2) = 16$ on the surface, and $|\nabla f|^4 = 16(x^2 + y^2 + z^2)^2$. So
+$K = -16/(16(x^2 + y^2 + z^2)^2)$. On the surface $x^2 + y^2 + z^2 = 1 + 2z^2 \geq 1$, so $|K|$ is largest, equal to $1$, on the waist circle $z = 0$, and $K \to 0$ far out, where the hyperboloid approaches its
+asymptotic cone.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-parallel-surface-curvature}
+Let $\Sigma \subseteq \RR^3$ be a surface with mean curvature $H$ and Gauss curvature $K$, and $x_t$ a parallel surface as in Proposition~\ref{riemannian-geometry:proposition-parallel-hypersurfaces}. Show that its Gauss and
+mean curvatures are
+\[
+K_t = \frac{K}{1 - 2tH + t^2K}, \qquad H_t = \frac{H - tK}{1 - 2tH + t^2K} .
+\]
+Deduce \emph{Bonnet's theorem}: if $K$ is a positive constant, the parallel surface at distance $t = 1/\sqrt K$ has constant mean curvature $-\frac12\sqrt K$, and if $H$ is a nonzero constant, the
+parallel surface at distance $t = 1/(2H)$ has constant Gauss curvature $4H^2$, at the points where $x_t$ is an immersion.
+\end{exercise}
+
+\begin{solution}
+In a basis of principal directions $S_t$ is diagonal with entries $\kappa_i/(1 - t\kappa_i)$. The denominator of both products is $(1 - t\kappa_1)(1 - t\kappa_2) = 1 - t(\kappa_1 + \kappa_2) + t^2\kappa_1\kappa_2 = 1 - 2tH + t^2K$. So
+$K_t = \kappa_1\kappa_2/(1 - 2tH + t^2K)$, and $2H_t = \frac{\kappa_1}{1 - t\kappa_1} + \frac{\kappa_2}{1 - t\kappa_2} = \frac{\kappa_1 + \kappa_2 - 2t\kappa_1\kappa_2}{1 - 2tH + t^2K}$. If $K$ is constant and $t = 1/\sqrt K$, then $t^2K = 1$, the
+denominator is $2(1 - tH)$, and $H_t = (H - \sqrt K)/(2(1 - H/\sqrt K)) = -\frac12\sqrt K$. If $H \neq 0$ is constant and $t = 1/(2H)$, the denominator is $t^2K$, and $K_t = K/(t^2K) = 4H^2$. In both cases
+the denominator is nonzero exactly where $x_t$ is an immersion, since it is $\det(I - tS)$.
 \end{solution}
