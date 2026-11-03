@@ -375,6 +375,67 @@ Theorem~\ref{complex-analysis:theorem-analytic}. (4) The uniform limit is contin
 of derivatives follows from the Cauchy integral formula for $f^{(k)}$ on circles inside $U$.
 \end{proof}
 
+\begin{remark}\label{complex-analysis:remark-dbar-hypotheses}
+\emph{Is $f$ holomorphic if and only if $\partial f/\partial\bar z = 0$?} Yes, with two provisos: the equation must hold on an open set, and $f$ must be real differentiable there (for instance of class $C^1$), since
+the Wirtinger derivatives are only defined for such functions.
+\begin{enumerate}
+\item \emph{Open sets.} Holomorphy is a condition on an open set, and $\partial f/\partial\bar z = 0$ at a single point only gives complex differentiability at that point. For $f(z) = |z|^2 = z\bar z$,
+$\partial f/\partial\bar z = z$ vanishes only at $0$: $f$ is complex differentiable at $0$, with $f^{\prime}(0) = \lim\bar h = 0$, and nowhere else, so it is holomorphic on no open set.
+\item \emph{Real differentiability.} Requiring only that the partial derivatives exist and satisfy the Cauchy--Riemann equations is not enough, even at every point of an open set. Let
+$f(z) = e^{-z^{-4}}$ for $z \neq 0$ and $f(0) = 0$. Away from $0$, $f$ is holomorphic. On the real axis $f(x) = e^{-x^{-4}}$, and on the imaginary axis $f(iy) = e^{-y^{-4}}$ since $(iy)^4 = y^4$; both
+tend to $0$ faster than any power, so $\partial_xf(0) = \partial_yf(0) = 0$ and the Cauchy--Riemann equations hold everywhere. But on the diagonal $z = re^{i\pi/4}$, $z^4 = -r^4$ and
+$f(z) = e^{r^{-4}} \to \infty$ as $r \to 0$: $f$ is not even continuous at $0$. Counterexample~\ref{complex-analysis:counterexample-cauchy-riemann-point} shows the same phenomenon at a single point
+for a continuous function.
+\item \emph{The Looman--Menchoff theorem.} Continuity is the only thing missing in (2): if $f$ is continuous on $U$, its partial derivatives exist at every point of $U$ and satisfy the Cauchy--Riemann equations,
+then $f$ is holomorphic \cite{gray-morris-1978}. The proof is delicate (it uses Baire's theorem); we do not need it.
+\item \emph{Weak solutions.} The equation can also be imposed in the weak sense, by moving the derivative onto test functions; then continuity alone suffices, as the next proposition shows. This is the point of view of
+distributions (Chapter~\ref{distributions}), in which every locally integrable weak solution of $\partial f/\partial\bar z = 0$ agrees almost everywhere with a holomorphic function, a first case of elliptic
+regularity (Remark~\ref{complex-analysis:remark-regularity}).
+\end{enumerate}
+\end{remark}
+
+\begin{proposition}\label{complex-analysis:proposition-weak-cauchy-riemann}
+Let $U \subseteq \CC$ be open and $f \colon U \to \CC$ continuous. Then $f$ is holomorphic if and only if
+\[
+\int_Uf\,\frac{\partial\varphi}{\partial\bar z}\,dA = 0 \qquad \text{for every smooth } \varphi \colon U \to \CC \text{ with compact support,}
+\]
+where $dA = dx\,dy$ is Lebesgue measure.
+\end{proposition}
+
+\begin{proof}
+\emph{Necessity.} If $f$ is holomorphic, it is $C^\infty$ (Corollary~\ref{complex-analysis:corollary-smooth-harmonic}). Extend $f\varphi$ by $0$ outside the support of $\varphi$; it is then a $C^1$ function on
+$\CC$ with compact support. For fixed $y$, $\int_\RR\partial_x(f\varphi)\,dx = 0$ by the fundamental theorem of calculus, and likewise for $\partial_y$; integrating over the other variable (Fubini's theorem),
+$\int(f\,\partial_x\varphi + \varphi\,\partial_xf)\,dA = 0$, and similarly for $y$. Combining, $\int f\,\partial\varphi/\partial\bar z\,dA = -\int\varphi\,\partial f/\partial\bar z\,dA = 0$.
+
+\emph{Sufficiency.} By Corollary~\ref{real-analysis:corollary-bump-function} there is a smooth $\rho \geq 0$ on $\CC$ with support in the unit disc and $\int\rho\,dA = 1$; put $\rho_\varepsilon(w) = \varepsilon^{-2}\rho(w/\varepsilon)$,
+which has support in $\overline{D}(0, \varepsilon)$ and integral $1$. Let $U_\varepsilon = \{z : \overline{D}(z, \varepsilon) \subseteq U\}$, an open set, and for $z \in U_\varepsilon$
+\[
+f_\varepsilon(z) = \int_Uf(w)\,\rho_\varepsilon(z - w)\,dA(w).
+\]
+\emph{Step 1: $f_\varepsilon$ is $C^1$ on $U_\varepsilon$, with derivatives obtained by differentiating $\rho_\varepsilon$.} Fix $z_0 \in U_\varepsilon$ and $\delta > 0$ with $\overline{D}(z_0, \varepsilon + \delta) \subseteq U$.
+For $|z - z_0| < \delta$ the integrand vanishes outside the compact disc $K = \overline{D}(z_0, \varepsilon + \delta)$, and $|f(w)\,\partial_x\rho_\varepsilon(z - w)| \leq \sup_K|f| \cdot \sup|\partial_x\rho_\varepsilon| \cdot 1_K(w)$,
+an integrable bound independent of $z$. By Proposition~\ref{measure-theory:proposition-differentiation-integral}, applied to the real and imaginary parts, $\partial_xf_\varepsilon(z) = \int f(w)(\partial_x\rho_\varepsilon)(z - w)\,dA(w)$,
+and similarly for $\partial_y$. These are continuous in $z$, by dominated convergence with the same bound, so $f_\varepsilon$ is $C^1$, and
+\[
+\frac{\partial f_\varepsilon}{\partial\bar z}(z) = \int_Uf(w)\,\frac{\partial\rho_\varepsilon}{\partial\bar z}(z - w)\,dA(w).
+\]
+\emph{Step 2: $f_\varepsilon$ is holomorphic.} For fixed $z \in U_\varepsilon$ the function $\varphi(w) = \rho_\varepsilon(z - w)$ is smooth with compact support in $U$, and by the chain rule
+$\partial_x\varphi(w) = -(\partial_x\rho_\varepsilon)(z - w)$ and $\partial_y\varphi(w) = -(\partial_y\rho_\varepsilon)(z - w)$, so $\partial\varphi/\partial\bar w = -(\partial\rho_\varepsilon/\partial\bar z)(z - w)$. The hypothesis gives
+$\partial f_\varepsilon/\partial\bar z(z) = -\int f\,\partial\varphi/\partial\bar w\,dA = 0$. So $f_\varepsilon$ is real differentiable with $\partial f_\varepsilon/\partial\bar z = 0$ on $U_\varepsilon$, hence holomorphic there.
+
+\emph{Step 3: $f_\varepsilon \to f$ uniformly on compact sets.} Let $C \subseteq U$ be compact and $\varepsilon_0 > 0$ with $C^{\prime} = \{w : \operatorname{dist}(w, C) \leq \varepsilon_0\} \subseteq U$; then $C \subseteq U_\varepsilon$
+for $\varepsilon \leq \varepsilon_0$. Substituting $w \mapsto z - w$ and using $\int\rho_\varepsilon = 1$, for $z \in C$
+\[
+|f_\varepsilon(z) - f(z)| = \Bigl|\int\bigl(f(z - w) - f(z)\bigr)\rho_\varepsilon(w)\,dA(w)\Bigr| \leq \sup\{|f(z - w) - f(z)| : |w| \leq \varepsilon\},
+\]
+which tends to $0$ uniformly in $z \in C$, because $f$ is uniformly continuous on the compact set $C^{\prime}$. Every compact subset of $U$ lies in $U_\varepsilon$ for small $\varepsilon$, so by Weierstrass's theorem
+(Corollary~\ref{complex-analysis:corollary-liouville}(4)), applied on the open sets $U_{\varepsilon_0}$, $f$ is holomorphic on each $U_{\varepsilon_0}$, hence on $U$.
+\end{proof}
+
+The function $f_\varepsilon$ is a \emph{regularisation} of $f$ by convolution with the \emph{mollifier} $\rho_\varepsilon$: it is smooth, close to $f$, and it inherits every linear constant-coefficient equation that $f$
+satisfies weakly. The weak equation must hold on all of $U$: $1/z$ is holomorphic on $\CC^\times$ and locally integrable on $\CC$, but on $\CC$ it does not satisfy the weak equation, since
+$\int(1/z)\,\partial\varphi/\partial\bar z\,dA = -\pi\varphi(0)$ (Exercise~\ref{complex-analysis:exercise-cauchy-kernel-dbar}); the point $0$ carries a ``source''.
+
 \begin{theorem}[Identity theorem]\label{complex-analysis:theorem-identity}
 Let $f$ be holomorphic on a domain $U$. If the zero set of $f$ has a limit point in $U$, then $f \equiv 0$. Consequently two holomorphic functions agreeing on a set with a limit point in $U$ are equal, and
 the zeros of a nonzero $f$ are isolated, each of finite order $m$ with $f(z) = (z - a)^mg(z)$, $g$ holomorphic and $g(a) \neq 0$.
@@ -1089,4 +1150,26 @@ $\int_\gamma p\,dz = 2\pi i\sum_nc_{n,n+1}$; in particular this integral can be 
 \begin{solution}
 On the circle $\bar z = 1/z$, so the integrand is $z^{n-m}$, and by Lemma~\ref{complex-analysis:lemma-path-integral} the integral is $2\pi i$ if $n - m = -1$ and $0$ otherwise. The formula for $p$ follows by
 linearity, and if $p$ does not involve $\bar z$ then $c_{n,n+1} = 0$ for all $n$.
+\end{solution}
+
+\begin{exercise}\label{complex-analysis:exercise-cauchy-kernel-dbar}
+Show that $1/z$ is locally integrable on $\CC$, and that for every smooth $\varphi \colon \CC \to \CC$ with compact support
+\[
+\int_\CC\frac1z\,\frac{\partial\varphi}{\partial\bar z}\,dA = -\pi\varphi(0).
+\]
+So $1/z$ does not satisfy the weak equation of Proposition~\ref{complex-analysis:proposition-weak-cauchy-riemann} on $\CC$, although it is holomorphic on $\CC^\times$: the weak equation sees the pole. In the language of
+distributions, $\frac{\partial}{\partial\bar z}\frac{1}{\pi z} = \delta_0$, and $\frac1{\pi z}$ is a fundamental solution of $\partial/\partial\bar z$. (Hint: in polar coordinates
+$\frac{\partial}{\partial\bar z} = \frac{e^{i\theta}}{2}\bigl(\partial_r + \frac ir\partial_\theta\bigr)$.)
+\end{exercise}
+
+\begin{solution}
+In polar coordinates $z = re^{i\theta}$ the area element is $dA = r\,dr\,d\theta$ (Corollary~\ref{measure-theory:corollary-polar} for $n = 2$, the measure $\mathcal{H}^1$ on the unit circle being $d\theta$), so
+$\int_{|z| < R}|z|^{-1}\,dA = \int_0^{2\pi}\int_0^R dr\,d\theta = 2\pi R < \infty$: $1/z$ is locally integrable. By the chain rule, $\partial_r = \cos\theta\,\partial_x + \sin\theta\,\partial_y$ and
+$\partial_\theta = -r\sin\theta\,\partial_x + r\cos\theta\,\partial_y$, so $\partial_r + \frac ir\partial_\theta = e^{-i\theta}\partial_x + ie^{-i\theta}\partial_y = 2e^{-i\theta}\frac{\partial}{\partial\bar z}$, which is the hint.
+Hence $\frac1z\frac{\partial\varphi}{\partial\bar z} = \frac{1}{2r}\bigl(\partial_r\varphi + \frac ir\partial_\theta\varphi\bigr)$, and by dominated convergence (the integrand is integrable) and Fubini's theorem,
+\[
+\int_\CC\frac1z\frac{\partial\varphi}{\partial\bar z}\,dA = \lim_{\varepsilon \to 0}\frac12\int_\varepsilon^\infty\int_0^{2\pi}\Bigl(\partial_r\varphi + \frac ir\partial_\theta\varphi\Bigr)d\theta\,dr .
+\]
+The $\theta$-integral of $\partial_\theta\varphi$ vanishes, $\varphi(re^{i\theta})$ being $2\pi$-periodic in $\theta$, and $\int_\varepsilon^\infty\partial_r\varphi\,dr = -\varphi(\varepsilon e^{i\theta})$ since $\varphi$ has compact support.
+So the integral is $\lim_{\varepsilon \to 0}\bigl(-\frac12\int_0^{2\pi}\varphi(\varepsilon e^{i\theta})\,d\theta\bigr) = -\pi\varphi(0)$, by continuity of $\varphi$.
 \end{solution}
