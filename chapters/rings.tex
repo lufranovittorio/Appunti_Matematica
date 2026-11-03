@@ -279,12 +279,38 @@ Let $R$ be a ring. The \emph{polynomial ring} $R[x]$ is the set of sequences
 $(a_0, a_1, \ldots)$ in $R$ with only finitely many nonzero terms, with termwise
 addition and the product $(a_i)(b_j) = (c_k)$, $c_k = \sum_{i + j = k} a_i b_j$. We
 identify $r \in R$ with $(r, 0, 0, \ldots)$ and write $x = (0, 1, 0, \ldots)$, so that
-every polynomial is uniquely $f = \sum_{i=0}^n a_i x^i$. If $f \neq 0$, its
+every polynomial is uniquely $f = \sum_{i=0}^n a_i x^i$ (Lemma~\ref{rings:lemma-polynomial-basics}). If $f \neq 0$, its
 \emph{degree} $\deg f$ is the largest $i$ with $a_i \neq 0$, and $a_{\deg f}$ is the
 \emph{leading coefficient}; $f$ is \emph{monic} if the leading coefficient is $1$. The
 ring $R[x_1, \ldots, x_n]$ is defined inductively as $R[x_1, \ldots, x_{n-1}][x_n]$, and the
 \emph{power series ring} $R[[x]]$ is defined like $R[x]$ but with all sequences allowed.
 \end{definition}
+
+Informally a polynomial is an expression $a_0 + a_1x + \cdots + a_nx^n$ in a symbol $x$ about which nothing is assumed except the ring axioms. The definition makes this precise by keeping only what
+matters, the list of coefficients; the symbol $x$ then becomes an honest element of the ring. A polynomial is not a function: over $\mathbb{F}_2 = \ZZ/2\ZZ$, the polynomial $x^2 + x$ is not zero, as its coefficient
+sequence is $(0, 1, 1, 0, \ldots)$, but the function $a \mapsto a^2 + a$ vanishes at both elements of $\mathbb{F}_2$. The next lemma checks that the definition does what the notation promises.
+
+\begin{lemma}\label{rings:lemma-polynomial-basics}
+Let $R$ be a ring, and for $n \geq 0$ let $e_n \in R[x]$ be the sequence with $1$ in position $n$ and $0$ elsewhere.
+\begin{enumerate}
+\item $R[x]$ is a ring with zero $(0, 0, \ldots)$ and unit $e_0 = (1, 0, 0, \ldots)$; it is commutative if $R$ is. The map $R \to R[x]$, $r \mapsto (r, 0, 0, \ldots)$, is an injective ring homomorphism.
+\item $x^n = e_n$ for all $n \geq 0$, and $r x^n$ is the sequence with $r$ in position $n$ and $0$ elsewhere.
+\item The polynomial $(a_0, a_1, \ldots, a_n, 0, 0, \ldots)$ equals $\sum_{i=0}^na_ix^i$. Consequently every polynomial is a finite sum $\sum_ia_ix^i$, and $\sum_{i=0}^na_ix^i = \sum_{i=0}^nb_ix^i$ only if $a_i = b_i$ for all $i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) The product of two finitely supported sequences is finitely supported: if $a_i = 0$ for $i > n$ and $b_j = 0$ for $j > m$, then $c_k = 0$ for $k > n + m$. Addition is termwise, so $(R[x], +)$ is an abelian group.
+Associativity: the coefficient of index $l$ in both $(fg)h$ and $f(gh)$ is $\sum_{i + j + k = l}a_ib_jc_k$, the sum over all triples of indices with sum $l$. Distributivity holds because $c_k$ is additive in each factor. For the
+unit, $(e_0)_i = 0$ for $i > 0$, so the coefficient of index $k$ in $e_0f$ is $1 \cdot a_k = a_k$, and similarly for $fe_0$. If $R$ is commutative, so is the formula for $c_k$, as $\sum_{i + j = k}a_ib_j = \sum_{i + j = k}b_ia_j$.
+Finally $r \mapsto (r, 0, \ldots)$ is additive, injective, sends $1$ to $e_0$, and $(r, 0, \ldots)(s, 0, \ldots) = (rs, 0, \ldots)$, since the only nonzero term of the product formula is $c_0 = rs$.
+
+(2) By induction on $n$: $x^0 = e_0$ is the unit, and if $x^n = e_n$, then $x^{n+1} = e_n \cdot e_1$ has coefficient $c_k = \sum_{i + j = k}(e_n)_i(e_1)_j$, whose only possibly nonzero term has $i = n$ and $j = 1$; so
+$c_k = 1$ for $k = n + 1$ and $c_k = 0$ otherwise, that is, $x^{n+1} = e_{n+1}$. For the second statement, in $(r, 0, \ldots) \cdot e_n$ only the term with $i = 0$, $j = n$ survives, giving $r$ in position $n$.
+
+(3) By (2), $\sum_{i=0}^na_ix^i$ is a sum of sequences with $a_i$ in position $i$ and zeros elsewhere, which is $(a_0, \ldots, a_n, 0, \ldots)$ because addition is termwise. Every polynomial has finitely many nonzero terms,
+so it is of this form for some $n$. Two such sums are equal exactly when the sequences $(a_i)$ and $(b_i)$ are equal.
+\end{proof}
 
 \begin{proposition}\label{rings:proposition-polynomial-universal}
 Let $\varphi \colon R \to S$ be a ring homomorphism and $s \in S$ an element commuting with
@@ -353,6 +379,47 @@ Proposition~\ref{rings:proposition-polynomial-domain}.
 The hypothesis that $R$ is a domain is needed: in $\ZZ/8\ZZ$ the polynomial $x^2 - 1$ of
 degree $2$ has the four roots $1, 3, 5, 7$.
 \end{counterexample}
+
+\paragraph{Adjoining elements.} The phrase ``adjoin an element'' is used in three related senses, which the polynomial ring connects.
+\begin{enumerate}
+\item \emph{Inside a given ring.} If $R \subseteq S$ are commutative rings and $s \in S$, then $R[s]$ denotes the smallest subring of $S$ containing $R$ and $s$, the intersection of all such subrings; likewise $R[s_1, \ldots, s_n]$. For
+example $\ZZ[i] \subseteq \CC$, $\ZZ[\sqrt 2] \subseteq \RR$, and $\QQ[\pi] \subseteq \RR$.
+\item \emph{Freely.} $R[x]$ is $R$ with a new element $x$ adjoined that satisfies no relation beyond the ring axioms: by Lemma~\ref{rings:lemma-polynomial-basics}(3), $\sum a_ix^i = 0$ only if all $a_i = 0$.
+\item \emph{With a prescribed relation.} To adjoin to $R$ an element satisfying an equation $f = 0$, with $f \in R[x]$, even when no larger ring containing such an element is given, one takes the quotient $R[x]/(f)$
+(Theorem~\ref{rings:theorem-quotient-ring}), in which the class of $x$ satisfies $f$. For instance $\RR[x]/(x^2 + 1)$ is $\RR$ with a square root of $-1$ adjoined, a copy of $\CC$, and for an irreducible $f$ over a field $K$
+the quotient $K[x]/(f)$ is a field containing a root of $f$ (Chapter~\ref{fields}, Kronecker's construction).
+\end{enumerate}
+For fields one also adjoins inverses: $K(s)$ is the smallest subfield containing $K$ and $s$ (Chapter~\ref{fields}). The next proposition shows that the first sense reduces to the other two.
+
+\begin{proposition}\label{rings:proposition-adjoin}
+Let $R \subseteq S$ be commutative rings, $s \in S$, and $\mathrm{ev}_s \colon R[x] \to S$ the homomorphism $f \mapsto f(s)$ of Proposition~\ref{rings:proposition-polynomial-universal}.
+\begin{enumerate}
+\item $R[s] = \{f(s) : f \in R[x]\} = \{a_0 + a_1s + \cdots + a_ns^n : n \geq 0, a_i \in R\}$, and $\mathrm{ev}_s$ induces an isomorphism $R[x]/\ker(\mathrm{ev}_s) \cong R[s]$.
+\item If no nonzero polynomial vanishes at $s$, then $R[s] \cong R[x]$, by $f \mapsto f(s)$.
+\item If $\ker(\mathrm{ev}_s)$ contains a monic polynomial $m$ of degree $d$, then every element of $R[s]$ can be written as $a_0 + a_1s + \cdots + a_{d-1}s^{d-1}$ with $a_i \in R$. If moreover
+$\ker(\mathrm{ev}_s) = (m)$, this expression is unique, and $R[s] \cong R[x]/(m)$.
+\end{enumerate}
+Here, as in Notation~\ref{rings:notation-evaluation}, $f(s)$ denotes $\mathrm{ev}_s(f) = \sum a_is^i$ for $f = \sum a_ix^i$.
+\end{proposition}
+
+\begin{proof}
+(1) The image of a ring homomorphism is a subring; this one contains $R$ (constant polynomials) and $s = \mathrm{ev}_s(x)$. Conversely, a subring containing $R$ and $s$ contains all powers $s^i$, all products $a_is^i$ and all
+finite sums of these, which are the elements $f(s)$. So the image is the smallest such subring. The isomorphism is the first isomorphism theorem (Theorem~\ref{rings:theorem-quotient-ring}). (2) The kernel is zero.
+(3) Dividing $f$ by the monic $m$ (Theorem~\ref{rings:theorem-polynomial-division}) gives $f = qm + r$ with $r = 0$ or $\deg r < d$, so $f(s) = r(s)$ has the stated form. If $\ker(\mathrm{ev}_s) = (m)$ and
+$r_1(s) = r_2(s)$ with $\deg r_1, \deg r_2 < d$, then $r_1 - r_2 \in (m)$ has degree less than $d = \deg m$, hence is $0$, since a nonzero multiple $hm$ of the monic $m$ has degree $\deg h + d \geq d$ (its leading coefficient is that of $h$). The isomorphism is the one of (1).
+\end{proof}
+
+\begin{example}\label{rings:example-adjoin}
+\begin{enumerate}
+\item $\ZZ[i] = \{a + bi : a, b \in \ZZ\}$ (Example~\ref{rings:example-gaussian-integers}). The kernel of $\mathrm{ev}_i \colon \ZZ[x] \to \CC$ is $(x^2 + 1)$: it contains $x^2 + 1$, and if $f(i) = 0$, divide $f = q(x^2 + 1) + a + bx$; then
+$a + bi = 0$ forces $a = b = 0$. So $\ZZ[i] \cong \ZZ[x]/(x^2 + 1)$, and each element is uniquely $a + bi$.
+\item Similarly $\ZZ[\sqrt 2] = \{a + b\sqrt 2 : a, b \in \ZZ\} \cong \ZZ[x]/(x^2 - 2)$: if $f(\sqrt 2) = 0$, divide $f = q(x^2 - 2) + a + bx$; then $a + b\sqrt 2 = 0$ forces $b = 0$, as $\sqrt 2$ is irrational, and then $a = 0$.
+\item $\ZZ[\frac12] = \{a/2^n : a \in \ZZ, n \geq 0\} \subseteq \QQ$, since $\sum_ia_i2^{-i} = (\sum_ia_i2^{n-i})/2^n$ for $n$ at least the degree. Here the kernel of $\mathrm{ev}_{1/2} \colon \ZZ[x] \to \QQ$ contains $2x - 1$,
+which is not monic, and (3) does not apply: no bound on the powers of $\frac12$ suffices, since $\frac1{2^n}$ is not an integer combination of $1, \frac12, \ldots, \frac1{2^{n-1}}$ (multiply by $2^{n-1}$).
+\item No nonzero polynomial with rational coefficients vanishes at $\pi$ (Lindemann, 1882; a proof is in \cite[Appendix 1]{lang-algebra}), so $\QQ[\pi] \cong \QQ[x]$ by (2): the real numbers $f(\pi)$, $f \in \QQ[x]$, multiply
+and add exactly like the polynomials $f$.
+\end{enumerate}
+\end{example}
 
 \begin{proposition}\label{rings:proposition-power-series-units}
 Let $R$ be commutative. A power series $f = \sum a_i x^i \in R[[x]]$ is a unit if and only if
