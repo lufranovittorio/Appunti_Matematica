@@ -11,7 +11,7 @@ chapter constructs Lebesgue measure, proves the convergence theorems, Littlewood
 theorem, Egorov's theorem), the Lebesgue differentiation theorem with its consequences (the density theorem and the fundamental theorem of calculus for
 Lebesgue integrals, with the Cantor function as a counterexample), independence and the two Borel--Cantelli lemmas, with
 applications to the digits of random numbers and Borel's normal number theorem (Theorem~\ref{measure-theory:theorem-borel-normal}), Fubini's theorem with the layer cake formula and the Hardy--Littlewood maximal theorem, the
-change of variables formula, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It then treats Radon measures as positive linear functionals
+change of variables formula with Cavalieri's principle, volumes of solids of revolution and the theorems of Pappus--Guldin, the Radon--Nikodym theorem, and the characterisation of indefinite integrals as the absolutely continuous functions. It then treats Radon measures as positive linear functionals
 (the Riesz--Markov theorem, Theorem~\ref{measure-theory:theorem-riesz-markov}, and its version for signed and vector-valued functionals, Theorem~\ref{measure-theory:theorem-riesz-vector}), weak convergence of measures and its compactness theorem, and the differentiation of measures with respect to
 Lebesgue measure, with Lebesgue's theorem on the differentiability of monotone functions. It ends with an introduction to
 geometric measure theory: Hausdorff measures and Hausdorff dimension (with the Cantor set as example), box-counting dimension and self-similar sets such as the Sierpi\'nski gasket and the
@@ -987,6 +987,100 @@ apply it to $F^i$ and $g$ and sum over $i$; for the last formula take $F = \nabl
 The formula says that the operator $\partial_i$ is \emph{anti-self-adjoint} for the $L^2$ inner product on compactly supported functions: $\langle\partial_if, \bar g\rangle = -\langle f, \partial_i\bar g\rangle$. It is the
 reason why the derivative of a distribution is defined by $(\partial_iT)(\varphi) = -T(\partial_i\varphi)$ (Chapter~\ref{distributions}), and, applied twice, it shows that $-\sum_i\partial_i^2$ is a
 non-negative operator: $\int(-\sum_i\partial_i^2f)\bar f\,d\lambda = \int|\nabla f|^2\,d\lambda \geq 0$ for compactly supported $f$ of class $C^2$.
+
+\subsection{Volumes: Cavalieri's principle and solids of revolution}\label{measure-theory:subsection-volumes}
+
+Fubini's theorem and the change of variables formula contain the classical recipes for computing volumes. We write $\lambda^n$ for Lebesgue measure on $\RR^n$ and call $\lambda^3(E)$ the \emph{volume}
+and $\lambda^2(E)$ the \emph{area} of a set. The first recipe slices a solid by parallel planes.
+
+\begin{proposition}[Cavalieri's principle]\label{measure-theory:proposition-cavalieri}
+Let $E \subseteq \RR^n = \RR^{n-1} \times \RR$ be a Borel set, and for $t \in \RR$ let $E_t = \{y \in \RR^{n-1} : (y, t) \in E\}$ be its slice at height $t$. Then $t \mapsto \lambda^{n-1}(E_t)$ is measurable and
+\[
+\lambda^n(E) = \int_\RR\lambda^{n-1}(E_t)\,dt .
+\]
+In particular, two Borel sets whose slices at every height have the same $(n-1)$-dimensional measure have the same volume.
+\end{proposition}
+
+\begin{proof}
+Apply Tonelli's theorem (Theorem~\ref{measure-theory:theorem-fubini}(1)) to the indicator function $\mathbf{1}_E$ on $\RR^{n-1} \times \RR$, with $\lambda^n = \lambda^{n-1} \times \lambda^1$ on Borel sets
+(Remark~\ref{measure-theory:remark-lebesgue-product}), integrating first over $y$: $\int\mathbf{1}_E(y, t)\,d\lambda^{n-1}(y) = \lambda^{n-1}(E_t)$.
+\end{proof}
+
+The principle is named after Bonaventura Cavalieri (1635), who stated it for plane figures and solids, but Archimedes had already used it, and Zu Chongzhi and his son Zu Geng used it in China in the
+fifth century to find the volume of the ball.
+
+\begin{example}\label{measure-theory:example-cavalieri}
+\begin{enumerate}
+\item \emph{Cones.} Let $B \subseteq \RR^2$ be a Borel set of finite area $A$ and $h > 0$, and let $C$ be the cone over $B$ with apex $(0, 0, h)$, the union of the segments from the points of $B \times \{0\}$ to the apex.
+Its slice at height $t \in [0, h)$ is the scaled copy $(1 - t/h)B$, of area $(1 - t/h)^2A$ by Lemma~\ref{measure-theory:lemma-linear-change}. So $\lambda^3(C) = A\int_0^h(1 - t/h)^2\,dt = \frac13Ah$, whatever the shape of the
+base: a third of the prism with the same base and height.
+\item \emph{Archimedes' ball.} The slice of the half-ball $\{|x| \leq R, x_3 \geq 0\}$ at height $t \in [0, R]$ is a disc of area $\pi(R^2 - t^2)$. The slice of the cylinder $\{x_1^2 + x_2^2 \leq R^2, 0 \leq x_3 \leq R\}$ minus
+the cone $\{\sqrt{x_1^2 + x_2^2} < x_3\}$ is an annulus of area $\pi R^2 - \pi t^2$. The slices have equal areas, so the half-ball has the volume of the cylinder minus the cone, $\pi R^3 - \frac13\pi R^3 = \frac23\pi R^3$, and
+the ball has volume $\frac43\pi R^3$. This is Archimedes' argument, which he regarded as his finest: the ball is two thirds of the circumscribed cylinder.
+\end{enumerate}
+\end{example}
+
+A \emph{solid of revolution} is obtained by rotating a plane region around an axis. We take the $z$-axis in $\RR^3$ as axis, and describe the region in the half-plane $H = \{(r, z) : r > 0\}$ of distances
+from the axis and heights. For a Borel set $R \subseteq H$ let
+\[
+\operatorname{Rev}(R) = \bigl\{(x, y, z) \in \RR^3 : \bigl(\sqrt{x^2 + y^2}, z\bigr) \in R\bigr\}
+\]
+be the solid swept out by $R$, a Borel set since it is the preimage of $R$ under a continuous map on $\RR^3$ minus the axis.
+
+\begin{proposition}[Volumes of solids of revolution]\label{measure-theory:proposition-revolution-volume}
+For every Borel set $R \subseteq H$,
+\[
+\lambda^3(\operatorname{Rev}(R)) = 2\pi\int_Rr\,d\lambda^2(r, z) .
+\]
+In particular:
+\begin{enumerate}
+\item (\emph{Discs}) if $R = \{(r, z) : a \leq z \leq b,\ 0 < r \leq f(z)\}$ for a continuous $f \geq 0$ on $[a, b]$, then $\lambda^3(\operatorname{Rev}(R)) = \pi\int_a^bf(z)^2\,dz$;
+\item (\emph{Shells}) if $R = \{(r, z) : a \leq r \leq b,\ 0 \leq z \leq g(r)\}$ for $0 < a < b$ and a continuous $g \geq 0$ on $[a, b]$, then $\lambda^3(\operatorname{Rev}(R)) = 2\pi\int_a^brg(r)\,dr$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Use \emph{cylindrical coordinates} $\phi(r, \theta, z) = (r\cos\theta, r\sin\theta, z)$, a $C^1$-diffeomorphism from $U = (0, \infty) \times (0, 2\pi) \times \RR$ onto $\RR^3$ minus the closed half-plane $\{y = 0, x \geq 0\}$,
+which is a null set. Its Jacobian determinant is
+\[
+\det\begin{pmatrix}\cos\theta & -r\sin\theta & 0\\ \sin\theta & r\cos\theta & 0\\ 0 & 0 & 1\end{pmatrix} = r .
+\]
+Since $\mathbf{1}_{\operatorname{Rev}(R)}(\phi(r, \theta, z)) = \mathbf{1}_R(r, z)$, the change of variables formula (Theorem~\ref{measure-theory:theorem-change-of-variables}) and Tonelli's theorem give
+$\lambda^3(\operatorname{Rev}(R)) = \int_U\mathbf{1}_R(r, z)\,r\,d\lambda^3 = \int_0^{2\pi}d\theta\int_Rr\,d\lambda^2 = 2\pi\int_Rr\,d\lambda^2$. For (1), integrate first over $r$: $\int_0^{f(z)}r\,dr = \frac12f(z)^2$. For
+(2), integrate first over $z$: $\int_0^{g(r)}dz = g(r)$.
+\end{proof}
+
+The two special cases are the ``disc method'' and the ``shell method'' of calculus courses: (1) cuts the solid by planes perpendicular to the axis, which meet it in discs of area $\pi f(z)^2$, and is
+also a case of Cavalieri's principle; (2) cuts it into thin cylindrical shells of radius $r$, height $g(r)$ and thickness $dr$, of volume $2\pi rg(r)\,dr$. For the ball, (1) with $f(z) = \sqrt{R^2 - z^2}$
+gives $\pi\int_{-R}^R(R^2 - z^2)\,dz = \frac43\pi R^3$ once more.
+
+The integral $\int_Rr\,d\lambda^2$ has a mechanical meaning. The \emph{centroid} of a Borel set $R \subseteq \RR^2$ of finite positive area is the point $(\bar r, \bar z)$ with
+$\bar r = \lambda^2(R)^{-1}\int_Rr\,d\lambda^2$ and $\bar z = \lambda^2(R)^{-1}\int_Rz\,d\lambda^2$, its centre of mass for a uniform density. So the proposition can be read as follows.
+
+\begin{corollary}[Pappus--Guldin theorem for volumes]\label{measure-theory:corollary-pappus-volume}
+If $R \subseteq H$ has finite positive area and centroid at distance $\bar r$ from the axis, then
+\[
+\lambda^3(\operatorname{Rev}(R)) = 2\pi\bar r \cdot \lambda^2(R):
+\]
+the volume of a solid of revolution is the area of the region times the length of the circle described by its centroid.
+\end{corollary}
+
+\begin{proof}
+$2\pi\int_Rr\,d\lambda^2 = 2\pi\bar r\lambda^2(R)$ by the definition of $\bar r$.
+\end{proof}
+
+The theorem was stated by Pappus of Alexandria around 320 and rediscovered by Paul Guldin in 1640; in Italian it is the \emph{teorema di Pappo--Guldino}. It turns volume computations into centroid
+computations, and conversely.
+
+\begin{example}\label{measure-theory:example-pappus-volume}
+\begin{enumerate}
+\item \emph{The torus.} Rotating the disc of radius $a$ centred at $(c, 0)$, with $0 < a < c$, gives a solid torus. The centroid is the centre, by symmetry, so the volume is $2\pi c \cdot \pi a^2 = 2\pi^2ca^2$: the
+volume of a cylinder of radius $a$ whose length is the central circle of the torus. Computing it with discs requires the integral $\int_{-a}^a\pi\bigl((c + \sqrt{a^2 - z^2})^2 - (c - \sqrt{a^2 - z^2})^2\bigr)dz =
+4\pi c\int_{-a}^a\sqrt{a^2 - z^2}\,dz$, which is the same thing, $4\pi c \cdot \frac12\pi a^2$.
+\item \emph{The centroid of a half-disc.} Conversely, rotating the half-disc $\{r^2 + z^2 \leq a^2, r > 0\}$ around the $z$-axis gives the ball of radius $a$, so $\frac43\pi a^3 = 2\pi\bar r \cdot \frac12\pi a^2$, and the
+centroid of a half-disc lies at distance $\bar r = \frac{4a}{3\pi}$ from its diameter.
+\end{enumerate}
+\end{example}
 
 \section{The Radon--Nikodym and Riesz representation theorems}\label{measure-theory:section-radon-nikodym}
 
@@ -2365,6 +2459,52 @@ Injectivity is needed: for $f(t) = (\cos t, \sin t)$ on $(0, 4\pi)$, $\int Jf = 
 image with multiplicity: in general $\int_AJf = \int_{\RR^m}\#(A \cap f^{-1}(y))\,d\mathcal{H}^k(y)$ (Remark~\ref{measure-theory:remark-area-coarea}).
 \end{counterexample}
 
+The area formula also computes the area of surfaces of revolution, and gives the second theorem of Pappus. As in Proposition~\ref{measure-theory:proposition-revolution-volume}, the axis is the $z$-axis and
+$(r, z)$ are the distance from the axis and the height.
+
+\begin{proposition}[Pappus--Guldin theorem for areas]\label{measure-theory:proposition-pappus-area}
+Let $\gamma = (\rho, \zeta) \colon [a, b] \to \RR^2$ be a $C^1$ curve with $\rho \geq 0$ on $[a, b]$ and $\rho > 0$ on $(a, b)$, injective and regular on $(a, b)$, and let
+$\Sigma = \{(\rho(t)\cos\theta, \rho(t)\sin\theta, \zeta(t)) : t \in [a, b], \theta \in \RR\}$ be the surface obtained by rotating it around the $z$-axis. Then
+\[
+\mathcal{H}^2(\Sigma) = 2\pi\int_\gamma r\,ds = 2\pi\bar r\,L(\gamma),
+\]
+where $\int_\gamma r\,ds = \int_a^b\rho(t)|\gamma^{\prime}(t)|\,dt$ is a line integral of the first kind (Definition~\ref{real-analysis:definition-first-kind}) and $\bar r = L(\gamma)^{-1}\int_\gamma r\,ds$ is the distance of the
+centroid of the curve from the axis.
+\end{proposition}
+
+\begin{proof}
+Let $\Phi(t, \theta) = (\rho(t)\cos\theta, \rho(t)\sin\theta, \zeta(t))$ on $U = (a, b) \times (0, 2\pi)$. It is injective: $\rho(t) > 0$ and $\zeta(t)$ are recovered from $\Phi(t, \theta)$ as the distance from the axis and
+the height, which determine $t$ because $\gamma$ is injective on $(a, b)$, and then $\theta \in (0, 2\pi)$ is determined. Its partial derivatives
+$\Phi_t = (\rho^{\prime}\cos\theta, \rho^{\prime}\sin\theta, \zeta^{\prime})$ and $\Phi_\theta = (-\rho\sin\theta, \rho\cos\theta, 0)$ are orthogonal, with $|\Phi_t| = |\gamma^{\prime}(t)|$ and $|\Phi_\theta| = \rho(t)$. So
+$D\Phi^TD\Phi = \operatorname{diag}(|\gamma^{\prime}|^2, \rho^2)$, $J\Phi = \rho|\gamma^{\prime}| > 0$ (Definition~\ref{measure-theory:definition-jacobian}), and $D\Phi$ is injective. By the area formula
+(Theorem~\ref{measure-theory:theorem-area-formula}) and Tonelli's theorem, $\mathcal{H}^2(\Phi(U)) = \int_0^{2\pi}\int_a^b\rho(t)|\gamma^{\prime}(t)|\,dt\,d\theta = 2\pi\int_\gamma r\,ds$. The rest of $\Sigma$ is contained in the
+meridian $\Phi([a, b] \times \{0\})$ and the two circles (or points) $\Phi(\{a\} \times \RR)$ and $\Phi(\{b\} \times \RR)$. These are images of compact intervals under $C^1$ maps, which are Lipschitz by the mean value
+inequality, so they have finite $\mathcal{H}^1$-measure by Proposition~\ref{measure-theory:proposition-hausdorff}(3) and are $\mathcal{H}^2$-null by part (4) of the same proposition.
+\end{proof}
+
+\begin{example}\label{measure-theory:example-pappus-area}
+\begin{enumerate}
+\item \emph{The sphere.} The half circle $\gamma(t) = (R\sin t, -R\cos t)$, $t \in [0, \pi]$, has $\int_\gamma r\,ds = \int_0^\pi R\sin t \cdot R\,dt = 2R^2$, so the sphere of radius $R$ has area $4\pi R^2$; the centroid of the half
+circle is at distance $2R/\pi$ from the axis, as in Example~\ref{real-analysis:example-first-kind}(1).
+\item \emph{Archimedes' hat-box theorem.} The part of that sphere between the heights $z = c$ and $z = c + h$, with $-R \leq c < c + h \leq R$, comes from $t$ with $-R\cos t \in [c, c + h]$, and its area is
+$2\pi\int R\sin t \cdot R\,dt = 2\pi R\bigl[-R\cos t\bigr] = 2\pi Rh$. So the area of a spherical zone depends only on its height, and equals the area of the corresponding zone of the circumscribed cylinder: projecting
+the sphere horizontally onto the cylinder preserves areas. This is the principle behind Lambert's cylindrical equal-area map.
+\item \emph{The torus.} The circle of radius $a$ centred at distance $c > a$ from the axis has centroid at its centre, so the torus has area $2\pi c \cdot 2\pi a = 4\pi^2ac$. (The parametrisation
+$t \mapsto (c + a\cos t, a\sin t)$, $t \in [0, 2\pi]$, is injective on $(0, 2\pi)$, as the proposition requires.)
+\end{enumerate}
+\end{example}
+
+\begin{counterexample}\label{measure-theory:counterexample-gabriel-horn}
+\emph{Torricelli's trumpet}, also called Gabriel's horn: rotate the graph of $1/x$, $x \geq 1$, around the $x$-axis. By the disc method (Proposition~\ref{measure-theory:proposition-revolution-volume}(1), and monotone convergence
+as the length tends to infinity) the solid has volume $\pi\int_1^\infty x^{-2}\,dx = \pi$. By Proposition~\ref{measure-theory:proposition-pappus-area}, applied to $\gamma(x) = (1/x, x)$ on $[1, T]$ and letting $T \to \infty$,
+its surface has area
+\[
+2\pi\int_1^\infty\frac1x\sqrt{1 + x^{-4}}\,dx \geq 2\pi\int_1^\infty\frac{dx}{x} = \infty .
+\]
+So the trumpet can be filled with a finite amount of paint, but its inner surface cannot be painted. Torricelli's discovery (1643) of a solid of infinite extent and finite volume was a surprise to his
+contemporaries. The paradox disappears once one notes that area and volume scale differently: a layer of paint of fixed thickness does not fit into the narrow end of the trumpet.
+\end{counterexample}
+
 \begin{remark}\label{measure-theory:remark-area-coarea}
 \emph{The general area and coarea formulas.} By Rademacher's theorem a Lipschitz map $f \colon \RR^k \to \RR^m$ has a Jacobian almost everywhere, and the area formula holds in the generality
 \[
@@ -3364,4 +3504,44 @@ Let $L(F) = F_1(0) + 2F_2(0)$ for $F = (F_1, F_2) \in C_c(\RR, \RR^2)$. Find the
 $L(F) = \langle F(0), (1, 2)\rangle$, so $L(F) = \int\langle F, \nu\rangle\,d\mu$ with $\mu = \sqrt5\,\delta_0$ and $\nu(0) = (1, 2)/\sqrt5$, a unit vector. For an open $V \ni 0$ and $|F| \leq 1$ with
 support in $V$, the Cauchy--Schwarz inequality gives $L(F) \leq |(1, 2)| = \sqrt5$, with equality when $F(0) = (1, 2)/\sqrt5$, which is possible for $F = \psi\,(1, 2)/\sqrt5$ with $\psi \prec V$, $\psi(0) = 1$; for
 $0 \notin V$ the supremum is $0$. So the total variation is $\sqrt5\,\delta_0$, not $\delta_0 + 2\delta_0 = 3\delta_0$: the components cannot be estimated separately, as $|F| \leq 1$ couples them.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-steinmetz}
+Show that the intersection of the two solid cylinders $\{x^2 + y^2 \leq R^2\}$ and $\{x^2 + z^2 \leq R^2\}$ in $\RR^3$ (the \emph{Steinmetz solid}) has volume $\frac{16}{3}R^3$, using Cavalieri's principle with
+slices perpendicular to the $x$-axis.
+\end{exercise}
+
+\begin{solution}
+For $|x| \leq R$ the slice is $\{(y, z) : |y| \leq \sqrt{R^2 - x^2}, |z| \leq \sqrt{R^2 - x^2}\}$, a square of side $2\sqrt{R^2 - x^2}$, and it is empty for $|x| > R$. By
+Proposition~\ref{measure-theory:proposition-cavalieri} the volume is $\int_{-R}^R4(R^2 - x^2)\,dx = 4\bigl(2R^3 - \frac23R^3\bigr) = \frac{16}{3}R^3$. (Archimedes knew this too; compare with the ball inscribed in the
+solid, whose slices are the inscribed discs, of area $\frac\pi4$ times that of the squares, and whose volume is $\frac\pi4 \cdot \frac{16}{3}R^3 = \frac43\pi R^3$.)
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-pappus-cone}
+Use the Pappus--Guldin theorems to compute the volume and the lateral area of the cone of revolution with base radius $R$ and height $h$, obtained by rotating the triangle with vertices $(0, 0)$, $(R, 0)$,
+$(0, h)$ of the $(r, z)$-plane around the $z$-axis. (The centroid of a triangle is the average of its vertices.)
+\end{exercise}
+
+\begin{solution}
+The triangle has area $\frac12Rh$ and centroid at distance $\bar r = \frac13(0 + R + 0) = \frac R3$ from the axis, so the volume is $2\pi\frac R3 \cdot \frac12Rh = \frac13\pi R^2h$, by
+Corollary~\ref{measure-theory:corollary-pappus-volume}. The lateral surface comes from the segment from $(R, 0)$ to $(0, h)$, of length $\sqrt{R^2 + h^2}$, whose centroid is its midpoint, at distance $\frac R2$; by
+Proposition~\ref{measure-theory:proposition-pappus-area} the area is $2\pi\frac R2\sqrt{R^2 + h^2} = \pi R\sqrt{R^2 + h^2}$. (That the centroid of a triangle is the average of its vertices follows by applying an affine map
+taking it to the triangle $(0, 0)$, $(1, 0)$, $(0, 1)$, which changes all areas by the same factor, and computing $\int_0^1\int_0^{1-r}r\,dz\,dr = \frac16 = \frac13 \cdot \frac12$.)
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-shells}
+Compute the volume of the solid obtained by rotating the region $\{(r, z) : 0 < r \leq \pi, 0 \leq z \leq \sin r\}$ around the $z$-axis, using shells, and check the result with the Pappus--Guldin theorem.
+\end{exercise}
+
+\begin{solution}
+By Proposition~\ref{measure-theory:proposition-revolution-volume}(2), with $a \to 0$ by monotone convergence, the volume is $2\pi\int_0^\pi r\sin r\,dr = 2\pi\bigl[\sin r - r\cos r\bigr]_0^\pi = 2\pi^2$. The region has area
+$\int_0^\pi\sin r\,dr = 2$, and by symmetry about $r = \frac\pi2$ its centroid has $\bar r = \frac\pi2$; indeed $2\pi \cdot \frac\pi2 \cdot 2 = 2\pi^2$.
+\end{solution}
+
+\begin{exercise}\label{measure-theory:exercise-paraboloid}
+Show that the solid paraboloid $\{(x, y, z) : x^2 + y^2 \leq z \leq h\}$ has half the volume of the circumscribed cylinder $\{x^2 + y^2 \leq h, 0 \leq z \leq h\}$, a result of Archimedes.
+\end{exercise}
+
+\begin{solution}
+By the disc method with $f(z) = \sqrt z$ on $[0, h]$, the volume is $\pi\int_0^hz\,dz = \frac12\pi h^2$, and the cylinder of radius $\sqrt h$ and height $h$ has volume $\pi h \cdot h = \pi h^2$.
 \end{solution}
