@@ -662,6 +662,161 @@ Theorem~\ref{sets:theorem-schroder-bernstein}, $\RR \approx \mathcal{P}(\NN)$, a
 $\RR$ is uncountable by Theorem~\ref{sets:theorem-cantor}.
 \end{proof}
 
+\section{Irrational numbers and decimal expansions}\label{number-systems:section-decimals}
+
+The real numbers were constructed abstractly, as classes of Cauchy sequences. In practice a real number is written as a decimal expansion such as $3.14159\ldots$, and this section connects the two
+pictures. It also answers two natural questions. Which decimal expansions are rational? The answer is the eventually periodic ones (Theorem~\ref{number-systems:theorem-periodic-decimals}). And how large is
+$\RR$ compared with the plane $\RR^2$? They have the same size (Proposition~\ref{number-systems:proposition-plane-cardinality}).
+
+\begin{definition}\label{number-systems:definition-irrational}
+A real number is \emph{irrational} if it is not rational, that is, if it lies in $\RR \setminus \QQ$.
+\end{definition}
+
+The first example is $\sqrt 2$: it exists in $\RR$ by Proposition~\ref{number-systems:proposition-roots}, and it is not rational by Proposition~\ref{number-systems:proposition-sqrt-two}. More generally $\sqrt[n]{m}$ is
+irrational unless the integer $m \geq 0$ is an $n$-th power (Exercise~\ref{number-systems:exercise-rational-roots}). The irrational numbers are what the construction of $\RR$ adds to $\QQ$: they fill the gaps,
+such as the missing supremum of Counterexample~\ref{number-systems:counterexample-rationals-incomplete}.
+
+\begin{proposition}\label{number-systems:proposition-irrationals}
+\begin{enumerate}
+\item If $q \in \QQ$ and $x \in \RR \setminus \QQ$, then $q + x$ is irrational, and so is $qx$ if $q \neq 0$.
+\item Between any two real numbers $a < b$ there are both a rational and an irrational number.
+\item $\RR \setminus \QQ$ is uncountable; indeed $|\RR \setminus \QQ| = |\RR| = 2^{\aleph_0}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If $q + x = r \in \QQ$, then $x = r - q \in \QQ$; if $qx = r$ with $q \neq 0$, then $x = r/q \in \QQ$.
+(2) A rational number exists by density (Proposition~\ref{number-systems:proposition-complete-archimedean}). For an irrational one, apply density to $a/\sqrt 2 < b/\sqrt 2$ twice to find rationals
+$a/\sqrt 2 < q_1 < q_2 < b/\sqrt 2$; at least one of them, call it $q$, is nonzero. Then $a < q\sqrt 2 < b$, and $q\sqrt 2$ is irrational by (1).
+(3) $\QQ$ is countable (proof of Proposition~\ref{number-systems:proposition-reals-cardinality}). If $\RR \setminus \QQ$ were countable, then so would be $\RR = \QQ \cup (\RR \setminus \QQ)$, by
+Corollary~\ref{sets:corollary-cardinal-arithmetic}, contradicting Proposition~\ref{number-systems:proposition-reals-cardinality}. So $\RR \setminus \QQ$ is infinite and uncountable, and by the same corollary
+$|\RR| \leq |\QQ \sqcup (\RR \setminus \QQ)| = \max(\aleph_0, |\RR \setminus \QQ|) = |\RR \setminus \QQ| \leq |\RR|$.
+\end{proof}
+
+So in the sense of cardinality almost every real number is irrational, although both kinds are everywhere. The sum of two irrationals may be rational, as $\sqrt 2 + (-\sqrt 2) = 0$ shows.
+
+\paragraph{Decimal expansions.} In an Archimedean ordered field every $y$ has an \emph{integer part} $\lfloor y\rfloor$, the largest integer $m$ with $m \leq y$: the integers $m > y$ form a nonempty set that is
+bounded below, which has a least element $m_0$ by Theorem~\ref{number-systems:theorem-integers}, and $\lfloor y\rfloor = m_0 - 1$. Then $\lfloor y\rfloor \leq y < \lfloor y\rfloor + 1$, and $\lfloor y\rfloor$ is the only
+integer with this property. Since every real number is an integer plus an element of $[0, 1)$, it suffices to expand the numbers in $[0, 1)$. For a sequence of digits $d_n \in \{0, 1, \ldots, 9\}$, $n \geq 1$,
+we write
+\[
+0.d_1d_2d_3\ldots = \sup_{N \geq 1}s_N, \qquad s_N = \sum_{n=1}^Nd_n10^{-n};
+\]
+the supremum exists because $s_N \leq \sum_{n=1}^N9 \cdot 10^{-n} = 1 - 10^{-N} < 1$. (Limits of sequences of real numbers are studied in Chapter~\ref{real-analysis}; here only suprema are needed, and
+$s_N$ increases with $N$.)
+
+\begin{theorem}\label{number-systems:theorem-decimals}
+Every $x \in [0, 1)$ has exactly one expansion $x = 0.d_1d_2d_3\ldots$ whose digits are not all equal to $9$ from some point on. Its digits are given by
+\[
+d_n = \lfloor 10^nx\rfloor - 10\lfloor 10^{n-1}x\rfloor, \qquad\text{and}\qquad s_N = \frac{\lfloor 10^Nx\rfloor}{10^N}.
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{Existence.} Let $m_N = \lfloor 10^Nx\rfloor$, so $m_0 = 0$ and $m_N \leq 10^Nx < m_N + 1$. Multiplying the inequalities for $N - 1$ by $10$ gives $10m_{N-1} \leq 10^Nx < 10m_{N-1} + 10$, so
+$10m_{N-1} \leq m_N \leq 10m_{N-1} + 9$, that is, $d_N = m_N - 10m_{N-1} \in \{0, \ldots, 9\}$. Summing $d_n10^{-n} = m_n10^{-n} - m_{n-1}10^{-(n-1)}$ over $n \leq N$ gives $s_N = m_N10^{-N}$, so
+\[
+s_N \leq x < s_N + 10^{-N} \qquad\text{for all } N.
+\]
+Hence $x$ is an upper bound of the $s_N$, and no $u < x$ is one: by the Archimedean property $10^{-N} < x - u$ for some $N$ (as $10^N \geq N$), and then $s_N > x - 10^{-N} > u$. So $x = 0.d_1d_2\ldots$. If $d_n = 9$
+for all $n > N$, then for $M > N$
+\[
+s_M = s_N + 9\sum_{n=N+1}^M10^{-n} = s_N + 10^{-N} - 10^{-M},
+\]
+whose supremum over $M$ is $s_N + 10^{-N}$, by the Archimedean property again; but this supremum is $x < s_N + 10^{-N}$. So the digits are not eventually $9$.
+
+\emph{Uniqueness.} Let $x = 0.e_1e_2\ldots$ with digits $e_n$ not eventually $9$, and partial sums $t_N$. Fix $N$ and choose $m > N$ with $e_m \leq 8$. For $M \geq m$,
+\[
+t_M - t_N = \sum_{n=N+1}^Me_n10^{-n} \leq \sum_{n=N+1}^M9 \cdot 10^{-n} - 10^{-m} < 10^{-N} - 10^{-m},
+\]
+and the same bound holds for $N < M < m$. So $x = \sup_Mt_M \leq t_N + 10^{-N} - 10^{-m} < t_N + 10^{-N}$, while $t_N \leq x$. Thus $10^Nt_N$ is an integer with $10^Nt_N \leq 10^Nx < 10^Nt_N + 1$, so
+$10^Nt_N = \lfloor 10^Nx\rfloor = m_N$ for every $N$, and $e_N = m_N - 10m_{N-1} = d_N$.
+\end{proof}
+
+\begin{example}\label{number-systems:example-decimals}
+\begin{enumerate}
+\item $0.999\ldots = 1$: here $s_N = 1 - 10^{-N}$, and the supremum is $1$. Similarly $0.4999\ldots = 0.5000\ldots$. The proof shows that this is the only ambiguity: a number has two expansions if and only if it is
+of the form $m/10^N$, one ending in zeros and one ending in nines (Exercise~\ref{number-systems:exercise-two-expansions}). This is why the theorem excludes the expansions ending in nines.
+\item Long division computes the digits of a fraction. For $x = 1/7$: $10 = 1 \cdot 7 + 3$, $30 = 4 \cdot 7 + 2$, $20 = 2 \cdot 7 + 6$, $60 = 8 \cdot 7 + 4$, $40 = 5 \cdot 7 + 5$, $50 = 7 \cdot 7 + 1$, and the remainder $1$
+returns, so $1/7 = 0.142857\,142857\ldots$ repeats with period $6$.
+\item $\sqrt 2 - 1 = 0.41421356\ldots$: the digits are computed from $\lfloor 10^N\sqrt 2\rfloor$, the largest integer whose square is at most $2 \cdot 10^{2N}$; for instance $141^2 = 19881 \leq 20000 < 142^2 = 20164$
+gives the first two digits $4, 1$.
+\end{enumerate}
+\end{example}
+
+A sequence of digits is \emph{eventually periodic} if there are $N \geq 0$ and $p \geq 1$ with $d_{n+p} = d_n$ for all $n > N$; we write $0.d_1 \ldots d_N\overline{d_{N+1} \ldots d_{N+p}}$. A finite expansion,
+ending in zeros, is eventually periodic with period $1$.
+
+\begin{theorem}\label{number-systems:theorem-periodic-decimals}
+A number $x \in [0, 1)$ is rational if and only if its decimal expansion is eventually periodic. More precisely:
+\begin{enumerate}
+\item $0.\overline{c_1 \ldots c_p} = \dfrac{c}{10^p - 1}$, where $c = c_1c_2\ldots c_p$ is the integer with these decimal digits, $c = \sum_{i=1}^pc_i10^{p-i}$;
+\item if $x = a/b$ with integers $0 \leq a < b$, the digits of $x$ are eventually periodic, with a period $p \leq b$ that begins after at most $b$ digits.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For a digit sequence $(d_n)$ with partial sums $s_N$, multiplication by $10^k$ shifts the digits: since multiplying by a positive constant preserves suprema (Lemma~\ref{number-systems:lemma-sup-inf}),
+\[
+10^k \cdot 0.d_1d_2\ldots = \sup_N10^ks_{N+k} = D_k + 0.d_{k+1}d_{k+2}\ldots, \qquad D_k = \sum_{n=1}^kd_n10^{k-n},
+\]
+because $10^ks_{N+k} = D_k + \sum_{n=1}^Nd_{k+n}10^{-n}$, and adding a constant also preserves suprema.
+
+(1) Let $y = 0.\overline{c_1 \ldots c_p}$. Shifting by $p$ gives the same digit sequence, so $10^py = c + y$, and $y = c/(10^p - 1)$.
+
+\emph{Eventually periodic implies rational.} If $d_{n+p} = d_n$ for $n > N$, then $10^Nx = D_N + y$ with $y = 0.d_{N+1}d_{N+2}\ldots$ periodic, which is rational by (1); so $x = (D_N + y)/10^N \in \QQ$.
+
+(2) Long division: put $r_0 = a$, and for $n \geq 1$ let $q_n = \lfloor 10r_{n-1}/b\rfloor$ and $r_n = 10r_{n-1} - bq_n$, so that $0 \leq r_n < b$. Since $r_{n-1} < b$, $q_n \leq 9$. By induction on $N$,
+$10^Na/b = Q_N + r_N/b$ with $Q_N = \sum_{n=1}^Nq_n10^{N-n}$: this holds for $N = 0$, and multiplying by $10$ gives $10^{N+1}a/b = 10Q_N + 10r_N/b = (10Q_N + q_{N+1}) + r_{N+1}/b$. As $0 \leq r_N/b < 1$,
+$Q_N = \lfloor 10^Nx\rfloor$, and Theorem~\ref{number-systems:theorem-decimals} shows that the $q_n$ are the decimal digits of $x$. The remainders $r_0, \ldots, r_b$ are $b + 1$ elements of $\{0, \ldots, b - 1\}$, so
+$r_i = r_j$ for some $i < j \leq b$ (Proposition~\ref{sets:proposition-pigeonhole}). Each $r_n$ and $q_n$ is determined by $r_{n-1}$, so by induction $r_{n+p} = r_n$ for $n \geq i$, with $p = j - i$, and
+$q_{n+p} = q_n$ for $n > i$.
+\end{proof}
+
+\begin{example}\label{number-systems:example-irrational-decimals}
+\begin{enumerate}
+\item $0.\overline{123} = 123/999 = 41/333$, $0.\overline{9} = 9/9 = 1$, and $0.1\overline{6} = (1 + 0.\overline{6})/10 = (1 + \frac23)/10 = \frac16$.
+\item The number $x = 0.1010010001000010\ldots$, whose $1$'s are separated by blocks of $1, 2, 3, \ldots$ zeros, is irrational. If its digits satisfied $d_{n+p} = d_n$ for $n > N$, take a digit $d_m = 1$ with $m > N$;
+then $d_{m+kp} = 1$ for all $k \geq 0$, so beyond $m$ two consecutive $1$'s are never more than $p$ places apart. But the blocks of zeros become longer than $p$.
+\item The same argument shows that \emph{Champernowne's number} $0.123456789101112131415\ldots$, obtained by writing the positive integers one after another, is irrational: it contains the blocks of zeros of
+$10^k$, of every length $k$, but it does not end in zeros.
+\end{enumerate}
+\end{example}
+
+\paragraph{The plane has as many points as the line.} One might expect $\RR^2$ to be ``larger'' than $\RR$, and Cantor himself expected so; in 1877 he proved the opposite, and wrote to Dedekind that he saw it but did not
+believe it. There are two proofs, one through subsets of $\NN$ and one through decimal digits.
+
+\begin{proposition}\label{number-systems:proposition-plane-cardinality}
+$|\RR^n| = |\RR|$ for every $n \geq 1$, and the set $\RR^{\NN}$ of all sequences of real numbers also has the cardinality $|\RR| = 2^{\aleph_0}$. In particular the plane $\RR^2$, the square $[0, 1]^2$ and
+the segment $[0, 1]$ all have the same cardinality.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{number-systems:proposition-reals-cardinality} there is a bijection $\RR \to \mathcal{P}(\NN)$, so $\RR^2 \approx \mathcal{P}(\NN) \times \mathcal{P}(\NN)$. The map
+\[
+\mathcal{P}(\NN) \times \mathcal{P}(\NN) \to \mathcal{P}(\NN), \qquad (S, T) \mapsto \{2n : n \in S\} \cup \{2n + 1 : n \in T\},
+\]
+is a bijection: a subset $U$ of $\NN$ comes from exactly one pair, namely $S = \{n : 2n \in U\}$ and $T = \{n : 2n + 1 \in U\}$, because every natural number is uniquely even or odd
+(Proposition~\ref{number-systems:proposition-division-naturals}). So $\RR^2 \approx \mathcal{P}(\NN) \approx \RR$, and by induction $\RR^{n+1} = \RR^n \times \RR \approx \RR \times \RR \approx \RR$. For sequences,
+$\RR^{\NN} \approx \mathcal{P}(\NN)^{\NN}$, and $(S_k)_{k \in \NN} \mapsto \{(k, n) : n \in S_k\}$ is a bijection $\mathcal{P}(\NN)^{\NN} \to \mathcal{P}(\NN \times \NN)$, with inverse $U \mapsto (\{n : (k, n) \in U\})_k$. A
+bijection $\NN \times \NN \to \NN$ (Corollary~\ref{sets:corollary-omega-squared}) induces a bijection $\mathcal{P}(\NN \times \NN) \to \mathcal{P}(\NN)$. Finally $[0, 1] \subseteq [0, 1]^2$ via $x \mapsto (x, 0)$, the square lies in $\RR^2$, and
+$x \mapsto \frac12\bigl(1 + \frac{x}{1 + |x|}\bigr)$ is an injection $\RR \to (0, 1) \subseteq [0, 1]$: it is strictly increasing, since $\frac{x}{1 + x} = 1 - \frac1{1 + x}$ increases for $x \geq 0$ and
+$\frac{x}{1 + |x|}$ is odd. So $|\RR| \leq |[0, 1]| \leq |[0, 1]^2| \leq |\RR^2| = |\RR|$, and all are equal by Theorem~\ref{sets:theorem-schroder-bernstein}.
+\end{proof}
+
+\begin{remark}\label{number-systems:remark-interleaving}
+\emph{Cantor's interleaving of digits.} For $x = 0.a_1a_2a_3\ldots$ and $y = 0.b_1b_2b_3\ldots$ in $[0, 1)$, written with the expansions of Theorem~\ref{number-systems:theorem-decimals}, put
+\[
+f(x, y) = 0.a_1b_1a_2b_2a_3b_3\ldots .
+\]
+The interleaved digits are not eventually $9$, since otherwise both the $a_n$ and the $b_n$ would be; so by the uniqueness in the theorem $f(x, y)$ determines its digits, hence $x$ and $y$: $f \colon [0, 1)^2 \to [0, 1)$ is
+injective. It is not surjective: $0.191919\ldots$ would need $y = 0.999\ldots$, which is not an allowed expansion. Together with the injection $x \mapsto (x, 0)$ and
+Theorem~\ref{sets:theorem-schroder-bernstein} this proves $[0, 1)^2 \approx [0, 1)$ again. Such a bijection is necessarily wild: none of them is continuous. Removing one point disconnects the line but not the plane, and a continuous map sends connected
+sets to connected sets (Chapter~\ref{general-topology}); so a continuous bijection $\RR^2 \to \RR$ would map the connected set $\RR^2 \setminus \{p\}$ onto the disconnected set $\RR \setminus \{f(p)\}$. The difference between
+the line and the plane, their \emph{dimension}, is not a matter of how many points they have but of how the points are arranged, and it is detected by topology. Once $\CC$ is constructed as $\RR^2$
+(Section~\ref{number-systems:section-complex}), the proposition also gives $|\CC| = |\RR|$.
+\end{remark}
+
 \section{The complex numbers}\label{number-systems:section-complex}
 
 \begin{definition}\label{number-systems:definition-complex}
@@ -782,7 +937,39 @@ algebraic.
 \end{exercise}
 
 \begin{exercise}\label{number-systems:exercise-decimal-expansions}
-Show that for every $x \in [0, 1)$ there is a unique sequence
-$(d_n)_{n \geq 1}$ with $d_n \in \{0, 1, \ldots, 9\}$, not eventually equal to $9$,
-such that $x = \sup_N \sum_{n=1}^{N} d_n 10^{-n}$.
+Let $b \geq 2$ be an integer. Show that Theorems~\ref{number-systems:theorem-decimals} and~\ref{number-systems:theorem-periodic-decimals} hold in base $b$: every $x \in [0, 1)$ is uniquely
+$x = \sup_N\sum_{n=1}^Nd_nb^{-n}$ with digits $d_n \in \{0, 1, \ldots, b - 1\}$ not eventually equal to $b - 1$, and $x$ is rational if and only if these digits are eventually periodic. Find the binary
+($b = 2$) expansion of $\frac13$ and the ternary ($b = 3$) expansion of $\frac14$.
 \end{exercise}
+
+\begin{solution}
+Replace $10$ by $b$ and $9$ by $b - 1$ in both proofs: $d_n = \lfloor b^nx\rfloor - b\lfloor b^{n-1}x\rfloor$, the partial sums are $\lfloor b^Nx\rfloor/b^N$, the geometric sum is
+$\sum_{n=N+1}^M(b - 1)b^{-n} = b^{-N} - b^{-M}$, a periodic block gives $c/(b^p - 1)$, and long division uses $q_n = \lfloor br_{n-1}/b^{\prime}\rfloor$ for the denominator $b^{\prime}$. Since
+$0.\overline{01}_2 = 1/(2^2 - 1) = \frac13$ and $0.\overline{02}_3 = 2/(3^2 - 1) = \frac14$, these are the expansions: $\frac13 = 0.010101\ldots$ in base $2$ and $\frac14 = 0.020202\ldots$ in base $3$. In base $3$ the
+digits $0$ and $2$ alone describe the Cantor set, which is why $\frac14$, although not an endpoint of the construction, lies in it.
+\end{solution}
+
+\begin{exercise}\label{number-systems:exercise-two-expansions}
+Show that $x \in [0, 1)$ has a second expansion $x = 0.e_1e_2\ldots$, with digits ending in nines, if and only if $x = m/10^N$ for some integers $N \geq 1$ and $0 < m < 10^N$; in that case the second expansion is unique,
+and it is obtained from the finite one by lowering its last nonzero digit by $1$ and replacing the zeros after it by nines.
+\end{exercise}
+
+\begin{solution}
+Suppose $x = 0.e_1e_2\ldots$ with $e_n = 9$ for all $n > N$ and $e_N \leq 8$; such an $N \geq 1$ exists, since if all digits were $9$ then $x = 1$. The computation in the proof of
+Theorem~\ref{number-systems:theorem-decimals} gives $x = \sup_M(t_N + 10^{-N} - 10^{-M}) = t_N + 10^{-N}$. So $x = m/10^N$ with $m = 10^Nt_N + 1$, an integer with $0 < m < 10^N$ whose last decimal digit is
+$e_N + 1 \neq 0$. Hence $N$ is the least $K$ such that $10^Kx$ is an integer, so $N$ is determined by $x$; then $t_N = x - 10^{-N}$ is determined, and so are $e_1, \ldots, e_N$, the digits of the expansion
+$0.e_1 \ldots e_N000\ldots$ of $t_N$ given by the theorem. This proves uniqueness of the second expansion, and that it exists only for $x = m/10^N$.
+
+Conversely, let $x = m/10^N$ with $0 < m < 10^N$, and take $N$ least, so that $10 \nmid m$. Then $\lfloor 10^Mx\rfloor = 10^Mx$ for $M \geq N$, so the expansion of the theorem is $0.d_1 \ldots d_N000\ldots$, with
+$d_N \neq 0$ the last digit of $m$. The sequence $0.d_1 \ldots d_{N-1}(d_N - 1)999\ldots$ has partial sums $s_N - 10^{-N} + 10^{-N} - 10^{-M}$ for $M \geq N$, whose supremum is $s_N = x$.
+\end{solution}
+
+\begin{exercise}\label{number-systems:exercise-irrational-sums}
+Show that $\sqrt 2 + \sqrt 3$ and $\sqrt 2\sqrt 3 = \sqrt 6$ are irrational, and give an example of two irrational numbers whose product is rational and of two whose sum is irrational.
+\end{exercise}
+
+\begin{solution}
+$\sqrt 6$ is irrational because $6$ is not a square (Exercise~\ref{number-systems:exercise-rational-roots}); and $\sqrt 2\sqrt 3$ is a nonnegative number with square $6$, so it equals $\sqrt 6$ by uniqueness in
+Proposition~\ref{number-systems:proposition-roots}. If $s = \sqrt 2 + \sqrt 3$ were rational, then $s^2 = 5 + 2\sqrt 6$ would be rational, and so would $\sqrt 6 = (s^2 - 5)/2$, a contradiction. The irrational
+numbers $\sqrt 2$ and $\sqrt 2$ have rational product $2$; $\sqrt 2$ and $\sqrt 3$ have irrational sum, as just shown.
+\end{solution}

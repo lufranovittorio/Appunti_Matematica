@@ -807,3 +807,38 @@ horizontal vector $w$, and $dx \wedge dy(w, \partial_z) = 0$ since $dx(\partial_
 the area of the projection to the $(x, y)$-plane, which maps $C$ onto a circle, of area zero. Note that $\iota^*(x\,dy - y\,dx) = d\theta$ is closed but not exact on $C$, although
 $x\,dy - y\,dx$ is not closed on $\RR^3$.
 \end{solution}
+
+\begin{exercise}\label{differential-forms:exercise-angle-form-polar}
+Let $\alpha = (x\,dy - y\,dx)/(x^2 + y^2)$ be the angle form on $\RR^2 \setminus \{0\}$ and $P \colon (0, \infty) \times \RR \to \RR^2 \setminus \{0\}$, $P(r, \theta) = (r\cos\theta, r\sin\theta)$.
+\begin{enumerate}
+\item Compute $P^*\alpha$ by substituting $x = r\cos\theta$, $y = r\sin\theta$, and show that $P^*\alpha = d\theta$. Compute also $P^*\bigl((x\,dx + y\,dy)/(x^2 + y^2)\bigr)$.
+\item Deduce from (1), without computing $d\alpha$ in Cartesian coordinates, that $\alpha$ is closed.
+\item Let $\gamma(t) = P(r(t), \theta(t))$, $t \in [a, b]$, with $r > 0$ and $\theta$ smooth. Show that $\int_\gamma\alpha = \theta(b) - \theta(a)$, the total change of the angle along $\gamma$. Compute $\int_\gamma\alpha$ for the circle
+$\gamma(t) = (\cos kt, \sin kt)$, $t \in [0, 2\pi]$, traversed $k$ times, $k \in \ZZ$.
+\item For $p = (a, b) \in \RR^2$, the \emph{angle form centred at $p$} is $\alpha_p = ((x - a)\,dy - (y - b)\,dx)/((x - a)^2 + (y - b)^2)$. Show that $\alpha_p = \tau^*\alpha$ for the translation $\tau(x, y) = (x - a, y - b)$, and compute
+$\int_\gamma\alpha_p$ for the unit circle $\gamma(t) = (\cos t, \sin t)$, $t \in [0, 2\pi]$, and $p = (2, 0)$.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) By Example~\ref{differential-forms:example-polar-forms}, $P^*dx = \cos\theta\,dr - r\sin\theta\,d\theta$ and $P^*dy = \sin\theta\,dr + r\cos\theta\,d\theta$; pullback is computed by substitution, since it is
+compatible with products and $P^*(dx) = d(x \circ P)$. Then
+\[
+P^*(x\,dy - y\,dx) = r\cos\theta(\sin\theta\,dr + r\cos\theta\,d\theta) - r\sin\theta(\cos\theta\,dr - r\sin\theta\,d\theta) = r^2(\cos^2\theta + \sin^2\theta)\,d\theta = r^2\,d\theta,
+\]
+the $dr$-terms cancelling, and $P^*(x^2 + y^2) = r^2$; so $P^*\alpha = d\theta$. Similarly
+$P^*(x\,dx + y\,dy) = r\cos\theta(\cos\theta\,dr - r\sin\theta\,d\theta) + r\sin\theta(\sin\theta\,dr + r\cos\theta\,d\theta) = r\,dr$, so the second form pulls back to $dr/r$: it is $d\log r$, with
+$r = (x^2 + y^2)^{1/2}$. Note that $\theta$ is a function on $(0, \infty) \times \RR$, but not on $\RR^2 \setminus \{0\}$; this is why $d\theta$ is exact upstairs while $\alpha$ is not exact downstairs
+(Counterexample~\ref{differential-forms:counterexample-closed-not-exact}).
+
+(2) $P^*(d\alpha) = d(P^*\alpha) = d(d\theta) = 0$, since $d$ commutes with pullbacks and $d \circ d = 0$. The Jacobian determinant of $P$ is $r \neq 0$, so $d_qP$ is invertible at every $q$, and
+$(P^*d\alpha)_q = \Lambda^2(d_qP)^*\bigl((d\alpha)_{P(q)}\bigr)$ (Proposition~\ref{differential-forms:proposition-induced-maps}) vanishes only if $(d\alpha)_{P(q)} = 0$. As $P$ is surjective, $d\alpha = 0$.
+
+(3) $\gamma = P \circ c$ with $c(t) = (r(t), \theta(t))$, so $\gamma^*\alpha = c^*P^*\alpha = c^*d\theta = d(\theta \circ c) = \theta^{\prime}(t)\,dt$, and $\int_\gamma\alpha = \int_a^b\theta^{\prime}(t)\,dt = \theta(b) - \theta(a)$. For the
+circle traversed $k$ times, $r = 1$ and $\theta(t) = kt$, so $\int_\gamma\alpha = 2\pi k$. For a closed curve the result is $2\pi$ times an integer, the \emph{winding number} of $\gamma$ around $0$.
+
+(4) $\tau^*x = x - a$, $\tau^*y = y - b$, $\tau^*dx = dx$ and $\tau^*dy = dy$, which gives $\tau^*\alpha = \alpha_p$. Now $\gamma(t) - p = (\cos t - 2, \sin t)$ has negative first coordinate for all $t$, so it can be written
+as $\rho(t)(\cos\vartheta(t), \sin\vartheta(t))$ with $\rho(t) = |\gamma(t) - p|$ and $\vartheta(t) = \pi + \arctan\bigl(\sin t/(\cos t - 2)\bigr)$, a smooth function with values in $(\frac\pi2, \frac{3\pi}2)$; indeed for a point
+$(u, v)$ with $u < 0$ the angle $\pi + \arctan(v/u)$ satisfies $\cos = u/\sqrt{u^2 + v^2}$ and $\sin = v/\sqrt{u^2 + v^2}$. Since $\gamma^*\alpha_p = (\tau \circ \gamma)^*\alpha$ and $\tau \circ \gamma = \gamma - p$, part (3)
+gives $\int_\gamma\alpha_p = \vartheta(2\pi) - \vartheta(0) = \pi - \pi = 0$: the circle does not wind around $p$.
+\end{solution}
