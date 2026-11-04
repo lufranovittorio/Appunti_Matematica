@@ -326,7 +326,8 @@ Let $M$ be a smooth manifold and $r, s \in \NN$. The \emph{bundle of tensors of 
 T^r_sM = TM^{\otimes r} \otimes (T^*M)^{\otimes s},
 \]
 with fibre $T^r_s(T_pM)$ over $p$ (Definition~\ref{multilinear-algebra:definition-tensor-type}), and $T^0_0M = M \times \RR$. A \emph{tensor field of type $(r,s)$} on an open set $U \subseteq M$ is a
-section of $T^r_sM$ over $U$; it assigns to every $p \in U$ a tensor of type $(r,s)$ on $T_pM$, depending smoothly on $p$.
+section of $T^r_sM$ over $U$; it assigns to every $p \in U$ a tensor of type $(r,s)$ on $T_pM$, depending smoothly on $p$, in the sense made precise in
+Proposition~\ref{vector-bundles:proposition-tensor-fields-smooth}.
 \end{definition}
 
 \begin{example}\label{vector-bundles:example-tensor-fields}
@@ -391,7 +392,74 @@ g = d\rho \otimes d\rho + \rho^2\,d\theta \otimes d\theta .
 \]
 This is the transformation law $g^{\prime} = P^TgP$ of Example~\ref{multilinear-algebra:example-tensor-transformation}(2), with $g$ the identity matrix and $P$ the Jacobian matrix of
 $(\rho, \theta) \mapsto (x, y)$.
+\emph{How such an expression acts on vectors.} By Proposition~\ref{multilinear-algebra:proposition-tensors-multilinear}(1), a decomposable tensor of type $(0,2)$ acts on a pair of vectors factor by factor:
+\[
+(\varphi \otimes \psi)(v, w) = \varphi(v)\,\psi(w), \qquad\text{so}\qquad g(v, w) = d\rho(v)\,d\rho(w) + \rho^2\,d\theta(v)\,d\theta(w).
+\]
+The covectors $d\rho$ and $d\theta$ read off the components of a vector in the basis $(\partial_\rho, \partial_\theta)$, since they are the dual basis: for $v = a\,\partial_\rho + b\,\partial_\theta$ and
+$w = c\,\partial_\rho + e\,\partial_\theta$ one has $d\rho(v) = a$, $d\theta(v) = b$, and so
+\[
+g(v, w) = ac + \rho^2be, \qquad |v|^2 = g(v, v) = a^2 + \rho^2b^2 .
+\]
+For instance $\partial_\theta$ at the point with polar coordinates $(\rho, \theta)$ has length $\rho$, as it should: in Cartesian components it is $(-\rho\sin\theta, \rho\cos\theta)$. The classical notation
+$ds^2 = d\rho^2 + \rho^2\,d\theta^2$ denotes the same tensor, or the quadratic form $v \mapsto g(v, v)$ it determines; $d\rho^2$ stands for $d\rho \otimes d\rho$, not for the wedge product, which would be $0$.
+In general, for a tensor field of type $(0,s)$ written as $T = \sum T_{j_1 \ldots j_s}\,dx^{j_1} \otimes \cdots \otimes dx^{j_s}$ and vectors $v_b = \sum_jv_b^j\,\partial_j$,
+\[
+T(v_1, \ldots, v_s) = \sum_{j_1, \ldots, j_s}T_{j_1 \ldots j_s}\,v_1^{j_1}v_2^{j_2} \cdots v_s^{j_s},
+\]
+since $dx^j(v_b) = v_b^j$; for type $(r,s)$ one also inserts covectors $\eta^a = \sum_i\eta^a_i\,dx^i$ in the first $r$ slots, using $\eta(\partial_i) = \eta_i$, and the components $\eta^1_{i_1} \cdots \eta^r_{i_r}$ appear
+in the sum as well. For $s = 2$ this is the matrix formula $T(v, w) = v^{\mathsf T}(T_{ij})w$ of bilinear forms.
 \end{example}
+
+The phrase ``depending smoothly on $p$'' in Definition~\ref{vector-bundles:definition-tensor-fields} means that the map $p \mapsto T_p$ is a smooth section of the vector bundle $T^r_sM$. The next proposition
+collects the practical ways of checking this, and the ways of passing from local tensor fields to global ones.
+
+\begin{proposition}\label{vector-bundles:proposition-tensor-fields-smooth}
+Let $M$ be a smooth manifold and $T = (T_p)_{p \in M}$ a family of tensors $T_p \in T^r_s(T_pM)$.
+\begin{enumerate}
+\item The following are equivalent: (a) $T$ is a smooth section of $T^r_sM$; (b) in every chart of some atlas the components $T^{i_1 \ldots i_r}_{j_1 \ldots j_s}$ are smooth functions; (c) for every open $U \subseteq M$, all smooth
+$1$-forms $\eta^1, \ldots, \eta^r$ and all smooth vector fields $X_1, \ldots, X_s$ on $U$, the function $p \mapsto T_p(\eta^1(p), \ldots, \eta^r(p), X_1(p), \ldots, X_s(p))$ is smooth on $U$.
+\item \emph{Gluing.} Let $(U_i)$ be an open cover of $M$ and $T_i$ a tensor field on $U_i$ for each $i$, with $T_i = T_j$ on $U_i \cap U_j$ for all $i, j$. Then there is exactly one tensor field $T$ on $M$ with
+$T|_{U_i} = T_i$ for all $i$.
+\item \emph{Averaging.} Let $(U_i)$ be an open cover, $T_i$ a tensor field on $U_i$, with no compatibility assumed, and $(\psi_i)$ a partition of unity subordinate to $(U_i)$. Then
+$\sum_i\psi_iT_i$, where $\psi_iT_i$ is extended by $0$ outside $U_i$, is a tensor field on $M$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) (a) $\Leftrightarrow$ (b) is Proposition~\ref{vector-bundles:proposition-tensor-fields-coordinates}(1), since smoothness of a section is a local property. (b) $\Rightarrow$ (c): on a chart domain inside $U$
+write $\eta^a = \sum_i\eta^a_i\,dx^i$ and $X_b = \sum_jX_b^j\,\partial_j$, with smooth coefficients. By multilinearity,
+\[
+T(\eta^1, \ldots, \eta^r, X_1, \ldots, X_s) = \sum T^{i_1 \ldots i_r}_{j_1 \ldots j_s}\,\eta^1_{i_1} \cdots \eta^r_{i_r}\,X_1^{j_1} \cdots X_s^{j_s},
+\]
+a polynomial in smooth functions; and smoothness is local. (c) $\Rightarrow$ (b): on a chart domain $U$, take for the $\eta^a$ the coordinate $1$-forms $dx^{i_a}$ and for the $X_b$ the coordinate fields $\partial_{j_b}$; the
+resulting functions are the components, by Proposition~\ref{multilinear-algebra:proposition-tensors-multilinear}(1) and the duality $dx^i(\partial_j) = \delta_{ij}$.
+
+(2) Define $T_p = T_i(p)$ for any $i$ with $p \in U_i$; by the compatibility this does not depend on $i$. Near each point $T$ coincides with one of the smooth $T_i$, so it is smooth, and it is the only family with the
+prescribed restrictions.
+
+(3) Since $\operatorname{supp}\psi_i \subseteq U_i$ is closed in $M$, the extension of $\psi_iT_i$ by $0$ is smooth: on $U_i$ it is a product of a smooth function and a smooth section, and on the open set
+$M \setminus \operatorname{supp}\psi_i$ it is $0$. Every point has a neighbourhood meeting only finitely many of the supports, and there the sum is a finite sum of smooth sections.
+\end{proof}
+
+\begin{remark}\label{vector-bundles:remark-local-to-global}
+\emph{From local to global.} There are two different ways of producing a global tensor field from local ones, and they answer different questions.
+\begin{enumerate}
+\item If the local objects \emph{agree on overlaps}, they glue by Proposition~\ref{vector-bundles:proposition-tensor-fields-smooth}(2): tensor fields form a sheaf
+(Proposition~\ref{vector-bundles:proposition-sheaf-of-sections}). This is how one defines tensor fields chart by chart: components given in every chart of an atlas and related by the transformation law of
+Proposition~\ref{vector-bundles:proposition-tensor-fields-coordinates}(2) define tensors $T_p$ that do not depend on the chart, and they form a tensor field by (1)(b). Natural constructions, such as the
+differential $df$ of a function or the curvature of a connection, are glued in this way, often without being mentioned: they are defined by the same formula in every chart, and the formula is compatible with
+changes of chart.
+\item If the local objects \emph{do not agree}, one can still average them with a partition of unity by (3), but the result is a new tensor field, which in general coincides with none of the $T_i$. Averaging
+preserves every property defined by a \emph{convex} condition at each point. For example, if every $T_i$ is a Riemannian metric, then at each $p$ the sum $\sum_i\psi_i(p)T_i(p)$ is a combination with nonnegative
+coefficients adding up to $1$ of positive definite symmetric bilinear forms, hence again one: this is the proof that Riemannian metrics exist
+(Proposition~\ref{vector-bundles:proposition-metrics}). Properties that are not convex are lost. If $J$ is an almost complex structure on an open set, then so is $-J$, but $\frac12J + \frac12(-J) = 0$ is not; and for the
+cover of $\RR$ by $U_1 = (-\infty, 1)$ and $U_2 = (0, \infty)$, the average $\psi_1\partial_x + \psi_2(-\partial_x) = (\psi_1 - \psi_2)\partial_x$ of the nowhere vanishing fields $\partial_x$ on $U_1$ and $-\partial_x$ on $U_2$
+vanishes somewhere in $(0, 1)$, by the intermediate value theorem, since $\psi_1 - \psi_2$ is $1$ on $(-\infty, 0]$ and $-1$ on $[1, \infty)$. This is why some tensor fields
+(metrics, connections, which form an affine space) exist on every manifold, while others (almost complex structures, nowhere vanishing vector fields, symplectic forms) need not, and their existence is a
+genuine global question.
+\end{enumerate}
+\end{remark}
 
 \begin{proposition}\label{vector-bundles:proposition-constant-rank}
 Let $f \colon E \to F$ be a morphism of vector bundles over $M$ whose rank on the fibres is constant. Then $\ker f \subseteq E$ and $\operatorname{im}f \subseteq F$ are subbundles, and $\operatorname{coker}f = F/\operatorname{im}f$ is a vector

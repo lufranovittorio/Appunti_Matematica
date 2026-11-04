@@ -30,6 +30,8 @@ three agree.
 \item Flows of vector fields, the Lie bracket, the Frobenius theorem and the Whitney embedding theorem (Section~\ref{smooth-manifolds:section-flows}).
 \item Surfaces in $\RR^3$ and $\RR^4$: compact non-orientable surfaces do not embed in $\RR^3$, an explicit embedding of $\RR\PP^2$ in $\RR^4$, and the Roman and
 Boy surfaces (Section~\ref{smooth-manifolds:section-surfaces-embeddings}).
+\item Manifolds of class $C^k$, $C^{1,1}$ and Lipschitz, Whitney's smoothing theorem, and rectifiable sets as manifolds up to measure zero
+(Section~\ref{smooth-manifolds:section-regularity}).
 \end{enumerate}
 Complex manifolds are defined in the same way with holomorphic transition maps (Chapter~\ref{complex-manifolds}). References:
 \cite{lee-smooth-manifolds}, \cite{warner-foundations}, \cite{hirsch-differential-topology}.
@@ -1553,6 +1555,76 @@ lines of double points) and it is not an immersion at six points (Exercise~\ref{
 to prove that no immersion exists, and Boy found one instead \cite{boy-1903}. Taking connected sums, every compact non-orientable surface immerses in $\RR^3$; the familiar picture of the Klein bottle as a bottle passing
 through its own neck is such an immersion.
 \end{enumerate}
+\end{remark}
+
+\section{Manifolds of finite regularity}\label{smooth-manifolds:section-regularity}
+
+Definition~\ref{smooth-manifolds:definition-manifold} asks the transition maps to be $C^\infty$. Asking less gives a whole scale of notions between topological and smooth manifolds. They matter in analysis
+and geometric measure theory, where objects arise as limits or as solutions of equations and are not known in advance to be smooth. On a manifold of class $C^k$ one can differentiate only as often as the
+transition maps allow. This section explains the scale, shows by examples what separates its levels, and connects its lowest levels to the rectifiable sets of measure theory.
+
+\begin{definition}\label{smooth-manifolds:definition-regularity}
+Let $M$ be a topological $n$-manifold and $k \in \{0, 1, 2, \ldots, \infty\}$. Two charts are \emph{$C^k$-compatible} if the transition maps are of class $C^k$ (for $k = 0$: homeomorphisms, so all charts are
+compatible). A \emph{$C^k$ atlas} is an atlas of pairwise $C^k$-compatible charts, a \emph{$C^k$ structure} is a maximal $C^k$ atlas, and a \emph{$C^k$ manifold} is a topological manifold with a $C^k$ structure.
+Replacing ``of class $C^k$'' by other classes of maps gives:
+\begin{enumerate}
+\item \emph{real analytic} ($C^\omega$) manifolds, whose transition maps are given locally by convergent power series;
+\item \emph{Lipschitz} manifolds, whose transition maps are locally bi-Lipschitz: each point of the domain has a neighbourhood on which the map and its inverse are Lipschitz;
+\item manifolds of class $C^{k,\alpha}$, for $0 < \alpha \leq 1$, whose transition maps are of class $C^k$ with $k$-th derivatives locally $\alpha$-H\"older continuous, $|D^kf(x) - D^kf(y)| \leq C|x - y|^\alpha$. The case
+$C^{1,1}$ means $C^1$ with locally Lipschitz derivative.
+\end{enumerate}
+Submanifolds of $\RR^N$ of each class are defined by slice charts of that class, as in Definition~\ref{smooth-manifolds:definition-immersion}; equivalently, a $k$-dimensional subset that is, near each of its points and
+after a rotation of coordinates, the graph of a map $\RR^k \supseteq U \to \RR^{N-k}$ of that class. (For $C^\infty$ this is Proposition~\ref{smooth-manifolds:proposition-graph-submanifold} together with the implicit function
+theorem; the same proof works for every class $C^k$ with $k \geq 1$.)
+\end{definition}
+
+The classes are ordered: $C^\infty \Rightarrow C^{k+1} \Rightarrow C^{k,1} \Rightarrow C^{k,\alpha} \Rightarrow C^k \Rightarrow \cdots \Rightarrow C^1 \Rightarrow$ Lipschitz $\Rightarrow C^0$, each implication meaning that an atlas of the first
+kind is one of the second kind (a $C^1$ map is locally Lipschitz by the mean value inequality). Each implication is strict, already for curves in the plane.
+
+\begin{example}\label{smooth-manifolds:example-regularity-curves}
+\begin{enumerate}
+\item \emph{Lipschitz, not $C^1$.} The boundary of the square $[0, 1]^2$ is near each corner the graph of a function like $y = |x|$ after a rotation by $45^\circ$, which is Lipschitz with Lipschitz inverse along the curve,
+but has no tangent line at the corners. So it is a Lipschitz submanifold of $\RR^2$, and not a $C^1$ one. The same holds for the boundary of every convex polygon, and more generally of every compact convex set with
+nonempty interior, which is locally the graph of a convex, hence locally Lipschitz, function.
+\item \emph{$C^1$, not $C^{1,1}$.} The graph of $f(x) = |x|^{3/2}$ is a $C^1$ curve, as $f^{\prime}(x) = \frac32\operatorname{sgn}(x)|x|^{1/2}$ is continuous. It is not $C^{1,1}$ near $0$ in this parametrisation, as
+$|f^{\prime}(x) - f^{\prime}(0)|/|x| = \frac32|x|^{-1/2}$ is unbounded; it is $C^{1,1/2}$.
+\item \emph{$C^{1,1}$, not $C^2$.} The \emph{stadium}, the boundary of a rectangle with two half-discs of radius $r$ attached to two opposite sides, is made of two segments and two semicircles meeting tangentially. Near
+a junction point it is the graph of $f(x) = r$ for $x \leq 0$ and $f(x) = \sqrt{r^2 - x^2}$ for $x \geq 0$, with the centre of the half-disc at the origin. Then $f^{\prime}(x) = 0$ for $x \leq 0$ and
+$f^{\prime}(x) = -x/\sqrt{r^2 - x^2}$ for $x \geq 0$, which is continuous and Lipschitz near $0$, as its derivative is bounded on each side. But $f^{\prime\prime}$ jumps from $0$ to $-1/r$: the curvature jumps from
+$0$ on the segment to $1/r$ on the circle. A $C^{1,1}$ curve has a curvature that exists almost everywhere and is bounded, without being continuous.
+\item \emph{$C^2$, not $C^3$.} The graph of $x \mapsto |x|^3$ is $C^2$, not $C^3$. More generally the graph of $|x|^{k+\alpha}$ for $0 < \alpha < 1$ is $C^{k,\alpha}$ and no better near $0$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{smooth-manifolds:remark-regularity-losses}
+\emph{What each level allows.} Every construction of this chapter costs derivatives. On a $C^k$ manifold with $k \geq 1$ tangent spaces are defined, through curves or through charts. The tangent bundle $TM$ is a
+$C^{k-1}$ manifold, as its transition maps $(x, v) \mapsto (\psi \circ \varphi^{-1}(x), D(\psi \circ \varphi^{-1})_x(v))$ involve the first derivatives of the transition maps. A Riemannian metric can be at best of
+class $C^{k-1}$; its Christoffel symbols involve one more derivative and its curvature two, so continuous curvature needs a $C^3$ manifold and a $C^2$ metric. On a $C^{1,1}$ submanifold the second fundamental form
+exists almost everywhere and is bounded, by Rademacher's theorem (Theorem~\ref{measure-theory:theorem-rademacher}) applied to the first derivatives of the graph functions; on a Lipschitz manifold tangent planes exist
+only almost everywhere, by the same theorem, which is still enough to integrate differential forms with bounded measurable coefficients.
+\end{remark}
+
+\begin{theorem}[Whitney]\label{smooth-manifolds:theorem-whitney-smoothing}
+Let $1 \leq k < \infty$. Every $C^k$ structure on a manifold contains a $C^\infty$ atlas, so every $C^k$ manifold is $C^k$-diffeomorphic to a smooth manifold; and two smooth manifolds that are $C^k$-diffeomorphic
+are diffeomorphic.
+\end{theorem}
+
+This is \cite[Chapter 2, Section 2]{hirsch-differential-topology}. So for $k \geq 1$ the finite regularity of a \emph{manifold} is not a restriction: one may always pass to a smooth structure, and statements about
+manifolds of class $C^k$ reduce to smooth ones. What remains is the regularity of \emph{objects inside} a smooth manifold, such as submanifolds, maps, metrics or solutions of equations, and there the scale above is
+essential: the stadium of Example~\ref{smooth-manifolds:example-regularity-curves}(3) is a $C^{1,1}$ submanifold of $\RR^2$, diffeomorphic to the circle as an abstract manifold, but not a $C^2$ submanifold. For
+$k = 0$ the theorem fails: there are topological manifolds with no smooth structure at all, for instance a closed simply connected $4$-manifold whose intersection form is the $E_8$ form, which exists by Freedman's
+theorem \cite{freedman-1982} and admits no smooth structure by Donaldson's theorem \cite{donaldson-1983}.
+
+\begin{remark}\label{smooth-manifolds:remark-rectifiable}
+\emph{Rectifiable sets: manifolds up to measure zero.} At the bottom of the scale, geometric measure theory replaces submanifolds by the countably $k$-rectifiable sets of
+Definition~\ref{measure-theory:definition-rectifiable}: sets covered, up to an $\mathcal{H}^k$-null set, by countably many Lipschitz images of subsets of $\RR^k$. Every $k$-dimensional submanifold $S \subseteq \RR^N$ of
+class $C^1$, in particular every smooth one, is countably $k$-rectifiable: $S$ is second countable, so it is covered by countably many slice charts, and the inverse of each is a $C^1$ map from an open subset of $\RR^k$
+onto an open part of $S$, whose image is countably $k$-rectifiable by Proposition~\ref{measure-theory:proposition-rectifiable}(3); then use part (1) of the same proposition. Conversely, a set is countably
+$k$-rectifiable if and only if, up to an $\mathcal{H}^k$-null set, it is contained in a countable union of $C^1$ submanifolds of dimension $k$ \cite[3.2.29]{federer-gmt}. So a rectifiable set is a ``manifold
+almost everywhere'': at $\mathcal{H}^k$-almost every point it has an approximate tangent plane, and the area formula integrates over it. But it may be far from a manifold globally. The union
+$\bigcup_{q \in \QQ \cap [0, 1]}\{q\} \times [0, 1]$ of countably many vertical segments is countably $1$-rectifiable, and it is dense in the square $[0, 1]^2$. No point of it has a neighbourhood homeomorphic to an
+interval: every neighbourhood of a point in it is disconnected, split by the vertical lines with irrational abscissa. Rectifiable sets with integer multiplicities and orientations are the integral currents mentioned in Chapter~\ref{de-rham}, the generalised surfaces in which Plateau's problem
+is solved.
 \end{remark}
 
 \section{Exercises}\label{smooth-manifolds:section-exercises}

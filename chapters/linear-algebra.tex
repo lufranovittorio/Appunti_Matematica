@@ -68,6 +68,36 @@ $Ax = b$ with $b \neq 0$ do not, as they do not contain $0$.
 \end{enumerate}
 \end{example}
 
+Subspaces behave well under linear maps. The following facts are used constantly, usually without comment.
+
+\begin{lemma}\label{linear-algebra:lemma-images-subspaces}
+Let $f \colon V \to W$ be a linear map.
+\begin{enumerate}
+\item If $U \subseteq V$ is a subspace, its image $f(U) = \{f(u) : u \in U\}$ is a subspace of $W$. In particular the image $\im f = f(V)$ is a subspace.
+\item If $U^{\prime} \subseteq W$ is a subspace, its preimage $f^{-1}(U^{\prime}) = \{v \in V : f(v) \in U^{\prime}\}$ is a subspace of $V$ containing $\ker f = f^{-1}(0)$.
+\item $f$ maps the span of a set $S \subseteq V$ onto the span of $f(S)$. Hence $\dim f(U) \leq \dim U$; if $f$ is injective, it maps linearly independent sets to linearly independent sets and $\dim f(U) = \dim U$.
+\item Intersections of subspaces are subspaces, and $U_1 + U_2 = \{u_1 + u_2 : u_i \in U_i\}$ is the smallest subspace containing the subspaces $U_1$ and $U_2$. A union $U_1 \cup U_2$ is a subspace only if
+$U_1 \subseteq U_2$ or $U_2 \subseteq U_1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) $0 = f(0) \in f(U)$; and $f(u_1) + f(u_2) = f(u_1 + u_2)$ and $af(u) = f(au)$ lie in $f(U)$, since $u_1 + u_2, au \in U$. (2) $f(0) = 0 \in U^{\prime}$; if $f(v_1), f(v_2) \in U^{\prime}$, then
+$f(v_1 + v_2) = f(v_1) + f(v_2) \in U^{\prime}$ and $f(av_1) = af(v_1) \in U^{\prime}$. Since $0 \in U^{\prime}$, $\ker f \subseteq f^{-1}(U^{\prime})$.
+(3) $f(\sum a_is_i) = \sum a_if(s_i)$, so $f$ maps the combinations of elements of $S$ exactly onto the combinations of elements of $f(S)$. A basis $B$ of $U$ spans $U$, so $f(B)$ spans $f(U)$, and $f(U)$
+has a basis contained in $f(B)$ (Theorem~\ref{rings:theorem-bases-exist}), of cardinality at most $|B|$. If $f$ is injective and $\sum a_if(s_i) = 0$ for distinct $s_i \in S$, then $f(\sum a_is_i) = 0$, so
+$\sum a_is_i = 0$; if $S$ is independent, all $a_i = 0$. Then $f(B)$ is a basis of $f(U)$, of the same cardinality as $B$.
+(4) The conditions defining a subspace are preserved by intersections. $U_1 + U_2$ is the image of the linear map $U_1 \times U_2 \to V$, $(u_1, u_2) \mapsto u_1 + u_2$, so a subspace by (1), and every subspace
+containing $U_1$ and $U_2$ contains all sums $u_1 + u_2$. If neither $U_i$ contains the other, pick $u_1 \in U_1 \setminus U_2$ and $u_2 \in U_2 \setminus U_1$. Then $u_1 + u_2 \notin U_1$, since otherwise
+$u_2 = (u_1 + u_2) - u_1 \in U_1$, and similarly $u_1 + u_2 \notin U_2$; so $U_1 \cup U_2$ is not closed under addition.
+\end{proof}
+
+\begin{example}\label{linear-algebra:example-images-subspaces}
+Let $f \colon \RR^3 \to \RR^2$, $f(x, y, z) = (x + z, y)$. The plane $U = \{z = 0\}$ is mapped onto all of $\RR^2$, and the line $L = \RR(1, 0, -1)$ to $0$: it is $\ker f$. The preimage of the line $\RR(1, 0)$ is
+$\{y = 0\}$, a plane containing $\ker f$. Images of intersections can be smaller than intersections of images: for $U_1 = \RR(1, 0, 0)$ and $U_2 = \RR(0, 0, 1)$, $U_1 \cap U_2 = 0$, but
+$f(U_1) = f(U_2) = \RR(1, 0)$. The coordinate axes of $\RR^2$ are subspaces whose union is not: $(1, 0) + (0, 1) = (1, 1)$ lies on neither axis.
+\end{example}
+
 \begin{proposition}\label{linear-algebra:proposition-subspaces}
 Let $V$ be a vector space and $W \subseteq V$ a subspace.
 \begin{enumerate}
@@ -1392,4 +1422,21 @@ This is Shamir's scheme, \cite{shamir-1979}.
 and $s = q(0)$. (2) Given $t - 1$ indices $a_1, \ldots, a_{t-1}$, all nonzero, and a candidate $s^{\prime}$, interpolate at the $t$ distinct points $0, a_1, \ldots, a_{t-1}$ with the values $s^{\prime}, q(a_1), \ldots, q(a_{t-1})$: there is exactly one
 polynomial of degree at most $t - 1$ doing this. So, given what the $t - 1$ people hold, each candidate secret is compatible with exactly one choice of $c_1, \ldots, c_{t-1}$; since these are chosen uniformly at
 random, the shares make no value of the secret more likely than any other.
+\end{solution}
+
+\begin{exercise}\label{linear-algebra:exercise-images-preimages}
+Let $f \colon V \to W$ be linear, $U \subseteq V$ and $U^{\prime} \subseteq W$ subspaces. Show that
+\[
+f^{-1}(f(U)) = U + \ker f, \qquad f(f^{-1}(U^{\prime})) = U^{\prime} \cap \im f,
+\]
+that $f^{-1}$ preserves sums only up to inclusion, $f^{-1}(U_1^{\prime}) + f^{-1}(U_2^{\prime}) \subseteq f^{-1}(U_1^{\prime} + U_2^{\prime})$, and that $f(U_1 + U_2) = f(U_1) + f(U_2)$ and $f^{-1}(U_1^{\prime} \cap U_2^{\prime}) = f^{-1}(U_1^{\prime}) \cap f^{-1}(U_2^{\prime})$.
+If $V$ is finite-dimensional, show that $\dim f(U) = \dim U - \dim(U \cap \ker f)$. Give an example where the inclusion for $f^{-1}$ of a sum is strict.
+\end{exercise}
+
+\begin{solution}
+If $f(v) = f(u)$ with $u \in U$, then $v = u + (v - u)$ with $v - u \in \ker f$; conversely $f(u + k) = f(u)$ for $k \in \ker f$. This gives the first identity. For the second, $f(f^{-1}(U^{\prime}))$ consists of the
+$f(v)$ that lie in $U^{\prime}$, that is, of the elements of $U^{\prime}$ that are values of $f$. Linearity gives $f(u_1 + u_2) = f(u_1) + f(u_2)$, hence $f(U_1 + U_2) = f(U_1) + f(U_2)$, and
+$f(v_1 + v_2) = f(v_1) + f(v_2) \in U_1^{\prime} + U_2^{\prime}$ if $f(v_i) \in U_i^{\prime}$, which is the inclusion. The statement for intersections holds for preimages under any map of sets. The dimension formula is
+rank--nullity (Theorem~\ref{linear-algebra:theorem-rank-nullity}) for the restriction $f|_U \colon U \to W$, whose kernel is $U \cap \ker f$ and whose image is $f(U)$. For a strict inclusion, take
+$f \colon \RR \to \RR^2$, $f(t) = (t, t)$, and the two coordinate axes $U_1^{\prime}$, $U_2^{\prime}$: their preimages are $0$, but $U_1^{\prime} + U_2^{\prime} = \RR^2$ has preimage $\RR$.
 \end{solution}

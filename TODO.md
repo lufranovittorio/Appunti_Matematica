@@ -24,6 +24,13 @@ references in proofs).
   reasonable) and `functional-analysis`.
 - `number-theory`: later sections on continued fractions and Pell's equation,
   $p$-adic numbers, and Dirichlet characters.
+- **Asked by the user (2026-11-04)**: `number-theory`: Bertrand's postulate
+  (Erdős's proof via central binomial coefficients) and estimates of
+  Chebyshev type; `fields`: constructible numbers as a section (ruler and
+  compass constructions, the field of constructible numbers, Wantzel:
+  doubling the cube and trisecting the angle are impossible, Gauss--Wantzel
+  for regular polygons, the $17$-gon), expanding
+  `fields:exercise-constructible`.
 - **Slower rewrite, chapter by chapter** (the user finds the text rushed):
   after `connections`, continue with `vector-bundles`, `differential-forms`,
   `de-rham`, `characteristic-classes`, then the other parts; more

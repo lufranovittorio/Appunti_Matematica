@@ -659,6 +659,62 @@ involution of $\Lambda^2$ (since $(-1)^{2 \cdot 2} = 1$), which splits into $\pm
 and anti-self-dual $2$-vectors.
 \end{example}
 
+The inner product of Proposition~\ref{multilinear-algebra:proposition-induced-inner-product} gives a norm $|\xi|$ on $p$-vectors and, through the pairing of Notation~\ref{multilinear-algebra:notation-forms}, a norm $|\varphi|$ on
+$p$-forms. For the geometry of $p$-dimensional areas another pair of norms is better adapted: they treat the \emph{simple} $p$-vectors $v_1 \wedge \cdots \wedge v_p$, which represent oriented $p$-dimensional
+parallelepipeds, as the basic objects.
+
+\begin{definition}\label{multilinear-algebra:definition-comass}
+Let $(V, g)$ be a real inner product space and $1 \leq p \leq \dim V$. A $p$-vector $\xi \in \Lambda^p(V)$ is \emph{simple} if $\xi = v_1 \wedge \cdots \wedge v_p$ for some $v_i \in V$. The \emph{comass} of a $p$-form
+$\varphi \in \Lambda^p(V^*)$ is
+\[
+\|\varphi\| = \sup\{\varphi(\xi) : \xi \text{ simple}, |\xi| = 1\} = \sup\{\varphi(v_1, \ldots, v_p) : v_1, \ldots, v_p \text{ orthonormal}\},
+\]
+and the \emph{mass} of a $p$-vector $\xi$ is $\|\xi\| = \sup\{\varphi(\xi) : \|\varphi\| \leq 1\}$.
+\end{definition}
+
+The two descriptions of the comass agree: if $v_1, \ldots, v_p$ are linearly independent, Gram--Schmidt (Theorem~\ref{linear-algebra:theorem-gram-schmidt}) replaces them by an orthonormal family
+$u_1, \ldots, u_p$ with $v_1 \wedge \cdots \wedge v_p = c\,u_1 \wedge \cdots \wedge u_p$, $c > 0$, since the change of basis is triangular with positive diagonal; and $|u_1 \wedge \cdots \wedge u_p| = 1$ by
+Proposition~\ref{multilinear-algebra:proposition-induced-inner-product}. So the unit simple $p$-vectors are the $u_1 \wedge \cdots \wedge u_p$ with $(u_i)$ orthonormal: the oriented $p$-planes of $V$, each with its
+unit area element.
+
+\begin{proposition}\label{multilinear-algebra:proposition-comass}
+Let $(V, g)$ be a real inner product space of dimension $n$, and $1 \leq p \leq n$.
+\begin{enumerate}
+\item The comass and the mass are norms, and $\|\varphi\| \leq |\varphi|$ and $|\xi| \leq \|\xi\|$ for all $\varphi$ and $\xi$.
+\item For simple $\xi$, $\|\xi\| = |\xi|$. For $p = 1$, comass and mass equal the Euclidean norms.
+\item If $\xi = \xi_1 + \cdots + \xi_m$ with simple $\xi_i$, then $\|\xi\| \leq |\xi_1| + \cdots + |\xi_m|$, and $\varphi(\xi) \leq \|\varphi\|\,\|\xi\|$ for all $\varphi$ and $\xi$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Cauchy--Schwarz, with $\varphi$ identified with an element of $\Lambda^p(V)$ via the inner product, $\varphi(\xi) \leq |\varphi|\,|\xi| = |\varphi|$ for unit $\xi$, so the supremum is finite and $\|\varphi\| \leq |\varphi|$.
+The comass is clearly subadditive and homogeneous, and $\|\varphi\| \geq |\varphi(\xi)|$ for unit simple $\xi$, as $-\xi$ is also unit simple. So $\|\varphi\| = 0$ forces $\varphi = 0$, since the unit simple vectors include the orthonormal basis $(e_I)$ of
+$\Lambda^p(V)$, on which $\varphi$ then vanishes. For $\xi = \sum_I\xi^Ie_I$ and $\|\varphi\| \leq 1$, $\varphi(\xi) = \sum_I\xi^I\varphi(e_I) \leq \sum_I|\xi^I|$, so $\|\xi\|$ is finite;
+it is subadditive and homogeneous, being a supremum of linear functions of $\xi$; and $\|\xi\| \geq \varphi(\xi)$ for $\varphi = \xi/|\xi|$, viewed as a form, which has $\|\varphi\| \leq |\varphi| = 1$, so $\|\xi\| \geq |\xi|^2/|\xi| = |\xi|$.
+
+(2) For simple $\xi \neq 0$, $\xi/|\xi|$ is a unit simple vector, so $\varphi(\xi) \leq \|\varphi\|\,|\xi|$, and taking the supremum over $\|\varphi\| \leq 1$ gives $\|\xi\| \leq |\xi|$; the reverse is (1). For $p = 1$ every
+vector is simple, so both definitions reduce to the Euclidean ones.
+
+(3) For $\|\varphi\| \leq 1$, $\varphi(\xi) = \sum_i\varphi(\xi_i) \leq \sum_i|\xi_i|$ by (2); take the supremum. The second inequality is the definition of the dual norm.
+\end{proof}
+
+In fact $\|\xi\|$ is the smallest value of $|\xi_1| + \cdots + |\xi_m|$ over all decompositions of $\xi$ into simple $p$-vectors \cite[1.8.1]{federer-gmt}: the mass of a $p$-vector is its total area, computed as
+economically as possible from oriented parallelepipeds. By (2), the norms can differ from the Euclidean ones only because of non-simple $p$-vectors, and the next example shows that they do.
+
+\begin{example}\label{multilinear-algebra:example-comass}
+On $\RR^4$ with the standard inner product, let $\omega = e^1 \wedge e^2 + e^3 \wedge e^4$ and $\xi = e_1 \wedge e_2 + e_3 \wedge e_4$.
+\begin{enumerate}
+\item $|\omega| = |\xi| = \sqrt 2$, as $e_{12}$ and $e_{34}$ are orthonormal.
+\item $\|\omega\| = 1$. Let $J(u^1, u^2, u^3, u^4) = (-u^2, u^1, -u^4, u^3)$, an isometry. Then $\omega(u, v) = u^1v^2 - u^2v^1 + u^3v^4 - u^4v^3 = \langle Ju, v\rangle \leq |Ju|\,|v| = 1$ for orthonormal $u, v$, with
+equality for $v = Ju$, as for $(u, v) = (e_1, e_2)$. (This is the case $n = 2$ of the Wirtinger inequality of Chapter~\ref{kahler}: $\omega$ is the K\"ahler form of $\CC^2$, and the planes with $v = Ju$ are the complex
+lines.)
+\item $\|\xi\| = 2$: by (2), $\|\xi\| \geq \omega(\xi) = 2$, and by Proposition~\ref{multilinear-algebra:proposition-comass}(3), $\|\xi\| \leq |e_{12}| + |e_{34}| = 2$. In particular $\xi$ is not simple, by part (2) of the
+proposition; directly, $\xi \wedge \xi = 2e_{1234} \neq 0$, while $v \wedge w \wedge v \wedge w = 0$.
+\end{enumerate}
+So the Euclidean norm underestimates the size of $\xi$, which consists of two unit squares in orthogonal planes and should have total area $2$, and overestimates the size of $\omega$, which measures every unit
+square by at most $1$.
+\end{example}
+
 \section{Forms of type $(p,q)$}\label{multilinear-algebra:section-pq-forms}
 
 Let $V$ be a real vector space of dimension $2n$ with a complex structure $J$ and $W = V^* = \Hom_\RR(V, \RR)$.
