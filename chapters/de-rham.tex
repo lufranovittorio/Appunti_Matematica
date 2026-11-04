@@ -32,7 +32,8 @@ References: \cite{bott-tu}, \cite{warner-foundations}, \cite[Chapter 0]{griffith
 (Distributions and Sobolev Spaces).
 
 \noindent\textbf{On the way to the Hodge conjecture.} The whole chapter is needed. Currents (Section~\ref{de-rham:section-currents}) give the integration currents of subvarieties, used for the cycle class map; the first two subsections and
-Theorem~\ref{de-rham:theorem-currents} are what is needed, and the remarks at the end preview the Poincar\'e--Lelong formula behind the Lefschetz $(1,1)$ theorem.
+Theorem~\ref{de-rham:theorem-currents} are what is needed, and the remarks at the end preview the Poincar\'e--Lelong formula behind the Lefschetz $(1,1)$ theorem. Remark~\ref{de-rham:remark-no-torsion} explains why de Rham cohomology only sees rational (indeed real) classes, which is
+why the Hodge conjecture is stated with $\QQ$ coefficients.
 
 \section{The de Rham complex}\label{de-rham:section-complex}
 
@@ -323,6 +324,75 @@ $H^\bullet_{\mathrm{dR}}(T^n)$ is the exterior algebra on the classes of $dx^1, 
 By Example~\ref{de-rham:example-spheres}, $H^\bullet(S^1)$ is spanned by $1$ and $[d\theta]$, and $T^n = (S^1)^n$ has a finite good cover; Theorem~\ref{de-rham:theorem-kunneth} and induction give the tensor product of $n$ copies of
 $\RR \oplus \RR[d\theta]$, which is the exterior algebra because $d\theta \wedge d\theta = 0$ and the wedge product is graded commutative. The second statement is the same computation with $H^\bullet(S^2)$.
 \end{proof}
+
+\begin{remark}\label{de-rham:remark-no-torsion}
+\emph{De Rham cohomology is a vector space, and it does not see torsion.} The spaces $\Omega^k(M)$ are real vector spaces and $d$ is $\RR$-linear, so $H^k_{\mathrm{dR}}(M)$ is a real vector space, not just an abelian group.
+When it is finite-dimensional, for instance for compact $M$ (Corollary~\ref{de-rham:corollary-consequences}), a choice of basis gives $H^k_{\mathrm{dR}}(M) \cong \RR^{b_k}$, and the only invariant left is the dimension.
+A real vector space has no torsion: $mv = 0$ with $m \neq 0$ forces $v = m^{-1}(mv) = 0$. Integer phenomena are therefore lost. By Theorem~\ref{de-rham:theorem-de-rham} and the universal coefficient theorem
+(Theorem~\ref{singular-cohomology:theorem-universal-coefficients}) over the field $\RR$,
+\[
+H^k_{\mathrm{dR}}(M) \cong H^k(M; \RR) \cong \Hom(H_k(M), \RR),
+\]
+and $\Hom(\ZZ/m\ZZ, \RR) = 0$, since the image of a generator $x$ would satisfy $m\varphi(x) = 0$. So if $H_k(M) \cong \ZZ^{r} \oplus T$ with $T$ finite, then $b_k = r$: de Rham cohomology records the free part of homology and
+forgets $T$. For example (Examples~\ref{de-rham:example-spheres} and~\ref{de-rham:example-real-projective}), $S^3$ and $\RR\PP^3$ have the same de Rham cohomology, $\RR$ in degrees $0$ and $3$, although
+$H_1(\RR\PP^3) \cong \ZZ/2\ZZ$ while $H_1(S^3) = 0$; and the Klein bottle has $H_1 \cong \ZZ \oplus \ZZ/2\ZZ$ (Exercise~\ref{singular-homology:exercise-klein-bottle}) and $H^1_{\mathrm{dR}} \cong \RR$
+(Example~\ref{de-rham:example-dimension-counting}(2)). To see torsion one needs integer coefficients, singular or \v{C}ech cohomology with values in $\ZZ$. This matters for the Hodge conjecture: its rational form only
+concerns $H^{2p}(X; \QQ)$, while torsion classes in $H^{2p}(X; \ZZ)$ are responsible for the first counterexamples to the integral version (Chapter~\ref{failures}).
+\end{remark}
+
+Because the groups are vector spaces, computations can be done by counting dimensions. The basic tool is the following.
+
+\begin{proposition}\label{de-rham:proposition-dimension-counting}
+\begin{enumerate}
+\item If $0 \to V_1 \to V_2 \to \cdots \to V_m \to 0$ is an exact sequence of finite-dimensional vector spaces, then $\sum_{i=1}^m(-1)^i\dim V_i = 0$.
+\item Let $M = U \cup V$ with $U$, $V$ open. If two of the three manifolds $M$, $U \sqcup V$ and $U \cap V$ have finite-dimensional de Rham cohomology (in all degrees together), then so does the third, and the
+\emph{de Rham Euler characteristics} $\chi(W) = \sum_k(-1)^k\dim H^k_{\mathrm{dR}}(W)$ satisfy
+\[
+\chi(M) = \chi(U) + \chi(V) - \chi(U \cap V).
+\]
+\item A manifold with a finite good cover, a finite open cover $U_1, \ldots, U_k$ in which every nonempty intersection $U_{i_1} \cap \cdots \cap U_{i_p}$ is diffeomorphic to $\RR^n$, has finite-dimensional de Rham
+cohomology.
+\end{enumerate}
+\end{proposition}
+
+Here $H^k_{\mathrm{dR}}(U \sqcup V) = H^k_{\mathrm{dR}}(U) \oplus H^k_{\mathrm{dR}}(V)$, since a form on a disjoint union is a pair of forms. For compact $M$, $\chi(M)$ is the Euler characteristic of
+Chapter~\ref{singular-homology}, because $\dim H^k_{\mathrm{dR}}(M) = b_k(M)$ (Corollary~\ref{de-rham:corollary-consequences}). The formula in (2) is the analogue of the inclusion--exclusion principle
+$|U \cup V| = |U| + |V| - |U \cap V|$ for finite sets: the Euler characteristic behaves like a ``number of points'', and for a finite set of points it is exactly that.
+
+\begin{proof}
+(1) Put $V_0 = V_{m+1} = 0$ and let $f_i \colon V_i \to V_{i+1}$, $0 \leq i \leq m$, be the maps, so that $f_0 = 0$ and $f_m = 0$. By rank--nullity (Theorem~\ref{linear-algebra:theorem-rank-nullity}), $\dim V_i = \dim\ker f_i + \dim\im f_i$, and exactness says
+$\dim\ker f_i = \dim\im f_{i-1}$. So $\sum_i(-1)^i\dim V_i = \sum_i(-1)^i(\dim\im f_{i-1} + \dim\im f_i)$, a telescoping sum equal to $\pm\dim\im f_0 \pm \dim\im f_m = 0$.
+
+(2) First, if $A \xrightarrow{a} B \xrightarrow{b} C$ is exact with $A$ and $C$ finite-dimensional, so is $B$: by rank--nullity $\dim B = \dim\ker b + \dim\im b$, and $\ker b = \im a$ has dimension at most $\dim A$,
+while $\im b \subseteq C$. In the Mayer--Vietoris sequence (Theorem~\ref{de-rham:theorem-mayer-vietoris})
+\[
+\cdots \to H^{k-1}_{\mathrm{dR}}(U \cap V) \to H^k_{\mathrm{dR}}(M) \to H^k_{\mathrm{dR}}(U \sqcup V) \to H^k_{\mathrm{dR}}(U \cap V) \to H^{k+1}_{\mathrm{dR}}(M) \to \cdots
+\]
+each space sits between a space of each of the other two kinds, so this argument shows that the third kind is finite-dimensional. All the spaces vanish above $\dim M$, so the Mayer--Vietoris sequence is a finite exact
+sequence of finite-dimensional spaces; apply (1). In it, $H^k(M)$, $H^k(U) \oplus H^k(V)$ and $H^k(U \cap V)$ occupy the positions $3k + 1$, $3k + 2$, $3k + 3$, with signs $(-1)^{k+1}$, $(-1)^k$, $(-1)^{k+1}$ in
+the alternating sum, which gives $-\chi(M) + \chi(U) + \chi(V) - \chi(U \cap V) = 0$.
+
+(3) By induction on the number $k$ of sets in a good cover: for $k = 1$ the manifold is diffeomorphic to $\RR^n$, whose cohomology is $\RR$ in degree $0$ by the Poincar\'e lemma
+(Theorem~\ref{de-rham:theorem-homotopy-invariance}). We prove that every open set covered by $k$ sets forming a good cover has finite-dimensional cohomology. For the induction step write the union as $W \cup U_k$ with $W = U_1 \cup \cdots \cup U_{k-1}$; then
+$W \cap U_k$ is covered by the (at most) $k - 1$ nonempty sets $U_i \cap U_k$, which form a good cover of it because their intersections are intersections of the $U_j$. By induction $W$ and $W \cap U_k$ have
+finite-dimensional cohomology, and so does $U_k \cong \RR^n$; so (2) applies.
+\end{proof}
+
+\begin{example}\label{de-rham:example-dimension-counting}
+\begin{enumerate}
+\item \emph{The torus.} Write $T^2 = S^1 \times S^1$ as the union of two open annuli $U = S^1 \times A$ and $V = S^1 \times B$, where $A$ and $B$ are open arcs covering $S^1$; then $U \cap V$ is a disjoint union of two annuli. Each annulus is
+homotopy equivalent to $S^1$ (Theorem~\ref{de-rham:theorem-homotopy-invariance}), which has $\chi = 1 - 1 = 0$ (Example~\ref{de-rham:example-spheres}). So $\chi(T^2) = 0 + 0 - 0 = 0$. Since $T^2$ is compact, connected and orientable, $b_0 = b_2 = 1$ (Proposition~\ref{de-rham:proposition-h0} and
+Corollary~\ref{de-rham:corollary-consequences}), and $1 - b_1 + 1 = 0$ gives $b_1 = 2$, as in Corollary~\ref{de-rham:corollary-torus}, but without computing any map in the sequence. In general, the
+Euler characteristic of a Mayer--Vietoris decomposition is computed from the pieces alone, while the individual $b_k$ depend on the maps; dimension counting gives the $b_k$ as soon as all but one of them are known.
+\item \emph{The Klein bottle.} The Klein bottle is $K = T^2/G$ for the group $G = \{1, \tau\}$ generated by the free involution $\tau(x, y) = (x + \frac12, -y)$ of $T^2 = \RR^2/\ZZ^2$. By Corollary~\ref{de-rham:corollary-torus},
+$H^1_{\mathrm{dR}}(T^2)$ has basis $[dx]$, $[dy]$ and $H^2_{\mathrm{dR}}(T^2)$ basis $[dx \wedge dy]$; and $\tau^*dx = dx$, $\tau^*dy = -dy$, $\tau^*(dx \wedge dy) = -dx \wedge dy$. By
+Proposition~\ref{de-rham:proposition-finite-quotient} the invariant classes give $H^\bullet_{\mathrm{dR}}(K)$: $\RR$, $\RR[dx]$, $0$ in degrees $0$, $1$, $2$. So $\chi(K) = 1 - 1 + 0 = 0$, as for the torus, while
+$H^2_{\mathrm{dR}}(K) = 0$ shows that $K$ is not orientable, since a compact connected oriented surface has $H^2_{\mathrm{dR}} \cong \RR$ (Corollary~\ref{de-rham:corollary-consequences}). Compare with
+$H_1(K) \cong \ZZ \oplus \ZZ/2\ZZ$ (Exercise~\ref{singular-homology:exercise-klein-bottle}): the free part $\ZZ$ gives $b_1 = 1$, and the torsion $\ZZ/2\ZZ$ is invisible (Remark~\ref{de-rham:remark-no-torsion}).
+\item \emph{Counting with the Euler characteristic.} If a compact connected surface $S$ is the union of open sets whose cohomology is known, (2) of the proposition gives $\chi(S)$, and then
+$b_1 = b_0 + b_2 - \chi(S)$ with $b_0 = 1$ and $b_2 = 1$ or $0$ according as $S$ is orientable or not. Exercise~\ref{de-rham:exercise-genus-betti} does this for the surfaces of genus $g$.
+\end{enumerate}
+\end{example}
 
 \begin{theorem}[Poincar\'e duality in de Rham cohomology]\label{de-rham:theorem-poincare-duality-de-rham}
 Let $M$ be an oriented $n$-manifold. The pairing
@@ -769,4 +839,55 @@ $f_*[Z] = [f(Z)]$ for every closed oriented submanifold $Z \subseteq M$, with $f
 Integration of compactly supported top-degree forms is invariant under orientation-preserving diffeomorphisms (Proposition~\ref{differential-forms:proposition-integral-well-defined}), so for $\psi$ on $N$,
 $(f_*T_\eta)(\psi) = \int_M\eta \wedge f^*\psi = \int_Mf^*\bigl((f^{-1})^*\eta \wedge \psi\bigr) = \int_N(f^{-1})^*\eta \wedge \psi$. Similarly
 $(f_*[Z])(\psi) = \int_Zi^*f^*\psi = \int_Z(f|_Z)^*\bigl(\psi|_{f(Z)}\bigr) = \int_{f(Z)}\psi$.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-spheres-euler}
+Write $S^n = U \cup V$ with $U$, $V$ the complements of the north and south poles. Using only Proposition~\ref{de-rham:proposition-dimension-counting}, find $\chi(S^n)$. Deduce $b_n(S^n)$ from $b_0 = 1$ and the vanishing of
+$b_k(S^n)$ for $0 < k < n$ (Example~\ref{de-rham:example-spheres}), and check the answer against that example.
+\end{exercise}
+
+\begin{solution}
+$U$ and $V$ are diffeomorphic to $\RR^n$ by stereographic projection, so $\chi(U) = \chi(V) = 1$, and $U \cap V \cong S^{n-1} \times \RR$ is homotopy equivalent to $S^{n-1}$. By induction on $n$, starting from $\chi(S^0) = 2$
+(two points), $\chi(S^n) = 2 - \chi(S^{n-1})$, so $\chi(S^n) = 1 + (-1)^n$. Then $1 + (-1)^nb_n = 1 + (-1)^n$ gives $b_n = 1$.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-genus-betti}
+Let $S$ be a compact connected surface.
+\begin{enumerate}
+\item Let $D \subseteq S$ be a closed disc in a chart, and $S^\circ = S \setminus D$. Show that $H^\bullet_{\mathrm{dR}}(S^\circ)$ is finite-dimensional and $\chi(S^\circ) = \chi(S) - 1$.
+\item The connected sum $S \# S'$ of two compact connected surfaces is obtained by removing a closed disc from each and gluing the two along collars of the boundary circles, so that $S \# S' = U \cup V$ with
+$U \cong S^\circ$, $V \cong S'^\circ$ and $U \cap V$ an annulus. Show that $\chi(S \# S') = \chi(S) + \chi(S') - 2$.
+\item Deduce that the closed orientable surface $\Sigma_g = T^2 \# \cdots \# T^2$ of genus $g$ (with $\Sigma_0 = S^2$) has $\chi(\Sigma_g) = 2 - 2g$, hence $b_1(\Sigma_g) = 2g$, and that the connected sum $N_h$ of
+$h \geq 1$ copies of $\RR\PP^2$ has $\chi(N_h) = 2 - h$, hence $b_1(N_h) = h - 1$. Use that $\Sigma_g$ is orientable and $N_h$ is not, so $b_2(\Sigma_g) = 1$ and $b_2(N_h) = 0$
+(Corollary~\ref{de-rham:corollary-consequences}).
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) Let $D^\prime \supset D$ be a slightly larger open disc in the same chart. Then $S = S^\circ \cup D^\prime$, and $S^\circ \cap D^\prime = D^\prime \setminus D$ is an open annulus, homotopy equivalent to $S^1$, so
+$\chi(S^\circ \cap D^\prime) = 0$. As $S$ and the annulus have finite-dimensional cohomology (Corollary~\ref{de-rham:corollary-consequences}), so does $S^\circ \sqcup D^\prime$ by
+Proposition~\ref{de-rham:proposition-dimension-counting}(2), and $\chi(S) = \chi(S^\circ) + \chi(D^\prime) - 0 = \chi(S^\circ) + 1$.
+
+(2) By (1) and Proposition~\ref{de-rham:proposition-dimension-counting}(2), $\chi(S \# S') = (\chi(S) - 1) + (\chi(S') - 1) - 0$.
+
+(3) $\chi(T^2) = 0$ (Example~\ref{de-rham:example-dimension-counting}) and $\chi(S^2) = 2$, so by (2) $\chi(\Sigma_g) = \chi(\Sigma_{g-1}) - 2$ and $\chi(\Sigma_g) = 2 - 2g$; then
+$b_1 = b_0 + b_2 - \chi = 2 - (2 - 2g) = 2g$. For $\RR\PP^2$, Example~\ref{de-rham:example-real-projective} gives $\chi = 1$, so $\chi(N_h) = \chi(N_{h-1}) - 1 = 2 - h$ and $b_1(N_h) = 1 + 0 - (2 - h) = h - 1$. For instance the Klein bottle
+$N_2$ has $b_1 = 1$, as in Example~\ref{de-rham:example-dimension-counting}(2). The integral homology is $H_1(\Sigma_g) \cong \ZZ^{2g}$ and $H_1(N_h) \cong \ZZ^{h-1} \oplus \ZZ/2\ZZ$ \cite{hatcher-at}: the torsion of the
+non-orientable surfaces is again invisible.
+\end{solution}
+
+\begin{exercise}\label{de-rham:exercise-dimension-in-sequences}
+Let $0 \to A \to B \to C \to 0$ be a short exact sequence of finite-dimensional real vector spaces. Show that $B \cong A \oplus C$, so that over a field every short exact sequence splits. Give an example of a short exact
+sequence of abelian groups that does not split, and explain why such sequences cannot occur among the de Rham cohomology groups of a Mayer--Vietoris sequence, but do occur in singular homology with
+coefficients in $\ZZ$.
+\end{exercise}
+
+\begin{solution}
+Let $a \colon A \to B$ and $b \colon B \to C$ be the maps. Choose a basis $c_1, \ldots, c_r$ of $C$ and, as $b$ is surjective, elements $b_i$ with $b(b_i) = c_i$; the linear map $s \colon C \to B$ with $s(c_i) = b_i$ satisfies
+$b \circ s = \id_C$. Then $A \oplus C \to B$, $(x, y) \mapsto a(x) + s(y)$, is an isomorphism: it is injective, since $a(x) + s(y) = 0$ gives $y = b(a(x) + s(y)) = 0$ and then $x = 0$ as $a$ is injective; and it is surjective, since
+$z - s(b(z)) \in \ker b = \im a$ for every $z \in B$. This argument works for vector spaces over any field, and for modules wherever $C$ has a basis.
+
+The sequence $0 \to \ZZ \xrightarrow{2} \ZZ \to \ZZ/2\ZZ \to 0$ does not split: $\ZZ \not\cong \ZZ \oplus \ZZ/2\ZZ$, since $\ZZ$ has no element of order $2$. In de Rham cohomology all groups are real vector spaces and all
+maps are linear, so every short exact sequence extracted from a long exact sequence splits, and only dimensions matter. In integral homology such non-split sequences appear: in the cellular chain complex of
+$\RR\PP^2$ the boundary of the $2$-cell is twice the $1$-cell, and $H_1(\RR\PP^2) \cong \ZZ/2\ZZ$ arises exactly from the multiplication by $2$ above.
 \end{solution}
