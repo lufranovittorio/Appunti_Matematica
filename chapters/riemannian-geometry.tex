@@ -1736,7 +1736,7 @@ the flat cylinder shows that the factor $N$ need not be $\RR^{n-1}$. The parabol
 Classical differential geometry studies curves and surfaces in $\RR^3$ through two quadratic forms: the \emph{first fundamental form}, the metric induced from
 $\RR^3$, and the \emph{second fundamental form}, which measures how the surface bends in the ambient space. This section develops both for a submanifold of
 any Riemannian manifold, proves the equations of Gauss and Codazzi that relate them to the curvature, and then specialises to surfaces in $\RR^3$, where Gauss's
-equation becomes the Theorema Egregium. The order is: the Gauss formula, which defines the second fundamental form (Subsection~\ref{riemannian-geometry:subsection-gauss-formula}); the shape operator, the derivative of a normal field, and the curvatures of a hypersurface (Subsection~\ref{riemannian-geometry:subsection-shape-operator}); the equations of Gauss and Codazzi (Subsection~\ref{riemannian-geometry:subsection-gauss-codazzi}); totally geodesic and umbilical submanifolds (Subsection~\ref{riemannian-geometry:subsection-umbilical}); formulas in a parametrisation (Subsection~\ref{riemannian-geometry:subsection-coordinates-second-fundamental-form}); and other ways of computing (Subsection~\ref{riemannian-geometry:subsection-computing-second-fundamental-form}).
+equation becomes the Theorema Egregium. The order is: the Gauss formula, which defines the second fundamental form (Subsection~\ref{riemannian-geometry:subsection-gauss-formula}); the shape operator, the derivative of a normal field, and the curvatures of a hypersurface (Subsection~\ref{riemannian-geometry:subsection-shape-operator}); the equations of Gauss and Codazzi (Subsection~\ref{riemannian-geometry:subsection-gauss-codazzi}); totally geodesic and umbilical submanifolds (Subsection~\ref{riemannian-geometry:subsection-umbilical}); formulas in a parametrisation (Subsection~\ref{riemannian-geometry:subsection-coordinates-second-fundamental-form}); other ways of computing (Subsection~\ref{riemannian-geometry:subsection-computing-second-fundamental-form}); and the Gauss map of a hypersurface of Euclidean space, from which classical surface theory reads off all these curvatures (Subsection~\ref{riemannian-geometry:subsection-gauss-map}).
 
 Throughout, $(\overline{M}, \bar{g})$ is a Riemannian manifold with Levi-Civita connection $\overline{\nabla}$ and curvature $\overline{R}$, and
 $M \subseteq \overline{M}$ is a submanifold with the induced metric $g = \bar{g}|_{TM}$, the \emph{first fundamental form}; we write $\langle -, - \rangle$ for
@@ -2147,6 +2147,72 @@ curvature means that the surface lies locally on one side of its tangent plane, 
 \end{enumerate}
 \end{example}
 
+The last example only looked at a point where the tangent plane is horizontal. The general formula for graphs shows exactly how the second fundamental form is related to the second derivatives of
+the function.
+
+\begin{proposition}[Second fundamental form of a graph]\label{riemannian-geometry:proposition-graph-second-fundamental-form}
+Let $U \subseteq \RR^n$ be open, $u \colon U \to \RR$ smooth, and $M \subseteq \RR^{n+1}$ the graph of $u$, parametrised by $x(y) = (y, u(y))$, $y = (y^1, \ldots, y^n) \in U$. Write
+$u_i = \partial u/\partial y^i$, $u_{ij} = \partial^2u/\partial y^i\partial y^j$, $\nabla u = (u_1, \ldots, u_n)$, $\operatorname{Hess}u = (u_{ij})$ and $W = \sqrt{1 + |\nabla u|^2}$, and give $M$ the upward unit
+normal $\nu = (-\nabla u, 1)/W$. In the basis $x_i = e_i + u_i\,e_{n+1}$ of the tangent space, with the notation of Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}:
+\begin{enumerate}
+\item $g_{ij} = \delta_{ij} + u_iu_j$, $\det(g_{ij}) = W^2$, and $g^{ij} = \delta_{ij} - u_iu_j/W^2$.
+\item $h_{ij} = u_{ij}/W$: the matrix of the second fundamental form is the Hessian of $u$ divided by $W$.
+\item The matrix of the shape operator is $W^{-1}\bigl(I - W^{-2}\,\nabla u\,\nabla u^T\bigr)\operatorname{Hess}u$, with $\nabla u$ a column, so
+\[
+nH = \operatorname{tr}S = \frac{W^2\Delta u - \sum_{i,j}u_iu_ju_{ij}}{W^3}, \qquad \det S = \frac{\det\operatorname{Hess}u}{W^{n+2}} ,
+\]
+where $\Delta u = \sum_iu_{ii}$.
+\item At a point where $\nabla u = 0$: $g_{ij} = \delta_{ij}$, $h_{ij} = u_{ij}$, the matrix of $S$ is $\operatorname{Hess}u$, and the principal curvatures are the eigenvalues of the Hessian.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\langle x_i, x_j\rangle = \langle e_i, e_j\rangle + u_iu_j\langle e_{n+1}, e_{n+1}\rangle = \delta_{ij} + u_iu_j$, since $e_i \perp e_{n+1}$ for $i \leq n$. So $(g_{ij}) = I + aa^T$ with $a = \nabla u$. The
+matrix $aa^T$ maps $a$ to $|a|^2a$ and vanishes on $a^\perp$, so the eigenvalues of $I + aa^T$ are $1 + |a|^2$ (once) and $1$ (with multiplicity $n - 1$), and $\det(g_{ij}) = 1 + |a|^2 = W^2$. Multiplying
+out, $(I + aa^T)(I - aa^T/W^2) = I + aa^T - aa^T(1 + |a|^2)/W^2 = I$, which gives the inverse.
+
+(2) $\langle x_i, \nu\rangle = (-u_i + u_i)/W = 0$ and $|\nu|^2 = (|\nabla u|^2 + 1)/W^2 = 1$, so $\nu$ is a unit normal, with positive last component. The second derivatives of the parametrisation are
+$\partial_i\partial_jx = (0, \ldots, 0, u_{ij}) = u_{ij}\,e_{n+1}$, and $\langle e_{n+1}, \nu\rangle = 1/W$, so $h_{ij} = \langle\partial_i\partial_jx, \nu\rangle = u_{ij}/W$.
+
+(3) By Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}(2) the matrix of $S$ is $(g^{ij})(h_{ij})$, which is the stated product by (1) and (2). Its trace is
+$W^{-1}\bigl(\operatorname{tr}\operatorname{Hess}u - W^{-2}\operatorname{tr}(\nabla u\,\nabla u^T\operatorname{Hess}u)\bigr)$, and $\operatorname{tr}(\nabla u\,\nabla u^T\operatorname{Hess}u) = \nabla u^T\operatorname{Hess}u\,\nabla u = \sum_{i,j}u_iu_ju_{ij}$.
+By Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}(3), $\det S = \det(h_{ij})/\det(g_{ij}) = W^{-n}\det\operatorname{Hess}u/W^2$, as $(h_{ij})$ is an $n \times n$ matrix multiplied by $W^{-1}$.
+
+(4) Put $\nabla u = 0$, so $W = 1$, in (1)--(3).
+\end{proof}
+
+\begin{remark}\label{riemannian-geometry:remark-graph-hessian}
+\emph{Second derivatives and the second fundamental form.} The proposition makes precise in what sense the second fundamental form ``is the second derivative''.
+\begin{enumerate}
+\item \emph{The normal part of the second derivatives.} For any parametrisation, $h_{ij} = \langle\partial_i\partial_jx, \nu\rangle$ is the normal component of the second derivatives of $x$. Their tangential
+component is not geometric: it equals $\sum_k\Gamma^k_{ij}x_k$ by the Gauss formula (Proposition~\ref{riemannian-geometry:proposition-gauss-immersion}), and it changes with the parametrisation even for a
+plane, where $h = 0$. For a graph only the last coordinate has second derivatives, the vector $\partial_i\partial_jx = u_{ij}e_{n+1}$ is vertical, and the fraction of it that is normal is
+$\langle e_{n+1}, \nu\rangle = 1/W$, the cosine of the angle between the tangent plane and the horizontal hyperplane. This is the factor in (2).
+\item \emph{Two corrections, both of first order.} Passing from $\operatorname{Hess}u$ to the curvatures costs two corrections: the factor $1/W$ in $h$, and the inverse metric $g^{-1}$ in $S$. Both involve
+only $\nabla u$. So $h$ exists, is bounded, or is continuous exactly where $\operatorname{Hess}u$ is, as long as $u$ is $C^1$; this is what decides the regularity of the second fundamental form of
+submanifolds of finite regularity (Remark~\ref{smooth-manifolds:remark-regularity-losses}). For a curve, $n = 1$, (3) is the classical formula for the curvature of a graph,
+\[
+\kappa = \frac{u^{\prime\prime}}{(1 + (u^{\prime})^2)^{3/2}} .
+\]
+\item \emph{The second derivative alone is not the curvature.} The parabola $u(t) = t^2$ has $u^{\prime\prime} = 2$ everywhere, but $\kappa(t) = 2/(1 + 4t^2)^{3/2}$, which is largest at the vertex and tends to $0$: far
+from the vertex the parabola is steep, and its bending per unit of arc length is much smaller than per unit of horizontal distance. In the other direction, the upper half of the circle of radius $r$, $u(t) = \sqrt{r^2 - t^2}$,
+has $u^{\prime} = -t/u$, $1 + (u^{\prime})^2 = r^2/u^2$ and $u^{\prime\prime} = -r^2/u^3$, which is unbounded as $t \to \pm r$, while $\kappa = (-r^2/u^3)(u^3/r^3) = -1/r$ is constant: the blow-up of $u^{\prime\prime}$
+only says that the tangent line becomes vertical, so that the circle stops being a graph over the horizontal axis. In the same way the Hessian of $u$ is not invariant under rotations of the graph, while $h$ is.
+\item \emph{The Hessian over the tangent plane.} The factor and the correction disappear if one looks at $M$ from its own tangent plane. Given $p \in M$, apply a rigid motion of $\RR^{n+1}$ mapping $p$ to $0$ and
+$T_pM$ to $\RR^n \times \{0\}$; it preserves inner products and second derivatives, hence $h$. Near $0$ the moved hypersurface is the graph of a function $u$ with $u(0) = 0$ and $\nabla u(0) = 0$ (by the implicit
+function theorem, as in Proposition~\ref{smooth-manifolds:proposition-graph-submanifold}), and by (4) and Taylor's formula
+\[
+u(y) = \frac12\sum_{i,j}h_{ij}(p)\,y^iy^j + o(|y|^2) .
+\]
+So $h_p$ is the Hessian at $p$ of the height of $M$ above its tangent plane, measured along $\nu(p)$: the quadratic term with which $M$ leaves $T_pM$. Example~\ref{riemannian-geometry:example-surfaces}(3) is the case
+$n = 2$. A positive definite $h_p$ means that $M$ lies above its tangent plane near $p$, on the side of $\nu(p)$, and an indefinite one that it crosses it.
+\item \emph{Two consistency checks.} For $n = 2$ the trace in (3) is the formula for $2H$ in the minimal surface equation (Proposition~\ref{riemannian-geometry:proposition-minimal-surface-equation} below), since
+$(1 + p^2 + q^2)(u_{xx} + u_{yy}) - (p^2u_{xx} + 2pq\,u_{xy} + q^2u_{yy}) = (1 + q^2)u_{xx} - 2pq\,u_{xy} + (1 + p^2)u_{yy}$, and the determinant gives the classical
+$K = (u_{xx}u_{yy} - u_{xy}^2)/(1 + u_x^2 + u_y^2)^2$. Beltrami's formula (Proposition~\ref{riemannian-geometry:proposition-beltrami-formula} below) is another form of the same principle: the Riemannian Hessian
+on $M$ of each coordinate function of $\RR^{n+1}$ is the corresponding component of $\mathrm{II}$.
+\end{enumerate}
+\end{remark}
+
 \subsection{Computing the second fundamental form}\label{riemannian-geometry:subsection-computing-second-fundamental-form}
 
 Parametrisations, as in Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}, are only one way to compute the second fundamental form, and often not the most convenient. A hypersurface
@@ -2308,6 +2374,141 @@ the Gauss map (Exercise~\ref{de-rham:exercise-degree-de-rham}): the total Gauss-
 $\deg(\nu) = \frac{1}{4\pi}\int_\Sigma K\,dA = \frac12\chi(\Sigma)$. In general $\Sigma$ bounds a compact region $X$, and Hopf showed that $\deg(\nu) = \chi(X)$, which is $\frac12\chi(\Sigma)$ when $n$ is even;
 this is the heart of the proof of the Poincar\'e--Hopf theorem in \cite{milnor-differential-viewpoint}. For odd $n$, $\chi(\Sigma) = 0$ and the degree depends on the region $X$, not only on the topology of $\Sigma$. The same idea, a curvature form pulled back from the unit sphere bundle and integrated, is the core of Chern's intrinsic
 proof of the Gauss--Bonnet--Chern theorem (Chapter~\ref{characteristic-classes}), and the pullback along the unit normals of a set is the definition of curvature measures through normal cycles.
+\end{remark}
+
+\subsection{The Gauss map}\label{riemannian-geometry:subsection-gauss-map}
+
+Classical surface theory, as in \cite[Chapter 3]{do-carmo-curves-surfaces}, does not start from connections. It starts from a single map, the unit normal regarded as a point of the unit sphere, and
+reads all the extrinsic curvature off its derivative. This subsection collects that point of view for hypersurfaces $M \subseteq \RR^{n+1}$ of Euclidean space. The main case is $n = 2$, surfaces in $\RR^3$,
+but $n = 1$, curves in the plane, is already instructive. Most of the facts below have appeared in pieces earlier in this section; the point is to see all of them as properties of one map.
+
+\begin{definition}\label{riemannian-geometry:definition-gauss-map}
+Let $M \subseteq \RR^{n+1}$ be a hypersurface with a unit normal field $\nu$; such a field exists exactly when $M$ is orientable, and then it is smooth
+(Proposition~\ref{differential-forms:proposition-orientation-normal}). The \emph{Gauss map} of $M$ is $\nu \colon M \to S^n$, $p \mapsto \nu(p)$. Its differential at $p$ maps $T_pM$ to
+$T_{\nu(p)}S^n = \nu(p)^\perp = T_pM$, so $d\nu_p$ is an endomorphism of $T_pM$. The quadratic form
+\[
+\mathrm{II}_p(v) = -\langle d\nu_p(v), v\rangle, \qquad v \in T_pM,
+\]
+is the \emph{second fundamental form} of classical surface theory \cite[Section 3-2]{do-carmo-curves-surfaces}. For a unit vector $v$, $\mathrm{II}_p(v)$ is the \emph{normal curvature} of $M$ at $p$ in the
+direction $v$.
+\end{definition}
+
+So in the classical language the second fundamental form \emph{is} the derivative of the Gauss map, turned into a quadratic form with the inner product. The tangent plane at $p$ is $\nu(p)^\perp$, so the
+Gauss map is the same as the map $p \mapsto T_pM$, recorded by its unit normal; its derivative measures how fast the tangent plane turns, which is the intuitive meaning of curvature. A plane does not turn at
+all, a sphere turns at the same rate in all directions, and a cylinder turns in one direction only. The next proposition translates the definition into the notation of this section and states the
+classical properties.
+
+\begin{proposition}\label{riemannian-geometry:proposition-gauss-map-curvatures}
+Let $M \subseteq \RR^{n+1}$ be a hypersurface with unit normal $\nu$, shape operator $S$, scalar second fundamental form $h$, principal curvatures $\kappa_1 \leq \cdots \leq \kappa_n$ at $p$ and mean
+curvature $H$ (Definition~\ref{riemannian-geometry:definition-hypersurface-curvatures}).
+\begin{enumerate}
+\item $d\nu_p = -S_p$. So $d\nu_p$ is self-adjoint, its eigenvalues are $-\kappa_1, \ldots, -\kappa_n$, and $\mathrm{II}_p(v) = h_p(v, v)$, with $h_p(v, w) = -\langle d\nu_p(v), w\rangle$ the associated symmetric
+bilinear form. Moreover $\det d\nu_p = (-1)^n\det S_p$ and $\operatorname{tr}d\nu_p = -nH(p)$; for a surface, $n = 2$, $K = \det d\nu_p$ and $H = -\frac12\operatorname{tr}d\nu_p$.
+\item (Meusnier) Let $\gamma \colon (-\varepsilon, \varepsilon) \to M$ be a curve with $\gamma(0) = p$ and $\gamma^{\prime}(0) = v$. Then $\langle\gamma^{\prime\prime}(0), \nu(p)\rangle = \mathrm{II}_p(v)$. So the normal component
+of the acceleration of a curve in $M$ depends only on its velocity; for curves parametrised by arc length, the normal component of their curvature vector depends only on the tangent direction.
+\item (Euler) For unit vectors $v$, the normal curvature $\mathrm{II}_p(v)$ takes values in $[\kappa_1, \kappa_n]$. Its maximum $\kappa_n$ is attained exactly at the unit eigenvectors of $S_p$ for $\kappa_n$,
+and its minimum $\kappa_1$ exactly at those for $\kappa_1$. For $n = 2$, if $(e_1, e_2)$ is an orthonormal basis of principal directions,
+\[
+\mathrm{II}_p(\cos t\,e_1 + \sin t\,e_2) = \kappa_1\cos^2t + \kappa_2\sin^2t .
+\]
+\item (Area) Suppose $\det S_p \neq 0$. Then $\nu$ maps an open neighbourhood $U$ of $p$ diffeomorphically onto an open subset of $S^n$; it preserves orientation near $p$ if $(-1)^n\det S_p > 0$ and reverses
+it if $(-1)^n\det S_p < 0$, for the orientations of Proposition~\ref{riemannian-geometry:proposition-gauss-map-volume}. If $B_1, B_2, \ldots \subseteq U$ are open sets containing $p$ and contained in balls
+around $p$ whose radii tend to $0$, then
+\[
+\lim_{k \to \infty}\frac{\operatorname{vol}(\nu(B_k))}{\operatorname{vol}(B_k)} = |\det S_p| .
+\]
+For a surface: $|K(p)|$ is the limit of the ratio of the area swept by the normal on the sphere to the area on the surface, and $\nu$ preserves orientation near $p$ if $K(p) > 0$ and reverses it if $K(p) < 0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) By Proposition~\ref{riemannian-geometry:proposition-normal-derivative}, $d\nu(v) = \overline{\nabla}_v\nu$ is tangent and equals $-S v$, and $h(v, w) = -\langle d\nu(v), w\rangle$. The shape operator is
+self-adjoint with eigenvalues $\kappa_i$ (Proposition~\ref{riemannian-geometry:proposition-weingarten} and Definition~\ref{riemannian-geometry:definition-hypersurface-curvatures}), so $-S$ is self-adjoint
+with eigenvalues $-\kappa_i$. On the $n$-dimensional space $T_pM$, $\det(-S) = (-1)^n\det S$ and $\operatorname{tr}(-S) = -\operatorname{tr}S = -nH$. For $n = 2$, $\det S = K$ by
+Proposition~\ref{riemannian-geometry:proposition-weingarten-coordinates}(4).
+
+(2) For all $t$, $\gamma^{\prime}(t)$ is tangent to $M$ at $\gamma(t)$, so $\langle\gamma^{\prime}(t), \nu(\gamma(t))\rangle = 0$. Differentiating at $t = 0$ gives
+$\langle\gamma^{\prime\prime}(0), \nu(p)\rangle + \langle v, d\nu_p(v)\rangle = 0$, that is, $\langle\gamma^{\prime\prime}(0), \nu(p)\rangle = \mathrm{II}_p(v)$.
+
+(3) Choose an orthonormal basis $(e_i)$ of $T_pM$ with $S e_i = \kappa_ie_i$, which exists because $S$ is self-adjoint. For $v = \sum_iv_ie_i$ with $\sum_iv_i^2 = 1$, by (1),
+$\mathrm{II}_p(v) = \langle S v, v\rangle = \sum_i\kappa_iv_i^2$, a weighted average of the $\kappa_i$ with weights $v_i^2 \geq 0$ summing to $1$. So $\kappa_1 \leq \mathrm{II}_p(v) \leq \kappa_n$. Equality
+$\mathrm{II}_p(v) = \kappa_n$ means $\sum_i(\kappa_n - \kappa_i)v_i^2 = 0$, a sum of nonnegative terms, so $v_i = 0$ whenever $\kappa_i < \kappa_n$, that is, $v$ is an eigenvector for $\kappa_n$; similarly
+for $\kappa_1$. For $n = 2$ and $v = \cos t\,e_1 + \sin t\,e_2$ the weights are $\cos^2t$ and $\sin^2t$.
+
+(4) By (1), $\det d\nu_p = (-1)^n\det S_p \neq 0$, so by the inverse function theorem $\nu$ maps an open neighbourhood of $p$ diffeomorphically onto an open subset of $S^n$. Shrink it to a connected open
+neighbourhood $U$ with compact closure on which $\det S$ has no zero; then $\det S$ has a constant sign on $U$. By Proposition~\ref{riemannian-geometry:proposition-gauss-map-volume},
+$\nu^*\mathrm{vol}_{S^n} = (-1)^n(\det S)\,\mathrm{vol}_M$, which is a positive multiple of the volume form of $M$ if $(-1)^n\det S > 0$ and a negative one otherwise; so $\nu|_U$ preserves, respectively reverses,
+orientation. For a continuous function $f \geq 0$ with compact support in $\nu(U)$, Proposition~\ref{differential-forms:proposition-integral-well-defined} gives
+\[
+\int_{\nu(U)}f\,\mathrm{vol}_{S^n} = \pm\int_U\nu^*(f\,\mathrm{vol}_{S^n}) = \int_U(f \circ \nu)\,|\det S|\,\mathrm{vol}_M ,
+\]
+with the sign $\pm$ chosen according to the orientation behaviour, which exactly turns $(-1)^n\det S$ into $|\det S|$. For an open $B \subseteq U$, approximating the indicator function of the open set $\nu(B)$
+from below by an increasing sequence of such functions and using monotone convergence on both sides gives $\operatorname{vol}(\nu(B)) = \int_B|\det S|\,d\mathrm{vol}_M$. Now let $\epsilon > 0$. By
+continuity of $\det S$ there is $r > 0$ with $\bigl||\det S_q| - |\det S_p|\bigr| < \epsilon$ for $q \in U$ with $|q - p| < r$, and for large $k$ the set $B_k$ lies in this ball. Then
+\[
+\Bigl|\operatorname{vol}(\nu(B_k)) - |\det S_p|\operatorname{vol}(B_k)\Bigr| = \Bigl|\int_{B_k}\bigl(|\det S| - |\det S_p|\bigr)\,d\mathrm{vol}_M\Bigr| \leq \epsilon\operatorname{vol}(B_k) ,
+\]
+and dividing by $\operatorname{vol}(B_k) > 0$ gives the limit. For $n = 2$, $(-1)^2\det S = K$ by (1).
+\end{proof}
+
+Part (4) is how Gauss himself introduced the curvature of a surface in 1827: the \emph{curvatura integra} of a piece of surface is the area of its image under the Gauss map, counted with sign, and the
+curvature at a point is its density with respect to area. Remark~\ref{riemannian-geometry:remark-curvatura-integra} is the global version of the same idea. That the limit only depends on the first
+fundamental form, although its definition uses the embedding through $\nu$, is the content of the Theorema Egregium (Corollary~\ref{riemannian-geometry:corollary-theorema-egregium}).
+
+\begin{remark}\label{riemannian-geometry:remark-gauss-map-curves}
+\emph{The Gauss map of a plane curve.} For $n = 1$ everything reduces to one angle. Let $\gamma \colon I \to \RR^2$ be parametrised by arc length on an interval $I$, so that $T = \gamma^{\prime}$ is a unit
+vector, and write $T(s) = (\cos\theta(s), \sin\theta(s))$ with a smooth angle function $\theta$ (it exists on an interval by the lifting property of the covering $\RR \to S^1$, $\theta \mapsto e^{i\theta}$). Take
+the normal $\nu = (-\sin\theta, \cos\theta)$, obtained by rotating $T$ by $+90^\circ$. The Gauss map is $s \mapsto \nu(s) \in S^1$, and
+\[
+\frac{d}{ds}\nu(s) = -\theta^{\prime}(s)\,(\cos\theta(s), \sin\theta(s)) = -\theta^{\prime}(s)\,T(s),
+\]
+so $d\nu = -\theta^{\prime}\id$ on the tangent line, and the only principal curvature is $\kappa = \theta^{\prime}$: the \emph{signed curvature} of the curve, the speed at which the tangent, or equally the normal,
+turns per unit of length, positive when the curve turns to the left. Part (4) of the proposition becomes the statement that the length of the arc swept by $\nu$ on $S^1$ is approximately $|\kappa|$ times the
+length of the piece of curve. For a closed curve of length $L$, $\int_0^L\kappa\,ds = \theta(L) - \theta(0)$ is $2\pi$ times the number of turns made by the tangent, the \emph{rotation index}; for a simple
+closed curve it is $\pm1$, Hopf's theorem of turning tangents \cite{do-carmo-curves-surfaces}. This is the one-dimensional case of Remark~\ref{riemannian-geometry:remark-curvatura-integra}. For a graph $y = u(t)$,
+$\tan\theta = u^{\prime}$, and differentiating $\theta = \arctan u^{\prime}$ with respect to arc length, $ds = \sqrt{1 + (u^{\prime})^2}\,dt$, recovers $\kappa = u^{\prime\prime}/(1 + (u^{\prime})^2)^{3/2}$ of
+Remark~\ref{riemannian-geometry:remark-graph-hessian}.
+\end{remark}
+
+\begin{example}\label{riemannian-geometry:example-gauss-map}
+\begin{enumerate}
+\item \emph{Plane.} The Gauss map of an affine plane is constant, its image is a point, and $d\nu = 0$: $\mathrm{II} = 0$ and $K = H = 0$.
+\item \emph{Sphere.} For the sphere of radius $r$ with outward normal, $\nu(p) = p/r$ is the dilation by $1/r$; its image is all of $S^2$, $d\nu = \frac1r\id$ and $K = \det d\nu = 1/r^2$. Here the ratio in
+(4) is $1/r^2$ for every region, not only in the limit, since a dilation by $1/r$ multiplies areas by $1/r^2$; and $H = -\frac12\operatorname{tr}d\nu = -1/r$, as in Example~\ref{riemannian-geometry:example-surfaces}(1).
+\item \emph{Cylinder.} For $\{x^2 + y^2 = 1\}$ with $\nu(x, y, z) = (x, y, 0)$, the image of the Gauss map is the equator, a set of area $0$. The normal is constant along the vertical lines, so $d\nu$ kills
+the vertical direction and has rank $1$: $K = 0$, while $H = -\frac12\operatorname{tr}d\nu = -\frac12$, as in Example~\ref{riemannian-geometry:example-surfaces}(2). The cylinder bends in only one direction.
+\item \emph{Paraboloid and saddle.} For the graph of $u$, the upward normal is $(-u_x, -u_y, 1)/W$, and its horizontal part $-(u_x, u_y)/W$ shows how $\nu$ moves near the north pole of $S^2$. For the
+paraboloid $u = x^2 + y^2$ it is $-2(x, y)/W$: when $(x, y) = \epsilon(\cos t, \sin t)$ runs counterclockwise around a small circle, $-2\epsilon(\cos t, \sin t)/W$ runs counterclockwise too, and $\nu$
+preserves orientation, as it must since $K(0) = 4 > 0$. For the saddle $u = xy$ it is $-(y, x)/W$, and $-\epsilon(\sin t, \cos t) = \epsilon(\cos(-t - \frac\pi2), \sin(-t - \frac\pi2))$ runs clockwise: $\nu$
+reverses orientation, and $K(0) = -1 < 0$ (Proposition~\ref{riemannian-geometry:proposition-graph-second-fundamental-form}).
+\item \emph{Torus.} For $R > r > 0$ let $x(\theta, \phi) = \bigl((R + r\cos\phi)\cos\theta, (R + r\cos\phi)\sin\theta, r\sin\phi\bigr)$, with outward normal
+$\nu = (\cos\phi\cos\theta, \cos\phi\sin\theta, \sin\phi)$; so the Gauss map sends the point with parameters $(\theta, \phi)$ to the point of $S^2$ with longitude $\theta$ and latitude $\phi$. Since
+$x_\theta = (R + r\cos\phi)(-\sin\theta, \cos\theta, 0)$ and $x_\phi = r(-\sin\phi\cos\theta, -\sin\phi\sin\theta, \cos\phi)$,
+\[
+d\nu(x_\theta) = \partial_\theta\nu = \frac{\cos\phi}{R + r\cos\phi}\,x_\theta, \qquad d\nu(x_\phi) = \partial_\phi\nu = \frac1r\,x_\phi ,
+\]
+so $x_\theta$ and $x_\phi$ are principal directions and $K = \det d\nu = \cos\phi/(r(R + r\cos\phi))$. The outer half, $\cos\phi > 0$, has $K > 0$; the inner half, $\cos\phi < 0$, has $K < 0$; and on the top
+and bottom circles $\phi = \pm\frac\pi2$, $K = 0$ and $\nu = \pm e_3$ is constant. Every point of $S^2$ other than $\pm e_3$ is the image of exactly two points, $(\theta, \phi)$ on the outer half and
+$(\theta + \pi, \pi - \phi)$ on the inner half; the Gauss map preserves orientation at the first and reverses it at the second, so the signed area of the image is $0$. Accordingly, with
+$dA = |x_\theta||x_\phi|\,d\theta\,d\phi = r(R + r\cos\phi)\,d\theta\,d\phi$ ($x_\theta \perp x_\phi$),
+$\int K\,dA = \int_0^{2\pi}\!\int_0^{2\pi}\cos\phi\,d\phi\,d\theta = 0$, in agreement with Remark~\ref{riemannian-geometry:remark-curvatura-integra}, since the torus has Euler characteristic $0$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}\label{riemannian-geometry:remark-gauss-map-points}
+\emph{Classification of points of a surface.} The rank of $d\nu_p$ and the sign of $K(p)$ sort the points of a surface $M \subseteq \RR^3$ into four classes, all visible on the torus above.
+\begin{enumerate}
+\item \emph{Elliptic}, $K(p) > 0$: $\kappa_1$ and $\kappa_2$ have the same sign, $\mathrm{II}_p$ is definite, $\nu$ is a local diffeomorphism preserving orientation, and by the Taylor expansion of
+Remark~\ref{riemannian-geometry:remark-graph-hessian}(4) $M$ lies on one side of its tangent plane near $p$, touching it only at $p$. Example: the outer half of the torus, every point of a sphere.
+\item \emph{Hyperbolic}, $K(p) < 0$: the principal curvatures have opposite signs, $\nu$ reverses orientation, and $M$ crosses its tangent plane. By (3) the normal curvature vanishes exactly in the two
+\emph{asymptotic directions} $\cos t\,e_1 + \sin t\,e_2$ with $\tan^2t = -\kappa_1/\kappa_2$, which separate the directions in which $M$ lies above the tangent plane from those in which it lies below.
+Example: the saddle, the inner half of the torus.
+\item \emph{Parabolic}, $K(p) = 0$ but $d\nu_p \neq 0$: one principal curvature vanishes, $d\nu_p$ has rank $1$, and the Gauss map squeezes a neighbourhood of $p$ towards a curve. Example: the cylinder, the
+top and bottom circles of the torus.
+\item \emph{Planar}, $d\nu_p = 0$: $\mathrm{II}_p = 0$. Example: the plane; but also the origin of $z = x^4 + y^4$, which lies on one side of its tangent plane, and of the \emph{monkey saddle}
+$z = x^3 - 3xy^2$, which crosses it along three lines (Exercise~\ref{riemannian-geometry:exercise-gauss-map}). At a planar point the second order Taylor term vanishes, and only higher order terms decide the
+shape.
+\end{enumerate}
 \end{remark}
 
 \section{Global theorems on surfaces}\label{riemannian-geometry:section-surfaces-global}
@@ -4144,4 +4345,63 @@ composed with $p$, so it is a $(G, X)$-map, hence a developing map by Theorem~\r
 $x \mapsto 2x$ and $\mathrm{hol}(\tau_2) = \mathrm{id}$. So $\mathrm{hol}$ is not injective, $\mathrm{dev}$ is not injective, and its image $\CC \setminus \{0\}$ is not all of $\CC$; a covering of the connected space $\CC$ by the
 nonempty space $\CC$ would be surjective, so $\mathrm{dev}$ is not a covering, and $H^2$ is not complete. This also shows that the invariant metric cannot be dropped from Proposition~\ref{riemannian-geometry:proposition-complete-gx}(2), even
 in dimension $2$.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-graph-curvatures}
+Use Proposition~\ref{riemannian-geometry:proposition-graph-second-fundamental-form}.
+\begin{enumerate}
+\item Show that the curvature of the parabola $y = t^2$, with the upward normal, is $2/(1 + 4t^2)^{3/2}$. Where is it largest, and what is the radius of the osculating circle there?
+\item Let $u(y) = \sqrt{1 - |y|^2}$ on the open unit ball of $\RR^n$, whose graph is the upper unit hemisphere. Show that the matrix of the shape operator for the upward normal is $-I$, so that all
+principal curvatures are $-1$, in agreement with Example~\ref{riemannian-geometry:example-surfaces}(1), although $\operatorname{Hess}u$ is not a multiple of the identity.
+\item Compute the Gauss curvature of the saddle $z = xy$. Where is it smallest, and what happens far from the origin?
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) Here $n = 1$, $u^{\prime} = 2t$, $u^{\prime\prime} = 2$, and the matrix of $S$ is $g^{-1}h = (1 + 4t^2)^{-1}\cdot 2(1 + 4t^2)^{-1/2} = 2/(1 + 4t^2)^{3/2}$. It decreases in $|t|$, so it is largest at the vertex,
+where it is $2$ and the osculating circle has radius $\frac12$.
+
+(2) Write $u = \sqrt{1 - |y|^2}$, so $u_i = -y^i/u$ and $u_{ij} = -\delta_{ij}/u - y^iy^j/u^3$, that is, $\operatorname{Hess}u = -u^{-1}(I + yy^T/u^2)$ with $y$ a column. Then
+$W^2 = 1 + |y|^2/u^2 = 1/u^2$, $W = 1/u$, and $I - W^{-2}\nabla u\,\nabla u^T = I - yy^T$. So the matrix of $S$ is
+\[
+u\,(I - yy^T)\cdot\bigl(-u^{-1}(I + u^{-2}yy^T)\bigr) = -\Bigl(I + yy^T\,\frac{1 - u^2 - |y|^2}{u^2}\Bigr) = -I ,
+\]
+using $yy^Tyy^T = |y|^2yy^T$ and $u^2 + |y|^2 = 1$. On the upper hemisphere the upward normal is the outward one, and Example~\ref{riemannian-geometry:example-surfaces}(1) gives $S = -\id$. The Hessian has the
+eigenvalue $-1/u$ on $y^\perp$ and $-1/u^3$ along $y$; the factors $1/W$ and $g^{-1}$ exactly compensate for the steepness of the hemisphere near its boundary.
+
+(3) With $u = xy$: $u_x = y$, $u_y = x$, $u_{xx} = u_{yy} = 0$, $u_{xy} = 1$, so $\det\operatorname{Hess}u = -1$ and $K = \det S = -1/(1 + x^2 + y^2)^2$ by part (3) of the proposition. It is negative
+everywhere, smallest, equal to $-1$, at the origin, and tends to $0$ at infinity: far from the origin the saddle flattens out, although its Hessian is the same everywhere.
+\end{solution}
+
+\begin{exercise}\label{riemannian-geometry:exercise-gauss-map}
+\begin{enumerate}
+\item Show that a connected hypersurface of $\RR^{n+1}$ whose Gauss map is constant is an open subset of an affine hyperplane.
+\item Let $C = \{(x, y, z) : z = \sqrt{x^2 + y^2},\ z > 0\}$ be the cone without its vertex, with the upward normal. Show that the image of its Gauss map is a circle, find the kernel of $d\nu$, and deduce
+$K = 0$.
+\item Let $M \subseteq \RR^3$ be a surface and $(e_1, e_2)$ any orthonormal basis of $T_pM$. Show that $H(p) = \frac{1}{2\pi}\int_0^{2\pi}\mathrm{II}_p(\cos t\,e_1 + \sin t\,e_2)\,dt$: the mean curvature is
+the average of the normal curvatures.
+\item Show that the origin is a planar point of the graphs of $x^4 + y^4$ and of $x^3 - 3xy^2$. Show that the first lies above its tangent plane near $0$ and has $K \geq 0$, while the second takes both signs
+on every neighbourhood of $0$, vanishes on three lines through $0$, and has $K < 0$ at every other point.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) Let $\nu = \nu_0$ be constant. For a curve $\gamma$ in $M$, $\frac{d}{dt}\langle\gamma(t), \nu_0\rangle = \langle\gamma^{\prime}(t), \nu_0\rangle = 0$, as $\gamma^{\prime}(t)$ is tangent and $\nu_0$ normal at
+$\gamma(t)$. A connected manifold is path connected, and a continuous path between two points can be replaced by a piecewise smooth one, so $\langle x, \nu_0\rangle = c$ is constant on $M$, and $M$ lies in the
+hyperplane $P = \{\langle x, \nu_0\rangle = c\}$. The inclusion $M \to P$ is an injective immersion between manifolds of the same dimension $n$, hence a local diffeomorphism by the inverse function theorem,
+hence an open map, and $M$ is open in $P$.
+
+(2) Here $u = \rho = \sqrt{x^2 + y^2}$, $\nabla u = (x, y)/\rho$, $|\nabla u| = 1$ and $W = \sqrt2$, so $\nu = (-x/\rho, -y/\rho, 1)/\sqrt2$. Its image is the circle $\{z = 1/\sqrt2\}$ of $S^2$, at latitude
+$45^\circ$. The normal depends only on $(x, y)/\rho$, so it is constant along each ray $t \mapsto t(x, y, \rho)$ of the cone, and $d\nu$ vanishes on the radial direction. So $d\nu$ has rank at most $1$ and
+$K = \det d\nu = 0$. Like the cylinder, the cone is locally isometric to the plane: cut it along a ray and unroll it.
+
+(3) If $(e_1^{\prime}, e_2^{\prime})$ is an orthonormal basis of principal directions, then $e_1 = \cos\alpha\,e_1^{\prime} + \sin\alpha\,e_2^{\prime}$ and $e_2 = \mp\sin\alpha\,e_1^{\prime} \pm \cos\alpha\,e_2^{\prime}$ for some
+$\alpha$ and a choice of signs, so $\cos t\,e_1 + \sin t\,e_2 = \cos(\alpha \pm t)\,e_1^{\prime} + \sin(\alpha \pm t)\,e_2^{\prime}$. Since the integrand has period $2\pi$, the substitution $s = \alpha \pm t$ shows
+that the average is the same for both bases. In the principal basis, by Euler's formula, it is $\frac{1}{2\pi}\int_0^{2\pi}(\kappa_1\cos^2s + \kappa_2\sin^2s)\,ds = \frac12(\kappa_1 + \kappa_2) = H(p)$, as
+$\int_0^{2\pi}\cos^2s\,ds = \int_0^{2\pi}\sin^2s\,ds = \pi$.
+
+(4) For both functions $u(0) = 0$, $\nabla u(0) = 0$ and $\operatorname{Hess}u(0) = 0$, so $h = 0$ at the origin by Proposition~\ref{riemannian-geometry:proposition-graph-second-fundamental-form}(4): the
+tangent plane is $\{z = 0\}$ and the origin is planar. For $u = x^4 + y^4$, $u > 0$ away from $0$, and $\det\operatorname{Hess}u = 12x^2 \cdot 12y^2 \geq 0$, so $K = \det\operatorname{Hess}u/W^4 \geq 0$. For
+$u = x^3 - 3xy^2 = \mathrm{Re}(x + iy)^3$, in polar coordinates $u = r^3\cos3\phi$, which takes both signs on every circle and vanishes on the three lines $\phi = \frac\pi6, \frac\pi2, \frac{5\pi}6$ (mod $\pi$).
+Here $u_{xx} = 6x$, $u_{yy} = -6x$, $u_{xy} = -6y$, so $\det\operatorname{Hess}u = -36(x^2 + y^2) < 0$ away from $0$, and $K < 0$ there.
 \end{solution}
