@@ -443,6 +443,28 @@ set $A_i$, hence open in $X$. In the second case, for $V$ closed each term is cl
 closed sets is closed.
 \end{proof}
 
+The lemma is mostly used to \emph{define} a continuous map piece by piece. Suppose $X = A \cup B$ and $g \colon A \to Y$, $h \colon B \to Y$ are continuous and agree on $A \cap B$. Then
+\[
+f(x) = \begin{cases} g(x) & x \in A,\\ h(x) & x \in B,\end{cases}
+\]
+is a well-defined map, since a point of $A \cap B$ gets the same value from both formulas, with $f|_A = g$ and $f|_B = h$. If $A$ and $B$ are both closed, or both open, $f$ is continuous. For example
+$|x|$ is $-x$ on $(-\infty, 0]$ and $x$ on $[0, \infty)$, which agree at $0$; the concatenation of two paths, which runs through the first on $[0, \frac12]$ and the second on $[\frac12, 1]$, is continuous as soon as
+the first path ends where the second begins; and a function on $[0, 1]$ that is affine on each interval of a finite subdivision, with matching values at the subdivision points, is continuous.
+
+\begin{counterexample}\label{general-topology:counterexample-pasting}
+The hypotheses of the pasting lemma cannot be dropped.
+\begin{enumerate}
+\item \emph{One closed set and one open set are not enough.} $\RR = (-\infty, 0] \cup (0, \infty)$, and the function $f$ that is $0$ on $(-\infty, 0]$ and $1$ on $(0, \infty)$ has constant, hence continuous,
+restrictions. But $f$ jumps at $0$: $f^{-1}((\frac12, 2)) = (0, \infty)$ is open, while $f^{-1}((-\frac12, \frac12)) = (-\infty, 0]$ is not.
+\item \emph{Sets that are neither open nor closed.} $\RR = \QQ \cup (\RR \setminus \QQ)$, and the Dirichlet function, $1$ on $\QQ$ and $0$ on the irrationals, has constant restrictions; it is continuous at no point,
+since every interval contains rational and irrational numbers.
+\item \emph{Infinitely many closed sets.} Every space is the union of its points, which are closed in a Hausdorff space, and the restriction of any map to a point is continuous; so the lemma fails for arbitrary families
+of closed sets. A less trivial example: $[0, 1] = \{0\} \cup \bigcup_{n \geq 1}[\frac{1}{n+1}, \frac1n]$, with $f(x) = \sin(\pi/x)$ for $x > 0$ and $f(0) = 0$. On each closed interval $[\frac{1}{n+1}, \frac1n]$, and on
+$\{0\}$, $f$ is continuous; but $f(\frac{2}{4k+1}) = \sin(2\pi k + \frac\pi2) = 1$ for every $k$, and $\frac{2}{4k+1} \to 0$, so $f$ is not continuous at $0$. The trouble is that infinitely many of the intervals
+accumulate at $0$; Exercise~\ref{general-topology:exercise-pasting-locally-finite} shows that this is the only obstruction.
+\end{enumerate}
+\end{counterexample}
+
 \begin{definition}\label{general-topology:definition-product}
 The \emph{product} of a family of spaces $(X_i)_{i \in I}$ is the set $\prod_i X_i$ with the initial topology for the projections
 $p_i \colon \prod_j X_j \to X_i$, the \emph{product topology}. The \emph{disjoint union} $\coprod_i X_i$ carries the final topology for the
@@ -2064,4 +2086,45 @@ $X \to \{0, 1\}$ with the discrete topology correspond to subsets of $X$ that ar
 \begin{solution}
 A map $f \colon X \to S$ is continuous if and only if the preimages of the three open sets $\emptyset$, $\{1\}$, $S$ are open, that is, if and only if $f^{-1}(1)$ is open; and every subset $U$ is
 $f^{-1}(1)$ for exactly one map, $f = \mathbf{1}_U$. For the discrete topology also $f^{-1}(0) = X \setminus f^{-1}(1)$ must be open.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-pasting-locally-finite}
+A family $(A_i)_{i \in I}$ of subsets of a space $X$ is \emph{locally finite} if every point of $X$ has a neighbourhood that meets only finitely many of the $A_i$.
+\begin{enumerate}
+\item Show that the union of a locally finite family of closed sets is closed.
+\item Deduce the pasting lemma for locally finite closed covers: if $X = \bigcup_iA_i$ with $(A_i)$ locally finite, all $A_i$ closed, and every $f|_{A_i}$ continuous, then $f$ is continuous.
+\item Check that the cover of $[0, 1]$ in Counterexample~\ref{general-topology:counterexample-pasting}(3) is locally finite at every point except $0$, and that the cover of $\RR$ by the intervals $[n, n+1]$, $n \in \ZZ$, is locally finite.
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) Let $F = \bigcup_iA_i$ and $x \notin F$. Choose an open neighbourhood $W$ of $x$ meeting only $A_{i_1}, \ldots, A_{i_k}$. Then $W \setminus (A_{i_1} \cup \cdots \cup A_{i_k})$ is open, as a finite union of closed sets is
+closed, it contains $x$, and it does not meet $F$. So the complement of $F$ is open.
+
+(2) For $V \subseteq Y$ closed, $f^{-1}(V) = \bigcup_i(f|_{A_i})^{-1}(V)$. Each $(f|_{A_i})^{-1}(V)$ is closed in $A_i$, hence in $X$ as $A_i$ is closed, and the family is locally finite because
+$(f|_{A_i})^{-1}(V) \subseteq A_i$. By (1) the union is closed.
+
+(3) A point $x > 0$ has the neighbourhood $(x/2, 1]$, which meets only the intervals $[\frac{1}{n+1}, \frac1n]$ with $\frac1n > x/2$, finitely many. Every neighbourhood of $0$ contains $[0, \varepsilon)$, which meets all intervals
+with $\frac{1}{n+1} < \varepsilon$. For $\RR$, the neighbourhood $(x - 1, x + 1)$ of $x$ meets at most three of the intervals $[n, n+1]$.
+\end{solution}
+
+\begin{exercise}\label{general-topology:exercise-pasting-applications}
+\begin{enumerate}
+\item Let $f, g \colon X \to \RR$ be continuous. Using the pasting lemma, show that $\min(f, g)$ and $\max(f, g)$ are continuous.
+\item Let $X = A \cup B$ with $A$ and $B$ closed and disjoint. Show that a map $X \to Y$ is continuous if and only if its restrictions to $A$ and $B$ are, and deduce that $X$ is homeomorphic to the disjoint
+union $A \sqcup B$.
+\item Show that $f \colon \RR \to \RR$, $f(x) = x$ for $x \leq 1$ and $f(x) = 2 - x$ for $x \geq 1$, is continuous, and that $f(x) = x$ for $x < 1$, $f(x) = x + 1$ for $x \geq 1$ is not, although both restrictions are.
+Which hypothesis of the pasting lemma fails in the second case?
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+(1) $f - g$ is continuous (Proposition~\ref{general-topology:proposition-product}(5)), so $A = \{f \leq g\} = (f - g)^{-1}((-\infty, 0])$ and $B = \{f \geq g\}$ are closed, and $A \cup B = X$. The function $\min(f, g)$ is
+$f$ on $A$ and $g$ on $B$, two continuous functions agreeing on $A \cap B = \{f = g\}$; so it is continuous by the pasting lemma. Similarly $\max(f, g)$ is $g$ on $A$ and $f$ on $B$.
+
+(2) One direction holds for any subsets, as restrictions of continuous maps are continuous; the other is the pasting lemma. Since $A = X \setminus B$ and $B = X \setminus A$, both sets are also open. The identity
+$A \sqcup B \to X$, which is the inclusion on each piece, is a continuous bijection; its inverse is continuous by the first part, since its restrictions to $A$ and $B$ are the inclusions into $A \sqcup B$, which are continuous.
+
+(3) In the first case the two formulas are defined on the closed sets $(-\infty, 1]$ and $[1, \infty)$ and agree at $1$, where both give $1$. In the second case $\RR = (-\infty, 1) \cup [1, \infty)$, an open set and
+a closed set, and $f$ jumps from values near $1$ to $2$ at $x = 1$; one cannot replace $(-\infty, 1)$ by $(-\infty, 1]$, because the two formulas disagree at $1$.
 \end{solution}

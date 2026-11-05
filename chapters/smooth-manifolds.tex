@@ -1599,9 +1599,24 @@ $0$ on the segment to $1/r$ on the circle. A $C^{1,1}$ curve has a curvature tha
 \begin{remark}\label{smooth-manifolds:remark-regularity-losses}
 \emph{What each level allows.} Every construction of this chapter costs derivatives. On a $C^k$ manifold with $k \geq 1$ tangent spaces are defined, through curves or through charts. The tangent bundle $TM$ is a
 $C^{k-1}$ manifold, as its transition maps $(x, v) \mapsto (\psi \circ \varphi^{-1}(x), D(\psi \circ \varphi^{-1})_x(v))$ involve the first derivatives of the transition maps. A Riemannian metric can be at best of
-class $C^{k-1}$; its Christoffel symbols involve one more derivative and its curvature two, so continuous curvature needs a $C^3$ manifold and a $C^2$ metric. On a $C^{1,1}$ submanifold the second fundamental form
-exists almost everywhere and is bounded, by Rademacher's theorem (Theorem~\ref{measure-theory:theorem-rademacher}) applied to the first derivatives of the graph functions; on a Lipschitz manifold tangent planes exist
-only almost everywhere, by the same theorem, which is still enough to integrate differential forms with bounded measurable coefficients.
+class $C^{k-1}$; its Christoffel symbols involve one more derivative and its curvature two, so continuous curvature needs a $C^3$ manifold and a $C^2$ metric.
+
+For submanifolds of $\RR^N$ the count is easiest to see on graphs. Take a hypersurface that near a point is the graph of a function $u \colon U \to \RR$, $U \subseteq \RR^n$ open, that is, the image of
+$x \mapsto (x, u(x))$. Its tangent plane at $(x, u(x))$ is spanned by the vectors $e_i + \partial_iu(x)\,e_{n+1}$, so it is determined by the \emph{first} derivatives $\nabla u(x)$. The way the surface bends, its second
+fundamental form (defined in Chapter~\ref{riemannian-geometry}), measures how the tangent plane turns, so it involves the \emph{second} derivatives: at a point where $\nabla u(x) = 0$, that is, where the tangent plane is
+horizontal, it is the Hessian matrix $(\partial_i\partial_ju(x))$, and in general it is $(\partial_i\partial_ju(x))/\sqrt{1 + |\nabla u(x)|^2}$ in suitable bases. So the question is when $u$ has second derivatives.
+\begin{enumerate}
+\item If the submanifold is $C^2$, $u$ is $C^2$ and the second fundamental form exists everywhere and is continuous.
+\item If it is only $C^{1,1}$, then $u$ is $C^1$ and $\nabla u \colon U \to \RR^n$ is Lipschitz, with some constant $L$, but it need not be differentiable. Rademacher's theorem
+(Theorem~\ref{measure-theory:theorem-rademacher}), applied to the Lipschitz map $\nabla u$, says that $\nabla u$ is differentiable at almost every $x \in U$; at such a point the second derivatives
+$\partial_i\partial_ju(x)$ exist, and so does the second fundamental form. They are moreover bounded by $L$: if a map $g$ with Lipschitz constant $L$ is differentiable at $x$, then
+$|Dg(x)v| = \lim_{t \to 0}|g(x + tv) - g(x)|/|t| \leq L|v|$. So the second fundamental form exists at almost every point (for Lebesgue measure on $U$, which corresponds to the area measure on the graph) and is bounded,
+but it need not be continuous: for the stadium of Example~\ref{smooth-manifolds:example-regularity-curves}(3) the curvature is $0$ on the segments and $1/r$ on the circles, and it is undefined at the four junction points.
+\item If it is only $C^{1,\alpha}$ with $\alpha < 1$, the second derivatives may be unbounded: for $|x|^{3/2}$ the second derivative $\frac34|x|^{-1/2}$ blows up at $0$.
+\end{enumerate}
+Bounded curvature without continuity is exactly what many geometric arguments need, which is why $C^{1,1}$ is a natural class: for instance, a compact $C^{1,1}$ hypersurface has a tubular neighbourhood of positive width
+on which the nearest point is unique, as for $C^2$ ones: it is a set of \emph{positive reach} in the sense of \cite{federer-1959}. One level lower, on a Lipschitz manifold the tangent planes themselves exist only almost everywhere, by the same theorem applied to $u$ instead of $\nabla u$,
+which is still enough to integrate differential forms with bounded measurable coefficients.
 \end{remark}
 
 \begin{theorem}[Whitney]\label{smooth-manifolds:theorem-whitney-smoothing}
